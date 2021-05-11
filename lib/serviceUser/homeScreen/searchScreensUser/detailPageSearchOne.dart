@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/customFavoriteButton/CustomHeartFavorite.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:simple_tooltip/simple_tooltip.dart';
@@ -3625,6 +3626,21 @@ class _CauroselWithIndicatorSearchPageState
                       valueChanged: (_isFavorite) {
                         print('Is Favorite : $_isFavorite');
                       }),
+                ),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.01),
+                InkWell(
+                  onTap: () {
+                    DialogHelper.openReportBlockUserDialog(context);
+                  },
+                  child: CircleAvatar(
+                    maxRadius: 18,
+                    backgroundColor: Colors.white,
+                    child: Icon(
+                      Icons.report_gmailerrorred_rounded,
+                      color: Colors.red,
+                      size: 30.0,
+                    ),
+                  ),
                 ),
               ],
             ),

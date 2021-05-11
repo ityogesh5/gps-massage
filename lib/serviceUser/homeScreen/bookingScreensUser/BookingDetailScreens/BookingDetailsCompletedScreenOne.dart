@@ -13,7 +13,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
+import 'package:gps_massageapp/customFavoriteButton/CustomHeartFavorite.dart';
 import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
 import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
@@ -228,6 +230,14 @@ class _BookingDetailsCompletedScreenOneState
     getEstheticData();
   }
 
+  bool enableSwitch = false;
+
+  void _toggle() {
+    setState(() {
+      enableSwitch = !enableSwitch;
+    });
+  }
+
   getEstheticData() async {
     try {
       therapistEsthetic = widget.getTherapistByIdModel.therapistEstheticList;
@@ -432,577 +442,440 @@ class _BookingDetailsCompletedScreenOneState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Form(
-          key: _userDetailsFormKey,
-          child: Container(
-            child: ListView(
-              padding: MediaQuery.of(context).padding * 0.84,
-              physics: BouncingScrollPhysics(),
-              children: [
-                CarouselWithIndicatorDemo(),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
+      body: ListView(
+        padding: MediaQuery.of(context).padding * 0.84,
+        physics: BouncingScrollPhysics(),
+        children: [
+          CarouselWithIndicatorDemo(),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  (result != null && result.contains("エステ"))
+                      ? Row(
+                          children: [
+                            CircleAvatar(
+                              maxRadius: 12,
+                              backgroundColor: Colors.black45,
+                              child: CircleAvatar(
+                                maxRadius: 10,
+                                backgroundColor:
+                                    Color.fromRGBO(255, 255, 255, 1),
+                                child: SvgPicture.asset(
+                                    'assets/images_gps/serviceTypeOne.svg',
+                                    height: 15,
+                                    width: 15),
+                              ),
+                            ),
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.01),
+                            Text('エステ'),
+                          ],
+                        )
+                      : SizedBox(width: 5),
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+                  (result != null && result.contains("接骨・整体"))
+                      ? Row(
+                          children: [
+                            CircleAvatar(
+                              maxRadius: 12,
+                              backgroundColor: Colors.black45,
+                              child: CircleAvatar(
+                                maxRadius: 10,
+                                backgroundColor:
+                                    Color.fromRGBO(255, 255, 255, 1),
+                                child: SvgPicture.asset(
+                                    'assets/images_gps/serviceTypeTwo.svg',
+                                    height: 15,
+                                    width: 15),
+                              ),
+                            ),
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.01),
+                            Text('整骨・整体'),
+                          ],
+                        )
+                      : SizedBox(),
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+                  (result != null && result.contains("リラクゼーション"))
+                      ? Row(
+                          children: [
+                            CircleAvatar(
+                              maxRadius: 12,
+                              backgroundColor: Colors.black45,
+                              child: CircleAvatar(
+                                maxRadius: 10,
+                                backgroundColor:
+                                    Color.fromRGBO(255, 255, 255, 1),
+                                child: SvgPicture.asset(
+                                    'assets/images_gps/serviceTypeThree.svg',
+                                    height: 15,
+                                    width: 15),
+                              ),
+                            ),
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.01),
+                            Text('リラクゼーション')
+                          ],
+                        )
+                      : SizedBox(),
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+                  (result != null && result.contains("フィットネス"))
+                      ? Row(
+                          children: [
+                            CircleAvatar(
+                              maxRadius: 12,
+                              backgroundColor: Colors.black45,
+                              child: CircleAvatar(
+                                maxRadius: 10,
+                                backgroundColor:
+                                    Color.fromRGBO(255, 255, 255, 1),
+                                child: SvgPicture.asset(
+                                    'assets/images_gps/serviceTypeFour.svg',
+                                    height: 15,
+                                    width: 15),
+                              ),
+                            ),
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.01),
+                            Text('フィットネス')
+                          ],
+                        )
+                      : SizedBox(),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: widget.getTherapistByIdModel.data
+                                .uploadProfileImgUrl !=
+                            null
+                        ? CachedNetworkImage(
+                            imageUrl: widget
+                                .getTherapistByIdModel.data.uploadProfileImgUrl,
+                            filterQuality: FilterQuality.high,
+                            fadeInCurve: Curves.easeInSine,
+                            imageBuilder: (context, imageProvider) => Container(
+                              width: 80.0,
+                              height: 80.0,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image: imageProvider, fit: BoxFit.cover),
+                              ),
+                            ),
+                            placeholder: (context, url) => SpinKitDoubleBounce(
+                                color: Colors.lightGreenAccent),
+                            errorWidget: (context, url, error) => Container(
+                              width: 80.0,
+                              height: 80.0,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(color: Colors.black12),
+                                image: DecorationImage(
+                                    image: new AssetImage(
+                                        'assets/images_gps/placeholder_image.png'),
+                                    fit: BoxFit.cover),
+                              ),
+                            ),
+                          )
+                        : Container(
+                            width: 60.0,
+                            height: 60.0,
+                            decoration: new BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              shape: BoxShape.circle,
+                              image: new DecorationImage(
+                                fit: BoxFit.fitHeight,
+                                image: new AssetImage(
+                                    'assets/images_gps/logo.png'),
+                              ),
+                            )),
+                  ),
+                  SizedBox(width: 5),
+                  Expanded(
+                    flex: 3,
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        (result != null && result.contains("エステ"))
-                            ? Row(
-                                children: [
-                                  CircleAvatar(
-                                    maxRadius: 12,
-                                    backgroundColor: Colors.black45,
-                                    child: CircleAvatar(
-                                      maxRadius: 10,
-                                      backgroundColor:
-                                          Color.fromRGBO(255, 255, 255, 1),
-                                      child: SvgPicture.asset(
-                                          'assets/images_gps/serviceTypeOne.svg',
-                                          height: 15,
-                                          width: 15),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.01),
-                                  Text('エステ'),
-                                ],
-                              )
-                            : SizedBox(width: 5),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.02),
-                        (result != null && result.contains("接骨・整体"))
-                            ? Row(
-                                children: [
-                                  CircleAvatar(
-                                    maxRadius: 12,
-                                    backgroundColor: Colors.black45,
-                                    child: CircleAvatar(
-                                      maxRadius: 10,
-                                      backgroundColor:
-                                          Color.fromRGBO(255, 255, 255, 1),
-                                      child: SvgPicture.asset(
-                                          'assets/images_gps/serviceTypeTwo.svg',
-                                          height: 15,
-                                          width: 15),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.01),
-                                  Text('整骨・整体'),
-                                ],
-                              )
-                            : SizedBox(),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.02),
-                        (result != null && result.contains("リラクゼーション"))
-                            ? Row(
-                                children: [
-                                  CircleAvatar(
-                                    maxRadius: 12,
-                                    backgroundColor: Colors.black45,
-                                    child: CircleAvatar(
-                                      maxRadius: 10,
-                                      backgroundColor:
-                                          Color.fromRGBO(255, 255, 255, 1),
-                                      child: SvgPicture.asset(
-                                          'assets/images_gps/serviceTypeThree.svg',
-                                          height: 15,
-                                          width: 15),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.01),
-                                  Text('リラクゼーション')
-                                ],
-                              )
-                            : SizedBox(),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.02),
-                        (result != null && result.contains("フィットネス"))
-                            ? Row(
-                                children: [
-                                  CircleAvatar(
-                                    maxRadius: 12,
-                                    backgroundColor: Colors.black45,
-                                    child: CircleAvatar(
-                                      maxRadius: 10,
-                                      backgroundColor:
-                                          Color.fromRGBO(255, 255, 255, 1),
-                                      child: SvgPicture.asset(
-                                          'assets/images_gps/serviceTypeFour.svg',
-                                          height: 15,
-                                          width: 15),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.01),
-                                  Text('フィットネス')
-                                ],
-                              )
-                            : SizedBox(),
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Expanded(
-                          flex: 1,
-                          child: widget.getTherapistByIdModel.data
-                                      .uploadProfileImgUrl !=
-                                  null
-                              ? CachedNetworkImage(
-                                  imageUrl: widget.getTherapistByIdModel.data
-                                      .uploadProfileImgUrl,
-                                  filterQuality: FilterQuality.high,
-                                  fadeInCurve: Curves.easeInSine,
-                                  imageBuilder: (context, imageProvider) =>
-                                      Container(
-                                    width: 80.0,
-                                    height: 80.0,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                          image: imageProvider,
-                                          fit: BoxFit.cover),
-                                    ),
-                                  ),
-                                  placeholder: (context, url) =>
-                                      SpinKitDoubleBounce(
-                                          color: Colors.lightGreenAccent),
-                                  errorWidget: (context, url, error) =>
-                                      Container(
-                                    width: 80.0,
-                                    height: 80.0,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(color: Colors.black12),
-                                      image: DecorationImage(
-                                          image: new AssetImage(
-                                              'assets/images_gps/placeholder_image.png'),
-                                          fit: BoxFit.cover),
-                                    ),
-                                  ),
-                                )
-                              : Container(
-                                  width: 60.0,
-                                  height: 60.0,
-                                  decoration: new BoxDecoration(
-                                    border: Border.all(color: Colors.grey),
-                                    shape: BoxShape.circle,
-                                    image: new DecorationImage(
-                                      fit: BoxFit.fitHeight,
-                                      image: new AssetImage(
-                                          'assets/images_gps/logo.png'),
-                                    ),
-                                  )),
-                        ),
-                        SizedBox(width: 5),
-                        Expanded(
-                          flex: 3,
-                          child: Column(
+                        FittedBox(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              FittedBox(
+                            children: <Widget>[
+                              widget.getTherapistByIdModel.data.storeName !=
+                                      null
+                                  ? Text(
+                                      widget
+                                          .getTherapistByIdModel.data.storeName,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
+                                      textAlign: TextAlign.left,
+                                    )
+                                  : Text(
+                                      widget
+                                          .getTherapistByIdModel.data.userName,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
+                                      textAlign: TextAlign.left,
+                                    ),
+                              SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.02),
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
+                                  children: [
                                     widget.getTherapistByIdModel.data
-                                                .storeName !=
-                                            null
-                                        ? Text(
+                                                .businessForm
+                                                .contains('施術店舗あり 施術従業員あり') ||
                                             widget.getTherapistByIdModel.data
-                                                .storeName,
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold),
-                                            textAlign: TextAlign.left,
+                                                .businessForm
+                                                .contains(
+                                                    '施術店舗あり 施術従業員なし（個人経営）') ||
+                                            widget.getTherapistByIdModel.data
+                                                .businessForm
+                                                .contains('施術店舗なし 施術従業員なし（個人)')
+                                        ? Visibility(
+                                            visible: true,
+                                            child: Container(
+                                                padding: EdgeInsets.all(4),
+                                                decoration: BoxDecoration(
+                                                    gradient: LinearGradient(
+                                                        begin:
+                                                            Alignment.topCenter,
+                                                        end: Alignment
+                                                            .bottomCenter,
+                                                        colors: [
+                                                          Color.fromRGBO(
+                                                              255, 255, 255, 1),
+                                                          Color.fromRGBO(
+                                                              255, 255, 255, 1),
+                                                        ]),
+                                                    shape: BoxShape.rectangle,
+                                                    border: Border.all(
+                                                      color: Colors.grey[300],
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5.0),
+                                                    color: Colors.grey[200]),
+                                                child: Text('店舗')),
                                           )
-                                        : Text(
-                                            widget.getTherapistByIdModel.data
-                                                .userName,
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold),
-                                            textAlign: TextAlign.left,
-                                          ),
+                                        : Container(),
                                     SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.02),
-                                    SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      child: Row(
-                                        children: [
-                                          widget.getTherapistByIdModel.data
-                                                      .businessForm
-                                                      .contains(
-                                                          '施術店舗あり 施術従業員あり') ||
-                                                  widget.getTherapistByIdModel
-                                                      .data.businessForm
-                                                      .contains(
-                                                          '施術店舗あり 施術従業員なし（個人経営）') ||
-                                                  widget.getTherapistByIdModel
-                                                      .data.businessForm
-                                                      .contains(
-                                                          '施術店舗なし 施術従業員なし（個人)')
-                                              ? Visibility(
-                                                  visible: true,
-                                                  child: Container(
-                                                      padding:
-                                                          EdgeInsets.all(4),
-                                                      decoration: BoxDecoration(
-                                                          gradient: LinearGradient(
-                                                              begin: Alignment
-                                                                  .topCenter,
-                                                              end: Alignment
-                                                                  .bottomCenter,
-                                                              colors: [
-                                                                Color.fromRGBO(
-                                                                    255,
-                                                                    255,
-                                                                    255,
-                                                                    1),
-                                                                Color.fromRGBO(
-                                                                    255,
-                                                                    255,
-                                                                    255,
-                                                                    1),
-                                                              ]),
-                                                          shape: BoxShape
-                                                              .rectangle,
-                                                          border: Border.all(
-                                                            color: Colors
-                                                                .grey[300],
-                                                          ),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      5.0),
-                                                          color:
-                                                              Colors.grey[200]),
-                                                      child: Text('店舗')),
-                                                )
-                                              : Container(),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Visibility(
-                                            visible: widget
-                                                .getTherapistByIdModel
-                                                .data
-                                                .businessTrip,
-                                            child: Container(
-                                                padding: EdgeInsets.all(4),
-                                                decoration: BoxDecoration(
-                                                    gradient: LinearGradient(
-                                                        begin:
-                                                            Alignment.topCenter,
-                                                        end: Alignment
-                                                            .bottomCenter,
-                                                        colors: [
-                                                          Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                          Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                        ]),
-                                                    shape: BoxShape.rectangle,
-                                                    border: Border.all(
-                                                      color: Colors.grey[300],
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5.0),
-                                                    color: Colors.grey[200]),
-                                                child: Text('出張')),
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Visibility(
-                                            visible: widget
-                                                .getTherapistByIdModel
-                                                .data
-                                                .coronaMeasure,
-                                            child: Container(
-                                                padding: EdgeInsets.all(4),
-                                                decoration: BoxDecoration(
-                                                    gradient: LinearGradient(
-                                                        begin:
-                                                            Alignment.topCenter,
-                                                        end: Alignment
-                                                            .bottomCenter,
-                                                        colors: [
-                                                          Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                          Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                        ]),
-                                                    shape: BoxShape.rectangle,
-                                                    border: Border.all(
-                                                      color: Colors.grey[300],
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5.0),
-                                                    color: Colors.grey[200]),
-                                                child: Text('コロナ対策実施有無')),
-                                          ),
-                                        ],
-                                      ),
+                                      width: 5,
+                                    ),
+                                    Visibility(
+                                      visible: widget.getTherapistByIdModel.data
+                                          .businessTrip,
+                                      child: Container(
+                                          padding: EdgeInsets.all(4),
+                                          decoration: BoxDecoration(
+                                              gradient: LinearGradient(
+                                                  begin: Alignment.topCenter,
+                                                  end: Alignment.bottomCenter,
+                                                  colors: [
+                                                    Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                    Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                  ]),
+                                              shape: BoxShape.rectangle,
+                                              border: Border.all(
+                                                color: Colors.grey[300],
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(5.0),
+                                              color: Colors.grey[200]),
+                                          child: Text('出張')),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Visibility(
+                                      visible: widget.getTherapistByIdModel.data
+                                          .coronaMeasure,
+                                      child: Container(
+                                          padding: EdgeInsets.all(4),
+                                          decoration: BoxDecoration(
+                                              gradient: LinearGradient(
+                                                  begin: Alignment.topCenter,
+                                                  end: Alignment.bottomCenter,
+                                                  colors: [
+                                                    Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                    Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                  ]),
+                                              shape: BoxShape.rectangle,
+                                              border: Border.all(
+                                                color: Colors.grey[300],
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(5.0),
+                                              color: Colors.grey[200]),
+                                          child: Text('コロナ対策実施有無')),
                                     ),
                                   ],
                                 ),
                               ),
-                              SizedBox(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.01),
-                              Row(
-                                children: [
-                                  // widget.getTherapistByIdModel.data.
-                                  widget.getTherapistByIdModel.reviewData
-                                              .ratingAvg !=
-                                          null
-                                      ? Text(
-                                          '(${widget.getTherapistByIdModel.reviewData.ratingAvg})',
-                                          style: TextStyle(
-                                              color: Colors.grey[400],
-                                              fontSize: 14,
-                                              fontFamily: 'NotoSansJP'),
-                                        )
-                                      : Text(
-                                          '(0.0)',
-                                          style: TextStyle(
-                                              color: Colors.grey[400],
-                                              fontSize: 14,
-                                              fontFamily: 'NotoSansJP'),
-                                        ),
-                                  widget.getTherapistByIdModel.reviewData !=
-                                          null
-                                      ? RatingBar.builder(
-                                          initialRating: double.parse(widget
-                                              .getTherapistByIdModel
-                                              .reviewData
-                                              .ratingAvg),
-                                          ignoreGestures: true,
-                                          minRating: 1,
-                                          itemCount: 5,
-                                          direction: Axis.horizontal,
-                                          allowHalfRating: true,
-                                          itemSize: 20,
-                                          itemPadding: EdgeInsets.symmetric(
-                                              horizontal: 1.0),
-                                          itemBuilder: (context, _) => Icon(
-                                            Icons.star,
-                                            size: 5,
-                                            color:
-                                                Color.fromRGBO(255, 217, 0, 1),
-                                          ),
-                                        )
-                                      : RatingBar.builder(
-                                          initialRating: 0,
-                                          ignoreGestures: true,
-                                          minRating: 1,
-                                          itemCount: 5,
-                                          direction: Axis.horizontal,
-                                          allowHalfRating: true,
-                                          itemSize: 20,
-                                          itemPadding: EdgeInsets.symmetric(
-                                              horizontal: 1.0),
-                                          itemBuilder: (context, _) => Icon(
-                                            Icons.star,
-                                            size: 5,
-                                            color:
-                                                Color.fromRGBO(255, 217, 0, 1),
-                                          ),
-                                        ),
-                                  widget.getTherapistByIdModel.reviewData !=
-                                          null
-                                      ? Text(
-                                          '(${widget.getTherapistByIdModel.reviewData.noOfReviewsMembers})',
-                                          style: TextStyle(
-                                              color: Colors.grey[400],
-                                              fontSize: 12,
-                                              fontFamily: 'NotoSansJP'),
-                                        )
-                                      : Text(
-                                          '(0)',
-                                          style: TextStyle(
-                                              color: Colors.grey[400],
-                                              fontSize: 12,
-                                              fontFamily: 'NotoSansJP'),
-                                        ),
-                                  Spacer(),
-                                  Container(
-                                    child: InkWell(
-                                      onTap: () {
-                                        NavigationRouter
-                                            .switchToServiceUserDisplayReviewScreen(
-                                                context);
-                                      },
-                                      child: Text(
-                                        'もっとみる',
-                                        style: TextStyle(
-                                            fontFamily: 'NotoSansJP',
-                                            fontWeight: FontWeight.bold,
-                                            decoration:
-                                                TextDecoration.underline,
-                                            fontSize: 14),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
                             ],
                           ),
+                        ),
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.01),
+                        Row(
+                          children: [
+                            // widget.getTherapistByIdModel.data.
+                            widget.getTherapistByIdModel.reviewData.ratingAvg !=
+                                    null
+                                ? Text(
+                                    '(${widget.getTherapistByIdModel.reviewData.ratingAvg})',
+                                    style: TextStyle(
+                                        color: Colors.grey[400],
+                                        fontSize: 14,
+                                        fontFamily: 'NotoSansJP'),
+                                  )
+                                : Text(
+                                    '(0.0)',
+                                    style: TextStyle(
+                                        color: Colors.grey[400],
+                                        fontSize: 14,
+                                        fontFamily: 'NotoSansJP'),
+                                  ),
+                            widget.getTherapistByIdModel.reviewData != null
+                                ? RatingBar.builder(
+                                    initialRating: double.parse(widget
+                                        .getTherapistByIdModel
+                                        .reviewData
+                                        .ratingAvg),
+                                    ignoreGestures: true,
+                                    minRating: 1,
+                                    itemCount: 5,
+                                    direction: Axis.horizontal,
+                                    allowHalfRating: true,
+                                    itemSize: 20,
+                                    itemPadding:
+                                        EdgeInsets.symmetric(horizontal: 1.0),
+                                    itemBuilder: (context, _) => Icon(
+                                      Icons.star,
+                                      size: 5,
+                                      color: Color.fromRGBO(255, 217, 0, 1),
+                                    ),
+                                  )
+                                : RatingBar.builder(
+                                    initialRating: 0,
+                                    ignoreGestures: true,
+                                    minRating: 1,
+                                    itemCount: 5,
+                                    direction: Axis.horizontal,
+                                    allowHalfRating: true,
+                                    itemSize: 20,
+                                    itemPadding:
+                                        EdgeInsets.symmetric(horizontal: 1.0),
+                                    itemBuilder: (context, _) => Icon(
+                                      Icons.star,
+                                      size: 5,
+                                      color: Color.fromRGBO(255, 217, 0, 1),
+                                    ),
+                                  ),
+                            widget.getTherapistByIdModel.reviewData != null
+                                ? Text(
+                                    '(${widget.getTherapistByIdModel.reviewData.noOfReviewsMembers})',
+                                    style: TextStyle(
+                                        color: Colors.grey[400],
+                                        fontSize: 12,
+                                        fontFamily: 'NotoSansJP'),
+                                  )
+                                : Text(
+                                    '(0)',
+                                    style: TextStyle(
+                                        color: Colors.grey[400],
+                                        fontSize: 12,
+                                        fontFamily: 'NotoSansJP'),
+                                  ),
+                            Spacer(),
+                            Container(
+                              child: InkWell(
+                                onTap: () {
+                                  NavigationRouter
+                                      .switchToServiceUserDisplayReviewScreen(
+                                          context);
+                                },
+                                child: Text(
+                                  'もっとみる',
+                                  style: TextStyle(
+                                      fontFamily: 'NotoSansJP',
+                                      fontWeight: FontWeight.bold,
+                                      decoration: TextDecoration.underline,
+                                      fontSize: 14),
+                                ),
+                              ),
+                            )
+                          ],
                         ),
                       ],
                     ),
                   ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(height: 7),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                        padding: EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
+                            shape: BoxShape.rectangle,
+                            border: Border.all(
+                              color: Colors.grey[300],
+                            ),
+                            borderRadius: BorderRadius.circular(5.0),
+                            color: Colors.grey[200]),
+                        child: Text(
+                            widget.getTherapistByIdModel.data.genderOfService)),
+                  ],
                 ),
-                SizedBox(height: 7),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                              padding: EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                      colors: [
-                                        Color.fromRGBO(255, 255, 255, 1),
-                                        Color.fromRGBO(255, 255, 255, 1),
-                                      ]),
-                                  shape: BoxShape.rectangle,
-                                  border: Border.all(
-                                    color: Colors.grey[300],
-                                  ),
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  color: Colors.grey[200]),
-                              child: Text(widget
-                                  .getTherapistByIdModel.data.genderOfService)),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          resultChildren.length != 0
-                              ? Container(
-                                  height: 38.0,
-                                  width: MediaQuery.of(context).size.width -
-                                      130.0, //200.0,
-                                  child: ListView.builder(
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: resultChildren.length,
-                                      itemBuilder: (context, index) {
-                                        String keys =
-                                            resultChildren.elementAt(index);
-                                        return WidgetAnimator(
-                                          Wrap(
-                                            children: [
-                                              Padding(
-                                                padding: index == 0
-                                                    ? const EdgeInsets.only(
-                                                        left: 0.0,
-                                                        top: 4.0,
-                                                        right: 4.0,
-                                                        bottom: 4.0)
-                                                    : const EdgeInsets.all(4.0),
-                                                child: Container(
-                                                  padding: EdgeInsets.all(5),
-                                                  decoration: boxDecoration,
-                                                  child: Text(
-                                                    keys, //Qualififcation
-                                                    style: TextStyle(
-                                                      fontSize: 14,
-                                                      color: Colors.black,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      }),
-                                )
-                              : Container(),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      certificateImages.length != 0
-                          ? Container(
-                              height: 38.0,
-                              width: MediaQuery.of(context).size.width -
-                                  130.0, //200.0,
-                              child: ListView.builder(
-                                  // shrinkWrap: true,
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: certificateImages.length,
-                                  itemBuilder: (context, index) {
-                                    String key =
-                                        certificateImages.keys.elementAt(index);
-                                    return WidgetAnimator(
-                                      Wrap(
-                                        children: [
-                                          Padding(
-                                            padding: index == 0
-                                                ? const EdgeInsets.only(
-                                                    left: 0.0,
-                                                    top: 4.0,
-                                                    right: 4.0,
-                                                    bottom: 4.0)
-                                                : const EdgeInsets.all(4.0),
-                                            child: Container(
-                                              padding: EdgeInsets.all(5),
-                                              decoration: boxDecoration,
-                                              child: Text(
-                                                key,
-                                                //Qualififcation
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  }),
-                            )
-                          : Container(),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 7),
+                SizedBox(height: 10),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    therapistEsthetic.length != 0
+                    resultChildren.length != 0
                         ? Container(
                             height: 38.0,
                             width: MediaQuery.of(context).size.width -
@@ -1010,13 +883,31 @@ class _BookingDetailsCompletedScreenOneState
                             child: ListView.builder(
                                 shrinkWrap: true,
                                 scrollDirection: Axis.horizontal,
-                                itemCount: therapistEstheticList.length,
+                                itemCount: resultChildren.length,
                                 itemBuilder: (context, index) {
+                                  String keys = resultChildren.elementAt(index);
                                   return WidgetAnimator(
                                     Wrap(
                                       children: [
-                                        Text(
-                                          "${therapistEstheticList[index].name}",
+                                        Padding(
+                                          padding: index == 0
+                                              ? const EdgeInsets.only(
+                                                  left: 0.0,
+                                                  top: 4.0,
+                                                  right: 4.0,
+                                                  bottom: 4.0)
+                                              : const EdgeInsets.all(4.0),
+                                          child: Container(
+                                            padding: EdgeInsets.all(5),
+                                            decoration: boxDecoration,
+                                            child: Text(
+                                              keys, //Qualififcation
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -1026,85 +917,1313 @@ class _BookingDetailsCompletedScreenOneState
                         : Container(),
                   ],
                 ),
-                SizedBox(height: 7),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Color.fromRGBO(255, 255, 255, 1),
-                              Color.fromRGBO(255, 255, 255, 1),
-                            ]),
-                        shape: BoxShape.rectangle,
-                        border: Border.all(
-                          color: Colors.grey[300],
-                        ),
-                        borderRadius: BorderRadius.circular(16.0),
-                        color: Colors.grey[200]),
-                    width: MediaQuery.of(context).size.width * 0.90,
-                    height: MediaQuery.of(context).size.height * 0.16,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                SizedBox(height: 10),
+                certificateImages.length != 0
+                    ? Container(
+                        height: 38.0,
+                        width:
+                            MediaQuery.of(context).size.width - 50.0, //200.0,
+                        child: ListView.builder(
+                            // shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: certificateImages.length,
+                            itemBuilder: (context, index) {
+                              String key =
+                                  certificateImages.keys.elementAt(index);
+                              return WidgetAnimator(
+                                Wrap(
+                                  children: [
+                                    Padding(
+                                      padding: index == 0
+                                          ? const EdgeInsets.only(
+                                              left: 0.0,
+                                              top: 4.0,
+                                              right: 4.0,
+                                              bottom: 4.0)
+                                          : const EdgeInsets.all(4.0),
+                                      child: Container(
+                                        padding: EdgeInsets.all(5),
+                                        decoration: boxDecoration,
+                                        child: Text(
+                                          key,
+                                          //Qualififcation
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }),
+                      )
+                    : Container(),
+              ],
+            ),
+          ),
+          SizedBox(height: 7),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              therapistEsthetic.length != 0
+                  ? Container(
+                      height: 38.0,
+                      width: MediaQuery.of(context).size.width - 130.0, //200.0,
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: therapistEstheticList.length,
+                          itemBuilder: (context, index) {
+                            return WidgetAnimator(
+                              Wrap(
+                                children: [
+                                  Text(
+                                    "${therapistEstheticList[index].name}",
+                                  ),
+                                ],
+                              ),
+                            );
+                          }),
+                    )
+                  : Container(),
+            ],
+          ),
+          SizedBox(height: 7),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color.fromRGBO(255, 255, 255, 1),
+                        Color.fromRGBO(255, 255, 255, 1),
+                      ]),
+                  shape: BoxShape.rectangle,
+                  border: Border.all(
+                    color: Colors.grey[300],
+                  ),
+                  borderRadius: BorderRadius.circular(16.0),
+                  color: Colors.grey[200]),
+              width: MediaQuery.of(context).size.width * 0.90,
+              height: MediaQuery.of(context).size.height * 0.16,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Expanded(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  SvgPicture.asset('assets/images_gps/gps.svg',
-                                      height: 25, width: 25),
-                                  SizedBox(width: 5),
-                                  new Text(
-                                    '住所:',
+                            SvgPicture.asset('assets/images_gps/gps.svg',
+                                height: 25, width: 25),
+                            SizedBox(width: 5),
+                            new Text(
+                              '住所:',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  fontFamily: 'NotoSansJP'),
+                            ),
+                            SizedBox(width: 5),
+                            FittedBox(
+                              child: new Text(
+                                therapistAddressDetails,
+                                style: TextStyle(
+                                    color: Colors.grey[400],
+                                    fontSize: 14,
+                                    fontFamily: 'NotoSansJP'),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SvgPicture.asset('assets/images_gps/clock.svg',
+                                height: 25, width: 25),
+                            SizedBox(width: 5),
+                            new Text(
+                              '営業時間:',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  fontFamily: 'NotoSansJP'),
+                            ),
+                            SizedBox(width: 5),
+                            new Text(
+                              '10:30 ～ 11:30',
+                              style: TextStyle(
+                                  color: Colors.grey[400],
+                                  fontSize: 14,
+                                  fontFamily: 'NotoSansJP'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 10),
+          Row(children: <Widget>[
+            Expanded(
+                child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Divider(),
+            )),
+          ]),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    'メッセージ',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        fontFamily: 'NotoSansJP'),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: RichText(
+                      textAlign: TextAlign.start,
+                      softWrap: true,
+                      text: new TextSpan(
+                        text: '${HealingMatchConstants.sampleText}',
+                        style: TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.grey[400],
+                            fontFamily: 'NotoSansJP'),
+                        children: <TextSpan>[
+                          new TextSpan(
+                              text: 'もっとみる',
+                              style: new TextStyle(
+                                  decoration: TextDecoration.underline,
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontFamily: 'NotoSansJP',
+                                  fontWeight: FontWeight.bold)),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Row(children: <Widget>[
+            Expanded(
+                child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Divider(),
+            )),
+          ]),
+          SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              '施術を受ける場所',
+              style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'NotoSansJP'),
+            ),
+          ),
+          SizedBox(height: 10),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.95,
+            child: WidgetAnimator(
+              TextFormField(
+                //display the address
+                readOnly: true,
+                autofocus: false,
+                decoration: new InputDecoration(
+                  //hintText: HealingMatchConstants.userRegisteredAddressDetail,
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintStyle: TextStyle(
+                      fontSize: 12,
+                      fontFamily: 'NotoSansJP',
+                      color: Colors.black),
+                  focusColor: Colors.grey[100],
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(
+                      color: Colors.grey[200],
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(
+                      color: Colors.grey[200],
+                    ),
+                  ),
+                  disabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(
+                      color: Colors.grey[200],
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(
+                      color: Colors.grey[200],
+                    ),
+                  ),
+                  prefixIcon: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset('assets/images_gps/gps.svg'),
+                        SizedBox(width: 10),
+                        Container(
+                            padding: EdgeInsets.all(5.0),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    Color.fromRGBO(255, 255, 255, 1),
+                                    Color.fromRGBO(255, 255, 255, 1),
+                                  ]),
+                              shape: BoxShape.rectangle,
+                              border: Border.all(
+                                color: Colors.grey[200],
+                              ),
+                              borderRadius: BorderRadius.circular(6.0),
+                              color: Color.fromRGBO(255, 255, 255, 1),
+                            ),
+                            child: shopLocationSelected
+                                ? Text(
+                                    '店舗',
                                     style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                        fontFamily: 'NotoSansJP'),
+                                      color: Color.fromRGBO(0, 0, 0, 1),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'NotoSansJP',
+                                    ),
+                                  )
+                                : Text(
+                                    '$userPlaceForMassage',
+                                    style: TextStyle(
+                                      color: Color.fromRGBO(0, 0, 0, 1),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'NotoSansJP',
+                                    ),
+                                  )),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.03),
+                        Flexible(
+                            child: shopLocationSelected
+                                ? new Text(
+                                    '$therapistAddress',
+                                    maxLines: 2,
+                                    overflow: TextOverflow.visible,
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontFamily: 'NotoSansJP',
+                                        color: Colors.grey[500]),
+                                  )
+                                : new Text(
+                                    '$userRegisteredAddress',
+                                    maxLines: 2,
+                                    overflow: TextOverflow.visible,
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontFamily: 'NotoSansJP',
+                                        color: Colors.grey[500]),
+                                  )),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.15),
+                        GestureDetector(
+                          onTap: () => openUserLocationSelectionDialog(),
+                          child: Icon(Icons.keyboard_arrow_down_sharp,
+                              size: 35, color: Colors.black),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                style: TextStyle(color: Colors.black54),
+              ),
+            ),
+          ),
+          SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              child: Text(
+                '受けたい施術を選んでください',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    fontFamily: 'NotoSansJP'),
+              ),
+            ),
+          ),
+          SizedBox(height: 15),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    result != null && result.contains("エステ")
+                        ? GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                estheticStatus = !estheticStatus;
+                              });
+                            },
+                            child: Column(
+                              children: [
+                                Card(
+                                  elevation: 4,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
                                   ),
-                                  SizedBox(width: 5),
-                                  FittedBox(
-                                    child: new Text(
-                                      therapistAddressDetails,
-                                      style: TextStyle(
-                                          color: Colors.grey[400],
-                                          fontSize: 14,
-                                          fontFamily: 'NotoSansJP'),
+                                  child: Container(
+                                    height: 65,
+                                    width: 65,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Color.fromRGBO(242, 242, 242, 1),
+                                      border: Border.all(
+                                        color: Color.fromRGBO(102, 102, 102, 1),
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: SvgPicture.asset(
+                                        'assets/images_gps/serviceTypeOne.svg',
+                                        color: Color.fromRGBO(0, 0, 0, 1),
+                                        height: 29.81,
+                                        width: 27.61,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : SizedBox(),
+                    result != null && result.contains("接骨・整体")
+                        ? GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                orteopathicStatus = !orteopathicStatus;
+                              });
+                            },
+                            child: Column(
+                              children: [
+                                Card(
+                                  elevation: 4,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: Container(
+                                    height: 65,
+                                    width: 65,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Color.fromRGBO(242, 242, 242, 1),
+                                      border: Border.all(
+                                        color: Color.fromRGBO(102, 102, 102, 1),
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: SvgPicture.asset(
+                                        'assets/images_gps/serviceTypeTwo.svg',
+                                        color: Color.fromRGBO(0, 0, 0, 1),
+                                        height: 29.81,
+                                        width: 27.61,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : SizedBox(),
+                    result != null && result.contains("リラクゼーション")
+                        ? GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                relaxationStatus = !relaxationStatus;
+                              });
+                            },
+                            child: Column(
+                              children: [
+                                Card(
+                                  elevation: 4,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: Container(
+                                    height: 65,
+                                    width: 65,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Color.fromRGBO(242, 242, 242, 1),
+                                      border: Border.all(
+                                        color: Color.fromRGBO(102, 102, 102, 1),
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: SvgPicture.asset(
+                                        'assets/images_gps/serviceTypeThree.svg',
+                                        color: Color.fromRGBO(0, 0, 0, 1),
+                                        height: 29.81,
+                                        width: 27.61,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : SizedBox(),
+                    result != null && result.contains("フィットネス")
+                        ? GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                fitnessStatus = !fitnessStatus;
+                              });
+                            },
+                            child: Column(
+                              children: [
+                                Card(
+                                  elevation: 4,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: Container(
+                                    height: 65,
+                                    width: 65,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Color.fromRGBO(242, 242, 242, 1),
+                                      border: Border.all(
+                                        color: Color.fromRGBO(102, 102, 102, 1),
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: SvgPicture.asset(
+                                        'assets/images_gps/serviceTypeFour.svg',
+                                        color: Color.fromRGBO(0, 0, 0, 1),
+                                        height: 29.81,
+                                        width: 27.61,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : SizedBox(),
+                  ],
+                )
+              ],
+            ),
+          ),
+          Visibility(
+            visible: estheticStatus,
+            child: Column(
+              children: [
+                Container(
+                  height: 139.0,
+                  child: myListView(context),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    result != null && result.contains("エステ")
+                        ? GestureDetector(
+                            onTap: () => setState(() {
+                              _massageValue = 0;
+                              _massageValue != null ? _value = '' : _value;
+                            }),
+                            child: Column(
+                              children: [
+                                Card(
+                                  elevation: _massageValue == 0 ? 4.0 : 0.0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: Container(
+                                    height: 65,
+                                    width: 65,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: _massageValue == 0
+                                          ? Color.fromRGBO(242, 242, 242, 1)
+                                          : Color.fromRGBO(255, 255, 255, 1),
+                                      border: Border.all(
+                                        color: _massageValue == 0
+                                            ? Color.fromRGBO(102, 102, 102, 1)
+                                            : Color.fromRGBO(228, 228, 228, 1),
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: SvgPicture.asset(
+                                        'assets/images_gps/serviceTypeOne.svg',
+                                        color: _massageValue == 0
+                                            ? Color.fromRGBO(0, 0, 0, 1)
+                                            : Color.fromRGBO(217, 217, 217, 1),
+                                        height: 29.81,
+                                        width: 27.61,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : SizedBox(),
+                    result != null && result.contains("接骨・整体")
+                        ? GestureDetector(
+                            onTap: () => setState(() {
+                              _massageValue = 1;
+                              _massageValue != null ? _value = '' : _value;
+                            }),
+                            //onTap: () => setState(() => _massageValue = 1),
+                            child: Column(
+                              children: [
+                                Card(
+                                  elevation: _massageValue == 1 ? 4.0 : 0.0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: Container(
+                                    height: 65,
+                                    width: 65,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: _massageValue == 1
+                                          ? Color.fromRGBO(242, 242, 242, 1)
+                                          : Color.fromRGBO(255, 255, 255, 1),
+                                      border: Border.all(
+                                        color: _massageValue == 1
+                                            ? Color.fromRGBO(102, 102, 102, 1)
+                                            : Color.fromRGBO(228, 228, 228, 1),
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: SvgPicture.asset(
+                                        'assets/images_gps/serviceTypeTwo.svg',
+                                        color: _massageValue == 1
+                                            ? Color.fromRGBO(0, 0, 0, 1)
+                                            : Color.fromRGBO(217, 217, 217, 1),
+                                        height: 33,
+                                        width: 34,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                /*  Text(
+                                  HealingMatchConstants.searchOsthepaticTxt,
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                    color: _value == 1
+                                        ? Color.fromRGBO(0, 0, 0, 1)
+                                        : Color.fromRGBO(217, 217, 217, 1),
+                                  ),
+                                ), */
+                              ],
+                            ),
+                          )
+                        : SizedBox(),
+                    result != null && result.contains("リラクゼーション")
+                        ? GestureDetector(
+                            onTap: () => setState(() {
+                              _massageValue = 2;
+                              _massageValue != null ? _value = '' : _value;
+                            }),
+                            // onTap: () => setState(() => _massageValue = 2),
+                            child: Column(
+                              children: [
+                                Card(
+                                  elevation: _massageValue == 2 ? 4.0 : 0.0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: Container(
+                                    height: 65,
+                                    width: 65,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: _massageValue == 2
+                                          ? Color.fromRGBO(242, 242, 242, 1)
+                                          : Color.fromRGBO(255, 255, 255, 1),
+                                      border: Border.all(
+                                        color: _massageValue == 2
+                                            ? Color.fromRGBO(102, 102, 102, 1)
+                                            : Color.fromRGBO(228, 228, 228, 1),
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: SvgPicture.asset(
+                                        'assets/images_gps/serviceTypeThree.svg',
+                                        color: _massageValue == 2
+                                            ? Color.fromRGBO(0, 0, 0, 1)
+                                            : Color.fromRGBO(217, 217, 217, 1),
+                                        height: 25,
+                                        width: 25,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+/*                                 Text(
+                                  HealingMatchConstants.searchRelaxationTxt,
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                    color: _value == 2
+                                        ? Color.fromRGBO(0, 0, 0, 1)
+                                        : Color.fromRGBO(217, 217, 217, 1),
+                                  ),
+                                ), */
+                              ],
+                            ),
+                          )
+                        : SizedBox(),
+                    result != null && result.contains("フィットネス")
+                        ? GestureDetector(
+                            onTap: () => setState(() {
+                              _massageValue = 3;
+                              _massageValue != null ? _value = '' : _value;
+                            }),
+                            // onTap: () => setState(() => _massageValue = 3),
+                            child: Column(
+                              children: [
+                                Card(
+                                  elevation: _massageValue == 3 ? 4.0 : 0.0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: Container(
+                                    height: 65,
+                                    width: 65,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: _massageValue == 3
+                                          ? Color.fromRGBO(242, 242, 242, 1)
+                                          : Color.fromRGBO(255, 255, 255, 1),
+                                      border: Border.all(
+                                        color: _massageValue == 3
+                                            ? Color.fromRGBO(102, 102, 102, 1)
+                                            : Color.fromRGBO(228, 228, 228, 1),
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: SvgPicture.asset(
+                                        'assets/images_gps/serviceTypeFour.svg',
+                                        color: _massageValue == 3
+                                            ? Color.fromRGBO(0, 0, 0, 1)
+                                            : Color.fromRGBO(217, 217, 217, 1),
+                                        height: 35,
+                                        width: 27,
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : SizedBox(),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    result != null && result.contains("エステ")
+                        ? Expanded(
+                            child: Text(
+                              HealingMatchConstants.searchEsteticTxt,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 12.0,
+                                color: _massageValue == 0
+                                    ? Color.fromRGBO(0, 0, 0, 1)
+                                    : Color.fromRGBO(217, 217, 217, 1),
+                              ),
+                            ),
+                          )
+                        : SizedBox(),
+                  ],
+                )
+              ],
+            ),
+          ),
+          SizedBox(height: 15),
+          Container(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  GestureDetector(
+                    onTap: () => setState(() => _value = '0'),
+                    child: Align(
+                      alignment: AlignmentDirectional.bottomCenter,
+                      child: SimpleTooltip(
+                        show: _value == '0' ? true : false,
+                        tooltipDirection: TooltipDirection.right,
+                        hideOnTooltipTap: true,
+                        borderWidth: 0.1,
+                        borderColor: Color.fromRGBO(228, 228, 228, 1),
+                        borderRadius: 10.0,
+                        minHeight: 50,
+                        minWidth: 305,
+                        content: Stack(
+                          children: [
+                            Positioned(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  /* CircleAvatar(
+                              radius: 14.0,
+                              backgroundColor: Color.fromRGBO(242, 242, 242, 1),
+                              child: Icon(Icons.close, color: Colors.black),
+                            ),*/
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () => setState(
+                                              () => massageTipColor = 1),
+                                          child: Container(
+                                              height: 80,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: massageTipColor == 1
+                                                    ? Color.fromRGBO(
+                                                        242, 242, 242, 1)
+                                                    : Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                border: Border.all(),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.1),
+                                                    spreadRadius: 5,
+                                                    blurRadius: 7,
+                                                    offset: Offset(0,
+                                                        3), // changes position of shadow
+                                                  )
+                                                ],
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                            'assets/images_gps/processing.svg',
+                                                            height: 25,
+                                                            width: 25,
+                                                            color:
+                                                                Colors.black),
+                                                        SizedBox(width: 5),
+                                                        new Text(
+                                                          '60分',
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'NotoSansJP',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  new Text(
+                                                    '\t¥4,500',
+                                                    style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration.none,
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              )),
+                                        ),
+                                        SizedBox(width: 10),
+                                        GestureDetector(
+                                          onTap: () => setState(
+                                              () => massageTipColor = 2),
+                                          child: Container(
+                                              height: 80,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: massageTipColor == 2
+                                                    ? Color.fromRGBO(
+                                                        242, 242, 242, 1)
+                                                    : Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                border: Border.all(),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.1),
+                                                    spreadRadius: 5,
+                                                    blurRadius: 7,
+                                                    offset: Offset(0,
+                                                        3), // changes position of shadow
+                                                  )
+                                                ],
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                            'assets/images_gps/processing.svg',
+                                                            height: 25,
+                                                            width: 25,
+                                                            color:
+                                                                Colors.black),
+                                                        SizedBox(width: 5),
+                                                        new Text(
+                                                          '90分',
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'NotoSansJP',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  new Text(
+                                                    '\t¥4,500',
+                                                    style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration.none,
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              )),
+                                        ),
+                                        SizedBox(width: 10),
+                                        GestureDetector(
+                                          onTap: () => setState(
+                                              () => massageTipColor = 3),
+                                          child: Container(
+                                              height: 80,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: massageTipColor == 3
+                                                    ? Color.fromRGBO(
+                                                        242, 242, 242, 1)
+                                                    : Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                border: Border.all(),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.1),
+                                                    spreadRadius: 5,
+                                                    blurRadius: 7,
+                                                    offset: Offset(0,
+                                                        3), // changes position of shadow
+                                                  )
+                                                ],
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                            'assets/images_gps/processing.svg',
+                                                            height: 25,
+                                                            width: 25,
+                                                            color:
+                                                                Colors.black),
+                                                        SizedBox(width: 5),
+                                                        new Text(
+                                                          '120分',
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'NotoSansJP',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  new Text(
+                                                    '\t¥4,500',
+                                                    style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration.none,
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              )),
+                                        ),
+                                        SizedBox(width: 10),
+                                        GestureDetector(
+                                          onTap: () => setState(
+                                              () => massageTipColor = 4),
+                                          child: Container(
+                                              height: 80,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: massageTipColor == 4
+                                                    ? Color.fromRGBO(
+                                                        242, 242, 242, 1)
+                                                    : Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                border: Border.all(),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.1),
+                                                    spreadRadius: 5,
+                                                    blurRadius: 7,
+                                                    offset: Offset(0,
+                                                        3), // changes position of shadow
+                                                  )
+                                                ],
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                            'assets/images_gps/processing.svg',
+                                                            height: 25,
+                                                            width: 25,
+                                                            color:
+                                                                Colors.black),
+                                                        SizedBox(width: 5),
+                                                        new Text(
+                                                          '150分',
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'NotoSansJP',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  new Text(
+                                                    '\t¥4,500',
+                                                    style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration.none,
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              )),
+                                        ),
+                                        SizedBox(width: 10),
+                                        GestureDetector(
+                                          onTap: () => setState(
+                                              () => massageTipColor = 5),
+                                          child: Container(
+                                              height: 80,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: massageTipColor == 5
+                                                    ? Color.fromRGBO(
+                                                        242, 242, 242, 1)
+                                                    : Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                border: Border.all(),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.1),
+                                                    spreadRadius: 5,
+                                                    blurRadius: 7,
+                                                    offset: Offset(0,
+                                                        3), // changes position of shadow
+                                                  )
+                                                ],
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                            'assets/images_gps/processing.svg',
+                                                            height: 25,
+                                                            width: 25,
+                                                            color:
+                                                                Colors.black),
+                                                        SizedBox(width: 5),
+                                                        new Text(
+                                                          '180分',
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'NotoSansJP',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  new Text(
+                                                    '\t¥4,500',
+                                                    style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration.none,
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              )),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                            Expanded(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  SvgPicture.asset(
-                                      'assets/images_gps/clock.svg',
-                                      height: 25,
-                                      width: 25),
-                                  SizedBox(width: 5),
-                                  new Text(
-                                    '営業時間:',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                        fontFamily: 'NotoSansJP'),
+                            Positioned(
+                              right: -4,
+                              top: -4,
+                              child: Align(
+                                alignment: Alignment.topRight,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Color.fromRGBO(217, 217, 217, 1),
+                                        blurRadius: 8.0, // soften the shadow
+                                        spreadRadius: 1, //extend the shadow
+                                        offset: Offset(
+                                          0.0,
+                                          // Move to right 10  horizontally
+                                          3.0, // Move to bottom 10 Vertically
+                                        ),
+                                      )
+                                    ],
+                                    shape: BoxShape.circle,
                                   ),
-                                  SizedBox(width: 5),
-                                  new Text(
-                                    '10:30 ～ 11:30',
-                                    style: TextStyle(
-                                        color: Colors.grey[400],
-                                        fontSize: 14,
-                                        fontFamily: 'NotoSansJP'),
+                                  child: CircleAvatar(
+                                    radius: 10.0,
+                                    backgroundColor: Colors.white,
+                                    child: Icon(
+                                      Icons.close,
+                                      color: Colors.red,
+                                      size: 18,
+                                    ),
                                   ),
-                                ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 65,
+                              width: 65,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: _value == '0'
+                                    ? Color.fromRGBO(242, 242, 242, 1)
+                                    : Color.fromRGBO(255, 255, 255, 1),
+                                border: Border.all(
+                                  color: _value == '0'
+                                      ? Color.fromRGBO(102, 102, 102, 1)
+                                      : Color.fromRGBO(228, 228, 228, 1),
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: SvgPicture.asset(
+                                  'assets/images_gps/Massage.svg',
+                                  color: _value == '0'
+                                      ? Color.fromRGBO(0, 0, 0, 1)
+                                      : Color.fromRGBO(217, 217, 217, 1),
+                                ),
+                              ),
+                            ),
+                            Text(
+                              'マッサージ',
+                              style: TextStyle(
+                                color: _value == '0'
+                                    ? Color.fromRGBO(0, 0, 0, 1)
+                                    : Color.fromRGBO(102, 102, 102, 1),
+                              ),
+                            ),
+                            Text(
+                              '（全身）',
+                              style: TextStyle(
+                                color: _value == '0'
+                                    ? Color.fromRGBO(0, 0, 0, 1)
+                                    : Color.fromRGBO(102, 102, 102, 1),
                               ),
                             ),
                           ],
@@ -1112,3671 +2231,2206 @@ class _BookingDetailsCompletedScreenOneState
                       ),
                     ),
                   ),
-                ),
-                SizedBox(height: 10),
-                Row(children: <Widget>[
-                  Expanded(
-                      child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Divider(),
-                  )),
-                ]),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          'メッセージ',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              fontFamily: 'NotoSansJP'),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: RichText(
-                            textAlign: TextAlign.start,
-                            softWrap: true,
-                            text: new TextSpan(
-                              text: '${HealingMatchConstants.sampleText}',
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Colors.grey[400],
-                                  fontFamily: 'NotoSansJP'),
-                              children: <TextSpan>[
-                                new TextSpan(
-                                    text: 'もっとみる',
-                                    style: new TextStyle(
-                                        decoration: TextDecoration.underline,
-                                        fontSize: 16,
-                                        color: Colors.black,
-                                        fontFamily: 'NotoSansJP',
-                                        fontWeight: FontWeight.bold)),
-                              ],
+                  SizedBox(
+                    width: 10,
+                  ),
+                  GestureDetector(
+                    onTap: () => setState(() => _value = '1'),
+                    child: Align(
+                      alignment: AlignmentDirectional.bottomCenter,
+                      child: SimpleTooltip(
+                        show: _value.contains('1') ? true : false,
+                        tooltipDirection: TooltipDirection.down,
+                        hideOnTooltipTap: true,
+                        borderWidth: 0.1,
+                        borderColor: Color.fromRGBO(228, 228, 228, 1),
+                        borderRadius: 10.0,
+                        minHeight: 50,
+                        minWidth: 305,
+                        content: Stack(
+                          children: [
+                            Positioned(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () => setState(
+                                              () => strechTipColor = 1),
+                                          child: Container(
+                                              height: 80,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: strechTipColor == 1
+                                                    ? Color.fromRGBO(
+                                                        242, 242, 242, 1)
+                                                    : Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                border: Border.all(),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.1),
+                                                    spreadRadius: 5,
+                                                    blurRadius: 7,
+                                                    offset: Offset(0,
+                                                        3), // changes position of shadow
+                                                  )
+                                                ],
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                            'assets/images_gps/processing.svg',
+                                                            height: 25,
+                                                            width: 25,
+                                                            color:
+                                                                Colors.black),
+                                                        SizedBox(width: 5),
+                                                        new Text(
+                                                          '60分',
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'NotoSansJP',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  new Text(
+                                                    '\t¥4,500',
+                                                    style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration.none,
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              )),
+                                        ),
+                                        SizedBox(width: 10),
+                                        GestureDetector(
+                                          onTap: () => setState(
+                                              () => strechTipColor = 2),
+                                          child: Container(
+                                              height: 80,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: strechTipColor == 2
+                                                    ? Color.fromRGBO(
+                                                        242, 242, 242, 1)
+                                                    : Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                border: Border.all(),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.1),
+                                                    spreadRadius: 5,
+                                                    blurRadius: 7,
+                                                    offset: Offset(0,
+                                                        3), // changes position of shadow
+                                                  )
+                                                ],
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                            'assets/images_gps/processing.svg',
+                                                            height: 25,
+                                                            width: 25,
+                                                            color:
+                                                                Colors.black),
+                                                        SizedBox(width: 5),
+                                                        new Text(
+                                                          '90分',
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'NotoSansJP',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  new Text(
+                                                    '\t¥4,500',
+                                                    style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration.none,
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              )),
+                                        ),
+                                        SizedBox(width: 10),
+                                        GestureDetector(
+                                          onTap: () => setState(
+                                              () => strechTipColor = 3),
+                                          child: Container(
+                                              height: 80,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: strechTipColor == 3
+                                                    ? Color.fromRGBO(
+                                                        242, 242, 242, 1)
+                                                    : Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                border: Border.all(),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.1),
+                                                    spreadRadius: 5,
+                                                    blurRadius: 7,
+                                                    offset: Offset(0,
+                                                        3), // changes position of shadow
+                                                  )
+                                                ],
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                            'assets/images_gps/processing.svg',
+                                                            height: 25,
+                                                            width: 25,
+                                                            color:
+                                                                Colors.black),
+                                                        SizedBox(width: 5),
+                                                        new Text(
+                                                          '120分',
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'NotoSansJP',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  new Text(
+                                                    '\t¥4,500',
+                                                    style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration.none,
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              )),
+                                        ),
+                                        SizedBox(width: 10),
+                                        GestureDetector(
+                                          onTap: () => setState(
+                                              () => strechTipColor = 4),
+                                          child: Container(
+                                              height: 80,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: strechTipColor == 4
+                                                    ? Color.fromRGBO(
+                                                        242, 242, 242, 1)
+                                                    : Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                border: Border.all(),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.1),
+                                                    spreadRadius: 5,
+                                                    blurRadius: 7,
+                                                    offset: Offset(0,
+                                                        3), // changes position of shadow
+                                                  )
+                                                ],
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                            'assets/images_gps/processing.svg',
+                                                            height: 25,
+                                                            width: 25,
+                                                            color:
+                                                                Colors.black),
+                                                        SizedBox(width: 5),
+                                                        new Text(
+                                                          '150分',
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'NotoSansJP',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  new Text(
+                                                    '\t¥4,500',
+                                                    style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration.none,
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              )),
+                                        ),
+                                        SizedBox(width: 10),
+                                        GestureDetector(
+                                          onTap: () => setState(
+                                              () => strechTipColor = 5),
+                                          child: Container(
+                                              height: 80,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: strechTipColor == 5
+                                                    ? Color.fromRGBO(
+                                                        242, 242, 242, 1)
+                                                    : Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                border: Border.all(),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.1),
+                                                    spreadRadius: 5,
+                                                    blurRadius: 7,
+                                                    offset: Offset(0,
+                                                        3), // changes position of shadow
+                                                  )
+                                                ],
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                            'assets/images_gps/processing.svg',
+                                                            height: 25,
+                                                            width: 25,
+                                                            color:
+                                                                Colors.black),
+                                                        SizedBox(width: 5),
+                                                        new Text(
+                                                          '180分',
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'NotoSansJP',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  new Text(
+                                                    '\t¥4,500',
+                                                    style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration.none,
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              )),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Row(children: <Widget>[
-                  Expanded(
-                      child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Divider(),
-                  )),
-                ]),
-                SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    '施術を受ける場所',
-                    style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'NotoSansJP'),
-                  ),
-                ),
-                SizedBox(height: 10),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.95,
-                  child: WidgetAnimator(
-                    TextFormField(
-                      //display the address
-                      readOnly: true,
-                      autofocus: false,
-                      decoration: new InputDecoration(
-                        //hintText: HealingMatchConstants.userRegisteredAddressDetail,
-                        filled: true,
-                        fillColor: Colors.white,
-                        hintStyle: TextStyle(
-                            fontSize: 12,
-                            fontFamily: 'NotoSansJP',
-                            color: Colors.black),
-                        focusColor: Colors.grey[100],
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(
-                            color: Colors.grey[200],
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(
-                            color: Colors.grey[200],
-                          ),
-                        ),
-                        disabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(
-                            color: Colors.grey[200],
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(
-                            color: Colors.grey[200],
-                          ),
-                        ),
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset('assets/images_gps/gps.svg'),
-                              SizedBox(width: 10),
-                              Container(
-                                  padding: EdgeInsets.all(5.0),
+                            Positioned(
+                              right: -4,
+                              top: -4,
+                              child: Align(
+                                alignment: Alignment.topRight,
+                                child: Container(
                                   decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                        colors: [
-                                          Color.fromRGBO(255, 255, 255, 1),
-                                          Color.fromRGBO(255, 255, 255, 1),
-                                        ]),
-                                    shape: BoxShape.rectangle,
-                                    border: Border.all(
-                                      color: Colors.grey[200],
-                                    ),
-                                    borderRadius: BorderRadius.circular(6.0),
-                                    color: Color.fromRGBO(255, 255, 255, 1),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Color.fromRGBO(0, 0, 0, 0.1),
+                                        blurRadius: 10.0, // soften the shadow
+                                        spreadRadius: 2, //extend the shadow
+                                        offset: Offset(
+                                          0.0,
+                                          // Move to right 10  horizontally
+                                          3.0, // Move to bottom 10 Vertically
+                                        ),
+                                      )
+                                    ],
+                                    shape: BoxShape.circle,
                                   ),
-                                  child: shopLocationSelected
-                                      ? Text(
-                                          '店舗',
-                                          style: TextStyle(
-                                            color: Color.fromRGBO(0, 0, 0, 1),
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: 'NotoSansJP',
-                                          ),
-                                        )
-                                      : Text(
-                                          '$userPlaceForMassage',
-                                          style: TextStyle(
-                                            color: Color.fromRGBO(0, 0, 0, 1),
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: 'NotoSansJP',
-                                          ),
-                                        )),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.03),
-                              Flexible(
-                                  child: shopLocationSelected
-                                      ? new Text(
-                                          '$therapistAddress',
-                                          maxLines: 2,
-                                          overflow: TextOverflow.visible,
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontFamily: 'NotoSansJP',
-                                              color: Colors.grey[500]),
-                                        )
-                                      : new Text(
-                                          '$userRegisteredAddress',
-                                          maxLines: 2,
-                                          overflow: TextOverflow.visible,
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontFamily: 'NotoSansJP',
-                                              color: Colors.grey[500]),
-                                        )),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.15),
-                              GestureDetector(
-                                onTap: () => openUserLocationSelectionDialog(),
-                                child: Icon(Icons.keyboard_arrow_down_sharp,
-                                    size: 35, color: Colors.black),
+                                  child: CircleAvatar(
+                                    radius: 10.0,
+                                    backgroundColor: Colors.white,
+                                    child: Icon(
+                                      Icons.close,
+                                      color: Colors.red,
+                                      size: 18,
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 65,
+                              width: 65,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: _value.contains('1')
+                                    ? Color.fromRGBO(242, 242, 242, 1)
+                                    : Color.fromRGBO(255, 255, 255, 1),
+                                border: Border.all(
+                                  color: _value.contains('1')
+                                      ? Color.fromRGBO(102, 102, 102, 1)
+                                      : Color.fromRGBO(228, 228, 228, 1),
+                                ),
+                              ),
+                              child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: SvgPicture.asset(
+                                    'assets/images_gps/stretch.svg',
+                                    color: _value.contains('1')
+                                        ? Color.fromRGBO(0, 0, 0, 1)
+                                        : Color.fromRGBO(217, 217, 217, 1),
+                                  )),
+                            ),
+                            Text(
+                              'ストレッチ',
+                              style: TextStyle(
+                                color: _value.contains('1')
+                                    ? Color.fromRGBO(0, 0, 0, 1)
+                                    : Color.fromRGBO(102, 102, 102, 1),
+                              ),
+                            ),
+                            Text(
+                              '（全身）',
+                              style: TextStyle(
+                                color: _value.contains('1')
+                                    ? Color.fromRGBO(0, 0, 0, 1)
+                                    : Color.fromRGBO(102, 102, 102, 1),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      style: TextStyle(color: Colors.black54),
                     ),
                   ),
-                ),
-                SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    child: Text(
-                      '受けたい施術を選んでください',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          fontFamily: 'NotoSansJP'),
-                    ),
+                  SizedBox(
+                    width: 10,
                   ),
-                ),
-                SizedBox(height: 15),
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          result != null && result.contains("エステ")
-                              ? GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      estheticStatus = !estheticStatus;
-                                    });
-                                  },
-                                  child: Column(
-                                    children: [
-                                      Card(
-                                        elevation: 4,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
+                  GestureDetector(
+                    onTap: () => setState(() => _value = '2'),
+                    child: Align(
+                      alignment: AlignmentDirectional.bottomCenter,
+                      child: SimpleTooltip(
+                        show: _value == '2' ? true : false,
+                        tooltipDirection: TooltipDirection.down,
+                        hideOnTooltipTap: true,
+                        borderWidth: 0.1,
+                        borderColor: Color.fromRGBO(228, 228, 228, 1),
+                        borderRadius: 10.0,
+                        minHeight: 50,
+                        minWidth: 305,
+                        content: Stack(
+                          children: [
+                            Positioned(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () => setState(
+                                              () => cuppingTipColor = 1),
+                                          child: Container(
+                                              height: 80,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: cuppingTipColor == 1
+                                                    ? Color.fromRGBO(
+                                                        242, 242, 242, 1)
+                                                    : Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                border: Border.all(),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.1),
+                                                    spreadRadius: 5,
+                                                    blurRadius: 7,
+                                                    offset: Offset(0,
+                                                        3), // changes position of shadow
+                                                  )
+                                                ],
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                            'assets/images_gps/processing.svg',
+                                                            height: 25,
+                                                            width: 25,
+                                                            color:
+                                                                Colors.black),
+                                                        SizedBox(width: 5),
+                                                        new Text(
+                                                          '60分',
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'NotoSansJP',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  new Text(
+                                                    '\t¥4,500',
+                                                    style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration.none,
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              )),
                                         ),
-                                        child: Container(
-                                          height: 65,
-                                          width: 65,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color: Color.fromRGBO(
-                                                242, 242, 242, 1),
-                                            border: Border.all(
-                                              color: Color.fromRGBO(
-                                                  102, 102, 102, 1),
-                                            ),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: SvgPicture.asset(
-                                              'assets/images_gps/serviceTypeOne.svg',
-                                              color: Color.fromRGBO(0, 0, 0, 1),
-                                              height: 29.81,
-                                              width: 27.61,
-                                            ),
-                                          ),
+                                        SizedBox(width: 10),
+                                        GestureDetector(
+                                          onTap: () => setState(
+                                              () => cuppingTipColor = 2),
+                                          child: Container(
+                                              height: 80,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: cuppingTipColor == 2
+                                                    ? Color.fromRGBO(
+                                                        242, 242, 242, 1)
+                                                    : Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                border: Border.all(),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.1),
+                                                    spreadRadius: 5,
+                                                    blurRadius: 7,
+                                                    offset: Offset(0,
+                                                        3), // changes position of shadow
+                                                  )
+                                                ],
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                            'assets/images_gps/processing.svg',
+                                                            height: 25,
+                                                            width: 25,
+                                                            color:
+                                                                Colors.black),
+                                                        SizedBox(width: 5),
+                                                        new Text(
+                                                          '90分',
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'NotoSansJP',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  new Text(
+                                                    '\t¥4,500',
+                                                    style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration.none,
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              )),
                                         ),
-                                      ),
-                                    ],
+                                        SizedBox(width: 10),
+                                        GestureDetector(
+                                          onTap: () => setState(
+                                              () => cuppingTipColor = 3),
+                                          child: Container(
+                                              height: 80,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: cuppingTipColor == 3
+                                                    ? Color.fromRGBO(
+                                                        242, 242, 242, 1)
+                                                    : Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                border: Border.all(),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.1),
+                                                    spreadRadius: 5,
+                                                    blurRadius: 7,
+                                                    offset: Offset(0,
+                                                        3), // changes position of shadow
+                                                  )
+                                                ],
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                            'assets/images_gps/processing.svg',
+                                                            height: 25,
+                                                            width: 25,
+                                                            color:
+                                                                Colors.black),
+                                                        SizedBox(width: 5),
+                                                        new Text(
+                                                          '120分',
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'NotoSansJP',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  new Text(
+                                                    '\t¥4,500',
+                                                    style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration.none,
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              )),
+                                        ),
+                                        SizedBox(width: 10),
+                                        GestureDetector(
+                                          onTap: () => setState(
+                                              () => cuppingTipColor = 4),
+                                          child: Container(
+                                              height: 80,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: cuppingTipColor == 4
+                                                    ? Color.fromRGBO(
+                                                        242, 242, 242, 1)
+                                                    : Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                border: Border.all(),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.1),
+                                                    spreadRadius: 5,
+                                                    blurRadius: 7,
+                                                    offset: Offset(0,
+                                                        3), // changes position of shadow
+                                                  )
+                                                ],
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                            'assets/images_gps/processing.svg',
+                                                            height: 25,
+                                                            width: 25,
+                                                            color:
+                                                                Colors.black),
+                                                        SizedBox(width: 5),
+                                                        new Text(
+                                                          '150分',
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'NotoSansJP',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  new Text(
+                                                    '\t¥4,500',
+                                                    style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration.none,
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              )),
+                                        ),
+                                        SizedBox(width: 10),
+                                        GestureDetector(
+                                          onTap: () => setState(
+                                              () => cuppingTipColor = 5),
+                                          child: Container(
+                                              height: 80,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: cuppingTipColor == 5
+                                                    ? Color.fromRGBO(
+                                                        242, 242, 242, 1)
+                                                    : Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                border: Border.all(),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.1),
+                                                    spreadRadius: 5,
+                                                    blurRadius: 7,
+                                                    offset: Offset(0,
+                                                        3), // changes position of shadow
+                                                  )
+                                                ],
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                            'assets/images_gps/processing.svg',
+                                                            height: 25,
+                                                            width: 25,
+                                                            color:
+                                                                Colors.black),
+                                                        SizedBox(width: 5),
+                                                        new Text(
+                                                          '180分',
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'NotoSansJP',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  new Text(
+                                                    '\t¥4,500',
+                                                    style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration.none,
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              )),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                )
-                              : SizedBox(),
-                          result != null && result.contains("接骨・整体")
-                              ? GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      orteopathicStatus = !orteopathicStatus;
-                                    });
-                                  },
-                                  child: Column(
-                                    children: [
-                                      Card(
-                                        elevation: 4,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                              right: -4,
+                              top: -4,
+                              child: Align(
+                                alignment: Alignment.topRight,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Color.fromRGBO(0, 0, 0, 0.1),
+                                        blurRadius: 10.0, // soften the shadow
+                                        spreadRadius: 2, //extend the shadow
+                                        offset: Offset(
+                                          0.0,
+                                          // Move to right 10  horizontally
+                                          3.0, // Move to bottom 10 Vertically
                                         ),
-                                        child: Container(
-                                          height: 65,
-                                          width: 65,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color: Color.fromRGBO(
-                                                242, 242, 242, 1),
-                                            border: Border.all(
-                                              color: Color.fromRGBO(
-                                                  102, 102, 102, 1),
-                                            ),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: SvgPicture.asset(
-                                              'assets/images_gps/serviceTypeTwo.svg',
-                                              color: Color.fromRGBO(0, 0, 0, 1),
-                                              height: 29.81,
-                                              width: 27.61,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
+                                      )
                                     ],
+                                    shape: BoxShape.circle,
                                   ),
-                                )
-                              : SizedBox(),
-                          result != null && result.contains("リラクゼーション")
-                              ? GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      relaxationStatus = !relaxationStatus;
-                                    });
-                                  },
-                                  child: Column(
-                                    children: [
-                                      Card(
-                                        elevation: 4,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                        ),
-                                        child: Container(
-                                          height: 65,
-                                          width: 65,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color: Color.fromRGBO(
-                                                242, 242, 242, 1),
-                                            border: Border.all(
-                                              color: Color.fromRGBO(
-                                                  102, 102, 102, 1),
-                                            ),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: SvgPicture.asset(
-                                              'assets/images_gps/serviceTypeThree.svg',
-                                              color: Color.fromRGBO(0, 0, 0, 1),
-                                              height: 29.81,
-                                              width: 27.61,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                  child: CircleAvatar(
+                                    radius: 10.0,
+                                    backgroundColor: Colors.white,
+                                    child: Icon(
+                                      Icons.close,
+                                      color: Colors.red,
+                                      size: 18,
+                                    ),
                                   ),
-                                )
-                              : SizedBox(),
-                          result != null && result.contains("フィットネス")
-                              ? GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      fitnessStatus = !fitnessStatus;
-                                    });
-                                  },
-                                  child: Column(
-                                    children: [
-                                      Card(
-                                        elevation: 4,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                        ),
-                                        child: Container(
-                                          height: 65,
-                                          width: 65,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color: Color.fromRGBO(
-                                                242, 242, 242, 1),
-                                            border: Border.all(
-                                              color: Color.fromRGBO(
-                                                  102, 102, 102, 1),
-                                            ),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: SvgPicture.asset(
-                                              'assets/images_gps/serviceTypeFour.svg',
-                                              color: Color.fromRGBO(0, 0, 0, 1),
-                                              height: 29.81,
-                                              width: 27.61,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              : SizedBox(),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-                Visibility(
-                  visible: estheticStatus,
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 139.0,
-                        child: myListView(context),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 65,
+                              width: 65,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: _value == '2'
+                                    ? Color.fromRGBO(242, 242, 242, 1)
+                                    : Color.fromRGBO(255, 255, 255, 1),
+                                border: Border.all(
+                                  color: _value == '2'
+                                      ? Color.fromRGBO(102, 102, 102, 1)
+                                      : Color.fromRGBO(228, 228, 228, 1),
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: SvgPicture.asset(
+                                  'assets/images_gps/Cupping.svg',
+                                  color: _value == '2'
+                                      ? Color.fromRGBO(0, 0, 0, 1)
+                                      : Color.fromRGBO(217, 217, 217, 1),
+                                ),
+                              ),
+                            ),
+                            Text(
+                              'カッピング',
+                              style: TextStyle(
+                                color: _value == '2'
+                                    ? Color.fromRGBO(0, 0, 0, 1)
+                                    : Color.fromRGBO(102, 102, 102, 1),
+                              ),
+                            ),
+                            Text(
+                              '（全身）',
+                              style: TextStyle(
+                                color: _value == '2'
+                                    ? Color.fromRGBO(0, 0, 0, 1)
+                                    : Color.fromRGBO(102, 102, 102, 1),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ],
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          result != null && result.contains("エステ")
-                              ? GestureDetector(
-                                  onTap: () => setState(() {
-                                    _massageValue = 0;
-                                    _massageValue != null
-                                        ? _value = ''
-                                        : _value;
-                                  }),
-                                  child: Column(
-                                    children: [
-                                      Card(
-                                        elevation:
-                                            _massageValue == 0 ? 4.0 : 0.0,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  GestureDetector(
+                    onTap: () => setState(() => _value = '3'),
+                    child: Align(
+                      alignment: AlignmentDirectional.bottomCenter,
+                      child: SimpleTooltip(
+                        show: _value == '3' ? true : false,
+                        tooltipDirection: TooltipDirection.down,
+                        hideOnTooltipTap: true,
+                        borderWidth: 0.1,
+                        borderColor: Color.fromRGBO(228, 228, 228, 1),
+                        borderRadius: 10.0,
+                        minHeight: 50,
+                        minWidth: 305,
+                        content: Stack(
+                          children: [
+                            Positioned(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () => setState(
+                                              () => maternityTipColor = 1),
+                                          child: Container(
+                                              height: 80,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: maternityTipColor == 1
+                                                    ? Color.fromRGBO(
+                                                        242, 242, 242, 1)
+                                                    : Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                border: Border.all(),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.1),
+                                                    spreadRadius: 5,
+                                                    blurRadius: 7,
+                                                    offset: Offset(0,
+                                                        3), // changes position of shadow
+                                                  )
+                                                ],
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                            'assets/images_gps/processing.svg',
+                                                            height: 25,
+                                                            width: 25,
+                                                            color:
+                                                                Colors.black),
+                                                        SizedBox(width: 5),
+                                                        new Text(
+                                                          '60分',
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'NotoSansJP',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  new Text(
+                                                    '\t¥4,500',
+                                                    style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration.none,
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              )),
                                         ),
-                                        child: Container(
-                                          height: 65,
-                                          width: 65,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color: _massageValue == 0
-                                                ? Color.fromRGBO(
-                                                    242, 242, 242, 1)
-                                                : Color.fromRGBO(
-                                                    255, 255, 255, 1),
-                                            border: Border.all(
-                                              color: _massageValue == 0
-                                                  ? Color.fromRGBO(
-                                                      102, 102, 102, 1)
-                                                  : Color.fromRGBO(
-                                                      228, 228, 228, 1),
-                                            ),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: SvgPicture.asset(
-                                              'assets/images_gps/serviceTypeOne.svg',
-                                              color: _massageValue == 0
-                                                  ? Color.fromRGBO(0, 0, 0, 1)
-                                                  : Color.fromRGBO(
-                                                      217, 217, 217, 1),
-                                              height: 29.81,
-                                              width: 27.61,
-                                            ),
-                                          ),
+                                        SizedBox(width: 10),
+                                        GestureDetector(
+                                          onTap: () => setState(
+                                              () => maternityTipColor = 2),
+                                          child: Container(
+                                              height: 80,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: maternityTipColor == 2
+                                                    ? Color.fromRGBO(
+                                                        242, 242, 242, 1)
+                                                    : Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                border: Border.all(),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.1),
+                                                    spreadRadius: 5,
+                                                    blurRadius: 7,
+                                                    offset: Offset(0,
+                                                        3), // changes position of shadow
+                                                  )
+                                                ],
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                            'assets/images_gps/processing.svg',
+                                                            height: 25,
+                                                            width: 25,
+                                                            color:
+                                                                Colors.black),
+                                                        SizedBox(width: 5),
+                                                        new Text(
+                                                          '90分',
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'NotoSansJP',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  new Text(
+                                                    '\t¥4,500',
+                                                    style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration.none,
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              )),
                                         ),
-                                      ),
-                                    ],
+                                        SizedBox(width: 10),
+                                        GestureDetector(
+                                          onTap: () => setState(
+                                              () => maternityTipColor = 3),
+                                          child: Container(
+                                              height: 80,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: maternityTipColor == 3
+                                                    ? Color.fromRGBO(
+                                                        242, 242, 242, 1)
+                                                    : Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                border: Border.all(),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.1),
+                                                    spreadRadius: 5,
+                                                    blurRadius: 7,
+                                                    offset: Offset(0,
+                                                        3), // changes position of shadow
+                                                  )
+                                                ],
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                            'assets/images_gps/processing.svg',
+                                                            height: 25,
+                                                            width: 25,
+                                                            color:
+                                                                Colors.black),
+                                                        SizedBox(width: 5),
+                                                        new Text(
+                                                          '120分',
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'NotoSansJP',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  new Text(
+                                                    '\t¥4,500',
+                                                    style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration.none,
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              )),
+                                        ),
+                                        SizedBox(width: 10),
+                                        GestureDetector(
+                                          onTap: () => setState(
+                                              () => maternityTipColor = 4),
+                                          child: Container(
+                                              height: 80,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: maternityTipColor == 4
+                                                    ? Color.fromRGBO(
+                                                        242, 242, 242, 1)
+                                                    : Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                border: Border.all(),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.1),
+                                                    spreadRadius: 5,
+                                                    blurRadius: 7,
+                                                    offset: Offset(0,
+                                                        3), // changes position of shadow
+                                                  )
+                                                ],
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                            'assets/images_gps/processing.svg',
+                                                            height: 25,
+                                                            width: 25,
+                                                            color:
+                                                                Colors.black),
+                                                        SizedBox(width: 5),
+                                                        new Text(
+                                                          '150分',
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'NotoSansJP',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  new Text(
+                                                    '\t¥4,500',
+                                                    style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration.none,
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              )),
+                                        ),
+                                        SizedBox(width: 10),
+                                        GestureDetector(
+                                          onTap: () => setState(
+                                              () => maternityTipColor = 5),
+                                          child: Container(
+                                              height: 80,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: maternityTipColor == 5
+                                                    ? Color.fromRGBO(
+                                                        242, 242, 242, 1)
+                                                    : Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                border: Border.all(),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.1),
+                                                    spreadRadius: 5,
+                                                    blurRadius: 7,
+                                                    offset: Offset(0,
+                                                        3), // changes position of shadow
+                                                  )
+                                                ],
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                            'assets/images_gps/processing.svg',
+                                                            height: 25,
+                                                            width: 25,
+                                                            color:
+                                                                Colors.black),
+                                                        SizedBox(width: 5),
+                                                        new Text(
+                                                          '180分',
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'NotoSansJP',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  new Text(
+                                                    '\t¥4,500',
+                                                    style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration.none,
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              )),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                )
-                              : SizedBox(),
-                          result != null && result.contains("接骨・整体")
-                              ? GestureDetector(
-                                  onTap: () => setState(() {
-                                    _massageValue = 1;
-                                    _massageValue != null
-                                        ? _value = ''
-                                        : _value;
-                                  }),
-                                  //onTap: () => setState(() => _massageValue = 1),
-                                  child: Column(
-                                    children: [
-                                      Card(
-                                        elevation:
-                                            _massageValue == 1 ? 4.0 : 0.0,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                              right: -4,
+                              top: -4,
+                              child: Align(
+                                alignment: Alignment.topRight,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Color.fromRGBO(0, 0, 0, 0.1),
+                                        blurRadius: 10.0, // soften the shadow
+                                        spreadRadius: 2, //extend the shadow
+                                        offset: Offset(
+                                          0.0,
+                                          // Move to right 10  horizontally
+                                          3.0, // Move to bottom 10 Vertically
                                         ),
-                                        child: Container(
-                                          height: 65,
-                                          width: 65,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color: _massageValue == 1
-                                                ? Color.fromRGBO(
-                                                    242, 242, 242, 1)
-                                                : Color.fromRGBO(
-                                                    255, 255, 255, 1),
-                                            border: Border.all(
-                                              color: _massageValue == 1
-                                                  ? Color.fromRGBO(
-                                                      102, 102, 102, 1)
-                                                  : Color.fromRGBO(
-                                                      228, 228, 228, 1),
-                                            ),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: SvgPicture.asset(
-                                              'assets/images_gps/serviceTypeTwo.svg',
-                                              color: _massageValue == 1
-                                                  ? Color.fromRGBO(0, 0, 0, 1)
-                                                  : Color.fromRGBO(
-                                                      217, 217, 217, 1),
-                                              height: 33,
-                                              width: 34,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      /*  Text(
-                                        HealingMatchConstants.searchOsthepaticTxt,
-                                        style: TextStyle(
-                                          fontSize: 12.0,
-                                          color: _value == 1
-                                              ? Color.fromRGBO(0, 0, 0, 1)
-                                              : Color.fromRGBO(217, 217, 217, 1),
-                                        ),
-                                      ), */
+                                      )
                                     ],
+                                    shape: BoxShape.circle,
                                   ),
-                                )
-                              : SizedBox(),
-                          result != null && result.contains("リラクゼーション")
-                              ? GestureDetector(
-                                  onTap: () => setState(() {
-                                    _massageValue = 2;
-                                    _massageValue != null
-                                        ? _value = ''
-                                        : _value;
-                                  }),
-                                  // onTap: () => setState(() => _massageValue = 2),
-                                  child: Column(
-                                    children: [
-                                      Card(
-                                        elevation:
-                                            _massageValue == 2 ? 4.0 : 0.0,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                        ),
-                                        child: Container(
-                                          height: 65,
-                                          width: 65,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color: _massageValue == 2
-                                                ? Color.fromRGBO(
-                                                    242, 242, 242, 1)
-                                                : Color.fromRGBO(
-                                                    255, 255, 255, 1),
-                                            border: Border.all(
-                                              color: _massageValue == 2
-                                                  ? Color.fromRGBO(
-                                                      102, 102, 102, 1)
-                                                  : Color.fromRGBO(
-                                                      228, 228, 228, 1),
-                                            ),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: SvgPicture.asset(
-                                              'assets/images_gps/serviceTypeThree.svg',
-                                              color: _massageValue == 2
-                                                  ? Color.fromRGBO(0, 0, 0, 1)
-                                                  : Color.fromRGBO(
-                                                      217, 217, 217, 1),
-                                              height: 25,
-                                              width: 25,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-/*                                 Text(
-                                        HealingMatchConstants.searchRelaxationTxt,
-                                        style: TextStyle(
-                                          fontSize: 12.0,
-                                          color: _value == 2
-                                              ? Color.fromRGBO(0, 0, 0, 1)
-                                              : Color.fromRGBO(217, 217, 217, 1),
-                                        ),
-                                      ), */
-                                    ],
+                                  child: CircleAvatar(
+                                    radius: 10.0,
+                                    backgroundColor: Colors.white,
+                                    child: Icon(
+                                      Icons.close,
+                                      color: Colors.red,
+                                      size: 18,
+                                    ),
                                   ),
-                                )
-                              : SizedBox(),
-                          result != null && result.contains("フィットネス")
-                              ? GestureDetector(
-                                  onTap: () => setState(() {
-                                    _massageValue = 3;
-                                    _massageValue != null
-                                        ? _value = ''
-                                        : _value;
-                                  }),
-                                  // onTap: () => setState(() => _massageValue = 3),
-                                  child: Column(
-                                    children: [
-                                      Card(
-                                        elevation:
-                                            _massageValue == 3 ? 4.0 : 0.0,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                        ),
-                                        child: Container(
-                                          height: 65,
-                                          width: 65,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color: _massageValue == 3
-                                                ? Color.fromRGBO(
-                                                    242, 242, 242, 1)
-                                                : Color.fromRGBO(
-                                                    255, 255, 255, 1),
-                                            border: Border.all(
-                                              color: _massageValue == 3
-                                                  ? Color.fromRGBO(
-                                                      102, 102, 102, 1)
-                                                  : Color.fromRGBO(
-                                                      228, 228, 228, 1),
-                                            ),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: SvgPicture.asset(
-                                              'assets/images_gps/serviceTypeFour.svg',
-                                              color: _massageValue == 3
-                                                  ? Color.fromRGBO(0, 0, 0, 1)
-                                                  : Color.fromRGBO(
-                                                      217, 217, 217, 1),
-                                              height: 35,
-                                              width: 27,
-                                              fit: BoxFit.contain,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              : SizedBox(),
-                        ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 65,
+                              width: 65,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: _value == '3'
+                                    ? Color.fromRGBO(242, 242, 242, 1)
+                                    : Color.fromRGBO(255, 255, 255, 1),
+                                border: Border.all(
+                                  color: _value == '3'
+                                      ? Color.fromRGBO(102, 102, 102, 1)
+                                      : Color.fromRGBO(228, 228, 228, 1),
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: SvgPicture.asset(
+                                  'assets/images_gps/Maternity.svg',
+                                  color: _value == '3'
+                                      ? Color.fromRGBO(0, 0, 0, 1)
+                                      : Color.fromRGBO(217, 217, 217, 1),
+                                ),
+                              ),
+                            ),
+                            Text(
+                              'マタニティ',
+                              style: TextStyle(
+                                color: _value == '3'
+                                    ? Color.fromRGBO(0, 0, 0, 1)
+                                    : Color.fromRGBO(102, 102, 102, 1),
+                              ),
+                            ),
+                            Text(
+                              '',
+                              style: TextStyle(
+                                color: _value == '3'
+                                    ? Color.fromRGBO(0, 0, 0, 1)
+                                    : Color.fromRGBO(102, 102, 102, 1),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          result != null && result.contains("エステ")
-                              ? Expanded(
-                                  child: Text(
-                                    HealingMatchConstants.searchEsteticTxt,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 12.0,
-                                      color: _massageValue == 0
-                                          ? Color.fromRGBO(0, 0, 0, 1)
-                                          : Color.fromRGBO(217, 217, 217, 1),
-                                    ),
-                                  ),
-                                )
-                              : SizedBox(),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(height: 15),
-                Container(
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        GestureDetector(
-                          onTap: () => setState(() => _value = '0'),
-                          child: Align(
-                            alignment: AlignmentDirectional.bottomCenter,
-                            child: SimpleTooltip(
-                              show: _value == '0' ? true : false,
-                              tooltipDirection: TooltipDirection.right,
-                              hideOnTooltipTap: true,
-                              borderWidth: 0.1,
-                              borderColor: Color.fromRGBO(228, 228, 228, 1),
-                              borderRadius: 10.0,
-                              minHeight: 50,
-                              minWidth: 305,
-                              content: Stack(
-                                children: [
-                                  Positioned(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        /* CircleAvatar(
-                                    radius: 14.0,
-                                    backgroundColor: Color.fromRGBO(242, 242, 242, 1),
-                                    child: Icon(Icons.close, color: Colors.black),
-                                  ),*/
-                                        SingleChildScrollView(
-                                          scrollDirection: Axis.horizontal,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              GestureDetector(
-                                                onTap: () => setState(
-                                                    () => massageTipColor = 1),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              1
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '60分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        new Text(
-                                                          '\t¥4,500',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
-                                              ),
-                                              SizedBox(width: 10),
-                                              GestureDetector(
-                                                onTap: () => setState(
-                                                    () => massageTipColor = 2),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              2
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '90分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        new Text(
-                                                          '\t¥4,500',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
-                                              ),
-                                              SizedBox(width: 10),
-                                              GestureDetector(
-                                                onTap: () => setState(
-                                                    () => massageTipColor = 3),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              3
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '120分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        new Text(
-                                                          '\t¥4,500',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
-                                              ),
-                                              SizedBox(width: 10),
-                                              GestureDetector(
-                                                onTap: () => setState(
-                                                    () => massageTipColor = 4),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              4
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '150分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        new Text(
-                                                          '\t¥4,500',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
-                                              ),
-                                              SizedBox(width: 10),
-                                              GestureDetector(
-                                                onTap: () => setState(
-                                                    () => massageTipColor = 5),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              5
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '180分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        new Text(
-                                                          '\t¥4,500',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Positioned(
-                                    right: -4,
-                                    top: -4,
-                                    child: Align(
-                                      alignment: Alignment.topRight,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Color.fromRGBO(
-                                                  217, 217, 217, 1),
-                                              blurRadius:
-                                                  8.0, // soften the shadow
-                                              spreadRadius:
-                                                  1, //extend the shadow
-                                              offset: Offset(
-                                                0.0,
-                                                // Move to right 10  horizontally
-                                                3.0, // Move to bottom 10 Vertically
-                                              ),
-                                            )
-                                          ],
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: CircleAvatar(
-                                          radius: 10.0,
-                                          backgroundColor: Colors.white,
-                                          child: Icon(
-                                            Icons.close,
-                                            color: Colors.red,
-                                            size: 18,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    height: 65,
-                                    width: 65,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: _value == '0'
-                                          ? Color.fromRGBO(242, 242, 242, 1)
-                                          : Color.fromRGBO(255, 255, 255, 1),
-                                      border: Border.all(
-                                        color: _value == '0'
-                                            ? Color.fromRGBO(102, 102, 102, 1)
-                                            : Color.fromRGBO(228, 228, 228, 1),
-                                      ),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: SvgPicture.asset(
-                                        'assets/images_gps/Massage.svg',
-                                        color: _value == '0'
-                                            ? Color.fromRGBO(0, 0, 0, 1)
-                                            : Color.fromRGBO(217, 217, 217, 1),
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                    'マッサージ',
-                                    style: TextStyle(
-                                      color: _value == '0'
-                                          ? Color.fromRGBO(0, 0, 0, 1)
-                                          : Color.fromRGBO(102, 102, 102, 1),
-                                    ),
-                                  ),
-                                  Text(
-                                    '（全身）',
-                                    style: TextStyle(
-                                      color: _value == '0'
-                                          ? Color.fromRGBO(0, 0, 0, 1)
-                                          : Color.fromRGBO(102, 102, 102, 1),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        GestureDetector(
-                          onTap: () => setState(() => _value = '1'),
-                          child: Align(
-                            alignment: AlignmentDirectional.bottomCenter,
-                            child: SimpleTooltip(
-                              show: _value.contains('1') ? true : false,
-                              tooltipDirection: TooltipDirection.down,
-                              hideOnTooltipTap: true,
-                              borderWidth: 0.1,
-                              borderColor: Color.fromRGBO(228, 228, 228, 1),
-                              borderRadius: 10.0,
-                              minHeight: 50,
-                              minWidth: 305,
-                              content: Stack(
-                                children: [
-                                  Positioned(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        SingleChildScrollView(
-                                          scrollDirection: Axis.horizontal,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              GestureDetector(
-                                                onTap: () => setState(
-                                                    () => strechTipColor = 1),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: strechTipColor == 1
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '60分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        new Text(
-                                                          '\t¥4,500',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
-                                              ),
-                                              SizedBox(width: 10),
-                                              GestureDetector(
-                                                onTap: () => setState(
-                                                    () => strechTipColor = 2),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: strechTipColor == 2
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '90分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        new Text(
-                                                          '\t¥4,500',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
-                                              ),
-                                              SizedBox(width: 10),
-                                              GestureDetector(
-                                                onTap: () => setState(
-                                                    () => strechTipColor = 3),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: strechTipColor == 3
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '120分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        new Text(
-                                                          '\t¥4,500',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
-                                              ),
-                                              SizedBox(width: 10),
-                                              GestureDetector(
-                                                onTap: () => setState(
-                                                    () => strechTipColor = 4),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: strechTipColor == 4
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '150分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        new Text(
-                                                          '\t¥4,500',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
-                                              ),
-                                              SizedBox(width: 10),
-                                              GestureDetector(
-                                                onTap: () => setState(
-                                                    () => strechTipColor = 5),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: strechTipColor == 5
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '180分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        new Text(
-                                                          '\t¥4,500',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Positioned(
-                                    right: -4,
-                                    top: -4,
-                                    child: Align(
-                                      alignment: Alignment.topRight,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color:
-                                                  Color.fromRGBO(0, 0, 0, 0.1),
-                                              blurRadius:
-                                                  10.0, // soften the shadow
-                                              spreadRadius:
-                                                  2, //extend the shadow
-                                              offset: Offset(
-                                                0.0,
-                                                // Move to right 10  horizontally
-                                                3.0, // Move to bottom 10 Vertically
-                                              ),
-                                            )
-                                          ],
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: CircleAvatar(
-                                          radius: 10.0,
-                                          backgroundColor: Colors.white,
-                                          child: Icon(
-                                            Icons.close,
-                                            color: Colors.red,
-                                            size: 18,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    height: 65,
-                                    width: 65,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: _value.contains('1')
-                                          ? Color.fromRGBO(242, 242, 242, 1)
-                                          : Color.fromRGBO(255, 255, 255, 1),
-                                      border: Border.all(
-                                        color: _value.contains('1')
-                                            ? Color.fromRGBO(102, 102, 102, 1)
-                                            : Color.fromRGBO(228, 228, 228, 1),
-                                      ),
-                                    ),
-                                    child: Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: SvgPicture.asset(
-                                          'assets/images_gps/stretch.svg',
-                                          color: _value.contains('1')
-                                              ? Color.fromRGBO(0, 0, 0, 1)
-                                              : Color.fromRGBO(
-                                                  217, 217, 217, 1),
-                                        )),
-                                  ),
-                                  Text(
-                                    'ストレッチ',
-                                    style: TextStyle(
-                                      color: _value.contains('1')
-                                          ? Color.fromRGBO(0, 0, 0, 1)
-                                          : Color.fromRGBO(102, 102, 102, 1),
-                                    ),
-                                  ),
-                                  Text(
-                                    '（全身）',
-                                    style: TextStyle(
-                                      color: _value.contains('1')
-                                          ? Color.fromRGBO(0, 0, 0, 1)
-                                          : Color.fromRGBO(102, 102, 102, 1),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        GestureDetector(
-                          onTap: () => setState(() => _value = '2'),
-                          child: Align(
-                            alignment: AlignmentDirectional.bottomCenter,
-                            child: SimpleTooltip(
-                              show: _value == '2' ? true : false,
-                              tooltipDirection: TooltipDirection.down,
-                              hideOnTooltipTap: true,
-                              borderWidth: 0.1,
-                              borderColor: Color.fromRGBO(228, 228, 228, 1),
-                              borderRadius: 10.0,
-                              minHeight: 50,
-                              minWidth: 305,
-                              content: Stack(
-                                children: [
-                                  Positioned(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        SingleChildScrollView(
-                                          scrollDirection: Axis.horizontal,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              GestureDetector(
-                                                onTap: () => setState(
-                                                    () => cuppingTipColor = 1),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: cuppingTipColor ==
-                                                              1
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '60分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        new Text(
-                                                          '\t¥4,500',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
-                                              ),
-                                              SizedBox(width: 10),
-                                              GestureDetector(
-                                                onTap: () => setState(
-                                                    () => cuppingTipColor = 2),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: cuppingTipColor ==
-                                                              2
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '90分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        new Text(
-                                                          '\t¥4,500',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
-                                              ),
-                                              SizedBox(width: 10),
-                                              GestureDetector(
-                                                onTap: () => setState(
-                                                    () => cuppingTipColor = 3),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: cuppingTipColor ==
-                                                              3
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '120分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        new Text(
-                                                          '\t¥4,500',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
-                                              ),
-                                              SizedBox(width: 10),
-                                              GestureDetector(
-                                                onTap: () => setState(
-                                                    () => cuppingTipColor = 4),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: cuppingTipColor ==
-                                                              4
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '150分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        new Text(
-                                                          '\t¥4,500',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
-                                              ),
-                                              SizedBox(width: 10),
-                                              GestureDetector(
-                                                onTap: () => setState(
-                                                    () => cuppingTipColor = 5),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: cuppingTipColor ==
-                                                              5
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '180分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        new Text(
-                                                          '\t¥4,500',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Positioned(
-                                    right: -4,
-                                    top: -4,
-                                    child: Align(
-                                      alignment: Alignment.topRight,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color:
-                                                  Color.fromRGBO(0, 0, 0, 0.1),
-                                              blurRadius:
-                                                  10.0, // soften the shadow
-                                              spreadRadius:
-                                                  2, //extend the shadow
-                                              offset: Offset(
-                                                0.0,
-                                                // Move to right 10  horizontally
-                                                3.0, // Move to bottom 10 Vertically
-                                              ),
-                                            )
-                                          ],
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: CircleAvatar(
-                                          radius: 10.0,
-                                          backgroundColor: Colors.white,
-                                          child: Icon(
-                                            Icons.close,
-                                            color: Colors.red,
-                                            size: 18,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    height: 65,
-                                    width: 65,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: _value == '2'
-                                          ? Color.fromRGBO(242, 242, 242, 1)
-                                          : Color.fromRGBO(255, 255, 255, 1),
-                                      border: Border.all(
-                                        color: _value == '2'
-                                            ? Color.fromRGBO(102, 102, 102, 1)
-                                            : Color.fromRGBO(228, 228, 228, 1),
-                                      ),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: SvgPicture.asset(
-                                        'assets/images_gps/Cupping.svg',
-                                        color: _value == '2'
-                                            ? Color.fromRGBO(0, 0, 0, 1)
-                                            : Color.fromRGBO(217, 217, 217, 1),
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                    'カッピング',
-                                    style: TextStyle(
-                                      color: _value == '2'
-                                          ? Color.fromRGBO(0, 0, 0, 1)
-                                          : Color.fromRGBO(102, 102, 102, 1),
-                                    ),
-                                  ),
-                                  Text(
-                                    '（全身）',
-                                    style: TextStyle(
-                                      color: _value == '2'
-                                          ? Color.fromRGBO(0, 0, 0, 1)
-                                          : Color.fromRGBO(102, 102, 102, 1),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        GestureDetector(
-                          onTap: () => setState(() => _value = '3'),
-                          child: Align(
-                            alignment: AlignmentDirectional.bottomCenter,
-                            child: SimpleTooltip(
-                              show: _value == '3' ? true : false,
-                              tooltipDirection: TooltipDirection.down,
-                              hideOnTooltipTap: true,
-                              borderWidth: 0.1,
-                              borderColor: Color.fromRGBO(228, 228, 228, 1),
-                              borderRadius: 10.0,
-                              minHeight: 50,
-                              minWidth: 305,
-                              content: Stack(
-                                children: [
-                                  Positioned(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        SingleChildScrollView(
-                                          scrollDirection: Axis.horizontal,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              GestureDetector(
-                                                onTap: () => setState(() =>
-                                                    maternityTipColor = 1),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color:
-                                                          maternityTipColor == 1
-                                                              ? Color.fromRGBO(
-                                                                  242,
-                                                                  242,
-                                                                  242,
-                                                                  1)
-                                                              : Color.fromRGBO(
-                                                                  255,
-                                                                  255,
-                                                                  255,
-                                                                  1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '60分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        new Text(
-                                                          '\t¥4,500',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
-                                              ),
-                                              SizedBox(width: 10),
-                                              GestureDetector(
-                                                onTap: () => setState(() =>
-                                                    maternityTipColor = 2),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color:
-                                                          maternityTipColor == 2
-                                                              ? Color.fromRGBO(
-                                                                  242,
-                                                                  242,
-                                                                  242,
-                                                                  1)
-                                                              : Color.fromRGBO(
-                                                                  255,
-                                                                  255,
-                                                                  255,
-                                                                  1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '90分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        new Text(
-                                                          '\t¥4,500',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
-                                              ),
-                                              SizedBox(width: 10),
-                                              GestureDetector(
-                                                onTap: () => setState(() =>
-                                                    maternityTipColor = 3),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color:
-                                                          maternityTipColor == 3
-                                                              ? Color.fromRGBO(
-                                                                  242,
-                                                                  242,
-                                                                  242,
-                                                                  1)
-                                                              : Color.fromRGBO(
-                                                                  255,
-                                                                  255,
-                                                                  255,
-                                                                  1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '120分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        new Text(
-                                                          '\t¥4,500',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
-                                              ),
-                                              SizedBox(width: 10),
-                                              GestureDetector(
-                                                onTap: () => setState(() =>
-                                                    maternityTipColor = 4),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color:
-                                                          maternityTipColor == 4
-                                                              ? Color.fromRGBO(
-                                                                  242,
-                                                                  242,
-                                                                  242,
-                                                                  1)
-                                                              : Color.fromRGBO(
-                                                                  255,
-                                                                  255,
-                                                                  255,
-                                                                  1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '150分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        new Text(
-                                                          '\t¥4,500',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
-                                              ),
-                                              SizedBox(width: 10),
-                                              GestureDetector(
-                                                onTap: () => setState(() =>
-                                                    maternityTipColor = 5),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color:
-                                                          maternityTipColor == 5
-                                                              ? Color.fromRGBO(
-                                                                  242,
-                                                                  242,
-                                                                  242,
-                                                                  1)
-                                                              : Color.fromRGBO(
-                                                                  255,
-                                                                  255,
-                                                                  255,
-                                                                  1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '180分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        new Text(
-                                                          '\t¥4,500',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Positioned(
-                                    right: -4,
-                                    top: -4,
-                                    child: Align(
-                                      alignment: Alignment.topRight,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color:
-                                                  Color.fromRGBO(0, 0, 0, 0.1),
-                                              blurRadius:
-                                                  10.0, // soften the shadow
-                                              spreadRadius:
-                                                  2, //extend the shadow
-                                              offset: Offset(
-                                                0.0,
-                                                // Move to right 10  horizontally
-                                                3.0, // Move to bottom 10 Vertically
-                                              ),
-                                            )
-                                          ],
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: CircleAvatar(
-                                          radius: 10.0,
-                                          backgroundColor: Colors.white,
-                                          child: Icon(
-                                            Icons.close,
-                                            color: Colors.red,
-                                            size: 18,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    height: 65,
-                                    width: 65,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: _value == '3'
-                                          ? Color.fromRGBO(242, 242, 242, 1)
-                                          : Color.fromRGBO(255, 255, 255, 1),
-                                      border: Border.all(
-                                        color: _value == '3'
-                                            ? Color.fromRGBO(102, 102, 102, 1)
-                                            : Color.fromRGBO(228, 228, 228, 1),
-                                      ),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: SvgPicture.asset(
-                                        'assets/images_gps/Maternity.svg',
-                                        color: _value == '3'
-                                            ? Color.fromRGBO(0, 0, 0, 1)
-                                            : Color.fromRGBO(217, 217, 217, 1),
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                    'マタニティ',
-                                    style: TextStyle(
-                                      color: _value == '3'
-                                          ? Color.fromRGBO(0, 0, 0, 1)
-                                          : Color.fromRGBO(102, 102, 102, 1),
-                                    ),
-                                  ),
-                                  Text(
-                                    '',
-                                    style: TextStyle(
-                                      color: _value == '3'
-                                          ? Color.fromRGBO(0, 0, 0, 1)
-                                          : Color.fromRGBO(102, 102, 102, 1),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        GestureDetector(
-                          onTap: () => setState(() => _value = '4'),
-                          child: Align(
-                            alignment: AlignmentDirectional.bottomCenter,
-                            child: SimpleTooltip(
-                              show: _value == '4' ? true : false,
-                              tooltipDirection: TooltipDirection.left,
-                              hideOnTooltipTap: true,
-                              borderWidth: 0.1,
-                              borderColor: Color.fromRGBO(228, 228, 228, 1),
-                              borderRadius: 10.0,
-                              minHeight: 50,
-                              minWidth: 305,
-                              content: Stack(
-                                children: [
-                                  Positioned(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        SingleChildScrollView(
-                                          scrollDirection: Axis.horizontal,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              GestureDetector(
-                                                onTap: () => setState(
-                                                    () => babyTipColor = 1),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: babyTipColor == 1
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '60分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        new Text(
-                                                          '\t¥4,500',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
-                                              ),
-                                              SizedBox(width: 10),
-                                              GestureDetector(
-                                                onTap: () => setState(
-                                                    () => babyTipColor = 2),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: babyTipColor == 2
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '90分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        new Text(
-                                                          '\t¥4,500',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
-                                              ),
-                                              SizedBox(width: 10),
-                                              GestureDetector(
-                                                onTap: () => setState(
-                                                    () => babyTipColor = 3),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: babyTipColor == 3
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '120分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        new Text(
-                                                          '\t¥4,500',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
-                                              ),
-                                              SizedBox(width: 10),
-                                              GestureDetector(
-                                                onTap: () => setState(
-                                                    () => babyTipColor = 4),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: babyTipColor == 4
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '150分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        new Text(
-                                                          '\t¥4,500',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
-                                              ),
-                                              SizedBox(width: 10),
-                                              GestureDetector(
-                                                onTap: () => setState(
-                                                    () => babyTipColor = 5),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: babyTipColor == 5
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '180分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        new Text(
-                                                          '\t¥4,500',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Positioned(
-                                    right: -4,
-                                    top: -4,
-                                    child: Align(
-                                      alignment: Alignment.topRight,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color:
-                                                  Color.fromRGBO(0, 0, 0, 0.1),
-                                              blurRadius:
-                                                  10.0, // soften the shadow
-                                              spreadRadius:
-                                                  2, //extend the shadow
-                                              offset: Offset(
-                                                0.0,
-                                                // Move to right 10  horizontally
-                                                3.0, // Move to bottom 10 Vertically
-                                              ),
-                                            )
-                                          ],
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: CircleAvatar(
-                                          radius: 10.0,
-                                          backgroundColor: Colors.white,
-                                          child: Icon(
-                                            Icons.close,
-                                            color: Colors.red,
-                                            size: 18,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    height: 65,
-                                    width: 65,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: _value == '4'
-                                          ? Color.fromRGBO(242, 242, 242, 1)
-                                          : Color.fromRGBO(255, 255, 255, 1),
-                                      border: Border.all(
-                                        color: _value == '4'
-                                            ? Color.fromRGBO(102, 102, 102, 1)
-                                            : Color.fromRGBO(228, 228, 228, 1),
-                                      ),
-                                    ),
-                                    child: Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: SvgPicture.asset(
-                                          'assets/images_gps/Baby.svg',
-                                          color: _value == '4'
-                                              ? Color.fromRGBO(0, 0, 0, 1)
-                                              : Color.fromRGBO(
-                                                  217, 217, 217, 1),
-                                        )),
-                                  ),
-                                  Text(
-                                    'ベビーマッサ',
-                                    style: TextStyle(
-                                      color: _value == '4'
-                                          ? Color.fromRGBO(0, 0, 0, 1)
-                                          : Color.fromRGBO(102, 102, 102, 1),
-                                    ),
-                                  ),
-                                  Text(
-                                    '',
-                                    style: TextStyle(
-                                      color: _value == '4'
-                                          ? Color.fromRGBO(0, 0, 0, 1)
-                                          : Color.fromRGBO(102, 102, 102, 1),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
                     ),
                   ),
-                ),
-                SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    child: Text(
-                      '施術を受ける日時',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          fontFamily: 'NotoSansJP'),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  GestureDetector(
+                    onTap: () => setState(() => _value = '4'),
+                    child: Align(
+                      alignment: AlignmentDirectional.bottomCenter,
+                      child: SimpleTooltip(
+                        show: _value == '4' ? true : false,
+                        tooltipDirection: TooltipDirection.left,
+                        hideOnTooltipTap: true,
+                        borderWidth: 0.1,
+                        borderColor: Color.fromRGBO(228, 228, 228, 1),
+                        borderRadius: 10.0,
+                        minHeight: 50,
+                        minWidth: 305,
+                        content: Stack(
+                          children: [
+                            Positioned(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () =>
+                                              setState(() => babyTipColor = 1),
+                                          child: Container(
+                                              height: 80,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: babyTipColor == 1
+                                                    ? Color.fromRGBO(
+                                                        242, 242, 242, 1)
+                                                    : Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                border: Border.all(),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.1),
+                                                    spreadRadius: 5,
+                                                    blurRadius: 7,
+                                                    offset: Offset(0,
+                                                        3), // changes position of shadow
+                                                  )
+                                                ],
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                            'assets/images_gps/processing.svg',
+                                                            height: 25,
+                                                            width: 25,
+                                                            color:
+                                                                Colors.black),
+                                                        SizedBox(width: 5),
+                                                        new Text(
+                                                          '60分',
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'NotoSansJP',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  new Text(
+                                                    '\t¥4,500',
+                                                    style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration.none,
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              )),
+                                        ),
+                                        SizedBox(width: 10),
+                                        GestureDetector(
+                                          onTap: () =>
+                                              setState(() => babyTipColor = 2),
+                                          child: Container(
+                                              height: 80,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: babyTipColor == 2
+                                                    ? Color.fromRGBO(
+                                                        242, 242, 242, 1)
+                                                    : Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                border: Border.all(),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.1),
+                                                    spreadRadius: 5,
+                                                    blurRadius: 7,
+                                                    offset: Offset(0,
+                                                        3), // changes position of shadow
+                                                  )
+                                                ],
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                            'assets/images_gps/processing.svg',
+                                                            height: 25,
+                                                            width: 25,
+                                                            color:
+                                                                Colors.black),
+                                                        SizedBox(width: 5),
+                                                        new Text(
+                                                          '90分',
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'NotoSansJP',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  new Text(
+                                                    '\t¥4,500',
+                                                    style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration.none,
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              )),
+                                        ),
+                                        SizedBox(width: 10),
+                                        GestureDetector(
+                                          onTap: () =>
+                                              setState(() => babyTipColor = 3),
+                                          child: Container(
+                                              height: 80,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: babyTipColor == 3
+                                                    ? Color.fromRGBO(
+                                                        242, 242, 242, 1)
+                                                    : Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                border: Border.all(),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.1),
+                                                    spreadRadius: 5,
+                                                    blurRadius: 7,
+                                                    offset: Offset(0,
+                                                        3), // changes position of shadow
+                                                  )
+                                                ],
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                            'assets/images_gps/processing.svg',
+                                                            height: 25,
+                                                            width: 25,
+                                                            color:
+                                                                Colors.black),
+                                                        SizedBox(width: 5),
+                                                        new Text(
+                                                          '120分',
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'NotoSansJP',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  new Text(
+                                                    '\t¥4,500',
+                                                    style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration.none,
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              )),
+                                        ),
+                                        SizedBox(width: 10),
+                                        GestureDetector(
+                                          onTap: () =>
+                                              setState(() => babyTipColor = 4),
+                                          child: Container(
+                                              height: 80,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: babyTipColor == 4
+                                                    ? Color.fromRGBO(
+                                                        242, 242, 242, 1)
+                                                    : Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                border: Border.all(),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.1),
+                                                    spreadRadius: 5,
+                                                    blurRadius: 7,
+                                                    offset: Offset(0,
+                                                        3), // changes position of shadow
+                                                  )
+                                                ],
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                            'assets/images_gps/processing.svg',
+                                                            height: 25,
+                                                            width: 25,
+                                                            color:
+                                                                Colors.black),
+                                                        SizedBox(width: 5),
+                                                        new Text(
+                                                          '150分',
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'NotoSansJP',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  new Text(
+                                                    '\t¥4,500',
+                                                    style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration.none,
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              )),
+                                        ),
+                                        SizedBox(width: 10),
+                                        GestureDetector(
+                                          onTap: () =>
+                                              setState(() => babyTipColor = 5),
+                                          child: Container(
+                                              height: 80,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: babyTipColor == 5
+                                                    ? Color.fromRGBO(
+                                                        242, 242, 242, 1)
+                                                    : Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                border: Border.all(),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.1),
+                                                    spreadRadius: 5,
+                                                    blurRadius: 7,
+                                                    offset: Offset(0,
+                                                        3), // changes position of shadow
+                                                  )
+                                                ],
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                            'assets/images_gps/processing.svg',
+                                                            height: 25,
+                                                            width: 25,
+                                                            color:
+                                                                Colors.black),
+                                                        SizedBox(width: 5),
+                                                        new Text(
+                                                          '180分',
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'NotoSansJP',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  new Text(
+                                                    '\t¥4,500',
+                                                    style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration.none,
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              )),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                              right: -4,
+                              top: -4,
+                              child: Align(
+                                alignment: Alignment.topRight,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Color.fromRGBO(0, 0, 0, 0.1),
+                                        blurRadius: 10.0, // soften the shadow
+                                        spreadRadius: 2, //extend the shadow
+                                        offset: Offset(
+                                          0.0,
+                                          // Move to right 10  horizontally
+                                          3.0, // Move to bottom 10 Vertically
+                                        ),
+                                      )
+                                    ],
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: CircleAvatar(
+                                    radius: 10.0,
+                                    backgroundColor: Colors.white,
+                                    child: Icon(
+                                      Icons.close,
+                                      color: Colors.red,
+                                      size: 18,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 65,
+                              width: 65,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: _value == '4'
+                                    ? Color.fromRGBO(242, 242, 242, 1)
+                                    : Color.fromRGBO(255, 255, 255, 1),
+                                border: Border.all(
+                                  color: _value == '4'
+                                      ? Color.fromRGBO(102, 102, 102, 1)
+                                      : Color.fromRGBO(228, 228, 228, 1),
+                                ),
+                              ),
+                              child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: SvgPicture.asset(
+                                    'assets/images_gps/Baby.svg',
+                                    color: _value == '4'
+                                        ? Color.fromRGBO(0, 0, 0, 1)
+                                        : Color.fromRGBO(217, 217, 217, 1),
+                                  )),
+                            ),
+                            Text(
+                              'ベビーマッサ',
+                              style: TextStyle(
+                                color: _value == '4'
+                                    ? Color.fromRGBO(0, 0, 0, 1)
+                                    : Color.fromRGBO(102, 102, 102, 1),
+                              ),
+                            ),
+                            Text(
+                              '',
+                              style: TextStyle(
+                                color: _value == '4'
+                                    ? Color.fromRGBO(0, 0, 0, 1)
+                                    : Color.fromRGBO(102, 102, 102, 1),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Color.fromRGBO(255, 255, 255, 1),
-                              Color.fromRGBO(255, 255, 255, 1),
-                            ]),
-                        shape: BoxShape.rectangle,
-                        border: Border.all(
-                          color: Colors.grey[300],
-                        ),
-                        borderRadius: BorderRadius.circular(16.0),
-                        color: Colors.grey[200]),
-                    width: MediaQuery.of(context).size.width * 0.89,
-                    height: MediaQuery.of(context).size.height * 0.10,
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 2,
-                        ),
-                        new Text(
-                          'サービスを受ける日時を\nカレンダーから選択してください',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontFamily: 'NotoSansJP',
-                              color: Colors.grey[500]),
-                        ),
-                        Spacer(),
-                        FittedBox(
-                          child: CircleAvatar(
-                              maxRadius: 30,
-                              backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-                              child: SvgPicture.asset(
-                                  'assets/images_gps/calendar.svg',
-                                  height: 25,
-                                  width: 25,
-                                  color: Colors.lime)),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
+          SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              child: Text(
+                '施術を受ける日時',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    fontFamily: 'NotoSansJP'),
+              ),
+            ),
+          ),
+          SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color.fromRGBO(255, 255, 255, 1),
+                        Color.fromRGBO(255, 255, 255, 1),
+                      ]),
+                  shape: BoxShape.rectangle,
+                  border: Border.all(
+                    color: Colors.grey[300],
+                  ),
+                  borderRadius: BorderRadius.circular(16.0),
+                  color: Colors.grey[200]),
+              width: MediaQuery.of(context).size.width * 0.89,
+              height: MediaQuery.of(context).size.height * 0.10,
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 2,
+                  ),
+                  new Text(
+                    'サービスを受ける日時を\nカレンダーから選択してください',
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontFamily: 'NotoSansJP',
+                        color: Colors.grey[500]),
+                  ),
+                  Spacer(),
+                  FittedBox(
+                    child: CircleAvatar(
+                        maxRadius: 30,
+                        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+                        child: SvgPicture.asset(
+                            'assets/images_gps/calendar.svg',
+                            height: 25,
+                            width: 25,
+                            color: Colors.lime)),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: bookAgain(),
     );
@@ -5370,15 +5024,17 @@ class CarouselWithIndicatorDemo extends StatefulWidget {
 
 class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
   int _current = 0;
+  bool isReport = false;
 
   @override
   Widget build(BuildContext context) {
     return userBannerImages != null && userBannerImages.isNotEmpty
         ? Stack(
+            fit: StackFit.loose,
             children: [
               Container(
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(12.0))),
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
                 child: Column(children: [
                   CarouselSlider(
                     items: <Widget>[
@@ -5420,7 +5076,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                         autoPlayCurve: Curves.easeInOutCubic,
                         enlargeCenterPage: false,
                         viewportFraction: 1.02,
-                        aspectRatio: 2.0,
+                        aspectRatio: 1.5,
                         onPageChanged: (index, reason) {
                           setState(() {
                             _current = index;
@@ -5430,30 +5086,85 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                 ]),
               ),
               Positioned(
-                  bottom: 5.0,
-                  left: 50.0,
-                  right: 50.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: userBannerImages.map((url) {
-                      int index = userBannerImages.indexOf(url);
-                      return Expanded(
-                        child: Container(
-                          width: 45.0,
-                          height: 4.0,
-                          margin: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 2.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-// shape: BoxShape.circle,
-                            color: _current == index
-                                ? Colors.white //Color.fromRGBO(0, 0, 0, 0.9)
-                                : Color.fromRGBO(0, 0, 0, 0.4),
+                top: 30.0,
+                left: 20.0,
+                right: 20.0,
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                  CircleAvatar(
+                    maxRadius: 18,
+                    backgroundColor: Colors.white,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.arrow_back_ios_outlined,
+                        size: 20,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                  Spacer(),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      CircleAvatar(
+                        maxRadius: 18,
+                        backgroundColor: Colors.white,
+                        child: CustomFavoriteButton(
+                            iconSize: 40,
+                            iconColor: Colors.red,
+                            valueChanged: (_isFavorite) {
+                              print('Is Favorite : $_isFavorite');
+                            }),
+                      ),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.01),
+                      InkWell(
+                        onTap: () {
+                          DialogHelper.openReportBlockUserDialog(context);
+                        },
+                        child: CircleAvatar(
+                          maxRadius: 18,
+                          backgroundColor: Colors.white,
+                          child: Icon(
+                            Icons.report_gmailerrorred_rounded,
+                            color: Colors.red,
+                            size: 30.0,
                           ),
                         ),
-                      );
-                    }).toList(),
-                  )),
+                      ),
+                    ],
+                  ),
+                ]),
+              ),
+              Positioned(
+                bottom: 5.0,
+                left: 50.0,
+                right: 50.0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: userBannerImages.map((url) {
+                    int index = userBannerImages.indexOf(url);
+                    return Expanded(
+                      child: Container(
+                        width: 45.0,
+                        height: 4.0,
+                        margin: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 2.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+// shape: BoxShape.circle,
+                          color: _current == index
+                              ? Colors.white //Color.fromRGBO(0, 0, 0, 0.9)
+                              : Color.fromRGBO(0, 0, 0, 0.4),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
             ],
           )
         : Stack(
@@ -5469,12 +5180,52 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                         autoPlayCurve: Curves.easeInOutCubic,
                         enlargeCenterPage: false,
                         viewportFraction: 1.02,
-                        aspectRatio: 2.0,
+                        aspectRatio: 1.5,
                         onPageChanged: (index, reason) {
                           setState(() {
                             _current = index;
                           });
                         }),
+                  ),
+                ]),
+              ),
+              Positioned(
+                top: 30.0,
+                left: 20.0,
+                right: 20.0,
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                  CircleAvatar(
+                    maxRadius: 18,
+                    backgroundColor: Colors.white,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.arrow_back_ios_outlined,
+                        size: 20,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                  Spacer(),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      CircleAvatar(
+                        maxRadius: 18,
+                        backgroundColor: Colors.white,
+                        child: CustomFavoriteButton(
+                            iconSize: 40,
+                            iconColor: Colors.red,
+                            isFavorite: false,
+                            valueChanged: (_isFavorite) {
+                              print('Is Favorite : $_isFavorite');
+                            }),
+                      ),
+                    ],
                   ),
                 ]),
               ),

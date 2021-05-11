@@ -142,7 +142,7 @@ class HealingMatchConstants {
 
   // fetch therapist results
   static const String FETCH_SORTED_THERAPIST_SEARCH_RESULTS =
-      ON_PREMISE_USER_BASE_URL + '/search/searchServiceUser';
+      ON_PREMISE_USER_BASE_URL + '/search/searchServiceUserByOrder';
 
   //Common string
   static bool isInternetAvailable = false;

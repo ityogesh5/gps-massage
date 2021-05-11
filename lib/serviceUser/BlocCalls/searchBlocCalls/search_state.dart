@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistResultsModel.dart';
 import 'package:meta/meta.dart';
 
@@ -26,7 +27,7 @@ class SearchLoadedState extends SearchState {
 
 // ignore: must_be_immutable
 class SearchSortByDataLoadedState extends SearchState {
-  List<SearchList> getTherapistsSearchResults;
+  List<SearchTherapistTypeList> getTherapistsSearchResults;
 
   SearchSortByDataLoadedState({@required this.getTherapistsSearchResults});
 

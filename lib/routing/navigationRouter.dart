@@ -64,6 +64,7 @@ import 'package:gps_massageapp/serviceUser/loginScreens/UserChangePassword.dart'
 import 'package:gps_massageapp/serviceUser/loginScreens/UserForgetPassword.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/UserLoginScreen.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/EditUpdateUserprofile.dart';
+import 'package:gps_massageapp/serviceUser/profileScreens/ReportBlockUser/UserBlockReportScreen.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/TermsAndConditions.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/UserTutorial.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/ViewProfileScreen.dart';
@@ -1123,6 +1124,25 @@ class NavigationRouter {
         transitionsBuilder: (context, animation, anotherAnimation, child) {
           animation = CurvedAnimation(
               curve: HealingMatchConstants.curveList[2], parent: animation);
+          return Align(
+            child: SizeTransition(
+              sizeFactor: animation,
+              child: child,
+              axisAlignment: 0.0,
+            ),
+          );
+        }));
+  }
+
+  static void switchToReportUserScreen(BuildContext context) {
+    Navigator.of(context).push(PageRouteBuilder(
+        pageBuilder: (context, animation, anotherAnimation) {
+          return ReportUserScreen();
+        },
+        transitionDuration: Duration(milliseconds: 1000),
+        transitionsBuilder: (context, animation, anotherAnimation, child) {
+          animation = CurvedAnimation(
+              curve: HealingMatchConstants.curveList[11], parent: animation);
           return Align(
             child: SizeTransition(
               sizeFactor: animation,
