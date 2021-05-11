@@ -6,6 +6,7 @@ import 'package:gps_massageapp/customLibraryClasses/numberpicker.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/flutter_week_view.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/controller/day_view.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarScreen extends StatefulWidget {
@@ -19,7 +20,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   final monthKey = new GlobalKey<FormState>();
   DayViewController dayViewController = DayViewController();
   bool readonly = false;
-  var yearString, monthString, dateString;
+  String yearString, monthString, dateString;
   NumberPicker dayPicker;
   int _cyear;
   int _cmonth;
@@ -29,6 +30,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
   int _lastday;
   int _counter = 0;
   int daysToDisplay;
+  int status = 0;
+  int calendarStatus = 0;
+  int _initialProcess = 0;
+  DateTime vdate;
+  List<FlutterWeekViewEvent> events = List<FlutterWeekViewEvent>();
+  Map<DateTime, List<dynamic>> eventDotHandler;
 
   int totalDays(int month, int year) {
     if (month == 1 ||
@@ -49,9 +56,17 @@ class _CalendarScreenState extends State<CalendarScreen> {
   @override
   void initState() {
     super.initState();
+    HealingMatchConstants.isProviderHomePage = false;
+
+    ServiceUserAPIProvider.getCalEvents().then((value) {
+      events.addAll(value);
+      setState(() {
+        status = 1;
+      });
+    });
     _calendarController = CalendarController();
     dateString = '';
-    displayDay = today;
+    displayDay = DateTime(today.year, today.month, today.day);
     _cyear = DateTime.now().year;
     _cmonth = DateTime.now().month;
     _currentDay = DateTime.now().day;
@@ -63,9 +78,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
-    DateTime date = DateTime(today.year, today.month, today.day);
-    DateTime next = DateTime(today.year, today.month, today.day + 1);
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -74,7 +86,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
-            NavigationRouter.switchToServiceUserBottomBar(context);
           },
           icon: Icon(
             Icons.arrow_back_ios,
@@ -87,7 +98,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
           style: TextStyle(color: Colors.black),
         ),
       ),
-      body: SingleChildScrollView(
+      body: status == 0
+          ? Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
         child: Column(
           children: [
             Container(
@@ -110,21 +123,21 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                 color: Colors.transparent,
                                 child: DropDownFormField(
                                   fillColor: Colors.white,
-                                  borderColor: Color.fromRGBO(228, 228, 228, 1),
+                                  borderColor:
+                                  Color.fromRGBO(228, 228, 228, 1),
                                   titleText: null,
                                   hintText: readonly
                                       ? yearString
                                       : HealingMatchConstants
-                                          .registrationBankAccountType,
+                                      .registrationBankAccountType,
                                   onSaved: (value) {
                                     setState(() {
                                       yearString = value;
                                       _cyear = int.parse(value);
-                                      _currentDay = 1;
                                       displayDay = DateTime(
                                           _cyear, _cmonth, _currentDay);
-                                      /*    daysToDisplay =
-                                                        totalDays(_cmonth, _cyear); */
+                                      _calendarController
+                                          .setFocusedDay(displayDay);
                                     });
                                   },
                                   value: yearString,
@@ -135,9 +148,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                     setState(() {
                                       displayDay = DateTime(
                                           _cyear, _cmonth, _currentDay);
-
-                                      /*    daysToDisplay =
-                                                        totalDays(_cmonth, _cyear); */
+                                      _calendarController
+                                          .setFocusedDay(displayDay);
                                     });
                                   },
                                   dataSource: [
@@ -168,44 +180,47 @@ class _CalendarScreenState extends State<CalendarScreen> {
                             child: Form(
                               key: monthKey,
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisAlignment:
+                                MainAxisAlignment.start,
                                 children: [
                                   Container(
-                                    width: MediaQuery.of(context).size.width *
+                                    width: MediaQuery.of(context)
+                                        .size
+                                        .width *
                                         0.38,
                                     color: Colors.transparent,
                                     child: DropDownFormField(
                                       fillColor: Colors.white,
-                                      borderColor:
-                                          Color.fromRGBO(228, 228, 228, 1),
+                                      borderColor: Color.fromRGBO(
+                                          228, 228, 228, 1),
                                       titleText: null,
                                       hintText: readonly
                                           ? monthString
                                           : HealingMatchConstants
-                                              .registrationBankAccountType,
+                                          .registrationBankAccountType,
                                       onSaved: (value) {
                                         setState(() {
                                           monthString = value;
                                           _cmonth = int.parse(value);
-                                          displayDay = DateTime(
-                                              _cyear, _cmonth, _currentDay);
-                                          /*    daysToDisplay =
-                                                        totalDays(_cmonth, _cyear); */
-                                          _currentDay = 1;
-                                          _incrementCounter();
+                                          displayDay = DateTime(_cyear,
+                                              _cmonth, _currentDay);
+                                          _calendarController
+                                              .setFocusedDay(
+                                              displayDay);
                                         });
                                       },
                                       value: monthString,
                                       onChanged: (value) {
                                         monthString = value;
                                         _cmonth = int.parse(value);
-                                        displayDay = DateTime(
-                                            _cyear, _cmonth, _currentDay);
+                                        displayDay = DateTime(_cyear,
+                                            _cmonth, _currentDay);
+                                        _calendarController
+                                            .setFocusedDay(displayDay);
+
                                         setState(() {
                                           /*    daysToDisplay =
                                                         totalDays(_cmonth, _cyear); */
-                                          _currentDay = 1;
-                                          _incrementCounter();
                                         });
                                       },
                                       dataSource: [
@@ -275,7 +290,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
               height: 15,
             ),
             Card(
+              elevation: 1.0,
               color: Colors.white,
+              margin: EdgeInsets.all(0.0),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(0),
@@ -285,43 +302,204 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 ),
                 // side: BorderSide(width: 5, color: Colors.green),
               ),
-              elevation: 5.0,
               // margin: EdgeInsets.only(left: 10.0, right: 10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Column(
                 children: [
-                  Expanded(
-                      flex: 0,
-                      child: IconButton(
-                          icon: Icon(Icons.arrow_back_ios), onPressed: null)),
-                  Expanded(
-                    flex: 4,
-                    child: TableCalendar(
-                      locale: "ja_JP",
-                      calendarController: _calendarController,
-                      headerVisible: false,
-                      initialCalendarFormat: CalendarFormat.month,
-                      startingDayOfWeek: StartingDayOfWeek.sunday,
-                      daysOfWeekStyle: DaysOfWeekStyle(
-                          weekdayStyle: TextStyle(color: Colors.grey),
-                          weekendStyle: TextStyle(color: Colors.grey)),
-                      availableGestures: AvailableGestures.horizontalSwipe,
-                      calendarStyle: CalendarStyle(
-                        todayColor: Colors.lime,
-                        selectedColor: Colors.lime,
-                        outsideDaysVisible: true,
-                        outsideStyle: TextStyle(color: Colors.grey),
-                        outsideWeekendStyle: TextStyle(color: Colors.grey),
-                        weekendStyle: TextStyle(color: Colors.black),
-                        holidayStyle: TextStyle(color: Colors.black),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          _calendarController.previousPage();
+                          var _cfocus = _calendarController.focusedDay;
+                          _cmonth = _cfocus.month;
+                          _cyear = _cfocus.year;
+                          setState(() {
+                            monthString = _cmonth.toString();
+                            yearString = _cyear.toString();
+                          });
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 8.0, right: 0.0, top: 4.0),
+                          child: Icon(
+                            Icons.arrow_back_ios,
+                            size: 15.0,
+                            color: Colors.grey,
+                          ),
+                        ),
                       ),
-                    ),
+                      Expanded(
+                        child: TableCalendar(
+                          rowHeight: 40.0,
+                          locale: "ja_JP",
+                          calendarController: _calendarController,
+                          headerVisible: false,
+                          initialSelectedDay: displayDay,
+                          initialCalendarFormat: CalendarFormat.month,
+                          startingDayOfWeek: StartingDayOfWeek.sunday,
+                          events: eventBuilder(),
+                          daysOfWeekStyle: DaysOfWeekStyle(
+                              weekdayStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontFamily: "NotoSansJP"),
+                              weekendStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontFamily: "NotoSansJP")),
+                          availableGestures:
+                          AvailableGestures.horizontalSwipe,
+                          onDaySelected: (date, list1, list2) {
+                            _currentDay = date.day;
+                            setState(() {
+                              displayDay = date;
+                            });
+                          },
+                          builders: CalendarBuilders(
+                            singleMarkerBuilder:
+                                (context, date, event) {
+                              var eventDate = DateTime(
+                                  date.year, date.month, date.day);
+                              var currentDate = DateTime(
+                                  _cyear, _cmonth, _currentDay);
+                              return Container(
+                                width: 4.0,
+                                height: 4.0,
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 0.3),
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: eventDate.compareTo(
+                                        currentDate) ==
+                                        0
+                                        ? Colors.white
+                                        : Colors.black),
+                              );
+                            },
+                          ),
+                          onVisibleDaysChanged:
+                              (date1, date2, cformat) {
+                            //When calendar is swiped this logic is used to change the month and year picker Value
+                            if (_initialProcess == 1 &&
+                                vdate != date1) {
+                              vdate = date1;
+                              //  print("1 :$date1");
+                              //print("2  :$date2");
+                              if (date1.year == date2.year) //same year
+                                  {
+                                if (date1.year != _cyear) {
+                                  changeYearVal(date1.year);
+                                }
+                                if (date1.month == date2.month - 1) {
+                                  if (date1.day == 1) {
+                                    changeMonthVal(date1.month);
+                                  } else {
+                                    changeMonthVal(date2.month);
+                                  }
+                                } else if (date1.month ==
+                                    date2.month - 2) {
+                                  changeMonthVal(date1.month + 1);
+                                } else if (date1.month == date2.month) {
+                                  changeMonthVal(date1.month);
+                                }
+                              } else {
+                                if (date1.month == 11) {
+                                  changeYearVal(date1.year);
+                                  changeMonthVal(date1.month + 1);
+                                } else {
+                                  if (date1.month == 12 &&
+                                      date1.day == 1) {
+                                    changeYearVal(date1.year);
+                                    changeMonthVal(date1.month);
+                                  } else if (date1.month == 12 &&
+                                      date1.day != 1) {
+                                    changeYearVal(date2.year);
+                                    changeMonthVal(1);
+                                  } else if (date1.month == 1) {
+                                    changeYearVal(date2.year);
+                                    changeMonthVal(1);
+                                  }
+                                }
+                              }
+                            } else {
+                              _initialProcess = 1;
+                            }
+                          },
+                          calendarStyle: CalendarStyle(
+                            // markersColor: ,
+                            markersPositionBottom: 5.0,
+
+                            todayColor: Colors.white,
+                            selectedColor: Colors.lime,
+                            outsideDaysVisible: true,
+                            todayStyle: TextStyle(
+                                color: Colors.lime,
+                                fontFamily: "NotoSansJP"),
+                            outsideStyle: TextStyle(
+                                color: Colors.grey,
+                                fontFamily: "NotoSansJP"),
+                            outsideWeekendStyle: TextStyle(
+                                color: Colors.grey,
+                                fontFamily: "NotoSansJP"),
+                            weekendStyle: TextStyle(
+                                color: Colors.black,
+                                fontFamily: "NotoSansJP"),
+                            holidayStyle: TextStyle(
+                                color: Colors.black,
+                                fontFamily: "NotoSansJP"),
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          _calendarController.nextPage();
+                          var _cfocus = _calendarController.focusedDay;
+                          _cmonth = _cfocus.month;
+                          _cyear = _cfocus.year;
+                          setState(() {
+                            monthString = _cmonth.toString();
+                            yearString = _cyear.toString();
+                          });
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 0.0, right: 8.0, top: 4.0),
+                          child: Icon(
+                            Icons.arrow_forward_ios,
+                            size: 15.0,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  Expanded(
-                    flex: 0,
-                    child: IconButton(
-                        icon: Icon(Icons.arrow_forward_ios), onPressed: null),
+                  calendarStatus == 0
+                      ? InkWell(
+                    onTap: () {
+                      setState(() {
+                        calendarStatus = 1;
+                        _calendarController.setCalendarFormat(
+                            CalendarFormat.week);
+                      });
+                    },
+                    child: Icon(
+                      Icons.keyboard_arrow_up,
+                      size: 25.0,
+                      color: Colors.grey,
+                    ),
+                  )
+                      : InkWell(
+                    onTap: () {
+                      setState(() {
+                        calendarStatus = 0;
+                        _calendarController.setCalendarFormat(
+                            CalendarFormat.month);
+                      });
+                    },
+                    child: Icon(
+                      Icons.keyboard_arrow_down,
+                      size: 25.0,
+                      color: Colors.grey,
+                    ),
                   ),
                 ],
               ),
@@ -333,7 +511,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 child: Container(
                   // height: 800,
                   decoration: BoxDecoration(
-                      // borderRadius: BorderRadius.circular(20.0),
+                    // borderRadius: BorderRadius.circular(20.0),
                       color: Colors.white,
                       border: Border.all(
                         color: Colors.transparent,
@@ -345,138 +523,53 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(
-                                top: 15.0, left: 5.0, right: 5.0, bottom: 15.0),
-                            child: GestureDetector(
-                              /* onTap: () =>
-                                  NavigationRouter.switchToUserEventPopup(context),*/
+                                top: 15.0,
+                                left: 5.0,
+                                right: 5.0,
+                                bottom: 15.0),
+                            child: InkWell(
+                              // onTap: () => NavigationRouter
+                              //     .switchToWeeklySchedule(context),
                               child: Container(
-                                height: 350.0,
+                                height: calendarStatus == 0
+                                    ? MediaQuery.of(context)
+                                    .size
+                                    .height /
+                                    2
+                                    : MediaQuery.of(context)
+                                    .size
+                                    .height -
+                                    150.0, //350.0,
                                 child: DayView(
                                   controller: dayViewController,
-                                  initialTime:
-                                      const HourMinute(hour: 8, minute: 55),
-                                  minimumTime: HourMinute(hour: 8, minute: 55),
-                                  maximumTime: HourMinute(hour: 17, minute: 10),
+                                  initialTime: const HourMinute(
+                                      hour: 2, minute: 55),
+                                  minimumTime:
+                                  HourMinute(hour: 2, minute: 55),
+                                  maximumTime:
+                                  HourMinute(hour: 17, minute: 10),
                                   date: displayDay,
                                   inScrollableWidget: true,
                                   hoursColumnStyle: HoursColumnStyle(
-                                    color: Color.fromRGBO(255, 255, 255, 1),
+                                    color: Color.fromRGBO(
+                                        255, 255, 255, 1),
                                     textStyle: TextStyle(
                                         fontSize: 10.0,
-                                        color:
-                                            Color.fromRGBO(158, 158, 158, 1)),
+                                        color: Color.fromRGBO(
+                                            158, 158, 158, 1)),
                                   ),
                                   style: DayViewStyle(
                                       hourRowHeight: 80.0,
-                                      backgroundColor:
-                                          Color.fromRGBO(255, 255, 255, 1),
+                                      backgroundColor: Color.fromRGBO(
+                                          255, 255, 255, 1),
                                       currentTimeCircleColor:
-                                          Colors.transparent,
-                                      backgroundRulesColor: Colors.transparent,
-                                      currentTimeRuleColor: Colors.transparent,
+                                      Colors.transparent,
+                                      backgroundRulesColor:
+                                      Colors.transparent,
+                                      currentTimeRuleColor:
+                                      Colors.transparent,
                                       headerSize: 0.0),
-                                  events: [
-                                    FlutterWeekViewEvent(
-                                      title: 'AKさん (男性) ',
-                                      description: '0',
-                                      start: date.add(const Duration(hours: 9)),
-                                      margin: EdgeInsets.only(
-                                          left: 8.0, right: 8.0),
-                                      textStyle: TextStyle(color: Colors.black),
-                                      decoration: BoxDecoration(
-                                          color:
-                                              Color.fromRGBO(242, 242, 242, 1),
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          shape: BoxShape
-                                              .rectangle /* (
-                                                                           borderRadius: new BorderRadius.circular(10.0)), */
-                                          ),
-                                      end: date.add(
-                                        const Duration(hours: 10, minutes: 00),
-                                      ),
-                                      /* eventTextBuilder: (event, a, b, c, d) {
-                                                                                                   return Text('a');
-                                                                                                 } */
-                                    ),
-                                    FlutterWeekViewEvent(
-                                      title: 'AKさん (男性)',
-                                      description: '1',
-                                      start:
-                                          date.add(const Duration(hours: 13)),
-                                      end: date.add(const Duration(hours: 14)),
-                                      textStyle: TextStyle(color: Colors.black),
-                                      decoration: BoxDecoration(
-                                          color:
-                                              Color.fromRGBO(242, 242, 242, 1),
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          shape: BoxShape
-                                              .rectangle /* (
-                                                                           borderRadius: new BorderRadius.circular(10.0)), */
-                                          ),
-                                    ),
-                                    /*  FlutterWeekViewEvent(
-                                                title: 'An event 3',
-                                                description: 'A description 3',
-                                                start: date.add(const Duration(
-                                                    hours: 13, minutes: 30)),
-                                                end: date.add(const Duration(
-                                                    hours: 15, minutes: 30)),
-                                              ),
-                                               */
-                                    FlutterWeekViewEvent(
-                                      title: 'AKさん (男性)',
-                                      description: '1',
-                                      start:
-                                          date.add(const Duration(hours: 15)),
-                                      end: date.add(const Duration(hours: 16)),
-                                      textStyle: TextStyle(color: Colors.black),
-                                      decoration: BoxDecoration(
-                                          color:
-                                              Color.fromRGBO(242, 242, 242, 1),
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          shape: BoxShape
-                                              .rectangle /* (
-                                                                           borderRadius: new BorderRadius.circular(10.0)), */
-                                          ),
-                                    ),
-                                    FlutterWeekViewEvent(
-                                      title: 'AKさん (男性)',
-                                      description: '0',
-                                      start:
-                                          next.add(const Duration(hours: 13)),
-                                      end: next.add(const Duration(hours: 14)),
-                                      textStyle: TextStyle(color: Colors.black),
-                                      decoration: BoxDecoration(
-                                          color:
-                                              Color.fromRGBO(242, 242, 242, 1),
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          shape: BoxShape
-                                              .rectangle /* (
-                                                                           borderRadius: new BorderRadius.circular(10.0)), */
-                                          ),
-                                    ),
-                                    FlutterWeekViewEvent(
-                                      title: 'AKさん (男性)',
-                                      description: '1',
-                                      start:
-                                          next.add(const Duration(hours: 10)),
-                                      end: next.add(const Duration(hours: 12)),
-                                      textStyle: TextStyle(color: Colors.black),
-                                      decoration: BoxDecoration(
-                                          color:
-                                              Color.fromRGBO(242, 242, 242, 1),
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          shape: BoxShape
-                                              .rectangle /* (
-                                                                           borderRadius: new BorderRadius.circular(10.0)), */
-                                          ),
-                                    ),
-                                  ],
+                                  events: events,
                                 ),
                               ),
                             ),
@@ -507,58 +600,18 @@ class _CalendarScreenState extends State<CalendarScreen> {
     );
   }
 
-  void _incrementCounter() {
-    var dateUtility = DateUtil();
-    var day1 = dateUtility.daysInMonth(_cmonth, _cyear);
-    print(day1);
-    //var day2 = dateUtility.daysInMonth(2, 2018);
-    //print(day2);
-
+  changeMonthVal(int focusedMonth) {
+    _cmonth = focusedMonth;
     setState(() {
-      _counter++;
+      monthString = (_cmonth).toString();
     });
   }
 
-  buildDayPicker() {
-    dayPicker = NumberPicker.horizontal(
-      currentDate: DateTime.now(),
-      selectedYear: _cyear,
-      enabled: true,
-      ismonth: true,
-      numberToDisplay: 7,
-      selectedMonth: _cmonth,
-      eventDates: [
-        DateTime(today.year, today.month, today.day),
-        DateTime(today.year, today.month, today.day),
-        DateTime(today.year, today.month, today.day),
-        DateTime(today.year, today.month, today.day + 1),
-        DateTime(today.year, today.month, today.day + 1)
-      ],
-      zeroPad: false,
-      initialValue: _currentDay,
-      minValue: 1,
-      maxValue: daysToDisplay,
-      onChanged: (newValue) => setState(() {
-        if ((newValue != _currentDay)) {
-          changeDay(newValue);
-        }
-      }),
-    );
-    return Padding(
-      padding: const EdgeInsets.all(2.0),
-      child: SizedBox(
-        height: 95.0,
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              dayPicker,
-            ],
-          ),
-        ),
-      ),
-    );
+  changeYearVal(int focusedYear) {
+    _cyear = focusedYear;
+    setState(() {
+      yearString = (_cyear).toString();
+    });
   }
 
   changeDay(int selectedDay) {
@@ -570,5 +623,24 @@ class _CalendarScreenState extends State<CalendarScreen> {
       // dayPicker.animateInt(_currentDay);
     });
     // print("Changed month: _currentDay");
+  }
+
+  Map<DateTime, List<dynamic>> eventBuilder() {
+    eventDotHandler = Map<DateTime, List<dynamic>>();
+    for (var event in events) {
+      DateTime eventDate = DateTime(event.events.start.dateTime.year,
+          event.events.start.dateTime.month, event.events.start.dateTime.day);
+
+      var value = eventDotHandler[eventDate];
+      if (value == null) {
+        eventDotHandler[eventDate] = [
+          {event.events.summary}
+        ];
+      } else {
+        eventDotHandler[eventDate] = List.from(value)
+          ..addAll([event.events.summary]);
+      }
+    }
+    return eventDotHandler;
   }
 }

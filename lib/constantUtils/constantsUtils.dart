@@ -395,6 +395,8 @@ class HealingMatchConstants {
   static int serviceUserId;
   static int userId;
   static List<FlutterWeekViewEvent> events = List<FlutterWeekViewEvent>();
+  static List<FlutterWeekViewEvent> userEvents = List<FlutterWeekViewEvent>();
+
 
   //User Token
   static String uAccessToken = '';
