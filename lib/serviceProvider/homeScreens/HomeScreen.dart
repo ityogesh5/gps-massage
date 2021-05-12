@@ -5,22 +5,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/customLibraryClasses/numberpicker.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/flutter_week_view.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/ProviderDetailsResponseModel.dart'
+    as providerDetails;
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
-import 'package:date_util/date_util.dart';
 
 class ProviderHomeScreen extends StatefulWidget {
   @override
@@ -33,26 +32,30 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
   DayViewController dayViewController = DayViewController();
   bool readonly = false;
   Data userData;
-  Map<int, String> childrenMeasure;
+  var yearString, monthString, dateString;
   var certificateUpload;
-  Map<String, String> certificateImages = Map<String, String>();
   var userQulaification;
   GlobalKey key = new GlobalKey();
 
-  var yearString, monthString, dateString;
+  providerDetails.ProviderDetailsResponseModel therapistDetails =
+      providerDetails.ProviderDetailsResponseModel();
+
+  DateTime today = DateTime.now();
+  DateTime displayDay;
 
   NumberPicker dayPicker;
   int _cyear;
   int _cmonth;
   int _currentDay;
-  DateTime today = DateTime.now();
-  DateTime displayDay;
   int _lastday;
   int _counter = 0;
   int daysToDisplay;
+  int status = 0;
+  Map<int, String> childrenMeasure;
+  Map<String, String> certificateImages = Map<String, String>();
+
   List<FlutterWeekViewEvent> flutterWeekEvents = List<FlutterWeekViewEvent>();
   List<DateTime> eventDateTime = List<DateTime>();
-  int status = 0;
   BoxDecoration boxDecoration = BoxDecoration(
     borderRadius: BorderRadius.circular(8.0),
     color: Colors.white,
@@ -60,17 +63,9 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
 
   void initState() {
     super.initState();
-    //  FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
     HealingMatchConstants.isProvider = true;
     HealingMatchConstants.isProviderHomePage = true;
     getProviderDetails();
-
-    ServiceProviderApi.getCalEvents().then((value) {
-      flutterWeekEvents.addAll(value);
-      setState(() {
-        status = status + 1;
-      });
-    });
 
     dateString = '';
     displayDay = today;
@@ -81,112 +76,19 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     yearString = _cyear.toString();
     monthString = _cmonth.toString();
     daysToDisplay = totalDays(_cmonth, _cyear);
-    // addEvents();
     setState(() {
       print(daysToDisplay);
     });
   }
 
-  addEvents() {
-    DateTime date = DateTime(today.year, today.month, today.day);
-    DateTime next = DateTime(today.year, today.month, today.day + 1);
-    flutterWeekEvents.add(FlutterWeekViewEvent(
-      title: 'AKさん (男性) ',
-      description: '0',
-      start: date.add(const Duration(hours: 9)),
-      margin: EdgeInsets.only(left: 8.0, right: 8.0),
-      textStyle: TextStyle(color: Colors.black),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10.0),
-          shape: BoxShape
-              .rectangle /* (
-                                                                           borderRadius: new BorderRadius.circular(10.0)), */
-          ),
-      end: date.add(
-        const Duration(hours: 10, minutes: 00),
-      ),
-      /* eventTextBuilder: (event, a, b, c, d) {
-                                                                                                   return Text('a');
-                                                                                                 } */
-    ));
-    flutterWeekEvents.add(
-      FlutterWeekViewEvent(
-        title: 'AKさん (男性)',
-        description: '1',
-        start: date.add(const Duration(hours: 13)),
-        end: date.add(const Duration(hours: 14)),
-        textStyle: TextStyle(color: Colors.black),
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10.0),
-            shape: BoxShape
-                .rectangle /* (
-                                                                           borderRadius: new BorderRadius.circular(10.0)), */
-            ),
-      ),
-    );
-    /*  FlutterWeekViewEvent(
-                                                title: 'An event 3',
-                                                description: 'A description 3',
-                                                start: date.add(const Duration(
-                                                    hours: 13, minutes: 30)),
-                                                end: date.add(const Duration(
-                                                    hours: 15, minutes: 30)),
-                                              ),
-                                               */
-    flutterWeekEvents.add(FlutterWeekViewEvent(
-      title: 'AKさん (男性)',
-      description: '1',
-      start: date.add(const Duration(hours: 15)),
-      end: date.add(const Duration(hours: 16)),
-      textStyle: TextStyle(color: Colors.black),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10.0),
-          shape: BoxShape
-              .rectangle /* (
-                                                                           borderRadius: new BorderRadius.circular(10.0)), */
-          ),
-    ));
-    flutterWeekEvents.add(FlutterWeekViewEvent(
-      title: 'AKさん (男性)',
-      description: '0',
-      start: next.add(const Duration(hours: 13)),
-      end: next.add(const Duration(hours: 14)),
-      textStyle: TextStyle(color: Colors.black),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10.0),
-          shape: BoxShape
-              .rectangle /* (
-                                                                           borderRadius: new BorderRadius.circular(10.0)), */
-          ),
-    ));
-    flutterWeekEvents.add(FlutterWeekViewEvent(
-      title: 'AKさん (男性)',
-      description: '1',
-      start: next.add(const Duration(hours: 10)),
-      end: next.add(const Duration(hours: 12)),
-      textStyle: TextStyle(color: Colors.black),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10.0),
-          shape: BoxShape
-              .rectangle /* (
-                                                                           borderRadius: new BorderRadius.circular(10.0)), */
-          ),
-    ));
-  }
-
   @override
   Widget build(BuildContext context) {
-    DateTime date = DateTime(today.year, today.month, today.day);
-    DateTime next = DateTime(today.year, today.month, today.day + 1);
-
     return Scaffold(
-      body: status != 2
-          ? Container(color: Colors.white)
+      body: status != 3
+          ? Container(
+              color: Colors.white,
+              child: Center(child: SpinKitThreeBounce(color: Colors.lime)),
+            )
           : SingleChildScrollView(
               child: SafeArea(
               child: Container(
@@ -495,7 +397,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                             child: Row(
                                               children: [
                                                 Text(
-                                                  '(4.0)',
+                                                  '(${therapistDetails.reviewData.ratingAvg})',
                                                   style: TextStyle(
                                                       decoration: TextDecoration
                                                           .underline,
@@ -514,7 +416,10 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                 ),
                                                 SizedBox(width: 5.0),
                                                 RatingBar.builder(
-                                                  initialRating: 4.0,
+                                                  initialRating: double.parse(
+                                                      therapistDetails
+                                                          .reviewData
+                                                          .ratingAvg),
                                                   minRating: 1,
                                                   direction: Axis.horizontal,
                                                   allowHalfRating: true,
@@ -534,28 +439,26 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                             padding:
                                                                 new EdgeInsets
                                                                     .all(0.0),
-                                                            color: Colors.black,
-                                                            icon: index == 4
+                                                            // color: Colors.white,
+                                                            icon: index >
+                                                                    (double.parse(therapistDetails.reviewData.ratingAvg))
+                                                                            .ceilToDouble() -
+                                                                        1
                                                                 ? SvgPicture
                                                                     .asset(
                                                                     "assets/images_gps/star_2.svg",
                                                                     height:
                                                                         13.0,
                                                                     width: 13.0,
-                                                                    color: Colors
-                                                                        .black,
                                                                   )
                                                                 : SvgPicture
                                                                     .asset(
-                                                                    "assets/images_gps/star_1.svg",
+                                                                    "assets/images_gps/star_colour.svg",
                                                                     height:
                                                                         13.0,
                                                                     width: 13.0,
-                                                                    color: Colors
-                                                                        .black,
-                                                                  ), /*  new Icon(
-                                                                Icons.star,
-                                                                size: 20.0), */
+                                                                    //color: Colors.black,
+                                                                  ),
                                                           )),
                                                   onRatingUpdate: (rating) {
                                                     print(rating);
@@ -700,7 +603,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                         style: TextStyle(fontSize: 12),
                                       )),
                                       Text(
-                                        '¥150,00',
+                                        '¥${therapistDetails.therapistProfit.weeklyProfit}',
                                         style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.bold),
@@ -742,7 +645,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                         style: TextStyle(fontSize: 12),
                                       )),
                                       Text(
-                                        '¥ 500,000',
+                                        '¥ ${therapistDetails.therapistProfit.monthlyProfit}',
                                         style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.bold),
@@ -785,7 +688,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                         style: TextStyle(fontSize: 12),
                                       )),
                                       Text(
-                                        '¥10,876,68',
+                                        '¥ ${therapistDetails.therapistProfit.yearlyProfit}',
                                         style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.bold),
@@ -1524,7 +1427,8 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
   }
 
   void getProviderDetails() async {
-    showOverlayLoader();
+    // showOverlayLoader();
+
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     userData =
         Data.fromJson(json.decode(sharedPreferences.getString("userData")));
@@ -1567,7 +1471,21 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     setState(() {
       status = status + 1;
     });
-    hideLoader();
+
+    ServiceProviderApi.getProfitandRatingApi().then((value) {
+      therapistDetails = value;
+      setState(() {
+        status = status + 1;
+      });
+    });
+
+    ServiceProviderApi.getCalEvents().then((value) {
+      flutterWeekEvents.addAll(value);
+      setState(() {
+        status = status + 1;
+      });
+    });
+    // hideLoader();
   }
 
   void showToolTip(String text) {

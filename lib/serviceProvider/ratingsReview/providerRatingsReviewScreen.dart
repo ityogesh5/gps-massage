@@ -324,10 +324,10 @@ class _LoadUserReviewPageState extends State<LoadUserReviewPage> {
                                                                 Colors.white, */
                                       )
                                     : SvgPicture.asset(
-                                        "assets/images_gps/star_1.svg",
+                                        "assets/images_gps/star_colour.svg",
                                         height: 15.0,
                                         width: 15.0,
-                                        color: Color.fromRGBO(200, 217, 33, 1),
+                                       // color: Color.fromRGBO(200, 217, 33, 1),
                                       ), /*  new Icon(
                                                                 Icons.star,
                                                                 size: 20.0), */
@@ -538,10 +538,10 @@ class _LoadUserReviewPageState extends State<LoadUserReviewPage> {
                             color: Colors.black,
                           )
                         : SvgPicture.asset(
-                            "assets/images_gps/star_1.svg",
+                            "assets/images_gps/star_colour.svg",
                             height: 13.0,
                             width: 13.0,
-                            color: Colors.black,
+                           // color: Colors.black,
                           ), /*  new Icon(
                                                                     Icons.star,
                                                                     size: 20.0), */
@@ -808,10 +808,10 @@ class _LoadUserReviewRatingsByIdState extends State<LoadUserReviewRatingsById> {
                             color: Colors.black,
                           )
                         : SvgPicture.asset(
-                            "assets/images_gps/star_1.svg",
+                            "assets/images_gps/star_colour.svg",
                             height: 13.0,
                             width: 13.0,
-                            color: Colors.black,
+                          //  color: Colors.black,
                           ), /*  new Icon(
                                                                     Icons.star,
                                                                     size: 20.0), */
@@ -1022,7 +1022,7 @@ class _ReviewPageErrorState extends State<ReviewPageError> {
                                                                 Colors.white, */
                                                         )
                                                       : SvgPicture.asset(
-                                                          "assets/images_gps/star_1.svg",
+                                                          "assets/images_gps/star_colour.svg",
                                                           height: 15.0,
                                                           width: 15.0,
                                                           color: Color.fromRGBO(
@@ -1160,7 +1160,7 @@ class _ReviewPageErrorState extends State<ReviewPageError> {
                                               color: Colors.black,
                                             )
                                           : SvgPicture.asset(
-                                              "assets/images_gps/star_1.svg",
+                                              "assets/images_gps/star_colour.svg",
                                               height: 13.0,
                                               width: 13.0,
                                               color: Colors.black,
@@ -1272,7 +1272,7 @@ class _ReviewPageErrorState extends State<ReviewPageError> {
                                           color: Colors.black,
                                         )
                                       : SvgPicture.asset(
-                                          "assets/images_gps/star_1.svg",
+                                          "assets/images_gps/star_colour.svg",
                                           height: 13.0,
                                           width: 13.0,
                                           color: Colors.black,

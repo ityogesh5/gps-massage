@@ -73,77 +73,92 @@ class DefaultBuilders {
     Calendar.Event googleApiEvent = event.events;
     var split = googleApiEvent.summary.split(',');
 
-    return Container(
-        padding: EdgeInsets.all(2.0),
-        width: MediaQuery.of(context).size.width - 120.0,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return googleApiEvent.description == "unavailable"
+        ? Container(
+            padding: EdgeInsets.all(2.0),
+            width: MediaQuery.of(context).size.width - 120.0,
+            alignment: Alignment.centerLeft,
+            child: FittedBox(
+              fit: BoxFit.contain,
+              child: Text(
+                "予約不可",
+                style: TextStyle(fontSize: 14.0),
+              ),
+            ),
+          )
+        : Container(
+            padding: EdgeInsets.all(2.0),
+            width: MediaQuery.of(context).size.width - 120.0,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  HealingMatchConstants.isProvider ? split[3] : split[1],
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-                ),
-                googleApiEvent.status == 'tentative'
-                    ? Row(
-                        children: [
-                          SvgPicture.asset(
-                            "assets/images_gps/processing.svg",
-                            height: 20.0,
-                            width: 20.0,
-                          ),
-                          /*  Icon(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      HealingMatchConstants.isProvider ? split[3] : split[1],
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16.0),
+                    ),
+                    googleApiEvent.status == 'tentative'
+                        ? Row(
+                            children: [
+                              SvgPicture.asset(
+                                "assets/images_gps/processing.svg",
+                                height: 20.0,
+                                width: 20.0,
+                              ),
+                              /*  Icon(
                 Icons.hourglass_top_outlined,
                 color: Color.fromRGBO(255, 193, 7, 1),
               ), */
-                          Text("承認待ち",
-                              style: TextStyle(
-                                color: Color.fromRGBO(255, 193, 7, 1),
-                              ))
-                        ],
-                      )
-                    : Row(
-                        children: [
-                          Text("承認済み", style: TextStyle(color: Colors.black))
-                        ],
-                      )
-              ],
-            ),
-            SizedBox(
-              height: 4,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SvgPicture.asset(
-                  "assets/images_gps/clock.svg",
-                  height: 14.77,
-                  width: 16.0,
+                              Text("承認待ち",
+                                  style: TextStyle(
+                                    color: Color.fromRGBO(255, 193, 7, 1),
+                                  ))
+                            ],
+                          )
+                        : Row(
+                            children: [
+                              Text("承認済み",
+                                  style: TextStyle(color: Colors.black))
+                            ],
+                          )
+                  ],
                 ),
                 SizedBox(
-                  width: 8,
+                  height: 4,
                 ),
-                Text(
-                  '${event.start.hour}:${event.start.minute} ~ ${event.end.hour}: ${event.end.minute}',
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  ' 60分 ',
-                  style: TextStyle(
-                    fontSize: 12.0,
-                    color: Color.fromRGBO(102, 102, 102, 1),
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset(
+                      "assets/images_gps/clock.svg",
+                      height: 14.77,
+                      width: 16.0,
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      '${event.start.hour}:${event.start.minute} ~ ${event.end.hour}: ${event.end.minute}',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      ' 60分 ',
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        color: Color.fromRGBO(102, 102, 102, 1),
+                      ),
+                    ),
+                  ],
                 ),
               ],
-            ),
-          ],
-        ));
+            ));
 
     /*  return RichText(
       text: TextSpan(

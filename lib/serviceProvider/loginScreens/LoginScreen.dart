@@ -461,7 +461,6 @@ class _ProviderLoginState extends State<ProviderLogin> {
 
       if (StatusCodeHelper.isLoginSuccess(
           response.statusCode, context, response.body)) {
-        hideLoader();
         print('Response Success');
         final Map loginResponse = json.decode(response.body);
         loginResponseModel = LoginResponseModel.fromJson(loginResponse);
@@ -473,12 +472,13 @@ class _ProviderLoginState extends State<ProviderLogin> {
         print('Login response : ${loginResponseModel.toJson()}');
         print('Login token : ${loginResponseModel.accessToken}');
         print('Is Provider verified : ${loginResponseModel.data.isVerified}');
+        hideLoader();
         if (loginResponseModel.data.isVerified) {
           NavigationRouter.switchToServiceProviderBottomBar(context);
         } else {
           Toast.show("許可されていないユーザー。", context,
               duration: 4,
-              gravity: Toast.CENTER,
+              gravity: Toast.BOTTOM,
               backgroundColor: Colors.redAccent,
               textColor: Colors.white);
           print('Unverified User!!');
@@ -486,6 +486,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
         }
       } else {
         print('Response Failure !!');
+        hideLoader();
         return;
       }
     } catch (e) {

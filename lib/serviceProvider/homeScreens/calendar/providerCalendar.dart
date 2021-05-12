@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/customLibraryClasses/numberpicker.dart';
@@ -54,8 +55,8 @@ class _ProviderCalendarState extends State<ProviderCalendar> {
   @override
   void initState() {
     super.initState();
-    HealingMatchConstants.isProviderHomePage = false;
 
+    HealingMatchConstants.isProviderHomePage = false;
     ServiceProviderApi.getCalEvents().then((value) {
       events.addAll(value);
       setState(() {
@@ -107,7 +108,10 @@ class _ProviderCalendarState extends State<ProviderCalendar> {
           ),
         ),
         body: status == 0
-            ? Center(child: CircularProgressIndicator())
+            ? Container(
+                color: Colors.white,
+                child: Center(child: SpinKitThreeBounce(color: Colors.lime)),
+              )
             : SingleChildScrollView(
                 child: Column(
                   children: [

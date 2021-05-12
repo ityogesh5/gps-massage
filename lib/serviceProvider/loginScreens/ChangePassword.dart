@@ -413,7 +413,7 @@ class _ChangePasswordState extends State<ChangePassword> {
 
     // Combination password
 
-    if (!passwordRegex.hasMatch(password)) {
+  /*   if (!passwordRegex.hasMatch(password)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -438,9 +438,9 @@ class _ChangePasswordState extends State<ChangePassword> {
         ),
       ));
       return null;
-    }
+    } */
 
-    if (password.contains(regexEmojis)) {
+   /*  if (password.contains(regexEmojis)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -465,7 +465,7 @@ class _ChangePasswordState extends State<ChangePassword> {
         ),
       ));
       return null;
-    }
+    } */
 
     //Confirm Password Validation
     if (confirmPassword == null || confirmPassword.isEmpty) {

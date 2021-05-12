@@ -167,74 +167,73 @@ class _LoadUserReviewPageState extends State<LoadUserReviewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: userReviewList != null && userReviewList.isNotEmpty
-          ? LazyLoadScrollView(
-              isLoading: isLoading,
-              onEndOfPage: () => _getMoreDataByType(),
-              child: SingleChildScrollView(
-                child: Container(
-                    padding: EdgeInsets.all(8.0),
-                    child: Column(
+      body: LazyLoadScrollView(
+        isLoading: isLoading,
+        onEndOfPage: () => _getMoreDataByType(),
+        child: SingleChildScrollView(
+          child: Container(
+              padding: EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 6.0),
+                    child: Row(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 6.0),
-                          child: Row(
-                            children: [
-                              Text(
-                                '店舗についてのレビュー',
-                                style: TextStyle(
-                                    color: Color.fromRGBO(0, 0, 0, 1),
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                '($_totalReviews レビュー)',
-                                style: TextStyle(
-                                    color: Color.fromRGBO(153, 153, 153, 1),
-                                    fontSize: 12.0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
+                        Text(
+                          '店舗についてのレビュー',
+                          style: TextStyle(
+                              color: Color.fromRGBO(0, 0, 0, 1),
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(
-                          height: 8.0,
+                        Text(
+                          '($_totalReviews レビュー)',
+                          style: TextStyle(
+                              color: Color.fromRGBO(153, 153, 153, 1),
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.bold),
                         ),
-                        ListView.separated(
-                            separatorBuilder: (context, index) => Divider(
-                                //color: Color.fromRGBO(251, 251, 251, 1),
-                                ),
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: userReviewList.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              if (index == userReviewList.length) {
-                                return _buildProgressIndicator();
-                              } else {
-                                return buildReviewContent(
-                                    userReviewList[index]);
-                              }
-                            })
                       ],
-                    )),
-              ),
-            )
-          : Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                child: Center(
-                  child: Text(
-                    'まだレビューはありません。',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'NotoSansJP',
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
+                    ),
                   ),
-                ),
-              ),
-            ),
+                  SizedBox(
+                    height: 8.0,
+                  ),
+                  userReviewList != null && userReviewList.isNotEmpty
+                      ? ListView.separated(
+                          separatorBuilder: (context, index) => Divider(
+                              //color: Color.fromRGBO(251, 251, 251, 1),
+                              ),
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: userReviewList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            if (index == userReviewList.length) {
+                              return _buildProgressIndicator();
+                            } else {
+                              return buildReviewContent(userReviewList[index]);
+                            }
+                          })
+                      : Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            child: Center(
+                              child: Text(
+                                'まだレビューはありません。',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'NotoSansJP',
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        )
+                ],
+              )),
+        ),
+      ),
     );
   }
 
@@ -341,10 +340,10 @@ class _LoadUserReviewPageState extends State<LoadUserReviewPage> {
                             color: Colors.black,
                           )
                         : SvgPicture.asset(
-                            "assets/images_gps/star_1.svg",
+                            "assets/images_gps/star_colour.svg",
                             height: 13.0,
                             width: 13.0,
-                            color: Colors.black,
+                            // color: Colors.black,
                           ), /*  new Icon(
                                                                     Icons.star,
                                                                     size: 20.0), */
@@ -436,40 +435,41 @@ class _LoadUserReviewRatingsByIdState extends State<LoadUserReviewRatingsById> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: widget.userReviewList != null && widget.userReviewList.isNotEmpty
-          ? LazyLoadScrollView(
-              isLoading: isLoading,
-              onEndOfPage: () => _getMoreDataByType(),
-              child: SingleChildScrollView(
-                child: Container(
-                    padding: EdgeInsets.all(8.0),
-                    child: Column(
+      body: LazyLoadScrollView(
+        isLoading: isLoading,
+        onEndOfPage: () => _getMoreDataByType(),
+        child: SingleChildScrollView(
+          child: Container(
+              padding: EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 6.0),
+                    child: Row(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 6.0),
-                          child: Row(
-                            children: [
-                              Text(
-                                '店舗についてのレビュー',
-                                style: TextStyle(
-                                    color: Color.fromRGBO(0, 0, 0, 1),
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                '(152 レビュー)',
-                                style: TextStyle(
-                                    color: Color.fromRGBO(153, 153, 153, 1),
-                                    fontSize: 12.0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
+                        Text(
+                          '店舗についてのレビュー',
+                          style: TextStyle(
+                              color: Color.fromRGBO(0, 0, 0, 1),
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(
-                          height: 8.0,
+                        Text(
+                          '(152 レビュー)',
+                          style: TextStyle(
+                              color: Color.fromRGBO(153, 153, 153, 1),
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.bold),
                         ),
-                        ListView.separated(
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 8.0,
+                  ),
+                  widget.userReviewList != null &&
+                          widget.userReviewList.isNotEmpty
+                      ? ListView.separated(
                           separatorBuilder: (context, index) => Divider(
                               //color: Color.fromRGBO(251, 251, 251, 1),
                               ),
@@ -486,25 +486,25 @@ class _LoadUserReviewRatingsByIdState extends State<LoadUserReviewRatingsById> {
                             }
                           },
                         )
-                      ],
-                    )),
-              ),
-            )
-          : Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                child: Center(
-                  child: Text(
-                    'まだレビューはありません。',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'NotoSansJP',
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-            ),
+                      : Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            child: Center(
+                              child: Text(
+                                'まだレビューはありません。',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'NotoSansJP',
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        )
+                ],
+              )),
+        ),
+      ),
     );
   }
 
@@ -611,10 +611,10 @@ class _LoadUserReviewRatingsByIdState extends State<LoadUserReviewRatingsById> {
                             color: Colors.black,
                           )
                         : SvgPicture.asset(
-                            "assets/images_gps/star_1.svg",
+                            "assets/images_gps/star_colour.svg",
                             height: 13.0,
                             width: 13.0,
-                            color: Colors.black,
+                            //  color: Colors.black,
                           ), /*  new Icon(
                                                                     Icons.star,
                                                                     size: 20.0), */

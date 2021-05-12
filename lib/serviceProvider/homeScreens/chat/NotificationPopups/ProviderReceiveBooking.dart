@@ -518,10 +518,10 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                                       color: Colors.black,
                                     )
                                   : SvgPicture.asset(
-                                      "assets/images_gps/star_1.svg",
+                                      "assets/images_gps/star_colour.svg",
                                       height: 13.0,
                                       width: 12.5,
-                                      color: Colors.black,
+                                   //   color: Colors.black,
                                     ), /*  new Icon(
                                                                 Icons.star,
                                                                 size: 20.0), */

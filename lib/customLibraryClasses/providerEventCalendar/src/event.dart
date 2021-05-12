@@ -25,10 +25,10 @@ class FlutterWeekViewEvent extends Comparable<FlutterWeekViewEvent> {
   final String description;
 
   /// The event start date & time.
-  final DateTime start;
+  DateTime start;
 
   /// The event end date & time.
-  final DateTime end;
+  DateTime end;
 
   /// The event widget background color.
   final Color backgroundColor;
@@ -97,9 +97,11 @@ class FlutterWeekViewEvent extends Comparable<FlutterWeekViewEvent> {
                 ? BoxDecoration(color: backgroundColor)
                 : null), */
         decoration: BoxDecoration(
-          color: HealingMatchConstants.isProviderHomePage
-              ? Colors.white
-              : Color.fromRGBO(242, 242, 242, 1),
+          color: events.description == "unavailable"
+              ? Color.fromRGBO(231, 231, 231, 1)
+              : HealingMatchConstants.isProviderHomePage
+                  ? Colors.white
+                  : Color.fromRGBO(242, 242, 242, 1),
           borderRadius: BorderRadius.circular(12.0),
         ),
         margin: EdgeInsets.all(4.0),

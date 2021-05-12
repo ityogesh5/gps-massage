@@ -703,6 +703,7 @@ class _ShiftServiceState extends State<ShiftService> {
                                 FocusScope.of(context)
                                     .requestFocus(new FocusNode());
                                 setState(() {
+                                  otherValueText = otherValueText.toLowerCase();
                                   //Logic: check the value is empty
                                   if (otherValueText.isEmpty ||
                                       otherValueText == '') {

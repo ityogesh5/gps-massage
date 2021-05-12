@@ -204,14 +204,12 @@ class _BannerImageState extends State<BannerImage> {
                       title: new Text('プロフィール画像を選択してください。'),
                       onTap: () {
                         _imgFromGallery();
-                        Navigator.of(context).pop();
                       }),
                   new ListTile(
                     leading: new Icon(Icons.photo_camera),
                     title: new Text('プロフィール写真を撮ってください。'),
                     onTap: () {
                       _imgFromCamera();
-                      Navigator.of(context).pop();
                     },
                   ),
                 ],
@@ -234,6 +232,7 @@ class _BannerImageState extends State<BannerImage> {
       uploadVisible = false;
     });
     print('image path : ${_shiftImage.path}');
+    Navigator.of(context).pop();
   }
 
   _imgFromGallery() async {
@@ -247,6 +246,7 @@ class _BannerImageState extends State<BannerImage> {
       uploadVisible = false;
     });
     print('image path : ${_shiftImage.path}');
+    Navigator.of(context).pop();
   }
 
   Widget buildShiftImage(String bannerImage, int index) {

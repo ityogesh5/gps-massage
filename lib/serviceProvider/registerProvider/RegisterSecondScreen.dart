@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
@@ -45,7 +44,7 @@ class _RegistrationSecondPageState
   bool visible = false;
   bool idUploadVisible = false;
   bool uploadVisible = false;
-  var identificationverify, bankname, accountType;
+  var identificationVerify, bankName, accountType;
   String qualification;
   ProgressDialog _progressDialog = ProgressDialog();
   Map<String, String> certificateImages = Map<String, String>();
@@ -61,22 +60,23 @@ class _RegistrationSecondPageState
 
   void initState() {
     super.initState();
-    identificationverify = '';
+    identificationVerify = '';
     qualification = '';
-    bankname = '';
+    bankName = '';
     qualification = '';
     accountType = '';
-    getBankName();
     getsavedValues();
   }
 
   saveValues() {
     HealingMatchConstants.providerRegisterStatus = 1;
-    HealingMatchConstants.idVerify = identificationverify.toString().trim();
-    HealingMatchConstants.bankName =
-        bankname == HealingMatchConstants.registrationBankOtherDropdownFiled
-            ? bankOtherFieldController.text
-            : bankname;
+    HealingMatchConstants.idVerify = identificationVerify.toString().trim();
+    HealingMatchConstants.bankNameDropDownList.clear();
+    HealingMatchConstants.bankNameDropDownList.addAll(bankNameDropDownList);
+    HealingMatchConstants.bankName = bankName;
+    if (bankName == HealingMatchConstants.registrationBankOtherDropdownFiled) {
+      HealingMatchConstants.otherBankName = bankOtherFieldController.text;
+    }
     HealingMatchConstants.branchNumber = branchNumberController.text;
     HealingMatchConstants.accountNumber = accountnumberController.text;
     HealingMatchConstants.accountType = accountType;
@@ -91,7 +91,13 @@ class _RegistrationSecondPageState
 
   getsavedValues() {
     if (HealingMatchConstants.providerRegisterStatus == 1) {
-      identificationverify = HealingMatchConstants.idVerify;
+      bankNameDropDownList.addAll(HealingMatchConstants.bankNameDropDownList);
+      bankName = HealingMatchConstants.bankName;
+      if (bankName ==
+          HealingMatchConstants.registrationBankOtherDropdownFiled) {
+        bankOtherFieldController.text = HealingMatchConstants.otherBankName;
+      }
+      identificationVerify = HealingMatchConstants.idVerify;
       branchNumberController.text = HealingMatchConstants.branchNumber;
       accountnumberController.text = HealingMatchConstants.accountNumber;
       accountType = HealingMatchConstants.accountType;
@@ -100,6 +106,9 @@ class _RegistrationSecondPageState
       _idProfileImage = HealingMatchConstants.idProfileImage;
       privateQualification.addAll(HealingMatchConstants.privateQualification);
       certificateImages.addAll(HealingMatchConstants.certificateImages);
+      idUploadVisible = _idProfileImage == null ? false : true;
+    } else {
+      getBankName();
     }
   }
 
@@ -193,24 +202,24 @@ class _RegistrationSecondPageState
                             titleText: null,
                             requiredField: true,
                             hintText: readonly
-                                ? identificationverify
+                                ? identificationVerify
                                 : HealingMatchConstants
                                     .registrationIdentityVerification,
                             onSaved: (value) {
                               if (_idProfileImage == null) {
                                 setState(() {
-                                  identificationverify = value;
+                                  identificationVerify = value;
                                   idUploadVisible = true;
                                 });
                               } else {
                                 showIdSelectError();
                               }
                             },
-                            value: identificationverify,
+                            value: identificationVerify,
                             onChanged: (value) {
                               if (_idProfileImage == null) {
                                 setState(() {
-                                  identificationverify = value;
+                                  identificationVerify = value;
                                   idUploadVisible = true;
                                 });
                               } else {
@@ -711,18 +720,18 @@ class _RegistrationSecondPageState
                                       child: DropDownFormField(
                                         titleText: null,
                                         hintText: readonly
-                                            ? bankname
+                                            ? bankName
                                             : HealingMatchConstants
                                                 .registrationBankName,
                                         onSaved: (value) {
                                           setState(() {
-                                            bankname = value;
+                                            bankName = value;
                                           });
                                         },
-                                        value: bankname,
+                                        value: bankName,
                                         onChanged: (value) {
                                           setState(() {
-                                            bankname = value;
+                                            bankName = value;
                                             FocusScope.of(context)
                                                 .requestFocus(new FocusNode());
                                           });
@@ -740,7 +749,7 @@ class _RegistrationSecondPageState
                             SizedBox(
                               height: 10,
                             ),
-                            bankname ==
+                            bankName ==
                                     HealingMatchConstants
                                         .registrationBankOtherDropdownFiled
                                 ? Padding(
@@ -976,13 +985,13 @@ class _RegistrationSecondPageState
   }
 
   _providerRegistrationDetails() {
-    var _myidentificationverify = identificationverify.toString().trim();
+    var _myidentificationVerify = identificationVerify.toString().trim();
     var _myqualification = qualification.toString().trim();
     String branchNumber = branchNumberController.text;
     String accountNumber = accountnumberController.text;
 
     //id Validation
-    if (_myidentificationverify.isEmpty || _myidentificationverify == null) {
+    if (_myidentificationVerify.isEmpty || _myidentificationVerify == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
@@ -1079,7 +1088,7 @@ class _RegistrationSecondPageState
       return;
     } */
 
-    if (bankname == 'その他' && bankOtherFieldController.text.length > 25) {
+    if (bankName == 'その他' && bankOtherFieldController.text.length > 25) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('有効な銀行名を入力してください。',
@@ -1269,14 +1278,14 @@ class _RegistrationSecondPageState
       'userRoomNumber': HealingMatchConstants.serviceProviderRoomNumber,
       'qulaificationCertImgUrl': qualification,
       'bankName':
-          bankname == HealingMatchConstants.registrationBankOtherDropdownFiled
+          bankName == HealingMatchConstants.registrationBankOtherDropdownFiled
               ? bankOtherFieldController.text
-              : bankname,
+              : bankName,
       'branchCode': branchCodeController.text,
       'branchNumber': branchNumberController.text,
       'accountNumber': accountnumberController.text,
       'accountType': accountType,
-      'proofOfIdentityType': identificationverify,
+      'proofOfIdentityType': identificationVerify,
       'estheticList':
           json.encode(HealingMatchConstants.estheticServicePriceModel),
       'relaxationList':
@@ -1656,7 +1665,7 @@ class _BannerImageUploadState extends State<BannerImageUpload> {
         selectedAssets: images,
         cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
         materialOptions: MaterialOptions(
-          selectionLimitReachedText: "バーナーイメージは5個以上選択できません。選択を解除してやり直すことができます。",
+          selectionLimitReachedText: "バナーイメージは5個以上選択できません。選択を解除してやり直すことができます。",
           statusBarColor: "#F6F6F6",
           actionBarColor: "#C8D921",
           actionBarTitle: "Healing Match App",
