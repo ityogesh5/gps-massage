@@ -210,7 +210,7 @@ class _RegisterUserState extends State<RegisterUser> {
     _sharedPreferences.then((value) {
       fcmStatus = value.getBool('fcmStatus');
       print('fcmStatus is : $fcmStatus');
-      if (fcmStatus) {
+      if (fcmStatus != null && fcmStatus) {
         fireBaseMessaging.getToken().then((fcmTokenValue) {
           if (fcmTokenValue != null) {
             fcmToken = fcmTokenValue;
@@ -2199,7 +2199,6 @@ class _RegisterUserState extends State<RegisterUser> {
               serviceUserDetails.data.phoneNumber.toString());
           value.setString('userEmailAddress', serviceUserDetails.data.email);
 
-          // value.setString('userDOB', serviceUserDetails.data.userResponse.dob.toString());
           value.setString(
               'userDOB',
               DateFormat("yyyy-MM-dd")
@@ -2209,10 +2208,10 @@ class _RegisterUserState extends State<RegisterUser> {
 
           value.setString('userAge', serviceUserDetails.data.age.toString());
           value.setString('userGender', serviceUserDetails.data.gender);
-          // value.setString('userGender', japaneseGender);
+
           value.setString(
               'userOccupation', serviceUserDetails.data.userOccupation);
-          // value.setString('deviceToken', fcmToken);
+
           // Way 1 for loop
           for (var userAddressData in serviceUserDetails.data.addresses) {
             print('Address of user : ${userAddressData.toJson()}');
@@ -2321,7 +2320,7 @@ class _RegisterUserState extends State<RegisterUser> {
           stateDropDownValues.add(stateList.prefectureJa);
         });
       }
-      // getFCMStatus();
+      getFCMStatus();
     });
   }
 

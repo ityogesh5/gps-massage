@@ -476,6 +476,7 @@ class _BookingDetailsCompletedScreenOneState
                       children: [
                         (result != null && result.contains("エステ"))
                             ? Row(
+
                                 children: [
                                   CircleAvatar(
                                     maxRadius: 12,
@@ -1131,23 +1132,21 @@ class _BookingDetailsCompletedScreenOneState
                               fontSize: 16,
                               fontFamily: 'NotoSansJP'),
                         ),
-                      Padding(
+                        Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child:     ReadMoreText(
-            '${HealingMatchConstants.sampleText}',
-                  trimLines: 2,
-                  colorClickableText: Colors.pink,
-                  trimMode: TrimMode.Line,
-                  trimCollapsedText: '...Show more',
-                  trimExpandedText: ' show less',
-                ),
+                          child: ReadMoreText(
+                            '${HealingMatchConstants.sampleText}',
+                            trimLines: 2,
+                            colorClickableText: Colors.pink,
+                            trimMode: TrimMode.Line,
+                            trimCollapsedText: '...もっとみる',
+                            trimExpandedText: ' show less',
+                          ),
                         ),
                       ],
                     ),
                   ),
                 ),
-
-
                 Row(children: <Widget>[
                   Expanded(
                       child: Padding(
@@ -1311,7 +1310,6 @@ class _BookingDetailsCompletedScreenOneState
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             result != null && result.contains("エステ")
                                 ? GestureDetector(
@@ -1338,11 +1336,17 @@ class _BookingDetailsCompletedScreenOneState
                                             decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(10),
-                                              color: Color.fromRGBO(
-                                                  242, 242, 242, 1),
+                                              color: estheticStatus == true
+                                                  ? Color.fromRGBO(
+                                                      242, 242, 242, 1)
+                                                  : Color.fromRGBO(
+                                                      255, 255, 255, 1),
                                               border: Border.all(
-                                                color: Color.fromRGBO(
-                                                    102, 102, 102, 1),
+                                                color: estheticStatus == true
+                                                    ? Color.fromRGBO(
+                                                        102, 102, 102, 1)
+                                                    : Color.fromRGBO(
+                                                        228, 228, 228, 1),
                                               ),
                                             ),
                                             child: Padding(
@@ -1350,19 +1354,28 @@ class _BookingDetailsCompletedScreenOneState
                                                   const EdgeInsets.all(10.0),
                                               child: SvgPicture.asset(
                                                 'assets/images_gps/serviceTypeOne.svg',
-                                                color:
-                                                    Color.fromRGBO(0, 0, 0, 1),
+                                                color: estheticStatus == true
+                                                    ? Color.fromRGBO(0, 0, 0, 1)
+                                                    : Color.fromRGBO(
+                                                        217, 217, 217, 1),
                                                 height: 29.81,
                                                 width: 27.61,
                                               ),
                                             ),
                                           ),
                                         ),
-                                        Text('エステ'),
+                                        Text('エステ',  style: TextStyle(
+                                            fontSize: 12.0,
+                                            color: estheticStatus == true
+                                                ? Color.fromRGBO(0, 0, 0, 1)
+                                                : Color.fromRGBO(
+                                                    217, 217, 217, 1),
+                                          ),),
                                       ],
                                     ),
                                   )
                                 : SizedBox(),
+                            SizedBox(width: 10),
                             result != null && result.contains("接骨・整体")
                                 ? GestureDetector(
                                     onTap: () {
@@ -1385,14 +1398,20 @@ class _BookingDetailsCompletedScreenOneState
                                           child: Container(
                                             height: 65,
                                             width: 65,
-                                            decoration: BoxDecoration(
+                                       decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(10),
-                                              color: Color.fromRGBO(
-                                                  242, 242, 242, 1),
+                                              color: orteopathicStatus == true
+                                                  ? Color.fromRGBO(
+                                                      242, 242, 242, 1)
+                                                  : Color.fromRGBO(
+                                                      255, 255, 255, 1),
                                               border: Border.all(
-                                                color: Color.fromRGBO(
-                                                    102, 102, 102, 1),
+                                                color: orteopathicStatus == true
+                                                    ? Color.fromRGBO(
+                                                        102, 102, 102, 1)
+                                                    : Color.fromRGBO(
+                                                        228, 228, 228, 1),
                                               ),
                                             ),
                                             child: Padding(
@@ -1400,19 +1419,28 @@ class _BookingDetailsCompletedScreenOneState
                                                   const EdgeInsets.all(10.0),
                                               child: SvgPicture.asset(
                                                 'assets/images_gps/serviceTypeTwo.svg',
-                                                color:
-                                                    Color.fromRGBO(0, 0, 0, 1),
+                                                color: orteopathicStatus == true
+                                                    ? Color.fromRGBO(0, 0, 0, 1)
+                                                    : Color.fromRGBO(
+                                                        217, 217, 217, 1),
                                                 height: 29.81,
                                                 width: 27.61,
                                               ),
                                             ),
                                           ),
                                         ),
-                                        Text('接骨・整体')
+                                        Text('接骨・整体',  style: TextStyle(
+                                            fontSize: 12.0,
+                                            color: orteopathicStatus == true
+                                                ? Color.fromRGBO(0, 0, 0, 1)
+                                                : Color.fromRGBO(
+                                                    217, 217, 217, 1),
+                                          ),)
                                       ],
                                     ),
                                   )
                                 : SizedBox(),
+                            SizedBox(width: 10),
                             result != null && result.contains("リラクゼーション")
                                 ? GestureDetector(
                                     onTap: () {
@@ -1435,14 +1463,20 @@ class _BookingDetailsCompletedScreenOneState
                                           child: Container(
                                             height: 65,
                                             width: 65,
-                                            decoration: BoxDecoration(
+                             decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(10),
-                                              color: Color.fromRGBO(
-                                                  242, 242, 242, 1),
+                                              color: relaxationStatus == true
+                                                  ? Color.fromRGBO(
+                                                      242, 242, 242, 1)
+                                                  : Color.fromRGBO(
+                                                      255, 255, 255, 1),
                                               border: Border.all(
-                                                color: Color.fromRGBO(
-                                                    102, 102, 102, 1),
+                                                color: relaxationStatus == true
+                                                    ? Color.fromRGBO(
+                                                        102, 102, 102, 1)
+                                                    : Color.fromRGBO(
+                                                        228, 228, 228, 1),
                                               ),
                                             ),
                                             child: Padding(
@@ -1450,19 +1484,28 @@ class _BookingDetailsCompletedScreenOneState
                                                   const EdgeInsets.all(10.0),
                                               child: SvgPicture.asset(
                                                 'assets/images_gps/serviceTypeThree.svg',
-                                                color:
-                                                    Color.fromRGBO(0, 0, 0, 1),
+                                                color: relaxationStatus == true
+                                                    ? Color.fromRGBO(0, 0, 0, 1)
+                                                    : Color.fromRGBO(
+                                                        217, 217, 217, 1),
                                                 height: 29.81,
                                                 width: 27.61,
                                               ),
                                             ),
                                           ),
                                         ),
-                                        Text('リラクゼーション')
+                                        Text('リラクゼーション',  style: TextStyle(
+                                            fontSize: 12.0,
+                                            color: relaxationStatus == true
+                                                ? Color.fromRGBO(0, 0, 0, 1)
+                                                : Color.fromRGBO(
+                                                    217, 217, 217, 1),
+                                          ),)
                                       ],
                                     ),
                                   )
                                 : SizedBox(),
+                            SizedBox(width: 10),
                             result != null && result.contains("フィットネス")
                                 ? GestureDetector(
                                     onTap: () {
@@ -1488,11 +1531,17 @@ class _BookingDetailsCompletedScreenOneState
                                             decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(10),
-                                              color: Color.fromRGBO(
-                                                  242, 242, 242, 1),
+                                              color: fitnessStatus == true
+                                                  ? Color.fromRGBO(
+                                                      242, 242, 242, 1)
+                                                  : Color.fromRGBO(
+                                                      255, 255, 255, 1),
                                               border: Border.all(
-                                                color: Color.fromRGBO(
-                                                    102, 102, 102, 1),
+                                                color: fitnessStatus == true
+                                                    ? Color.fromRGBO(
+                                                        102, 102, 102, 1)
+                                                    : Color.fromRGBO(
+                                                        228, 228, 228, 1),
                                               ),
                                             ),
                                             child: Padding(
@@ -1500,15 +1549,26 @@ class _BookingDetailsCompletedScreenOneState
                                                   const EdgeInsets.all(10.0),
                                               child: SvgPicture.asset(
                                                 'assets/images_gps/serviceTypeFour.svg',
-                                                color:
-                                                    Color.fromRGBO(0, 0, 0, 1),
+                                                color: fitnessStatus == true
+                                                    ? Color.fromRGBO(0, 0, 0, 1)
+                                                    : Color.fromRGBO(
+                                                        217, 217, 217, 1),
                                                 height: 29.81,
                                                 width: 27.61,
                                               ),
                                             ),
                                           ),
                                         ),
-                                        Text('フィットネス')
+                                        Text(
+                                          'フィットネス',
+                                          style: TextStyle(
+                                            fontSize: 12.0,
+                                            color: fitnessStatus == true
+                                                ? Color.fromRGBO(0, 0, 0, 1)
+                                                : Color.fromRGBO(
+                                                    217, 217, 217, 1),
+                                          ),
+                                        )
                                       ],
                                     ),
                                   )
@@ -1552,7 +1612,7 @@ class _BookingDetailsCompletedScreenOneState
                     ],
                   ),
                 ),
-                    Visibility(
+                Visibility(
                   visible: orteopathicStatus,
                   child: Column(
                     children: [
@@ -41822,274 +41882,333 @@ class _BookingDetailsCompletedScreenOneState
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 1),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              1
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '60分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible:
+                                                      therapistRelaxationList[
+                                                                      index]
+                                                                  .sixtyMin !=
+                                                              null &&
+                                                          therapistRelaxationList[
+                                                                      index]
+                                                                  .sixtyMin !=
+                                                              0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 1
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              )
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '60分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                )
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].sixtyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        )
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].sixtyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          )
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 2),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              2
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '90分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible:
+                                                      therapistRelaxationList[
+                                                                      index]
+                                                                  .nintyMin !=
+                                                              null &&
+                                                          therapistRelaxationList[
+                                                                      index]
+                                                                  .nintyMin !=
+                                                              0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 2
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '90分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].nintyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].nintyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 3),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              3
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '120分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                                  index]
+                                                              .oneTwentyMin !=
+                                                          null &&
+                                                      therapistRelaxationList[
+                                                                  index]
+                                                              .oneTwentyMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 3
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '120分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneTwentyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneTwentyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
@@ -42205,92 +42324,111 @@ class _BookingDetailsCompletedScreenOneState
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 5),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              5
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '180分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                                  index]
+                                                              .oneEightyMin !=
+                                                          null &&
+                                                      therapistRelaxationList[
+                                                                  index]
+                                                              .oneEightyMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 5
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '180分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneEightyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneEightyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -42417,456 +42555,553 @@ class _BookingDetailsCompletedScreenOneState
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 1),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              1
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '60分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible:
+                                                      therapistRelaxationList[
+                                                                      index]
+                                                                  .sixtyMin !=
+                                                              null &&
+                                                          therapistRelaxationList[
+                                                                      index]
+                                                                  .sixtyMin !=
+                                                              0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 1
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              )
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '60分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                )
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].sixtyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        )
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].sixtyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          )
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 2),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              2
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '90分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible:
+                                                      therapistRelaxationList[
+                                                                      index]
+                                                                  .nintyMin !=
+                                                              null &&
+                                                          therapistRelaxationList[
+                                                                      index]
+                                                                  .nintyMin !=
+                                                              0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 2
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '90分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].nintyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].nintyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 3),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              3
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '120分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                                  index]
+                                                              .oneTwentyMin !=
+                                                          null &&
+                                                      therapistRelaxationList[
+                                                                  index]
+                                                              .oneTwentyMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 3
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '120分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneTwentyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneTwentyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 4),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              4
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '150分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                                  index]
+                                                              .oneFifityMin !=
+                                                          null &&
+                                                      therapistRelaxationList[
+                                                                  index]
+                                                              .oneFifityMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 4
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '150分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneFifityMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneFifityMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 5),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              5
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '180分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                                  index]
+                                                              .oneEightyMin !=
+                                                          null &&
+                                                      therapistRelaxationList[
+                                                                  index]
+                                                              .oneEightyMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 5
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '180分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneEightyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneEightyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -43104,365 +43339,442 @@ class _BookingDetailsCompletedScreenOneState
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 2),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              2
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '90分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible:
+                                                      therapistRelaxationList[
+                                                                      index]
+                                                                  .nintyMin !=
+                                                              null &&
+                                                          therapistRelaxationList[
+                                                                      index]
+                                                                  .nintyMin !=
+                                                              0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 2
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '90分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].nintyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].nintyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 3),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              3
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '120分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                                  index]
+                                                              .oneTwentyMin !=
+                                                          null &&
+                                                      therapistRelaxationList[
+                                                                  index]
+                                                              .oneTwentyMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 3
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '120分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneTwentyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneTwentyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 4),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              4
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '150分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                                  index]
+                                                              .oneFifityMin !=
+                                                          null &&
+                                                      therapistRelaxationList[
+                                                                  index]
+                                                              .oneFifityMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 4
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '150分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneFifityMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneFifityMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 5),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              5
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '180分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                                  index]
+                                                              .oneEightyMin !=
+                                                          null &&
+                                                      therapistRelaxationList[
+                                                                  index]
+                                                              .oneEightyMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 5
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '180分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneEightyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneEightyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -43589,456 +43901,553 @@ class _BookingDetailsCompletedScreenOneState
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 1),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              1
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '60分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible:
+                                                      therapistRelaxationList[
+                                                                      index]
+                                                                  .sixtyMin !=
+                                                              null &&
+                                                          therapistRelaxationList[
+                                                                      index]
+                                                                  .sixtyMin !=
+                                                              0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 1
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              )
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '60分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                )
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].sixtyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        )
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].sixtyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          )
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 2),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              2
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '90分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible:
+                                                      therapistRelaxationList[
+                                                                      index]
+                                                                  .nintyMin !=
+                                                              null &&
+                                                          therapistRelaxationList[
+                                                                      index]
+                                                                  .nintyMin !=
+                                                              0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 2
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '90分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].nintyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].nintyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 3),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              3
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '120分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                                  index]
+                                                              .oneTwentyMin !=
+                                                          null &&
+                                                      therapistRelaxationList[
+                                                                  index]
+                                                              .oneTwentyMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 3
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '120分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneTwentyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneTwentyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 4),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              4
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '150分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                                  index]
+                                                              .oneFifityMin !=
+                                                          null &&
+                                                      therapistRelaxationList[
+                                                                  index]
+                                                              .oneFifityMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 4
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '150分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneFifityMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneFifityMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 5),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              5
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '180分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                                  index]
+                                                              .oneEightyMin !=
+                                                          null &&
+                                                      therapistRelaxationList[
+                                                                  index]
+                                                              .oneEightyMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 5
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '180分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneEightyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneEightyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -44165,456 +44574,553 @@ class _BookingDetailsCompletedScreenOneState
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 1),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              1
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '60分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible:
+                                                      therapistRelaxationList[
+                                                                      index]
+                                                                  .sixtyMin !=
+                                                              null &&
+                                                          therapistRelaxationList[
+                                                                      index]
+                                                                  .sixtyMin !=
+                                                              0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 1
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              )
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '60分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                )
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].sixtyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        )
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].sixtyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          )
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 2),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              2
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '90分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible:
+                                                      therapistRelaxationList[
+                                                                      index]
+                                                                  .nintyMin !=
+                                                              null &&
+                                                          therapistRelaxationList[
+                                                                      index]
+                                                                  .nintyMin !=
+                                                              0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 2
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '90分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].nintyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].nintyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 3),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              3
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '120分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                                  index]
+                                                              .oneTwentyMin !=
+                                                          null &&
+                                                      therapistRelaxationList[
+                                                                  index]
+                                                              .oneTwentyMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 3
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '120分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneTwentyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneTwentyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 4),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              4
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '150分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                                  index]
+                                                              .oneFifityMin !=
+                                                          null &&
+                                                      therapistRelaxationList[
+                                                                  index]
+                                                              .oneFifityMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 4
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '150分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneFifityMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneFifityMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 5),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              5
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '180分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                                  index]
+                                                              .oneEightyMin !=
+                                                          null &&
+                                                      therapistRelaxationList[
+                                                                  index]
+                                                              .oneEightyMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 5
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '180分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneEightyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneEightyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -44741,456 +45247,553 @@ class _BookingDetailsCompletedScreenOneState
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 1),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              1
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '60分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible:
+                                                      therapistRelaxationList[
+                                                                      index]
+                                                                  .sixtyMin !=
+                                                              null &&
+                                                          therapistRelaxationList[
+                                                                      index]
+                                                                  .sixtyMin !=
+                                                              0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 1
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              )
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '60分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                )
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].sixtyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        )
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].sixtyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          )
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 2),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              2
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '90分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible:
+                                                      therapistRelaxationList[
+                                                                      index]
+                                                                  .nintyMin !=
+                                                              null &&
+                                                          therapistRelaxationList[
+                                                                      index]
+                                                                  .nintyMin !=
+                                                              0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 2
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '90分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].nintyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].nintyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 3),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              3
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '120分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                                  index]
+                                                              .oneTwentyMin !=
+                                                          null &&
+                                                      therapistRelaxationList[
+                                                                  index]
+                                                              .oneTwentyMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 3
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '120分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneTwentyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneTwentyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 4),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              4
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '150分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                                  index]
+                                                              .oneFifityMin !=
+                                                          null &&
+                                                      therapistRelaxationList[
+                                                                  index]
+                                                              .oneFifityMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 4
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '150分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneFifityMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneFifityMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 5),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              5
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '180分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                                  index]
+                                                              .oneEightyMin !=
+                                                          null &&
+                                                      therapistRelaxationList[
+                                                                  index]
+                                                              .oneEightyMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 5
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '180分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneEightyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneEightyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -45317,456 +45920,553 @@ class _BookingDetailsCompletedScreenOneState
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 1),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              1
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '60分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible:
+                                                      therapistRelaxationList[
+                                                                      index]
+                                                                  .sixtyMin !=
+                                                              null &&
+                                                          therapistRelaxationList[
+                                                                      index]
+                                                                  .sixtyMin !=
+                                                              0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 1
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              )
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '60分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                )
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].sixtyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        )
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].sixtyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          )
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 2),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              2
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '90分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible:
+                                                      therapistRelaxationList[
+                                                                      index]
+                                                                  .nintyMin !=
+                                                              null &&
+                                                          therapistRelaxationList[
+                                                                      index]
+                                                                  .nintyMin !=
+                                                              0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 2
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '90分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].nintyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].nintyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 3),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              3
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '120分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                                  index]
+                                                              .oneTwentyMin !=
+                                                          null &&
+                                                      therapistRelaxationList[
+                                                                  index]
+                                                              .oneTwentyMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 3
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '120分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneTwentyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneTwentyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 4),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              4
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '150分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                                  index]
+                                                              .oneFifityMin !=
+                                                          null &&
+                                                      therapistRelaxationList[
+                                                                  index]
+                                                              .oneFifityMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 4
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '150分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneFifityMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneFifityMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 5),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              5
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '180分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                                  index]
+                                                              .oneEightyMin !=
+                                                          null &&
+                                                      therapistRelaxationList[
+                                                                  index]
+                                                              .oneEightyMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 5
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '180分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneEightyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneEightyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -45893,456 +46593,544 @@ class _BookingDetailsCompletedScreenOneState
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 1),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              1
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '60分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible:
+                                                      therapistRelaxationList[
+                                                                      index]
+                                                                  .sixtyMin !=
+                                                              null &&
+                                                          therapistRelaxationList[
+                                                                      index]
+                                                                  .sixtyMin !=
+                                                              0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 1
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              )
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '60分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                )
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].sixtyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        )
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].sixtyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          )
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 2),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              2
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '90分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible:
+                                                      therapistRelaxationList[
+                                                                      index]
+                                                                  .nintyMin !=
+                                                              null &&
+                                                          therapistRelaxationList[
+                                                                      index]
+                                                                  .nintyMin !=
+                                                              0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 2
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '90分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].nintyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].nintyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 3),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              3
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '120分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                                  index]
+                                                              .oneTwentyMin !=
+                                                          null &&
+                                                      therapistRelaxationList[
+                                                                  index]
+                                                              .oneTwentyMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 3
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '120分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneTwentyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneTwentyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 4),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              4
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '150分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                  index]
+                                                      .oneFifityMin !=
+                                                      null &&
+                                                      therapistRelaxationList[
+                                                      index]
+                                                          .oneFifityMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color:
+                                                            massageTipColor == 4
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        242,
+                                                                        242,
+                                                                        242,
+                                                                        1)
+                                                                : Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '150分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneFifityMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneFifityMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 5),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              5
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '180分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                  index]
+                                                      .oneEightyMin !=
+                                                      null &&
+                                                      therapistRelaxationList[
+                                                      index]
+                                                          .oneEightyMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                10),
+                                                        color: massageTipColor ==
+                                                                5
+                                                            ? Color.fromRGBO(
+                                                                242, 242, 242, 1)
+                                                            : Color.fromRGBO(
+                                                                255, 255, 255, 1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '180分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneEightyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneEightyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color:
+                                                                    Colors.black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -46469,456 +47257,508 @@ class _BookingDetailsCompletedScreenOneState
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 1),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              1
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '60分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible:
+                                                  therapistRelaxationList[
+                                                  index]
+                                                      .sixtyMin !=
+                                                      null &&
+                                                      therapistRelaxationList[
+                                                      index]
+                                                          .sixtyMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                10),
+                                                        color: massageTipColor ==
+                                                                1
+                                                            ? Color.fromRGBO(
+                                                                242, 242, 242, 1)
+                                                            : Color.fromRGBO(
+                                                                255, 255, 255, 1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              )
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '60分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                )
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].sixtyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        )
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].sixtyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color:
+                                                                    Colors.black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          )
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 2),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              2
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '90分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible:
+                                                  therapistRelaxationList[
+                                                  index]
+                                                      .nintyMin !=
+                                                      null &&
+                                                      therapistRelaxationList[
+                                                      index]
+                                                          .nintyMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                10),
+                                                        color: massageTipColor ==
+                                                                2
+                                                            ? Color.fromRGBO(
+                                                                242, 242, 242, 1)
+                                                            : Color.fromRGBO(
+                                                                255, 255, 255, 1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '90分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].nintyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].nintyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color:
+                                                                    Colors.black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 3),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              3
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '120分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                  index]
+                                                      .oneTwentyMin !=
+                                                      null &&
+                                                      therapistRelaxationList[
+                                                      index]
+                                                          .oneTwentyMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                10),
+                                                        color: massageTipColor ==
+                                                                3
+                                                            ? Color.fromRGBO(
+                                                                242, 242, 242, 1)
+                                                            : Color.fromRGBO(
+                                                                255, 255, 255, 1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '120分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneTwentyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneTwentyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color:
+                                                                    Colors.black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 4),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              4
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '150分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                  index]
+                                                      .oneFifityMin !=
+                                                      null &&
+                                                      therapistRelaxationList[
+                                                      index]
+                                                          .oneFifityMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                10),
+                                                        color: massageTipColor ==
+                                                                4
+                                                            ? Color.fromRGBO(
+                                                                242, 242, 242, 1)
+                                                            : Color.fromRGBO(
+                                                                255, 255, 255, 1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '150分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneFifityMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneFifityMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color:
+                                                                    Colors.black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 5),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              5
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '180分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                  index]
+                                                      .oneEightyMin !=
+                                                      null &&
+                                                      therapistRelaxationList[
+                                                      index]
+                                                          .oneEightyMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                10),
+                                                        color: massageTipColor ==
+                                                                5
+                                                            ? Color.fromRGBO(
+                                                                242, 242, 242, 1)
+                                                            : Color.fromRGBO(
+                                                                255, 255, 255, 1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '180分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneEightyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneEightyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color:
+                                                                    Colors.black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -47045,456 +47885,508 @@ class _BookingDetailsCompletedScreenOneState
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 1),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              1
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '60分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible:
+                                                  therapistRelaxationList[
+                                                  index]
+                                                      .sixtyMin !=
+                                                      null &&
+                                                      therapistRelaxationList[
+                                                      index]
+                                                          .sixtyMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                10),
+                                                        color: massageTipColor ==
+                                                                1
+                                                            ? Color.fromRGBO(
+                                                                242, 242, 242, 1)
+                                                            : Color.fromRGBO(
+                                                                255, 255, 255, 1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              )
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '60分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                )
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].sixtyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        )
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].sixtyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color:
+                                                                    Colors.black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          )
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 2),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              2
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '90分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible:
+                                                  therapistRelaxationList[
+                                                  index]
+                                                      .nintyMin !=
+                                                      null &&
+                                                      therapistRelaxationList[
+                                                      index]
+                                                          .nintyMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                10),
+                                                        color: massageTipColor ==
+                                                                2
+                                                            ? Color.fromRGBO(
+                                                                242, 242, 242, 1)
+                                                            : Color.fromRGBO(
+                                                                255, 255, 255, 1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '90分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].nintyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].nintyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color:
+                                                                    Colors.black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 3),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              3
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '120分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                  index]
+                                                      .oneTwentyMin !=
+                                                      null &&
+                                                      therapistRelaxationList[
+                                                      index]
+                                                          .oneTwentyMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                10),
+                                                        color: massageTipColor ==
+                                                                3
+                                                            ? Color.fromRGBO(
+                                                                242, 242, 242, 1)
+                                                            : Color.fromRGBO(
+                                                                255, 255, 255, 1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '120分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneTwentyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneTwentyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color:
+                                                                    Colors.black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 4),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              4
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '150分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                  index]
+                                                      .oneFifityMin !=
+                                                      null &&
+                                                      therapistRelaxationList[
+                                                      index]
+                                                          .oneFifityMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                10),
+                                                        color: massageTipColor ==
+                                                                4
+                                                            ? Color.fromRGBO(
+                                                                242, 242, 242, 1)
+                                                            : Color.fromRGBO(
+                                                                255, 255, 255, 1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '150分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneFifityMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneFifityMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color:
+                                                                    Colors.black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 5),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              5
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '180分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                  index]
+                                                      .oneEightyMin !=
+                                                      null &&
+                                                      therapistRelaxationList[
+                                                      index]
+                                                          .oneEightyMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                10),
+                                                        color: massageTipColor ==
+                                                                5
+                                                            ? Color.fromRGBO(
+                                                                242, 242, 242, 1)
+                                                            : Color.fromRGBO(
+                                                                255, 255, 255, 1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '180分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneEightyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneEightyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color:
+                                                                    Colors.black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -47623,456 +48515,508 @@ class _BookingDetailsCompletedScreenOneState
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 1),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              1
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '60分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible:
+                                                  therapistRelaxationList[
+                                                  index]
+                                                      .sixtyMin !=
+                                                      null &&
+                                                      therapistRelaxationList[
+                                                      index]
+                                                          .sixtyMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                10),
+                                                        color: massageTipColor ==
+                                                                1
+                                                            ? Color.fromRGBO(
+                                                                242, 242, 242, 1)
+                                                            : Color.fromRGBO(
+                                                                255, 255, 255, 1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              )
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '60分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                )
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].sixtyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        )
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].sixtyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color:
+                                                                    Colors.black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          )
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 2),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              2
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '90分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible:
+                                                  therapistRelaxationList[
+                                                  index]
+                                                      .nintyMin !=
+                                                      null &&
+                                                      therapistRelaxationList[
+                                                      index]
+                                                          .nintyMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                10),
+                                                        color: massageTipColor ==
+                                                                2
+                                                            ? Color.fromRGBO(
+                                                                242, 242, 242, 1)
+                                                            : Color.fromRGBO(
+                                                                255, 255, 255, 1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '90分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].nintyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].nintyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color:
+                                                                    Colors.black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 3),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              3
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '120分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                  index]
+                                                      .oneTwentyMin !=
+                                                      null &&
+                                                      therapistRelaxationList[
+                                                      index]
+                                                          .oneTwentyMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                10),
+                                                        color: massageTipColor ==
+                                                                3
+                                                            ? Color.fromRGBO(
+                                                                242, 242, 242, 1)
+                                                            : Color.fromRGBO(
+                                                                255, 255, 255, 1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '120分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneTwentyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneTwentyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color:
+                                                                    Colors.black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 4),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              4
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '150分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                  index]
+                                                      .oneFifityMin !=
+                                                      null &&
+                                                      therapistRelaxationList[
+                                                      index]
+                                                          .oneFifityMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                10),
+                                                        color: massageTipColor ==
+                                                                4
+                                                            ? Color.fromRGBO(
+                                                                242, 242, 242, 1)
+                                                            : Color.fromRGBO(
+                                                                255, 255, 255, 1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '150分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneFifityMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneFifityMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color:
+                                                                    Colors.black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 5),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              5
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '180分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible: therapistRelaxationList[
+                                                  index]
+                                                      .oneEightyMin !=
+                                                      null &&
+                                                      therapistRelaxationList[
+                                                      index]
+                                                          .oneEightyMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                10),
+                                                        color: massageTipColor ==
+                                                                5
+                                                            ? Color.fromRGBO(
+                                                                242, 242, 242, 1)
+                                                            : Color.fromRGBO(
+                                                                255, 255, 255, 1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '180分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].oneEightyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].oneEightyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color:
+                                                                    Colors.black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -48201,183 +49145,205 @@ class _BookingDetailsCompletedScreenOneState
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 1),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              1
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '60分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible:
+                                                  therapistRelaxationList[
+                                                  index]
+                                                      .sixtyMin !=
+                                                      null &&
+                                                      therapistRelaxationList[
+                                                      index]
+                                                          .sixtyMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                10),
+                                                        color: massageTipColor ==
+                                                                1
+                                                            ? Color.fromRGBO(
+                                                                242, 242, 242, 1)
+                                                            : Color.fromRGBO(
+                                                                255, 255, 255, 1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              )
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '60分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                )
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].sixtyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        )
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].sixtyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color:
+                                                                    Colors.black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          )
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () => setState(
                                                     () => massageTipColor = 2),
-                                                child: Container(
-                                                    height: 80,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: massageTipColor ==
-                                                              2
-                                                          ? Color.fromRGBO(
-                                                              242, 242, 242, 1)
-                                                          : Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      border: Border.all(),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 5,
-                                                          blurRadius: 7,
-                                                          offset: Offset(0,
-                                                              3), // changes position of shadow
-                                                        )
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  'assets/images_gps/processing.svg',
-                                                                  height: 25,
-                                                                  width: 25,
-                                                                  color: Colors
-                                                                      .black),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              new Text(
-                                                                '90分',
-                                                                style: TextStyle(
-                                                                    decoration:
-                                                                        TextDecoration
-                                                                            .none,
+                                                child: Visibility(
+                                                  visible:
+                                                  therapistRelaxationList[
+                                                  index]
+                                                      .nintyMin !=
+                                                      null &&
+                                                      therapistRelaxationList[
+                                                      index]
+                                                          .nintyMin !=
+                                                          0,
+                                                  child: Container(
+                                                      height: 80,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                10),
+                                                        color: massageTipColor ==
+                                                                2
+                                                            ? Color.fromRGBO(
+                                                                242, 242, 242, 1)
+                                                            : Color.fromRGBO(
+                                                                255, 255, 255, 1),
+                                                        border: Border.all(),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.1),
+                                                            spreadRadius: 5,
+                                                            blurRadius: 7,
+                                                            offset: Offset(0,
+                                                                3), // changes position of shadow
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    'assets/images_gps/processing.svg',
+                                                                    height: 25,
+                                                                    width: 25,
                                                                     color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontFamily:
-                                                                        'NotoSansJP',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                                        .black),
+                                                                SizedBox(
+                                                                    width: 5),
+                                                                new Text(
+                                                                  '90分',
+                                                                  style: TextStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .none,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontFamily:
+                                                                          'NotoSansJP',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        new Text(
-                                                          '¥${therapistRelaxationList[index].nintyMin}',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                          new Text(
+                                                            '¥${therapistRelaxationList[index].nintyMin}',
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                                color:
+                                                                    Colors.black,
+                                                                fontSize: 16,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
                                               ),
                                               SizedBox(width: 10),
                                               GestureDetector(
@@ -57966,59 +58932,61 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                         }),
                   ),
                 ]),
-              ), Positioned(
-          top: 30.0,
-          left: 20.0,
-          right: 20.0,
-          child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-            CircleAvatar(
-              maxRadius: 18,
-              backgroundColor: Colors.white,
-              child: IconButton(
-                icon: Icon(
-                  Icons.arrow_back_ios_outlined,
-                  size: 20,
-                  color: Colors.black,
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
               ),
-            ),
-            Spacer(),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                CircleAvatar(
-                  maxRadius: 18,
-                  backgroundColor: Colors.white,
-                  child: CustomFavoriteButton(
-                      iconSize: 40,
-                      iconColor: Colors.red,
-                      valueChanged: (_isFavorite) {
-                        print('Is Favorite : $_isFavorite');
-                      }),
-                ),
-SizedBox(width: MediaQuery.of(context).size.width * 0.01),
-InkWell(
-onTap: () {
-DialogHelper.openReportBlockUserDialog(context);
-},
-child: CircleAvatar(
-maxRadius: 18,
-backgroundColor: Colors.white,
-child: Icon(
-Icons.report_gmailerrorred_rounded,
-color: Colors.red,
-size: 30.0,
-),
-),
-),
-              ],
-            ),
-          ]),
-        ),
+              Positioned(
+                top: 30.0,
+                left: 20.0,
+                right: 20.0,
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                  CircleAvatar(
+                    maxRadius: 18,
+                    backgroundColor: Colors.white,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.arrow_back_ios_outlined,
+                        size: 20,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                  Spacer(),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      CircleAvatar(
+                        maxRadius: 18,
+                        backgroundColor: Colors.white,
+                        child: CustomFavoriteButton(
+                            iconSize: 40,
+                            iconColor: Colors.red,
+                            valueChanged: (_isFavorite) {
+                              print('Is Favorite : $_isFavorite');
+                            }),
+                      ),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.01),
+                      InkWell(
+                        onTap: () {
+                          DialogHelper.openReportBlockUserDialog(context);
+                        },
+                        child: CircleAvatar(
+                          maxRadius: 18,
+                          backgroundColor: Colors.white,
+                          child: Icon(
+                            Icons.report_gmailerrorred_rounded,
+                            color: Colors.red,
+                            size: 30.0,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ]),
+              ),
               Positioned(
                   bottom: 5.0,
                   left: 50.0,
@@ -58068,59 +59036,60 @@ size: 30.0,
                   ),
                 ]),
               ),
-               Positioned(
-          top: 30.0,
-          left: 20.0,
-          right: 20.0,
-          child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-            CircleAvatar(
-              maxRadius: 18,
-              backgroundColor: Colors.white,
-              child: IconButton(
-                icon: Icon(
-                  Icons.arrow_back_ios_outlined,
-                  size: 20,
-                  color: Colors.black,
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+              Positioned(
+                top: 30.0,
+                left: 20.0,
+                right: 20.0,
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                  CircleAvatar(
+                    maxRadius: 18,
+                    backgroundColor: Colors.white,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.arrow_back_ios_outlined,
+                        size: 20,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                  Spacer(),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      CircleAvatar(
+                        maxRadius: 18,
+                        backgroundColor: Colors.white,
+                        child: CustomFavoriteButton(
+                            iconSize: 40,
+                            iconColor: Colors.red,
+                            valueChanged: (_isFavorite) {
+                              print('Is Favorite : $_isFavorite');
+                            }),
+                      ),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.01),
+                      InkWell(
+                        onTap: () {
+                          DialogHelper.openReportBlockUserDialog(context);
+                        },
+                        child: CircleAvatar(
+                          maxRadius: 18,
+                          backgroundColor: Colors.white,
+                          child: Icon(
+                            Icons.report_gmailerrorred_rounded,
+                            color: Colors.red,
+                            size: 30.0,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ]),
               ),
-            ),
-            Spacer(),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                CircleAvatar(
-                  maxRadius: 18,
-                  backgroundColor: Colors.white,
-                  child: CustomFavoriteButton(
-                      iconSize: 40,
-                      iconColor: Colors.red,
-                      valueChanged: (_isFavorite) {
-                        print('Is Favorite : $_isFavorite');
-                      }),
-                ),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.01),
-InkWell(
-onTap: () {
-DialogHelper.openReportBlockUserDialog(context);
-},
-child: CircleAvatar(
-maxRadius: 18,
-backgroundColor: Colors.white,
-child: Icon(
-Icons.report_gmailerrorred_rounded,
-color: Colors.red,
-size: 30.0,
-),
-),
-),
-              ],
-            ),
-          ]),
-        ),
               Positioned(
                   bottom: 5.0,
                   left: 50.0,
