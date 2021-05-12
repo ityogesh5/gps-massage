@@ -1590,50 +1590,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   }
 
   _getKeywordResults() {
-    ServiceUserAPIProvider.getTherapistSearchResults(
-            context, _pageNumber, _pageSize)
-        .then((value) {
-      if (value != null &&
-          value.status != null &&
-          value.data.searchList != null &&
-          value.data.searchList.length != 0) {
-        HealingMatchConstants.searchList = value.data.searchList;
-        print(
-            'Search List Length : ${HealingMatchConstants.searchList.length}');
-        NavigationRouter.switchToUserSearchResult(context);
-      } else {
-        ProgressDialogBuilder.hideLoader(context);
-        _searchKey.currentState.showSnackBar(SnackBar(
-          backgroundColor: ColorConstants.snackBarColor,
-          duration: Duration(seconds: 7),
-          content: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: Text('検索結果が見つかりません！他の値の入力で再試行してください。',
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                    style: TextStyle(fontFamily: 'NotoSansJP')),
-              ),
-              InkWell(
-                onTap: () {
-                  _searchKey.currentState.hideCurrentSnackBar();
-                },
-                child: Text('はい',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'NotoSansJP',
-                        fontWeight: FontWeight.w500,
-                        decoration: TextDecoration.underline)),
-              ),
-            ],
-          ),
-        ));
-      }
-    }).catchError((onError) {
-      ProgressDialogBuilder.hideLoader(context);
-      print('Search catch error : ${onError.toString()}');
-    });
+    NavigationRouter.switchToUserSearchResult(context);
   }
 
   _getSearchResults() {

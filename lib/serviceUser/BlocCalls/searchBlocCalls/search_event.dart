@@ -13,13 +13,15 @@ class FetchSearchResultsEvent extends SearchEvent {
       [pageNumber, pageSize];
 }
 
-class CallSearchEvent extends SearchEvent {
+
+class CallSearchByTypeEvent extends SearchEvent {
   final pageNumber;
   final pageSize;
+  final searchType;
 
-  CallSearchEvent(this.pageNumber, this.pageSize);
+  CallSearchByTypeEvent(this.pageNumber, this.pageSize,this.searchType);
 
   @override
   // TODO: implement props
-  List<Object> get props => [pageNumber, pageSize];
+  List<Object> get props => [pageNumber, pageSize,searchType];
 }

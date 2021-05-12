@@ -1070,18 +1070,19 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                       children: [
                                         SizedBox(width: 5),
                                         widget.getTherapistByType[index]
-                                            .name !=
+                                            .user.storeName !=
                                             null
                                             ? Expanded(
                                           child: Row(
                                             children: [
                                               Flexible(
                                                 child: Text(
-                                                  '${widget.getTherapistByType[index].name}',
+                                                  '${widget.getTherapistByType[index].user.storeName}',
                                                   maxLines: widget
                                                       .getTherapistByType[
                                                   index]
-                                                      .name
+                                                      .user
+                                                      .storeName
                                                       .length >
                                                       10
                                                       ? 2
@@ -1326,12 +1327,38 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                             onRatingUpdate:
                                                 (rating) {},
                                           ),
-                                          Text(
-                                            '(1518)',
+                                          widget.getTherapistByType[index]
+                                              .noOfReviewsMembers !=
+                                              null &&
+                                              widget
+                                                  .getTherapistByType[
+                                              index]
+                                                  .noOfReviewsMembers !=
+                                                  0
+                                              ? Text(
+                                            '(${widget.getTherapistByType[index].noOfReviewsMembers})',
                                             style: TextStyle(
-                                                color: Color.fromRGBO(
-                                                    153, 153, 153, 1),
-                                                fontFamily: ColorConstants
+                                                color:
+                                                Color.fromRGBO(
+                                                    153,
+                                                    153,
+                                                    153,
+                                                    1),
+                                                fontFamily:
+                                                ColorConstants
+                                                    .fontFamily),
+                                          )
+                                              : Text(
+                                            '(0)',
+                                            style: TextStyle(
+                                                color:
+                                                Color.fromRGBO(
+                                                    153,
+                                                    153,
+                                                    153,
+                                                    1),
+                                                fontFamily:
+                                                ColorConstants
                                                     .fontFamily),
                                           ),
                                         ],
@@ -1540,76 +1567,82 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
   }
 
   getCertificateValues(List<TypeTherapistData> getTherapistByType) async {
-    if (this.mounted) {
-      setState(() {
-        if (getTherapistByType != null && getTherapistByType.isNotEmpty) {
-          for (int i = 0; i < getTherapistByType.length; i++) {
-            if (getTherapistByType[i].user.storeType != null &&
-                getTherapistByType[i].user.storeType != '') {
-              var split = getTherapistByType[i].user.storeType.split(',');
-              final jsonList = split.map((item) => jsonEncode(item)).toList();
-              final uniqueJsonList = jsonList.toSet().toList();
-              final result =
-              uniqueJsonList.map((item) => jsonDecode(item)).toList();
-              print('Map Duplicate type : $result');
-              storeTypeValues = {
-                for (int i = 0; i < result.length; i++) i: result[i]
-              };
-              print('Store type map values type : $storeTypeValues');
-            }
-            certificateUpload = getTherapistByType[i].user.certificationUploads;
-            for (int j = 0; j < certificateUpload.length; j++) {
-              print(
-                  'Certificate upload type : ${certificateUpload[j].toJson()}');
-              certificateUploadKeys = certificateUpload[j].toJson();
-              certificateUploadKeys.remove('id');
-              certificateUploadKeys.remove('userId');
-              certificateUploadKeys.remove('createdAt');
-              certificateUploadKeys.remove('updatedAt');
-              print('Keys certificate type : $certificateUploadKeys');
-            }
-
-            certificateUploadKeys.forEach((key, value) async {
-              if (certificateUploadKeys[key] != null) {
-                String jKey = getQualificationJPWordsForType(key);
-                if (jKey == "はり師" ||
-                    jKey == "きゅう師" ||
-                    jKey == "鍼灸師" ||
-                    jKey == "あん摩マッサージ指圧師" ||
-                    jKey == "柔道整復師" ||
-                    jKey == "理学療法士") {
-                  certificateImages["国家資格保有"] = "国家資格保有";
-                } else if (jKey == "国家資格取得予定（学生）") {
-                  certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
-                } else if (jKey == "民間資格") {
-                  certificateImages["民間資格"] = "民間資格";
-                } else if (jKey == "無資格") {
-                  certificateImages["無資格"] = "無資格";
-                }
+    try {
+      if (this.mounted) {
+        setState(() {
+          if (getTherapistByType != null && getTherapistByType.isNotEmpty) {
+            for (int i = 0; i < getTherapistByType.length; i++) {
+              if (getTherapistByType[i].user.storeType != null &&
+                  getTherapistByType[i].user.storeType != '') {
+                var split = getTherapistByType[i].user.storeType.split(',');
+                final jsonList = split.map((item) => jsonEncode(item)).toList();
+                final uniqueJsonList = jsonList.toSet().toList();
+                final result =
+                uniqueJsonList.map((item) => jsonDecode(item)).toList();
+                print('Map Duplicate type : $result');
+                storeTypeValues = {
+                  for (int i = 0; i < result.length; i++) i: result[i]
+                };
+                print('Store type map values type : $storeTypeValues');
               }
-            });
-            if (certificateImages.length == 0) {
-              certificateImages["無資格"] = "無資格";
-            }
-            print('certificateImages data type : $certificateImages');
+              certificateUpload =
+                  getTherapistByType[i].user.certificationUploads;
+              for (int j = 0; j < certificateUpload.length; j++) {
+                print(
+                    'Certificate upload type : ${certificateUpload[j].toJson()}');
+                certificateUploadKeys = certificateUpload[j].toJson();
+                certificateUploadKeys.remove('id');
+                certificateUploadKeys.remove('userId');
+                certificateUploadKeys.remove('createdAt');
+                certificateUploadKeys.remove('updatedAt');
+                print('Keys certificate type : $certificateUploadKeys');
+              }
 
-            for (int k = 0;
-            k < getTherapistByType[i].user.addresses.length;
-            k++) {
-              therapistTypeAddress.add(getTherapistByType[i]
-                  .user
-                  .addresses[k]
-                  .distance
-                  .truncateToDouble());
-              distanceRadius = therapistTypeAddress;
-              print(
-                  'Position values : $distanceRadius && ${therapistTypeAddress.length}');
+              certificateUploadKeys.forEach((key, value) async {
+                if (certificateUploadKeys[key] != null) {
+                  String jKey = getQualificationJPWordsForType(key);
+                  if (jKey == "はり師" ||
+                      jKey == "きゅう師" ||
+                      jKey == "鍼灸師" ||
+                      jKey == "あん摩マッサージ指圧師" ||
+                      jKey == "柔道整復師" ||
+                      jKey == "理学療法士") {
+                    certificateImages["国家資格保有"] = "国家資格保有";
+                  } else if (jKey == "国家資格取得予定（学生）") {
+                    certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
+                  } else if (jKey == "民間資格") {
+                    certificateImages["民間資格"] = "民間資格";
+                  } else if (jKey == "無資格") {
+                    certificateImages["無資格"] = "無資格";
+                  }
+                }
+              });
+              if (certificateImages.length == 0) {
+                certificateImages["無資格"] = "無資格";
+              }
+              print('certificateImages data type : $certificateImages');
+
+              for (int k = 0;
+              k < getTherapistByType[i].user.addresses.length;
+              k++) {
+                therapistTypeAddress.add(getTherapistByType[i]
+                    .user
+                    .addresses[k]
+                    .distance
+                    .truncateToDouble()
+                    .toStringAsFixed(2));
+                distanceRadius = therapistTypeAddress;
+                print(
+                    'Position values : $distanceRadius && ${therapistTypeAddress.length}');
+              }
             }
+          } else {
+            print('List is empty');
           }
-        } else {
-          print('List is empty');
-        }
-      });
+        });
+      }
+    } catch (e) {
+      print('Exception : ${e.toString()}');
     }
   }
 
@@ -2357,7 +2390,8 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                     .user
                     .addresses[k]
                     .distance
-                    .truncateToDouble());
+                    .truncateToDouble()
+                    .toStringAsFixed(2));
                 distanceRadius = therapistAddress;
                 print(
                     'Position values : $distanceRadius && ${therapistAddress.length}');
@@ -2545,16 +2579,18 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                         Row(
                                           children: [
                                             SizedBox(width: 5),
-                                            therapistUsers[index].name !=
+                                            therapistUsers[index]
+                                                .user
+                                                .storeName !=
                                                 null
                                                 ? Expanded(
                                               child: Row(
                                                 children: [
                                                   Flexible(
                                                     child: Text(
-                                                      '${therapistUsers[index].name}',
+                                                      '${therapistUsers[index].user.storeName}',
                                                       maxLines:
-                                                      therapistUsers[index].name.length >
+                                                      therapistUsers[index].user.storeName.length >
                                                           10
                                                           ? 2
                                                           : 1,
@@ -2807,7 +2843,39 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                                       ratingsValue);
                                                 },
                                               ),
-                                              Text('(1518)'),
+                                              therapistUsers[index]
+                                                  .noOfReviewsMembers !=
+                                                  null &&
+                                                  therapistUsers[
+                                                  index]
+                                                      .noOfReviewsMembers !=
+                                                      0
+                                                  ? Text(
+                                                '(${therapistUsers[index].noOfReviewsMembers})',
+                                                style: TextStyle(
+                                                    color: Color
+                                                        .fromRGBO(
+                                                        153,
+                                                        153,
+                                                        153,
+                                                        1),
+                                                    fontFamily:
+                                                    ColorConstants
+                                                        .fontFamily),
+                                              )
+                                                  : Text(
+                                                '(0)',
+                                                style: TextStyle(
+                                                    color: Color
+                                                        .fromRGBO(
+                                                        153,
+                                                        153,
+                                                        153,
+                                                        1),
+                                                    fontFamily:
+                                                    ColorConstants
+                                                        .fontFamily),
+                                              ),
                                             ],
                                           ),
                                         ),
@@ -3045,81 +3113,87 @@ class _RecommendListsState extends State<RecommendLists> {
 
   getCertificateValues(
       List<RecommendTherapistList> getRecommendedTherapists) async {
-    if (this.mounted) {
-      setState(() {
-        if (getRecommendedTherapists != null &&
-            getRecommendedTherapists.isNotEmpty) {
-          HealingMatchConstants.getRecommendedTherapists =
-              getRecommendedTherapists;
-          isRecommended = true;
-          for (int i = 0; i < getRecommendedTherapists.length; i++) {
-            if (getRecommendedTherapists[i].user.storeType != null &&
-                getRecommendedTherapists[i].user.storeType != '') {
-              var split = getRecommendedTherapists[i].user.storeType.split(',');
-              final jsonList = split.map((item) => jsonEncode(item)).toList();
-              final uniqueJsonList = jsonList.toSet().toList();
-              final result =
-              uniqueJsonList.map((item) => jsonDecode(item)).toList();
-              print('Map Duplicate type : $result');
-              storeTypeValues = {
-                for (int i = 0; i < result.length; i++) i: result[i]
-              };
-              print('Store type map values type : $storeTypeValues');
-            }
-            certificateUpload =
-                getRecommendedTherapists[i].user.certificationUploads;
-            for (int j = 0; j < certificateUpload.length; j++) {
-              print(
-                  'Certificate upload type : ${certificateUpload[j].toJson()}');
-              certificateUploadKeys = certificateUpload[j].toJson();
-              certificateUploadKeys.remove('id');
-              certificateUploadKeys.remove('userId');
-              certificateUploadKeys.remove('createdAt');
-              certificateUploadKeys.remove('updatedAt');
-              print('Keys certificate type : $certificateUploadKeys');
-            }
-
-            certificateUploadKeys.forEach((key, value) async {
-              if (certificateUploadKeys[key] != null) {
-                String jKey = getQualificationJPWordsForType(key);
-                if (jKey == "はり師" ||
-                    jKey == "きゅう師" ||
-                    jKey == "鍼灸師" ||
-                    jKey == "あん摩マッサージ指圧師" ||
-                    jKey == "柔道整復師" ||
-                    jKey == "理学療法士") {
-                  certificateImages["国家資格保有"] = "国家資格保有";
-                } else if (jKey == "国家資格取得予定（学生）") {
-                  certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
-                } else if (jKey == "民間資格") {
-                  certificateImages["民間資格"] = "民間資格";
-                } else if (jKey == "無資格") {
-                  certificateImages["無資格"] = "無資格";
-                }
+    try {
+      if (this.mounted) {
+        setState(() {
+          if (getRecommendedTherapists != null &&
+              getRecommendedTherapists.isNotEmpty) {
+            HealingMatchConstants.getRecommendedTherapists =
+                getRecommendedTherapists;
+            isRecommended = true;
+            for (int i = 0; i < getRecommendedTherapists.length; i++) {
+              if (getRecommendedTherapists[i].user.storeType != null &&
+                  getRecommendedTherapists[i].user.storeType != '') {
+                var split =
+                getRecommendedTherapists[i].user.storeType.split(',');
+                final jsonList = split.map((item) => jsonEncode(item)).toList();
+                final uniqueJsonList = jsonList.toSet().toList();
+                final result =
+                uniqueJsonList.map((item) => jsonDecode(item)).toList();
+                print('Map Duplicate type : $result');
+                storeTypeValues = {
+                  for (int i = 0; i < result.length; i++) i: result[i]
+                };
+                print('Store type map values type : $storeTypeValues');
               }
-            });
-            if (certificateImages.length == 0) {
-              certificateImages["無資格"] = "無資格";
-            }
-            print('certificateImages data type : $certificateImages');
+              certificateUpload =
+                  getRecommendedTherapists[i].user.certificationUploads;
+              for (int j = 0; j < certificateUpload.length; j++) {
+                print(
+                    'Certificate upload type : ${certificateUpload[j].toJson()}');
+                certificateUploadKeys = certificateUpload[j].toJson();
+                certificateUploadKeys.remove('id');
+                certificateUploadKeys.remove('userId');
+                certificateUploadKeys.remove('createdAt');
+                certificateUploadKeys.remove('updatedAt');
+                print('Keys certificate type : $certificateUploadKeys');
+              }
 
-            for (int k = 0;
-            k < getRecommendedTherapists[i].user.addresses.length;
-            k++) {
-              recommendedTherapistAddress.add(getRecommendedTherapists[i]
-                  .user
-                  .addresses[k]
-                  .distance
-                  .truncateToDouble());
-              recommendedDistanceRadius = recommendedTherapistAddress;
-              print(
-                  'Position values : $recommendedDistanceRadius && ${recommendedTherapistAddress.length}');
+              certificateUploadKeys.forEach((key, value) async {
+                if (certificateUploadKeys[key] != null) {
+                  String jKey = getQualificationJPWordsForType(key);
+                  if (jKey == "はり師" ||
+                      jKey == "きゅう師" ||
+                      jKey == "鍼灸師" ||
+                      jKey == "あん摩マッサージ指圧師" ||
+                      jKey == "柔道整復師" ||
+                      jKey == "理学療法士") {
+                    certificateImages["国家資格保有"] = "国家資格保有";
+                  } else if (jKey == "国家資格取得予定（学生）") {
+                    certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
+                  } else if (jKey == "民間資格") {
+                    certificateImages["民間資格"] = "民間資格";
+                  } else if (jKey == "無資格") {
+                    certificateImages["無資格"] = "無資格";
+                  }
+                }
+              });
+              if (certificateImages.length == 0) {
+                certificateImages["無資格"] = "無資格";
+              }
+              print('certificateImages data type : $certificateImages');
+
+              for (int k = 0;
+              k < getRecommendedTherapists[i].user.addresses.length;
+              k++) {
+                recommendedTherapistAddress.add(getRecommendedTherapists[i]
+                    .user
+                    .addresses[k]
+                    .distance
+                    .truncateToDouble()
+                    .toStringAsFixed(2));
+                recommendedDistanceRadius = recommendedTherapistAddress;
+                print(
+                    'Position values : $recommendedDistanceRadius && ${recommendedTherapistAddress.length}');
+              }
             }
+          } else {
+            print('List is empty');
           }
-        } else {
-          print('List is empty');
-        }
-      });
+        });
+      }
+    } catch (e) {
+      print('Exception : ${e.toString()}');
     }
   }
 
@@ -3293,18 +3367,19 @@ class _RecommendListsState extends State<RecommendLists> {
                                   children: [
                                     SizedBox(width: 5),
                                     widget.getRecommendedTherapists[index]
-                                        .name !=
+                                        .user.storeName !=
                                         null
                                         ? Expanded(
                                       child: Row(
                                         children: [
                                           Flexible(
                                             child: Text(
-                                              '${widget.getRecommendedTherapists[index].name}',
+                                              '${widget.getRecommendedTherapists[index].user.storeName}',
                                               maxLines: widget
                                                   .getRecommendedTherapists[
                                               index]
-                                                  .name
+                                                  .user
+                                                  .storeName
                                                   .length >
                                                   10
                                                   ? 2
@@ -3504,12 +3579,32 @@ class _RecommendListsState extends State<RecommendLists> {
                                             ),
                                         onRatingUpdate: (rating) {},
                                       ),
-                                      Text(
-                                        '(1518)',
+                                      widget
+                                          .getRecommendedTherapists[
+                                      index]
+                                          .noOfReviewsMembers !=
+                                          null &&
+                                          widget
+                                              .getRecommendedTherapists[
+                                          index]
+                                              .noOfReviewsMembers !=
+                                              0
+                                          ? Text(
+                                        '(${widget.getRecommendedTherapists[index].noOfReviewsMembers})',
                                         style: TextStyle(
                                             color: Color.fromRGBO(
                                                 153, 153, 153, 1),
-                                            fontFamily: ColorConstants
+                                            fontFamily:
+                                            ColorConstants
+                                                .fontFamily),
+                                      )
+                                          : Text(
+                                        '(0)',
+                                        style: TextStyle(
+                                            color: Color.fromRGBO(
+                                                153, 153, 153, 1),
+                                            fontFamily:
+                                            ColorConstants
                                                 .fontFamily),
                                       ),
                                     ],

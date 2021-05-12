@@ -104,11 +104,13 @@ dependencies:
   location: any
 
   googleapis: #Aswin Google Calendar Api
-  googleapis_auth: # Aswin Google Cloud Authentication 
+  googleapis_auth: # Aswin Google Cloud Authentication
+  readmore: any #Gowtham ReadMore
 
 
 
-#  flutter_line_login: ^0.2.0
+#  flutter_line_login: any
+
 
 
 dev_dependencies:
@@ -136,6 +138,10 @@ flutter:
     - assets/privacy_policy/
     - assets/provider_tutorial/
     - assets/user_tutorial/
+    - assets/images_gps/subCategory/esthetic/
+    - assets/images_gps/subCategory/fitness/
+    - assets/images_gps/subCategory/osteopathic/
+    - assets/images_gps/subCategory/relaxation/
 
 
 

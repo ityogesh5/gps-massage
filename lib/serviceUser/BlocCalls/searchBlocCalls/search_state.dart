@@ -26,6 +26,16 @@ class SearchLoadedState extends SearchState {
 }
 
 // ignore: must_be_immutable
+class SearchSortByDataLoadedState extends SearchState {
+  List<SearchList> getTherapistsSearchResults;
+
+  SearchSortByDataLoadedState({@required this.getTherapistsSearchResults});
+
+  @override
+  List<Object> get props => [getTherapistsSearchResults];
+}
+
+// ignore: must_be_immutable
 class SearchErrorState extends SearchState {
   String message;
 

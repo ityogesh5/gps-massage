@@ -55,19 +55,21 @@ class TypeTherapistData {
   String name;
   User user;
   String reviewAvgData;
+  int noOfReviewsMembers;
   int lowestPrice;
   String priceForMinute;
 
   TypeTherapistData(
       {this.id,
-        this.userId,
-        this.categoryId,
-        this.subCategoryId,
-        this.name,
-        this.user,
-        this.reviewAvgData,
-        this.lowestPrice,
-        this.priceForMinute});
+      this.userId,
+      this.categoryId,
+      this.subCategoryId,
+      this.name,
+      this.user,
+      this.reviewAvgData,
+      this.noOfReviewsMembers,
+      this.lowestPrice,
+      this.priceForMinute});
 
   TypeTherapistData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -77,6 +79,7 @@ class TypeTherapistData {
     name = json['name'];
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
     reviewAvgData = json['reviewAvgData'];
+    noOfReviewsMembers = json['NoOfReviewsMembers'];
     lowestPrice = json['lowestPrice'];
     priceForMinute = json['priceForMinute'];
   }
@@ -92,6 +95,7 @@ class TypeTherapistData {
       data['user'] = this.user.toJson();
     }
     data['reviewAvgData'] = this.reviewAvgData;
+    data['NoOfReviewsMembers'] = this.noOfReviewsMembers;
     data['lowestPrice'] = this.lowestPrice;
     data['priceForMinute'] = this.priceForMinute;
     return data;
@@ -103,6 +107,7 @@ class User {
   String userId;
   String userName;
   String uploadProfileImgUrl;
+  String storeName;
   String storeType;
   String qulaificationCertImgUrl;
   String businessForm;
@@ -115,24 +120,26 @@ class User {
 
   User(
       {this.id,
-        this.userId,
-        this.userName,
-        this.uploadProfileImgUrl,
-        this.storeType,
-        this.qulaificationCertImgUrl,
-        this.businessForm,
-        this.childrenMeasure,
-        this.coronaMeasure,
-        this.businessTrip,
-        this.addresses,
-        this.certificationUploads,
-        this.banners});
+      this.userId,
+      this.userName,
+      this.uploadProfileImgUrl,
+      this.storeName,
+      this.storeType,
+      this.qulaificationCertImgUrl,
+      this.businessForm,
+      this.childrenMeasure,
+      this.coronaMeasure,
+      this.businessTrip,
+      this.addresses,
+      this.certificationUploads,
+      this.banners});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['userId'];
     userName = json['userName'];
     uploadProfileImgUrl = json['uploadProfileImgUrl'];
+    storeName = json['storeName'];
     storeType = json['storeType'];
     qulaificationCertImgUrl = json['qulaificationCertImgUrl'];
     businessForm = json['businessForm'];
@@ -165,6 +172,7 @@ class User {
     data['userId'] = this.userId;
     data['userName'] = this.userName;
     data['uploadProfileImgUrl'] = this.uploadProfileImgUrl;
+    data['storeName'] = this.storeName;
     data['storeType'] = this.storeType;
     data['qulaificationCertImgUrl'] = this.qulaificationCertImgUrl;
     data['businessForm'] = this.businessForm;
@@ -201,7 +209,7 @@ class TherapistTypeAddress {
     lat = json['lat'];
     lon = json['lon'];
     geomet =
-    json['geomet'] != null ? new Geomet.fromJson(json['geomet']) : null;
+        json['geomet'] != null ? new Geomet.fromJson(json['geomet']) : null;
     address = json['address'];
     distance = json['distance'];
   }
@@ -259,21 +267,21 @@ class CertificationUploadsByType {
 
   CertificationUploadsByType(
       {this.id,
-        this.userId,
-        this.acupuncturist,
-        this.moxibutionist,
-        this.acupuncturistAndMoxibustion,
-        this.anmaMassageShiatsushi,
-        this.judoRehabilitationTeacher,
-        this.physicalTherapist,
-        this.acquireNationalQualifications,
-        this.privateQualification1,
-        this.privateQualification2,
-        this.privateQualification3,
-        this.privateQualification4,
-        this.privateQualification5,
-        this.createdAt,
-        this.updatedAt});
+      this.userId,
+      this.acupuncturist,
+      this.moxibutionist,
+      this.acupuncturistAndMoxibustion,
+      this.anmaMassageShiatsushi,
+      this.judoRehabilitationTeacher,
+      this.physicalTherapist,
+      this.acquireNationalQualifications,
+      this.privateQualification1,
+      this.privateQualification2,
+      this.privateQualification3,
+      this.privateQualification4,
+      this.privateQualification5,
+      this.createdAt,
+      this.updatedAt});
 
   CertificationUploadsByType.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -320,23 +328,23 @@ class Banners {
   int id;
   int userId;
   String bannerImageUrl1;
-  Null bannerImageUrl2;
+  dynamic bannerImageUrl2;
   String bannerImageUrl3;
-  Null bannerImageUrl4;
+  dynamic bannerImageUrl4;
   String bannerImageUrl5;
   String createdAt;
   String updatedAt;
 
   Banners(
       {this.id,
-        this.userId,
-        this.bannerImageUrl1,
-        this.bannerImageUrl2,
-        this.bannerImageUrl3,
-        this.bannerImageUrl4,
-        this.bannerImageUrl5,
-        this.createdAt,
-        this.updatedAt});
+      this.userId,
+      this.bannerImageUrl1,
+      this.bannerImageUrl2,
+      this.bannerImageUrl3,
+      this.bannerImageUrl4,
+      this.bannerImageUrl5,
+      this.createdAt,
+      this.updatedAt});
 
   Banners.fromJson(Map<String, dynamic> json) {
     id = json['id'];
