@@ -2304,9 +2304,9 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           _myCity +
           ',' +
           _myPrefecture;
-
+      String address = Platform.isIOS ? _myCity + ',' + _myPrefecture : manualUserAddress;
       List<Placemark> userAddress =
-          await geoLocator.placemarkFromAddress(manualUserAddress);
+          await geoLocator.placemarkFromAddress(address);
       userAddedAddressPlaceMark = userAddress[0];
       Position addressPosition = userAddedAddressPlaceMark.position;
       HealingMatchConstants.mEditCurrentLatitude = addressPosition.latitude;
@@ -3442,8 +3442,11 @@ class _AddAddressState extends State<AddAddress> {
         ',' +
         _myAddedPrefecture;
     print('USER MANUAL ADDRESS : $manualAddedAddress');
+    String address = Platform.isIOS
+        ? _myAddedCity + ',' + _myAddedPrefecture
+        : manualAddedAddress;
     List<Placemark> userManualAddress =
-        await addAddressgeoLocator.placemarkFromAddress(manualAddedAddress);
+        await addAddressgeoLocator.placemarkFromAddress(address);
     userManualAddressPlaceMark = userManualAddress[0];
     Position addressPosition = userManualAddressPlaceMark.position;
     HealingMatchConstants.manualAddressCurrentLatitude =

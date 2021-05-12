@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:date_util/date_util.dart';
 import 'package:flutter/material.dart';
@@ -1552,7 +1553,11 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
       print(
           'User address proceed : ${HealingMatchConstants.searchUserAddress}');
       if (HealingMatchConstants.searchUserAddress != null) {
-        _getLatLngFromAddress(HealingMatchConstants.searchUserAddress);
+        var split = HealingMatchConstants.searchUserAddress.split(',');
+        String address = Platform.isIOS
+            ? "${split[split.length - 2]},${split[split.length - 1]}}"
+            : HealingMatchConstants.searchUserAddress;
+        _getLatLngFromAddress(address);
       } else {
         ProgressDialogBuilder.hideLoader(context);
         _searchKey.currentState.showSnackBar(SnackBar(
