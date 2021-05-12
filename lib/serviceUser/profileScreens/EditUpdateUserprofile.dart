@@ -2271,6 +2271,12 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         _myCategoryPlaceForMassage.isNotEmpty) {
       print('_myCategoryPlaceForMassage : $_myCategoryPlaceForMassage');
     }
+    if (_mySearchRadiusDistance != null) {
+      print('Search distance : $_mySearchRadiusDistance');
+    } else {
+      _mySearchRadiusDistance = 10;
+      print('Search distance else null : $_mySearchRadiusDistance');
+    }
 
     // user building name validation
     if (buildingName != null || buildingName.isNotEmpty) {

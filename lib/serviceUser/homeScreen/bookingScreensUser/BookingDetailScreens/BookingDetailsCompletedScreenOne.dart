@@ -1670,6 +1670,10 @@ class _BookingDetailsCompletedScreenOneState
                         ),
                         Spacer(),
                         FittedBox(
+                    child:    InkWell(
+                     onTap: (){
+                     NavigationRouter.switchToUserChooseDate(context);
+                     },
                           child: CircleAvatar(
                               maxRadius: 30,
                               backgroundColor: Color.fromRGBO(255, 255, 255, 1),
@@ -1678,7 +1682,7 @@ class _BookingDetailsCompletedScreenOneState
                                   height: 25,
                                   width: 25,
                                   color: Colors.lime)),
-                        )
+                        ),),
                       ],
                     ),
                   ),

@@ -4,6 +4,7 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/customLibraryClasses/numberpicker.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/controller/day_view.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarScreen extends StatefulWidget {
@@ -43,8 +44,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         backgroundColor: Colors.white,
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context);
-            // NavigationRouter.switchToServiceUserBottomBar(context);
+            NavigationRouter.switchToServiceUserBottomBar(context);
           },
           icon: Icon(
             Icons.arrow_back_ios,
