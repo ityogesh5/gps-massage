@@ -1320,6 +1320,7 @@ class _BookingDetailsCompletedScreenOneState
                                         fitnessStatus = false;
                                         relaxationStatus = false;
                                         orteopathicStatus = false;
+                                        tipValue = 0;
                                       });
                                     },
                                     child: Column(
@@ -1369,6 +1370,7 @@ class _BookingDetailsCompletedScreenOneState
                                         fitnessStatus = false;
                                         estheticStatus = false;
                                         relaxationStatus = false;
+                                        tipValueosteopathic = 0;
                                       });
                                     },
                                     child: Column(
