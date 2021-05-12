@@ -1,9 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-  <g id="checkbox" transform="translate(-30 -319)">
-    <g id="Rectangle_9705" data-name="Rectangle 9705" transform="translate(30 319)" fill="#fff" stroke="#000" stroke-width="1">
-      <rect width="20" height="20" rx="10" stroke="none"/>
-      <rect x="0.5" y="0.5" width="19" height="19" rx="9.5" fill="none"/>
+<svg height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg">
+    <g id="checkbox" transform="translate(-30 -319)">
+        <g data-name="Rectangle 9705" fill="#fff" id="Rectangle_9705" stroke="#000"
+            stroke-width="1" transform="translate(30 319)">
+            <rect height="20" rx="10" stroke="none" width="20" />
+            <rect fill="none" height="19" rx="9.5" width="19" x="0.5" y="0.5" />
+        </g>
+        <rect data-name="Rectangle 9708" height="14" id="Rectangle_9708" rx="7" transform="translate(33 322)"
+            width="14" />
     </g>
-    <rect id="Rectangle_9708" data-name="Rectangle 9708" width="14" height="14" rx="7" transform="translate(33 322)"/>
-  </g>
 </svg>

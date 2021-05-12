@@ -413,6 +413,7 @@ class LoadUserReviewRatingsById extends StatefulWidget {
 
   LoadUserReviewRatingsById({Key key, @required this.userReviewList})
       : super(key: key);
+
   @override
   _LoadUserReviewRatingsByIdState createState() =>
       _LoadUserReviewRatingsByIdState();

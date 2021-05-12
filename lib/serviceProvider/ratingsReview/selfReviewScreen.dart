@@ -402,6 +402,7 @@ class LoadProviderReviewRatingsById extends StatefulWidget {
 
   LoadProviderReviewRatingsById({Key key, @required this.therapistReviewList})
       : super(key: key);
+
   @override
   _LoadProviderReviewRatingsByIdState createState() =>
       _LoadProviderReviewRatingsByIdState();

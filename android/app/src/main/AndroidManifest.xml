@@ -15,8 +15,8 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:icon="@drawable/app_icon"
-        android:usesCleartextTraffic="true"
-        android:label="Healing Match">
+        android:label="Healing Match"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"

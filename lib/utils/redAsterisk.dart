@@ -11,6 +11,7 @@ class Astricks extends StatefulWidget {
 class _AstricksState extends State<Astricks> {
   double containerHeight = 48.0;
   final userNameController = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

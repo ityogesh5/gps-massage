@@ -1,18 +1,18 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/Logout.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/Logout.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 
 class MyAccount extends StatefulWidget {
   @override
@@ -202,11 +202,13 @@ class _MyAccountState extends State<MyAccount> {
                                       Text(userData.businessForm,
                                           style: textStyle), //Business Form
                                       SizedBox(width: 0)),
-                                  userData.numberOfEmp != null &&  userData.numberOfEmp !=0
+                                  userData.numberOfEmp != null &&
+                                          userData.numberOfEmp != 0
                                       ? Divider(
                                           color: Colors.grey[300], height: 1)
                                       : Container(),
-                                  userData.numberOfEmp != null &&  userData.numberOfEmp !=0
+                                  userData.numberOfEmp != null &&
+                                          userData.numberOfEmp != 0
                                       ? MyRow(
                                           Image.asset(
                                             "assets/images_gps/number_of_employee.png",

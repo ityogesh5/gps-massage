@@ -2145,7 +2145,7 @@ class _RegisterUserState extends State<RegisterUser> {
           "addressTypeSelection": _myAddressInputTypeVal,
           "lat": HealingMatchConstants.currentLatitude.toString(),
           "lon": HealingMatchConstants.currentLongitude.toString(),
-          "fcmToken": fcmToken
+          // "fcmToken": fcmToken
         });
       } else {
         print('Profile image  null');
@@ -2172,7 +2172,7 @@ class _RegisterUserState extends State<RegisterUser> {
           "addressTypeSelection": _myAddressInputTypeVal,
           "lat": HealingMatchConstants.currentLatitude.toString(),
           "lon": HealingMatchConstants.currentLongitude.toString(),
-          "fcmToken": fcmToken
+          // "fcmToken": fcmToken
         });
       }
 
@@ -2212,7 +2212,7 @@ class _RegisterUserState extends State<RegisterUser> {
           // value.setString('userGender', japaneseGender);
           value.setString(
               'userOccupation', serviceUserDetails.data.userOccupation);
-          value.setString('deviceToken', fcmToken);
+          // value.setString('deviceToken', fcmToken);
           // Way 1 for loop
           for (var userAddressData in serviceUserDetails.data.addresses) {
             print('Address of user : ${userAddressData.toJson()}');
@@ -2321,7 +2321,7 @@ class _RegisterUserState extends State<RegisterUser> {
           stateDropDownValues.add(stateList.prefectureJa);
         });
       }
-      getFCMStatus();
+      // getFCMStatus();
     });
   }
 

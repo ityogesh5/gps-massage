@@ -13,6 +13,7 @@ class NewStopWatch extends StatefulWidget {
 class _NewStopWatchState extends State<NewStopWatch>
     with WidgetsBindingObserver {
   AppLifecycleState _notification;
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     setState(() {

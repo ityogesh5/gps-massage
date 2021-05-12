@@ -31,7 +31,7 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.0
+  cupertino_icons: any
   curved_navigation_bar:
   flutter_markdown: ^0.5.1
   pin_code_fields: ^5.2.0
@@ -92,7 +92,7 @@ dependencies:
   table_calendar: ^2.3.3 #Gowtham for calendar Build
   awesome_dialog: any
   flutter_overlay_loader: ^0.0.2
-  lazy_load_scrollview: 1.1.0    
+  lazy_load_scrollview: 1.1.0
   liquid_progress_indicator: ^0.3.2
   cached_network_image: any
   stripe_payment:
@@ -104,11 +104,11 @@ dependencies:
   location: any
 
   googleapis: #Aswin Google Calendar Api
-  googleapis_auth: # Aswin Google Cloud Authentication 
+  googleapis_auth: # Aswin Google Cloud Authentication
+  readmore: any #Gowtham ReadMore
 
 
 
-#  flutter_line_login: any
 
 
 

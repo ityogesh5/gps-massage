@@ -2,12 +2,13 @@ import 'dart:convert';
 
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistResultsModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistByTypeModel.dart';
 import 'package:http/http.dart' as http;
 
 abstract class GetSearchResultsRepository {
   Future<List<SearchList>> getSearchResultsByType(int pageNumber, int pageSize);
 
-  Future<List<SearchList>> getSearchResultsBySortType(
+  Future<List<SearchTherapistTypeList>> getSearchResultsBySortType(
       int pageNumber, int pageSize, int searchType);
 }
 
@@ -55,9 +56,9 @@ class GetSearchResultsRepositoryImpl implements GetSearchResultsRepository {
   }
 
   @override
-  Future<List<SearchList>> getSearchResultsBySortType(
+  Future<List<SearchTherapistTypeList>> getSearchResultsBySortType(
       int pageNumber, int pageSize, int searchType) async {
-    List<SearchList> searchResults;
+    List<SearchTherapistTypeList> searchResults;
     try {
       final url =
           '${HealingMatchConstants.FETCH_SORTED_THERAPIST_SEARCH_RESULTS}?page=$pageNumber&size=$pageSize';
@@ -69,11 +70,11 @@ class GetSearchResultsRepositoryImpl implements GetSearchResultsRepository {
           body: json.encode({
             "type": searchType,
           }));
-      print('Search results Body : ${response.body}');
+      print('Search results Type Body : ${response.body}');
       print('statusCode : ${response.statusCode}');
       if (response.statusCode == 200) {
         var searchResultData = json.decode(response.body);
-        searchResults = SearchTherapistResultsModel.fromJson(searchResultData)
+        searchResults = SearchTherapistByTypeModel.fromJson(searchResultData)
             .data
             .searchList;
         print('Search Type Results list:  $searchResults');

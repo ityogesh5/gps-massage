@@ -11,6 +11,7 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/Ther
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UserBannerImagesModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/DeleteSubAddressModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/EditUserSubAddressModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistResultsModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
@@ -29,6 +30,9 @@ class ServiceUserAPIProvider {
 
   static SearchTherapistResultsModel _searchTherapistResultsModel =
       new SearchTherapistResultsModel();
+
+  static SearchTherapistByTypeModel _searchTherapistByTypeModel =
+      new SearchTherapistByTypeModel();
 
   // DeleteSubAddressModel
   static DeleteSubAddressModel _deleteSubAddressModel =
@@ -290,6 +294,33 @@ class ServiceUserAPIProvider {
       print('Exception Search API : ${e.toString()}');
     }
     return _searchTherapistResultsModel;
+  }
+
+  // get search screen user therapist results
+  static Future<SearchTherapistByTypeModel> getTherapistSearchResultsByType(
+      BuildContext context, int pageNumber, int pageSize) async {
+    try {
+      final url =
+          '${HealingMatchConstants.FETCH_THERAPIST_SEARCH_RESULTS}?page=$pageNumber&size=$pageSize';
+      final response = await http.post(url,
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": HealingMatchConstants.accessToken
+          },
+          body: json.encode({
+            "type": HealingMatchConstants.searchServiceType,
+          }));
+      print('Search results Body : ${response.body}');
+      print('statusCode : ${response.statusCode}');
+      if (response.statusCode == 200) {
+        final getDeletedResponse = json.decode(response.body);
+        _searchTherapistByTypeModel =
+            SearchTherapistByTypeModel.fromJson(getDeletedResponse);
+      }
+    } catch (e) {
+      print('Exception Search API : ${e.toString()}');
+    }
+    return _searchTherapistByTypeModel;
   }
 
   // get recommended therapist results

@@ -1,16 +1,17 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/initialScreens/notificationPopup.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/DeleteSubAddressScreen.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/LogOutScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class DialogHelper {
   static Future<SharedPreferences> _sharedPreferences =
       SharedPreferences.getInstance();
+
 
   // notification popup
   static void showNotificationDialog(BuildContext context) {
@@ -1373,6 +1374,69 @@ class DialogHelper {
         })
       ..show();
   }
+
+  // Report / Block User
+  static openReportBlockUserDialog(BuildContext context) {
+    AwesomeDialog dialog;
+    dialog = AwesomeDialog(
+      headerAnimationLoop: false,
+      dialogBackgroundColor: Colors.grey[200],
+      context: context,
+      animType: AnimType.BOTTOMSLIDE,
+      dialogType: DialogType.WARNING,
+      keyboardAware: true,
+      width: MediaQuery.of(context).size.width,
+      dismissOnTouchOutside: true,
+      showCloseIcon: false,
+      body: CupertinoActionSheet(
+        message: Text(
+          'このセラピストをブロック/報告しますか？',
+          style: TextStyle(
+            fontFamily: 'Open Sans',
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        actions: <Widget>[
+          CupertinoActionSheetAction(
+            isDefaultAction: false,
+            child: Text(
+              '報告する',
+              style: TextStyle(
+                fontFamily: 'Open Sans',
+                color: Colors.redAccent,
+              ),
+            ),
+            onPressed: () {
+              dialog.dissmiss();
+              NavigationRouter.switchToReportUserScreen(context);
+            },
+          ),
+          CupertinoActionSheetAction(
+            isDefaultAction: false,
+            child: Text(
+              'ブロックする',
+              style: TextStyle(
+                fontFamily: 'Open Sans',
+                color: Colors.redAccent,
+              ),
+            ),
+            onPressed: () {
+              dialog.dissmiss();
+              //_blockUser();
+            },
+          ),
+        ],
+        cancelButton: CupertinoActionSheetAction(
+          isDefaultAction: false,
+          child: Text('キャンセル'),
+          onPressed: () {
+            Navigator.of(context).pop(true);
+          },
+        ),
+      ),
+    )..show();
+  }
 }
 
 // CustomPainter class to for the header curved-container
@@ -1392,3 +1456,4 @@ class HeaderCurvedContainer extends CustomPainter {
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
+

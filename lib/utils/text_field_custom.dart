@@ -704,10 +704,12 @@ class _TextFieldState extends State<TextFieldCustom>
   InteractiveInkFeature _currentSplash;
 
   TextEditingController _controller;
+
   TextEditingController get _effectiveController =>
       widget.controller ?? _controller;
 
   FocusNode _focusNode;
+
   FocusNode get _effectiveFocusNode =>
       widget.focusNode ?? (_focusNode ??= FocusNode());
 
@@ -732,6 +734,7 @@ class _TextFieldState extends State<TextFieldCustom>
 
   @override
   bool get selectionEnabled => widget.selectionEnabled;
+
   // End of API for TextSelectionGestureDetectorBuilderDelegate.
 
   InputDecoration _getEffectiveDecoration() {
@@ -958,6 +961,7 @@ class _TextFieldState extends State<TextFieldCustom>
   }
 
   void _handleMouseEnter(PointerEnterEvent event) => _handleHover(true);
+
   void _handleMouseExit(PointerExitEvent event) => _handleHover(false);
 
   void _handleHover(bool hovering) {

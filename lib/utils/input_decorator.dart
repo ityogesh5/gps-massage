@@ -17,7 +17,9 @@ const Curve _kTransitionCurve = Curves.fastOutSlowIn;
 // floating label will appear.
 class _InputBorderGap extends ChangeNotifier {
   double _start;
+
   double get start => _start;
+
   set start(double value) {
     if (value != _start) {
       _start = value;
@@ -26,7 +28,9 @@ class _InputBorderGap extends ChangeNotifier {
   }
 
   double _extent = 0.0;
+
   double get extent => _extent;
+
   set extent(double value) {
     if (value != _extent) {
       _extent = value;
@@ -629,68 +633,90 @@ class _RenderDecoration extends RenderBox {
   }
 
   RenderBox _icon;
+
   RenderBox get icon => _icon;
+
   set icon(RenderBox value) {
     _icon = _updateChild(_icon, value, _DecorationSlot.icon);
   }
 
   RenderBox _input;
+
   RenderBox get input => _input;
+
   set input(RenderBox value) {
     _input = _updateChild(_input, value, _DecorationSlot.input);
   }
 
   RenderBox _label;
+
   RenderBox get label => _label;
+
   set label(RenderBox value) {
     _label = _updateChild(_label, value, _DecorationSlot.label);
   }
 
   RenderBox _hint;
+
   RenderBox get hint => _hint;
+
   set hint(RenderBox value) {
     _hint = _updateChild(_hint, value, _DecorationSlot.hint);
   }
 
   RenderBox _prefix;
+
   RenderBox get prefix => _prefix;
+
   set prefix(RenderBox value) {
     _prefix = _updateChild(_prefix, value, _DecorationSlot.prefix);
   }
 
   RenderBox _suffix;
+
   RenderBox get suffix => _suffix;
+
   set suffix(RenderBox value) {
     _suffix = _updateChild(_suffix, value, _DecorationSlot.suffix);
   }
 
   RenderBox _prefixIcon;
+
   RenderBox get prefixIcon => _prefixIcon;
+
   set prefixIcon(RenderBox value) {
     _prefixIcon = _updateChild(_prefixIcon, value, _DecorationSlot.prefixIcon);
   }
 
   RenderBox _suffixIcon;
+
   RenderBox get suffixIcon => _suffixIcon;
+
   set suffixIcon(RenderBox value) {
     _suffixIcon = _updateChild(_suffixIcon, value, _DecorationSlot.suffixIcon);
   }
 
   RenderBox _helperError;
+
   RenderBox get helperError => _helperError;
+
   set helperError(RenderBox value) {
     _helperError =
         _updateChild(_helperError, value, _DecorationSlot.helperError);
   }
 
   RenderBox _counter;
+
   RenderBox get counter => _counter;
+
   set counter(RenderBox value) {
     _counter = _updateChild(_counter, value, _DecorationSlot.counter);
   }
 
   RenderBox _container;
+
   RenderBox get container => _container;
+
   set container(RenderBox value) {
     _container = _updateChild(_container, value, _DecorationSlot.container);
   }
@@ -712,6 +738,7 @@ class _RenderDecoration extends RenderBox {
 
   _Decoration get decoration => _decoration;
   _Decoration _decoration;
+
   set decoration(_Decoration value) {
     assert(value != null);
     if (_decoration == value) return;
@@ -721,6 +748,7 @@ class _RenderDecoration extends RenderBox {
 
   TextDirection get textDirection => _textDirection;
   TextDirection _textDirection;
+
   set textDirection(TextDirection value) {
     assert(value != null);
     if (_textDirection == value) return;
@@ -730,6 +758,7 @@ class _RenderDecoration extends RenderBox {
 
   TextBaseline get textBaseline => _textBaseline;
   TextBaseline _textBaseline;
+
   set textBaseline(TextBaseline value) {
     assert(value != null);
     if (_textBaseline == value) return;
@@ -747,6 +776,7 @@ class _RenderDecoration extends RenderBox {
   }
 
   TextAlignVertical _textAlignVertical;
+
   set textAlignVertical(TextAlignVertical value) {
     assert(value != null);
     if (_textAlignVertical == value) {
@@ -763,6 +793,7 @@ class _RenderDecoration extends RenderBox {
 
   bool get isFocused => _isFocused;
   bool _isFocused;
+
   set isFocused(bool value) {
     assert(value != null);
     if (_isFocused == value) return;
@@ -772,6 +803,7 @@ class _RenderDecoration extends RenderBox {
 
   bool get expands => _expands;
   bool _expands = false;
+
   set expands(bool value) {
     assert(value != null);
     if (_expands == value) return;
@@ -1888,6 +1920,7 @@ class _InputDecoratorState extends State<InputDecoratorCustom>
   }
 
   InputDecoration _effectiveDecoration;
+
   InputDecoration get decoration {
     _effectiveDecoration ??=
         widget.decoration.applyDefaults(Theme.of(context).inputDecorationTheme);
@@ -1895,8 +1928,11 @@ class _InputDecoratorState extends State<InputDecoratorCustom>
   }
 
   TextAlign get textAlign => widget.textAlign;
+
   bool get isFocused => widget.isFocused && decoration.enabled;
+
   bool get isHovering => widget.isHovering && decoration.enabled;
+
   bool get isEmpty => widget.isEmpty;
 
   @override

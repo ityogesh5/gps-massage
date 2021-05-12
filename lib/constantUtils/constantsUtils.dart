@@ -5,7 +5,6 @@ import 'dart:ui';
 import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:googleapis/calendar/v3.dart' as Calendar;
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/event.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart'
@@ -152,7 +151,7 @@ class HealingMatchConstants {
 
   // fetch therapist results
   static const String FETCH_SORTED_THERAPIST_SEARCH_RESULTS =
-      ON_PREMISE_USER_BASE_URL + '/search/searchServiceUser';
+      ON_PREMISE_USER_BASE_URL + '/search/searchServiceUserByOrder';
 
   //Common string
   static bool isInternetAvailable = false;
@@ -418,9 +417,11 @@ class HealingMatchConstants {
   static const String demoLineChannelID = '1620019587';
 
   static String lineUserID;
+
   static String lineAccessToken;
   static String lineUsername;
   static String lineUserProfileURL;
+
   static String lineUserProfileDetails;
 
   // Profile Edit screen user

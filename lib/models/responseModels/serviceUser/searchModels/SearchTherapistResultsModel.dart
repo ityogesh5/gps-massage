@@ -70,20 +70,20 @@ class SearchList {
 
   SearchList(
       {this.ratingAvg,
-        this.noOfReviewsMembers,
-        this.leastPriceMin,
-        this.id,
-        this.userId,
-        this.categoryId,
-        this.subCategoryId,
-        this.name,
-        this.sixtyMin,
-        this.nintyMin,
-        this.oneTwentyMin,
-        this.oneFifityMin,
-        this.oneEightyMin,
-        this.lowestPrice,
-        this.user});
+      this.noOfReviewsMembers,
+      this.leastPriceMin,
+      this.id,
+      this.userId,
+      this.categoryId,
+      this.subCategoryId,
+      this.name,
+      this.sixtyMin,
+      this.nintyMin,
+      this.oneTwentyMin,
+      this.oneFifityMin,
+      this.oneEightyMin,
+      this.lowestPrice,
+      this.user});
 
   SearchList.fromJson(Map<String, dynamic> json) {
     ratingAvg = json['ratingAvg'];
@@ -143,18 +143,18 @@ class User {
 
   User(
       {this.id,
-        this.userName,
-        this.uploadProfileImgUrl,
-        this.businessForm,
-        this.storeName,
-        this.storeType,
-        this.coronameasure,
-        this.businesstrip,
-        this.childrenMeasure,
-        this.genderOfService,
-        this.isShop,
-        this.addresses,
-        this.certificationUploads});
+      this.userName,
+      this.uploadProfileImgUrl,
+      this.businessForm,
+      this.storeName,
+      this.storeType,
+      this.coronameasure,
+      this.businesstrip,
+      this.childrenMeasure,
+      this.genderOfService,
+      this.isShop,
+      this.addresses,
+      this.certificationUploads});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -212,17 +212,32 @@ class Addresses {
   double lon;
   Geomet geomet;
   String address;
+  String capitalAndPrefecture;
+  String cityName;
+  String area;
   double distance;
 
-  Addresses({this.id, this.lat, this.lon, this.geomet, this.address,this.distance});
+  Addresses(
+      {this.id,
+      this.lat,
+      this.lon,
+      this.geomet,
+      this.address,
+      this.capitalAndPrefecture,
+      this.cityName,
+      this.area,
+      this.distance});
 
   Addresses.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     lat = json['lat'];
     lon = json['lon'];
     geomet =
-    json['geomet'] != null ? new Geomet.fromJson(json['geomet']) : null;
+        json['geomet'] != null ? new Geomet.fromJson(json['geomet']) : null;
     address = json['address'];
+    capitalAndPrefecture = json['capitalAndPrefecture'];
+    cityName = json['cityName'];
+    area = json['area'];
     distance = json['distance'];
   }
 
@@ -235,6 +250,9 @@ class Addresses {
       data['geomet'] = this.geomet.toJson();
     }
     data['address'] = this.address;
+    data['capitalAndPrefecture'] = this.capitalAndPrefecture;
+    data['cityName'] = this.cityName;
+    data['area'] = this.area;
     data['distance'] = this.distance;
     return data;
   }
@@ -277,19 +295,19 @@ class SearchTherapistCertificates {
 
   SearchTherapistCertificates(
       {this.id,
-        this.userId,
-        this.acupuncturist,
-        this.moxibutionist,
-        this.acupuncturistAndMoxibustion,
-        this.anmaMassageShiatsushi,
-        this.judoRehabilitationTeacher,
-        this.physicalTherapist,
-        this.acquireNationalQualifications,
-        this.privateQualification1,
-        this.privateQualification2,
-        this.privateQualification3,
-        this.privateQualification4,
-        this.privateQualification5});
+      this.userId,
+      this.acupuncturist,
+      this.moxibutionist,
+      this.acupuncturistAndMoxibustion,
+      this.anmaMassageShiatsushi,
+      this.judoRehabilitationTeacher,
+      this.physicalTherapist,
+      this.acquireNationalQualifications,
+      this.privateQualification1,
+      this.privateQualification2,
+      this.privateQualification3,
+      this.privateQualification4,
+      this.privateQualification5});
 
   SearchTherapistCertificates.fromJson(Map<String, dynamic> json) {
     id = json['id'];
