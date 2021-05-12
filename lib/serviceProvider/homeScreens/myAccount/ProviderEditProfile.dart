@@ -370,7 +370,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                       ),
                                     )),
                               ),
-                        Positioned(
+                        /* Positioned(
                           right: -60.0,
                           top: 60,
                           left: 10.0,
@@ -389,7 +389,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                               ),
                             ),
                           ),
-                        ),
+                        ), */
                       ],
                     ),
                     SizedBox(height: 20.0),
@@ -406,6 +406,54 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                       ),
                     ),
                     SizedBox(height: sizedBoxFormHeight - 10.0),
+                    Container(
+                      height: containerHeight,
+                      width: containerWidth,
+                      child: InkWell(
+                        onTap: () {
+                          _showPicker(context, 0);
+                        },
+                        child: TextFieldCustom(
+                          enabled: false,
+                          hintText: Text.rich(
+                            TextSpan(
+                              text: "プロフィール画像アップロード",
+                              children: <InlineSpan>[
+                                TextSpan(
+                                  text: '*',
+                                  style: HealingMatchConstants
+                                      .formHintTextStyleStar,
+                                ),
+                              ],
+                              style: HealingMatchConstants.formTextStyle,
+                            ),
+                          ),
+                          style: HealingMatchConstants.formHintTextStyle,
+                          decoration: new InputDecoration(
+                            focusedBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            disabledBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            enabledBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            suffixIcon: IconButton(
+                                padding: EdgeInsets.only(left: 8.0),
+                                icon: Icon(
+                                  Icons.keyboard_arrow_down,
+                                  size: 30.0,
+                                  color: Colors
+                                      .black, //Color.fromRGBO(200, 200, 200, 1),
+                                ),
+                                onPressed: () {
+                                  _showPicker(context, 0);
+                                }),
+                            filled: true,
+                            fillColor: ColorConstants.formFieldFillColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: sizedBoxFormHeight),
                     Container(
                       height: containerHeight,
                       width: containerWidth,
@@ -1395,13 +1443,13 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                     TextSpan(
                                       text: HealingMatchConstants
                                           .registrationBuildingName,
-                                      children: <InlineSpan>[
+                                      /* children: <InlineSpan>[
                                         TextSpan(
                                           text: '*',
                                           style: HealingMatchConstants
                                               .formHintTextStyleStar,
                                         ),
-                                      ],
+                                      ], */
                                       style: HealingMatchConstants
                                           .formLabelTextStyle,
                                     ),
@@ -1439,13 +1487,13 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                       TextSpan(
                                         text: HealingMatchConstants
                                             .registrationRoomNo,
-                                        children: <InlineSpan>[
+                                        /*  children: <InlineSpan>[
                                           TextSpan(
                                             text: '*',
                                             style: HealingMatchConstants
                                                 .formHintTextStyleStar,
                                           ),
-                                        ],
+                                        ], */
                                         style: HealingMatchConstants
                                             .formLabelTextStyle,
                                       ),

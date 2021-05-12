@@ -340,7 +340,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                 ),
                               )),
                         ),
-                  _profileImage != null
+                  /* _profileImage != null
                       ? Visibility(
                           visible: false,
                           child: Positioned(
@@ -384,7 +384,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                               ),
                             ),
                           ),
-                        ),
+                        ), */
                 ],
               ),
               SizedBox(
@@ -405,6 +405,50 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
               SizedBox(
                 height: sizedBoxFormHeight,
               ),
+              Container(
+                height: containerHeight,
+                width: containerWidth,
+                child: InkWell(
+                  onTap: () {
+                    _showPicker(context);
+                  },
+                  child: TextFieldCustom(
+                    enabled: false,
+                    hintText: Text.rich(
+                      TextSpan(
+                        text: "プロフィール画像アップロード",
+                        children: <InlineSpan>[
+                          TextSpan(
+                            text: '*',
+                            style: HealingMatchConstants.formHintTextStyleStar,
+                          ),
+                        ],
+                        style: HealingMatchConstants.formHintTextStyle,
+                      ),
+                    ),
+                    style: HealingMatchConstants.formHintTextStyle,
+                    decoration: new InputDecoration(
+                      focusedBorder: HealingMatchConstants.textFormInputBorder,
+                      disabledBorder: HealingMatchConstants.textFormInputBorder,
+                      enabledBorder: HealingMatchConstants.textFormInputBorder,
+                      suffixIcon: IconButton(
+                          padding: EdgeInsets.only(left: 8.0),
+                          icon: Icon(
+                            Icons.keyboard_arrow_down,
+                            size: 30.0,
+                            color: Colors
+                                .black, //Color.fromRGBO(200, 200, 200, 1),
+                          ),
+                          onPressed: () {
+                            _showPicker(context);
+                          }),
+                      filled: true,
+                      fillColor: ColorConstants.formFieldFillColor,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: sizedBoxFormHeight),
               Container(
                 height: containerHeight,
                 width: containerWidth,
