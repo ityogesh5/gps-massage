@@ -6,7 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
+// import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/ratings/ratingList.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/ratings/ratings.dart';
@@ -418,7 +418,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
   }
 
   getId() async {
-    ProgressDialogBuilder.showCommonProgressDialog(context);
+    // ProgressDialogBuilder.showCommonProgressDialog(context);
     try {
       _sharedPreferences.then((value) {
         rUserID = value.getString('userID');
@@ -521,7 +521,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
       return null;
     }
     try {
-      ProgressDialogBuilder.showRatingsAndReviewProgressDialog(context);
+      // ProgressDialogBuilder.showRatingsAndReviewProgressDialog(context);
       final url = HealingMatchConstants.RATING_USER_URL;
       final response = await http.post(url,
           headers: {
@@ -540,12 +540,12 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
           response.statusCode, context, response.body)) {
         final Map ratingResponse = jsonDecode(response.body);
         ratingReviewModel = RatingReviewModel.fromJson(ratingResponse);
-        ProgressDialogBuilder.hideRatingsAndReviewProgressDialog(context);
+        // ProgressDialogBuilder.hideRatingsAndReviewProgressDialog(context);
         print('navigate');
         NavigationRouter.switchToServiceUserDisplayReviewScreen(context);
       } else {}
     } catch (e) {
-      ProgressDialogBuilder.hideRatingsAndReviewProgressDialog(context);
+      // ProgressDialogBuilder.hideRatingsAndReviewProgressDialog(context);
       print('Response catch error : ${e.toString()}');
       return;
     }
