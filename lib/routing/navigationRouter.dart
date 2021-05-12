@@ -598,8 +598,8 @@ class NavigationRouter {
 
   // User calender screen
   static void switchToUserCalendarScreenScreen(BuildContext context) {
-    Navigator.of(context).popUntil((route) => route.isFirst);
-    Navigator.pushReplacement(
+  //  Navigator.of(context).popUntil((route) => route.isFirst);
+    Navigator.push(
         context,
         PageRouteBuilder(
             pageBuilder: (context, animation, anotherAnimation) {
