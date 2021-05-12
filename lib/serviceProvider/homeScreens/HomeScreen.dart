@@ -466,7 +466,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                 ),
                                                 SizedBox(width: 5.0),
                                                 Text(
-                                                  '(1518)',
+                                                  '(${therapistDetails.reviewData.noOfReviewsMembers})',
                                                   style: TextStyle(
                                                       decoration: TextDecoration
                                                           .underline,

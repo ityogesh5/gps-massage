@@ -22,13 +22,13 @@ class _UserDefineScreenState extends State<UserDefineScreen> {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      if (state == 0) {
+    if (state == 0) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
         state = 1;
         size = MediaQuery.of(context).size;
-        showUserDefineDialog();
-      }
-    });
+        showUserDefineDialog(context);
+      });
+    }
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
@@ -60,7 +60,7 @@ class _UserDefineScreenState extends State<UserDefineScreen> {
     );
   }
 
-  showUserDefineDialog() {
+  showUserDefineDialog(BuildContext context) {
     return showDialog(
       barrierDismissible: false,
       context: context,
@@ -141,7 +141,7 @@ class _UserDefineScreenState extends State<UserDefineScreen> {
                         ),
                         SizedBox(height: 15),
                         Container(
-                          width: size.width * 0.9,
+                         // width: size.width * 0.9,
                           child: Text(
                             HealingMatchConstants.UserSelectLastTxt,
                             textAlign: TextAlign.center,

@@ -6,6 +6,7 @@ import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/ev
 import 'package:gps_massageapp/models/responseModels/serviceProvider/shiftTimeUpdateResponse.dart'
     as shiftTimeUpdate;
 import 'package:gps_massageapp/models/responseModels/serviceProvider/userReviewandRatingsResponseModel.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 import 'package:gps_massageapp/models/responseModels/serviceProvider/providerReviewandRatingsViewResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/userReviewCreateResponseModel.dart';
@@ -13,6 +14,8 @@ import 'package:gps_massageapp/models/responseModels/serviceProvider/ProviderDet
 import "package:googleapis_auth/auth_io.dart";
 import "package:googleapis/calendar/v3.dart";
 import 'dart:developer';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ServiceProviderApi {
   static const _scopes = const [CalendarApi.calendarScope];
@@ -281,6 +284,7 @@ class ServiceProviderApi {
         var therapistData = json.decode(response.body);
         ProviderDetailsResponseModel therapistDetails =
             ProviderDetailsResponseModel.fromJson(therapistData);
+        print('a');
         HealingMatchConstants.therapistDetails =
             therapistDetails.data.storeServiceTimes;
         return therapistDetails;
@@ -318,12 +322,11 @@ class ServiceProviderApi {
         var data = json.decode(response.body);
         shiftTimeUpdate.ShiftTimeUpdateResponse shiftTimeUpdateResponse =
             shiftTimeUpdate.ShiftTimeUpdateResponse.fromJson(data);
-        HealingMatchConstants.therapistDetails = shiftTimeUpdateResponse
-            .data.storeServiceTimes
-            .cast<StoreServiceTime>();
+        HealingMatchConstants.therapistDetails.clear();
         ProgressDialogBuilder.hideCommonProgressDialog(context);
-        Navigator.pop(context);
-        Navigator.pop(context);
+       /*  Navigator.pop(context);
+        Navigator.pop(context); */
+        NavigationRouter.switchToServiceProviderBottomBar(context);
       }
     } catch (e) {
       print('Exception : ${e.toString()}');

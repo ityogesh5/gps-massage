@@ -2468,7 +2468,8 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                           splashColor: Colors.lime,
                           hoverColor: Colors.lime,
                           onTap: () {
-                            HealingMatchConstants.therapistId = therapistUsers[index].user.id;
+                            HealingMatchConstants.therapistId =
+                                therapistUsers[index].user.id;
                             print('Position value home screen : $userID');
                             NavigationRouter
                                 .switchToServiceUserBookingDetailsCompletedScreenOne(
