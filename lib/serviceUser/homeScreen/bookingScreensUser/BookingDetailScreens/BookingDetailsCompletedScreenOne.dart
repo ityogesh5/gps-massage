@@ -33,6 +33,7 @@ import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapi
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_state.dart';
 import 'package:http/http.dart' as http;
 import 'package:readmore/readmore.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 
 final List<String> dummyBannerImages = [
   'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
@@ -57999,6 +58000,21 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                         print('Is Favorite : $_isFavorite');
                       }),
                 ),
+SizedBox(width: MediaQuery.of(context).size.width * 0.01),
+InkWell(
+onTap: () {
+DialogHelper.openReportBlockUserDialog(context);
+},
+child: CircleAvatar(
+maxRadius: 18,
+backgroundColor: Colors.white,
+child: Icon(
+Icons.report_gmailerrorred_rounded,
+color: Colors.red,
+size: 30.0,
+),
+),
+),
               ],
             ),
           ]),
@@ -58086,6 +58102,21 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                         print('Is Favorite : $_isFavorite');
                       }),
                 ),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.01),
+InkWell(
+onTap: () {
+DialogHelper.openReportBlockUserDialog(context);
+},
+child: CircleAvatar(
+maxRadius: 18,
+backgroundColor: Colors.white,
+child: Icon(
+Icons.report_gmailerrorred_rounded,
+color: Colors.red,
+size: 30.0,
+),
+),
+),
               ],
             ),
           ]),

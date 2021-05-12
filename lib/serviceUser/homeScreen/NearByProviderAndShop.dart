@@ -397,11 +397,11 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                   InkWell(
                                     splashColor: Colors.lime,
                                     onTap: () {
-                                      var userID =
+                                      HealingMatchConstants.therapistId =
                                           therapistUsers[index].user.id;
                                       NavigationRouter
                                           .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                              context, userID);
+                                              context, HealingMatchConstants.therapistId);
                                     },
                                     child: Card(
                                       elevation: 0.0,
@@ -818,58 +818,45 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                                   .width -
                                                               130.0, //200.0,
                                                           child:
-                                                              GestureDetector(
-                                                            onTap: () {
-                                                              var userID =
-                                                                  therapistUsers[
-                                                                          index]
-                                                                      .user
-                                                                      .id;
-                                                              NavigationRouter
-                                                                  .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                                                      context,
-                                                                      userID);
-                                                            },
-                                                            child: ListView
-                                                                .builder(
-                                                                    shrinkWrap:
-                                                                        true,
-                                                                    scrollDirection:
-                                                                        Axis
-                                                                            .horizontal,
-                                                                    itemCount:
-                                                                        certificateImages
-                                                                            .length,
-                                                                    itemBuilder:
-                                                                        (context,
-                                                                            index) {
-                                                                      String key = certificateImages
-                                                                          .keys
-                                                                          .elementAt(
-                                                                              index);
-                                                                      return WidgetAnimator(
-                                                                        Wrap(
-                                                                          children: [
-                                                                            Padding(
-                                                                              padding: index == 0 ? const EdgeInsets.only(left: 0.0, top: 4.0, right: 4.0, bottom: 4.0) : const EdgeInsets.all(4.0),
-                                                                              child: Container(
-                                                                                padding: EdgeInsets.all(5),
-                                                                                decoration: boxDecoration,
-                                                                                child: Text(
-                                                                                  key,
-                                                                                  //Qualififcation
-                                                                                  style: TextStyle(
-                                                                                    fontSize: 14,
-                                                                                    color: Colors.black,
+                                                              ListView
+                                                                  .builder(
+                                                                      shrinkWrap:
+                                                                          true,
+                                                                      scrollDirection:
+                                                                          Axis
+                                                                              .horizontal,
+                                                                      itemCount:
+                                                                          certificateImages
+                                                                              .length,
+                                                                      itemBuilder:
+                                                                          (context,
+                                                                              index) {
+                                                                        String key = certificateImages
+                                                                            .keys
+                                                                            .elementAt(
+                                                                                index);
+                                                                        return WidgetAnimator(
+                                                                          Wrap(
+                                                                            children: [
+                                                                              Padding(
+                                                                                padding: index == 0 ? const EdgeInsets.only(left: 0.0, top: 4.0, right: 4.0, bottom: 4.0) : const EdgeInsets.all(4.0),
+                                                                                child: Container(
+                                                                                  padding: EdgeInsets.all(5),
+                                                                                  decoration: boxDecoration,
+                                                                                  child: Text(
+                                                                                    key,
+                                                                                    //Qualififcation
+                                                                                    style: TextStyle(
+                                                                                      fontSize: 14,
+                                                                                      color: Colors.black,
+                                                                                    ),
                                                                                   ),
                                                                                 ),
                                                                               ),
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      );
-                                                                    }),
-                                                          ),
+                                                                            ],
+                                                                          ),
+                                                                        );
+                                                                      }),
                                                         )
                                                       : Container(),
                                                   therapistUsers[index]
@@ -1174,11 +1161,11 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                     splashColor: Colors.lime,
                                     hoverColor: Colors.lime,
                                     onTap: () {
-                                      var userID = widget
+                                      HealingMatchConstants.therapistId = widget
                                           .getTherapistByType[index].user.id;
                                       NavigationRouter
                                           .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                              context, userID);
+                                              context, HealingMatchConstants.therapistId);
                                     },
                                     child: new Card(
                                       elevation: 0.0,
@@ -1608,58 +1595,45 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                                   .width -
                                                               130.0, //200.0,
                                                           child:
-                                                              GestureDetector(
-                                                            onTap: () {
-                                                              var userID = widget
-                                                                  .getTherapistByType[
-                                                                      index]
-                                                                  .user
-                                                                  .id;
-                                                              NavigationRouter
-                                                                  .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                                                      context,
-                                                                      userID);
-                                                            },
-                                                            child: ListView
-                                                                .builder(
-                                                                    shrinkWrap:
-                                                                        true,
-                                                                    scrollDirection:
-                                                                        Axis
-                                                                            .horizontal,
-                                                                    itemCount:
-                                                                        certificateImages
-                                                                            .length,
-                                                                    itemBuilder:
-                                                                        (context,
-                                                                            index) {
-                                                                      String key = certificateImages
-                                                                          .keys
-                                                                          .elementAt(
-                                                                              index);
-                                                                      return WidgetAnimator(
-                                                                        Wrap(
-                                                                          children: [
-                                                                            Padding(
-                                                                              padding: index == 0 ? const EdgeInsets.only(left: 0.0, top: 4.0, right: 4.0, bottom: 4.0) : const EdgeInsets.all(4.0),
-                                                                              child: Container(
-                                                                                padding: EdgeInsets.all(5),
-                                                                                decoration: boxDecoration,
-                                                                                child: Text(
-                                                                                  key,
-                                                                                  //Qualififcation
-                                                                                  style: TextStyle(
-                                                                                    fontSize: 14,
-                                                                                    color: Colors.black,
+                                                              ListView
+                                                                  .builder(
+                                                                      shrinkWrap:
+                                                                          true,
+                                                                      scrollDirection:
+                                                                          Axis
+                                                                              .horizontal,
+                                                                      itemCount:
+                                                                          certificateImages
+                                                                              .length,
+                                                                      itemBuilder:
+                                                                          (context,
+                                                                              index) {
+                                                                        String key = certificateImages
+                                                                            .keys
+                                                                            .elementAt(
+                                                                                index);
+                                                                        return WidgetAnimator(
+                                                                          Wrap(
+                                                                            children: [
+                                                                              Padding(
+                                                                                padding: index == 0 ? const EdgeInsets.only(left: 0.0, top: 4.0, right: 4.0, bottom: 4.0) : const EdgeInsets.all(4.0),
+                                                                                child: Container(
+                                                                                  padding: EdgeInsets.all(5),
+                                                                                  decoration: boxDecoration,
+                                                                                  child: Text(
+                                                                                    key,
+                                                                                    //Qualififcation
+                                                                                    style: TextStyle(
+                                                                                      fontSize: 14,
+                                                                                      color: Colors.black,
+                                                                                    ),
                                                                                   ),
                                                                                 ),
                                                                               ),
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      );
-                                                                    }),
-                                                          ),
+                                                                            ],
+                                                                          ),
+                                                                        );
+                                                                      }),
                                                         )
                                                       : Container(),
                                                   widget
@@ -1904,13 +1878,10 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
   }
 
   Widget _buildProgressIndicator() {
-    return new Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: new Center(
-        child: new Opacity(
-          opacity: isLoading ? 1.0 : 00,
-          child: new SpinKitPulse(color: Colors.lime),
-        ),
+    return new Center(
+      child: new Opacity(
+        opacity: isLoading ? 1.0 : 0.0,
+        child: new SpinKitPulse(color: Colors.lime),
       ),
     );
   }

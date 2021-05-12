@@ -754,7 +754,7 @@ class _LoadHomePageState extends State<LoadHomePage> {
           ),
           RecommendLists(
               getRecommendedTherapists: widget.getRecommendedTherapists),
-          Container(height: 65),
+          SizedBox(height: 20),
         ],
       ),
     );
@@ -866,7 +866,7 @@ class _HomeScreenByMassageType extends State<HomeScreenByMassageType> {
           ),
           RecommendLists(
               getRecommendedTherapists: widget.getRecommendedTherapists),
-          Container(height: 65),
+          SizedBox(height: 20),
         ],
       ),
     );
@@ -953,11 +953,11 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                           splashColor: Colors.lime,
                           hoverColor: Colors.lime,
                           onTap: () {
-                            var userID =
+                            HealingMatchConstants.therapistId =
                                 widget.getTherapistByType[index].user.id;
                             NavigationRouter
                                 .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                    context, userID);
+                                    context, HealingMatchConstants.therapistId);
                           },
                           child: new Card(
                             color: Color.fromRGBO(242, 242, 242, 1),
@@ -2468,11 +2468,11 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                           splashColor: Colors.lime,
                           hoverColor: Colors.lime,
                           onTap: () {
-                            var userID = therapistUsers[index].user.id;
+                            HealingMatchConstants.therapistId = therapistUsers[index].user.id;
                             print('Position value home screen : $userID');
                             NavigationRouter
                                 .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                    context, userID);
+                                    context, HealingMatchConstants.therapistId);
                           },
                           child: Card(
                             color: Colors.grey[200],
@@ -3252,11 +3252,11 @@ class _RecommendListsState extends State<RecommendLists> {
                       splashColor: Colors.lime,
                       hoverColor: Colors.lime,
                       onTap: () {
-                        var userID =
+                        HealingMatchConstants.therapistId =
                             widget.getRecommendedTherapists[index].user.id;
                         NavigationRouter
                             .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                context, userID);
+                                context, HealingMatchConstants.therapistId);
                       },
                       child: new Card(
                         color: Color.fromRGBO(242, 242, 242, 1),

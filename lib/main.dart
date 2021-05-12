@@ -33,10 +33,6 @@ class HealingMatchApp extends StatelessWidget {
         ],
         title: 'Healing Match',
         debugShowCheckedModeBanner: false,
-        home: SplashScreen()); //FloatingSample());
-    /*routes: Routes.routes(),
-      initialRoute: Routes.initScreen(),*/ //StripePaymentUser
-
-    //home: SplashScreen());
+        home: SplashScreen()); //MyCustomSwitchApp());
   }
 }

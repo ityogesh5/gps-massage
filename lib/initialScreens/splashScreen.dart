@@ -52,7 +52,7 @@ class _SplashScreenPageState extends State<SplashScreen>
     animationController = new AnimationController(
         vsync: this, duration: new Duration(seconds: 2));
     animation = new CurvedAnimation(
-        parent: animationController, curve: Curves.slowMiddle);
+        parent: animationController, curve: Curves.bounceInOut);
 
     animation.addListener(() => this.setState(() {}));
     animationController.forward();
@@ -80,7 +80,8 @@ class _SplashScreenPageState extends State<SplashScreen>
               child: Container(
                 color: Colors.white,
                 child: new SvgPicture.asset('assets/images_gps/normalLogo.svg',
-                    width: 250, height: 250),
+                    width: animation.value * 250,
+                    height: animation.value * 250,fit: BoxFit.scaleDown),
               ),
             ),
           ],

@@ -1757,7 +1757,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
   //get the id of the Message Value
   int getID(int index, int mindex) {
     int id;
-        if (mindex == 0) {
+    if (mindex == 0) {
       if ((estheticDropDownModel.data.length < estheticDropDownValues.length) &&
           (index > estheticDropDownModel.data.length - 2))
       //minus 2 for indexing and removing the others field out of equation

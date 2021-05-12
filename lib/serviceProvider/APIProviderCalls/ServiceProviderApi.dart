@@ -1,14 +1,13 @@
 import 'dart:convert';
+
+import "package:googleapis/calendar/v3.dart";
+import "package:googleapis_auth/auth_io.dart";
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/event.dart';
-import 'package:gps_massageapp/models/responseModels/serviceProvider/eventResponseModel.dart';
-import 'package:gps_massageapp/models/responseModels/serviceProvider/userReviewandRatingsResponseModel.dart';
-import 'package:http/http.dart' as http;
 import 'package:gps_massageapp/models/responseModels/serviceProvider/providerReviewandRatingsViewResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/userReviewCreateResponseModel.dart';
-import "package:googleapis_auth/auth_io.dart";
-import "package:googleapis/calendar/v3.dart";
-import 'dart:developer';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/userReviewandRatingsResponseModel.dart';
+import 'package:http/http.dart' as http;
 
 class ServiceProviderApi {
   static const _scopes = const [CalendarApi.calendarScope];

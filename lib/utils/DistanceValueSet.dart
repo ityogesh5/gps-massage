@@ -45,14 +45,13 @@ class _DistanceSetState extends State<DistanceSet> {
                     padding: const EdgeInsets.all(5.0),
                     child: Container(
                       child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 20.0, right: 12.0),
+                        padding: const EdgeInsets.only(left: 20.0, right: 12.0),
                         child: ListView.builder(
                             physics: NeverScrollableScrollPhysics(),
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
-                            itemCount: HealingMatchConstants
-                                .userAddressesList.length,
+                            itemCount:
+                                HealingMatchConstants.userAddressesList.length,
                             itemBuilder: (BuildContext ctxt, int index) {
                               return WidgetAnimator(
                                 Column(
@@ -62,8 +61,8 @@ class _DistanceSetState extends State<DistanceSet> {
                                         children: [
                                           Container(
                                             width: MediaQuery.of(context)
-                                                .size
-                                                .width *
+                                                    .size
+                                                    .width *
                                                 0.86,
                                             child: WidgetAnimator(
                                               TextFormField(
@@ -71,121 +70,120 @@ class _DistanceSetState extends State<DistanceSet> {
                                                 readOnly: true,
                                                 autofocus: false,
                                                 initialValue:
-                                                HealingMatchConstants
-                                                    .userAddressesList[
-                                                index]
-                                                    .address,
-                                                decoration:
-                                                new InputDecoration(
+                                                    HealingMatchConstants
+                                                        .userAddressesList[
+                                                            index]
+                                                        .address,
+                                                decoration: new InputDecoration(
                                                     filled: true,
-                                                    fillColor:
-                                                    ColorConstants
+                                                    fillColor: ColorConstants
                                                         .formFieldFillColor,
                                                     hintText:
-                                                    '${HealingMatchConstants.userAddressesList[index]}',
+                                                        '${HealingMatchConstants.userAddressesList[index]}',
                                                     hintStyle: TextStyle(
-                                                        color: Colors
-                                                            .grey[
-                                                        400],
+                                                        color: Colors.grey[400],
                                                         fontSize: 14),
-                                                    focusColor: Colors
-                                                        .grey[100],
+                                                    focusColor:
+                                                        Colors.grey[100],
                                                     border: HealingMatchConstants
                                                         .textFormInputBorder,
                                                     focusedBorder:
-                                                    HealingMatchConstants
-                                                        .textFormInputBorder,
+                                                        HealingMatchConstants
+                                                            .textFormInputBorder,
                                                     disabledBorder:
-                                                    HealingMatchConstants
-                                                        .textFormInputBorder,
+                                                        HealingMatchConstants
+                                                            .textFormInputBorder,
                                                     enabledBorder:
-                                                    HealingMatchConstants
-                                                        .textFormInputBorder,
-                                                    prefixIcon:
-                                                    Padding(
+                                                        HealingMatchConstants
+                                                            .textFormInputBorder,
+                                                    prefixIcon: Padding(
                                                       padding:
-                                                      const EdgeInsets
-                                                          .all(
-                                                          8.0),
-                                                      child:
-                                                      Container(
-                                                          padding:
-                                                          EdgeInsets.all(
+                                                          const EdgeInsets.all(
                                                               8.0),
+                                                      child: Container(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  8.0),
                                                           decoration:
-                                                          BoxDecoration(
+                                                              BoxDecoration(
                                                             gradient: LinearGradient(
-                                                                begin: Alignment.topCenter,
-                                                                end: Alignment.bottomCenter,
+                                                                begin: Alignment
+                                                                    .topCenter,
+                                                                end: Alignment
+                                                                    .bottomCenter,
                                                                 colors: [
-                                                                  Color.fromRGBO(255, 255, 255, 1),
-                                                                  Color.fromRGBO(255, 255, 255, 1),
+                                                                  Color
+                                                                      .fromRGBO(
+                                                                          255,
+                                                                          255,
+                                                                          255,
+                                                                          1),
+                                                                  Color
+                                                                      .fromRGBO(
+                                                                          255,
+                                                                          255,
+                                                                          255,
+                                                                          1),
                                                                 ]),
-                                                            shape:
-                                                            BoxShape.rectangle,
-                                                            border:
-                                                            Border.all(
-                                                              color:
-                                                              Colors.grey[100],
+                                                            shape: BoxShape
+                                                                .rectangle,
+                                                            border: Border.all(
+                                                              color: Colors
+                                                                  .grey[100],
                                                             ),
                                                             borderRadius:
-                                                            BorderRadius.circular(6.0),
-                                                            color: Color.fromRGBO(
-                                                                255,
-                                                                255,
-                                                                255,
-                                                                1),
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        6.0),
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    255,
+                                                                    255,
+                                                                    255,
+                                                                    1),
                                                           ),
-                                                          child:
-                                                          Text(
+                                                          child: Text(
                                                             '${HealingMatchConstants.userAddressesList[index].userPlaceForMassage}',
-                                                            style:
-                                                            TextStyle(
-                                                              color: Color.fromRGBO(
-                                                                  0,
-                                                                  0,
-                                                                  0,
-                                                                  1),
+                                                            style: TextStyle(
+                                                              color: Color
+                                                                  .fromRGBO(0,
+                                                                      0, 0, 1),
                                                             ),
                                                           )),
                                                     ),
-                                                    suffixIcon:
-                                                    IconButton(
+                                                    suffixIcon: IconButton(
                                                       icon: Icon(
                                                           Icons
                                                               .keyboard_arrow_down_sharp,
                                                           size: 30,
-                                                          color: Colors
-                                                              .black),
+                                                          color: Colors.black),
                                                       onPressed: () {
                                                         //Delete Value at index
                                                         /*constantUserAddressValuesList
                                                                     .removeAt(index);*/
                                                         var position =
-                                                        HealingMatchConstants
-                                                            .userAddressesList[
-                                                        index];
+                                                            HealingMatchConstants
+                                                                    .userAddressesList[
+                                                                index];
                                                         print(
                                                             'Position of sub edit list position : $position');
                                                         print(
                                                             'Position of sub edit list address : ${position.address}');
                                                         openAddressEditDialog(
-                                                            position
-                                                                .address,
+                                                            position.address,
                                                             HealingMatchConstants
                                                                 .userAddressesList
                                                                 .indexOf(
-                                                                position));
+                                                                    position));
                                                       },
                                                     )),
                                                 style: TextStyle(
-                                                    color:
-                                                    Colors.black54),
+                                                    color: Colors.black54),
                                                 onChanged: (value) {
                                                   setState(() {
                                                     HealingMatchConstants
                                                         .userAddressesList[
-                                                    index]
+                                                            index]
                                                         .address = value;
                                                   });
                                                 },
@@ -267,7 +265,8 @@ class _DistanceSetState extends State<DistanceSet> {
                                       shrinkWrap: true,
                                       itemCount: HealingMatchConstants
                                           .userAddressesList.length,
-                                      itemBuilder: (BuildContext ctxt, int index) {
+                                      itemBuilder:
+                                          (BuildContext ctxt, int index) {
                                         return WidgetAnimator(
                                           Column(
                                             children: [
@@ -275,124 +274,121 @@ class _DistanceSetState extends State<DistanceSet> {
                                                 child: Row(
                                                   children: [
                                                     Container(
-                                                      width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                          0.86,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.86,
                                                       child: WidgetAnimator(
                                                         TextFormField(
                                                           //display the address
                                                           readOnly: true,
                                                           autofocus: false,
                                                           initialValue:
-                                                          HealingMatchConstants
-                                                              .userAddressesList[
-                                                          index]
-                                                              .address,
+                                                              HealingMatchConstants
+                                                                  .userAddressesList[
+                                                                      index]
+                                                                  .address,
                                                           decoration:
-                                                          new InputDecoration(
-                                                              filled: true,
-                                                              fillColor:
-                                                              ColorConstants
-                                                                  .formFieldFillColor,
-                                                              hintText:
-                                                              '${HealingMatchConstants.userAddressesList[index]}',
-                                                              hintStyle: TextStyle(
-                                                                  color: Colors
-                                                                      .grey[
-                                                                  400],
-                                                                  fontSize: 14),
-                                                              focusColor: Colors
-                                                                  .grey[100],
-                                                              border: HealingMatchConstants
-                                                                  .textFormInputBorder,
-                                                              focusedBorder:
-                                                              HealingMatchConstants
-                                                                  .textFormInputBorder,
-                                                              disabledBorder:
-                                                              HealingMatchConstants
-                                                                  .textFormInputBorder,
-                                                              enabledBorder:
-                                                              HealingMatchConstants
-                                                                  .textFormInputBorder,
-                                                              prefixIcon:
-                                                              Padding(
-                                                                padding:
-                                                                const EdgeInsets
-                                                                    .all(
-                                                                    8.0),
-                                                                child:
-                                                                Container(
+                                                              new InputDecoration(
+                                                                  filled: true,
+                                                                  fillColor:
+                                                                      ColorConstants
+                                                                          .formFieldFillColor,
+                                                                  hintText:
+                                                                      '${HealingMatchConstants.userAddressesList[index]}',
+                                                                  hintStyle: TextStyle(
+                                                                      color: Colors.grey[
+                                                                          400],
+                                                                      fontSize:
+                                                                          14),
+                                                                  focusColor:
+                                                                      Colors.grey[
+                                                                          100],
+                                                                  border: HealingMatchConstants
+                                                                      .textFormInputBorder,
+                                                                  focusedBorder:
+                                                                      HealingMatchConstants
+                                                                          .textFormInputBorder,
+                                                                  disabledBorder:
+                                                                      HealingMatchConstants
+                                                                          .textFormInputBorder,
+                                                                  enabledBorder:
+                                                                      HealingMatchConstants
+                                                                          .textFormInputBorder,
+                                                                  prefixIcon:
+                                                                      Padding(
                                                                     padding:
-                                                                    EdgeInsets.all(
-                                                                        8.0),
-                                                                    decoration:
-                                                                    BoxDecoration(
-                                                                      gradient: LinearGradient(
-                                                                          begin: Alignment.topCenter,
-                                                                          end: Alignment.bottomCenter,
-                                                                          colors: [
-                                                                            Color.fromRGBO(255, 255, 255, 1),
-                                                                            Color.fromRGBO(255, 255, 255, 1),
-                                                                          ]),
-                                                                      shape:
-                                                                      BoxShape.rectangle,
-                                                                      border:
-                                                                      Border.all(
-                                                                        color:
-                                                                        Colors.grey[100],
-                                                                      ),
-                                                                      borderRadius:
-                                                                      BorderRadius.circular(6.0),
-                                                                      color: Color.fromRGBO(
-                                                                          255,
-                                                                          255,
-                                                                          255,
-                                                                          1),
-                                                                    ),
-                                                                    child:
-                                                                    Text(
-                                                                      '${HealingMatchConstants.userAddressesList[index].userPlaceForMassage}',
-                                                                      style:
-                                                                      TextStyle(
-                                                                        color: Color.fromRGBO(
-                                                                            0,
-                                                                            0,
-                                                                            0,
-                                                                            1),
-                                                                      ),
-                                                                    )),
-                                                              ),
-                                                              suffixIcon:
-                                                              IconButton(
-                                                                icon: Icon(
-                                                                    Icons
-                                                                        .keyboard_arrow_down_sharp,
-                                                                    size: 30,
-                                                                    color: Colors
-                                                                        .black),
-                                                                onPressed: () {
-                                                                  //Delete Value at index
-                                                                  /*constantUserAddressValuesList
+                                                                        const EdgeInsets.all(
+                                                                            8.0),
+                                                                    child: Container(
+                                                                        padding: EdgeInsets.all(8.0),
+                                                                        decoration: BoxDecoration(
+                                                                          gradient: LinearGradient(
+                                                                              begin: Alignment.topCenter,
+                                                                              end: Alignment.bottomCenter,
+                                                                              colors: [
+                                                                                Color.fromRGBO(255, 255, 255, 1),
+                                                                                Color.fromRGBO(255, 255, 255, 1),
+                                                                              ]),
+                                                                          shape:
+                                                                              BoxShape.rectangle,
+                                                                          border:
+                                                                              Border.all(
+                                                                            color:
+                                                                                Colors.grey[100],
+                                                                          ),
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(6.0),
+                                                                          color: Color.fromRGBO(
+                                                                              255,
+                                                                              255,
+                                                                              255,
+                                                                              1),
+                                                                        ),
+                                                                        child: Text(
+                                                                          '${HealingMatchConstants.userAddressesList[index].userPlaceForMassage}',
+                                                                          style:
+                                                                              TextStyle(
+                                                                            color: Color.fromRGBO(
+                                                                                0,
+                                                                                0,
+                                                                                0,
+                                                                                1),
+                                                                          ),
+                                                                        )),
+                                                                  ),
+                                                                  suffixIcon:
+                                                                      IconButton(
+                                                                    icon: Icon(
+                                                                        Icons
+                                                                            .keyboard_arrow_down_sharp,
+                                                                        size:
+                                                                            30,
+                                                                        color: Colors
+                                                                            .black),
+                                                                    onPressed:
+                                                                        () {
+                                                                      //Delete Value at index
+                                                                      /*constantUserAddressValuesList
                                                                     .removeAt(index);*/
-                                                                  var position =
-                                                                  HealingMatchConstants
-                                                                      .userAddressesList[
-                                                                  index];
-                                                                  print(
-                                                                      'Position of sub edit list position : $position');
-                                                                  print(
-                                                                      'Position of sub edit list address : ${position.address}');
-                                                                },
-                                                              )),
+                                                                      var position =
+                                                                          HealingMatchConstants
+                                                                              .userAddressesList[index];
+                                                                      print(
+                                                                          'Position of sub edit list position : $position');
+                                                                      print(
+                                                                          'Position of sub edit list address : ${position.address}');
+                                                                    },
+                                                                  )),
                                                           style: TextStyle(
-                                                              color:
-                                                              Colors.black54),
+                                                              color: Colors
+                                                                  .black54),
                                                           onChanged: (value) {
                                                             setState(() {
                                                               HealingMatchConstants
                                                                   .userAddressesList[
-                                                              index]
+                                                                      index]
                                                                   .address = value;
                                                             });
                                                           },
@@ -429,6 +425,5 @@ class _DistanceSetState extends State<DistanceSet> {
         ),
       ),
     )..show();
-
   }
 }

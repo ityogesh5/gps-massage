@@ -114,6 +114,7 @@ class User {
   String childrenMeasure;
   bool coronaMeasure;
   bool businessTrip;
+  bool isShop;
   List<TherapistAddress> addresses;
   List<CertificationUploads> certificationUploads;
   List<Banners> banners;
@@ -130,6 +131,7 @@ class User {
       this.childrenMeasure,
       this.coronaMeasure,
       this.businessTrip,
+      this.isShop,
       this.addresses,
       this.certificationUploads,
       this.banners});
@@ -146,6 +148,7 @@ class User {
     childrenMeasure = json['childrenMeasure'];
     coronaMeasure = json['coronaMeasure'];
     businessTrip = json['businessTrip'];
+    isShop = json['isShop'];
     if (json['addresses'] != null) {
       addresses = new List<TherapistAddress>();
       json['addresses'].forEach((v) {
@@ -179,6 +182,7 @@ class User {
     data['childrenMeasure'] = this.childrenMeasure;
     data['coronaMeasure'] = this.coronaMeasure;
     data['businessTrip'] = this.businessTrip;
+    data['isShop'] = this.isShop;
     if (this.addresses != null) {
       data['addresses'] = this.addresses.map((v) => v.toJson()).toList();
     }
@@ -199,10 +203,21 @@ class TherapistAddress {
   double lon;
   Geomet geomet;
   String address;
+  String capitalAndPrefecture;
+  String cityName;
+  String area;
   double distance;
 
   TherapistAddress(
-      {this.id, this.lat, this.lon, this.geomet, this.address, this.distance});
+      {this.id,
+      this.lat,
+      this.lon,
+      this.geomet,
+      this.address,
+      this.capitalAndPrefecture,
+      this.cityName,
+      this.area,
+      this.distance});
 
   TherapistAddress.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -211,6 +226,9 @@ class TherapistAddress {
     geomet =
         json['geomet'] != null ? new Geomet.fromJson(json['geomet']) : null;
     address = json['address'];
+    capitalAndPrefecture = json['capitalAndPrefecture'];
+    cityName = json['cityName'];
+    area = json['area'];
     distance = json['distance'];
   }
 
@@ -223,6 +241,9 @@ class TherapistAddress {
       data['geomet'] = this.geomet.toJson();
     }
     data['address'] = this.address;
+    data['capitalAndPrefecture'] = this.capitalAndPrefecture;
+    data['cityName'] = this.cityName;
+    data['area'] = this.area;
     data['distance'] = this.distance;
     return data;
   }
