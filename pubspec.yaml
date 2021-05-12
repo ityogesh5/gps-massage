@@ -74,7 +74,7 @@ dependencies:
   favorite_button: ^0.0.3 # Yogeshwar Favorite button for making Therapist
   path_provider: any
   infinite_listview: ^1.0.0
-  horizontal_center_date_picker: ^1.0.0+2
+  horizontal_center_date_picker: any
   apple_sign_in: ^0.1.0
   date_util: ^0.1.4
   #lazy_data_table: ^0.2.1 #Aswin for Provider Schedule Calendar - Customized 

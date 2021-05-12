@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
+
 class NotificationPopup extends StatefulWidget {
   @override
   _NotificationPopupState createState() => _NotificationPopupState();
 }
 
 class _NotificationPopupState extends State<NotificationPopup> {
-  Future<SharedPreferences> _sharedPreferences =
-      SharedPreferences.getInstance();
   final fireBaseMessaging = new FirebaseMessaging();
 
   @override
@@ -100,28 +100,30 @@ class _NotificationPopupState extends State<NotificationPopup> {
                     "N",
                     "Y",
                   ],
-                  radioButtonValue: (value) {
-                    if (value == 'Y') {
-                      Navigator.pop(context);
-                      print('Notification permission accepted!!');
-                      fireBaseMessaging.setAutoInitEnabled(true);
-                      _sharedPreferences.then((value) {
-                        value.setBool('fcmStatus', true);
-                        bool fcmStatus = value.getBool('fcmStatus');
-                        print('fcmStatus is true : $fcmStatus');
-                      });
-                    } else {
-                      Navigator.pop(context);
-                      fireBaseMessaging.setAutoInitEnabled(false);
-                      print('Notification permission denied!!');
-                      _sharedPreferences.then((value) {
-                        value.setBool('fcmStatus', false);
-                        bool fcmStatus = value.getBool('fcmStatus');
-                        print('fcmStatus is false : $fcmStatus');
-                      });
-                      print('Notification permission rejected!!');
-                    }
-                    print('Radio value : $value');
+                  radioButtonValue: (radioValue) {
+                    _sharedPreferences.then((spValue) {
+                      if (radioValue == 'Y') {
+                        Navigator.pop(context);
+                        print('Notification permission accepted!!');
+                        fireBaseMessaging.setAutoInitEnabled(true);
+                        //spValue.setBool('fcmStatus', true);
+                        spValue.setString('notificationStatus', 'accepted');
+                        //bool fcmStatus = spValue.getBool('fcmStatus');
+                        print(
+                            'fcmStatus is notification : ${spValue.getString('notificationStatus')}');
+                      } else {
+                        Navigator.pop(context);
+                        fireBaseMessaging.setAutoInitEnabled(false);
+                        print('Notification permission denied!!');
+                        //spValue.setBool('fcmStatus', false);
+                        spValue.setString('notificationStatus', 'denied');
+                        //bool fcmStatus = spValue.getBool('fcmStatus');
+                        print(
+                            'fcmStatus is notification : ${spValue.getString('notificationStatus')}');
+                        print('Notification permission rejected!!');
+                      }
+                    });
+                    print('Radio value : $radioValue');
                   },
                   selectedColor: Color.fromRGBO(200, 217, 33, 1),
                 ),

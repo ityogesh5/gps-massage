@@ -401,7 +401,9 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                           therapistUsers[index].user.id;
                                       NavigationRouter
                                           .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                              context, HealingMatchConstants.therapistId);
+                                              context,
+                                              HealingMatchConstants
+                                                  .therapistId);
                                     },
                                     child: Card(
                                       elevation: 0.0,
@@ -712,7 +714,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                                   therapistUsers[
                                                                           index]
                                                                       .reviewAvgData),
-                                                              minRating: 1,
+                                                              minRating: 0.25,
                                                               direction: Axis
                                                                   .horizontal,
                                                               allowHalfRating:
@@ -744,7 +746,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                                   true,
                                                               initialRating:
                                                                   0.0,
-                                                              minRating: 1,
+                                                              minRating: 0.25,
                                                               direction: Axis
                                                                   .horizontal,
                                                               allowHalfRating:
@@ -818,45 +820,47 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                                   .width -
                                                               130.0, //200.0,
                                                           child:
-                                                              ListView
-                                                                  .builder(
-                                                                      shrinkWrap:
-                                                                          true,
-                                                                      scrollDirection:
-                                                                          Axis
-                                                                              .horizontal,
-                                                                      itemCount:
-                                                                          certificateImages
-                                                                              .length,
-                                                                      itemBuilder:
-                                                                          (context,
-                                                                              index) {
-                                                                        String key = certificateImages
+                                                              ListView.builder(
+                                                                  shrinkWrap:
+                                                                      true,
+                                                                  scrollDirection:
+                                                                      Axis
+                                                                          .horizontal,
+                                                                  itemCount:
+                                                                      certificateImages
+                                                                          .length,
+                                                                  itemBuilder:
+                                                                      (context,
+                                                                          index) {
+                                                                    String key =
+                                                                        certificateImages
                                                                             .keys
-                                                                            .elementAt(
-                                                                                index);
-                                                                        return WidgetAnimator(
-                                                                          Wrap(
-                                                                            children: [
-                                                                              Padding(
-                                                                                padding: index == 0 ? const EdgeInsets.only(left: 0.0, top: 4.0, right: 4.0, bottom: 4.0) : const EdgeInsets.all(4.0),
-                                                                                child: Container(
-                                                                                  padding: EdgeInsets.all(5),
-                                                                                  decoration: boxDecoration,
-                                                                                  child: Text(
-                                                                                    key,
-                                                                                    //Qualififcation
-                                                                                    style: TextStyle(
-                                                                                      fontSize: 14,
-                                                                                      color: Colors.black,
-                                                                                    ),
-                                                                                  ),
+                                                                            .elementAt(index);
+                                                                    return WidgetAnimator(
+                                                                      Wrap(
+                                                                        children: [
+                                                                          Padding(
+                                                                            padding: index == 0
+                                                                                ? const EdgeInsets.only(left: 0.0, top: 4.0, right: 4.0, bottom: 4.0)
+                                                                                : const EdgeInsets.all(4.0),
+                                                                            child:
+                                                                                Container(
+                                                                              padding: EdgeInsets.all(5),
+                                                                              decoration: boxDecoration,
+                                                                              child: Text(
+                                                                                key,
+                                                                                //Qualififcation
+                                                                                style: TextStyle(
+                                                                                  fontSize: 14,
+                                                                                  color: Colors.black,
                                                                                 ),
                                                                               ),
-                                                                            ],
+                                                                            ),
                                                                           ),
-                                                                        );
-                                                                      }),
+                                                                        ],
+                                                                      ),
+                                                                    );
+                                                                  }),
                                                         )
                                                       : Container(),
                                                   therapistUsers[index]
@@ -1165,7 +1169,9 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                           .getTherapistByType[index].user.id;
                                       NavigationRouter
                                           .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                              context, HealingMatchConstants.therapistId);
+                                              context,
+                                              HealingMatchConstants
+                                                  .therapistId);
                                     },
                                     child: new Card(
                                       elevation: 0.0,
@@ -1486,7 +1492,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                                       .getTherapistByType[
                                                                           index]
                                                                       .reviewAvgData),
-                                                              minRating: 1,
+                                                              minRating: 0.25,
                                                               direction: Axis
                                                                   .horizontal,
                                                               allowHalfRating:
@@ -1518,7 +1524,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                                   true,
                                                               initialRating:
                                                                   0.0,
-                                                              minRating: 1,
+                                                              minRating: 0.25,
                                                               direction: Axis
                                                                   .horizontal,
                                                               allowHalfRating:
@@ -1595,45 +1601,47 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                                   .width -
                                                               130.0, //200.0,
                                                           child:
-                                                              ListView
-                                                                  .builder(
-                                                                      shrinkWrap:
-                                                                          true,
-                                                                      scrollDirection:
-                                                                          Axis
-                                                                              .horizontal,
-                                                                      itemCount:
-                                                                          certificateImages
-                                                                              .length,
-                                                                      itemBuilder:
-                                                                          (context,
-                                                                              index) {
-                                                                        String key = certificateImages
+                                                              ListView.builder(
+                                                                  shrinkWrap:
+                                                                      true,
+                                                                  scrollDirection:
+                                                                      Axis
+                                                                          .horizontal,
+                                                                  itemCount:
+                                                                      certificateImages
+                                                                          .length,
+                                                                  itemBuilder:
+                                                                      (context,
+                                                                          index) {
+                                                                    String key =
+                                                                        certificateImages
                                                                             .keys
-                                                                            .elementAt(
-                                                                                index);
-                                                                        return WidgetAnimator(
-                                                                          Wrap(
-                                                                            children: [
-                                                                              Padding(
-                                                                                padding: index == 0 ? const EdgeInsets.only(left: 0.0, top: 4.0, right: 4.0, bottom: 4.0) : const EdgeInsets.all(4.0),
-                                                                                child: Container(
-                                                                                  padding: EdgeInsets.all(5),
-                                                                                  decoration: boxDecoration,
-                                                                                  child: Text(
-                                                                                    key,
-                                                                                    //Qualififcation
-                                                                                    style: TextStyle(
-                                                                                      fontSize: 14,
-                                                                                      color: Colors.black,
-                                                                                    ),
-                                                                                  ),
+                                                                            .elementAt(index);
+                                                                    return WidgetAnimator(
+                                                                      Wrap(
+                                                                        children: [
+                                                                          Padding(
+                                                                            padding: index == 0
+                                                                                ? const EdgeInsets.only(left: 0.0, top: 4.0, right: 4.0, bottom: 4.0)
+                                                                                : const EdgeInsets.all(4.0),
+                                                                            child:
+                                                                                Container(
+                                                                              padding: EdgeInsets.all(5),
+                                                                              decoration: boxDecoration,
+                                                                              child: Text(
+                                                                                key,
+                                                                                //Qualififcation
+                                                                                style: TextStyle(
+                                                                                  fontSize: 14,
+                                                                                  color: Colors.black,
                                                                                 ),
                                                                               ),
-                                                                            ],
+                                                                            ),
                                                                           ),
-                                                                        );
-                                                                      }),
+                                                                        ],
+                                                                      ),
+                                                                    );
+                                                                  }),
                                                         )
                                                       : Container(),
                                                   widget

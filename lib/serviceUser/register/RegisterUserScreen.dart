@@ -22,6 +22,8 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 
+Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
+
 class RegisterServiceUserScreen extends StatefulWidget {
   @override
   _RegisterServiceUserScreenState createState() =>
@@ -45,8 +47,6 @@ class RegisterUser extends StatefulWidget {
 }
 
 class _RegisterUserState extends State<RegisterUser> {
-  Future<SharedPreferences> _sharedPreferences =
-      SharedPreferences.getInstance();
   final formKey = GlobalKey<FormState>();
   DateTime selectedDate = DateTime.now();
   bool visible = false;
@@ -69,7 +69,6 @@ class _RegisterUserState extends State<RegisterUser> {
   String _myCity = '';
   File _profileImage;
   final picker = ImagePicker();
-  bool fcmStatus = false;
 
   // Placemark currentLocationPlaceMark;
   // Placemark userAddedAddressPlaceMark;
@@ -99,6 +98,8 @@ class _RegisterUserState extends State<RegisterUser> {
   final otherController = new TextEditingController();
 
   List<String> serviceUserDetails = [];
+  String fcmStatus;
+  var deviceToken;
 
   //final gpsAddressController = new TextEditingController();
 
@@ -108,7 +109,7 @@ class _RegisterUserState extends State<RegisterUser> {
   List<dynamic> cityDropDownValues = List();
   List<dynamic> addressValues = List();
   final fireBaseMessaging = new FirebaseMessaging();
-  var fcmToken;
+  var fcmToken = '';
 
   StatesListResponseModel states;
   CitiesListResponseModel cities;
@@ -204,31 +205,6 @@ class _RegisterUserState extends State<RegisterUser> {
   void initState() {
     super.initState();
     _getStates();
-  }
-
-  getFCMStatus() {
-    _sharedPreferences.then((value) {
-      fcmStatus = value.getBool('fcmStatus');
-      print('fcmStatus is : $fcmStatus');
-      if (fcmStatus) {
-        fireBaseMessaging.getToken().then((fcmTokenValue) {
-          if (fcmTokenValue != null) {
-            fcmToken = fcmTokenValue;
-            print('FCM Reg Tokens : $fcmToken');
-          } else {
-            fireBaseMessaging.onTokenRefresh.listen((refreshToken) {
-              fcmToken = refreshToken;
-              print('FCM Reg Refresh Tokens : $fcmToken');
-            }).onError((handleError) {
-              print(
-                  'On FCM Reg Token Refresh error : ${handleError.toString()}');
-            });
-          }
-        }).catchError((onError) {
-          print('FCM Reg Token Exception : ${onError.toString()}');
-        });
-      }
-    });
   }
 
   @override
@@ -2212,7 +2188,8 @@ class _RegisterUserState extends State<RegisterUser> {
           // value.setString('userGender', japaneseGender);
           value.setString(
               'userOccupation', serviceUserDetails.data.userOccupation);
-          value.setString('deviceToken', fcmToken);
+          value.setString('deviceToken', serviceUserDetails.data.fcmToken);
+          print('Fcm spf token : $fcmToken');
           // Way 1 for loop
           for (var userAddressData in serviceUserDetails.data.addresses) {
             print('Address of user : ${userAddressData.toJson()}');
@@ -2321,7 +2298,40 @@ class _RegisterUserState extends State<RegisterUser> {
           stateDropDownValues.add(stateList.prefectureJa);
         });
       }
-      getFCMStatus();
+    });
+    _getFCMStatus();
+  }
+
+  _getFCMStatus() async {
+    _sharedPreferences.then((value) {
+      fcmStatus = value.getString('notificationStatus');
+      deviceToken = value.getString('deviceToken');
+      print('fcmStatus reg : $fcmStatus');
+      if (fcmStatus != null && fcmStatus.contains('accepted')) {
+        fireBaseMessaging.getToken().then((fcmTokenValue) {
+          if (fcmTokenValue != null) {
+            fcmToken = fcmTokenValue;
+            print('FCM Reg Tokens : $fcmToken');
+          } else {
+            fireBaseMessaging.onTokenRefresh.listen((refreshToken) {
+              fcmToken = refreshToken;
+              print('FCM Reg Refresh Tokens : $fcmToken');
+            }).onError((handleError) {
+              print(
+                  'On FCM Reg Token Refresh error : ${handleError.toString()}');
+            });
+          }
+        }).catchError((onError) {
+          print('FCM Reg Token Exception : ${onError.toString()}');
+        });
+      } else {
+        print('FCM TOKEN AND STATUS EMPTY !! : $deviceToken');
+        if (deviceToken != null && deviceToken.isNotEmpty) {
+          fcmToken = deviceToken;
+        } else {
+          fcmToken = '';
+        }
+      }
     });
   }
 

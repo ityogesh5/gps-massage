@@ -52,13 +52,14 @@ String therapistImage = '';
 int _selectedIndex;
 List<TypeTherapistData> therapistListByType = [];
 List<InitialTherapistData> therapistUsers = [];
-var accessToken;
+var accessToken, deviceToken;
 var userID;
 List<UserAddresses> constantUserAddressValuesList = new List<UserAddresses>();
 bool isRecommended = false;
 
 String result = '';
 var colorsValue = Colors.white;
+Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -104,8 +105,6 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
   var _pageSize = 10;
   final fireBaseMessaging = new FirebaseMessaging();
   String fcmToken;
-  Future<SharedPreferences> _sharedPreferences =
-      SharedPreferences.getInstance();
 
   @override
   void initState() {
@@ -135,37 +134,15 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
   getAccessToken() async {
     _sharedPreferences.then((value) {
       accessToken = value.getString('accessToken');
+      var fcmToken = value.getString('deviceToken');
       HealingMatchConstants.userAddressId = value.getString('addressID');
       HealingMatchConstants.serviceUserID = value.getString('userID');
-      bool fcmStatus = value.getBool('fcmStatus');
-      print('FCM STATUS : $fcmStatus');
-      if (fcmStatus != null && fcmStatus) {
-        fireBaseMessaging.getToken().then((fcmTokenValue) {
-          if (fcmTokenValue != null) {
-            fcmToken = fcmTokenValue;
-            print('FCM Tokens : $fcmTokenValue && \n$fcmToken');
-            value.setString('deviceToken', fcmToken);
-            var spffcmToken = value.getString('deviceToken');
-            print('SPF FCM TOKEN : $spffcmToken');
-          } else {
-            fireBaseMessaging.onTokenRefresh.listen((refreshToken) {
-              fcmToken = refreshToken;
-              print('FCM Refresh Tokens : $refreshToken && \n$fcmToken');
-            }).onError((handleError) {
-              print('On FCM Token Refresh error : ${handleError.toString()}');
-            });
-          }
-        }).catchError((onError) {
-          print('FCM Token Exception : ${onError.toString()}');
-        });
-      } else {
-        print('FCM STATUS FALSE SET BY USER !!');
-      }
       if (accessToken != null) {
-        print('Access token value : $accessToken');
+        print('Access token FCM token value : $accessToken && \n $fcmToken');
         print(
             'Address ID VALUE : ${HealingMatchConstants.userAddressId} && ${HealingMatchConstants.serviceUserID}');
         HealingMatchConstants.accessToken = accessToken;
+        HealingMatchConstants.userDeviceToken = fcmToken;
         initBlocCall();
         getBannerImages();
         getUserDetails();
@@ -192,8 +169,6 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
         HealingMatchConstants.serviceUserAge = value.data.age.toString();
         HealingMatchConstants.serviceUserGender = value.data.gender;
         HealingMatchConstants.serviceUserOccupation = value.data.userOccupation;
-        HealingMatchConstants.userDeviceToken = value.data.fcmToken;
-        print('User Device Token : ${HealingMatchConstants.userDeviceToken}');
         for (int i = 0; i < value.data.addresses.length; i++) {
           if (value.data.addresses[0].isDefault) {
             HealingMatchConstants.userAddressesList =
@@ -1306,7 +1281,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                                     : RatingBar.builder(
                                                         ignoreGestures: true,
                                                         initialRating: 0.0,
-                                                        minRating: 1,
+                                                        minRating: 0.25,
                                                         direction:
                                                             Axis.horizontal,
                                                         allowHalfRating: true,
@@ -2077,7 +2052,7 @@ class _ReservationListState extends State<ReservationList> {
                                 RatingBar.builder(
                                   ignoreGestures: true,
                                   initialRating: 3,
-                                  minRating: 1,
+                                  minRating: 0.25,
                                   direction: Axis.horizontal,
                                   allowHalfRating: true,
                                   itemCount: 5,
@@ -2468,7 +2443,8 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                           splashColor: Colors.lime,
                           hoverColor: Colors.lime,
                           onTap: () {
-                            HealingMatchConstants.therapistId = therapistUsers[index].user.id;
+                            HealingMatchConstants.therapistId =
+                                therapistUsers[index].user.id;
                             print('Position value home screen : $userID');
                             NavigationRouter
                                 .switchToServiceUserBookingDetailsCompletedScreenOne(
@@ -2810,7 +2786,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                                             ignoreGestures:
                                                                 true,
                                                             initialRating: 0.0,
-                                                            minRating: 3.0,
+                                                            minRating: 0.25,
                                                             direction:
                                                                 Axis.horizontal,
                                                             allowHalfRating:
@@ -3562,7 +3538,7 @@ class _RecommendListsState extends State<RecommendLists> {
                                                 : RatingBar.builder(
                                                     ignoreGestures: true,
                                                     initialRating: 0.0,
-                                                    minRating: 1,
+                                                    minRating: 0.25,
                                                     direction: Axis.horizontal,
                                                     allowHalfRating: true,
                                                     itemCount: 5,

@@ -554,7 +554,7 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                                                               .getRecommendedTherapists[
                                                                   index]
                                                               .reviewAvgData),
-                                                      minRating: 1,
+                                                      minRating: 0.25,
                                                       direction:
                                                           Axis.horizontal,
                                                       allowHalfRating: true,
@@ -576,7 +576,7 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                                                   : RatingBar.builder(
                                                       ignoreGestures: true,
                                                       initialRating: 0.0,
-                                                      minRating: 1,
+                                                      minRating: 0.25,
                                                       direction:
                                                           Axis.horizontal,
                                                       allowHalfRating: true,

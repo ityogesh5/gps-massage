@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:date_util/date_util.dart';
 import 'package:flutter/material.dart';
@@ -303,7 +304,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                             context);
                                       } else {
                                         NavigationRouter
-                                            .switchToServiceUserViewProfileScreen(
+                                            .switchToServiceUserBottomBarViewProfile(
                                                 context);
                                       }
                                     },
@@ -1513,7 +1514,6 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
           HealingMatchConstants.searchAddressLongitude != null) {
         _getSearchResults();
       } else {
-        ProgressDialogBuilder.hideLoader(context);
         _searchKey.currentState.showSnackBar(SnackBar(
           backgroundColor: ColorConstants.snackBarColor,
           duration: Duration(seconds: 3),
@@ -1552,9 +1552,12 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
       print(
           'User address proceed : ${HealingMatchConstants.searchUserAddress}');
       if (HealingMatchConstants.searchUserAddress != null) {
-        _getLatLngFromAddress(HealingMatchConstants.searchUserAddress);
+        var split = HealingMatchConstants.searchUserAddress.split(',');
+        String address = Platform.isIOS
+            ? "${split[split.length - 2]},${split[split.length - 1]}}"
+            : HealingMatchConstants.searchUserAddress;
+        _getLatLngFromAddress(address);
       } else {
-        ProgressDialogBuilder.hideLoader(context);
         _searchKey.currentState.showSnackBar(SnackBar(
           backgroundColor: ColorConstants.snackBarColor,
           duration: Duration(seconds: 3),
@@ -1584,7 +1587,6 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
         return;
       }
     } catch (e) {
-      ProgressDialogBuilder.hideLoader(context);
       print('Exception in search criteria : ${e.toString()}');
     }
   }
@@ -1595,7 +1597,6 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
 
   _getSearchResults() {
     try {
-      ProgressDialogBuilder.hideLoader(context);
       NavigationRouter.switchToUserSearchResult(context);
     } catch (e) {
       print('Search Exception before bloc : ${e.toString()}');
@@ -1613,14 +1614,12 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
       HealingMatchConstants.currentLongitude = _currentPosition.longitude;
       _getAddressFromLatLng();
     }).catchError((e) {
-      ProgressDialogBuilder.hideLoader(context);
       print('Current Location exception : ${e.toString()}');
     });
   }
 
   _getAddressFromLatLng() async {
     try {
-      ProgressDialogBuilder.showOverlayLoader(context);
       List<Placemark> p = await geoLocator.placemarkFromCoordinates(
           _currentPosition.latitude, _currentPosition.longitude);
 
@@ -1640,11 +1639,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
             '${HealingMatchConstants.currentLongitude}');
         proceedToSearchResults();
       } else {
-        ProgressDialogBuilder.hideLoader(context);
         return null;
       }
     } catch (e) {
-      ProgressDialogBuilder.hideLoader(context);
       print(e);
     }
   }
