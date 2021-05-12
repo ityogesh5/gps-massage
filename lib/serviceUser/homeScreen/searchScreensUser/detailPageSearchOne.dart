@@ -3481,9 +3481,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                       Spacer(),
                       InkWell(
                         onTap: () {
-                          /*  NavigationRouter
-                              .switchToServiceUserBookingConfirmationScreen(
-                                  context);*/
+                          NavigationRouter.switchToUserChooseDate(context);
                         },
                         child: CircleAvatar(
                           maxRadius: 38,

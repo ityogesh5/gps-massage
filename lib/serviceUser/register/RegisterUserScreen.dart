@@ -108,7 +108,7 @@ class _RegisterUserState extends State<RegisterUser> {
   List<dynamic> cityDropDownValues = List();
   List<dynamic> addressValues = List();
   final fireBaseMessaging = new FirebaseMessaging();
-  var fcmToken;
+  var fcmToken ='NO_FCM_TOKEN';
 
   StatesListResponseModel states;
   CitiesListResponseModel cities;
@@ -2145,7 +2145,7 @@ class _RegisterUserState extends State<RegisterUser> {
           "addressTypeSelection": _myAddressInputTypeVal,
           "lat": HealingMatchConstants.currentLatitude.toString(),
           "lon": HealingMatchConstants.currentLongitude.toString(),
-          // "fcmToken": fcmToken
+          "fcmToken": fcmToken
         });
       } else {
         print('Profile image  null');
@@ -2172,7 +2172,7 @@ class _RegisterUserState extends State<RegisterUser> {
           "addressTypeSelection": _myAddressInputTypeVal,
           "lat": HealingMatchConstants.currentLatitude.toString(),
           "lon": HealingMatchConstants.currentLongitude.toString(),
-          // "fcmToken": fcmToken
+          "fcmToken": fcmToken
         });
       }
 

@@ -288,7 +288,24 @@ class NavigationRouter {
           );
         }));
   }
-
+  static void switchToUserChooseDate(BuildContext context) {
+    Navigator.of(context).push(PageRouteBuilder(
+        pageBuilder: (context, animation, anotherAnimation) {
+          return ChooseDate();
+        },
+        transitionDuration: Duration(milliseconds: 2000),
+        transitionsBuilder: (context, animation, anotherAnimation, child) {
+          animation = CurvedAnimation(
+              curve: HealingMatchConstants.curveList[2], parent: animation);
+          return Align(
+            child: SizeTransition(
+              sizeFactor: animation,
+              child: child,
+              axisAlignment: 0.0,
+            ),
+          );
+        }));
+  }
   //User Search detail design page one
   static void switchToUserSearchDetailPageOne(
       BuildContext context, var userID) {
