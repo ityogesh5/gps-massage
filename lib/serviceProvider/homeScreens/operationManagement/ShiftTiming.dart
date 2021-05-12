@@ -92,7 +92,8 @@ class _ShiftTimingState extends State<ShiftTiming> {
     }
 
     //get start and End Time from Api
-    if (HealingMatchConstants.therapistDetails == null) {
+    if (HealingMatchConstants.therapistDetails == null ||
+        HealingMatchConstants.therapistDetails.length == 0) {
       buildInitialTime();
     } else {
       /*   storeServiceTime.addAll(HealingMatchConstants.therapistDetails);
