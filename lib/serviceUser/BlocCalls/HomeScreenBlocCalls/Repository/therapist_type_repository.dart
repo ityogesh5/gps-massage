@@ -113,7 +113,7 @@ class GetTherapistTypeRepositoryImpl implements GetTherapistTypeRepository {
       if (response.statusCode == 200) {
         var therpistDataById = json.decode(response.body);
         TherapistByIdModel getTherapistByIdModel =
-            TherapistByIdModel.fromJson(therpistDataById);
+        TherapistByIdModel.fromJson(therpistDataById);
         print('TherapistById : ${response.body}');
         return getTherapistByIdModel;
       }

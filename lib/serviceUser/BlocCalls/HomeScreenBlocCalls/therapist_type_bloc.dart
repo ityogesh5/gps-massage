@@ -23,14 +23,14 @@ class TherapistTypeBloc extends Bloc<TherapistTypeEvent, TherapistTypeState> {
       yield GetTherapistTypeLoaderState();
       try {
         List<TypeTherapistData> getTherapistsUsers =
-            await getTherapistTypeRepository.getTherapistProfilesByType(
-                event.accessToken,
-                event.massageTypeValue,
-                event.pageNumber,
-                event.pageSize);
+        await getTherapistTypeRepository.getTherapistProfilesByType(
+            event.accessToken,
+            event.massageTypeValue,
+            event.pageNumber,
+            event.pageSize);
         List<RecommendTherapistList> getRecommendedTherapists =
-            await getTherapistTypeRepository.getRecommendedTherapists(
-                event.accessToken, event.pageNumber, event.pageSize);
+        await getTherapistTypeRepository.getRecommendedTherapists(
+            event.accessToken, event.pageNumber, event.pageSize);
         yield GetTherapistTypeLoadedState(
             getTherapistsUsers: getTherapistsUsers,
             getRecommendedTherapists: getRecommendedTherapists);
@@ -41,11 +41,11 @@ class TherapistTypeBloc extends Bloc<TherapistTypeEvent, TherapistTypeState> {
       yield GetTherapistTypeLoaderState();
       try {
         List<InitialTherapistData> getTherapistsUsers =
-            await getTherapistTypeRepository.getTherapistProfiles(
-                event.accessToken, event.pageNumber, event.pageSize);
+        await getTherapistTypeRepository.getTherapistProfiles(
+            event.accessToken, event.pageNumber, event.pageSize);
         List<RecommendTherapistList> getRecommendedTherapists =
-            await getTherapistTypeRepository.getRecommendedTherapists(
-                event.accessToken, event.pageNumber, event.pageSize);
+        await getTherapistTypeRepository.getRecommendedTherapists(
+            event.accessToken, event.pageNumber, event.pageSize);
         yield GetTherapistLoadedState(
             getTherapistsUsers: getTherapistsUsers,
             getRecommendedTherapists: getRecommendedTherapists);
@@ -56,8 +56,8 @@ class TherapistTypeBloc extends Bloc<TherapistTypeEvent, TherapistTypeState> {
       yield GetTherapistTypeLoaderState();
       try {
         TherapistByIdModel getTherapistByIdModel =
-            await getTherapistTypeRepository.getTherapistById(
-                event.accessToken, event.userId);
+        await getTherapistTypeRepository.getTherapistById(
+            event.accessToken, event.userId);
         yield GetTherapistId(getTherapistByIdModel: getTherapistByIdModel);
       } catch (e) {
         yield GetTherapistTypeErrorState(message: e.toString());
@@ -66,8 +66,8 @@ class TherapistTypeBloc extends Bloc<TherapistTypeEvent, TherapistTypeState> {
       yield GetTherapistTypeLoaderState();
       try {
         List<RecommendTherapistList> getRecommendedTherapists =
-            await getTherapistTypeRepository.getRecommendedTherapists(
-                event.accessToken, event.pageNumber, event.pageSize);
+        await getTherapistTypeRepository.getRecommendedTherapists(
+            event.accessToken, event.pageNumber, event.pageSize);
         yield GetRecommendTherapistLoadedState(
             getRecommendedTherapists: getRecommendedTherapists);
       } catch (e) {

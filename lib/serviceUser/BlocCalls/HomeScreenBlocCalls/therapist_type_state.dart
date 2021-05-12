@@ -24,7 +24,7 @@ class GetTherapistLoadedState extends TherapistTypeState {
 
   GetTherapistLoadedState(
       {@required this.getTherapistsUsers,
-      @required this.getRecommendedTherapists});
+        @required this.getRecommendedTherapists});
 
   @override
   List<Object> get props => [getTherapistsUsers];
@@ -47,7 +47,7 @@ class GetTherapistTypeLoadedState extends TherapistTypeState {
 
   GetTherapistTypeLoadedState(
       {@required this.getTherapistsUsers,
-      @required this.getRecommendedTherapists});
+        @required this.getRecommendedTherapists});
 
   @override
   List<Object> get props => [getTherapistsUsers];
