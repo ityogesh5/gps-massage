@@ -95,7 +95,17 @@ class _ShiftTimingState extends State<ShiftTiming> {
     if (HealingMatchConstants.therapistDetails == null) {
       buildInitialTime();
     } else {
-      storeServiceTime.addAll(HealingMatchConstants.therapistDetails);
+      /*   storeServiceTime.addAll(HealingMatchConstants.therapistDetails);
+    */
+      converToLocalTime();
+    }
+  }
+
+  converToLocalTime() {
+    for (var serviceTime in HealingMatchConstants.therapistDetails) {
+      serviceTime.startTime = serviceTime.startTime.toLocal();
+      serviceTime.endTime = serviceTime.endTime.toLocal();
+      storeServiceTime.add(serviceTime);
     }
   }
 
@@ -402,7 +412,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
                         },
                         dataCellBuilder: (i, j) {
                           String dayName = DateFormat('EEEE')
-                              .format(DateTime(_cyear, _cmonth, j+1));
+                              .format(DateTime(_cyear, _cmonth, j + 1));
                           //Get Japanese Day Name
                           int dayIndex = getJaIndex(dayName);
                           if (storeServiceTime[dayIndex].shopOpen) {
