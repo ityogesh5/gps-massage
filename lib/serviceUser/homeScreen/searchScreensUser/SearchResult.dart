@@ -1,6 +1,7 @@
 import 'dart:convert';
-
+import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,6 +27,14 @@ import 'package:shimmer_animation/shimmer_animation.dart';
 
 int _selectedIndex;
 List<String> _options = ['料金', '距離', '評価', '施術回数'];
+
+Animation<double> animation_rotation;
+Animation<double> animation_radius_in;
+Animation<double> animation_radius_out;
+AnimationController controller;
+
+double radius;
+double dotRadius;
 
 class SearchResultScreen extends StatefulWidget {
   @override
@@ -91,40 +100,42 @@ class _InitialSearchResultsScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: BlocListener<SearchBloc, SearchState>(
-          listener: (context, state) {
-            if (state is SearchErrorState) {
-              return HomePageError();
-            }
-          },
-          child: BlocBuilder<SearchBloc, SearchState>(
-            builder: (context, state) {
-              if (state is SearchLoadingState) {
-                print('Loading state');
-                return LoadInitialHomePage();
-              } else if (state is SearchLoaderState) {
-                print('Loader widget');
-                return LoadInitialHomePage();
-              } else if (state is SearchLoadedState) {
-                print('Loaded users state');
-                return SearchResult(
-                    getTherapistsSearchResults:
-                        state.getTherapistsSearchResults);
-              } else if (state is SearchSortByDataLoadedState) {
-                print('Loaded users by type state');
-                return SearchResultByType(
-                    getTherapistsSearchResults:
-                        state.getTherapistsSearchResults);
-              } else if (state is SearchErrorState) {
-                print('Error state : ${state.message}');
+      body: Center(
+        child: Container(
+          child: BlocListener<SearchBloc, SearchState>(
+            listener: (context, state) {
+              if (state is SearchErrorState) {
                 return HomePageError();
-              } else
-                return Text(
-                  "エラーが発生しました！",
-                  style: TextStyle(color: Colors.white),
-                );
+              }
             },
+            child: BlocBuilder<SearchBloc, SearchState>(
+              builder: (context, state) {
+                if (state is SearchLoadingState) {
+                  print('Loading state');
+                  return LoadInitialSearchResultPage();
+                } else if (state is SearchLoaderState) {
+                  print('Loader widget');
+                  return LoadInitialSearchResultPage();
+                } else if (state is SearchLoadedState) {
+                  print('Loaded users state');
+                  return SearchResult(
+                      getTherapistsSearchResults:
+                          state.getTherapistsSearchResults);
+                } else if (state is SearchSortByDataLoadedState) {
+                  print('Loaded users by type state');
+                  return SearchResultByType(
+                      getTherapistsSearchResults:
+                          state.getTherapistsSearchResults);
+                } else if (state is SearchErrorState) {
+                  print('Error state : ${state.message}');
+                  return HomePageError();
+                } else
+                  return Text(
+                    "エラーが発生しました！",
+                    style: TextStyle(color: Colors.white),
+                  );
+              },
+            ),
           ),
         ),
       ),
@@ -2691,14 +2702,14 @@ class _HomePageErrorState extends State<HomePageError> {
 }
 
 // Loader HomePage
-class LoadInitialHomePage extends StatefulWidget {
+class LoadInitialSearchResultPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _LoadInitialHomePageState();
   }
 }
 
-class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
+class _LoadInitialHomePageState extends State<LoadInitialSearchResultPage> {
   @override
   void initState() {
     super.initState();
@@ -2706,23 +2717,563 @@ class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Shimmer(
-      duration: Duration(seconds: 1),
-      //Default value
-      interval: Duration(seconds: 2),
-      //Default value: Duration(seconds: 0)
-      color: Colors.grey[300],
-      //Default value
-      enabled: true,
-      //Default value
-      direction: ShimmerDirection.fromLeftToRight(),
-      child: Scaffold(
-          backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-          body: Center(
-            //SpinKitSpinningCircle(color: Color.fromRGBO(200, 217, 33, 1)),
-            child: SvgPicture.asset('assets/images_gps/normalLogo.svg',
-                width: 150, height: 150),
-          )),
+    return Scaffold(
+      backgroundColor: Colors.grey[100],
+      body: ListView(
+        physics: BouncingScrollPhysics(),
+        shrinkWrap: true,
+        children: [
+          SizedBox(height: 20),
+          Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                child: Column(children: [
+                  Shimmer(
+                    duration: Duration(milliseconds: 300),
+                    //Default value
+                    interval: Duration(milliseconds: 300),
+                    //Default value: Duration(seconds: 0)
+                    color: Colors.grey[300],
+                    //Default value
+                    enabled: true,
+                    //Default value
+                    direction: ShimmerDirection.fromLeftToRight(),
+                    child: CarouselSlider(
+                      items: [
+                        Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                  width: 80.0,
+                                  height: 80.0,
+                                  decoration: new BoxDecoration(
+                                    border:
+                                        Border.all(color: Colors.transparent),
+                                    shape: BoxShape.circle,
+                                    image: new DecorationImage(
+                                        fit: BoxFit.none,
+                                        image: new AssetImage(
+                                            'assets/images_gps/logo.png')),
+                                  )),
+                              Text(
+                                'Healing match',
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontStyle: FontStyle.italic),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                      options: CarouselOptions(
+                          autoPlay: false,
+                          autoPlayCurve: Curves.easeInOutCubic,
+                          enlargeCenterPage: false,
+                          viewportFraction: 0.9,
+                          aspectRatio: 2.0),
+                    ),
+                  ),
+                ]),
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Shimmer(
+              duration: Duration(milliseconds: 300),
+              //Default value
+              interval: Duration(milliseconds: 300),
+              //Default value: Duration(seconds: 0)
+              color: Colors.grey[400],
+              //Default value
+              enabled: true,
+              //Default value
+              direction: ShimmerDirection.fromLTRB(),
+              child: Container(
+                color: Colors.grey[200],
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16),
+                    ),
+                    Text(
+                      '',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          decoration: TextDecoration.underline),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Shimmer(
+            duration: Duration(milliseconds: 300),
+            //Default value
+            interval: Duration(milliseconds: 300),
+            //Default value: Duration(seconds: 0)
+            color: Colors.grey[300],
+            //Default value
+            enabled: true,
+            //Default value
+            direction: ShimmerDirection.fromLTRB(),
+            child: Container(
+              padding: EdgeInsets.all(5.0),
+              child: Card(elevation: 5),
+            ),
+          ),
+          Shimmer(
+            duration: Duration(milliseconds: 300),
+            //Default value
+            interval: Duration(milliseconds: 300),
+            //Default value: Duration(seconds: 0)
+            color: Colors.grey[400],
+            //Default value
+            enabled: true,
+            //Default value
+            direction: ShimmerDirection.fromLTRB(),
+            child: Container(
+              color: Colors.grey[200],
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
+                  ),
+                  Text(
+                    '',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        decoration: TextDecoration.underline),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.22,
+              width: MediaQuery.of(context).size.width * 0.95,
+              child: Shimmer(
+                duration: Duration(milliseconds: 300),
+                //Default value
+                interval: Duration(milliseconds: 300),
+                //Default value: Duration(seconds: 0)
+                color: Colors.grey[300],
+                //Default value
+                enabled: true,
+                //Default value
+                direction: ShimmerDirection.fromLTRB(),
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: 5,
+                    itemBuilder: (context, index) {
+                      return WidgetAnimator(
+                        new Card(
+                          color: Colors.grey[200],
+                          semanticContainer: true,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Container(
+                              height: MediaQuery.of(context).size.height * 0.70,
+                              width: MediaQuery.of(context).size.width * 0.78,
+                              child: Shimmer(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    new Container(
+                                        width: 80.0,
+                                        height: 80.0,
+                                        decoration: new BoxDecoration(
+                                          color: Colors.grey[200],
+                                          border: Border.all(
+                                              color: Colors.grey[200]),
+                                          shape: BoxShape.circle,
+                                          image: new DecorationImage(
+                                              fit: BoxFit.none,
+                                              image: new AssetImage(
+                                                  'assets/images_gps/logo.png')),
+                                        )),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Shimmer(
+            duration: Duration(milliseconds: 300),
+            //Default value
+            interval: Duration(milliseconds: 300),
+            //Default value: Duration(seconds: 0)
+            color: Colors.grey[400],
+            //Default value
+            enabled: true,
+            //Default value
+            direction: ShimmerDirection.fromLTRB(),
+            child: Container(
+              color: Colors.grey[200],
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
+                  ),
+                  Text(
+                    '',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        decoration: TextDecoration.underline),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.22,
+              width: MediaQuery.of(context).size.width * 0.95,
+              child: Shimmer(
+                duration: Duration(milliseconds: 300),
+                //Default value
+                interval: Duration(milliseconds: 300),
+                //Default value: Duration(seconds: 0)
+                color: Colors.grey[300],
+                //Default value
+                enabled: true,
+                //Default value
+                direction: ShimmerDirection.fromLTRB(),
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: 5,
+                    itemBuilder: (context, index) {
+                      return WidgetAnimator(
+                        new Card(
+                          color: Colors.grey[200],
+                          semanticContainer: true,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Container(
+                              height: MediaQuery.of(context).size.height * 0.70,
+                              width: MediaQuery.of(context).size.width * 0.78,
+                              child: Shimmer(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    new Container(
+                                        width: 80.0,
+                                        height: 80.0,
+                                        decoration: new BoxDecoration(
+                                          color: Colors.grey[200],
+                                          border: Border.all(
+                                              color: Colors.grey[200]),
+                                          shape: BoxShape.circle,
+                                          image: new DecorationImage(
+                                              fit: BoxFit.none,
+                                              image: new AssetImage(
+                                                  'assets/images_gps/logo.png')),
+                                        )),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Shimmer(
+            duration: Duration(milliseconds: 300),
+            //Default value
+            interval: Duration(milliseconds: 300),
+            //Default value: Duration(seconds: 0)
+            color: Colors.grey[400],
+            //Default value
+            enabled: true,
+            //Default value
+            direction: ShimmerDirection.fromLTRB(),
+            child: Container(
+              color: Colors.grey[200],
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
+                  ),
+                  Text(
+                    '',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        decoration: TextDecoration.underline),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ColorLoader extends StatefulWidget {
+  final double radius;
+  final double dotRadius;
+  ColorLoader({this.radius = 75.0, this.dotRadius = 5.0});
+
+  @override
+  _ColorLoader3State createState() => _ColorLoader3State();
+}
+
+class _ColorLoader3State extends State<ColorLoader>
+    with SingleTickerProviderStateMixin {
+  @override
+  void initState() {
+    super.initState();
+
+    radius = widget.radius;
+    dotRadius = widget.dotRadius;
+
+    print(dotRadius);
+
+    controller = AnimationController(
+        lowerBound: 0.0,
+        upperBound: 1.0,
+        duration: const Duration(milliseconds: 1000),
+        vsync: this);
+
+    animation_rotation = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: controller,
+        curve: Interval(0.0, 1.0, curve: Curves.linear),
+      ),
+    );
+
+    animation_radius_in = Tween(begin: 1.0, end: 0.0).animate(
+      CurvedAnimation(
+        parent: controller,
+        curve: Interval(0.75, 1.0, curve: Curves.elasticIn),
+      ),
+    );
+
+    animation_radius_out = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: controller,
+        curve: Interval(0.0, 0.05, curve: Curves.elasticOut),
+      ),
+    );
+
+    controller.addListener(() {
+      setState(() {
+        if (controller.value >= 0.75 && controller.value <= 1.0)
+          radius = widget.radius * animation_radius_in.value;
+        else if (controller.value >= 0.0 && controller.value <= 0.25)
+          radius = widget.radius * animation_radius_out.value;
+      });
+    });
+
+    controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {}
+    });
+
+    controller.repeat();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 100.0,
+      height: 100.0,
+      //color: Colors.white,
+      child: new Center(
+        child: ScaleTransition(
+          scale: animation_radius_out,
+          child: new Container(
+            //color: Colors.limeAccent,
+            child: new Center(
+              child: Stack(
+                children: <Widget>[
+                  new Transform.translate(
+                    offset: Offset(0.0, 0.0),
+                    child: Dot(
+                      radius: radius,
+                      color: Colors.black12,
+                    ),
+                  ),
+                  new Transform.translate(
+                    child: Dot(
+                      radius: dotRadius,
+                      color: Colors.amber,
+                    ),
+                    offset: Offset(
+                      radius * cos(0.0),
+                      radius * sin(0.0),
+                    ),
+                  ),
+                  new Transform.translate(
+                    child: Dot(
+                      radius: dotRadius,
+                      color: Colors.deepOrangeAccent,
+                    ),
+                    offset: Offset(
+                      radius * cos(0.0 + 1 * pi / 4),
+                      radius * sin(0.0 + 1 * pi / 4),
+                    ),
+                  ),
+                  new Transform.translate(
+                    child: Dot(
+                      radius: dotRadius,
+                      color: Colors.pinkAccent,
+                    ),
+                    offset: Offset(
+                      radius * cos(0.0 + 2 * pi / 4),
+                      radius * sin(0.0 + 2 * pi / 4),
+                    ),
+                  ),
+                  new Transform.translate(
+                    child: Dot(
+                      radius: dotRadius,
+                      color: Colors.purple,
+                    ),
+                    offset: Offset(
+                      radius * cos(0.0 + 3 * pi / 4),
+                      radius * sin(0.0 + 3 * pi / 4),
+                    ),
+                  ),
+                  new Transform.translate(
+                    child: Dot(
+                      radius: dotRadius,
+                      color: Colors.yellow,
+                    ),
+                    offset: Offset(
+                      radius * cos(0.0 + 4 * pi / 4),
+                      radius * sin(0.0 + 4 * pi / 4),
+                    ),
+                  ),
+                  new Transform.translate(
+                    child: Dot(
+                      radius: dotRadius,
+                      color: Colors.lightGreen,
+                    ),
+                    offset: Offset(
+                      radius * cos(0.0 + 5 * pi / 4),
+                      radius * sin(0.0 + 5 * pi / 4),
+                    ),
+                  ),
+                  new Transform.translate(
+                    child: Dot(
+                      radius: dotRadius,
+                      color: Colors.orangeAccent,
+                    ),
+                    offset: Offset(
+                      radius * cos(0.0 + 6 * pi / 4),
+                      radius * sin(0.0 + 6 * pi / 4),
+                    ),
+                  ),
+                  new Transform.translate(
+                    child: Dot(
+                      radius: dotRadius,
+                      color: Colors.blueAccent,
+                    ),
+                    offset: Offset(
+                      radius * cos(0.0 + 7 * pi / 4),
+                      radius * sin(0.0 + 7 * pi / 4),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+}
+
+class Dot extends StatelessWidget {
+  final double radius;
+  final Color color;
+
+  Dot({this.radius, this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return new Center(
+      child: Container(
+        width: radius,
+        height: radius,
+        decoration: BoxDecoration(
+          color: color,
+          shape: BoxShape.circle,
+          image: new DecorationImage(
+              fit: BoxFit.cover,
+              image: new AssetImage('assets/images_gps/appIcon.png')),
+        ),
+      ),
     );
   }
 }

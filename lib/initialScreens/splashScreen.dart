@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -81,7 +82,8 @@ class _SplashScreenPageState extends State<SplashScreen>
                 color: Colors.white,
                 child: new SvgPicture.asset('assets/images_gps/normalLogo.svg',
                     width: animation.value * 250,
-                    height: animation.value * 250,fit: BoxFit.scaleDown),
+                    height: animation.value * 250,
+                    fit: BoxFit.scaleDown),
               ),
             ),
           ],

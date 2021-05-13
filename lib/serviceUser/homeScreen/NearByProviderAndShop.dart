@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -99,7 +100,7 @@ class _InitialProvidersScreenState extends State<InitialProvidersScreen> {
   }
 
   showOverlayLoader() {
-    Loader.show(context, progressIndicator: LoadInitialHomePage());
+    Loader.show(context, progressIndicator: LoadNearByLoaderPage());
     Future.delayed(Duration(seconds: 4), () {
       Loader.hide();
     });
@@ -123,7 +124,7 @@ class _InitialProvidersScreenState extends State<InitialProvidersScreen> {
                     getTherapistProfiles: state.getTherapistsUsers);
               } else if (state is GetTherapistTypeLoaderState) {
                 print('Loader widget');
-                return LoadInitialHomePage();
+                return LoadNearByLoaderPage();
               } else if (state is GetTherapistTypeLoadedState) {
                 print('Loaded users state');
                 return LoadProvidersByType(
@@ -145,14 +146,14 @@ class _InitialProvidersScreenState extends State<InitialProvidersScreen> {
 }
 
 // Loader HomePage
-class LoadInitialHomePage extends StatefulWidget {
+class LoadNearByLoaderPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _LoadInitialHomePageState();
   }
 }
 
-class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
+class _LoadInitialHomePageState extends State<LoadNearByLoaderPage> {
   @override
   void initState() {
     super.initState();
@@ -160,26 +161,359 @@ class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Shimmer(
-      duration: Duration(seconds: 1),
-      //Default value
-      interval: Duration(seconds: 2),
-      //Default value: Duration(seconds: 0)
-      color: Colors.grey[300],
-      //Default value
-      enabled: true,
-      //Default value
-      direction: ShimmerDirection.fromLeftToRight(),
-      child: Scaffold(
-          backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-          body: Container(
-            color: Colors.white,
-            child: Center(
-              //SpinKitSpinningCircle(color: Color.fromRGBO(200, 217, 33, 1)),
-              child: SvgPicture.asset('assets/images_gps/normalLogo.svg',
-                  width: 150, height: 150),
+    return Scaffold(
+      backgroundColor: Colors.grey[100],
+      body: ListView(
+        physics: BouncingScrollPhysics(),
+        shrinkWrap: true,
+        children: [
+          SizedBox(height: 20),
+          Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                child: Column(children: [
+                  Shimmer(
+                    duration: Duration(milliseconds: 300),
+                    //Default value
+                    interval: Duration(milliseconds: 300),
+                    //Default value: Duration(seconds: 0)
+                    color: Colors.grey[300],
+                    //Default value
+                    enabled: true,
+                    //Default value
+                    direction: ShimmerDirection.fromLeftToRight(),
+                    child: CarouselSlider(
+                      items: [
+                        Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                  width: 80.0,
+                                  height: 80.0,
+                                  decoration: new BoxDecoration(
+                                    border:
+                                        Border.all(color: Colors.transparent),
+                                    shape: BoxShape.circle,
+                                    image: new DecorationImage(
+                                        fit: BoxFit.none,
+                                        image: new AssetImage(
+                                            'assets/images_gps/logo.png')),
+                                  )),
+                              Text(
+                                'Healing match',
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontStyle: FontStyle.italic),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                      options: CarouselOptions(
+                          autoPlay: false,
+                          autoPlayCurve: Curves.easeInOutCubic,
+                          enlargeCenterPage: false,
+                          viewportFraction: 0.9,
+                          aspectRatio: 2.0),
+                    ),
+                  ),
+                ]),
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Shimmer(
+              duration: Duration(milliseconds: 300),
+              //Default value
+              interval: Duration(milliseconds: 300),
+              //Default value: Duration(seconds: 0)
+              color: Colors.grey[400],
+              //Default value
+              enabled: true,
+              //Default value
+              direction: ShimmerDirection.fromLTRB(),
+              child: Container(
+                color: Colors.grey[200],
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16),
+                    ),
+                    Text(
+                      '',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          decoration: TextDecoration.underline),
+                    ),
+                  ],
+                ),
+              ),
             ),
-          )),
+          ),
+          Shimmer(
+            duration: Duration(milliseconds: 300),
+            //Default value
+            interval: Duration(milliseconds: 300),
+            //Default value: Duration(seconds: 0)
+            color: Colors.grey[300],
+            //Default value
+            enabled: true,
+            //Default value
+            direction: ShimmerDirection.fromLTRB(),
+            child: Container(
+              padding: EdgeInsets.all(5.0),
+              child: Card(elevation: 5),
+            ),
+          ),
+          Shimmer(
+            duration: Duration(milliseconds: 300),
+            //Default value
+            interval: Duration(milliseconds: 300),
+            //Default value: Duration(seconds: 0)
+            color: Colors.grey[400],
+            //Default value
+            enabled: true,
+            //Default value
+            direction: ShimmerDirection.fromLTRB(),
+            child: Container(
+              color: Colors.grey[200],
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
+                  ),
+                  Text(
+                    '',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        decoration: TextDecoration.underline),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.22,
+              width: MediaQuery.of(context).size.width * 0.95,
+              child: Shimmer(
+                duration: Duration(milliseconds: 300),
+                //Default value
+                interval: Duration(milliseconds: 300),
+                //Default value: Duration(seconds: 0)
+                color: Colors.grey[300],
+                //Default value
+                enabled: true,
+                //Default value
+                direction: ShimmerDirection.fromLTRB(),
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: 5,
+                    itemBuilder: (context, index) {
+                      return WidgetAnimator(
+                        new Card(
+                          color: Colors.grey[200],
+                          semanticContainer: true,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Container(
+                              height: MediaQuery.of(context).size.height * 0.70,
+                              width: MediaQuery.of(context).size.width * 0.78,
+                              child: Shimmer(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    new Container(
+                                        width: 80.0,
+                                        height: 80.0,
+                                        decoration: new BoxDecoration(
+                                          color: Colors.grey[200],
+                                          border: Border.all(
+                                              color: Colors.grey[200]),
+                                          shape: BoxShape.circle,
+                                          image: new DecorationImage(
+                                              fit: BoxFit.none,
+                                              image: new AssetImage(
+                                                  'assets/images_gps/logo.png')),
+                                        )),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Shimmer(
+            duration: Duration(milliseconds: 300),
+            //Default value
+            interval: Duration(milliseconds: 300),
+            //Default value: Duration(seconds: 0)
+            color: Colors.grey[400],
+            //Default value
+            enabled: true,
+            //Default value
+            direction: ShimmerDirection.fromLTRB(),
+            child: Container(
+              color: Colors.grey[200],
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
+                  ),
+                  Text(
+                    '',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        decoration: TextDecoration.underline),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.22,
+              width: MediaQuery.of(context).size.width * 0.95,
+              child: Shimmer(
+                duration: Duration(milliseconds: 300),
+                //Default value
+                interval: Duration(milliseconds: 300),
+                //Default value: Duration(seconds: 0)
+                color: Colors.grey[300],
+                //Default value
+                enabled: true,
+                //Default value
+                direction: ShimmerDirection.fromLTRB(),
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: 5,
+                    itemBuilder: (context, index) {
+                      return WidgetAnimator(
+                        new Card(
+                          color: Colors.grey[200],
+                          semanticContainer: true,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Container(
+                              height: MediaQuery.of(context).size.height * 0.70,
+                              width: MediaQuery.of(context).size.width * 0.78,
+                              child: Shimmer(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    new Container(
+                                        width: 80.0,
+                                        height: 80.0,
+                                        decoration: new BoxDecoration(
+                                          color: Colors.grey[200],
+                                          border: Border.all(
+                                              color: Colors.grey[200]),
+                                          shape: BoxShape.circle,
+                                          image: new DecorationImage(
+                                              fit: BoxFit.none,
+                                              image: new AssetImage(
+                                                  'assets/images_gps/logo.png')),
+                                        )),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Shimmer(
+            duration: Duration(milliseconds: 300),
+            //Default value
+            interval: Duration(milliseconds: 300),
+            //Default value: Duration(seconds: 0)
+            color: Colors.grey[400],
+            //Default value
+            enabled: true,
+            //Default value
+            direction: ShimmerDirection.fromLTRB(),
+            child: Container(
+              color: Colors.grey[200],
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
+                  ),
+                  Text(
+                    '',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        decoration: TextDecoration.underline),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -401,7 +735,9 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                           therapistUsers[index].user.id;
                                       NavigationRouter
                                           .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                              context, HealingMatchConstants.therapistId);
+                                              context,
+                                              HealingMatchConstants
+                                                  .therapistId);
                                     },
                                     child: Card(
                                       elevation: 0.0,
@@ -712,7 +1048,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                                   therapistUsers[
                                                                           index]
                                                                       .reviewAvgData),
-                                                              minRating: 1,
+                                                              minRating: 0.25,
                                                               direction: Axis
                                                                   .horizontal,
                                                               allowHalfRating:
@@ -744,7 +1080,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                                   true,
                                                               initialRating:
                                                                   0.0,
-                                                              minRating: 1,
+                                                              minRating: 0.25,
                                                               direction: Axis
                                                                   .horizontal,
                                                               allowHalfRating:
@@ -818,45 +1154,47 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                                   .width -
                                                               130.0, //200.0,
                                                           child:
-                                                              ListView
-                                                                  .builder(
-                                                                      shrinkWrap:
-                                                                          true,
-                                                                      scrollDirection:
-                                                                          Axis
-                                                                              .horizontal,
-                                                                      itemCount:
-                                                                          certificateImages
-                                                                              .length,
-                                                                      itemBuilder:
-                                                                          (context,
-                                                                              index) {
-                                                                        String key = certificateImages
+                                                              ListView.builder(
+                                                                  shrinkWrap:
+                                                                      true,
+                                                                  scrollDirection:
+                                                                      Axis
+                                                                          .horizontal,
+                                                                  itemCount:
+                                                                      certificateImages
+                                                                          .length,
+                                                                  itemBuilder:
+                                                                      (context,
+                                                                          index) {
+                                                                    String key =
+                                                                        certificateImages
                                                                             .keys
-                                                                            .elementAt(
-                                                                                index);
-                                                                        return WidgetAnimator(
-                                                                          Wrap(
-                                                                            children: [
-                                                                              Padding(
-                                                                                padding: index == 0 ? const EdgeInsets.only(left: 0.0, top: 4.0, right: 4.0, bottom: 4.0) : const EdgeInsets.all(4.0),
-                                                                                child: Container(
-                                                                                  padding: EdgeInsets.all(5),
-                                                                                  decoration: boxDecoration,
-                                                                                  child: Text(
-                                                                                    key,
-                                                                                    //Qualififcation
-                                                                                    style: TextStyle(
-                                                                                      fontSize: 14,
-                                                                                      color: Colors.black,
-                                                                                    ),
-                                                                                  ),
+                                                                            .elementAt(index);
+                                                                    return WidgetAnimator(
+                                                                      Wrap(
+                                                                        children: [
+                                                                          Padding(
+                                                                            padding: index == 0
+                                                                                ? const EdgeInsets.only(left: 0.0, top: 4.0, right: 4.0, bottom: 4.0)
+                                                                                : const EdgeInsets.all(4.0),
+                                                                            child:
+                                                                                Container(
+                                                                              padding: EdgeInsets.all(5),
+                                                                              decoration: boxDecoration,
+                                                                              child: Text(
+                                                                                key,
+                                                                                //Qualififcation
+                                                                                style: TextStyle(
+                                                                                  fontSize: 14,
+                                                                                  color: Colors.black,
                                                                                 ),
                                                                               ),
-                                                                            ],
+                                                                            ),
                                                                           ),
-                                                                        );
-                                                                      }),
+                                                                        ],
+                                                                      ),
+                                                                    );
+                                                                  }),
                                                         )
                                                       : Container(),
                                                   therapistUsers[index]
@@ -1165,7 +1503,9 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                           .getTherapistByType[index].user.id;
                                       NavigationRouter
                                           .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                              context, HealingMatchConstants.therapistId);
+                                              context,
+                                              HealingMatchConstants
+                                                  .therapistId);
                                     },
                                     child: new Card(
                                       elevation: 0.0,
@@ -1486,7 +1826,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                                       .getTherapistByType[
                                                                           index]
                                                                       .reviewAvgData),
-                                                              minRating: 1,
+                                                              minRating: 0.25,
                                                               direction: Axis
                                                                   .horizontal,
                                                               allowHalfRating:
@@ -1518,7 +1858,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                                   true,
                                                               initialRating:
                                                                   0.0,
-                                                              minRating: 1,
+                                                              minRating: 0.25,
                                                               direction: Axis
                                                                   .horizontal,
                                                               allowHalfRating:
@@ -1595,45 +1935,47 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                                   .width -
                                                               130.0, //200.0,
                                                           child:
-                                                              ListView
-                                                                  .builder(
-                                                                      shrinkWrap:
-                                                                          true,
-                                                                      scrollDirection:
-                                                                          Axis
-                                                                              .horizontal,
-                                                                      itemCount:
-                                                                          certificateImages
-                                                                              .length,
-                                                                      itemBuilder:
-                                                                          (context,
-                                                                              index) {
-                                                                        String key = certificateImages
+                                                              ListView.builder(
+                                                                  shrinkWrap:
+                                                                      true,
+                                                                  scrollDirection:
+                                                                      Axis
+                                                                          .horizontal,
+                                                                  itemCount:
+                                                                      certificateImages
+                                                                          .length,
+                                                                  itemBuilder:
+                                                                      (context,
+                                                                          index) {
+                                                                    String key =
+                                                                        certificateImages
                                                                             .keys
-                                                                            .elementAt(
-                                                                                index);
-                                                                        return WidgetAnimator(
-                                                                          Wrap(
-                                                                            children: [
-                                                                              Padding(
-                                                                                padding: index == 0 ? const EdgeInsets.only(left: 0.0, top: 4.0, right: 4.0, bottom: 4.0) : const EdgeInsets.all(4.0),
-                                                                                child: Container(
-                                                                                  padding: EdgeInsets.all(5),
-                                                                                  decoration: boxDecoration,
-                                                                                  child: Text(
-                                                                                    key,
-                                                                                    //Qualififcation
-                                                                                    style: TextStyle(
-                                                                                      fontSize: 14,
-                                                                                      color: Colors.black,
-                                                                                    ),
-                                                                                  ),
+                                                                            .elementAt(index);
+                                                                    return WidgetAnimator(
+                                                                      Wrap(
+                                                                        children: [
+                                                                          Padding(
+                                                                            padding: index == 0
+                                                                                ? const EdgeInsets.only(left: 0.0, top: 4.0, right: 4.0, bottom: 4.0)
+                                                                                : const EdgeInsets.all(4.0),
+                                                                            child:
+                                                                                Container(
+                                                                              padding: EdgeInsets.all(5),
+                                                                              decoration: boxDecoration,
+                                                                              child: Text(
+                                                                                key,
+                                                                                //Qualififcation
+                                                                                style: TextStyle(
+                                                                                  fontSize: 14,
+                                                                                  color: Colors.black,
                                                                                 ),
                                                                               ),
-                                                                            ],
+                                                                            ),
                                                                           ),
-                                                                        );
-                                                                      }),
+                                                                        ],
+                                                                      ),
+                                                                    );
+                                                                  }),
                                                         )
                                                       : Container(),
                                                   widget

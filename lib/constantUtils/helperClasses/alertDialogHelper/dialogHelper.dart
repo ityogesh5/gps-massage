@@ -12,7 +12,6 @@ class DialogHelper {
   static Future<SharedPreferences> _sharedPreferences =
       SharedPreferences.getInstance();
 
-
   // notification popup
   static void showNotificationDialog(BuildContext context) {
     showDialog(
@@ -880,7 +879,7 @@ class DialogHelper {
                             onPressed: () {
 //Navigator.pop(context);
                               NavigationRouter
-                                  .switchToServiceUserViewProfileScreen(
+                                  .switchToServiceUserBottomBarViewProfile(
                                       context);
                             },
                             child: new Text(
@@ -1456,4 +1455,3 @@ class HeaderCurvedContainer extends CustomPainter {
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
-

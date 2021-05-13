@@ -67,7 +67,6 @@ import 'package:gps_massageapp/serviceUser/profileScreens/EditUpdateUserprofile.
 import 'package:gps_massageapp/serviceUser/profileScreens/ReportBlockUser/UserBlockReportScreen.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/TermsAndConditions.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/UserTutorial.dart';
-import 'package:gps_massageapp/serviceUser/profileScreens/ViewProfileScreen.dart';
 import 'package:gps_massageapp/serviceUser/ratingsAndReviewScreen/DisplayUserReviewScreen.dart';
 import 'package:gps_massageapp/serviceUser/ratingsAndReviewScreen/RatingsAndReviewUser.dart';
 import 'package:gps_massageapp/serviceUser/register/RegisterOTPScreen.dart';
@@ -159,6 +158,28 @@ class NavigationRouter {
   static void switchToServiceUserBottomBarFavourite(BuildContext context) {
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (BuildContext context) => BottomBarUser(2)),
+        (Route<dynamic> route) => false);
+  }
+
+  // User bottom bar view profile screen
+  static void switchToServiceUserBottomBarViewProfile(BuildContext context) {
+    Navigator.of(context).pushAndRemoveUntil(
+        PageRouteBuilder(
+            pageBuilder: (context, animation, anotherAnimation) {
+              return BottomBarUser(3);
+            },
+            transitionDuration: Duration(milliseconds: 2000),
+            transitionsBuilder: (context, animation, anotherAnimation, child) {
+              animation = CurvedAnimation(
+                  curve: HealingMatchConstants.curveList[2], parent: animation);
+              return Align(
+                child: SizeTransition(
+                  sizeFactor: animation,
+                  child: child,
+                  axisAlignment: 0.0,
+                ),
+              );
+            }),
         (Route<dynamic> route) => false);
   }
 
@@ -275,10 +296,10 @@ class NavigationRouter {
         pageBuilder: (context, animation, anotherAnimation) {
           return SearchResultScreen();
         },
-        transitionDuration: Duration(milliseconds: 2000),
+        transitionDuration: Duration(milliseconds: 100),
         transitionsBuilder: (context, animation, anotherAnimation, child) {
           animation = CurvedAnimation(
-              curve: HealingMatchConstants.curveList[2], parent: animation);
+              curve: HealingMatchConstants.curveList[10], parent: animation);
           return Align(
             child: SizeTransition(
               sizeFactor: animation,
@@ -726,28 +747,6 @@ class NavigationRouter {
             ),
           );
         }));
-  }
-
-  // Service User View Profile Screen
-  static void switchToServiceUserViewProfileScreen(BuildContext context) {
-    Navigator.of(context).pushAndRemoveUntil(
-        PageRouteBuilder(
-            pageBuilder: (context, animation, anotherAnimation) {
-              return ViewUserProfile();
-            },
-            transitionDuration: Duration(milliseconds: 2000),
-            transitionsBuilder: (context, animation, anotherAnimation, child) {
-              animation = CurvedAnimation(
-                  curve: HealingMatchConstants.curveList[2], parent: animation);
-              return Align(
-                child: SizeTransition(
-                  sizeFactor: animation,
-                  child: child,
-                  axisAlignment: 0.0,
-                ),
-              );
-            }),
-        (Route<dynamic> route) => false);
   }
 
   // Service User Ratings And Review Screen

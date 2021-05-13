@@ -494,6 +494,7 @@ class _UserLoginState extends State<UserLogin> {
           value.setString('userGender', loginResponseModel.data.gender);
           value.setString(
               'userOccupation', loginResponseModel.data.userOccupation);
+          value.setString('deviceToken', loginResponseModel.data.fcmToken);
           /* value.setString(
               'userAddress', json.encode(loginResponseModel.data.addresses));*/
 
