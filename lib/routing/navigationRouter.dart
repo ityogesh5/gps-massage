@@ -296,10 +296,10 @@ class NavigationRouter {
         pageBuilder: (context, animation, anotherAnimation) {
           return SearchResultScreen();
         },
-        transitionDuration: Duration(milliseconds: 2000),
+        transitionDuration: Duration(milliseconds: 100),
         transitionsBuilder: (context, animation, anotherAnimation, child) {
           animation = CurvedAnimation(
-              curve: HealingMatchConstants.curveList[2], parent: animation);
+              curve: HealingMatchConstants.curveList[10], parent: animation);
           return Align(
             child: SizeTransition(
               sizeFactor: animation,

@@ -1264,7 +1264,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
             ),
           ),
           Positioned(
-            top: 600.0,
+            //top: 600.0,
             bottom: 100.0,
             right: 20.0,
             left: 0.0,
