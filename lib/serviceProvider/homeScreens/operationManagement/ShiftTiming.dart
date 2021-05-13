@@ -578,12 +578,32 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             InkWell(
                               onTap: () {
                                 _storeServiceTime.clear();
-                                _storeServiceTime = List<StoreServiceTime>.from(
-                                    json
+                                HealingMatchConstants.therapistDetails =
+                                    List<StoreServiceTime>.from(json
                                         .decode(HealingMatchConstants
                                             .storeServiceTime)
                                         .map((x) =>
                                             StoreServiceTime.fromJson(x)));
+
+                                //get start and End Time from Api
+                                if (HealingMatchConstants.therapistDetails ==
+                                        null ||
+                                    HealingMatchConstants
+                                            .therapistDetails.length ==
+                                        0) {
+                                  buildInitialTime();
+                                } else {
+                                  /*   storeServiceTime.addAll(HealingMatchConstants.therapistDetails);
+    */
+                                  converToLocalTime();
+                                }
+
+                                /*    _storeServiceTime = List<StoreServiceTime>.from(
+                                    json
+                                        .decode(HealingMatchConstants
+                                            .storeServiceTime)
+                                        .map((x) =>
+                                            StoreServiceTime.fromJson(x))); */
 
                                 Navigator.pop(context);
                               },
