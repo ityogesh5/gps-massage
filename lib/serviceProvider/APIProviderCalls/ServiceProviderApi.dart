@@ -287,6 +287,8 @@ class ServiceProviderApi {
         print('a');
         HealingMatchConstants.therapistDetails =
             therapistDetails.data.storeServiceTimes;
+        HealingMatchConstants.storeServiceTime =
+            json.encode(therapistDetails.data.storeServiceTimes);
         return therapistDetails;
       } else {
         print('Error occurred!!! TypeMassages response');
@@ -324,7 +326,7 @@ class ServiceProviderApi {
             shiftTimeUpdate.ShiftTimeUpdateResponse.fromJson(data);
         HealingMatchConstants.therapistDetails.clear();
         ProgressDialogBuilder.hideCommonProgressDialog(context);
-       /*  Navigator.pop(context);
+        /*  Navigator.pop(context);
         Navigator.pop(context); */
         NavigationRouter.switchToServiceProviderBottomBar(context);
       }

@@ -2718,13 +2718,10 @@ class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
       direction: ShimmerDirection.fromLeftToRight(),
       child: Scaffold(
           backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-          body: Container(
-            color: Colors.white,
-            child: Center(
-              //SpinKitSpinningCircle(color: Color.fromRGBO(200, 217, 33, 1)),
-              child: SvgPicture.asset('assets/images_gps/normalLogo.svg',
-                  width: 150, height: 150),
-            ),
+          body: Center(
+            //SpinKitSpinningCircle(color: Color.fromRGBO(200, 217, 33, 1)),
+            child: SvgPicture.asset('assets/images_gps/normalLogo.svg',
+                width: 150, height: 150),
           )),
     );
   }

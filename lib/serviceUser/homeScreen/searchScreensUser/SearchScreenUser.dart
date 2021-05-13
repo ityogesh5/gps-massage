@@ -1264,8 +1264,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
             ),
           ),
           Positioned(
-            top: 600.0,
-            bottom: 100.0,
+            //  top: 600.0,
+            bottom: 85.0,
             right: 20.0,
             left: 0.0,
             child: Row(
@@ -1300,18 +1300,12 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   buildDayPicker() {
     dayPicker = NumberPicker.horizontal(
       currentDate: DateTime.now(),
-      enabled: _isVisible,
       selectedYear: _cyear,
+      enabled: true,
       ismonth: true,
       numberToDisplay: 7,
       selectedMonth: _cmonth,
-      eventDates: [
-        DateTime(today.year, today.month, today.day),
-        DateTime(today.year, today.month, today.day),
-        DateTime(today.year, today.month, today.day),
-        DateTime(today.year, today.month, today.day + 1),
-        DateTime(today.year, today.month, today.day + 1)
-      ],
+      eventDates: [], //getEventDateTime(),
       zeroPad: false,
       initialValue: _currentDay,
       minValue: 1,
@@ -1323,16 +1317,101 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
       }),
     );
     return Padding(
-      padding: const EdgeInsets.all(2.0),
+      padding: const EdgeInsets.all(0.0),
       child: SizedBox(
         height: 95.0,
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: Stack(
             children: <Widget>[
-              Center(child: dayPicker),
+              Positioned(
+                left: 0,
+                top: 34.0,
+                child: InkWell(
+                  onTap: () {
+                    var dateUtility = DateUtil();
+                    if (_currentDay != 1) {
+                      _currentDay = _currentDay - 1;
+                      dayPicker.animateInt(_currentDay);
+                      changeDay(_currentDay);
+                    } else if (_currentDay == 1 && _cmonth != 1) {
+                      var day1 = dateUtility.daysInMonth(_cmonth - 1, _cyear);
+                      daysToDisplay = day1;
+                      _currentDay = day1;
+                      _cmonth = _cmonth - 1;
+                      monthString = _cmonth.toString();
+                      dayPicker.animateInt(_currentDay);
+                      changeDay(_currentDay);
+                    } else {
+                      var day1 =
+                          dateUtility.daysInMonth(_cmonth - 1, _cyear - 1);
+                      daysToDisplay = day1;
+                      _currentDay = day1;
+                      _cmonth = 12;
+                      monthString = _cmonth.toString();
+                      _cyear = _cyear + 1;
+                      yearString = _cyear.toString();
+                      dayPicker.animateInt(_currentDay);
+                      changeDay(_currentDay);
+                    }
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(4.0),
+                    child: Center(
+                      child: Icon(
+                        Icons.arrow_back_ios,
+                        size: 15.0,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                child: dayPicker, //Daypicker Build here
+              ),
+              Positioned(
+                right: 0,
+                top: 34.0,
+                child: InkWell(
+                  onTap: () {
+                    var dateUtility = DateUtil();
+                    var day1 = dateUtility.daysInMonth(_cmonth, _cyear);
+                    if (_currentDay != day1) {
+                      _currentDay = _currentDay + 1;
+                      dayPicker.animateInt(_currentDay);
+                      changeDay(_currentDay);
+                    } else if (_currentDay == day1 && _cmonth != 12) {
+                      day1 = dateUtility.daysInMonth(_cmonth + 1, _cyear);
+                      daysToDisplay = day1;
+                      _currentDay = 1;
+                      _cmonth = _cmonth + 1;
+                      monthString = _cmonth.toString();
+                      dayPicker.animateInt(_currentDay);
+                      changeDay(_currentDay);
+                    } else {
+                      day1 = dateUtility.daysInMonth(_cmonth + 1, _cyear + 1);
+                      daysToDisplay = day1;
+                      _currentDay = 1;
+                      _cmonth = 1;
+                      monthString = _cmonth.toString();
+                      _cyear = _cyear + 1;
+                      yearString = _cyear.toString();
+                      dayPicker.animateInt(_currentDay);
+                      changeDay(_currentDay);
+                    }
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(4.0),
+                    child: Center(
+                      child: Icon(
+                        Icons.arrow_forward_ios,
+                        size: 15.0,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

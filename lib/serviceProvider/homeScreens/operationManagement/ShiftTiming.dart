@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -55,7 +56,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
   Size buttonSize;
   Offset buttonPosition;
   List<String> dayNames = ["月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日", "日曜日"];
-  List<StoreServiceTime> storeServiceTime = List<StoreServiceTime>();
+  List<StoreServiceTime> _storeServiceTime = List<StoreServiceTime>();
 
   @override
   void initState() {
@@ -91,6 +92,10 @@ class _ShiftTimingState extends State<ShiftTiming> {
       start = start.add(Duration(minutes: 15));
     }
 
+    HealingMatchConstants.therapistDetails = List<StoreServiceTime>.from(json
+        .decode(HealingMatchConstants.storeServiceTime)
+        .map((x) => StoreServiceTime.fromJson(x)));
+
     //get start and End Time from Api
     if (HealingMatchConstants.therapistDetails == null ||
         HealingMatchConstants.therapistDetails.length == 0) {
@@ -106,7 +111,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
     for (var serviceTime in HealingMatchConstants.therapistDetails) {
       serviceTime.startTime = serviceTime.startTime.toLocal();
       serviceTime.endTime = serviceTime.endTime.toLocal();
-      storeServiceTime.add(serviceTime);
+      _storeServiceTime.add(serviceTime);
     }
   }
 
@@ -115,7 +120,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
     DateTime defaultStart = DateTime(_cyear, _cmonth, 1, 0, 0, 0);
     DateTime defaultEnd = DateTime(_cyear, _cmonth, 1, 24, 0, 0);
     for (var day in dayNames) {
-      storeServiceTime.add(StoreServiceTime(
+      _storeServiceTime.add(StoreServiceTime(
         id: 0,
         userId: HealingMatchConstants.userId,
         weekDay: day,
@@ -416,7 +421,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
                               .format(DateTime(_cyear, _cmonth, j + 1));
                           //Get Japanese Day Name
                           int dayIndex = getJaIndex(dayName);
-                          if (storeServiceTime[dayIndex].shopOpen) {
+                          if (_storeServiceTime[dayIndex].shopOpen) {
                             if (events.containsKey(timeRow[i]) &&
                                 events[timeRow[i]].contains(j)) {
                               return InkWell(
@@ -541,7 +546,9 @@ class _ShiftTimingState extends State<ShiftTiming> {
     TextStyle disabledHourTextStyle =
         TextStyle(fontSize: 12.0, color: Colors.grey);
     Color containerColor = Colors.grey[100];
+
     return showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (context) {
           return StatefulBuilder(builder: (context, setState) {
@@ -570,6 +577,14 @@ class _ShiftTimingState extends State<ShiftTiming> {
                           children: [
                             InkWell(
                               onTap: () {
+                                _storeServiceTime.clear();
+                                _storeServiceTime = List<StoreServiceTime>.from(
+                                    json
+                                        .decode(HealingMatchConstants
+                                            .storeServiceTime)
+                                        .map((x) =>
+                                            StoreServiceTime.fromJson(x)));
+
                                 Navigator.pop(context);
                               },
                               child: Icon(
@@ -590,13 +605,13 @@ class _ShiftTimingState extends State<ShiftTiming> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text("${storeServiceTime[0].weekDay}"),
+                            Text("${_storeServiceTime[0].weekDay}"),
                             InkWell(
                               onTap: () {
-                                if (storeServiceTime[0].shopOpen) {
+                                if (_storeServiceTime[0].shopOpen) {
                                   showToolTip(
                                       sundayStartKey,
-                                      storeServiceTime[0].startTime,
+                                      _storeServiceTime[0].startTime,
                                       context,
                                       0,
                                       true);
@@ -615,19 +630,19 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        storeServiceTime[0].startTime.hour < 10
-                                            ? "0${storeServiceTime[0].startTime.hour}"
-                                            : "${storeServiceTime[0].startTime.hour}",
-                                        style: storeServiceTime[0].shopOpen
+                                        _storeServiceTime[0].startTime.hour < 10
+                                            ? "0${_storeServiceTime[0].startTime.hour}"
+                                            : "${_storeServiceTime[0].startTime.hour}",
+                                        style: _storeServiceTime[0].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
                                       ),
                                       Text(
-                                        storeServiceTime[0].startTime.minute <
+                                        _storeServiceTime[0].startTime.minute <
                                                 10
-                                            ? ":0${storeServiceTime[0].startTime.minute}"
-                                            : ":${storeServiceTime[0].startTime.minute}",
-                                        style: storeServiceTime[0].shopOpen
+                                            ? ":0${_storeServiceTime[0].startTime.minute}"
+                                            : ":${_storeServiceTime[0].startTime.minute}",
+                                        style: _storeServiceTime[0].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
                                       ),
@@ -639,10 +654,10 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             Text("~"),
                             InkWell(
                               onTap: () {
-                                if (storeServiceTime[0].shopOpen) {
+                                if (_storeServiceTime[0].shopOpen) {
                                   showToolTip(
                                       sundayEndKey,
-                                      storeServiceTime[0].endTime,
+                                      _storeServiceTime[0].endTime,
                                       context,
                                       0,
                                       false);
@@ -661,18 +676,18 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        storeServiceTime[0].endTime.hour < 10
-                                            ? "0${storeServiceTime[0].endTime.hour}"
-                                            : "${storeServiceTime[0].endTime.hour}",
-                                        style: storeServiceTime[0].shopOpen
+                                        _storeServiceTime[0].endTime.hour < 10
+                                            ? "0${_storeServiceTime[0].endTime.hour}"
+                                            : "${_storeServiceTime[0].endTime.hour}",
+                                        style: _storeServiceTime[0].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
                                       ),
                                       Text(
-                                        storeServiceTime[0].endTime.minute < 10
-                                            ? ":0${storeServiceTime[0].endTime.minute}"
-                                            : ":${storeServiceTime[0].endTime.minute}",
-                                        style: storeServiceTime[0].shopOpen
+                                        _storeServiceTime[0].endTime.minute < 10
+                                            ? ":0${_storeServiceTime[0].endTime.minute}"
+                                            : ":${_storeServiceTime[0].endTime.minute}",
+                                        style: _storeServiceTime[0].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
                                       ),
@@ -683,12 +698,16 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             ),
                             CustomSwitch(
                               activeColor: Colors.lime,
-                              value: storeServiceTime[0].shopOpen,
+                              value: _storeServiceTime[0].shopOpen,
                               onChanged: (value) {
                                 print("VALUE : $value");
-                                setState(() {
-                                  storeServiceTime[0].shopOpen = value;
-                                });
+                                if (value) {
+                                  refreshState(() {
+                                    _storeServiceTime[0].shopOpen = value;
+                                  });
+                                } else {
+                                  showConfirmDialog(0);
+                                }
                               },
                             ),
                           ],
@@ -697,13 +716,13 @@ class _ShiftTimingState extends State<ShiftTiming> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text("${storeServiceTime[1].weekDay}"),
+                            Text("${_storeServiceTime[1].weekDay}"),
                             InkWell(
                               onTap: () {
-                                if (storeServiceTime[1].shopOpen) {
+                                if (_storeServiceTime[1].shopOpen) {
                                   showToolTip(
                                       mondayStartkey,
-                                      storeServiceTime[1].startTime,
+                                      _storeServiceTime[1].startTime,
                                       context,
                                       1,
                                       true);
@@ -722,19 +741,19 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        storeServiceTime[1].startTime.hour < 10
-                                            ? "0${storeServiceTime[1].startTime.hour}"
-                                            : "${storeServiceTime[1].startTime.hour}",
-                                        style: storeServiceTime[1].shopOpen
+                                        _storeServiceTime[1].startTime.hour < 10
+                                            ? "0${_storeServiceTime[1].startTime.hour}"
+                                            : "${_storeServiceTime[1].startTime.hour}",
+                                        style: _storeServiceTime[1].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
                                       ),
                                       Text(
-                                        storeServiceTime[1].startTime.minute <
+                                        _storeServiceTime[1].startTime.minute <
                                                 10
-                                            ? ":0${storeServiceTime[1].startTime.minute}"
-                                            : ":${storeServiceTime[1].startTime.minute}",
-                                        style: storeServiceTime[1].shopOpen
+                                            ? ":0${_storeServiceTime[1].startTime.minute}"
+                                            : ":${_storeServiceTime[1].startTime.minute}",
+                                        style: _storeServiceTime[1].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
                                       ),
@@ -746,10 +765,10 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             Text("~"),
                             InkWell(
                               onTap: () {
-                                if (storeServiceTime[1].shopOpen) {
+                                if (_storeServiceTime[1].shopOpen) {
                                   showToolTip(
                                       mondayEndKey,
-                                      storeServiceTime[1].endTime,
+                                      _storeServiceTime[1].endTime,
                                       context,
                                       1,
                                       false);
@@ -768,18 +787,18 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        storeServiceTime[1].endTime.hour < 10
-                                            ? "0${storeServiceTime[1].endTime.hour}"
-                                            : "${storeServiceTime[1].endTime.hour}",
-                                        style: storeServiceTime[1].shopOpen
+                                        _storeServiceTime[1].endTime.hour < 10
+                                            ? "0${_storeServiceTime[1].endTime.hour}"
+                                            : "${_storeServiceTime[1].endTime.hour}",
+                                        style: _storeServiceTime[1].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
                                       ),
                                       Text(
-                                        storeServiceTime[1].endTime.minute < 10
-                                            ? ":0${storeServiceTime[1].endTime.minute}"
-                                            : ":${storeServiceTime[1].endTime.minute}",
-                                        style: storeServiceTime[1].shopOpen
+                                        _storeServiceTime[1].endTime.minute < 10
+                                            ? ":0${_storeServiceTime[1].endTime.minute}"
+                                            : ":${_storeServiceTime[1].endTime.minute}",
+                                        style: _storeServiceTime[1].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
                                       ),
@@ -790,12 +809,16 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             ),
                             CustomSwitch(
                               activeColor: Colors.lime,
-                              value: storeServiceTime[1].shopOpen,
+                              value: _storeServiceTime[1].shopOpen,
                               onChanged: (value) {
                                 print("VALUE : $value");
-                                setState(() {
-                                  storeServiceTime[1].shopOpen = value;
-                                });
+                                if (value) {
+                                  refreshState(() {
+                                    _storeServiceTime[1].shopOpen = value;
+                                  });
+                                } else {
+                                  showConfirmDialog(1);
+                                }
                               },
                             ),
                           ],
@@ -804,7 +827,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text("${storeServiceTime[2].weekDay}"),
+                            Text("${_storeServiceTime[2].weekDay}"),
                             InkWell(
                               onTap: () {
                                 /* setState(() {
@@ -813,10 +836,10 @@ class _ShiftTimingState extends State<ShiftTiming> {
                               },
                               child: InkWell(
                                 onTap: () {
-                                  if (storeServiceTime[2].shopOpen) {
+                                  if (_storeServiceTime[2].shopOpen) {
                                     showToolTip(
                                         tuesdayStartKey,
-                                        storeServiceTime[2].startTime,
+                                        _storeServiceTime[2].startTime,
                                         context,
                                         2,
                                         true);
@@ -836,20 +859,22 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          storeServiceTime[2].startTime.hour <
+                                          _storeServiceTime[2].startTime.hour <
                                                   10
-                                              ? "0${storeServiceTime[2].startTime.hour}"
-                                              : "${storeServiceTime[2].startTime.hour}",
-                                          style: storeServiceTime[2].shopOpen
+                                              ? "0${_storeServiceTime[2].startTime.hour}"
+                                              : "${_storeServiceTime[2].startTime.hour}",
+                                          style: _storeServiceTime[2].shopOpen
                                               ? hourTextStyle
                                               : disabledHourTextStyle,
                                         ),
                                         Text(
-                                          storeServiceTime[2].startTime.minute <
+                                          _storeServiceTime[2]
+                                                      .startTime
+                                                      .minute <
                                                   10
-                                              ? ":0${storeServiceTime[2].startTime.minute}"
-                                              : ":${storeServiceTime[2].startTime.minute}",
-                                          style: storeServiceTime[2].shopOpen
+                                              ? ":0${_storeServiceTime[2].startTime.minute}"
+                                              : ":${_storeServiceTime[2].startTime.minute}",
+                                          style: _storeServiceTime[2].shopOpen
                                               ? hourTextStyle
                                               : disabledHourTextStyle,
                                         ),
@@ -862,10 +887,10 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             Text("~"),
                             InkWell(
                               onTap: () {
-                                if (storeServiceTime[2].shopOpen) {
+                                if (_storeServiceTime[2].shopOpen) {
                                   showToolTip(
                                       tuesdayEndKey,
-                                      storeServiceTime[2].endTime,
+                                      _storeServiceTime[2].endTime,
                                       context,
                                       2,
                                       false);
@@ -884,18 +909,18 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        storeServiceTime[2].endTime.hour < 10
-                                            ? "0${storeServiceTime[2].endTime.hour}"
-                                            : "${storeServiceTime[2].endTime.hour}",
-                                        style: storeServiceTime[2].shopOpen
+                                        _storeServiceTime[2].endTime.hour < 10
+                                            ? "0${_storeServiceTime[2].endTime.hour}"
+                                            : "${_storeServiceTime[2].endTime.hour}",
+                                        style: _storeServiceTime[2].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
                                       ),
                                       Text(
-                                        storeServiceTime[2].endTime.minute < 10
-                                            ? ":0${storeServiceTime[2].endTime.minute}"
-                                            : ":${storeServiceTime[2].endTime.minute}",
-                                        style: storeServiceTime[2].shopOpen
+                                        _storeServiceTime[2].endTime.minute < 10
+                                            ? ":0${_storeServiceTime[2].endTime.minute}"
+                                            : ":${_storeServiceTime[2].endTime.minute}",
+                                        style: _storeServiceTime[2].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
                                       ),
@@ -906,12 +931,16 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             ),
                             CustomSwitch(
                               activeColor: Colors.lime,
-                              value: storeServiceTime[2].shopOpen,
+                              value: _storeServiceTime[2].shopOpen,
                               onChanged: (value) {
                                 print("VALUE : $value");
-                                setState(() {
-                                  storeServiceTime[2].shopOpen = value;
-                                });
+                                if (value) {
+                                  refreshState(() {
+                                    _storeServiceTime[2].shopOpen = value;
+                                  });
+                                } else {
+                                  showConfirmDialog(2);
+                                }
                               },
                             ),
                           ],
@@ -920,13 +949,13 @@ class _ShiftTimingState extends State<ShiftTiming> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text("${storeServiceTime[3].weekDay}"),
+                            Text("${_storeServiceTime[3].weekDay}"),
                             InkWell(
                               onTap: () {
-                                if (storeServiceTime[3].shopOpen) {
+                                if (_storeServiceTime[3].shopOpen) {
                                   showToolTip(
                                       wednedayStartKey,
-                                      storeServiceTime[3].startTime,
+                                      _storeServiceTime[3].startTime,
                                       context,
                                       3,
                                       true);
@@ -945,19 +974,19 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        storeServiceTime[3].startTime.hour < 10
-                                            ? "0${storeServiceTime[3].startTime.hour}"
-                                            : "${storeServiceTime[3].startTime.hour}",
-                                        style: storeServiceTime[3].shopOpen
+                                        _storeServiceTime[3].startTime.hour < 10
+                                            ? "0${_storeServiceTime[3].startTime.hour}"
+                                            : "${_storeServiceTime[3].startTime.hour}",
+                                        style: _storeServiceTime[3].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
                                       ),
                                       Text(
-                                        storeServiceTime[3].startTime.minute <
+                                        _storeServiceTime[3].startTime.minute <
                                                 10
-                                            ? ":0${storeServiceTime[3].startTime.minute}"
-                                            : ":${storeServiceTime[3].startTime.minute}",
-                                        style: storeServiceTime[3].shopOpen
+                                            ? ":0${_storeServiceTime[3].startTime.minute}"
+                                            : ":${_storeServiceTime[3].startTime.minute}",
+                                        style: _storeServiceTime[3].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
                                       ),
@@ -969,10 +998,10 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             Text("~"),
                             InkWell(
                               onTap: () {
-                                if (storeServiceTime[3].shopOpen) {
+                                if (_storeServiceTime[3].shopOpen) {
                                   showToolTip(
                                       wednesdayEndKey,
-                                      storeServiceTime[3].endTime,
+                                      _storeServiceTime[3].endTime,
                                       context,
                                       3,
                                       false);
@@ -991,18 +1020,18 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        storeServiceTime[3].endTime.hour < 10
-                                            ? "0${storeServiceTime[3].endTime.hour}"
-                                            : "${storeServiceTime[3].endTime.hour}",
-                                        style: storeServiceTime[3].shopOpen
+                                        _storeServiceTime[3].endTime.hour < 10
+                                            ? "0${_storeServiceTime[3].endTime.hour}"
+                                            : "${_storeServiceTime[3].endTime.hour}",
+                                        style: _storeServiceTime[3].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
                                       ),
                                       Text(
-                                        storeServiceTime[3].endTime.minute < 10
-                                            ? ":0${storeServiceTime[3].endTime.minute}"
-                                            : ":${storeServiceTime[3].endTime.minute}",
-                                        style: storeServiceTime[3].shopOpen
+                                        _storeServiceTime[3].endTime.minute < 10
+                                            ? ":0${_storeServiceTime[3].endTime.minute}"
+                                            : ":${_storeServiceTime[3].endTime.minute}",
+                                        style: _storeServiceTime[3].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
                                       ),
@@ -1013,12 +1042,16 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             ),
                             CustomSwitch(
                               activeColor: Colors.lime,
-                              value: storeServiceTime[3].shopOpen,
+                              value: _storeServiceTime[3].shopOpen,
                               onChanged: (value) {
                                 print("VALUE : $value");
-                                setState(() {
-                                  storeServiceTime[3].shopOpen = value;
-                                });
+                                if (value) {
+                                  refreshState(() {
+                                    _storeServiceTime[3].shopOpen = value;
+                                  });
+                                } else {
+                                  showConfirmDialog(3);
+                                }
                               },
                             ),
                           ],
@@ -1027,13 +1060,13 @@ class _ShiftTimingState extends State<ShiftTiming> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text("${storeServiceTime[4].weekDay}"),
+                            Text("${_storeServiceTime[4].weekDay}"),
                             InkWell(
                               onTap: () {
-                                if (storeServiceTime[4].shopOpen) {
+                                if (_storeServiceTime[4].shopOpen) {
                                   showToolTip(
                                       thursdayStartKey,
-                                      storeServiceTime[4].startTime,
+                                      _storeServiceTime[4].startTime,
                                       context,
                                       4,
                                       true);
@@ -1052,19 +1085,19 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        storeServiceTime[4].startTime.hour < 10
-                                            ? "0${storeServiceTime[4].startTime.hour}"
-                                            : "${storeServiceTime[4].startTime.hour}",
-                                        style: storeServiceTime[4].shopOpen
+                                        _storeServiceTime[4].startTime.hour < 10
+                                            ? "0${_storeServiceTime[4].startTime.hour}"
+                                            : "${_storeServiceTime[4].startTime.hour}",
+                                        style: _storeServiceTime[4].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
                                       ),
                                       Text(
-                                        storeServiceTime[4].startTime.minute <
+                                        _storeServiceTime[4].startTime.minute <
                                                 10
-                                            ? ":0${storeServiceTime[4].startTime.minute}"
-                                            : ":${storeServiceTime[4].startTime.minute}",
-                                        style: storeServiceTime[4].shopOpen
+                                            ? ":0${_storeServiceTime[4].startTime.minute}"
+                                            : ":${_storeServiceTime[4].startTime.minute}",
+                                        style: _storeServiceTime[4].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
                                       ),
@@ -1076,10 +1109,10 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             Text("~"),
                             InkWell(
                               onTap: () {
-                                if (storeServiceTime[4].shopOpen) {
+                                if (_storeServiceTime[4].shopOpen) {
                                   showToolTip(
                                       thursdayEndKey,
-                                      storeServiceTime[4].endTime,
+                                      _storeServiceTime[4].endTime,
                                       context,
                                       4,
                                       false);
@@ -1098,18 +1131,18 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        storeServiceTime[4].endTime.hour < 10
-                                            ? "0${storeServiceTime[4].endTime.hour}"
-                                            : "${storeServiceTime[4].endTime.hour}",
-                                        style: storeServiceTime[4].shopOpen
+                                        _storeServiceTime[4].endTime.hour < 10
+                                            ? "0${_storeServiceTime[4].endTime.hour}"
+                                            : "${_storeServiceTime[4].endTime.hour}",
+                                        style: _storeServiceTime[4].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
                                       ),
                                       Text(
-                                        storeServiceTime[4].endTime.minute < 10
-                                            ? ":0${storeServiceTime[4].endTime.minute}"
-                                            : ":${storeServiceTime[4].endTime.minute}",
-                                        style: storeServiceTime[4].shopOpen
+                                        _storeServiceTime[4].endTime.minute < 10
+                                            ? ":0${_storeServiceTime[4].endTime.minute}"
+                                            : ":${_storeServiceTime[4].endTime.minute}",
+                                        style: _storeServiceTime[4].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
                                       ),
@@ -1120,12 +1153,16 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             ),
                             CustomSwitch(
                               activeColor: Colors.lime,
-                              value: storeServiceTime[4].shopOpen,
+                              value: _storeServiceTime[4].shopOpen,
                               onChanged: (value) {
                                 print("VALUE : $value");
-                                setState(() {
-                                  storeServiceTime[4].shopOpen = value;
-                                });
+                                if (value) {
+                                  refreshState(() {
+                                    _storeServiceTime[4].shopOpen = value;
+                                  });
+                                } else {
+                                  showConfirmDialog(4);
+                                }
                               },
                             ),
                           ],
@@ -1134,13 +1171,13 @@ class _ShiftTimingState extends State<ShiftTiming> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text("${storeServiceTime[5].weekDay}"),
+                            Text("${_storeServiceTime[5].weekDay}"),
                             InkWell(
                               onTap: () {
-                                if (storeServiceTime[5].shopOpen) {
+                                if (_storeServiceTime[5].shopOpen) {
                                   showToolTip(
                                       fridayStartKey,
-                                      storeServiceTime[5].startTime,
+                                      _storeServiceTime[5].startTime,
                                       context,
                                       5,
                                       true);
@@ -1159,19 +1196,19 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        storeServiceTime[5].startTime.hour < 10
-                                            ? "0${storeServiceTime[5].startTime.hour}"
-                                            : "${storeServiceTime[5].startTime.hour}",
-                                        style: storeServiceTime[5].shopOpen
+                                        _storeServiceTime[5].startTime.hour < 10
+                                            ? "0${_storeServiceTime[5].startTime.hour}"
+                                            : "${_storeServiceTime[5].startTime.hour}",
+                                        style: _storeServiceTime[5].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
                                       ),
                                       Text(
-                                        storeServiceTime[5].startTime.minute <
+                                        _storeServiceTime[5].startTime.minute <
                                                 10
-                                            ? ":0${storeServiceTime[5].startTime.minute}"
-                                            : ":${storeServiceTime[5].startTime.minute}",
-                                        style: storeServiceTime[5].shopOpen
+                                            ? ":0${_storeServiceTime[5].startTime.minute}"
+                                            : ":${_storeServiceTime[5].startTime.minute}",
+                                        style: _storeServiceTime[5].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
                                       ),
@@ -1183,10 +1220,10 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             Text("~"),
                             InkWell(
                               onTap: () {
-                                if (storeServiceTime[5].shopOpen) {
+                                if (_storeServiceTime[5].shopOpen) {
                                   showToolTip(
                                       fridayEndKey,
-                                      storeServiceTime[5].endTime,
+                                      _storeServiceTime[5].endTime,
                                       context,
                                       5,
                                       false);
@@ -1205,18 +1242,18 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        storeServiceTime[5].endTime.hour < 10
-                                            ? "0${storeServiceTime[5].endTime.hour}"
-                                            : "${storeServiceTime[5].endTime.hour}",
-                                        style: storeServiceTime[5].shopOpen
+                                        _storeServiceTime[5].endTime.hour < 10
+                                            ? "0${_storeServiceTime[5].endTime.hour}"
+                                            : "${_storeServiceTime[5].endTime.hour}",
+                                        style: _storeServiceTime[5].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
                                       ),
                                       Text(
-                                        storeServiceTime[5].endTime.minute < 10
-                                            ? ":0${storeServiceTime[5].endTime.minute}"
-                                            : ":${storeServiceTime[5].endTime.minute}",
-                                        style: storeServiceTime[5].shopOpen
+                                        _storeServiceTime[5].endTime.minute < 10
+                                            ? ":0${_storeServiceTime[5].endTime.minute}"
+                                            : ":${_storeServiceTime[5].endTime.minute}",
+                                        style: _storeServiceTime[5].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
                                       ),
@@ -1227,12 +1264,16 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             ),
                             CustomSwitch(
                               activeColor: Colors.lime,
-                              value: storeServiceTime[5].shopOpen,
+                              value: _storeServiceTime[5].shopOpen,
                               onChanged: (value) {
                                 print("VALUE : $value");
-                                setState(() {
-                                  storeServiceTime[5].shopOpen = value;
-                                });
+                                if (value) {
+                                  refreshState(() {
+                                    _storeServiceTime[5].shopOpen = value;
+                                  });
+                                } else {
+                                  showConfirmDialog(5);
+                                }
                               },
                             ),
                           ],
@@ -1241,13 +1282,13 @@ class _ShiftTimingState extends State<ShiftTiming> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text("${storeServiceTime[6].weekDay}"),
+                            Text("${_storeServiceTime[6].weekDay}"),
                             InkWell(
                               onTap: () {
-                                if (storeServiceTime[6].shopOpen) {
+                                if (_storeServiceTime[6].shopOpen) {
                                   showToolTip(
                                       saturdayStartKey,
-                                      storeServiceTime[6].startTime,
+                                      _storeServiceTime[6].startTime,
                                       context,
                                       6,
                                       true);
@@ -1266,19 +1307,19 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        storeServiceTime[6].startTime.hour < 10
-                                            ? "0${storeServiceTime[6].startTime.hour}"
-                                            : "${storeServiceTime[6].startTime.hour}",
-                                        style: storeServiceTime[6].shopOpen
+                                        _storeServiceTime[6].startTime.hour < 10
+                                            ? "0${_storeServiceTime[6].startTime.hour}"
+                                            : "${_storeServiceTime[6].startTime.hour}",
+                                        style: _storeServiceTime[6].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
                                       ),
                                       Text(
-                                        storeServiceTime[6].startTime.minute <
+                                        _storeServiceTime[6].startTime.minute <
                                                 10
-                                            ? ":0${storeServiceTime[6].startTime.minute}"
-                                            : ":${storeServiceTime[6].startTime.minute}",
-                                        style: storeServiceTime[6].shopOpen
+                                            ? ":0${_storeServiceTime[6].startTime.minute}"
+                                            : ":${_storeServiceTime[6].startTime.minute}",
+                                        style: _storeServiceTime[6].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
                                       ),
@@ -1290,10 +1331,10 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             Text("~"),
                             InkWell(
                               onTap: () {
-                                if (storeServiceTime[6].shopOpen) {
+                                if (_storeServiceTime[6].shopOpen) {
                                   showToolTip(
                                       saturdayEndKey,
-                                      storeServiceTime[6].endTime,
+                                      _storeServiceTime[6].endTime,
                                       context,
                                       6,
                                       false);
@@ -1312,18 +1353,18 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        storeServiceTime[6].endTime.hour < 10
-                                            ? "0${storeServiceTime[6].endTime.hour}"
-                                            : "${storeServiceTime[6].endTime.hour}",
-                                        style: storeServiceTime[6].shopOpen
+                                        _storeServiceTime[6].endTime.hour < 10
+                                            ? "0${_storeServiceTime[6].endTime.hour}"
+                                            : "${_storeServiceTime[6].endTime.hour}",
+                                        style: _storeServiceTime[6].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
                                       ),
                                       Text(
-                                        storeServiceTime[6].endTime.minute < 10
-                                            ? ":0${storeServiceTime[6].endTime.minute}"
-                                            : ":${storeServiceTime[6].endTime.minute}",
-                                        style: storeServiceTime[6].shopOpen
+                                        _storeServiceTime[6].endTime.minute < 10
+                                            ? ":0${_storeServiceTime[6].endTime.minute}"
+                                            : ":${_storeServiceTime[6].endTime.minute}",
+                                        style: _storeServiceTime[6].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
                                       ),
@@ -1334,12 +1375,16 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             ),
                             CustomSwitch(
                               activeColor: Colors.lime,
-                              value: storeServiceTime[6].shopOpen,
+                              value: _storeServiceTime[6].shopOpen,
                               onChanged: (value) {
                                 print("VALUE : $value");
-                                setState(() {
-                                  storeServiceTime[6].shopOpen = value;
-                                });
+                                if (value) {
+                                  refreshState(() {
+                                    _storeServiceTime[6].shopOpen = value;
+                                  });
+                                } else {
+                                  showConfirmDialog(6);
+                                }
                               },
                             ),
                           ],
@@ -1358,7 +1403,10 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             ),
                             color: Color.fromRGBO(200, 217, 33, 1),
                             onPressed: () {
-                              showConfirmDialog();
+                              ProgressDialogBuilder.showCommonProgressDialog(
+                                  context);
+                              ServiceProviderApi.saveShiftServiceTime(
+                                  _storeServiceTime, context);
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(5.0),
@@ -1472,7 +1520,8 @@ class _ShiftTimingState extends State<ShiftTiming> {
     );
   }
 
-  showConfirmDialog() {
+  showConfirmDialog(int index) {
+    String day = _storeServiceTime[index].weekDay;
     return showDialog(
         context: context,
         builder: (context) {
@@ -1486,13 +1535,13 @@ class _ShiftTimingState extends State<ShiftTiming> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    "全ての金曜日をXにします",
+                    "全ての$dayをXにします",
                     style: TextStyle(fontSize: 14.0),
                   ),
                   SizedBox(
                     height: 10.0,
                   ),
-                  buildButton()
+                  buildButton(index)
                 ],
               ),
             ),
@@ -1504,8 +1553,8 @@ class _ShiftTimingState extends State<ShiftTiming> {
   refreshPage(int index, DateTime newTime, bool isStart) {
     refreshState(() {
       isStart
-          ? storeServiceTime[index].startTime = newTime
-          : storeServiceTime[index].endTime = newTime;
+          ? _storeServiceTime[index].startTime = newTime
+          : _storeServiceTime[index].endTime = newTime;
     });
   }
 
@@ -1556,7 +1605,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
     }
   }
 
-  buildButton() {
+  buildButton(int index) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
@@ -1592,9 +1641,10 @@ class _ShiftTimingState extends State<ShiftTiming> {
               borderRadius: BorderRadius.circular(10.0),
             ),
             onPressed: () {
-              ProgressDialogBuilder.showCommonProgressDialog(context);
-              ServiceProviderApi.saveShiftServiceTime(
-                  storeServiceTime, context);
+              refreshState(() {
+                _storeServiceTime[index].shopOpen = false;
+              });
+              Navigator.pop(context);
             },
             //   minWidth: MediaQuery.of(context).size.width * 0.38,
             color: Color.fromRGBO(200, 217, 33, 1),
