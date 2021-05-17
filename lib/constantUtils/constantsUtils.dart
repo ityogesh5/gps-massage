@@ -7,10 +7,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/event.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/ProviderDetailsResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart'
     as providerLogin;
 import 'package:gps_massageapp/models/responseModels/serviceProvider/messageServicePriceModel.dart';
-import 'package:gps_massageapp/models/responseModels/serviceProvider/ProviderDetailsResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/RecommendTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/profileUpdateResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistResultsModel.dart';
@@ -20,7 +20,7 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 
 class HealingMatchConstants {
   static const String ON_PREMISE_USER_BASE_URL =
-      "http://106.51.49.160:9094/api";
+      "http://106.51.49.160:9087/api";
 
   // Development data URL == http://106.51.49.160:9087/api
 
@@ -438,7 +438,7 @@ class HealingMatchConstants {
 
   static var userEditUserId;
   static var userAddressId;
-  static var userDeviceToken;
+  static var userDeviceToken = '';
 
   static String userEditUserName = '';
   static String userEditPhoneNumber = '';
@@ -465,7 +465,7 @@ class HealingMatchConstants {
   static String addedServiceUserPrefecture = '';
   static String addedServiceUserCity = '';
   static String manualUserAddress = '';
-  static String searchUserAddress;
+  static String searchUserAddress = '';
   static bool isLocationCriteria = true;
   static bool isTimeCriteria = true;
   static int serviceType = 0;

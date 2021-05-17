@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:apple_sign_in/apple_sign_in.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,6 +34,8 @@ class _UserLoginState extends State<UserLogin> {
       SharedPreferences.getInstance();
   List<Address> addressList = List<Address>();
   var phnNum;
+  final fireBaseMessaging = new FirebaseMessaging();
+  var fcmToken = '';
 
 //Regex validation for emojis in text
   RegExp regexEmojis = RegExp(
@@ -64,6 +67,7 @@ class _UserLoginState extends State<UserLogin> {
               onTap: () {
                 _sharedPreferences.then((value) {
                   value.setBool('userLoginSkipped', true);
+                  _getFCMToken();
                 });
                 NavigationRouter.switchToServiceUserBottomBar(context);
               },
@@ -599,6 +603,35 @@ class _UserLoginState extends State<UserLogin> {
       LineLoginHelper.startLineLoginForUser(context);
     } catch (e) {
       print(e);
+    }
+  }
+
+  _getFCMToken() async {
+    fireBaseMessaging.getToken().then((fcmTokenValue) {
+      if (fcmTokenValue != null) {
+        fcmToken = fcmTokenValue;
+        print('FCM Skip Token : $fcmToken');
+      } else {
+        fireBaseMessaging.onTokenRefresh.listen((refreshToken) {
+          if (refreshToken != null) {
+            fcmToken = refreshToken;
+            print('FCM Skip Refresh Tokens : $fcmToken');
+          }
+        }).onError((handleError) {
+          print('On FCM Skip Token Refresh error : ${handleError.toString()}');
+        });
+      }
+      _getGuestUserAccessToken();
+    }).catchError((onError) {
+      print('FCM Skip Token Exception : ${onError.toString()}');
+    });
+  }
+
+  _getGuestUserAccessToken() async {
+    try {
+      print('Api not provided for Skip !!');
+    } catch (e) {
+      print('Skip exception : ${e.toString()}');
     }
   }
 }
