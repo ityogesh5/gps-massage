@@ -106,7 +106,7 @@ dependencies:
   googleapis: #Aswin Google Calendar Api
   googleapis_auth: # Aswin Google Cloud Authentication
   readmore: any #Gowtham ReadMore
-
+  scrollable_positioned_list: ^0.1.10 #Aswin for List Manual Scrolling
 
 
 
