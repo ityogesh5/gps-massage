@@ -579,7 +579,7 @@ class _ViewUserProfileState extends State<ViewUserProfile>
         PopupMenuItem<String>(
           value: "3",
           child: Text(
-            'お問い合わせ', //Contact Us
+            'お問い合わせ＆通報', //Contact Us
             style: TextStyle(fontFamily: 'NotoSansJP'),
           ),
         ),

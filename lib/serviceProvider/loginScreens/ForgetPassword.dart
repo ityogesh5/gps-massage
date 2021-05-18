@@ -182,7 +182,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
 
 */
 
-    HealingMatchConstants.ProviderPhnNum =
+    HealingMatchConstants.providerPhnNum =
         phoneNumberController.text.toString();
     // user phone number
     if ((userPhoneNumber == null || userPhoneNumber.isEmpty)) {

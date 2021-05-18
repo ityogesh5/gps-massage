@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,6 +9,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/fireBaseHelper/FirebaseAuthHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
@@ -69,6 +71,8 @@ class _RegisterUserState extends State<RegisterUser> {
   String _myCity = '';
   File _profileImage;
   final picker = ImagePicker();
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  User firebaseUser;
 
   // Placemark currentLocationPlaceMark;
   // Placemark userAddedAddressPlaceMark;
@@ -1421,9 +1425,9 @@ class _RegisterUserState extends State<RegisterUser> {
 
   Future<Map<String, dynamic>> _registerUserDetails() async {
     ProgressDialogBuilder.showOverlayLoader(context);
-    var userName = userNameController.text.toString();
-    var email = emailController.text.toString();
-    var phnNum = phoneNumberController.text.toString();
+    var userName = userNameController.text.trim();
+    var email = emailController.text.trim();
+    var phnNum = phoneNumberController.text.trim();
     var userPhoneNumber = phnNum.replaceFirst(RegExp(r'^0+'), "");
     print('phnNumber: $userPhoneNumber');
     HealingMatchConstants.serviceUserPhoneNumber = userPhoneNumber;
@@ -2213,6 +2217,8 @@ class _RegisterUserState extends State<RegisterUser> {
             value.setBool('isUserRegister', true);
           }
         });
+        FirebaseAuthHelper().signUpWithEmailAndPassword(
+            serviceUserDetails.data.email, password);
         ProgressDialogBuilder.hideLoader(context);
         NavigationRouter.switchToUserOtpScreen(context);
       } else {

@@ -77,6 +77,15 @@ class _TextFieldSelectionGestureDetectorBuilder
             cause: SelectionChangedCause.longPress,
           );
           break;
+        case TargetPlatform.linux:
+          // TODO: Handle this case.
+          break;
+        case TargetPlatform.macOS:
+          // TODO: Handle this case.
+          break;
+        case TargetPlatform.windows:
+          // TODO: Handle this case.
+          break;
       }
     }
   }
@@ -92,6 +101,15 @@ class _TextFieldSelectionGestureDetectorBuilder
         case TargetPlatform.android:
         case TargetPlatform.fuchsia:
           renderEditable.selectPosition(cause: SelectionChangedCause.tap);
+          break;
+        case TargetPlatform.linux:
+          // TODO: Handle this case.
+          break;
+        case TargetPlatform.macOS:
+          // TODO: Handle this case.
+          break;
+        case TargetPlatform.windows:
+          // TODO: Handle this case.
           break;
       }
     }
@@ -119,6 +137,15 @@ class _TextFieldSelectionGestureDetectorBuilder
         case TargetPlatform.fuchsia:
           renderEditable.selectWord(cause: SelectionChangedCause.longPress);
           Feedback.forLongPress(_state.context);
+          break;
+        case TargetPlatform.linux:
+          // TODO: Handle this case.
+          break;
+        case TargetPlatform.macOS:
+          // TODO: Handle this case.
+          break;
+        case TargetPlatform.windows:
+          // TODO: Handle this case.
           break;
       }
     }
@@ -882,6 +909,15 @@ class _TextFieldState extends State<TextFieldCustom>
       case TargetPlatform.android:
       case TargetPlatform.fuchsia:
       // Do nothing.
+      case TargetPlatform.linux:
+        // TODO: Handle this case.
+        break;
+      case TargetPlatform.macOS:
+        // TODO: Handle this case.
+        break;
+      case TargetPlatform.windows:
+        // TODO: Handle this case.
+        break;
     }
   }
 
@@ -1023,6 +1059,15 @@ class _TextFieldState extends State<TextFieldCustom>
         paintCursorAboveText = false;
         cursorOpacityAnimates = false;
         cursorColor ??= themeData.cursorColor;
+        break;
+      case TargetPlatform.linux:
+        // TODO: Handle this case.
+        break;
+      case TargetPlatform.macOS:
+        // TODO: Handle this case.
+        break;
+      case TargetPlatform.windows:
+        // TODO: Handle this case.
         break;
     }
 

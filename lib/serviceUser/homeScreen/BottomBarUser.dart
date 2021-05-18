@@ -31,7 +31,7 @@ class _BottomBarUserState extends State<BottomBarUser> {
     SearchScreenUser(),
     ReservationAndFavourite(),
     ViewUserProfile(),
-    NoticeScreenUser(),
+    NotifyScreenUser(),
   ];
 
   @override

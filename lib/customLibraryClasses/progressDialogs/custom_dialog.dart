@@ -97,6 +97,7 @@ class ProgressDialog {
   bool isDismissed = true;
   var lock = Lock();
   Timer _timer;
+  
 
   @override
   void dispose() {

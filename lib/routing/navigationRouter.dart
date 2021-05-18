@@ -53,7 +53,6 @@ import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/Reserva
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/bookingCancelScreens/CancelDetailsScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/calendar.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/ChatListScreen.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/ChatScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/NoticeScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchResult.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchScreenUser.dart';
@@ -309,6 +308,7 @@ class NavigationRouter {
           );
         }));
   }
+
   static void switchToUserChooseDate(BuildContext context) {
     Navigator.of(context).push(PageRouteBuilder(
         pageBuilder: (context, animation, anotherAnimation) {
@@ -327,6 +327,7 @@ class NavigationRouter {
           );
         }));
   }
+
   //User Search detail design page one
   static void switchToUserSearchDetailPageOne(
       BuildContext context, var userID) {
@@ -636,7 +637,7 @@ class NavigationRouter {
 
   // User calender screen
   static void switchToUserCalendarScreenScreen(BuildContext context) {
-  //  Navigator.of(context).popUntil((route) => route.isFirst);
+    //  Navigator.of(context).popUntil((route) => route.isFirst);
     Navigator.push(
         context,
         PageRouteBuilder(
@@ -808,26 +809,6 @@ class NavigationRouter {
         }));
   }
 
-  // Service User Chat Screen
-  static void switchToServiceUserChatHistoryScreen(BuildContext context) {
-    Navigator.of(context).push(PageRouteBuilder(
-        pageBuilder: (context, animation, anotherAnimation) {
-          return ChatHistoryScreenUser();
-        },
-        transitionDuration: Duration(milliseconds: 2000),
-        transitionsBuilder: (context, animation, anotherAnimation, child) {
-          animation = CurvedAnimation(
-              curve: HealingMatchConstants.curveList[2], parent: animation);
-          return Align(
-            child: SizeTransition(
-              sizeFactor: animation,
-              child: child,
-              axisAlignment: 0.0,
-            ),
-          );
-        }));
-  }
-
   // Service Provider Chat Screen
   static void switchToServiceProviderChatHistoryScreen(BuildContext context) {
     Navigator.push(
@@ -838,7 +819,7 @@ class NavigationRouter {
   static void switchToServiceUserNoticeScreen(BuildContext context) {
     Navigator.of(context).push(PageRouteBuilder(
         pageBuilder: (context, animation, anotherAnimation) {
-          return NoticeScreenUser();
+          return NotifyScreenUser();
         },
         transitionDuration: Duration(milliseconds: 2000),
         transitionsBuilder: (context, animation, anotherAnimation, child) {

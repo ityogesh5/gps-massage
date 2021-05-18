@@ -87,7 +87,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                   children: [
                     FittedBox(
                       child: Text(
-                        "+81 ${HealingMatchConstants.ProviderPhnNum} " +
+                        "+81 ${HealingMatchConstants.providerPhnNum} " +
                             HealingMatchConstants.changePasswordTxt,
                         style: TextStyle(
                           fontSize: 12.0,
@@ -527,7 +527,7 @@ class _ChangePasswordState extends State<ChangePassword> {
       final response = await http.post(url,
           headers: {"Content-Type": "application/json"},
           body: json.encode({
-            "phoneNumber": HealingMatchConstants.ProviderPhnNum,
+            "phoneNumber": HealingMatchConstants.providerPhnNum,
             "otp": pinCode,
             "password": password,
             "password_confirmation": confirmPassword,
@@ -561,7 +561,7 @@ class _ChangePasswordState extends State<ChangePassword> {
       final response = await http.post(url,
           headers: {"Content-Type": "application/json"},
           body: json.encode({
-            "phoneNumber": HealingMatchConstants.ProviderPhnNum,
+            "phoneNumber": HealingMatchConstants.providerPhnNum,
             "isTherapist": "1"
           }));
       print('Status code : ${response.statusCode}');
