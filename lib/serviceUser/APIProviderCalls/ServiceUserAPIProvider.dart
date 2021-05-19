@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:googleapis/calendar/v3.dart';
 import 'package:googleapis_auth/auth_io.dart';
@@ -23,7 +22,6 @@ import 'package:http/http.dart' as http;
 class ServiceUserAPIProvider {
   static const _scopes = const [CalendarApi.calendarScope];
 
-  static Response response;
   static TherapistUsersModel listOfTherapistModel = new TherapistUsersModel();
   static UserBannerImagesModel _bannerModel = new UserBannerImagesModel();
   static TherapistsByTypeModel _therapistsByTypeModel =
@@ -352,6 +350,8 @@ class ServiceUserAPIProvider {
     }
     return _recommendedTherapistModel;
   }
+
+  // Get calendar events
 
   static Future<List<FlutterWeekViewEvent>> getCalEvents() async {
     List<FlutterWeekViewEvent> flutterEvents = List<FlutterWeekViewEvent>();

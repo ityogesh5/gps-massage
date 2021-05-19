@@ -111,7 +111,7 @@ class ShowToolTip {
   /// Builds Layout of popup for specific [offset]
   LayoutBuilder buildPopupLayout(Offset offset) {
     var split = _text.split(',');
-    var storeType = {for (int i = 0; i < split.length; i++) i: split[i]};
+    //var storeType = {for (int i = 0; i < split.length; i++) i: split[i]};
     final jsonList = split.map((item) => jsonEncode(item)).toList();
     final uniqueJsonList = jsonList.toSet().toList();
     final result = uniqueJsonList.map((item) => jsonDecode(item)).toList();

@@ -1,14 +1,14 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/HomeScreenUser.dart';
-import 'package:gps_massageapp/utils/DotLoaderExample.dart';
-import 'package:gps_massageapp/utils/SampleShimmerLoader.dart';
 
 import 'initialScreens/splashScreen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(HealingMatchApp());
 }
 

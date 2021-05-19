@@ -14,7 +14,6 @@ import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dia
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
-import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/bankNameDropDownModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/cityList.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart'
@@ -199,7 +198,6 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
   TextEditingController accountnumberController = TextEditingController();
   BankNameDropDownModel bankNameDropDownModel;
   Map<String, String> certificateImages = Map<String, String>();
-  ProgressDialog _progressDialog = ProgressDialog();
   final identityverification = new GlobalKey<FormState>();
   List<String> oldPrivateQualification = List<String>();
   List<String> privateQualification = List<String>();

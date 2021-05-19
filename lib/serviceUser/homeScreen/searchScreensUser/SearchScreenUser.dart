@@ -73,6 +73,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   GlobalKey<ScaffoldState> _searchKey = new GlobalKey<ScaffoldState>();
   var differenceInTime;
   Position _currentPosition;
+  String address;
 
   void initState() {
     super.initState();
@@ -1305,7 +1306,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
       ismonth: true,
       numberToDisplay: 7,
       selectedMonth: _cmonth,
-      eventDates: [], //getEventDateTime(),
+      eventDates: [],
+      //getEventDateTime(),
       zeroPad: false,
       initialValue: _currentDay,
       minValue: 1,
@@ -1632,75 +1634,53 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
     }
   }
 
-  proceedToSearchResults() async {
-    try {
-      print(
-          'User address proceed : ${HealingMatchConstants.searchUserAddress}');
-      if (HealingMatchConstants.searchUserAddress != null) {
-        var split = HealingMatchConstants.searchUserAddress.split(',');
-        String address = Platform.isIOS
-            ? "${split[split.length - 2]},${split[split.length - 1]}}"
-            : HealingMatchConstants.searchUserAddress;
-        _getLatLngFromAddress(address);
-      } else {
-        _searchKey.currentState.showSnackBar(SnackBar(
-          backgroundColor: ColorConstants.snackBarColor,
-          duration: Duration(seconds: 3),
-          content: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: Text('有効なさがすすエリアを選択してください。',
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 3,
-                    style: TextStyle(fontFamily: 'NotoSansJP')),
-              ),
-              InkWell(
-                onTap: () {
-                  _searchKey.currentState.hideCurrentSnackBar();
-                },
-                child: Text('はい',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'NotoSansJP',
-                        fontWeight: FontWeight.w500,
-                        decoration: TextDecoration.underline)),
-              ),
-            ],
-          ),
-        ));
-        return;
-      }
-    } catch (e) {
-      print('Exception in search criteria : ${e.toString()}');
-    }
-  }
-
-  _getKeywordResults() {
-    NavigationRouter.switchToUserSearchResult(context);
-  }
-
-  _getSearchResults() {
-    try {
-      NavigationRouter.switchToUserSearchResult(context);
-    } catch (e) {
-      print('Search Exception before bloc : ${e.toString()}');
-    }
-  }
-
   // Get current address from Latitude Longitude
   _getCurrentLocation() async {
-    geoLocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-      _currentPosition = position;
-      print('Current lat : ${_currentPosition.latitude}');
-      HealingMatchConstants.currentLatitude = _currentPosition.latitude;
-      HealingMatchConstants.currentLongitude = _currentPosition.longitude;
-      _getAddressFromLatLng();
-    }).catchError((e) {
-      print('Current Location exception : ${e.toString()}');
-    });
+    bool isGPSEnabled = await geoLocator.isLocationServiceEnabled();
+    print('GPS Enabled : $isGPSEnabled');
+    if (HealingMatchConstants.isUserRegistrationSkipped && !isGPSEnabled) {
+      _searchKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('場所を取得するには、GPSをオンにしてください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                FocusScope.of(context).requestFocus(new FocusNode());
+                _searchKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      fontWeight: FontWeight.w500,
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return;
+    } else {
+      print('GPS Enabled : $isGPSEnabled');
+      geoLocator
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+          .then((Position position) {
+        _currentPosition = position;
+        print('Current lat : ${_currentPosition.latitude}');
+        HealingMatchConstants.currentLatitude = _currentPosition.latitude;
+        HealingMatchConstants.currentLongitude = _currentPosition.longitude;
+        _getAddressFromLatLng();
+      }).catchError((e) {
+        print('Current Location exception : ${e.toString()}');
+      });
+    }
   }
 
   _getAddressFromLatLng() async {
@@ -1728,6 +1708,91 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
       }
     } catch (e) {
       print(e);
+    }
+  }
+
+  proceedToSearchResults() async {
+    try {
+      print(
+          'User address proceed : ${HealingMatchConstants.searchUserAddress}');
+      if (HealingMatchConstants.searchUserAddress == null ||
+          HealingMatchConstants.searchUserAddress.isEmpty) {
+        _searchKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: ColorConstants.snackBarColor,
+          duration: Duration(seconds: 3),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Text('有効なさがすすエリアを選択してください。',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 3,
+                    style: TextStyle(fontFamily: 'NotoSansJP')),
+              ),
+              InkWell(
+                onTap: () {
+                  _searchKey.currentState.hideCurrentSnackBar();
+                },
+                child: Text('はい',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'NotoSansJP',
+                        fontWeight: FontWeight.w500,
+                        decoration: TextDecoration.underline)),
+              ),
+            ],
+          ),
+        ));
+        return;
+      } else if (HealingMatchConstants.serviceType == 0) {
+        _searchKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: ColorConstants.snackBarColor,
+          duration: Duration(seconds: 3),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Text('有効なマッサージサービスの種類を選択してください。',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 3,
+                    style: TextStyle(fontFamily: 'NotoSansJP')),
+              ),
+              InkWell(
+                onTap: () {
+                  _searchKey.currentState.hideCurrentSnackBar();
+                },
+                child: Text('はい',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'NotoSansJP',
+                        fontWeight: FontWeight.w500,
+                        decoration: TextDecoration.underline)),
+              ),
+            ],
+          ),
+        ));
+        return;
+      } else {
+        var split = HealingMatchConstants.searchUserAddress.split(',');
+        address = Platform.isIOS
+            ? "${split[split.length - 2]},${split[split.length - 1]}}"
+            : HealingMatchConstants.searchUserAddress;
+        _getLatLngFromAddress(address);
+      }
+    } catch (e) {
+      print('Exception in search criteria : ${e.toString()}');
+    }
+  }
+
+  _getKeywordResults() {
+    NavigationRouter.switchToUserSearchResult(context);
+  }
+
+  _getSearchResults() {
+    try {
+      NavigationRouter.switchToUserSearchResult(context);
+    } catch (e) {
+      print('Search Exception before bloc : ${e.toString()}');
     }
   }
 }
