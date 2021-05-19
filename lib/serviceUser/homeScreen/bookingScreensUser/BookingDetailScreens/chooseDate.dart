@@ -10,7 +10,9 @@ import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUse
 import 'package:gps_massageapp/customLibraryClasses/flutterTimePickerSpinner/flutter_time_picker_spinner.dart';
 import 'package:gps_massageapp/customLibraryClasses/lazyTable/lazy_data_table.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/event.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
+import 'package:intl/intl.dart';
 
 class ChooseDate extends StatefulWidget {
   @override
@@ -31,6 +33,8 @@ class _ChooseDateState extends State<ChooseDate> {
   int endTime;
   int loadingStatus = 0;
   List<DateTime> timeRow = List<DateTime>();
+  List<String> dayNames = ["月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日", "日曜日"];
+  List<StoreServiceTiming> storeServiceTime = List<StoreServiceTiming>();
   List<FlutterWeekViewEvent> calendarEvents = List<FlutterWeekViewEvent>();
   Map<DateTime, List<int>> bookEvents = Map<DateTime, List<int>>();
   Map<DateTime, List<int>> events = Map<DateTime, List<int>>();
@@ -102,7 +106,43 @@ class _ChooseDateState extends State<ChooseDate> {
       timeRow.add(start);
       start = start.add(Duration(minutes: 15));
     }
-    //  print(timeRow);
+    //get start and End Time from Api
+    if (HealingMatchConstants.therapistProfileDetails.storeServiceTiming ==
+            null ||
+        HealingMatchConstants
+                .therapistProfileDetails.storeServiceTiming.length ==
+            0) {
+      buildInitialTime();
+    } else {
+      converToLocalTime();
+    }
+  }
+
+  converToLocalTime() {
+    for (var serviceTime
+        in HealingMatchConstants.therapistProfileDetails.storeServiceTiming) {
+      serviceTime.startTime = serviceTime.startTime.toLocal();
+      serviceTime.endTime = serviceTime.endTime.toLocal();
+      storeServiceTime.add(serviceTime);
+    }
+  }
+
+  buildInitialTime() {
+    int i = 1;
+    DateTime defaultStart = DateTime(_cyear, _cmonth, 1, 0, 0, 0);
+    DateTime defaultEnd = DateTime(_cyear, _cmonth, 1, 23, 59, 0);
+    for (var day in dayNames) {
+      storeServiceTime.add(StoreServiceTiming(
+        id: 0,
+        userId: HealingMatchConstants.userId,
+        weekDay: day,
+        dayInNumber: i,
+        startTime: defaultStart,
+        endTime: defaultEnd,
+        shopOpen: true,
+      ));
+      i = i + 1;
+    }
   }
 
   @override
@@ -376,49 +416,62 @@ class _ChooseDateState extends State<ChooseDate> {
                                 );
                               },
                               dataCellBuilder: (i, j) {
-                                if (bookEvents.containsKey(timeRow[i]) &&
-                                    bookEvents[timeRow[i]].contains(j)) {
-                                  return InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        bookEvents.remove(timeRow[i]);
-                                        isSeleted = false;
-                                      });
-                                    },
-                                    child: Center(
+                                String dayName = DateFormat('EEEE')
+                                    .format(DateTime(_cyear, _cmonth, j + 1));
+                                //Get Japanese Day Name
+                                int dayIndex = getJaIndex(dayName);
+                                if (storeServiceTime[dayIndex].shopOpen) {
+                                  if (bookEvents.containsKey(timeRow[i]) &&
+                                      bookEvents[timeRow[i]].contains(j)) {
+                                    return InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          bookEvents.remove(timeRow[i]);
+                                          isSeleted = false;
+                                        });
+                                      },
+                                      child: Center(
+                                        child: SvgPicture.asset(
+                                          "assets/images_gps/checkbox.svg",
+                                          height: 20.0,
+                                          width: 20.0,
+                                        ),
+                                      ),
+                                    );
+                                  } else if (events.containsKey(timeRow[i]) &&
+                                      events[timeRow[i]].contains(j)) {
+                                    return Center(
                                       child: SvgPicture.asset(
-                                        "assets/images_gps/checkbox.svg",
+                                        "assets/images_gps/X.svg",
                                         height: 20.0,
                                         width: 20.0,
                                       ),
-                                    ),
-                                  );
-                                } else if (events.containsKey(timeRow[i]) &&
-                                    events[timeRow[i]].contains(j)) {
-                                  return Center(
-                                    child: SvgPicture.asset(
-                                      "assets/images_gps/X.svg",
-                                      height: 20.0,
-                                      width: 20.0,
-                                    ),
-                                  );
+                                    );
+                                  } else {
+                                    return InkWell(
+                                      onTap: () {
+                                        if (!isSeleted) {
+                                          setState(() {
+                                            bookEvents[timeRow[i]] = [j];
+                                            isSeleted = true;
+                                          });
+                                        }
+                                      },
+                                      child: Center(
+                                          child: SvgPicture.asset(
+                                        "assets/images_gps/O.svg",
+                                        height: 20.0,
+                                        width: 20.0,
+                                      )),
+                                    );
+                                  }
                                 } else {
-                                  return InkWell(
-                                    onTap: () {
-                                      if (!isSeleted) {
-                                        setState(() {
-                                          bookEvents[timeRow[i]] = [j];
-                                          isSeleted = true;
-                                        });
-                                      }
-                                    },
-                                    child: Center(
-                                        child: SvgPicture.asset(
-                                      "assets/images_gps/O.svg",
-                                      height: 20.0,
-                                      width: 20.0,
-                                    )),
-                                  );
+                                  return Center(
+                                      child: SvgPicture.asset(
+                                    "assets/images_gps/X.svg",
+                                    height: 20.0,
+                                    width: 20.0,
+                                  ));
                                 }
                               },
                               cornerWidget: Center(
@@ -441,6 +494,32 @@ class _ChooseDateState extends State<ChooseDate> {
               ),
             ),
     );
+  }
+
+  int getJaIndex(String day) {
+    switch (day) {
+      case 'Monday':
+        return 0;
+        break;
+      case 'Tuesday':
+        return 1;
+        break;
+      case 'Wednesday':
+        return 2;
+        break;
+      case 'Thursday':
+        return 3;
+        break;
+      case 'Friday':
+        return 4;
+        break;
+      case 'Saturday':
+        return 5;
+        break;
+      case 'Sunday':
+        return 6;
+        break;
+    }
   }
 
   int totalDays(int month, int year) {

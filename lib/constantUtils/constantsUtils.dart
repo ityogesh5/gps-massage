@@ -14,6 +14,7 @@ import 'package:gps_massageapp/models/responseModels/serviceProvider/ProviderDet
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/RecommendTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/profileUpdateResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistResultsModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
@@ -22,7 +23,7 @@ class HealingMatchConstants {
   static const String ON_PREMISE_USER_BASE_URL =
       "http://106.51.49.160:9087/api";
 
- // "http://106.51.49.160:9094/api";
+  // "http://106.51.49.160:9094/api";
 
 // get therapist list By ID
   static const String THERAPIST_USER_BY_ID_URL =
@@ -413,6 +414,7 @@ class HealingMatchConstants {
   static String storeServiceTime = '';
 
   //User Calendar
+  static TherapistByIdModel therapistProfileDetails;
   static List<FlutterWeekViewEvent> userEvents = List<FlutterWeekViewEvent>();
 
   //User Token
