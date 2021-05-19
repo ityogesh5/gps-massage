@@ -466,6 +466,7 @@ class HealingMatchConstants {
   static String addedServiceUserCity = '';
   static String manualUserAddress = '';
   static String searchUserAddress = '';
+  static String searchUserAddressType = '';
   static bool isLocationCriteria = true;
   static bool isTimeCriteria = true;
   static int serviceType = 0;

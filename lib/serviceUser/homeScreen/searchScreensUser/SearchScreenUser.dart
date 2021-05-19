@@ -34,6 +34,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   final Geolocator geoLocator = Geolocator()..forceAndroidLocationManager;
   Placemark userAddedAddressPlaceMark;
   int _value = 0;
+  int addressTypeValues = 0;
   var _pageNumber = 1;
   var _pageSize = 10;
   bool _isVisible = true;
@@ -374,6 +375,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                               InkWell(
                                                 onTap: () {
                                                   setState(() {
+                                                    addressTypeValues = 1;
                                                     _addressType = 1;
                                                     HealingMatchConstants
                                                             .searchUserAddress =
@@ -452,6 +454,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                               InkWell(
                                                 onTap: () {
                                                   setState(() {
+                                                    addressTypeValues = 2;
                                                     _addressType = 2;
                                                     HealingMatchConstants
                                                             .searchUserAddress =
@@ -530,6 +533,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                               InkWell(
                                                 onTap: () {
                                                   setState(() {
+                                                    addressTypeValues = 3;
                                                     _addressType = 3;
                                                     HealingMatchConstants
                                                             .searchUserAddress =
@@ -608,6 +612,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                               InkWell(
                                                 onTap: () {
                                                   setState(() {
+                                                    addressTypeValues = 4;
                                                     _addressType = 4;
                                                     HealingMatchConstants
                                                             .searchUserAddress =
@@ -1779,8 +1784,42 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
             : HealingMatchConstants.searchUserAddress;
         _getLatLngFromAddress(address);
       }
+      getAddressType();
     } catch (e) {
       print('Exception in search criteria : ${e.toString()}');
+    }
+  }
+
+  getAddressType() {
+    if (HealingMatchConstants.isLocationCriteria == false) {
+      setState(() {
+        addressTypeValues = 0;
+      });
+    }
+    if (addressTypeValues == 0) {
+      setState(() {
+        HealingMatchConstants.searchUserAddressType = '店舗';
+      });
+    }
+    if (addressTypeValues == 1) {
+      setState(() {
+        HealingMatchConstants.searchUserAddressType = '自宅';
+      });
+    }
+    if (addressTypeValues == 2) {
+      setState(() {
+        HealingMatchConstants.searchUserAddressType = 'オフィス';
+      });
+    }
+    if (addressTypeValues == 3) {
+      setState(() {
+        HealingMatchConstants.searchUserAddressType = '実家';
+      });
+    }
+    if (addressTypeValues == 4) {
+      setState(() {
+        HealingMatchConstants.searchUserAddressType = 'その他';
+      });
     }
   }
 
