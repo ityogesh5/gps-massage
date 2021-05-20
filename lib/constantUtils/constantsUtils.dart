@@ -20,7 +20,8 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 
 class HealingMatchConstants {
   static const String ON_PREMISE_USER_BASE_URL =
-      "http://106.51.49.160:9087/api";
+      // "http://106.51.49.160:9087/api";
+      "http://103.92.19.158:9087/api"; //secondary backup IP
 
   // Development data URL == http://106.51.49.160:9087/api
 

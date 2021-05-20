@@ -49,11 +49,11 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
         }
         if (HealingMatchConstants.serviceType != 0 &&
             HealingMatchConstants.serviceType == 2) {
-          allTherapistList.addAll(therapistDetails.therapistOrteopathicList);
+          allTherapistList.addAll(therapistDetails.therapistRelaxationList);
         }
         if (HealingMatchConstants.serviceType != 0 &&
             HealingMatchConstants.serviceType == 3) {
-          allTherapistList.addAll(therapistDetails.therapistRelaxationList);
+          allTherapistList.addAll(therapistDetails.therapistOrteopathicList);
         }
         if (HealingMatchConstants.serviceType != 0 &&
             HealingMatchConstants.serviceType == 1) {

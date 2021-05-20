@@ -500,7 +500,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                       text: '${HealingMatchConstants.additionalDistanceCost}',
                       style: new TextStyle(
                           fontSize: 16,
-                          color: Colors.grey[300],
+                          color: Colors.grey[500],
                           fontFamily: 'NotoSansJP',
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.w100)),
@@ -516,28 +516,23 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
 
   Widget reservation() {
     return Container(
-      margin: EdgeInsets.all(10),
-      height: 45,
-      child: ButtonTheme(
-        minWidth: MediaQuery.of(context).size.width * 0.82,
-        height: MediaQuery.of(context).size.height * 0.06,
-        child: new RaisedButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(10.0),
-            //side: BorderSide(color: Colors.black),
-          ),
-          color: Colors.red,
-          onPressed: () {
-            _updateUserBookingDetails();
-          },
-          child: new Text(
-            '予約する',
-            style: TextStyle(
-                color: Colors.white,
-                fontFamily: 'NotoSansJP',
-                fontWeight: FontWeight.bold,
-                fontSize: 16),
-          ),
+      margin: EdgeInsets.all(12),
+      child: new RaisedButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(6.0),
+          //side: BorderSide(color: Colors.black),
+        ),
+        color: Color.fromRGBO(255, 0, 0, 1),
+        onPressed: () {
+          _updateUserBookingDetails();
+        },
+        child: new Text(
+          '予約する',
+          style: TextStyle(
+              color: Color.fromRGBO(255, 255, 255, 1),
+              fontFamily: 'NotoSansJP',
+              fontWeight: FontWeight.bold,
+              fontSize: 16),
         ),
       ),
     );

@@ -530,14 +530,14 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
 
   Widget bookAgain() {
     return Container(
-      margin: EdgeInsets.all(10),
+      margin: EdgeInsets.all(12),
       child: RaisedButton(
         padding: EdgeInsets.all(10.0),
         shape: RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(10.0),
+          borderRadius: new BorderRadius.circular(7.0),
           //side: BorderSide(color: Colors.black),
         ),
-        color: Colors.red,
+        color: Color.fromRGBO(255, 0, 0, 1),
         onPressed: () {
           /*NavigationRouter.switchToServiceUserBookingConfirmationScreen(
               context);*/
@@ -545,7 +545,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
         child: new Text(
           'もう一度予約する',
           style: TextStyle(
-              color: Colors.white,
+              color: Color.fromRGBO(255, 255, 255, 1),
               fontFamily: 'NotoSansJP',
               fontWeight: FontWeight.bold,
               fontSize: 16),

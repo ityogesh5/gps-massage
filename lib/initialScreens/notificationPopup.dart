@@ -58,7 +58,6 @@ class _NotificationPopupState extends State<NotificationPopup> {
               '通知方法は、テキスト、サウンド、\nアイコンバッジがあります。',
               textAlign: TextAlign.center,
               style: TextStyle(
-                  fontWeight: FontWeight.bold,
                   fontSize: 14,
                   color: Color.fromRGBO(35, 24, 21, 1),
                   fontFamily: 'Open Sans'),
@@ -68,7 +67,6 @@ class _NotificationPopupState extends State<NotificationPopup> {
             child: Text(
               '"設定"で指定できます。',
               style: TextStyle(
-                fontWeight: FontWeight.bold,
                 fontSize: 14,
                 fontFamily: 'Open Sans',
                 color: Color.fromRGBO(35, 24, 21, 1),

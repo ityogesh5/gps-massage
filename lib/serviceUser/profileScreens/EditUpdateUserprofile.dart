@@ -2302,7 +2302,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           _myCity +
           ',' +
           _myPrefecture;
-      String address = Platform.isIOS ? _myCity + ',' + _myPrefecture : manualUserAddress;
+      String address =
+          Platform.isIOS ? _myCity + ',' + _myPrefecture : manualUserAddress;
       List<Placemark> userAddress =
           await geoLocator.placemarkFromAddress(address);
       userAddedAddressPlaceMark = userAddress[0];
@@ -2863,6 +2864,9 @@ class _AddAddressState extends State<AddAddress> {
                                       style:
                                           HealingMatchConstants.formTextStyle,
                                       decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor:
+                                            ColorConstants.formFieldFillColor,
                                         counterText: '',
                                         contentPadding:
                                             EdgeInsets.fromLTRB(6, 3, 6, 3),
@@ -2874,13 +2878,12 @@ class _AddAddressState extends State<AddAddress> {
                                             .textFormInputBorder,
                                         enabledBorder: HealingMatchConstants
                                             .textFormInputBorder,
-                                        filled: true,
-                                        /* labelText: HealingMatchConstants
-                                            .loginPhoneNumber,
-                                        labelStyle: HealingMatchConstants
-                                            .formLabelTextStyle,*/
-                                        fillColor:
-                                            ColorConstants.formFieldFillColor,
+                                        labelText: '登録する地点のカテゴリー',
+                                        labelStyle: TextStyle(
+                                            color: Colors.grey[400],
+                                            fontFamily: 'NotoSansJP',
+                                            fontSize: 14),
+                                        focusColor: Colors.grey[100],
                                       ),
                                     ),
                                   ),
@@ -3318,12 +3321,7 @@ class _AddAddressState extends State<AddAddress> {
         'Categories : $_myCategoryPlaceForMassage && ${HealingMatchConstants.userEditPlaceForMassage} '
         '&& ${HealingMatchConstants.userEditPlaceForMassageOther}');
 
-    if (addedRoomNumberController.text.isEmpty ||
-        _myCategoryPlaceForMassage.isEmpty ||
-        addedBuildingNameController.text.isEmpty ||
-        addedUserAreaController.text.isEmpty ||
-        _myAddedCity.isEmpty ||
-        _myAddedPrefecture.isEmpty) {
+    if (_myCategoryPlaceForMassage.isEmpty) {
       ProgressDialogBuilder.hideLoader(context);
       print('Manual address empty fields');
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -3333,7 +3331,103 @@ class _AddAddressState extends State<AddAddress> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('全ての項目を入力してください。',
+              child: Text('登録する地点のカテゴリーを選択してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return;
+    }
+
+    if (_myAddedPrefecture.isEmpty) {
+      ProgressDialogBuilder.hideLoader(context);
+      print('Manual address empty fields');
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('有効な府県を選択してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return;
+    }
+
+    if (_myAddedCity.isEmpty) {
+      ProgressDialogBuilder.hideLoader(context);
+      print('Manual address empty fields');
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('有効な市を選択してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return;
+    }
+
+    if (addedUserAreaController.text.isEmpty) {
+      ProgressDialogBuilder.hideLoader(context);
+      print('Manual address empty fields');
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('有効な丁目と番地を入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -3356,6 +3450,38 @@ class _AddAddressState extends State<AddAddress> {
     }
 
     if (_myCategoryPlaceForMassage == 'その他（直接入力）') {}
+    if (_myCategoryPlaceForMassage == 'その他（直接入力）' &&
+        otherController.text.isEmpty) {
+      ProgressDialogBuilder.hideLoader(context);
+      print('Manual address empty fields');
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('登録する地点のカテゴリーを入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return;
+    }
     if (_myCategoryPlaceForMassage ==
         HealingMatchConstants.userEditPlaceForMassage) {
       print('Address cat same');
