@@ -95,7 +95,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         centerTitle: true,
         title: Text(
           'カレンダー',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
       ),
       body: status == 0

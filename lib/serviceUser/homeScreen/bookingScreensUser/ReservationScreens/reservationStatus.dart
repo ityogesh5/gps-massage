@@ -1031,8 +1031,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                         Colors.white,
                                                     child: SvgPicture.asset(
                                                         'assets/images_gps/chat.svg',
-                                                        height: 20,
-                                                        width: 20)),
+                                                        height: 15,
+                                                        width: 15)),
                                               ),
                                             ),
                                             SizedBox(
@@ -1611,8 +1611,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                         Colors.white,
                                                     child: SvgPicture.asset(
                                                         'assets/images_gps/chat.svg',
-                                                        height: 20,
-                                                        width: 20)),
+                                                        height: 15,
+                                                        width: 15)),
                                               ),
                                             ),
                                             SizedBox(
@@ -1651,8 +1651,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                         'assets/images_gps/cancel.svg',
                                                         color: Color.fromRGBO(
                                                             217, 217, 217, 1),
-                                                        height: 20,
-                                                        width: 20)),
+                                                        height: 15,
+                                                        width: 15)),
                                               ),
                                             ),
                                           ]),
@@ -2154,8 +2154,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 backgroundColor: Colors.white,
                                                 child: SvgPicture.asset(
                                                     'assets/images_gps/chat.svg',
-                                                    height: 20,
-                                                    width: 20)),
+                                                    height: 15,
+                                                    width: 15)),
                                           ),
                                         ),
                                         SizedBox(
@@ -2177,8 +2177,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                     'assets/images_gps/cancel.svg',
                                                     color: Color.fromRGBO(
                                                         217, 217, 217, 1),
-                                                    height: 20,
-                                                    width: 20)),
+                                                    height: 15,
+                                                    width: 15)),
                                           ),
                                         ),
                                       ]),
