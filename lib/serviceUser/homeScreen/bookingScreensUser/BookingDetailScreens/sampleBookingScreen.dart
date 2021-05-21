@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
@@ -21,12 +22,14 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
   TherapistByIdModel therapistDetails;
   int status = 0;
   int lastIndex = 999;
+  int min = 0;
   ItemScrollController scrollController = ItemScrollController();
   List<bool> visibility = List<bool>();
   List<TherapistList> allTherapistList = List<TherapistList>();
   List<GlobalKey> globalKeyList = List<GlobalKey>();
   List<String> bannerImages = List<String>();
   Map<String, Map<int, int>> serviceSelection = Map<String, Map<int, int>>();
+  DateTime selectedTime, endTime;
   String defaultBannerUrl =
       "https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80";
 
@@ -94,81 +97,94 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
     );
   }
 
-  buildDateTimeDetails() {
+  Widget buildDateTimeDetails() {
     return Row(
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Row(
+        selectedTime != null
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SvgPicture.asset('assets/images_gps/calendar.svg',
-                      height: 16, width: 16),
-                  SizedBox(width: 10),
-                  new Text(
-                    '10月17:',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12,
-                        fontFamily: 'NotoSansJP'),
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SvgPicture.asset('assets/images_gps/calendar.svg',
+                            height: 16, width: 16),
+                        SizedBox(width: 10),
+                        new Text(
+                          '${selectedTime.day}月${selectedTime.month}:',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                              fontFamily: 'NotoSansJP'),
+                        ),
+                        SizedBox(width: 5),
+                        new Text(
+                          "月曜日",
+                          style: TextStyle(
+                              color: Colors.grey[400],
+                              fontSize: 12,
+                              fontFamily: 'NotoSansJP'),
+                        ),
+                      ],
+                    ),
                   ),
-                  SizedBox(width: 5),
-                  new Text(
-                    "月曜日",
-                    style: TextStyle(
-                        color: Colors.grey[400],
-                        fontSize: 12,
-                        fontFamily: 'NotoSansJP'),
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SvgPicture.asset('assets/images_gps/clock.svg',
+                            height: 14, width: 14),
+                        SizedBox(width: 7),
+                        new Text(
+                          '${selectedTime.hour}:${selectedTime.minute} ～ ${endTime.hour}:${endTime.minute}',
+                          style: TextStyle(
+                              color: Colors.grey[400],
+                              fontSize: 12,
+                              fontFamily: 'NotoSansJP'),
+                        ),
+                        SizedBox(width: 5),
+                        new Text(
+                          '$min分',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                              fontFamily: 'NotoSansJP'),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
+              )
+            : Text(
+                'サービスを受ける日時を \nカレンダーから選択してください',
+                style: TextStyle(
+                    color: Colors.grey[400],
+                    fontSize: 12,
+                    fontFamily: 'NotoSansJP'),
               ),
-            ),
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SvgPicture.asset('assets/images_gps/clock.svg',
-                      height: 14, width: 14),
-                  SizedBox(width: 7),
-                  new Text(
-                    '10:30 ～ 11:30',
-                    style: TextStyle(
-                        color: Colors.grey[400],
-                        fontSize: 12,
-                        fontFamily: 'NotoSansJP'),
-                  ),
-                  SizedBox(width: 5),
-                  new Text(
-                    '60分',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12,
-                        fontFamily: 'NotoSansJP'),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
         Spacer(),
         InkWell(
           onTap: () {
+            HealingMatchConstants.callBack = updateDateTimeSelection;
             NavigationRouter.switchToUserChooseDate(context);
           },
-          child: CircleAvatar(
-            maxRadius: 38,
-            backgroundColor: Color.fromRGBO(217, 217, 217, 1),
+          child: Card(
+            shape: CircleBorder(),
+            elevation: 8.0,
             child: CircleAvatar(
-              maxRadius: 38,
-              backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-              child: SvgPicture.asset(
-                'assets/images_gps/calendar.svg',
-                height: 20,
-                width: 20,
-                color: Color.fromRGBO(200, 217, 33, 1),
+              maxRadius: 20,
+              backgroundColor: Color.fromRGBO(217, 217, 217, 1),
+              child: CircleAvatar(
+                maxRadius: 38,
+                backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+                child: SvgPicture.asset(
+                  'assets/images_gps/calendar.svg',
+                  height: 20,
+                  width: 20,
+                  color: Color.fromRGBO(200, 217, 33, 1),
+                ),
               ),
             ),
           ),
@@ -177,8 +193,22 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
     );
   }
 
+  void updateDateTimeSelection(DateTime time) {
+    setState(() {
+      selectedTime = time;
+      endTime = DateTime(
+          selectedTime.year,
+          selectedTime.month,
+          selectedTime.day,
+          selectedTime.hour,
+          selectedTime.minute + min,
+          selectedTime.second);
+    });
+  }
+
   getProviderInfo() async {
     try {
+      HealingMatchConstants.selectedDateTime = null;
       ProgressDialogBuilder.showOverlayLoader(context);
       therapistDetails =
           await ServiceUserAPIProvider.getTherapistDetails(context, widget.id);
@@ -439,6 +469,10 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
       if (timePriceSelection.length != 0) {
         serviceSelection.clear();
         serviceSelection[allTherapistList[index].name] = timePriceSelection;
+        min = timePriceSelection.keys.first;
+        HealingMatchConstants.selectedMin = min;
+        selectedTime = null;
+        endTime = null;
       } else {
         visibility[index] = false;
       }

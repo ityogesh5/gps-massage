@@ -21,9 +21,11 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 
 class HealingMatchConstants {
   static const String ON_PREMISE_USER_BASE_URL =
-      "http://106.51.49.160:9087/api";
+      //  "http://106.51.49.160:9087/api";//Dev Work IP
 
-  // "http://106.51.49.160:9094/api";
+      "http://103.92.19.158:9087/api"; //Sec Backup IP
+
+  // "http://106.51.49.160:9094/api";//Build IP
 
 // get therapist list By ID
   static const String THERAPIST_USER_BY_ID_URL =
@@ -415,6 +417,9 @@ class HealingMatchConstants {
 
   //User Calendar
   static TherapistByIdModel therapistProfileDetails;
+  static void Function(DateTime) callBack;
+  static DateTime selectedDateTime;
+  static int selectedMin = 0;
   static List<FlutterWeekViewEvent> userEvents = List<FlutterWeekViewEvent>();
 
   //User Token

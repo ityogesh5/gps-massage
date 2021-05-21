@@ -22,16 +22,18 @@ class ChooseDate extends StatefulWidget {
 class _ChooseDateState extends State<ChooseDate> {
   bool readonly = false;
   var yearString, monthString, dateString;
+  DateTime today = DateTime.now();
+  DateTime displayDay;
+  DateTime selectedTime;
   int _cyear;
   int _cmonth;
   int _currentDay;
-  DateTime today = DateTime.now();
-  DateTime displayDay;
   int _lastday;
   int daysToDisplay;
   int startTime;
   int endTime;
   int loadingStatus = 0;
+  int selectedMin;
   List<DateTime> timeRow = List<DateTime>();
   List<String> dayNames = ["月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日", "日曜日"];
   List<StoreServiceTiming> storeServiceTime = List<StoreServiceTiming>();
@@ -53,19 +55,37 @@ class _ChooseDateState extends State<ChooseDate> {
     endTime = 20;
     min = 0;
     dateString = '';
-    displayDay = today;
-    _cyear = DateTime.now().year;
-    _cmonth = DateTime.now().month;
-    _currentDay = DateTime.now().day;
-    _lastday = DateTime(today.year, today.month + 1, 0).day;
-    yearString = _cyear.toString();
-    monthString = _cmonth.toString();
+    getSelectedDate();
     daysToDisplay = totalDays(_cmonth, _cyear);
     timeBuilder(_cyear, _cmonth);
+    selectedMin = HealingMatchConstants.selectedMin;
     ServiceProviderApi.getCalEvents().then((value) {
       calendarEvents.addAll(value);
       getEvents();
     });
+  }
+
+  getSelectedDate() {
+    if (HealingMatchConstants.selectedDateTime != null) {
+      selectedTime = HealingMatchConstants.selectedDateTime;
+      _cyear = selectedTime.year;
+      _cmonth = selectedTime.month;
+      _currentDay = selectedTime.day;
+      _lastday = DateTime(selectedTime.year, selectedTime.month + 1, 0).day;
+      bookEvents[DateTime(
+          _cyear, _cmonth, 1, selectedTime.hour, selectedTime.minute)] = [
+        _currentDay - 1
+      ];
+      isSeleted = true;
+    } else {
+      displayDay = today;
+      _cyear = DateTime.now().year;
+      _cmonth = DateTime.now().month;
+      _currentDay = DateTime.now().day;
+      _lastday = DateTime(today.year, today.month + 1, 0).day;
+    }
+    yearString = _cyear.toString();
+    monthString = _cmonth.toString();
   }
 
   findButton(GlobalKey key) {
@@ -154,6 +174,11 @@ class _ChooseDateState extends State<ChooseDate> {
         backgroundColor: Colors.white,
         leading: IconButton(
           onPressed: () {
+            if (selectedTime != null) {
+              HealingMatchConstants.selectedDateTime = selectedTime;
+              HealingMatchConstants.callBack(selectedTime);
+            }
+
             Navigator.pop(context);
             // NavigationRouter.switchToServiceUserBottomBar(context);
           },
@@ -345,6 +370,7 @@ class _ChooseDateState extends State<ChooseDate> {
                             child: LazyDataTable(
                               rows: 45,
                               columns: daysToDisplay,
+                              
                               tableTheme: LazyDataTableTheme(
                                 columnHeaderColor:
                                     Color.fromRGBO(247, 247, 247, 1),
@@ -450,10 +476,20 @@ class _ChooseDateState extends State<ChooseDate> {
                                   } else {
                                     return InkWell(
                                       onTap: () {
-                                        if (!isSeleted) {
+                                        bool isTimeAvailable =
+                                            checkTimeAvailable(i, j);
+
+                                        if (!isSeleted && isTimeAvailable) {
                                           setState(() {
                                             bookEvents[timeRow[i]] = [j];
                                             isSeleted = true;
+                                            selectedTime = DateTime(
+                                                _cyear,
+                                                _cmonth,
+                                                j + 1,
+                                                timeRow[i].hour,
+                                                timeRow[i].minute,
+                                                timeRow[i].second);
                                           });
                                         }
                                       },
@@ -716,8 +752,8 @@ class _ChooseDateState extends State<ChooseDate> {
                             InkWell(
                               onTap: () {
                                 /* setState(() {
-                                  timePicker = true;
-                                }); */
+                                                                          timePicker = true;
+                                                                        }); */
                               },
                               child: InkWell(
                                 onTap: () {
@@ -1119,20 +1155,20 @@ class _ChooseDateState extends State<ChooseDate> {
           ),
         ),
         /*     Positioned(
-          top: buttonPosition.dy + buttonSize.height,
-          left: buttonPosition.dx,
-          width: buttonSize.width,
-          child: Container(
-            color: Colors.red,
-            height: 150.0,
-            width: 100.0,
-            child: CustomPaint(
-              size: Size(15.0, 10.0),
-              painter: TrianglePainter(
-                  isDownArrow: false, color: Colors.red), //grey[100]),
-            ),
-          ),
-        ), */
+                                                  top: buttonPosition.dy + buttonSize.height,
+                                                  left: buttonPosition.dx,
+                                                  width: buttonSize.width,
+                                                  child: Container(
+                                                    color: Colors.red,
+                                                    height: 150.0,
+                                                    width: 100.0,
+                                                    child: CustomPaint(
+                                                      size: Size(15.0, 10.0),
+                                                      painter: TrianglePainter(
+                                                          isDownArrow: false, color: Colors.red), //grey[100]),
+                                                    ),
+                                                  ),
+                                                ), */
       ],
     );
   }
@@ -1220,5 +1256,17 @@ class _ChooseDateState extends State<ChooseDate> {
         ),
       ],
     );
+  }
+
+  bool checkTimeAvailable(int i, int j) {
+    // bookEvents[timeRow[i]] = [j];
+    int iterationLength = selectedMin ~/ 15;
+    for (int k = 1; k < iterationLength; k++) {
+      if (events.containsKey(timeRow[i + k]) &&
+          events[timeRow[i + k]].contains(j)) {
+        return false;
+      }
+    }
+    return true;
   }
 }
