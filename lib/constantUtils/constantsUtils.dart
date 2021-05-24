@@ -423,6 +423,24 @@ class HealingMatchConstants {
   static int selectedMin = 0;
   static List<FlutterWeekViewEvent> userEvents = List<FlutterWeekViewEvent>();
 
+  // User Booking Confirmation
+  static String confBooking = '';
+  static String confShopName = '';
+  static String confUserName = '';
+  static String confServiceType = '';
+  static String confRatingAvg = '';
+  static String confAddress = '';
+  static String confServiceName = '';
+  static int confNoOfReviewsMembers;
+  static var confNoOfServiceDuration;
+  static var confServiceCost;
+  static var confCertificationUpload;
+  static bool confBuisnessTrip;
+  static bool confShop;
+  static bool confCoronaMeasures;
+  static DateTime confSelectedDateTime;
+  static DateTime confEndDateTime;
+
   //User Token
   static String uAccessToken = '';
 
@@ -495,6 +513,7 @@ class HealingMatchConstants {
 
   // User Home screen
   static int serviceTypeValue = 0;
+  static var serviceDistanceRadius;
   static List<String> userBannerImages = [];
   static int therapistId = 0;
   static List<RecommendTherapistList> getRecommendedTherapists = [];

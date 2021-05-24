@@ -423,10 +423,19 @@ class _SearchResultState extends State<SearchResult> {
                                 } else {
                                   return GestureDetector(
                                     onTap: () {
-                                      HealingMatchConstants.therapistId = widget
-                                          .getTherapistsSearchResults[index]
-                                          .user
-                                          .id;
+                                      setState(() {
+                                        HealingMatchConstants.therapistId =
+                                            widget
+                                                .getTherapistsSearchResults[
+                                                    index]
+                                                .user
+                                                .id;
+                                        HealingMatchConstants
+                                                .serviceDistanceRadius =
+                                            distanceRadius[index];
+                                      });
+                                      print(
+                                          "${HealingMatchConstants.serviceDistanceRadius}");
                                       NavigationRouter
                                           .switchToUserSearchDetailPageOne(
                                               context,

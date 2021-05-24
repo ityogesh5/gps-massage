@@ -6,6 +6,8 @@ import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/customRadioButtonList/roundedRadioButton.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 double ratingsValue = 4.0;
 bool checkValue = false;
@@ -38,7 +40,16 @@ class BookingConfirmationScreen extends StatefulWidget {
 }
 
 class _BookingConfirmationState extends State<BookingConfirmationScreen> {
+  Map<String, String> certificateImages = Map<String, String>();
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  String weekDays;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getProfileDetails();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +103,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                   borderRadius: BorderRadius.circular(16.0),
                   color: Colors.grey[200]),
               width: MediaQuery.of(context).size.width * 0.90,
-              height: MediaQuery.of(context).size.height * 0.30,
+              height: 200,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -101,18 +112,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        new Container(
-                            width: 80.0,
-                            height: 80.0,
-                            decoration: new BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              shape: BoxShape.circle,
-                              image: new DecorationImage(
-                                fit: BoxFit.fitHeight,
-                                image: new AssetImage(
-                                    'assets/images_gps/logo.png'),
-                              ),
-                            )),
+                        buildProfileImage(),
                         SizedBox(width: 5),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,13 +120,23 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                           children: [
                             Row(
                               children: [
-                                Text(
-                                  '店舗名',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                ),
+                                HealingMatchConstants.confShopName.isNotEmpty &&
+                                        HealingMatchConstants.confShopName !=
+                                            null
+                                    ? Text(
+                                        '${HealingMatchConstants.confShopName}',
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold),
+                                      )
+                                    : Text(
+                                        '${HealingMatchConstants.confUserName}',
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                 SizedBox(width: 5),
                                 CircleAvatar(
                                   backgroundColor:
@@ -145,30 +155,37 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                                 ),
                               ],
                             ),
-                            SizedBox(
-                              height: 5,
-                            ),
                             FittedBox(
                               child: Row(
                                 children: [
-                                  Container(
-                                      padding: EdgeInsets.all(4),
-                                      color: Colors.white,
-                                      child: Text('店舗')),
+                                  HealingMatchConstants.confShop
+                                      ? Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 6.0),
+                                          child:
+                                              buildProileDetailCard("店舗", 12.0),
+                                        )
+                                      : Container(),
+                                  SizedBox(width: 5.0),
+                                  HealingMatchConstants.confBuisnessTrip
+                                      ? Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 6.0),
+                                          child:
+                                              buildProileDetailCard("出張", 12.0),
+                                        )
+                                      : Container(),
                                   SizedBox(
                                     width: 5,
                                   ),
-                                  Container(
-                                      padding: EdgeInsets.all(4),
-                                      color: Colors.white,
-                                      child: Text('出張')),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Container(
-                                      padding: EdgeInsets.all(4),
-                                      color: Colors.white,
-                                      child: Text('コロナ対策実施有無')),
+                                  HealingMatchConstants.confCoronaMeasures
+                                      ? Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 6.0),
+                                          child: buildProileDetailCard(
+                                              "コロナ対策実施", 14.0),
+                                        )
+                                      : Container(),
                                 ],
                               ),
                             ),
@@ -178,67 +195,76 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                             Row(
                               children: [
                                 Text(
-                                  '(${ratingsValue.toString()})',
+                                  '(${HealingMatchConstants.confRatingAvg})',
                                   style: TextStyle(
-                                      color: Colors.grey[400],
+                                      decorationColor:
+                                          Color.fromRGBO(153, 153, 153, 1),
+                                      shadows: [
+                                        Shadow(
+                                            color: Color.fromRGBO(
+                                                153, 153, 153, 1),
+                                            offset: Offset(0, -3))
+                                      ],
                                       fontSize: 14,
-                                      fontFamily: 'NotoSansJP'),
+                                      color: Colors.transparent,
+                                      fontWeight: FontWeight.bold),
                                 ),
-                                RatingBar.builder(
-                                  initialRating: 3,
-                                  minRating: 1,
-                                  direction: Axis.horizontal,
-                                  allowHalfRating: true,
-                                  itemCount: 5,
-                                  itemSize: 25,
-                                  itemPadding:
-                                      EdgeInsets.symmetric(horizontal: 4.0),
-                                  itemBuilder: (context, _) => Icon(
-                                    Icons.star,
-                                    size: 5,
-                                    color: Color.fromRGBO(255, 217, 0, 1),
-                                  ),
-                                  onRatingUpdate: (rating) {
-                                    // print(rating);
-                                    setState(() {
-                                      ratingsValue = rating;
-                                    });
-                                    print(ratingsValue);
-                                  },
-                                ),
+                                buildRatingBar(),
                                 Text(
                                   '(1518)',
                                   style: TextStyle(
-                                      color: Colors.grey[400],
-                                      fontSize: 12,
-                                      fontFamily: 'NotoSansJP'),
+                                      decorationColor:
+                                          Color.fromRGBO(153, 153, 153, 1),
+                                      shadows: [
+                                        Shadow(
+                                            color: Color.fromRGBO(
+                                                153, 153, 153, 1),
+                                            offset: Offset(0, -3))
+                                      ],
+                                      fontSize: 14,
+                                      color: Colors.transparent,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ],
                             ),
                             SizedBox(
-                              height: 5,
+                              height: certificateImages != null ? 5.0 : 0.0,
                             ),
-                            Row(
-                              children: [
-                                Container(
-                                    padding: EdgeInsets.all(4),
-                                    color: Colors.white,
-                                    child: Text('コロナ対策実施')),
-                              ],
-                            ),
+                            certificateImages != null
+                                ? Container(
+                                    height: 30.0,
+                                    width: MediaQuery.of(context).size.width -
+                                        130.0, //200.0,
+                                    child: ListView.builder(
+                                        itemCount: certificateImages.length,
+                                        padding: EdgeInsets.all(0.0),
+                                        scrollDirection: Axis.horizontal,
+                                        shrinkWrap: true,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          String key = certificateImages.keys
+                                              .elementAt(index);
+                                          return buildProileDetailCard(
+                                              key, 12.0);
+                                        }),
+                                  )
+                                : Container(),
                             SizedBox(
-                              height: 10,
+                              height: 6,
                             ),
                           ],
                         ),
                       ],
                     ),
                     Expanded(
-                      child: Row(children: <Widget>[
-                        Expanded(child: Divider()),
-                      ]),
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Divider(
+                          color: Color.fromRGBO(217, 217, 217, 1),
+                        ),
+                      ),
                     ),
-                    SizedBox(height: 7),
+                    SizedBox(height: 6),
                     Expanded(
                       child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -249,10 +275,10 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                             SizedBox(width: 5),
                             FittedBox(
                               child: Text(
-                                '埼玉県浦和区高砂4丁目4',
+                                '${HealingMatchConstants.confAddress}',
                                 softWrap: true,
                                 style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 14,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                     fontFamily: 'NotoSansJP'),
@@ -261,14 +287,24 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                             Spacer(),
                             Row(
                               children: [
-                                Text(
-                                  '５Ｋｍ圏内',
-                                  textAlign: TextAlign.right,
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.grey[400],
-                                      fontFamily: 'NotoSansJP'),
-                                ),
+                                HealingMatchConstants.serviceDistanceRadius !=
+                                            null &&
+                                        HealingMatchConstants
+                                                .serviceDistanceRadius !=
+                                            0
+                                    ? Text(
+                                        '${HealingMatchConstants.serviceDistanceRadius}Ｋｍ圏内',
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.grey[400],
+                                            fontFamily: 'NotoSansJP'),
+                                      )
+                                    : Text(
+                                        '0.0ｋｍ圏内',
+                                        style: TextStyle(
+                                            fontSize: 14, color: Colors.grey),
+                                      ),
                               ],
                             )
                           ]),
@@ -295,9 +331,8 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                 color: Color.fromRGBO(255, 255, 255, 1),
               ),
               width: MediaQuery.of(context).size.width * 0.90,
-              height: MediaQuery.of(context).size.height * 0.21,
               child: Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.all(12.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -308,7 +343,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                         SvgPicture.asset('assets/images_gps/calendar.svg',
                             height: 25, width: 25),
                         Text(
-                          ' 10月17\t\t\t',
+                          ' ${HealingMatchConstants.confSelectedDateTime.month}月${HealingMatchConstants.confSelectedDateTime.day}',
                           style: TextStyle(
                               fontSize: 14,
                               color: Colors.black,
@@ -316,7 +351,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                               fontFamily: 'NotoSansJP'),
                         ),
                         Text(
-                          '月曜日出張',
+                          ' $weekDays',
                           style: TextStyle(
                               fontSize: 14,
                               color: Colors.grey[400],
@@ -324,21 +359,24 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 15),
+                    SizedBox(height: 7),
                     Row(
                       children: [
                         SvgPicture.asset('assets/images_gps/clock.svg',
                             height: 25, width: 25),
                         Text(
-                          '\t9：00～10: 00\t\t\t',
+                          '${HealingMatchConstants.confSelectedDateTime.hour}:00～${HealingMatchConstants.confEndDateTime.hour}:00',
                           style: TextStyle(
                               fontSize: 14,
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'NotoSansJP'),
                         ),
+                        SizedBox(
+                          width: 4,
+                        ),
                         Text(
-                          '60分',
+                          '${HealingMatchConstants.confNoOfServiceDuration}分',
                           style: TextStyle(
                               fontSize: 14,
                               color: Colors.grey[400],
@@ -346,33 +384,32 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                         ),
                       ],
                     ),
-                    Expanded(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SvgPicture.asset('assets/images_gps/cost.svg',
-                              height: 25, width: 25),
-                          SizedBox(width: 3),
-                          Chip(
-                            label: Text('足つぼ'),
-                            backgroundColor: Colors.grey[300],
-                          ),
-                          Text(
-                            "\t\t¥4,500",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.left,
-                          ),
-                        ],
-                      ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SvgPicture.asset('assets/images_gps/cost.svg',
+                            height: 25, width: 25),
+                        SizedBox(width: 3),
+                        Chip(
+                          label:
+                              Text('${HealingMatchConstants.confServiceName}'),
+                          backgroundColor: Colors.grey[300],
+                        ),
+                        Text(
+                          "¥${HealingMatchConstants.confServiceCost}",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.left,
+                        ),
+                      ],
                     ),
                   ],
                 ),
               ),
             ),
-            SizedBox(height: 30),
+            SizedBox(height: 15),
             Text(
               "\t\t施術を受ける場所",
               style: TextStyle(
@@ -398,37 +435,21 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                   borderRadius: BorderRadius.circular(10.0),
                   color: Colors.grey[200]),
               width: MediaQuery.of(context).size.width * 0.90,
-              height: MediaQuery.of(context).size.height * 0.08,
               child: Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Container(
-                        padding: EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Color.fromRGBO(255, 255, 255, 1),
-                                  Color.fromRGBO(255, 255, 255, 1),
-                                ]),
-                            shape: BoxShape.rectangle,
-                            border: Border.all(
-                              color: Colors.transparent,
-                            ),
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: Colors.white),
-                        child: Text('オフィス')),
+                    buildProileDetailCard(
+                        "${HealingMatchConstants.searchUserAddressType}", 12),
+                    SizedBox(width: 10),
                     Flexible(
-                      child: Text(
-                        "\t\t\t\t埼玉県浦和区高砂4丁目4",
+                      child: new Text(
+                        "${HealingMatchConstants.searchUserAddress}",
                         style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w300),
-                        textAlign: TextAlign.left,
+                            color: Colors.grey[400],
+                            fontSize: 14,
+                            fontFamily: 'NotoSansJP'),
                       ),
                     ),
                   ],
@@ -455,7 +476,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
             ),
             SizedBox(height: 10),
             massageBuildTypeDisplayContent(),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             Container(
               width: MediaQuery.of(context).size.width * 0.82,
               child: TextField(
@@ -485,7 +506,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                     )),
               ),
             ),
-            SizedBox(height: 15),
+            SizedBox(height: 10),
             RichText(
               textAlign: TextAlign.start,
               text: new TextSpan(
@@ -512,6 +533,186 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
       ),
       bottomNavigationBar: reservation(),
     );
+  }
+
+  CachedNetworkImage buildProfileImage() {
+    return CachedNetworkImage(
+      imageUrl: HealingMatchConstants.confBooking,
+      filterQuality: FilterQuality.high,
+      fadeInCurve: Curves.easeInSine,
+      imageBuilder: (context, imageProvider) => Container(
+        width: 56.0,
+        height: 56.0,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+        ),
+      ),
+      placeholder: (context, url) =>
+          SpinKitDoubleBounce(color: Colors.lightGreenAccent),
+      errorWidget: (context, url, error) => Container(
+        width: 56.0,
+        height: 56.0,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(color: Colors.black12),
+          image: DecorationImage(
+              image: new AssetImage('assets/images_gps/placeholder_image.png'),
+              fit: BoxFit.cover),
+        ),
+      ),
+    );
+  }
+
+  Container buildProileDetailCard(String key, double size) {
+    return Container(
+        padding: EdgeInsets.only(left: 8.0, top: 4.0, bottom: 4.0, right: 8.0),
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color.fromRGBO(255, 255, 255, 1),
+                  Color.fromRGBO(255, 255, 255, 1),
+                ]),
+            shape: BoxShape.rectangle,
+            border: Border.all(
+              color: Colors.grey[300],
+            ),
+            borderRadius: BorderRadius.circular(5.0),
+            color: Colors.grey[200]),
+        child: Text(
+          '$key',
+          style: TextStyle(fontSize: size),
+        ));
+  }
+
+  RatingBar buildRatingBar() {
+    return RatingBar.builder(
+      initialRating: double.parse(HealingMatchConstants.confRatingAvg),
+      minRating: 1,
+      direction: Axis.horizontal,
+      allowHalfRating: true,
+      itemCount: 5,
+      itemSize: 24.0,
+      ignoreGestures: true,
+      itemPadding: new EdgeInsets.only(bottom: 3.0),
+      itemBuilder: (context, index) => new SizedBox(
+          height: 20.0,
+          width: 18.0,
+          child: new IconButton(
+            onPressed: () {},
+            padding: new EdgeInsets.all(0.0),
+            // color: Colors.white,
+            icon: index >
+                    (double.parse(HealingMatchConstants.confRatingAvg))
+                            .ceilToDouble() -
+                        1
+                ? SvgPicture.asset(
+                    "assets/images_gps/star_2.svg",
+                    height: 13.0,
+                    width: 13.0,
+                  )
+                : SvgPicture.asset(
+                    "assets/images_gps/star_colour.svg",
+                    height: 13.0,
+                    width: 13.0,
+                    //color: Colors.black,
+                  ),
+          )),
+      onRatingUpdate: (rating) {
+        print(rating);
+      },
+    );
+  }
+
+  getProfileDetails() {
+    var certificateUpload =
+        HealingMatchConstants.confCertificationUpload[0].toJson();
+    certificateUpload.remove('id');
+    certificateUpload.remove('userId');
+    certificateUpload.remove('createdAt');
+    certificateUpload.remove('updatedAt');
+    certificateUpload.forEach((key, value) async {
+      if (certificateUpload[key] != null) {
+        String jKey = getQualififcationJaWords(key);
+        if (jKey == "はり師" ||
+            jKey == "きゅう師" ||
+            jKey == "鍼灸師" ||
+            jKey == "あん摩マッサージ指圧師" ||
+            jKey == "柔道整復師" ||
+            jKey == "理学療法士") {
+          certificateImages["国家資格保有"] = "国家資格保有";
+        } else if (jKey == "国家資格取得予定（学生）") {
+          certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
+        } else if (jKey == "民間資格") {
+          certificateImages["民間資格"] = "民間資格";
+        } else if (jKey == "無資格") {
+          certificateImages["無資格"] = "無資格";
+        }
+      }
+    });
+    if (certificateImages.length == 0) {
+      certificateImages["無資格"] = "無資格";
+    }
+    if (HealingMatchConstants.confSelectedDateTime.weekday == 1) {
+      weekDays = '月曜日';
+    }
+    if (HealingMatchConstants.confSelectedDateTime.weekday == 2) {
+      weekDays = '火曜日';
+    }
+    if (HealingMatchConstants.confSelectedDateTime.weekday == 3) {
+      weekDays = '水曜日';
+    }
+    if (HealingMatchConstants.confSelectedDateTime.weekday == 4) {
+      weekDays = '木曜日';
+    }
+    if (HealingMatchConstants.confSelectedDateTime.weekday == 5) {
+      weekDays = '金曜日';
+    }
+    if (HealingMatchConstants.confSelectedDateTime.weekday == 6) {
+      weekDays = '土曜日';
+    }
+    if (HealingMatchConstants.confSelectedDateTime.weekday == 7) {
+      weekDays = '日曜日';
+    }
+  }
+
+  String getQualififcationJaWords(String key) {
+    switch (key) {
+      case 'acupuncturist':
+        return 'はり師';
+        break;
+      case 'moxibutionist':
+        return 'きゅう師';
+        break;
+      case 'acupuncturistAndMoxibustion':
+        return '鍼灸師';
+        break;
+      case 'anmaMassageShiatsushi':
+        return 'あん摩マッサージ指圧師';
+        break;
+      case 'judoRehabilitationTeacher':
+        return '柔道整復師';
+        break;
+      case 'physicalTherapist':
+        return '理学療法士';
+        break;
+      case 'acquireNationalQualifications':
+        return '国家資格取得予定（学生）';
+        break;
+      case 'privateQualification1':
+        return '民間資格';
+      case 'privateQualification2':
+        return '民間資格';
+      case 'privateQualification3':
+        return '民間資格';
+      case 'privateQualification4':
+        return '民間資格';
+      case 'privateQualification5':
+        return '民間資格';
+        break;
+    }
   }
 
   Widget reservation() {
@@ -541,7 +742,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
   Widget massageBuildTypeDisplayContent() {
     bool newChoosenVal = false;
     return Padding(
-      padding: const EdgeInsets.all(5.0),
+      padding: const EdgeInsets.all(3.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -553,7 +754,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                   _formData['category']?.name == category.name;
               return ListTile(
                 title: Padding(
-                  padding: const EdgeInsets.all(5.0),
+                  padding: const EdgeInsets.all(3.0),
                   child: Align(
                     alignment: Alignment(-1.2, 1.1),
                     child: new Text('${category.name}',

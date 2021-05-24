@@ -1791,7 +1791,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   }
 
   getAddressType() {
-    if (HealingMatchConstants.isLocationCriteria == false) {
+    if (HealingMatchConstants.isLocationCriteria == true) {
       setState(() {
         addressTypeValues = 0;
       });
