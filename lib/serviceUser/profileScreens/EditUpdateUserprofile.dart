@@ -3102,6 +3102,9 @@ class _AddAddressState extends State<AddAddress> {
                                                       addedUserAreaController,
                                                   decoration:
                                                       new InputDecoration(
+                                                    contentPadding:
+                                                        EdgeInsets.fromLTRB(
+                                                            6, 3, 6, 3),
                                                     filled: true,
                                                     fillColor: ColorConstants
                                                         .formFieldFillColor,
@@ -3151,6 +3154,9 @@ class _AddAddressState extends State<AddAddress> {
                                                 controller:
                                                     addedBuildingNameController,
                                                 decoration: new InputDecoration(
+                                                  contentPadding:
+                                                      EdgeInsets.fromLTRB(
+                                                          6, 3, 6, 3),
                                                   filled: true,
                                                   fillColor: ColorConstants
                                                       .formFieldFillColor,
@@ -3222,6 +3228,9 @@ class _AddAddressState extends State<AddAddress> {
                                                         fontFamily:
                                                             'NotoSansJP',
                                                         fontSize: 14),
+                                                    contentPadding:
+                                                        EdgeInsets.fromLTRB(
+                                                            6, 3, 6, 3),
                                                     focusColor:
                                                         Colors.grey[100],
                                                     border: HealingMatchConstants
@@ -3587,6 +3596,39 @@ class _AddAddressState extends State<AddAddress> {
         '${HealingMatchConstants.manualAddressCurrentLongitude}');
     print('Manual Place Json : ${userManualAddressPlaceMark.toJson()}');
     print('Manual Address : ${HealingMatchConstants.manualUserAddress}');
+
+    /*  if (HealingMatchConstants.userAddressesList.length <= 2 &&
+        constantUserAddressValuesList.length <= 1) {
+      ProgressDialogBuilder.hideLoader(context);
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('メインの地点以外に3箇所まで地点登録ができます。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+                Navigator.pop(context);
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return;
+    }*/
 
     if (constantUserAddressValuesList.length <= 2) {
       String city = _myAddedCity;
