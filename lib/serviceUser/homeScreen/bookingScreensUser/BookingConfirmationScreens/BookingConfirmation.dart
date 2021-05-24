@@ -7,6 +7,7 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/customRadioButtonList/roundedRadioButton.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 double ratingsValue = 4.0;
@@ -43,6 +44,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
   Map<String, String> certificateImages = Map<String, String>();
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String weekDays;
+  GlobalKey key = new GlobalKey();
 
   @override
   void initState() {
@@ -138,19 +140,29 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                                             fontWeight: FontWeight.bold),
                                       ),
                                 SizedBox(width: 5),
-                                CircleAvatar(
-                                  backgroundColor:
-                                      Color.fromRGBO(255, 255, 255, 1),
-                                  radius: 14,
-                                  child: IconButton(
-                                    // remove default padding here
-                                    padding: EdgeInsets.zero,
-                                    icon: SvgPicture.asset(
-                                        'assets/images_gps/info.svg',
-                                        height: 20,
-                                        width: 20),
-                                    color: Colors.grey,
-                                    onPressed: () {},
+                                InkWell(
+                                  onTap: () {
+                                    showToolTip(
+                                        HealingMatchConstants.confServiceType);
+                                  },
+                                  child: Container(
+                                    key: key,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.white,
+                                      border: Border.all(
+                                        color: Colors.grey[400],
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SvgPicture.asset(
+                                        "assets/images_gps/info.svg",
+                                        height: 10.0,
+                                        width: 10.0,
+                                        color: Colors.black,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -855,6 +867,22 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
         _formData['category'] = null;
       }
     });
+  }
+
+  void showToolTip(String text) {
+    ShowToolTip popup = ShowToolTip(context,
+        text: text,
+        textStyle: TextStyle(color: Colors.black),
+        height: 180,
+        width: 180,
+        backgroundColor: Colors.white,
+        padding: EdgeInsets.all(8.0),
+        borderRadius: BorderRadius.circular(10.0));
+
+    /// show the popup for specific widget
+    popup.show(
+      widgetKey: key,
+    );
   }
 
   _updateUserBookingDetails() {

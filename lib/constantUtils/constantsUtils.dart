@@ -427,7 +427,7 @@ class HealingMatchConstants {
   static String confBooking = '';
   static String confShopName = '';
   static String confUserName = '';
-  static String confServiceType = '';
+  static var confServiceType = '';
   static String confRatingAvg = '';
   static String confAddress = '';
   static String confServiceName = '';
