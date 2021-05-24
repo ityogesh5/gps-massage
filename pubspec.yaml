@@ -96,13 +96,14 @@ dependencies:
   googleapis_auth: # Aswin Google Cloud Authentication
 
   scrollable_positioned_list: ^0.1.10 #Aswin for List Manual Scrolling
-
-  readmore: any #Gowtham Text ReadMore
   cloud_firestore: any
   firebase_core: any
   firebase_analytics: any
   firebase_auth: any
   firebase_storage: any
+
+  readmore: any #Gowtham Text ReadMore
+
 
 
 

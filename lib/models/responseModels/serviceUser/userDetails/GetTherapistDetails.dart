@@ -19,6 +19,7 @@ class TherapistByIdModel {
     this.therapistFitnessListList,
     this.therapistOrteopathicList,
     this.therapistRelaxationList,
+    this.storeServiceTiming,
   });
 
   String status;
@@ -28,6 +29,7 @@ class TherapistByIdModel {
   List<TherapistList> therapistFitnessListList;
   List<TherapistList> therapistOrteopathicList;
   List<TherapistList> therapistRelaxationList;
+  List<StoreServiceTiming> storeServiceTiming;
 
   factory TherapistByIdModel.fromJson(Map<String, dynamic> json) =>
       TherapistByIdModel(
@@ -46,6 +48,9 @@ class TherapistByIdModel {
         therapistRelaxationList: List<TherapistList>.from(
             json["therapistRelaxationList"]
                 .map((x) => TherapistList.fromJson(x))),
+        storeServiceTiming: List<StoreServiceTiming>.from(
+            json["storeServiceTiming"]
+                .map((x) => StoreServiceTiming.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -60,6 +65,8 @@ class TherapistByIdModel {
             List<dynamic>.from(therapistOrteopathicList.map((x) => x.toJson())),
         "therapistRelaxationList":
             List<dynamic>.from(therapistRelaxationList.map((x) => x.toJson())),
+        "storeServiceTiming":
+            List<dynamic>.from(storeServiceTiming.map((x) => x.toJson())),
       };
 }
 
@@ -431,9 +438,9 @@ class Banner {
   int id;
   int userId;
   String bannerImageUrl1;
-  dynamic bannerImageUrl2;
+  String bannerImageUrl2;
   String bannerImageUrl3;
-  dynamic bannerImageUrl4;
+  String bannerImageUrl4;
   String bannerImageUrl5;
   DateTime createdAt;
   DateTime updatedAt;
@@ -557,6 +564,55 @@ class ReviewData {
   Map<String, dynamic> toJson() => {
         "ratingAvg": ratingAvg,
         "NoOfReviewsMembers": noOfReviewsMembers,
+      };
+}
+
+class StoreServiceTiming {
+  StoreServiceTiming({
+    this.id,
+    this.userId,
+    this.weekDay,
+    this.dayInNumber,
+    this.startTime,
+    this.endTime,
+    this.shopOpen,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  int id;
+  int userId;
+  String weekDay;
+  int dayInNumber;
+  DateTime startTime;
+  DateTime endTime;
+  bool shopOpen;
+  DateTime createdAt;
+  DateTime updatedAt;
+
+  factory StoreServiceTiming.fromJson(Map<String, dynamic> json) =>
+      StoreServiceTiming(
+        id: json["id"],
+        userId: json["userId"],
+        weekDay: json["weekDay"],
+        dayInNumber: json["dayInNumber"],
+        startTime: DateTime.parse(json["startTime"]),
+        endTime: DateTime.parse(json["endTime"]),
+        shopOpen: json["shopOpen"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "userId": userId,
+        "weekDay": weekDay,
+        "dayInNumber": dayInNumber,
+        "startTime": startTime.toIso8601String(),
+        "endTime": endTime.toIso8601String(),
+        "shopOpen": shopOpen,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
       };
 }
 

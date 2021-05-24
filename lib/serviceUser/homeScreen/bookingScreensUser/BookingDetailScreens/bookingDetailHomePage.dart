@@ -614,7 +614,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
       TherapistList therapistListItem) {
     var width = MediaQuery.of(context).size.width - 10.0;
     print(width);
-    ShowToolTip popup = ShowToolTip(context,
+    ShowToolTip popup = ShowToolTip(context, updateServiceSelection(),
         index: index,
         therapistListItem: therapistListItem,
         textStyle: TextStyle(color: Colors.black),
@@ -629,6 +629,8 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
       widgetKey: key,
     );
   }
+
+  updateServiceSelection() {}
 
   String assignServiceIcon(String name, int cid) {
     //Esthetic

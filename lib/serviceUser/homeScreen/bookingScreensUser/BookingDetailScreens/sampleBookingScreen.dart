@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/bookingTimeToolTip/bookingTimeToolTip.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/BookingDetailsCompletedScreenOne.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/detailCarouselWithIndicator.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/detailProfileDetails.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:simple_tooltip/simple_tooltip.dart';
 
 class SampleBookingScreen extends StatefulWidget {
   final int id;
@@ -22,11 +22,14 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
   TherapistByIdModel therapistDetails;
   int status = 0;
   int lastIndex = 999;
+  int min = 0;
   ItemScrollController scrollController = ItemScrollController();
   List<bool> visibility = List<bool>();
   List<TherapistList> allTherapistList = List<TherapistList>();
   List<GlobalKey> globalKeyList = List<GlobalKey>();
   List<String> bannerImages = List<String>();
+  Map<String, Map<int, int>> serviceSelection = Map<String, Map<int, int>>();
+  DateTime selectedTime, endTime;
   String defaultBannerUrl =
       "https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80";
 
@@ -36,11 +39,180 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
     super.initState();
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return status == 0
+        ? Container()
+        : Scaffold(
+            body: SafeArea(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    DetailCarouselWithIndicator(bannerImages),
+                    DetailProfileDetails(therapistDetails),
+                    buildServices(context),
+                    dateTimeInfoBuilder(context),
+                  ],
+                ),
+              ),
+            ),
+            bottomNavigationBar: bookAgain(),
+          );
+  }
+
+  dateTimeInfoBuilder(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 4.0,
+        left: 14.0,
+        bottom: 4.0,
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color.fromRGBO(255, 255, 255, 1),
+                  Color.fromRGBO(255, 255, 255, 1),
+                ]),
+            shape: BoxShape.rectangle,
+            border: Border.all(
+              color: Colors.grey[300],
+            ),
+            borderRadius: BorderRadius.circular(5.0),
+            color: Colors.grey[200]),
+        width: MediaQuery.of(context).size.width * 0.90,
+        height: 90.0,
+        child: Padding(
+          padding: const EdgeInsets.only(
+              top: 8.0, left: 12.0, bottom: 8.0, right: 8.0),
+          child: Container(
+            child: buildDateTimeDetails(),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildDateTimeDetails() {
+    return Row(
+      children: [
+        selectedTime != null
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SvgPicture.asset('assets/images_gps/calendar.svg',
+                            height: 16, width: 16),
+                        SizedBox(width: 10),
+                        new Text(
+                          '${selectedTime.day}月${selectedTime.month}:',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                              fontFamily: 'NotoSansJP'),
+                        ),
+                        SizedBox(width: 5),
+                        new Text(
+                          "月曜日",
+                          style: TextStyle(
+                              color: Colors.grey[400],
+                              fontSize: 12,
+                              fontFamily: 'NotoSansJP'),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SvgPicture.asset('assets/images_gps/clock.svg',
+                            height: 14, width: 14),
+                        SizedBox(width: 7),
+                        new Text(
+                          '${selectedTime.hour}:${selectedTime.minute} ～ ${endTime.hour}:${endTime.minute}',
+                          style: TextStyle(
+                              color: Colors.grey[400],
+                              fontSize: 12,
+                              fontFamily: 'NotoSansJP'),
+                        ),
+                        SizedBox(width: 5),
+                        new Text(
+                          '$min分',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                              fontFamily: 'NotoSansJP'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              )
+            : Text(
+                'サービスを受ける日時を \nカレンダーから選択してください',
+                style: TextStyle(
+                    color: Colors.grey[400],
+                    fontSize: 12,
+                    fontFamily: 'NotoSansJP'),
+              ),
+        Spacer(),
+        InkWell(
+          onTap: () {
+            HealingMatchConstants.callBack = updateDateTimeSelection;
+            NavigationRouter.switchToUserChooseDate(context);
+          },
+          child: Card(
+            shape: CircleBorder(),
+            elevation: 8.0,
+            child: CircleAvatar(
+              maxRadius: 20,
+              backgroundColor: Color.fromRGBO(217, 217, 217, 1),
+              child: CircleAvatar(
+                maxRadius: 38,
+                backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+                child: SvgPicture.asset(
+                  'assets/images_gps/calendar.svg',
+                  height: 20,
+                  width: 20,
+                  color: Color.fromRGBO(200, 217, 33, 1),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void updateDateTimeSelection(DateTime time) {
+    setState(() {
+      selectedTime = time;
+      endTime = DateTime(
+          selectedTime.year,
+          selectedTime.month,
+          selectedTime.day,
+          selectedTime.hour,
+          selectedTime.minute + min,
+          selectedTime.second);
+    });
+  }
+
   getProviderInfo() async {
     try {
+      HealingMatchConstants.selectedDateTime = null;
       ProgressDialogBuilder.showOverlayLoader(context);
       therapistDetails =
           await ServiceUserAPIProvider.getTherapistDetails(context, widget.id);
+      HealingMatchConstants.therapistProfileDetails = therapistDetails;
       //append all Service Types for General View
       setState(() {
         if (HealingMatchConstants.serviceType != 0 &&
@@ -95,28 +267,6 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return status == 0
-        ? Container()
-        : Scaffold(
-            body: SafeArea(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    DetailCarouselWithIndicator(bannerImages),
-                    DetailProfileDetails(therapistDetails),
-                    buildServices(context),
-                  ],
-                ),
-              ),
-            ),
-            bottomNavigationBar: bookAgain(),
-          );
-  }
-
   Column buildServices(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -165,33 +315,26 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
         InkWell(
           key: globalKeyList[index],
           onTap: () {
-            /* if (lastIndex == 999) {
+            if (lastIndex == 999) {
               setState(() {
                 visibility[index] = true;
                 lastIndex = index;
               });
+              scrollListandToolTipCall(index, therapistListItem);
             } else if (visibility[index]) {
-              setState(() {
+              scrollListandToolTipCall(index, therapistListItem);
+              /* setState(() {
+                serviceSelection.clear();
                 visibility[lastIndex] = false;
-              });
+              }); */
             } else {
               setState(() {
+                serviceSelection.clear();
                 visibility[lastIndex] = false;
                 visibility[index] = true;
                 lastIndex = index;
               });
-            } */
-            if (index > 2 && index != allTherapistList.length - 1) {
-              scrollController
-                  .scrollTo(
-                      index: index,
-                      alignment: 0.5,
-                      duration: Duration(milliseconds: 200))
-                  .whenComplete(() => showToolTip(
-                      globalKeyList[index], context, index, therapistListItem));
-            } else {
-              showToolTip(
-                  globalKeyList[index], context, index, therapistListItem);
+              scrollListandToolTipCall(index, therapistListItem);
             }
           },
           child: Column(
@@ -237,6 +380,20 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
         ),
       ],
     );
+  }
+
+  void scrollListandToolTipCall(int index, TherapistList therapistListItem) {
+    if (index > 2 && index != allTherapistList.length - 1) {
+      scrollController
+          .scrollTo(
+              index: index,
+              alignment: 0.5,
+              duration: Duration(milliseconds: 200))
+          .whenComplete(() => showToolTip(
+              globalKeyList[index], context, index, therapistListItem));
+    } else {
+      showToolTip(globalKeyList[index], context, index, therapistListItem);
+    }
   }
 
   Widget bookAgain() {
@@ -321,13 +478,30 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
         ));
   }
 
+  //Method called from ShowtoolTip to refresh the page after TimePicker is Selected
+  updateServiceSelection(int index, Map<int, int> timePriceSelection) {
+    setState(() {
+      if (timePriceSelection.length != 0) {
+        serviceSelection.clear();
+        serviceSelection[allTherapistList[index].name] = timePriceSelection;
+        min = timePriceSelection.keys.first;
+        HealingMatchConstants.selectedMin = min;
+        selectedTime = null;
+        endTime = null;
+      } else {
+        visibility[index] = false;
+      }
+    });
+  }
+
   void showToolTip(var key, BuildContext context, int index,
       TherapistList therapistListItem) {
     var width = MediaQuery.of(context).size.width - 10.0;
     print(width);
-    ShowToolTip popup = ShowToolTip(context,
+    ShowToolTip popup = ShowToolTip(context, updateServiceSelection,
         index: index,
         therapistListItem: therapistListItem,
+        timePrice: serviceSelection[allTherapistList[index].name],
         textStyle: TextStyle(color: Colors.black),
         height: 90,
         width: MediaQuery.of(context).size.width - 20.0, //180,
