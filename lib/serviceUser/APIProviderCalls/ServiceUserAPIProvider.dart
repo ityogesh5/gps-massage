@@ -17,6 +17,7 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/Se
 import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistResultsModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/booking/createBooking.dart';
 import 'package:http/http.dart' as http;
 
 class ServiceUserAPIProvider {
@@ -48,6 +49,7 @@ class ServiceUserAPIProvider {
 
   static RecommendedTherapistModel _recommendedTherapistModel =
       new RecommendedTherapistModel();
+  static CreateBookingModel _bookingTherapistModel = new CreateBookingModel();
 
   // get all therapist users
   static Future<TherapistUsersModel> getAllTherapistUsers(
@@ -349,6 +351,61 @@ class ServiceUserAPIProvider {
       print('Exception Search API : ${e.toString()}');
     }
     return _recommendedTherapistModel;
+  }
+
+  //Create Booking
+  static Future<CreateBookingModel> createBooking(
+      BuildContext context,
+      int therapistId,
+      String startTime,
+      String endTime,
+      int paymentStatus,
+      int subCategoryId,
+      int categoryId,
+      String nameOfService,
+      int totalMinOfService,
+      int priceOfService,
+      int bookingStatus,
+      String locationType,
+      String location,
+      int totalCost,
+      int userReviewStatus,
+      int therapistReviewStatus,
+      String userCommands) async {
+    try {
+      final url = '${HealingMatchConstants.BOOKING_THERAPIST}';
+      final response = await http.post(url,
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": HealingMatchConstants.accessToken
+          },
+          body: json.encode({
+            "therapistId": therapistId,
+            "startTime": startTime,
+            "endTime": endTime,
+            "paymentStatus": paymentStatus,
+            "subCategoryId": subCategoryId,
+            "categoryId": categoryId,
+            "nameOfService": nameOfService,
+            "totalMinOfService": totalMinOfService,
+            "priceOfService": priceOfService,
+            "bookingStatus": bookingStatus,
+            "locationType": locationType,
+            "location": location,
+            "totalCost": totalCost,
+            "userReviewStatus": userReviewStatus,
+            "userCommands": userCommands,
+          }));
+
+      print('booking results Body : ${response.body}');
+      if (response.statusCode == 200) {
+        final bookingResponse = json.decode(response.body);
+        _bookingTherapistModel = CreateBookingModel.fromJson(bookingResponse);
+      }
+    } catch (e) {
+      print('Exception Search API : ${e.toString()}');
+    }
+    return _bookingTherapistModel;
   }
 
   // Get calendar events
