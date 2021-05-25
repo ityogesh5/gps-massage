@@ -15,7 +15,6 @@ import "package:googleapis_auth/auth_io.dart";
 import "package:googleapis/calendar/v3.dart";
 import 'dart:developer';
 
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ServiceProviderApi {
   static const _scopes = const [CalendarApi.calendarScope];
@@ -129,8 +128,6 @@ class ServiceProviderApi {
     final httpClient =
         await clientViaServiceAccount(accountCredentials, _scopes);
     var calendar = CalendarApi(httpClient);
-    DateTime lastMonth = DateTime(2020, 09, 1);
-    DateTime firstMonth = DateTime(2020, 09, 30);
     var calEvents = calendar.events.list(
       "aswin007arun@gmail.com",
       q: "SP15",

@@ -1,9 +1,7 @@
 import 'dart:core';
 import 'dart:ui';
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/customLibraryClasses/flutterTimePickerSpinner/flutter_time_picker_spinner.dart';
 
 class ShowToolTip {
@@ -12,7 +10,7 @@ class ShowToolTip {
   double arrowHeight = 10.0;
   OverlayEntry _entry;
   String _text;
-  TextStyle _textStyle;
+  TextStyle textStyle;
   Offset _offset;
   Rect _showRect;
   bool _isDownArrow = true;
@@ -51,7 +49,7 @@ class ShowToolTip {
     this._isStart = isStart;
     this._time = time;
     this._index = index;
-    this._textStyle = textStyle ??
+    this.textStyle = textStyle ??
         TextStyle(fontWeight: FontWeight.normal, color: Color(0xFF000000));
     this._backgroundColor = backgroundColor ?? Color(0xFFFFA500);
     this._borderRadius = borderRadius ?? BorderRadius.circular(10.0);

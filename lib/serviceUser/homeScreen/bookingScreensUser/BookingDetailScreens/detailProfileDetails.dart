@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 
 class DetailProfileDetails extends StatefulWidget {
@@ -260,6 +261,31 @@ class _DetailProfileDetailsState extends State<DetailProfileDetails> {
                   ),
                 )
               : Container(),
+          Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color.fromRGBO(255, 255, 255, 1),
+                      Color.fromRGBO(255, 255, 255, 1),
+                    ]),
+                shape: BoxShape.rectangle,
+                border: Border.all(
+                  color: Colors.grey[300],
+                ),
+                borderRadius: BorderRadius.circular(5.0),
+                color: Colors.grey[200]),
+            width: MediaQuery.of(context).size.width * 0.90,
+            height: 50.0,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  top: 8.0, left: 12.0, bottom: 8.0, right: 8.0),
+              child: Container(
+                child: getUserAddress(),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -289,6 +315,27 @@ class _DetailProfileDetailsState extends State<DetailProfileDetails> {
           ),
         ),
         SizedBox(width: 10.0),
+      ],
+    );
+  }
+
+  Row getUserAddress() {
+    return Row(
+      children: [
+        SvgPicture.asset('assets/images_gps/gps.svg', height: 16, width: 16),
+        SizedBox(width: 10),
+        buildProileDetailCard(
+            "${HealingMatchConstants.searchUserAddressType}", 9.0),
+        SizedBox(width: 10),
+        Flexible(
+          child: new Text(
+            "${HealingMatchConstants.searchUserAddress}",
+            style: TextStyle(
+                color: Colors.grey[400],
+                fontSize: 12,
+                fontFamily: 'NotoSansJP'),
+          ),
+        ),
       ],
     );
   }

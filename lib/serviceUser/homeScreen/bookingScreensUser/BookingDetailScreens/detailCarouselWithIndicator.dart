@@ -35,6 +35,7 @@ class _DetailCarouselWithIndicatorState
                       child: ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(12.0)),
                           child: Stack(
+                            fit: StackFit.loose,
                             children: <Widget>[
                               CachedNetworkImage(
                                   width: 2000.0,
@@ -62,7 +63,7 @@ class _DetailCarouselWithIndicatorState
                   autoPlayCurve: Curves.easeInOutCubic,
                   enlargeCenterPage: false,
                   viewportFraction: 1.02,
-                  aspectRatio: 2.0,
+                  aspectRatio: 1.5,
                   onPageChanged: (index, reason) {
                     setState(() {
                       _currentIndex = index;
@@ -72,9 +73,9 @@ class _DetailCarouselWithIndicatorState
           ]),
         ),
         Positioned(
-          top: 10.0,
-          left: 10.0,
-          right: 10.0,
+          top: 30.0,
+          left: 20.0,
+          right: 20.0,
           child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
             CircleAvatar(
               maxRadius: 18,

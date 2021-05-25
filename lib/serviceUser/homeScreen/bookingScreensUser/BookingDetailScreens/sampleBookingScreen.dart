@@ -23,6 +23,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
   int status = 0;
   int lastIndex = 999;
   int min = 0;
+  var serviceName, serviceDuration, serviceCostMap, serviceCost;
   ItemScrollController scrollController = ItemScrollController();
   List<bool> visibility = List<bool>();
   List<TherapistList> allTherapistList = List<TherapistList>();
@@ -214,10 +215,25 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
           await ServiceUserAPIProvider.getTherapistDetails(context, widget.id);
       HealingMatchConstants.therapistProfileDetails = therapistDetails;
       //append all Service Types for General View
-      allTherapistList.addAll(therapistDetails.therapistEstheticList);
-      allTherapistList.addAll(therapistDetails.therapistRelaxationList);
-      allTherapistList.addAll(therapistDetails.therapistOrteopathicList);
-      allTherapistList.addAll(therapistDetails.therapistFitnessListList);
+      setState(() {
+        if (HealingMatchConstants.serviceType != 0 &&
+            HealingMatchConstants.serviceType == 1) {
+          allTherapistList.addAll(therapistDetails.therapistEstheticList);
+        }
+        if (HealingMatchConstants.serviceType != 0 &&
+            HealingMatchConstants.serviceType == 2) {
+          allTherapistList.addAll(therapistDetails.therapistRelaxationList);
+        }
+        if (HealingMatchConstants.serviceType != 0 &&
+            HealingMatchConstants.serviceType == 3) {
+          allTherapistList.addAll(therapistDetails.therapistOrteopathicList);
+        }
+        if (HealingMatchConstants.serviceType != 0 &&
+            HealingMatchConstants.serviceType == 1) {
+          allTherapistList.addAll(therapistDetails.therapistFitnessListList);
+        }
+      });
+
       for (int i = 0; i < allTherapistList.length; i++) {
         visibility.add(false);
         globalKeyList.add(GlobalKey());
@@ -392,8 +408,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
         ),
         color: Colors.red,
         onPressed: () {
-          /*NavigationRouter.switchToServiceUserBookingConfirmationScreen(
-              context);*/
+          bookingConfirmField();
         },
         child: new Text(
           'もう一度予約する',
@@ -469,8 +484,18 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
       if (timePriceSelection.length != 0) {
         serviceSelection.clear();
         serviceSelection[allTherapistList[index].name] = timePriceSelection;
+
         min = timePriceSelection.keys.first;
         HealingMatchConstants.selectedMin = min;
+
+        //
+        serviceName = serviceSelection.keys.first;
+        serviceDuration = min;
+        serviceCostMap = serviceSelection[serviceName][serviceDuration];
+        // serviceCost = serviceCostMap[[serviceDuration]];
+
+        print("serviceName:${serviceSelection[allTherapistList[index].name]}");
+
         selectedTime = null;
         endTime = null;
       } else {
@@ -594,5 +619,44 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
       }
     }
     return "";
+  }
+
+  bookingConfirmField() async {
+    setState(() {
+      HealingMatchConstants.confBooking = HealingMatchConstants
+          .therapistProfileDetails.data.uploadProfileImgUrl;
+      HealingMatchConstants.confShopName =
+          HealingMatchConstants.therapistProfileDetails.data.storeName;
+      HealingMatchConstants.confUserName =
+          HealingMatchConstants.therapistProfileDetails.data.userName;
+      HealingMatchConstants.confAddress = HealingMatchConstants
+          .therapistProfileDetails.data.addresses[0].address;
+      HealingMatchConstants.confServiceType =
+          HealingMatchConstants.therapistProfileDetails.data.storeType;
+      HealingMatchConstants.confBuisnessTrip =
+          HealingMatchConstants.therapistProfileDetails.data.businessTrip;
+      HealingMatchConstants.confShop =
+          HealingMatchConstants.therapistProfileDetails.data.isShop;
+      HealingMatchConstants.confCoronaMeasures =
+          HealingMatchConstants.therapistProfileDetails.data.coronaMeasure;
+      HealingMatchConstants.confRatingAvg =
+          HealingMatchConstants.therapistProfileDetails.reviewData.ratingAvg;
+      HealingMatchConstants.confNoOfReviewsMembers = HealingMatchConstants
+          .therapistProfileDetails.reviewData.noOfReviewsMembers;
+      HealingMatchConstants.confNoOfReviewsMembers = HealingMatchConstants
+          .therapistProfileDetails.reviewData.noOfReviewsMembers;
+      HealingMatchConstants.confCertificationUpload = HealingMatchConstants
+          .therapistProfileDetails.data.certificationUploads;
+      HealingMatchConstants.confSelectedDateTime = selectedTime;
+      HealingMatchConstants.confEndDateTime = endTime;
+      HealingMatchConstants.confServiceName = serviceName;
+      HealingMatchConstants.confNoOfServiceDuration = serviceDuration;
+      HealingMatchConstants.confServiceCost = serviceCostMap;
+    });
+
+    print('EndDateTime:${HealingMatchConstants.confEndDateTime.weekday}');
+    print('EndDateTime:${HealingMatchConstants.confEndDateTime.hour}');
+    print('EndDateTime:${HealingMatchConstants.confEndDateTime.month}');
+    NavigationRouter.switchToServiceUserBookingConfirmationScreen(context);
   }
 }

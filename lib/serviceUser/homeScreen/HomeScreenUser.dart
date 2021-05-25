@@ -1229,9 +1229,6 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                                                   .fontFamily,
                                                           color: Color.fromRGBO(
                                                               153, 153, 153, 1),
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .underline,
                                                         ),
                                                       )
                                                     : Text(
@@ -2045,9 +2042,7 @@ class _ReservationListState extends State<ReservationList> {
                               children: [
                                 Text(
                                   '4.0',
-                                  style: TextStyle(
-                                    decoration: TextDecoration.underline,
-                                  ),
+                                  style: TextStyle(),
                                 ),
                                 RatingBar.builder(
                                   ignoreGestures: true,
@@ -2729,22 +2724,12 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                                                 .reviewAvgData !=
                                                             null
                                                         ? Text(
-                                                            therapistUsers[
-                                                                    index]
-                                                                .reviewAvgData,
-                                                            style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .underline,
-                                                            ),
+                                                            '( ${therapistUsers[index].reviewAvgData})',
+                                                            style: TextStyle(),
                                                           )
                                                         : Text(
                                                             '0.0',
-                                                            style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .underline,
-                                                            ),
+                                                            style: TextStyle(),
                                                           ),
                                                     therapistUsers[index]
                                                                 .reviewAvgData !=
@@ -3493,8 +3478,6 @@ class _RecommendListsState extends State<RecommendLists> {
                                                           .fontFamily,
                                                       color: Color.fromRGBO(
                                                           153, 153, 153, 1),
-                                                      decoration: TextDecoration
-                                                          .underline,
                                                     ),
                                                   )
                                                 : Text(
@@ -3504,8 +3487,6 @@ class _RecommendListsState extends State<RecommendLists> {
                                                           .fontFamily,
                                                       color: Color.fromRGBO(
                                                           153, 153, 153, 1),
-                                                      decoration: TextDecoration
-                                                          .underline,
                                                     ),
                                                   ),
                                             widget.getRecommendedTherapists[index]

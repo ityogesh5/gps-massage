@@ -7,10 +7,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/event.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/ProviderDetailsResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart'
     as providerLogin;
 import 'package:gps_massageapp/models/responseModels/serviceProvider/messageServicePriceModel.dart';
-import 'package:gps_massageapp/models/responseModels/serviceProvider/ProviderDetailsResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/RecommendTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/profileUpdateResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistResultsModel.dart';
@@ -21,11 +21,12 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 
 class HealingMatchConstants {
   static const String ON_PREMISE_USER_BASE_URL =
-      //  "http://106.51.49.160:9087/api";//Dev Work IP
+      "http://106.51.49.160:9087/api";
+  // "http://103.92.19.158:9087/api"; //secondary backup IP
 
-      "http://103.92.19.158:9087/api"; //Sec Backup IP
+  // Development data URL == http://106.51.49.160:9087/api
 
-  // "http://106.51.49.160:9094/api";//Build IP
+  // Testing data URL == "http://106.51.49.160:9094/api";
 
 // get therapist list By ID
   static const String THERAPIST_USER_BY_ID_URL =
@@ -386,7 +387,7 @@ class HealingMatchConstants {
   static const String changePasswordConfirmpass = "パスワード（確認用）*";
   static const String changePasswordBtn = 'パスワードを再設定する';
   static const String changeResendOtp = '認証コードを再送する';
-  static var ProviderPhnNum = '';
+  static var providerPhnNum = '';
 
   //Edit Profile
   static const String profileUpdateBtn = '更新';
@@ -422,6 +423,24 @@ class HealingMatchConstants {
   static int selectedMin = 0;
   static List<FlutterWeekViewEvent> userEvents = List<FlutterWeekViewEvent>();
 
+  // User Booking Confirmation
+  static String confBooking = '';
+  static String confShopName = '';
+  static String confUserName = '';
+  static var confServiceType = '';
+  static String confRatingAvg = '';
+  static String confAddress = '';
+  static String confServiceName = '';
+  static int confNoOfReviewsMembers;
+  static var confNoOfServiceDuration;
+  static var confServiceCost;
+  static var confCertificationUpload;
+  static bool confBuisnessTrip;
+  static bool confShop;
+  static bool confCoronaMeasures;
+  static DateTime confSelectedDateTime;
+  static DateTime confEndDateTime;
+
   //User Token
   static String uAccessToken = '';
 
@@ -443,7 +462,7 @@ class HealingMatchConstants {
 
   static var userEditUserId;
   static var userAddressId;
-  static var userDeviceToken;
+  static var userDeviceToken = '';
 
   static String userEditUserName = '';
   static String userEditPhoneNumber = '';
@@ -470,7 +489,8 @@ class HealingMatchConstants {
   static String addedServiceUserPrefecture = '';
   static String addedServiceUserCity = '';
   static String manualUserAddress = '';
-  static String searchUserAddress;
+  static String searchUserAddress = '';
+  static String searchUserAddressType = '';
   static bool isLocationCriteria = true;
   static bool isTimeCriteria = true;
   static int serviceType = 0;
@@ -493,6 +513,7 @@ class HealingMatchConstants {
 
   // User Home screen
   static int serviceTypeValue = 0;
+  static var serviceDistanceRadius;
   static List<String> userBannerImages = [];
   static int therapistId = 0;
   static List<RecommendTherapistList> getRecommendedTherapists = [];

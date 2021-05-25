@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 
-class NoticeScreenUser extends StatefulWidget {
+class NotifyScreenUser extends StatefulWidget {
   @override
   _NoticeScreenUserState createState() => _NoticeScreenUserState();
 }
 
-class _NoticeScreenUserState extends State<NoticeScreenUser>
+class _NoticeScreenUserState extends State<NotifyScreenUser>
     with SingleTickerProviderStateMixin {
   bool _value = false;
   int _tabIndex = 0;
@@ -487,19 +487,6 @@ class _NoticeScreenUserState extends State<NoticeScreenUser>
                                               color: Color.fromRGBO(
                                                   153, 153, 153, 1),
                                               fontSize: 12)),
-                                      SizedBox(height: 8),
-                                      CircleAvatar(
-                                          radius: 12,
-                                          backgroundColor:
-                                              Color.fromRGBO(200, 217, 33, 1),
-                                          child: Text(
-                                            '0',
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                fontFamily: 'NotoSansJP',
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold),
-                                          )),
                                       SizedBox(height: 20),
                                     ],
                                   ),

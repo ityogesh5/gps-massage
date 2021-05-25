@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
-import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
 // Loader HomePage

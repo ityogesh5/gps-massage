@@ -74,7 +74,6 @@ class LineLoginHelper {
       if (result.data != null) {
         var accessToken = await getAccessToken();
         var displayName = result.userProfile.displayName;
-        var statusMessage = result.userProfile.statusMessage;
         var imgUrl = result.userProfile.pictureUrl;
         var userId = result.userProfile.userId;
         var userProfile = result.userProfile;
