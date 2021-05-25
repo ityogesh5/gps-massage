@@ -200,8 +200,8 @@ class User {
 
 class RecommendedTherapistAddress {
   int id;
-  double lat;
-  double lon;
+  dynamic lat;
+  dynamic lon;
   Geomet geomet;
   String address;
   String capitalAndPrefecture;
@@ -252,13 +252,13 @@ class RecommendedTherapistAddress {
 
 class Geomet {
   String type;
-  List<double> coordinates;
+  List<dynamic> coordinates;
 
   Geomet({this.type, this.coordinates});
 
   Geomet.fromJson(Map<String, dynamic> json) {
     type = json['type'];
-    coordinates = json['coordinates'].cast<double>();
+    coordinates = json['coordinates'].cast<dynamic>();
   }
 
   Map<String, dynamic> toJson() {

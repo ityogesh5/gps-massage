@@ -20,7 +20,8 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 
 class HealingMatchConstants {
   static const String ON_PREMISE_USER_BASE_URL =
-      "http://106.51.49.160:9087/api";
+      'http://106.51.49.160:9087/api';
+  // BUILD TESTING URL SECONDARY IP == "http://103.92.19.158:9087/api";
 
   // Development data URL == http://106.51.49.160:9087/api
 
@@ -156,6 +157,14 @@ class HealingMatchConstants {
   // fetch therapist results
   static const String FETCH_SORTED_THERAPIST_SEARCH_RESULTS =
       ON_PREMISE_USER_BASE_URL + '/search/searchServiceUserByOrder';
+
+  // Favorite Therapist
+  static const String DO_FAVOURITE_THERAPIST =
+      ON_PREMISE_USER_BASE_URL + '/favourite/favouriteTherapistCreate';
+
+  // Un Favorite Therapist
+  static const String UNDO_FAVOURITE_THERAPIST =
+      ON_PREMISE_USER_BASE_URL + '/favourite/unFavouriteTherapist';
 
   //Common string
   static bool isInternetAvailable = false;

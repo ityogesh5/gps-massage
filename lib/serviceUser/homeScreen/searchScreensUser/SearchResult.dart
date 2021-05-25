@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:favorite_button/favorite_button.dart';
@@ -642,6 +642,21 @@ class _SearchResultState extends State<SearchResult> {
                                                                           (_isFavorite) {
                                                                         print(
                                                                             'Is Favorite : $_isFavorite');
+                                                                        if (_isFavorite !=
+                                                                                null &&
+                                                                            _isFavorite) {
+                                                                          // call favorite therapist API
+                                                                          ServiceUserAPIProvider.favouriteTherapist(widget
+                                                                              .getTherapistsSearchResults[index]
+                                                                              .user
+                                                                              .id);
+                                                                        } else {
+                                                                          // call un-favorite therapist API
+                                                                          ServiceUserAPIProvider.unFavouriteTherapist(widget
+                                                                              .getTherapistsSearchResults[index]
+                                                                              .user
+                                                                              .id);
+                                                                        }
                                                                       }),
                                                             ),
                                                           ],
@@ -1832,6 +1847,22 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                                                                           (_isFavorite) {
                                                                         print(
                                                                             'Is Favorite : $_isFavorite');
+
+                                                                        if (_isFavorite !=
+                                                                                null &&
+                                                                            _isFavorite) {
+                                                                          // call favorite therapist API
+                                                                          ServiceUserAPIProvider.favouriteTherapist(widget
+                                                                              .getTherapistsSearchResults[index]
+                                                                              .user
+                                                                              .id);
+                                                                        } else {
+                                                                          // call un-favorite therapist API
+                                                                          ServiceUserAPIProvider.unFavouriteTherapist(widget
+                                                                              .getTherapistsSearchResults[index]
+                                                                              .user
+                                                                              .id);
+                                                                        }
                                                                       }),
                                                             ),
                                                           ],
