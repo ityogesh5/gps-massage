@@ -15,7 +15,6 @@ import "package:googleapis_auth/auth_io.dart";
 import "package:googleapis/calendar/v3.dart";
 import 'dart:developer';
 
-
 class ServiceProviderApi {
   static const _scopes = const [CalendarApi.calendarScope];
 
@@ -329,6 +328,34 @@ class ServiceProviderApi {
       }
     } catch (e) {
       print('Exception : ${e.toString()}');
+    }
+  }
+
+  static Future<bool> saveFirebaseUserID(String firebaseID, BuildContext context) async {
+    try {
+      final url = HealingMatchConstants.FIREBASE_UPDATE_USERID;
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '${HealingMatchConstants.accessToken}'
+      };
+      final response = await http.post(url,
+          headers: headers,
+          body: json.encode({
+            "id": HealingMatchConstants.userId,
+            "isTherapist": 1,
+            "firebaseUDID": firebaseID
+          }));
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    } catch (e) {
+      print('Exception : ${e.toString()}');
+      return false;
     }
   }
 }

@@ -41,6 +41,7 @@ class Data {
     this.userId,
     this.email,
     this.phoneNumber,
+    this.firebaseUDID,
     this.fcmToken,
     this.lineBotUserId,
     this.appleUserId,
@@ -83,6 +84,7 @@ class Data {
   String userId;
   String email;
   int phoneNumber;
+  String firebaseUDID;
   dynamic fcmToken;
   dynamic lineBotUserId;
   dynamic appleUserId;
@@ -125,6 +127,7 @@ class Data {
         userId: json["userId"],
         email: json["email"],
         phoneNumber: json["phoneNumber"],
+        firebaseUDID: json["firebaseUDID"],
         fcmToken: json["fcmToken"],
         lineBotUserId: json["lineBotUserId"],
         appleUserId: json["appleUserId"],
@@ -175,6 +178,7 @@ class Data {
         "userId": userId,
         "email": email,
         "phoneNumber": phoneNumber,
+        "firebaseUDID":firebaseUDID,
         "fcmToken": fcmToken,
         "lineBotUserId": lineBotUserId,
         "appleUserId": appleUserId,

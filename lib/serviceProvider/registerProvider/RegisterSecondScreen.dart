@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/auth.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
@@ -15,6 +16,7 @@ import 'package:gps_massageapp/models/responseModels/serviceProvider/bankNameDro
     as Bank;
 import 'package:gps_massageapp/models/responseModels/serviceProvider/registerProviderResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
 import 'package:gps_massageapp/utils/text_field_custom.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
@@ -1340,6 +1342,24 @@ class _RegistrationSecondPageState
         RegisterResponseModel registerResponseModel =
             RegisterResponseModel.fromJson(json.decode(response.body));
         Data userData = registerResponseModel.data;
+        HealingMatchConstants.userId = userData.id;
+        Auth()
+            .signUp(
+                userData.storeName != null && userData.storeName != ''
+                    ? userData.storeName
+                    : userData.userName,
+                userData.email,
+                "password",
+                userData.uploadProfileImgUrl,
+                1,
+                userData.id)
+            .then((value) {
+          if (value != null) {
+            ServiceProviderApi.saveFirebaseUserID(value, context);
+            userData.firebaseUDID = value;
+            
+          }
+        });
         sharedPreferences.setString("userData", json.encode(userData));
         sharedPreferences.setString(
             "accessToken", registerResponseModel.accessToken);

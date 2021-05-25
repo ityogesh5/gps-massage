@@ -113,6 +113,9 @@ class HealingMatchConstants {
   static const String THERAPIST_SHIFT_TIME_SAVE =
       ON_PREMISE_USER_BASE_URL + "/storeServicetime" + "/storeServicetimeMange";
 
+  static const String FIREBASE_UPDATE_USERID =
+      ON_PREMISE_USER_BASE_URL + "/firebase/firebaseUserIdUpdate";
+
   // // get Users list By ID
   // static const String THERAPIST_USER_BY_ID_URL =
   //     ON_PREMISE_USER_BASE_URL + '/user' + '/therapistUserbyId';
