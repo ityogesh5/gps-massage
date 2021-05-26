@@ -1132,12 +1132,58 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                             ],
                                           ),
                                         ));
-                                      } else {
-                                        _updateUserFormKey.currentState.save();
-                                        NavigationRouter
-                                            .switchToUserAddAddressScreen(
-                                                context, refreshPage);
+                                        return;
                                       }
+                                      if (constantUserAddressValuesList
+                                                  .length ==
+                                              1 &&
+                                          HealingMatchConstants
+                                                  .userAddressesList.length ==
+                                              2) {
+                                        _scaffoldKey.currentState
+                                            .showSnackBar(SnackBar(
+                                          backgroundColor:
+                                              ColorConstants.snackBarColor,
+                                          duration: Duration(seconds: 3),
+                                          content: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Flexible(
+                                                child: Text(
+                                                    'ユーザーは3つの住所のみを更新できます！',
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    maxLines: 2,
+                                                    style: TextStyle(
+                                                        fontFamily:
+                                                            'NotoSansJP')),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  _scaffoldKey.currentState
+                                                      .hideCurrentSnackBar();
+                                                },
+                                                child: Text('はい',
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        decoration:
+                                                            TextDecoration
+                                                                .underline)),
+                                              ),
+                                            ],
+                                          ),
+                                        ));
+                                        return;
+                                      }
+                                      _updateUserFormKey.currentState.save();
+                                      NavigationRouter
+                                          .switchToUserAddAddressScreen(
+                                              context, refreshPage);
                                     },
                                   ),
                                   hintStyle: TextStyle(
@@ -1238,7 +1284,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                   child: WidgetAnimator(
                                                     TextFormField(
                                                       //display the address
-                                                      readOnly: false,
+                                                      readOnly: true,
                                                       autofocus: isFocus,
                                                       initialValue:
                                                           constantUserAddressValuesList[
@@ -1321,18 +1367,19 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                               suffixIcon:
                                                                   IconButton(
                                                                 icon: Icon(
-                                                                    Icons.edit,
+                                                                    Icons
+                                                                        .remove_circle,
                                                                     size: 25,
                                                                     color: Colors
                                                                         .black),
                                                                 onPressed: () {
                                                                   setState(() {
-                                                                    isFocus =
-                                                                        true;
+                                                                    constantUserAddressValuesList
+                                                                        .removeAt(
+                                                                            index);
                                                                   });
                                                                   //Delete Value at index
-                                                                  /*constantUserAddressValuesList
-                                                                    .removeAt(index);*/
+
                                                                   var position =
                                                                       constantUserAddressValuesList[
                                                                           index];
@@ -2302,7 +2349,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           _myCity +
           ',' +
           _myPrefecture;
-      String address = Platform.isIOS ? _myCity + ',' + _myPrefecture : manualUserAddress;
+      String address =
+          Platform.isIOS ? _myCity + ',' + _myPrefecture : manualUserAddress;
       List<Placemark> userAddress =
           await geoLocator.placemarkFromAddress(address);
       userAddedAddressPlaceMark = userAddress[0];

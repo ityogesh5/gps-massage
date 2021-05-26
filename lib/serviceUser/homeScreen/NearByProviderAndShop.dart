@@ -2147,7 +2147,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                     decoration: BoxDecoration(
                         color: Colors.white,
                         border: Border.all(
-                          color: Colors.transparent,
+                          color: Colors.grey[300],
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(30.0))),
                     child: Center(child: MassageTypeChips()),
@@ -2384,6 +2384,7 @@ class _MassageTypeChipsState extends State<MassageTypeChips>
       child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
                 height: MediaQuery.of(context).size.height * 0.04,
