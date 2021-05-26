@@ -11,6 +11,7 @@ import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dar
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/booking/createBooking.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 
 double ratingsValue = 4.0;
 bool checkValue = false;
@@ -472,10 +473,10 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
               ),
             ),
             HealingMatchConstants.confServiceAddressType.contains('店舗')
-                ? SizedBox(height: 0)
+                ? SizedBox.shrink()
                 : SizedBox(height: 20),
             HealingMatchConstants.confServiceAddressType.contains('店舗')
-                ? Container()
+                ? SizedBox.shrink()
                 : Column(
                     children: [
                       Container(
@@ -897,6 +898,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
   }
 
   _updateUserBookingDetails() async {
+    ProgressDialogBuilder.showOverlayLoader(context);
     int therapistId = HealingMatchConstants.confTherapistId;
     String startTime =
         HealingMatchConstants.confSelectedDateTime.toLocal().toString();
@@ -942,7 +944,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
           selectedBuildingType.toString();
       print('Entering on else : ${HealingMatchConstants.selectedBookingPlace}');
     }*/
-    // NavigationRouter.switchToServiceUserReservationAndFavourite(context);
+
     try {
       createBooking = await ServiceUserAPIProvider.createBooking(
           context,
@@ -965,6 +967,8 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
     } catch (e) {
       print(e.toString());
     }
+    ProgressDialogBuilder.hideLoader(context);
+    NavigationRouter.switchToServiceUserReservationAndFavourite(context);
   }
 }
 

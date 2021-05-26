@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
+import 'package:readmore/readmore.dart';
 
 class DetailProfileDetails extends StatefulWidget {
   final TherapistByIdModel therapistDetails;
@@ -246,10 +247,25 @@ class _DetailProfileDetailsState extends State<DetailProfileDetails> {
                             fontSize: 14.0, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 7.0),
-                      Text(
+                      ReadMoreText(
                         "${widget.therapistDetails.data.storeDescription}",
                         style: TextStyle(
-                            fontSize: 12.0, fontWeight: FontWeight.normal),
+                          color: Color.fromRGBO(102, 102, 102, 1),
+                          fontSize: 12,
+                        ),
+                        trimLines: 2,
+                        colorClickableText: Colors.black,
+                        trimMode: TrimMode.Line,
+                        trimCollapsedText: 'もっとみる',
+                        trimExpandedText: 'Show less',
+                        moreStyle: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.underline),
+                        lessStyle: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.underline),
                       ),
 
                       //Divider

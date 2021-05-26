@@ -411,7 +411,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
           bookingConfirmField();
         },
         child: new Text(
-          'もう一度予約する',
+          '予約に進む',
           style: TextStyle(
               color: Colors.white,
               fontFamily: 'NotoSansJP',

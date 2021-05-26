@@ -7,6 +7,7 @@ import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper
 import 'package:gps_massageapp/customLibraryClasses/bookingTimeToolTip/bookingTimeToolTip.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/BookingDetailsCompletedScreenOne.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/detailCarouselWithIndicator.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/detailPeofileDetailsHome.dart';
@@ -34,6 +35,10 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
   List<TherapistList> allTherapistList = List<TherapistList>();
   List<GlobalKey> globalKeyList = List<GlobalKey>();
   List<String> bannerImages = List<String>();
+  Map<String, Map<int, int>> serviceSelection = Map<String, Map<int, int>>();
+  DateTime selectedTime, endTime;
+  int min = 0;
+  var serviceName, serviceDuration, serviceCostMap, serviceCost, subCategoryId;
 
   String defaultBannerUrl =
       "https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80";
@@ -126,13 +131,49 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                     DetailCarouselWithIndicator(bannerImages),
                     DetailPeofileDetailsHome(therapistDetails, widget.id),
                     buildServiceTypeDatas(context),
-                    buildServices(context),
+                    _value != 0 ? buildServices(context) : Container(),
+                    dateTimeInfoBuilder(context),
                   ],
                 ),
               ),
             ),
             bottomNavigationBar: bookAgain(),
           );
+  }
+
+  dateTimeInfoBuilder(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 4.0,
+        left: 14.0,
+        bottom: 4.0,
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color.fromRGBO(255, 255, 255, 1),
+                  Color.fromRGBO(255, 255, 255, 1),
+                ]),
+            shape: BoxShape.rectangle,
+            border: Border.all(
+              color: Colors.grey[300],
+            ),
+            borderRadius: BorderRadius.circular(5.0),
+            color: Colors.grey[200]),
+        width: MediaQuery.of(context).size.width * 0.90,
+        height: 90.0,
+        child: Padding(
+          padding: const EdgeInsets.only(
+              top: 8.0, left: 12.0, bottom: 8.0, right: 8.0),
+          child: Container(
+            child: buildDateTimeDetails(),
+          ),
+        ),
+      ),
+    );
   }
 
   Column buildServiceTypeDatas(BuildContext context) {
@@ -454,33 +495,26 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
         InkWell(
           key: globalKeyList[index],
           onTap: () {
-            /* if (lastIndex == 999) {
+            if (lastIndex == 999) {
               setState(() {
                 visibility[index] = true;
                 lastIndex = index;
               });
+              scrollListandToolTipCall(index, therapistListItem);
             } else if (visibility[index]) {
-              setState(() {
+              scrollListandToolTipCall(index, therapistListItem);
+              /* setState(() {
+                serviceSelection.clear();
                 visibility[lastIndex] = false;
-              });
+              }); */
             } else {
               setState(() {
+                serviceSelection.clear();
                 visibility[lastIndex] = false;
                 visibility[index] = true;
                 lastIndex = index;
               });
-            } */
-            if (index > 2 && index != allTherapistList.length - 1) {
-              scrollController
-                  .scrollTo(
-                      index: index,
-                      alignment: 0.5,
-                      duration: Duration(milliseconds: 200))
-                  .whenComplete(() => showToolTip(
-                      globalKeyList[index], context, index, therapistListItem));
-            } else {
-              showToolTip(
-                  globalKeyList[index], context, index, therapistListItem);
+              scrollListandToolTipCall(index, therapistListItem);
             }
           },
           child: Column(
@@ -526,6 +560,20 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
         ),
       ],
     );
+  }
+
+  void scrollListandToolTipCall(int index, TherapistList therapistListItem) {
+    if (index > 2 && index != allTherapistList.length - 1) {
+      scrollController
+          .scrollTo(
+              index: index,
+              alignment: 0.5,
+              duration: Duration(milliseconds: 200))
+          .whenComplete(() => showToolTip(
+              globalKeyList[index], context, index, therapistListItem));
+    } else {
+      showToolTip(globalKeyList[index], context, index, therapistListItem);
+    }
   }
 
   Widget bookAgain() {
@@ -614,9 +662,10 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
       TherapistList therapistListItem) {
     var width = MediaQuery.of(context).size.width - 10.0;
     print(width);
-    ShowToolTip popup = ShowToolTip(context, updateServiceSelection(),
+    ShowToolTip popup = ShowToolTip(context, updateServiceSelection,
         index: index,
         therapistListItem: therapistListItem,
+        timePrice: serviceSelection[allTherapistList[index].name],
         textStyle: TextStyle(color: Colors.black),
         height: 90,
         width: MediaQuery.of(context).size.width - 20.0, //180,
@@ -630,7 +679,141 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
     );
   }
 
-  updateServiceSelection() {}
+  Widget buildDateTimeDetails() {
+    return Row(
+      children: [
+        selectedTime != null
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SvgPicture.asset('assets/images_gps/calendar.svg',
+                            height: 16, width: 16),
+                        SizedBox(width: 10),
+                        new Text(
+                          '${selectedTime.day}月${selectedTime.month}:',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                              fontFamily: 'NotoSansJP'),
+                        ),
+                        SizedBox(width: 5),
+                        new Text(
+                          "月曜日",
+                          style: TextStyle(
+                              color: Colors.grey[400],
+                              fontSize: 12,
+                              fontFamily: 'NotoSansJP'),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SvgPicture.asset('assets/images_gps/clock.svg',
+                            height: 14, width: 14),
+                        SizedBox(width: 7),
+                        new Text(
+                          '${selectedTime.hour}:${selectedTime.minute} ～ ${endTime.hour}:${endTime.minute}',
+                          style: TextStyle(
+                              color: Colors.grey[400],
+                              fontSize: 12,
+                              fontFamily: 'NotoSansJP'),
+                        ),
+                        SizedBox(width: 5),
+                        new Text(
+                          '$min分',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                              fontFamily: 'NotoSansJP'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              )
+            : Text(
+                'サービスを受ける日時を \nカレンダーから選択してください',
+                style: TextStyle(
+                    color: Colors.grey[400],
+                    fontSize: 12,
+                    fontFamily: 'NotoSansJP'),
+              ),
+        Spacer(),
+        InkWell(
+          onTap: () {
+            HealingMatchConstants.callBack = updateDateTimeSelection;
+            NavigationRouter.switchToUserChooseDate(context);
+          },
+          child: Card(
+            shape: CircleBorder(),
+            elevation: 8.0,
+            child: CircleAvatar(
+              maxRadius: 20,
+              backgroundColor: Color.fromRGBO(217, 217, 217, 1),
+              child: CircleAvatar(
+                maxRadius: 38,
+                backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+                child: SvgPicture.asset(
+                  'assets/images_gps/calendar.svg',
+                  height: 20,
+                  width: 20,
+                  color: Color.fromRGBO(200, 217, 33, 1),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void updateDateTimeSelection(DateTime time) {
+    setState(() {
+      selectedTime = time;
+      endTime = DateTime(
+          selectedTime.year,
+          selectedTime.month,
+          selectedTime.day,
+          selectedTime.hour,
+          selectedTime.minute + min,
+          selectedTime.second);
+    });
+  }
+
+  //Method called from ShowtoolTip to refresh the page after TimePicker is Selected
+  updateServiceSelection(int index, Map<int, int> timePriceSelection) {
+    setState(() {
+      if (timePriceSelection.length != 0) {
+        serviceSelection.clear();
+        serviceSelection[allTherapistList[index].name] = timePriceSelection;
+
+        min = timePriceSelection.keys.first;
+        HealingMatchConstants.selectedMin = min;
+
+        //
+        serviceName = serviceSelection.keys.first;
+        serviceDuration = min;
+        serviceCostMap = serviceSelection[serviceName][serviceDuration];
+        // serviceCost = serviceCostMap[[serviceDuration]];
+        subCategoryId = serviceSelection[serviceName][index];
+
+        print("serviceName:${serviceSelection[allTherapistList[index].name]}");
+
+        selectedTime = null;
+        endTime = null;
+      } else {
+        visibility[index] = false;
+      }
+    });
+  }
 
   String assignServiceIcon(String name, int cid) {
     //Esthetic

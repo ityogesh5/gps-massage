@@ -14,6 +14,7 @@ import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomTog
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
+import 'package:readmore/readmore.dart';
 import 'package:toast/toast.dart';
 
 class DetailPeofileDetailsHome extends StatefulWidget {
@@ -263,10 +264,25 @@ class _DetailPeofileDetailsHomeState extends State<DetailPeofileDetailsHome> {
                             fontSize: 14.0, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 7.0),
-                      Text(
+                      ReadMoreText(
                         "${widget.therapistDetails.data.storeDescription}",
                         style: TextStyle(
-                            fontSize: 12.0, fontWeight: FontWeight.normal),
+                          color: Color.fromRGBO(102, 102, 102, 1),
+                          fontSize: 12,
+                        ),
+                        trimLines: 2,
+                        colorClickableText: Colors.black,
+                        trimMode: TrimMode.Line,
+                        trimCollapsedText: 'もっとみる',
+                        trimExpandedText: 'Show less',
+                        moreStyle: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.underline),
+                        lessStyle: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.underline),
                       ),
 
                       //Divider
@@ -690,7 +706,6 @@ class _DetailPeofileDetailsHomeState extends State<DetailPeofileDetailsHome> {
               AnimatedButton(
                   text: 'Ok',
                   pressEvent: () {
-                    _userDetailsFormKey.currentState.save();
                     if (address != null && placeForMassage != null) {
                       if (this.mounted) {
                         setState(() {
