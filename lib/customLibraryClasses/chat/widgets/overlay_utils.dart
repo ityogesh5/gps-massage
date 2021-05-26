@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:simple_animations/simple_animations.dart';
 
-import '../consts.dart';
 // import 'package:simple_animations/simple_animations.dart';
 
 class OverlayUtils {

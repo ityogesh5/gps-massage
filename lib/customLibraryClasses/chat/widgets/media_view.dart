@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:whatsapp_clone/consts.dart';
-import 'package:whatsapp_clone/widgets/video_player.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/customLibraryClasses/chat/widgets/video_player.dart';
 
 class MediaView extends StatelessWidget {
   final String url;

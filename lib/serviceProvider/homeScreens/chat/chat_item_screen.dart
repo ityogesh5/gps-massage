@@ -495,11 +495,11 @@ class _ChatItemScreenState extends State<ChatItemScreen> {
                                     _isTyping = false;
                                   }
                                 }
-                                if (_isTyping) {
+                              /*   if (_isTyping) {
                                   _updateTypingStatus(_isTyping, userId);
                                 } else {
                                   _updateTypingStatus(false, userId);
-                                }
+                                } */
                               });
                             }
                           },
@@ -517,7 +517,7 @@ class _ChatItemScreenState extends State<ChatItemScreen> {
                                   size: 30, color: Colors.white),
                               onPressed: () {
                                 send();
-                                _updateTypingStatus(false, userId);
+                             //   _updateTypingStatus(false, userId);
                               },
                             ),
                           ),
