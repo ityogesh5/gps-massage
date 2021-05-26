@@ -73,7 +73,6 @@ class _UserLoginState extends State<UserLogin> {
                   value.setBool('userLoginSkipped', true);
                   _getFCMToken();
                 });
-                NavigationRouter.switchToServiceUserBottomBar(context);
               },
               child: Text(
                 HealingMatchConstants.loginUserSkipText,
@@ -636,6 +635,8 @@ class _UserLoginState extends State<UserLogin> {
   _getGuestUserAccessToken() async {
     try {
       print('Api not provided for Skip !!');
+      return;
+      //NavigationRouter.switchToServiceUserBottomBar(context);
     } catch (e) {
       print('Skip exception : ${e.toString()}');
     }
