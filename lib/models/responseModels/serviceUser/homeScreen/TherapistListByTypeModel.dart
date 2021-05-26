@@ -199,14 +199,14 @@ class User {
 
 class TherapistTypeAddress {
   int id;
-  double lat;
-  double lon;
+  dynamic lat;
+  dynamic lon;
   Geomet geomet;
   String address;
   String capitalAndPrefecture;
   String cityName;
   String area;
-  double distance;
+  dynamic distance;
 
   TherapistTypeAddress(
       {this.id,

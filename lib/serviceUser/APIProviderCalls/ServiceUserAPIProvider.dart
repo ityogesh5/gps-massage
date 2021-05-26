@@ -7,6 +7,8 @@ import 'package:googleapis_auth/auth_io.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/event.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/FavouriteTherapistModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/UnFavouriteTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/RecommendTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
@@ -50,6 +52,11 @@ class ServiceUserAPIProvider {
   static RecommendedTherapistModel _recommendedTherapistModel =
       new RecommendedTherapistModel();
   static CreateBookingModel _bookingTherapistModel = new CreateBookingModel();
+
+  static FavouriteTherapist _favouriteTherapist = new FavouriteTherapist();
+
+  static UnFavouriteTherapist _unFavouriteTherapist =
+      new UnFavouriteTherapist();
 
   // get all therapist users
   static Future<TherapistUsersModel> getAllTherapistUsers(
@@ -406,6 +413,59 @@ class ServiceUserAPIProvider {
       print('Exception Search API : ${e.toString()}');
     }
     return _bookingTherapistModel;
+  }
+
+  // favourite therapist
+  static Future<FavouriteTherapist> favouriteTherapist(var therapistID) async {
+    try {
+      final url = '${HealingMatchConstants.DO_FAVOURITE_THERAPIST}';
+      final response = await http.post(url,
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": HealingMatchConstants.accessToken
+          },
+          body: json.encode({
+            "therapistId": therapistID,
+          }));
+      print('FavouriteTherapist Body : ${response.body}');
+      print('statusCode : ${response.statusCode}');
+      if (response.statusCode == 200) {
+        final getResponse = json.decode(response.body);
+        _favouriteTherapist = FavouriteTherapist.fromJson(getResponse);
+      } else {
+        print('Favourite API Request failed !!');
+      }
+    } catch (e) {
+      print('Exception FavouriteTherapist API : ${e.toString()}');
+    }
+    return _favouriteTherapist;
+  }
+
+  // un-favourite therapist
+  static Future<UnFavouriteTherapist> unFavouriteTherapist(
+      var therapistID) async {
+    try {
+      final url = '${HealingMatchConstants.UNDO_FAVOURITE_THERAPIST}';
+      final response = await http.post(url,
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": HealingMatchConstants.accessToken
+          },
+          body: json.encode({
+            "therapistId": therapistID,
+          }));
+      print('UnFavourite therapist response : ${response.body}');
+      print('statusCode : ${response.statusCode}');
+      if (response.statusCode == 200) {
+        final getResponse = json.decode(response.body);
+        _unFavouriteTherapist = UnFavouriteTherapist.fromJson(getResponse);
+      } else {
+        print('Un Favourite API Request failed !!');
+      }
+    } catch (e) {
+      print('Exception UnFavouriteTherapist API : ${e.toString()}');
+    }
+    return _unFavouriteTherapist;
   }
 
   // Get calendar events

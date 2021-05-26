@@ -459,15 +459,25 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                     buildProileDetailCard(
                         "${HealingMatchConstants.confServiceAddressType}", 12),
                     SizedBox(width: 10),
-                    Flexible(
-                      child: new Text(
-                        "${HealingMatchConstants.confServiceAddress}",
-                        style: TextStyle(
-                            color: Colors.grey[400],
-                            fontSize: 14,
-                            fontFamily: 'NotoSansJP'),
-                      ),
-                    ),
+                    HealingMatchConstants.confServiceAddressType.contains('店舗')
+                        ? Flexible(
+                            child: new Text(
+                              "${HealingMatchConstants.confAddress}",
+                              style: TextStyle(
+                                  color: Colors.grey[400],
+                                  fontSize: 14,
+                                  fontFamily: 'NotoSansJP'),
+                            ),
+                          )
+                        : Flexible(
+                            child: new Text(
+                              "${HealingMatchConstants.confServiceAddress}",
+                              style: TextStyle(
+                                  color: Colors.grey[400],
+                                  fontSize: 14,
+                                  fontFamily: 'NotoSansJP'),
+                            ),
+                          ),
                   ],
                 ),
               ),

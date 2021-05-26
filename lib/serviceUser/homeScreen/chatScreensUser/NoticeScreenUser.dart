@@ -1,6 +1,8 @@
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 
@@ -52,6 +54,13 @@ class _NoticeScreenUserState extends State<NotifyScreenUser>
     setState(() {
       _tabIndex = _tabController.index;
       print("Tab Index : $_tabIndex");
+      if (_tabIndex == 1) {
+        Loader.show(context,
+            progressIndicator: SpinKitThreeBounce(color: Colors.lime));
+        Future.delayed(Duration(seconds: 2), () {
+          Loader.hide();
+        });
+      }
     });
   }
 

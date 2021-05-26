@@ -7,7 +7,6 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityHelper.dart';
@@ -915,6 +914,25 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                               (_isFavorite) {
                                                             print(
                                                                 'Is Favorite : $_isFavorite');
+                                                            if (_isFavorite !=
+                                                                    null &&
+                                                                _isFavorite) {
+                                                              // call favorite therapist API
+                                                              ServiceUserAPIProvider
+                                                                  .favouriteTherapist(
+                                                                      therapistUsers[
+                                                                              index]
+                                                                          .user
+                                                                          .id);
+                                                            } else {
+                                                              // call un-favorite therapist API
+                                                              ServiceUserAPIProvider
+                                                                  .unFavouriteTherapist(
+                                                                      therapistUsers[
+                                                                              index]
+                                                                          .user
+                                                                          .id);
+                                                            }
                                                           }),
                                                     ],
                                                   ),
@@ -1688,6 +1706,25 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                               (_isFavorite) {
                                                             print(
                                                                 'Is Favorite : $_isFavorite');
+                                                            if (_isFavorite !=
+                                                                    null &&
+                                                                _isFavorite) {
+                                                              // call favorite therapist API
+                                                              ServiceUserAPIProvider
+                                                                  .favouriteTherapist(widget
+                                                                      .getTherapistByType[
+                                                                          index]
+                                                                      .user
+                                                                      .id);
+                                                            } else {
+                                                              // call un-favorite therapist API
+                                                              ServiceUserAPIProvider
+                                                                  .unFavouriteTherapist(widget
+                                                                      .getTherapistByType[
+                                                                          index]
+                                                                      .user
+                                                                      .id);
+                                                            }
                                                           }),
                                                     ],
                                                   ),
@@ -2110,7 +2147,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                     decoration: BoxDecoration(
                         color: Colors.white,
                         border: Border.all(
-                          color: Colors.transparent,
+                          color: Colors.grey[300],
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(30.0))),
                     child: Center(child: MassageTypeChips()),
@@ -2347,6 +2384,7 @@ class _MassageTypeChipsState extends State<MassageTypeChips>
       child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
                 height: MediaQuery.of(context).size.height * 0.04,

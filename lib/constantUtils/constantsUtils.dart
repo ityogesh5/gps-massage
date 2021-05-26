@@ -161,6 +161,14 @@ class HealingMatchConstants {
   static const String BOOKING_THERAPIST =
       ON_PREMISE_USER_BASE_URL + '/booking/createBooking';
 
+  // Favorite Therapist
+  static const String DO_FAVOURITE_THERAPIST =
+      ON_PREMISE_USER_BASE_URL + '/favourite/favouriteTherapistCreate';
+
+  // Un Favorite Therapist
+  static const String UNDO_FAVOURITE_THERAPIST =
+      ON_PREMISE_USER_BASE_URL + '/favourite/unFavouriteTherapist';
+
   //Common string
   static bool isInternetAvailable = false;
   static String registerProgressText = '登録中...';

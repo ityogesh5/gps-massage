@@ -60,9 +60,11 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
 
   getProviderInfo() async {
     try {
+      HealingMatchConstants.selectedDateTime = null;
       ProgressDialogBuilder.showOverlayLoader(context);
       therapistDetails =
           await ServiceUserAPIProvider.getTherapistDetails(context, widget.id);
+      HealingMatchConstants.therapistProfileDetails = therapistDetails;
       //append all Service Types for General View
 
       //add Banner Images
@@ -591,7 +593,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
               context);*/
         },
         child: new Text(
-          'もう一度予約する',
+          '予約に進む',
           style: TextStyle(
               color: Color.fromRGBO(255, 255, 255, 1),
               fontFamily: 'NotoSansJP',
@@ -909,5 +911,36 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
       }
     }
     return "";
+  }
+
+  bookingConfirmField() async {
+    ProgressDialogBuilder.showOverlayLoader(context);
+    setState(() {
+      HealingMatchConstants.confTherapistId = widget.id;
+      HealingMatchConstants.confBooking = HealingMatchConstants
+          .therapistProfileDetails.data.uploadProfileImgUrl;
+      HealingMatchConstants.confShopName =
+          HealingMatchConstants.therapistProfileDetails.data.storeName;
+      HealingMatchConstants.confUserName =
+          HealingMatchConstants.therapistProfileDetails.data.userName;
+      HealingMatchConstants.confAddress = HealingMatchConstants
+          .therapistProfileDetails.data.addresses[0].address;
+      HealingMatchConstants.confServiceType =
+          HealingMatchConstants.therapistProfileDetails.data.storeType;
+      HealingMatchConstants.confBuisnessTrip =
+          HealingMatchConstants.therapistProfileDetails.data.businessTrip;
+      HealingMatchConstants.confShop =
+          HealingMatchConstants.therapistProfileDetails.data.isShop;
+      HealingMatchConstants.confCoronaMeasures =
+          HealingMatchConstants.therapistProfileDetails.data.coronaMeasure;
+      HealingMatchConstants.confRatingAvg =
+          HealingMatchConstants.therapistProfileDetails.reviewData.ratingAvg;
+      HealingMatchConstants.confNoOfReviewsMembers = HealingMatchConstants
+          .therapistProfileDetails.reviewData.noOfReviewsMembers;
+      HealingMatchConstants.confNoOfReviewsMembers = HealingMatchConstants
+          .therapistProfileDetails.reviewData.noOfReviewsMembers;
+      HealingMatchConstants.confCertificationUpload = HealingMatchConstants
+          .therapistProfileDetails.data.certificationUploads;
+    });
   }
 }
