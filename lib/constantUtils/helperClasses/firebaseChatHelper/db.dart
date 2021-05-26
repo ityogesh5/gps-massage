@@ -23,6 +23,7 @@ class DB {
         'serverId': id,
         'isTherapist': isTherapist,
         'contacts': [],
+        'isTyping':false,
       });
     } catch (error) {
       print('****************** DB addNewUser error **********************');
@@ -66,7 +67,7 @@ class DB {
     }
   }
 
-  Future<QuerySnapshot> getChatItem(String groupId, [int limit = 10]) async {
+  Future<QuerySnapshot> getChatItem(String groupId, [int limit = 20]) async {
     try {
       QuerySnapshot querySnapShot = await _messagesCollection
           .doc(groupId)

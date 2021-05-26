@@ -972,7 +972,7 @@ class _ChatItemScreenState extends State<ChatItemScreen> {
       // add to peer contacts too
       var userRef = await db.addToPeerContacts(peerId, userId);
 
-      UserDetail person = UserDetail.fromJson(userRef.data());
+      UserDetail person = UserDetail.fromJson(userRef.data()); 
       ChatData initChatData = ChatData(
         userId: userId,
         peerId: peerId,

@@ -36,7 +36,7 @@ class _ChatUserListState extends State<ChatUserList> {
   }
 
   getChatDetailsFromFirebase() {
-    db.getContactsofUser("3MFwceiZ47ZujApwRAdOvMN1BOD2").then((value) {
+    db.getContactsofUser("BpDibFDktkZ0q93gW9ibFyZjKNt1").then((value) {
       userDetail = value;
       db.getUserDetilsOfContacts(userDetail.contacts).then((value) {
         contactList.addAll(value);
@@ -104,8 +104,7 @@ class _ChatUserListState extends State<ChatUserList> {
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: contactList.length,
                       itemBuilder: (context, index) {
-                        Message lastMessage = chatData[index]
-                            .messages[0];
+                        Message lastMessage = chatData[index].messages[0];
                         DateTime lastMessageDate =
                             DateTime.fromMillisecondsSinceEpoch(
                                 int.parse(lastMessage.timeStamp));
@@ -229,16 +228,18 @@ class _ChatUserListState extends State<ChatUserList> {
                     "${lastMessageDate.year}/${lastMessageDate.month}/${lastMessageDate.day}",
                     style: TextStyle(color: Colors.grey[300], fontSize: 12)),
                 SizedBox(height: 8),
-                CircleAvatar(
-                    radius: 12,
-                    backgroundColor: Colors.lime,
-                    child: Text(
-                      '${chatData[index].unreadCount}',
-                      style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
-                    )),
+                chatData[index].unreadCount != 0
+                    ? CircleAvatar(
+                        radius: 12,
+                        backgroundColor: Colors.lime,
+                        child: Text(
+                          '${chatData[index].unreadCount}',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        ))
+                    : Container(),
                 SizedBox(height: 20),
               ],
             ),
