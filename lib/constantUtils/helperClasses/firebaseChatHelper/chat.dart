@@ -20,11 +20,10 @@ class Chat {
 
   Future<List<ChatData>> fetchChats(List<UserDetail> _contacts) async {
     List<ChatData> _chats = List<ChatData>();
-    Future.forEach(_contacts, (contact) async {
-      final chatData = await getChatData(contact.id,contact);
+    await Future.forEach(_contacts, (contact) async {
+      final chatData = await getChatData(contact.id, contact);
       _chats.add(chatData);
-    }).then((value) {
-    });
+    }).then((value) {});
     return _chats;
   }
 
@@ -35,8 +34,8 @@ class Chat {
     int unreadCount = 0;
     List<Message> messages = [];
     for (int i = 0; i < messagesData.docs.length; i++) {
-      var tmp =
-          Message.fromMap(Map<String, dynamic>.from(messagesData.docs[i].data()));
+      var tmp = Message.fromMap(
+          Map<String, dynamic>.from(messagesData.docs[i].data()));
       messages.add(tmp);
       if (tmp.fromId == peerId && !tmp.isSeen) unreadCount++;
     }

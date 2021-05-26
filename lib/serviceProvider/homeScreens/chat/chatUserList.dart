@@ -5,6 +5,7 @@ import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/chat.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/db.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/chatData.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/message.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/user.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 
@@ -100,6 +101,12 @@ class _ChatUserListState extends State<ChatUserList> {
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: contactList.length,
                           itemBuilder: (context, index) {
+                            Message lastMessage = Message.fromMap(
+                                Map<String, dynamic>.from(
+                                    chatData[index].lastDoc.data()));
+                            DateTime lastMessageDate =
+                                DateTime.fromMillisecondsSinceEpoch(
+                                    int.parse(lastMessage.timeStamp));
                             return InkWell(
                               onTap: () {},
                               child: Card(
@@ -109,6 +116,7 @@ class _ChatUserListState extends State<ChatUserList> {
                                   borderRadius: BorderRadius.circular(12.0),
                                 ),
                                 child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Expanded(
                                       flex: 1,
@@ -117,11 +125,11 @@ class _ChatUserListState extends State<ChatUserList> {
                                         children: [
                                           ClipOval(
                                             child: CircleAvatar(
-                                              radius: 32.0,
+                                              radius: 25.0,
                                               backgroundColor: Colors.white,
                                               child: CachedNetworkImage(
-                                                width: 100.0,
-                                                height: 100.0,
+                                                width: 50.0,
+                                                height: 60.0,
                                                 fit: BoxFit.cover,
                                                 imageUrl:
                                                     contactList[index].imageUrl,
@@ -134,58 +142,54 @@ class _ChatUserListState extends State<ChatUserList> {
                                             ),
                                           ),
                                           contactList[index].isOnline
-                                              ? Visibility(
-                                                  visible: userIsOnline,
-                                                  child: Positioned(
-                                                    right: -20.0,
-                                                    top: 45,
-                                                    left: 10.0,
-                                                    child: InkWell(
-                                                      onTap: () {},
-                                                      child: CircleAvatar(
-                                                        backgroundColor:
-                                                            Colors.white,
-                                                        radius: 8,
-                                                        child: CircleAvatar(
-                                                          backgroundColor:
-                                                              Colors.green[400],
-                                                          radius: 6,
-                                                          child: Container(),
-                                                        ),
-                                                      ),
+                                              ? Positioned(
+                                                right: -20.0,
+                                                top: 35,
+                                                left: 10.0,
+                                                child: InkWell(
+                                                  onTap: () {},
+                                                  child: CircleAvatar(
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    radius: 8,
+                                                    child: CircleAvatar(
+                                                      backgroundColor:
+                                                          Colors.green[400],
+                                                      radius: 6,
+                                                      child: Container(),
                                                     ),
                                                   ),
-                                                )
-                                              : Visibility(
-                                                  visible: false,
-                                                  child: Positioned(
-                                                    right: -30.0,
-                                                    top: 45,
-                                                    left: 10.0,
-                                                    child: InkWell(
-                                                      onTap: () {},
-                                                      child: CircleAvatar(
-                                                        backgroundColor:
-                                                            Colors.grey[500],
-                                                        radius: 6,
-                                                        child: CircleAvatar(
-                                                          backgroundColor:
-                                                              Colors.green[400],
-                                                          radius: 5,
-                                                          child: Container(),
-                                                        ),
-                                                      ),
+                                                ),
+                                              )
+                                              : Positioned(
+                                                right: -30.0,
+                                                top: 35,
+                                                left: 10.0,
+                                                child: InkWell(
+                                                  onTap: () {},
+                                                  child: CircleAvatar(
+                                                    backgroundColor:
+                                                        Colors.grey[500],
+                                                    radius: 6,
+                                                    child: CircleAvatar(
+                                                      backgroundColor:
+                                                          Colors.green[400],
+                                                      radius: 5,
+                                                      child: Container(),
                                                     ),
                                                   ),
-                                                )
+                                                ),
+                                              )
                                         ],
                                       ),
                                     ),
-                                    SizedBox(width: 5),
+                                    SizedBox(width: 8),
                                     Expanded(
                                       flex: 5,
                                       child: Column(
                                         mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
@@ -198,14 +202,43 @@ class _ChatUserListState extends State<ChatUserList> {
                                             textAlign: TextAlign.left,
                                           ),
                                           SizedBox(height: 4),
-                                          /*  Text("無料で提供者とチャットすることが可能 。。。",
-                                              style: TextStyle(
-                                                  color: Color.fromRGBO(
-                                                      153, 153, 153, 1),
-                                                  fontSize: 10),
-                                              textAlign: TextAlign.left), */
+                                          chatData[index].messages.length != 0
+                                              ? Text("${lastMessage.content}",
+                                                  style: TextStyle(
+                                                      color: Color.fromRGBO(
+                                                          153, 153, 153, 1),
+                                                      fontSize: 10),
+                                                  textAlign: TextAlign.left)
+                                              : Container(),
                                         ],
                                       ),
+                                    ),
+                                    Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(
+                                            "${lastMessageDate.year}/${lastMessageDate.month}/${lastMessageDate.day}",
+                                            style: TextStyle(
+                                                color: Colors.grey[300],
+                                                fontSize: 12)),
+                                        SizedBox(height: 8),
+                                        CircleAvatar(
+                                            radius: 12,
+                                            backgroundColor: Colors.lime,
+                                            child: Text(
+                                              '${chatData[index].unreadCount}',
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.white,
+                                                  fontWeight:
+                                                      FontWeight.bold),
+                                            )),
+                                        SizedBox(height: 20),
+                                      ],
                                     ),
                                   ],
                                 ),
