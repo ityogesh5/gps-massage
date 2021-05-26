@@ -127,9 +127,9 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                         padding:
                                             const EdgeInsets.only(top: 8.0),
                                         child: ClipOval(
-                                          child: (
+                                          child: CircleAvatar(
                                             radius: 32.0,
-                                            backgrouCircleAvatarndColor: Colors.white,
+                                            backgroundColor: Colors.white,
                                             child:
                                                 /*  Image.network(
                                           userData.uploadProfileImgUrl,

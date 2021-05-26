@@ -19,6 +19,16 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/Get
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
+enum MessageType {
+  Text,
+  Media,
+}
+
+enum MediaType {
+  Photo,
+  Video,
+}
+
 class HealingMatchConstants {
   static const String ON_PREMISE_USER_BASE_URL =
       "http://106.51.49.160:9087/api";

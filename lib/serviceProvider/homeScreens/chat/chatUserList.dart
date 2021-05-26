@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/chat.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/db.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/chatData.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/user.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 
@@ -21,6 +23,7 @@ class _ChatUserListState extends State<ChatUserList> {
   UserDetail userDetail;
   List<UserDetail> contactList = List<UserDetail>();
   int status = 0;
+  List<ChatData> chatData = List<ChatData>();
 
   void initState() {
     super.initState();
@@ -32,8 +35,11 @@ class _ChatUserListState extends State<ChatUserList> {
       userDetail = value;
       db.getUserDetilsOfContacts(userDetail.contacts).then((value) {
         contactList.addAll(value);
-        setState(() {
-          status = 1;
+        Chat().fetchChats(contactList).then((value) {
+          chatData.addAll(value);
+          setState(() {
+            status = 1;
+          });
         });
       });
     });
@@ -124,7 +130,6 @@ class _ChatUserListState extends State<ChatUserList> {
                                                         size: 20.0,
                                                         color: ColorConstants
                                                             .buttonColor),
-                                               
                                               ),
                                             ),
                                           ),
@@ -193,7 +198,7 @@ class _ChatUserListState extends State<ChatUserList> {
                                             textAlign: TextAlign.left,
                                           ),
                                           SizedBox(height: 4),
-                                         /*  Text("無料で提供者とチャットすることが可能 。。。",
+                                          /*  Text("無料で提供者とチャットすることが可能 。。。",
                                               style: TextStyle(
                                                   color: Color.fromRGBO(
                                                       153, 153, 153, 1),
