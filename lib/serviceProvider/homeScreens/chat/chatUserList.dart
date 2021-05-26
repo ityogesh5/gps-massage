@@ -104,9 +104,8 @@ class _ChatUserListState extends State<ChatUserList> {
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: contactList.length,
                       itemBuilder: (context, index) {
-                        Message lastMessage = Message.fromMap(
-                            Map<String, dynamic>.from(
-                                chatData[index].lastDoc.data()));
+                        Message lastMessage = chatData[index]
+                            .messages[0];
                         DateTime lastMessageDate =
                             DateTime.fromMillisecondsSinceEpoch(
                                 int.parse(lastMessage.timeStamp));

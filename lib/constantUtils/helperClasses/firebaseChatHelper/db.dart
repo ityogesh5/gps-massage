@@ -90,10 +90,18 @@ class DB {
       return _messagesCollection
           .doc(groupChatId)
           .collection('CHATS')
+          .limit(20)
+          .orderBy('timeStamp', descending: true)
+          .startAfterDocument(lastSnapshot)
+          .get();
+
+      /*  _messagesCollection
+          .doc(groupChatId)
+          .collection('CHATS')
           .startAfterDocument(lastSnapshot)
           .limit(20)
           .orderBy('timeStamp', descending: true)
-          .get();
+          .get(); */
     } catch (error) {
       print(
           '****************** DB getSnapshotsAfter error **********************');
@@ -166,9 +174,15 @@ class DB {
       return _messagesCollection
           .doc(groupChatId)
           .collection(CHATS_COLLECTION)
+          .orderBy('timeStamp')
+          .startAfterDocument(lastSnapshot)
+          .snapshots();
+      /* _messagesCollection
+          .doc(groupChatId)
+          .collection(CHATS_COLLECTION)
           .startAfterDocument(lastSnapshot)
           .orderBy('timeStamp')
-          .snapshots();
+          .snapshots(); */
     } catch (error) {
       print(
           '****************** DB getSnapshotsAfter error **********************');
