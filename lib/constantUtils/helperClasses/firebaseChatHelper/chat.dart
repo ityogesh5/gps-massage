@@ -1,12 +1,53 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/db.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/chatData.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/message.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/user.dart';
 
-class Chat {
+class Chat with ChangeNotifier {
   String _userId = "3MFwceiZ47ZujApwRAdOvMN1BOD2";
   final db = DB();
+
+  User _user;
+  UserDetail _userDetails;
+  List<String> _contacts = [];
+  List<ChatData> _chats = [];
+
+  String _imageUrl;
+  bool _isLoading = true;
+
+  bool get isLoading {
+    return _isLoading;
+  }
+
+  User get getUser {
+    return _user;
+  }
+
+  UserDetail get userDetails {
+    return _userDetails;
+  }
+
+  String get imageUrl {
+    return _imageUrl;
+  }
+
+  void setImageUrl(String url) {
+    _imageUrl = url;
+  }
+
+  String get getUserId {
+    return _userId;
+  }
+
+  List<dynamic> get getContacts {
+    return _contacts;
+  }
+
+  List<ChatData> get chats {
+    return _chats;
+  }
 
   String getGroupId(String contact) {
     String groupId;
@@ -27,7 +68,7 @@ class Chat {
     return _chats;
   }
 
-  Future<ChatData> getChatData(String peerId, UserDetail user) async {
+  Future<ChatData> getChatData(String peerId, UserDetail userDetail) async {
     String groupId = getGroupId(peerId);
     final messagesData = await db.getChatItem(groupId);
 
@@ -46,13 +87,46 @@ class Chat {
 
     ChatData chatData = ChatData(
       userId: _userId,
-      peerId: user.id,
+      peerId: userDetail.id,
       groupId: groupId,
-      peer: user,
+      peer: userDetail,
       messages: messages,
       lastDoc: lastDoc,
       unreadCount: unreadCount,
     );
     return chatData;
   }
+
+  // updates the order of chats when a new message is recieved
+  void bringChatToTop(String groupId) {
+    if (_chats.isNotEmpty && _chats[0].groupId != groupId) {
+      // bring latest interacted contact and chat to top
+      var ids = groupId.split('-');
+      var peerId = ids.firstWhere((element) => element != _user.uid);
+
+      var cIndex = _contacts.indexWhere((element) => element == peerId);
+      _contacts.removeAt(cIndex);
+      _contacts.insert(0, peerId);
+
+      db.updateUserInfo(_user.uid, {'contacts': _contacts});
+
+      var index = _chats.indexWhere((element) => element.groupId == groupId);
+      var temp = _chats[index];
+      _chats.removeAt(index);
+      _chats.insert(0, temp);
+      notifyListeners();
+    }
+  }
+
+  void addToInitChats(ChatData chatData) {
+    if (_chats.contains(chatData)) return;
+    _chats.insert(0, chatData);
+    notifyListeners();
+  }
+
+  void addToContacts(String uid) {
+    _contacts.add(uid);
+    notifyListeners();
+  }
+
 }

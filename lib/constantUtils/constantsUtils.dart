@@ -29,6 +29,13 @@ enum MediaType {
   Video,
 }
 
+final String ALL_MESSAGES_COLLECTION = 'MESSAGES';
+final String USERS_COLLECTION = 'USERS';
+final String CHATS_COLLECTION = 'CHATS';
+final String MEDIA_COLLECTION = 'MEDIA';
+
+final String CHATS_MEDIA_STORAGE_REF = 'ChatsMedia';
+
 class HealingMatchConstants {
   static const String ON_PREMISE_USER_BASE_URL =
       "http://106.51.49.160:9087/api";

@@ -102,6 +102,7 @@ dependencies:
   firebase_auth: any
   firebase_storage: any
   json_annotation: any
+  keyboard_visibility: ^0.5.6
 
   readmore: any #Gowtham Text ReadMore
 

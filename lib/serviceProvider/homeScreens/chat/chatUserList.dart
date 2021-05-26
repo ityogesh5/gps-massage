@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
@@ -25,10 +26,12 @@ class _ChatUserListState extends State<ChatUserList> {
   List<UserDetail> contactList = List<UserDetail>();
   int status = 0;
   List<ChatData> chatData = List<ChatData>();
+  Stream<QuerySnapshot> _stream;
 
   void initState() {
     super.initState();
     getChatDetailsFromFirebase();
+   // _stream = db.getSnapshotsWithLimit(widget.chatData.groupId, 1);
   }
 
   getChatDetailsFromFirebase() {
@@ -143,43 +146,43 @@ class _ChatUserListState extends State<ChatUserList> {
                                           ),
                                           contactList[index].isOnline
                                               ? Positioned(
-                                                right: -20.0,
-                                                top: 35,
-                                                left: 10.0,
-                                                child: InkWell(
-                                                  onTap: () {},
-                                                  child: CircleAvatar(
-                                                    backgroundColor:
-                                                        Colors.white,
-                                                    radius: 8,
+                                                  right: -20.0,
+                                                  top: 35,
+                                                  left: 10.0,
+                                                  child: InkWell(
+                                                    onTap: () {},
                                                     child: CircleAvatar(
                                                       backgroundColor:
-                                                          Colors.green[400],
-                                                      radius: 6,
-                                                      child: Container(),
+                                                          Colors.white,
+                                                      radius: 8,
+                                                      child: CircleAvatar(
+                                                        backgroundColor:
+                                                            Colors.green[400],
+                                                        radius: 6,
+                                                        child: Container(),
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              )
+                                                )
                                               : Positioned(
-                                                right: -30.0,
-                                                top: 35,
-                                                left: 10.0,
-                                                child: InkWell(
-                                                  onTap: () {},
-                                                  child: CircleAvatar(
-                                                    backgroundColor:
-                                                        Colors.grey[500],
-                                                    radius: 6,
+                                                  right: -30.0,
+                                                  top: 35,
+                                                  left: 10.0,
+                                                  child: InkWell(
+                                                    onTap: () {},
                                                     child: CircleAvatar(
                                                       backgroundColor:
-                                                          Colors.green[400],
-                                                      radius: 5,
-                                                      child: Container(),
+                                                          Colors.grey[500],
+                                                      radius: 6,
+                                                      child: CircleAvatar(
+                                                        backgroundColor:
+                                                            Colors.green[400],
+                                                        radius: 5,
+                                                        child: Container(),
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              )
+                                                )
                                         ],
                                       ),
                                     ),
@@ -234,8 +237,7 @@ class _ChatUserListState extends State<ChatUserList> {
                                               style: TextStyle(
                                                   fontSize: 12,
                                                   color: Colors.white,
-                                                  fontWeight:
-                                                      FontWeight.bold),
+                                                  fontWeight: FontWeight.bold),
                                             )),
                                         SizedBox(height: 20),
                                       ],
