@@ -170,6 +170,18 @@ class HealingMatchConstants {
   static const String HANDLE_GUEST_USER =
       ON_PREMISE_USER_BASE_URL + '/user/guestUser';
 
+  // customer create
+  static const String CREATE_CUSTOMER_FOR_PAYMENT_URL =
+      ON_PREMISE_USER_BASE_URL + '/user/customerCreation';
+
+  // handle guest user
+  static const String CHARGE_CUSTOMER_URL =
+      ON_PREMISE_USER_BASE_URL + '/user/paymentCharge';
+
+  // handle guest user
+  static const String PAYMENT_SUCCESS_CALL_URL =
+      ON_PREMISE_USER_BASE_URL + '/user/paymentConfirm';
+
   //Common string
   static bool isInternetAvailable = false;
   static String registerProgressText = '登録中...';

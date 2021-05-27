@@ -4,12 +4,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:stripe_payment/stripe_payment.dart';
 
-class Payment extends StatefulWidget {
+class StripePaymentTest extends StatefulWidget {
   @override
   _PaymentState createState() => new _PaymentState();
 }
 
-class _PaymentState extends State<Payment> {
+class _PaymentState extends State<StripePaymentTest> {
   Token _paymentToken;
   PaymentMethod _paymentMethod;
   String _error;
@@ -34,9 +34,13 @@ class _PaymentState extends State<Payment> {
 
     StripePayment.setOptions(StripeOptions(
         publishableKey:
-            "pk_test_51HyDhJHsOI5BijsX0jpyWHCKXh7nI2WsRhiQmSNSW9UcKM6Ly4AoXDGNtwTdCSmxJhcr4sp1Dbl3EAKwyvsbB8Ab00lNFx3MsS",
+            "pk_test_51HwMwNBL9ibeFzEEMHOV6az31lNurmBP3cvNPqaBQASqm4LrQhfJL5NHJ8fApM8twA1oxflxWUoatPKcef7ScZHS00WzhyrZFk",
         //merchantId: "Your_Merchant_id",
         androidPayMode: 'test'));
+
+    /*String t = '50,0,0,00';
+    var f = int.parse(t.replaceAll(',', ''));
+    print('wo comma value : ${f.truncate()}');*/
   }
 
   void setError(dynamic error) {

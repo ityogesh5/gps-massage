@@ -86,7 +86,6 @@ dependencies:
   lazy_load_scrollview: 1.1.0
   cached_network_image: any
   stripe_payment:
-  flutter_socket_io: any
   super_tooltip: any
   time: any
 
@@ -100,7 +99,7 @@ dependencies:
   firebase_analytics: any
   firebase_auth: any
   firebase_storage: any
-  web_socket_channel: any
+  animated_text_kit: any
 
 
 

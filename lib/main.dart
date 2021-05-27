@@ -37,4 +37,4 @@ class HealingMatchApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: SplashScreen()); //SplashScreen());
   }
-}
+} //TestPayment

@@ -8,6 +8,9 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/event.dart';
 import 'package:gps_massageapp/models/responseModels/gusetUserModel/GuestUserResponseModel.dart';
+import 'package:gps_massageapp/models/responseModels/paymentModels/CustomerCreation.dart';
+import 'package:gps_massageapp/models/responseModels/paymentModels/PaymentCustomerCharge.dart';
+import 'package:gps_massageapp/models/responseModels/paymentModels/PaymentSuccessModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/FavouriteTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/UnFavouriteTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/RecommendTherapistModel.dart';
@@ -58,6 +61,13 @@ class ServiceUserAPIProvider {
       new UnFavouriteTherapist();
 
   static GuestUserModel _guestUserModel = new GuestUserModel();
+
+  // payment models
+  static PaymentCustomerCreation _customerCreation =
+      new PaymentCustomerCreation();
+  static PaymentCustomerCharge _paymentCustomerCharge =
+      new PaymentCustomerCharge();
+  static PaymentSuccessModel _paymentSuccessModel = new PaymentSuccessModel();
 
   // get all therapist users
   static Future<TherapistUsersModel> getAllTherapistUsers(
@@ -439,6 +449,90 @@ class ServiceUserAPIProvider {
       print('Exception GuestUser API : ${e.toString()}');
     }
     return _guestUserModel;
+  }
+
+  // createCustomerForPayment
+  static Future<PaymentCustomerCreation> createCustomerForPayment(
+      var userID, var amount) async {
+    try {
+      final url = '${HealingMatchConstants.CREATE_CUSTOMER_FOR_PAYMENT_URL}';
+      final response = await http.post(url,
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": HealingMatchConstants.accessToken
+          },
+          body: json.encode({
+            "userId": userID,
+            "amount": amount,
+          }));
+      print('createCustomerForPayment response : ${response.body}');
+      print('statusCode : ${response.statusCode}');
+      if (response.statusCode == 200) {
+        final getResponse = json.decode(response.body);
+        _customerCreation = PaymentCustomerCreation.fromJson(getResponse);
+      } else {
+        print('createCustomerForPayment API Request failed !!');
+      }
+    } catch (e) {
+      print('createCustomerForPayment GuestUser API : ${e.toString()}');
+    }
+    return _customerCreation;
+  }
+
+  // chargePaymentForCustomer
+  static Future<PaymentCustomerCharge> chargePaymentForCustomer(
+      var userID, var cardID) async {
+    try {
+      final url = '${HealingMatchConstants.CHARGE_CUSTOMER_URL}';
+      final response = await http.post(url,
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": HealingMatchConstants.accessToken
+          },
+          body: json.encode({
+            "userId": userID,
+            "cardId": cardID,
+          }));
+      print('chargePaymentForCustomer response : ${response.body}');
+      print('statusCode : ${response.statusCode}');
+      if (response.statusCode == 200) {
+        final getResponse = json.decode(response.body);
+        _paymentCustomerCharge = PaymentCustomerCharge.fromJson(getResponse);
+      } else {
+        print('chargePaymentForCustomer API Request failed !!');
+      }
+    } catch (e) {
+      print('Exception chargePaymentForCustomer API : ${e.toString()}');
+    }
+    return _paymentCustomerCharge;
+  }
+
+  // paymentSuccess
+  static Future<PaymentSuccessModel> paymentSuccess(
+      var paymentID, var cardID) async {
+    try {
+      final url = '${HealingMatchConstants.PAYMENT_SUCCESS_CALL_URL}';
+      final response = await http.post(url,
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": HealingMatchConstants.accessToken
+          },
+          body: json.encode({
+            "paymentId": paymentID,
+            "cardId": cardID,
+          }));
+      print('paymentSuccess response : ${response.body}');
+      print('statusCode : ${response.statusCode}');
+      if (response.statusCode == 200) {
+        final getResponse = json.decode(response.body);
+        _paymentSuccessModel = PaymentSuccessModel.fromJson(getResponse);
+      } else {
+        print('paymentSuccess API Request failed !!');
+      }
+    } catch (e) {
+      print('Exception paymentSuccess API : ${e.toString()}');
+    }
+    return _paymentSuccessModel;
   }
 
   // Get calendar events
