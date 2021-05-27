@@ -154,7 +154,7 @@ class _ChatItemScreenState extends State<ChatItemScreen> {
       );
     }
 
-    final userContacts = Provider.of<Chat>(context, listen: false).getContacts;
+    /*  final userContacts = Provider.of<Chat>(context, listen: false).getContacts;
     // add UserDetail to contacts if not already in contacts
     if (!userContacts.contains(peerId)) {
       Provider.of<Chat>(context, listen: false).addToContacts(peerId);
@@ -174,7 +174,7 @@ class _ChatItemScreenState extends State<ChatItemScreen> {
       Provider.of<Chat>(context, listen: false).addToInitChats(initChatData);
     } else {
       Provider.of<Chat>(context, listen: false).bringChatToTop(groupChatId);
-    }
+    } */
   }
 
   void _onUploadFinished(String url) {
@@ -464,7 +464,7 @@ class _ChatItemScreenState extends State<ChatItemScreen> {
                               filled: false,
                               fillColor: Colors.white,
                               hintText: 'メッセージを入カしてください。',
-                             /*  prefixIcon: IconButton(
+                              /*  prefixIcon: IconButton(
                                 icon: Icon(Icons.attachment_outlined,
                                     color: Colors.grey[300]),
                                 onPressed: () {
@@ -517,7 +517,7 @@ class _ChatItemScreenState extends State<ChatItemScreen> {
                                   size: 25, color: Colors.white),
                               onPressed: () {
                                 send();
-                               _updateTypingStatus(false, userId);
+                                _updateTypingStatus(false, userId);
                               },
                             ),
                           ),
@@ -694,7 +694,7 @@ class __ToBottomState extends State<_ToBottom> {
       width: 70,
       height: 50,
       decoration: BoxDecoration(
-        color: kBlackColor3,
+        color: ColorConstants.buttonColor,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(10),
           bottomLeft: Radius.circular(10),
@@ -706,11 +706,11 @@ class __ToBottomState extends State<_ToBottom> {
         onPressed: onTap,
         child: Container(
           child: Icon(Icons.arrow_drop_down_outlined,
-              size: 20, color: Theme.of(context).accentColor),
+              size: 20,
+              color: Colors.white /* Theme.of(context).accentColor */),
           // padding: const EdgeInsets.all(3),
           decoration: BoxDecoration(
-              border:
-                  Border.all(color: Theme.of(context).accentColor, width: 1.5),
+              border: Border.all(color: Colors.white, width: 1.5),
               borderRadius: BorderRadius.circular(20)),
         ),
       ),
@@ -838,7 +838,6 @@ class ChatOps {
     return i == 0 || (c1 && c2);
   }
 }
-
 
 /* class ChatItemScreen extends StatefulWidget {
   final ChatData chatData;
