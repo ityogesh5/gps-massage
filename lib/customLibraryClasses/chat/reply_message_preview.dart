@@ -117,18 +117,18 @@ class _Leading extends StatelessWidget {
         Flexible(
           child: RichText(
             text: TextSpan(
-              text: 'Replying to ',
+              text: 'に返信する',
               style: TextStyle(
-                fontSize: 14,
-                color: kBaseWhiteColor,
+                fontSize: 10,
+                color: Colors.grey.withOpacity(0.5),
                 // fontWeight: FontWeight.w600,
               ),
               children: [
                 TextSpan(
                   text: repliedMessage.fromId == userId ? 'yourself' : peerName,
                   style: TextStyle(
-                    fontSize: 15,
-                    color: kBaseWhiteColor,
+                    fontSize: 11,
+                    color: Colors.grey.withOpacity(0.5),
                     fontWeight: FontWeight.w600,
                   ),
                 )
@@ -144,7 +144,7 @@ class _Leading extends StatelessWidget {
           child: repliedMessage.type == MessageType.Text
               ? Text(
                   repliedMessage?.content,
-                  style: TextStyle(color: kBaseWhiteColor.withOpacity(0.7)),
+                  style: TextStyle(color: Colors.grey.withOpacity(0.75)),
                   overflow: TextOverflow.ellipsis,
                 )
               : Container(

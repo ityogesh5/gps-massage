@@ -92,89 +92,91 @@ class _MyAppBarState extends State<MyAppBar>
       backgroundColor: Colors.white,
       // centerTitle: true,
       elevation: 0,
-      leading: CBackButton(),
-      title: CupertinoButton(
-        padding: const EdgeInsets.all(0),
-        onPressed: () {}, //goToContactDetails,
-        child: Row(
-          children: [
-            Avatar(
-                imageUrl: widget.peer.imageUrl, radius: kToolbarHeight / 2 - 5),
-            SizedBox(width: 5),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  widget.peer.username,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
-                ),
-               /*  if (collapsed)
-                  StreamBuilder(
-                      stream: stream,
-                      builder: (ctx, snapshot) {
-                        if (!snapshot.hasData)
-                          return Container(width: 0, height: 0);
-                        else {
-                          print(
-                              'Typing status appbar : ${snapshot.data()['isTyping']}');
-                          return AnimatedContainer(
-                              duration: Duration(milliseconds: 300),
-                              height: snapshot.data()()['isOnline'] ? 20 : 20,
-                              child: snapshot.data()['isTyping'] != null &&
-                                      snapshot.data()['isTyping']
-                                  ? Text(
-                                      'タイピング...',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.grey[400],
-                                      ),
-                                    )
-                                  : snapshot.data()['isOnline'] != null &&
-                                          snapshot.data()['isOnline']
-                                      ? Text(
-                                          'オンライン',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.grey[400],
-                                          ),
-                                        )
-                                      : Text(
-                                          'オフライン',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.grey[400],
-                                          ),
-                                        ));
-                          // return Container();
-                        }
-                      }), */
-                AnimatedContainer(
-                  duration: Duration(milliseconds: 200),
-                  curve: Curves.easeIn,
-                  height: collapsed ? 0 : 20,
-                  child: FadeTransition(
-                    opacity: _animation,
-                    child: Text(
-                      'ユーザーステータスの取得...',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.grey[400],
-                      ),
+      leading: Padding(
+        padding: const EdgeInsets.only(left:10.0),
+        child: CBackButton(),
+      ),
+      leadingWidth: 20.0,
+      centerTitle: false,
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Avatar(
+              imageUrl: widget.peer.imageUrl, radius: kToolbarHeight / 2 - 5),
+          SizedBox(width: 7),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                widget.peer.username,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold),
+              ),
+              /*  if (collapsed)
+                StreamBuilder(
+                    stream: stream,
+                    builder: (ctx, snapshot) {
+                      if (!snapshot.hasData)
+                        return Container(width: 0, height: 0);
+                      else {
+                        print(
+                            'Typing status appbar : ${snapshot.data()['isTyping']}');
+                        return AnimatedContainer(
+                            duration: Duration(milliseconds: 300),
+                            height: snapshot.data()()['isOnline'] ? 20 : 20,
+                            child: snapshot.data()['isTyping'] != null &&
+                                    snapshot.data()['isTyping']
+                                ? Text(
+                                    'タイピング...',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.grey[400],
+                                    ),
+                                  )
+                                : snapshot.data()['isOnline'] != null &&
+                                        snapshot.data()['isOnline']
+                                    ? Text(
+                                        'オンライン',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.grey[400],
+                                        ),
+                                      )
+                                    : Text(
+                                        'オフライン',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.grey[400],
+                                        ),
+                                      ));
+                        // return Container();
+                      }
+                    }), */
+              AnimatedContainer(
+                duration: Duration(milliseconds: 200),
+                curve: Curves.easeIn,
+                height: collapsed ? 0 : 20,
+                child: FadeTransition(
+                  opacity: _animation,
+                  child: Text(
+                    'ユーザーステータスの取得...',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.grey[400],
                     ),
                   ),
-                )
-              ],
-            ),
-          ],
-        ),
+                ),
+              )
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -201,7 +203,6 @@ class _MyAppBarState extends State<MyAppBar>
     );
   } */
 }
-
 
 /* class MyAppBar extends StatefulWidget {
   final UserDetail peer;

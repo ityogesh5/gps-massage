@@ -464,13 +464,13 @@ class _ChatItemScreenState extends State<ChatItemScreen> {
                               filled: false,
                               fillColor: Colors.white,
                               hintText: 'メッセージを入カしてください。',
-                              prefixIcon: IconButton(
+                             /*  prefixIcon: IconButton(
                                 icon: Icon(Icons.attachment_outlined,
                                     color: Colors.grey[300]),
                                 onPressed: () {
                                   //pickImage();
                                 },
-                              ),
+                              ), */
                               hintStyle: TextStyle(color: Colors.grey[300]),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide.none,
@@ -509,12 +509,12 @@ class _ChatItemScreenState extends State<ChatItemScreen> {
                         padding: const EdgeInsets.all(8.0),
                         child: new CircleAvatar(
                           backgroundColor: Colors.lime,
-                          radius: 25,
+                          radius: 20,
                           child: Transform.rotate(
                             angle: -math.pi / 4,
                             child: IconButton(
                               icon: Icon(Icons.send,
-                                  size: 30, color: Colors.white),
+                                  size: 25, color: Colors.white),
                               onPressed: () {
                                 send();
                                _updateTypingStatus(false, userId);

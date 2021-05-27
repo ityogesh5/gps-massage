@@ -42,7 +42,7 @@ class SeenStatus extends StatelessWidget {
             color: isSeen
                 ? Theme.of(context).accentColor
                 : Colors.white.withOpacity(0.35),
-            size: 19,
+            size: 15,
           ),
       ],
     );

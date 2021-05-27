@@ -20,12 +20,12 @@ class ReplyMessageBubble extends StatelessWidget {
   String _getReplyDetails() {
     if (message.fromId == peer.id) {
       if (message.reply.repliedToId == peer.id)
-        return '${peer.username.split(' ')[0]} replied to themselve';
-      return '${peer.username.split(' ')[0]} replied to you';
+        return '${peer.username.split(' ')[0]} 彼ら自身に答えた';
+      return '${peer.username.split(' ')[0]} 彼ら自身に答えた';
     } else {
       if (message.reply.repliedToId == peer.id)
-        return 'You replied to ${peer.username.split(' ')[0]}';
-      return 'You replied to yourself';
+        return 'あなたはに返信しました ${peer.username.split(' ')[0]}';
+      return 'あなたは自分に返信しました';
     }
   }
 
@@ -49,16 +49,18 @@ class ReplyMessageBubble extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.reply,
-                      size: 15,
-                      color: Colors.red,//kBaseWhiteColor.withOpacity(0.5),
+                      size: 10,
+                      color: Color.fromRGBO(
+                          178, 180, 182, 1), //kBaseWhiteColor.withOpacity(0.5),
                     ),
                     SizedBox(width: 3),
                     Text(
                       _getReplyDetails(),
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 10,
                         fontWeight: FontWeight.w300,
-                        color: Colors.red//kBaseWhiteColor.withOpacity(0.5),
+                        color: Color.fromRGBO(178, 180, 182,
+                            1), //kBaseWhiteColor.withOpacity(0.5),
                       ),
                     ),
                   ],
@@ -135,8 +137,8 @@ class _ReplyText extends StatelessWidget {
         minWidth: 60,
       ),
       padding: const EdgeInsets.only(top: 10, right: 15, left: 15, bottom: 30),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20), color: color),
+      decoration:
+          BoxDecoration(borderRadius: BorderRadius.circular(20), color: color),
       child: Text(
         message.reply.content,
         maxLines: 1,
@@ -144,7 +146,7 @@ class _ReplyText extends StatelessWidget {
         style: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w400,
-          color: kBaseWhiteColor.withOpacity(0.5),
+          color: color == Colors.grey[100] ? Colors.black.withOpacity(0.5): kBaseWhiteColor.withOpacity(0.5),
         ),
       ),
     );

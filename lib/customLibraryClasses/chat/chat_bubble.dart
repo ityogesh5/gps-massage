@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_bubble/bubble_type.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/message.dart';
@@ -10,6 +11,9 @@ import 'package:gps_massageapp/customLibraryClasses/chat/chat_reply_bubble.dart'
 import 'package:gps_massageapp/customLibraryClasses/chat/dismissible_bubble.dart';
 import 'package:gps_massageapp/customLibraryClasses/chat/media_bubble.dart';
 import 'package:gps_massageapp/customLibraryClasses/chat/seen_status.dart';
+import 'package:gps_massageapp/customLibraryClasses/cusTomChatBubbles/CustomChatBubbles.dart';
+import 'package:gps_massageapp/customLibraryClasses/cusTomChatBubbles/customChatBubbleReceiver.dart';
+import 'package:gps_massageapp/customLibraryClasses/cusTomChatBubbles/customChatBubbleSender.dart';
 
 class ChatBubble extends StatelessWidget {
   final Message message;
@@ -158,12 +162,69 @@ class _WithoutAvatar extends StatelessWidget {
                       child: ReplyMessageBubble(
                         message: message,
                         peer: peer,
-                        color: isMe ? Colors.white : ColorConstants.buttonColor,
+                        color: isMe
+                            ? Colors.grey[100]
+                            : ColorConstants.buttonColor,
                       ),
                     ),
                   Align(
                     alignment: Alignment.bottomRight,
                     child: Container(
+                        margin: message.reply != null
+                            ? EdgeInsets.only(
+                                top: (message.reply != null &&
+                                        message.reply.type == MessageType.Text)
+                                    ? 35
+                                    : size.height * 0.25 - 5,
+                              )
+                            : const EdgeInsets.all(0),
+                        child: CustomChatBubble(
+                          clipper: isMe
+                              ? ChatBubbleSender(type: BubbleType.sendBubble)
+                              : ChatBubbleReceiver(
+                                  type: BubbleType.receiverBubble),
+                          alignment: Alignment.topRight,
+                          margin: EdgeInsets.only(top: 20),
+                          backGroundColor: isMe
+                              ? ColorConstants.buttonColor
+                              : Colors.grey[100],
+                          child: Container(
+                            constraints: BoxConstraints(
+                              maxWidth: MediaQuery.of(context).size.width * 0.7,
+                            ),
+                            child: Padding(
+                              key: key,
+                              padding: const EdgeInsets.all(0.0),
+                              child: Wrap(
+                                crossAxisAlignment: WrapCrossAlignment.end,
+                                runAlignment: WrapAlignment.end,
+                                alignment: WrapAlignment.end,
+                                spacing: 20,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Text(message.content,
+                                        style: TextStyle(
+                                            fontSize: 14.0,
+                                            color: isMe
+                                                ? Colors.white
+                                                : Colors.black)),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 1.0),
+                                    child: SeenStatus(
+                                      isMe: isMe,
+                                      isSeen: message.isSeen,
+                                      timestamp: message.sendDate,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        )),
+                  ),
+                  /* Container(
                       // key: key,
                       margin: message.reply != null
                           ? EdgeInsets.only(
@@ -216,8 +277,8 @@ class _WithoutAvatar extends StatelessWidget {
                           ],
                         ),
                       ),
-                    ),
-                  ),
+                    ), 
+                  ),*/
                 ],
               ),
             ],
