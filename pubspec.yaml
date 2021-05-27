@@ -86,7 +86,7 @@ dependencies:
   lazy_load_scrollview: 1.1.0
   cached_network_image: any
   stripe_payment:
-  flutter_socket_io: ^0.6.0
+  flutter_socket_io: any
   super_tooltip: any
   time: any
 
@@ -104,6 +104,7 @@ dependencies:
   json_annotation: any
   keyboard_visibility: ^0.5.6
   video_player: ^0.10.12
+  web_socket_channel: any
 
   readmore: any #Gowtham Text ReadMore
 

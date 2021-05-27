@@ -178,6 +178,16 @@ class HealingMatchConstants {
   // fetch therapist results
   static const String FETCH_SORTED_THERAPIST_SEARCH_RESULTS =
       ON_PREMISE_USER_BASE_URL + '/search/searchServiceUserByOrder';
+  static const String BOOKING_THERAPIST =
+      ON_PREMISE_USER_BASE_URL + '/booking/createBooking';
+
+  // Favorite Therapist
+  static const String DO_FAVOURITE_THERAPIST =
+      ON_PREMISE_USER_BASE_URL + '/favourite/favouriteTherapistCreate';
+
+  // Un Favorite Therapist
+  static const String UNDO_FAVOURITE_THERAPIST =
+      ON_PREMISE_USER_BASE_URL + '/favourite/unFavouriteTherapist';
 
   //Common string
   static bool isInternetAvailable = false;
@@ -444,6 +454,7 @@ class HealingMatchConstants {
   static List<FlutterWeekViewEvent> userEvents = List<FlutterWeekViewEvent>();
 
   // User Booking Confirmation
+  static int confTherapistId;
   static String confBooking = '';
   static String confShopName = '';
   static String confUserName = '';
@@ -451,6 +462,8 @@ class HealingMatchConstants {
   static String confRatingAvg = '';
   static String confAddress = '';
   static String confServiceName = '';
+  static String confServiceAddressType = '';
+  static String confServiceAddress = '';
   static int confNoOfReviewsMembers;
   static var confNoOfServiceDuration;
   static var confServiceCost;

@@ -33,7 +33,12 @@ class _DetailCarouselWithIndicatorState
                   Container(
                     child: Container(
                       child: ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(5.0),
+                            bottomRight: Radius.circular(40.0),
+                            topLeft: Radius.circular(5.0),
+                            bottomLeft: Radius.circular(40.0),
+                          ),
                           child: Stack(
                             fit: StackFit.loose,
                             children: <Widget>[

@@ -16,7 +16,6 @@ class HealingMatchApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // FlutterStatusbarcolor.setStatusBarColor(ColorConstants.statusBarColor);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: ColorConstants.statusBarColor,
         statusBarBrightness: Brightness.light,

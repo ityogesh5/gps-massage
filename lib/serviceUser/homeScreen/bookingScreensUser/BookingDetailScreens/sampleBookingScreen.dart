@@ -23,7 +23,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
   int status = 0;
   int lastIndex = 999;
   int min = 0;
-  var serviceName, serviceDuration, serviceCostMap, serviceCost;
+  var serviceName, serviceDuration, serviceCostMap, serviceCost, subCategoryId;
   ItemScrollController scrollController = ItemScrollController();
   List<bool> visibility = List<bool>();
   List<TherapistList> allTherapistList = List<TherapistList>();
@@ -411,7 +411,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
           bookingConfirmField();
         },
         child: new Text(
-          'もう一度予約する',
+          '予約に進む',
           style: TextStyle(
               color: Colors.white,
               fontFamily: 'NotoSansJP',
@@ -493,6 +493,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
         serviceDuration = min;
         serviceCostMap = serviceSelection[serviceName][serviceDuration];
         // serviceCost = serviceCostMap[[serviceDuration]];
+        subCategoryId = serviceSelection[serviceName][index];
 
         print("serviceName:${serviceSelection[allTherapistList[index].name]}");
 
@@ -622,7 +623,9 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
   }
 
   bookingConfirmField() async {
+    ProgressDialogBuilder.showOverlayLoader(context);
     setState(() {
+      HealingMatchConstants.confTherapistId = widget.id;
       HealingMatchConstants.confBooking = HealingMatchConstants
           .therapistProfileDetails.data.uploadProfileImgUrl;
       HealingMatchConstants.confShopName =
@@ -647,6 +650,15 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
           .therapistProfileDetails.reviewData.noOfReviewsMembers;
       HealingMatchConstants.confCertificationUpload = HealingMatchConstants
           .therapistProfileDetails.data.certificationUploads;
+      HealingMatchConstants.searchUserAddressType.contains('店舗')
+          ? HealingMatchConstants.confServiceAddressType = '店舗'
+          : HealingMatchConstants.confServiceAddressType =
+              HealingMatchConstants.searchUserAddressType;
+      HealingMatchConstants.searchUserAddressType.contains('店舗')
+          ? HealingMatchConstants.confServiceAddress = HealingMatchConstants
+              .therapistProfileDetails.data.addresses[0].address
+          : HealingMatchConstants.confServiceAddress =
+              HealingMatchConstants.searchUserAddress;
       HealingMatchConstants.confSelectedDateTime = selectedTime;
       HealingMatchConstants.confEndDateTime = endTime;
       HealingMatchConstants.confServiceName = serviceName;
@@ -656,7 +668,8 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
 
     print('EndDateTime:${HealingMatchConstants.confEndDateTime.weekday}');
     print('EndDateTime:${HealingMatchConstants.confEndDateTime.hour}');
-    print('EndDateTime:${HealingMatchConstants.confEndDateTime.month}');
+    print('subCategoryId:${subCategoryId}');
+    ProgressDialogBuilder.hideLoader(context);
     NavigationRouter.switchToServiceUserBookingConfirmationScreen(context);
   }
 }

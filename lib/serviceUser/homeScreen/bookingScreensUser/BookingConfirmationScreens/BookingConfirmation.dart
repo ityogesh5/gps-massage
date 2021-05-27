@@ -9,6 +9,9 @@ import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/booking/createBooking.dart';
+import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 
 double ratingsValue = 4.0;
 bool checkValue = false;
@@ -45,6 +48,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String weekDays;
   GlobalKey key = new GlobalKey();
+  CreateBookingModel createBooking;
 
   @override
   void initState() {
@@ -453,41 +457,49 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     buildProileDetailCard(
-                        "${HealingMatchConstants.searchUserAddressType}", 12),
+                        "${HealingMatchConstants.confServiceAddressType}", 12),
                     SizedBox(width: 10),
                     Flexible(
                       child: new Text(
-                        "${HealingMatchConstants.searchUserAddress}",
+                        "${HealingMatchConstants.confServiceAddress}",
                         style: TextStyle(
                             color: Colors.grey[400],
                             fontSize: 14,
                             fontFamily: 'NotoSansJP'),
                       ),
-                    ),
+                    )
                   ],
                 ),
               ),
             ),
-            SizedBox(height: 20),
-            Container(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SvgPicture.asset('assets/images_gps/diamond.svg',
-                      height: 12, width: 12),
-                  Text(
-                    "\t\t施術を受ける建物を選んでください。",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.left,
+            HealingMatchConstants.confServiceAddressType.contains('店舗')
+                ? SizedBox.shrink()
+                : SizedBox(height: 20),
+            HealingMatchConstants.confServiceAddressType.contains('店舗')
+                ? SizedBox.shrink()
+                : Column(
+                    children: [
+                      Container(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SvgPicture.asset('assets/images_gps/diamond.svg',
+                                height: 12, width: 12),
+                            Text(
+                              "\t\t施術を受ける建物を選んでください。",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.left,
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      massageBuildTypeDisplayContent(),
+                    ],
                   ),
-                ],
-              ),
-            ),
-            SizedBox(height: 10),
-            massageBuildTypeDisplayContent(),
             SizedBox(height: 10),
             Container(
               width: MediaQuery.of(context).size.width * 0.82,
@@ -821,17 +833,17 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
             child: Padding(
               padding: const EdgeInsets.only(left: 30, right: 10),
               child: Container(
+                height: 51,
                 width: MediaQuery.of(context).size.width * 0.82,
                 child: TextField(
                   controller: _otherBuildingController,
                   autofocus: false,
                   textInputAction: TextInputAction.done,
                   enableInteractiveSelection: false,
-                  readOnly: true,
+                  // readOnly: true,
                   decoration: new InputDecoration(
                       filled: false,
                       fillColor: Colors.white,
-                      hintText: '公園',
                       hintStyle: TextStyle(color: Colors.black),
                       focusedBorder: OutlineInputBorder(
                         borderSide:
@@ -873,7 +885,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
     ShowToolTip popup = ShowToolTip(context,
         text: text,
         textStyle: TextStyle(color: Colors.black),
-        height: 180,
+        height: 100,
         width: 180,
         backgroundColor: Colors.white,
         padding: EdgeInsets.all(8.0),
@@ -885,9 +897,32 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
     );
   }
 
-  _updateUserBookingDetails() {
+  _updateUserBookingDetails() async {
+    ProgressDialogBuilder.showOverlayLoader(context);
+    int therapistId = HealingMatchConstants.confTherapistId;
+    String startTime =
+        HealingMatchConstants.confSelectedDateTime.toLocal().toString();
+    String endTime = HealingMatchConstants.confEndDateTime.toLocal().toString();
+    int paymentStatus = 0;
+    int subCategoryId = 12;
+    int categoryId = 3;
+    String nameOfService = HealingMatchConstants.confServiceName;
+    int totalMinOfService = HealingMatchConstants.confNoOfServiceDuration;
+    int priceOfService = HealingMatchConstants.confServiceCost;
+    int bookingStatus = 0;
+    String locationType = selectedBuildingType;
+    String location = HealingMatchConstants.confServiceAddress;
+    int totalCost = HealingMatchConstants.confServiceCost;
+    int userReviewStatus = 0;
+    int therapistReviewStatus = 0;
+    String userCommands = _otherBuildingController.text;
+
     print('Entering on press');
-    if (selectedBuildingType == null || selectedBuildingType.isEmpty) {
+    print('StartTime: ${HealingMatchConstants.confSelectedDateTime.toLocal()}');
+    print('StartTime: ${startTime}');
+/*    if (HealingMatchConstants.confServiceAddressType.contains('店舗') &&
+            selectedBuildingType == null ||
+        selectedBuildingType.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('施術を受ける建物を選んでください。',
@@ -908,7 +943,31 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
       HealingMatchConstants.selectedBookingPlace =
           selectedBuildingType.toString();
       print('Entering on else : ${HealingMatchConstants.selectedBookingPlace}');
+    }*/
+
+    try {
+      createBooking = await ServiceUserAPIProvider.createBooking(
+          context,
+          therapistId,
+          startTime,
+          endTime,
+          paymentStatus,
+          subCategoryId,
+          categoryId,
+          nameOfService,
+          totalMinOfService,
+          priceOfService,
+          bookingStatus,
+          locationType,
+          location,
+          totalCost,
+          userReviewStatus,
+          therapistReviewStatus,
+          userCommands);
+    } catch (e) {
+      print(e.toString());
     }
+    ProgressDialogBuilder.hideLoader(context);
     NavigationRouter.switchToServiceUserReservationAndFavourite(context);
   }
 }

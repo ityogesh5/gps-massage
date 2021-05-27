@@ -1,6 +1,7 @@
 import 'dart:convert';
-import 'dart:typed_data';
 import 'dart:math';
+import 'dart:typed_data';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -9,7 +10,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
@@ -1140,6 +1140,25 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                                   valueChanged: (_isFavorite) {
                                                     print(
                                                         'Is Favorite : $_isFavorite');
+                                                    if (_isFavorite != null &&
+                                                        _isFavorite) {
+                                                      // call favorite therapist API
+                                                      ServiceUserAPIProvider
+                                                          .favouriteTherapist(widget
+                                                              .getTherapistByType[
+                                                                  index]
+                                                              .user
+                                                              .id);
+                                                    } else {
+                                                      // call un-favorite therapist API
+                                                      ServiceUserAPIProvider
+                                                          .unFavouriteTherapist(
+                                                              widget
+                                                                  .getTherapistByType[
+                                                                      index]
+                                                                  .user
+                                                                  .id);
+                                                    }
                                                   }),
                                             ],
                                           ),
@@ -2643,6 +2662,25 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                                           (_isFavorite) {
                                                         print(
                                                             'Is Favorite : $_isFavorite');
+                                                        if (_isFavorite !=
+                                                                null &&
+                                                            _isFavorite) {
+                                                          // call favorite therapist API
+                                                          ServiceUserAPIProvider
+                                                              .favouriteTherapist(
+                                                                  therapistUsers[
+                                                                          index]
+                                                                      .user
+                                                                      .id);
+                                                        } else {
+                                                          // call un-favorite therapist API
+                                                          ServiceUserAPIProvider
+                                                              .unFavouriteTherapist(
+                                                                  therapistUsers[
+                                                                          index]
+                                                                      .user
+                                                                      .id);
+                                                        }
                                                       }),
                                                 ],
                                               ),
@@ -3821,6 +3859,7 @@ class _HomePageErrorState extends State<HomePageError> {
 class ColorLoader extends StatefulWidget {
   final double radius;
   final double dotRadius;
+
   ColorLoader({this.radius = 75.0, this.dotRadius = 5.0});
 
   @override
