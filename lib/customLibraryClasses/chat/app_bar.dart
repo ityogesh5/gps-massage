@@ -9,7 +9,7 @@ import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/mo
 import 'package:gps_massageapp/customLibraryClasses/chat/avatar.dart';
 import 'package:gps_massageapp/customLibraryClasses/chat/widgets/back_button.dart';
 
-/* class MyAppBar extends StatefulWidget {
+class MyAppBar extends StatefulWidget {
   final UserDetail peer;
   final String groupId;
   bool isTyping = false;
@@ -201,9 +201,9 @@ class _MyAppBarState extends State<MyAppBar>
     );
   } */
 }
- */
 
-class MyAppBar extends StatefulWidget {
+
+/* class MyAppBar extends StatefulWidget {
   final UserDetail peer;
   final String groupId;
   MyAppBar(this.peer, this.groupId);
@@ -379,3 +379,4 @@ class _MyAppBarState extends State<MyAppBar>
     );
   } */
 }
+ */

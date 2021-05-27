@@ -6,7 +6,7 @@ import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/mo
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/user.dart';
 
 class Chat with ChangeNotifier {
-  String _userId = "BpDibFDktkZ0q93gW9ibFyZjKNt1";
+  String _userId = "3MFwceiZ47ZujApwRAdOvMN1BOD2";
   final db = DB();
 
   User _user;

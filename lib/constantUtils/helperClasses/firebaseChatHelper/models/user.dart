@@ -4,32 +4,35 @@
 
 import 'dart:convert';
 
-UserDetail userDetailFromJson(String str) => UserDetail.fromJson(json.decode(str));
+UserDetail userDetailFromJson(String str) =>
+    UserDetail.fromJson(json.decode(str));
 
 String userDetailToJson(UserDetail data) => json.encode(data.toJson());
 
 class UserDetail {
-    UserDetail({
-        this.id,
-        this.serverId,
-        this.isTherapist,
-        this.contacts,
-        this.email,
-        this.imageUrl,
-        this.username,
-        this.isOnline,
-    });
+  UserDetail({
+    this.id,
+    this.serverId,
+    this.isTherapist,
+    this.contacts,
+    this.email,
+    this.imageUrl,
+    this.username,
+    this.isOnline,
+    this.isTyping,
+  });
 
-    String id;
-    int serverId;
-    int isTherapist;
-    List<String> contacts;
-    String email;
-    String imageUrl;
-    String username;
-    bool isOnline;
+  String id;
+  int serverId;
+  int isTherapist;
+  List<String> contacts;
+  String email;
+  String imageUrl;
+  String username;
+  bool isOnline;
+  bool isTyping;
 
-    factory UserDetail.fromJson(Map<String, dynamic> json) => UserDetail(
+  factory UserDetail.fromJson(Map<String, dynamic> json) => UserDetail(
         id: json["id"],
         serverId: json["serverId"],
         isTherapist: json["isTherapist"],
@@ -38,9 +41,10 @@ class UserDetail {
         imageUrl: json["imageUrl"],
         username: json["username"],
         isOnline: json["isOnline"],
-    );
+        isTyping: json["isTyping"],
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "serverId": serverId,
         "isTherapist": isTherapist,
@@ -49,5 +53,6 @@ class UserDetail {
         "imageUrl": imageUrl,
         "username": username,
         "isOnline": isOnline,
-    };
+        "isTyping": isTyping,
+      };
 }

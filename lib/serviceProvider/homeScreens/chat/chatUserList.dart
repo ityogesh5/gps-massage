@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:googleapis/servicemanagement/v1.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/chat.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/db.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/chatData.dart';
@@ -10,6 +12,7 @@ import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/mo
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/user.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/chat_item_screen.dart';
+import 'package:provider/provider.dart';
 
 class ChatUserList extends StatefulWidget {
   @override
@@ -32,16 +35,17 @@ class _ChatUserListState extends State<ChatUserList> {
   void initState() {
     super.initState();
     getChatDetailsFromFirebase();
-    // _stream = db.getSnapshotsWithLimit(widget.chatData.groupId, 1);
   }
 
   getChatDetailsFromFirebase() {
-    db.getContactsofUser("BpDibFDktkZ0q93gW9ibFyZjKNt1").then((value) {
+    db.getContactsofUser("3MFwceiZ47ZujApwRAdOvMN1BOD2").then((value) {
       userDetail = value;
       db.getUserDetilsOfContacts(userDetail.contacts).then((value) {
         contactList.addAll(value);
+        // final chats = Provider.of<Chat>(context).chats;
         Chat().fetchChats(contactList).then((value) {
           chatData.addAll(value);
+
           setState(() {
             status = 1;
           });
@@ -108,8 +112,10 @@ class _ChatUserListState extends State<ChatUserList> {
                         DateTime lastMessageDate =
                             DateTime.fromMillisecondsSinceEpoch(
                                 int.parse(lastMessage.timeStamp));
+                        _stream = db.getSnapshotsWithLimit(
+                            chatData[index].groupId, 1);
                         return buildChatDetails(
-                            index, lastMessage, lastMessageDate);
+                            index, lastMessage, lastMessageDate, _stream);
                       }),
                 ),
               ],
@@ -118,7 +124,7 @@ class _ChatUserListState extends State<ChatUserList> {
   }
 
   InkWell buildChatDetails(
-      int index, Message lastMessage, DateTime lastMessageDate) {
+      int index, Message lastMessage, DateTime lastMessageDate, Stream stream) {
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -209,13 +215,65 @@ class _ChatUserListState extends State<ChatUserList> {
                     textAlign: TextAlign.left,
                   ),
                   SizedBox(height: 4),
-                  chatData[index].messages.length != 0
+                  StreamBuilder(
+                    stream: stream,
+                    builder: (context, snapshots) {
+                      if (snapshots.connectionState == ConnectionState.waiting)
+                        return Container(height: 0, width: 0);
+                      else {
+                        if (snapshots.data.documents.isNotEmpty) {
+                          final snapshot = snapshots.data.documents[0];
+                          Message newMsg = Message.fromMap(snapshot.data());
+                          _addNewMessages(newMsg, chatData[index]);
+                          return Row(
+                            children: [
+                              newMsg.type == MessageType.Media
+                                  ? Container(
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            newMsg.mediaType == MediaType.Photo
+                                                ? Icons.photo_camera
+                                                : Icons.videocam,
+                                            size: newMsg.mediaType ==
+                                                    MediaType.Photo
+                                                ? 15
+                                                : 20,
+                                            color:
+                                                Colors.white.withOpacity(0.45),
+                                          ),
+                                          SizedBox(width: 8),
+                                          Text(
+                                              newMsg.mediaType ==
+                                                      MediaType.Photo
+                                                  ? 'Photo'
+                                                  : 'Video',
+                                              style: kChatItemSubtitleStyle)
+                                        ],
+                                      ),
+                                    )
+                                  : Flexible(
+                                      child: Text(newMsg.content,
+                                          style: TextStyle(
+                                              color: Color.fromRGBO(
+                                                  153, 153, 153, 1),
+                                              fontSize: 10),
+                                          textAlign: TextAlign.left),
+                                    ),
+                            ],
+                          );
+                        } else
+                          return Container(height: 0, width: 0);
+                      }
+                    },
+                  ),
+                  /* chatData[index].messages.length != 0
                       ? Text("${lastMessage.content}",
                           style: TextStyle(
                               color: Color.fromRGBO(153, 153, 153, 1),
                               fontSize: 10),
                           textAlign: TextAlign.left)
-                      : Container(),
+                      : Container(), */
                 ],
               ),
             ),
@@ -247,5 +305,30 @@ class _ChatUserListState extends State<ChatUserList> {
         ),
       ),
     );
+  }
+
+  // add new messages to ChatData and update unread count
+  void _addNewMessages(Message newMsg, ChatData chatData) {
+    final isIos = Theme.of(context).platform == TargetPlatform.iOS;
+    if (chatData.messages.isEmpty ||
+        newMsg.sendDate.isAfter(chatData.messages[0].sendDate)) {
+      chatData.addMessage(newMsg);
+
+      if (newMsg.fromId != chatData.userId) {
+        chatData.unreadCount++;
+
+        // play notification sound
+        // if(widget.initChatData.messages.isNotEmpty && widget.initChatData.messages[0].sendDate != newMsg.sendDate)
+        // if(isIos)
+        //   Utils.playSound('mp3/notificationIphone.mp3');
+        // else Utils.playSound('mp3/notificationAndroid.mp3');
+
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          Provider.of<Chat>(context, listen: false)
+              .bringChatToTop(chatData.groupId);
+          setState(() {});
+        });
+      }
+    }
   }
 }

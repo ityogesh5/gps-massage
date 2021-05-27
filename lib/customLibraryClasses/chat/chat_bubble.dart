@@ -67,12 +67,13 @@ class ChatBubble extends StatelessWidget {
 
 class _PeerMessage extends StatelessWidget {
   const _PeerMessage({
-    Key key,    
+    Key key,
     @required this.peer,
     @required this.isMe,
     @required this.message,
     @required this.onReplyPressed,
-    @required this.constraints, this.withoutAvatar,  
+    @required this.constraints,
+    this.withoutAvatar,
   }) : super(key: key);
 
   final UserDetail peer;
@@ -143,68 +144,112 @@ class _WithoutAvatar extends StatelessWidget {
       isMe: isMe,
       message: message,
       onDismissed: onReplyPressed,
-      child: Wrap(
+      child: Column(
+        crossAxisAlignment:
+            isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
-          Stack(
+          Wrap(
             children: [
-              if (message.reply != null)
-                Align(
-                  alignment: isMe ? Alignment.topRight : Alignment.topLeft,
-                  child: ReplyMessageBubble(
-                    message: message,
-                    peer: peer,
-                  ),
-                ),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: Container(
-                  // key: key,
-                  margin: message.reply != null
-                      ? EdgeInsets.only(
-                          top: (message.reply != null &&
-                                  message.reply.type == MessageType.Text)
-                              ? 50
-                              : size.height * 0.25 - 5,
-                        )
-                      : const EdgeInsets.all(0),
-                  constraints: BoxConstraints(
-                    maxWidth: constraints.maxWidth * 0.8,
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: _replyMsgRadius(),
-                    border: isMe ? null : Border.all(color: kBorderColor3),
-                    color: isMe ? kBlackColor3 : kBlackColor,
-                  ),
-                  child: Padding(
-                    key: key,
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.end,
-                      runAlignment: WrapAlignment.end,
-                      alignment: WrapAlignment.end,
-                      spacing: 20,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10.0, bottom: 12),
-                          child: BubbleText(text: message.content),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 5.0),
-                          child: SeenStatus(
-                            isMe: isMe,
-                            isSeen: message.isSeen,
-                            timestamp: message.sendDate,
-                          ),
-                        ),
-                      ],
+              Stack(
+                children: [
+                  if (message.reply != null)
+                    Align(
+                      alignment: isMe ? Alignment.topRight : Alignment.topLeft,
+                      child: ReplyMessageBubble(
+                        message: message,
+                        peer: peer,
+                        color: isMe ? Colors.white : ColorConstants.buttonColor,
+                      ),
                     ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Container(
+                      // key: key,
+                      margin: message.reply != null
+                          ? EdgeInsets.only(
+                              top: (message.reply != null &&
+                                      message.reply.type == MessageType.Text)
+                                  ? 50
+                                  : size.height * 0.25 - 5,
+                            )
+                          : const EdgeInsets.all(0),
+                      constraints: BoxConstraints(
+                        maxWidth: constraints.maxWidth * 0.8,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: _replyMsgRadius(),
+                        border: isMe ? null : Border.all(color: kBorderColor3),
+                        color: isMe ? ColorConstants.buttonColor : Colors.white,
+                        /* kBlackColor3  : kBlackColor,*/
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                              color: Color.fromRGBO(
+                                  178, 180, 182, 1), //Colors.black54,
+                              blurRadius: isMe ? 0.0 : 8.0,
+                              offset: Offset(0.0, 0.75))
+                        ],
+                      ),
+                      child: Padding(
+                        key: key,
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.end,
+                          runAlignment: WrapAlignment.end,
+                          alignment: WrapAlignment.end,
+                          spacing: 20,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 10.0, bottom: 12),
+                              child: BubbleText(
+                                  text: message.content,
+                                  color: isMe ? Colors.white : Colors.black),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 5.0),
+                              child: SeenStatus(
+                                isMe: isMe,
+                                isSeen: message.isSeen,
+                                timestamp: message.sendDate,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment:
+                isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Text(
+                  getTime(message.sendDate),
+                  style: TextStyle(
+                    fontSize: 10.0,
+                    color: Color.fromRGBO(178, 180, 182, 1),
                   ),
                 ),
               ),
             ],
           ),
+          SizedBox(height: 5.0)
         ],
       ),
     );
+  }
+
+  String getTime(DateTime timestamp) {
+    int hour = timestamp.hour;
+    int min = timestamp.minute;
+    String hRes = hour <= 9 ? '0$hour' : hour.toString();
+    String mRes = min <= 9 ? '0$min' : min.toString();
+
+    return '$hRes:$mRes時';
   }
 }

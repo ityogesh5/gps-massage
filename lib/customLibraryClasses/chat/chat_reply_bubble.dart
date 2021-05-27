@@ -9,11 +9,13 @@ class ReplyMessageBubble extends StatelessWidget {
   const ReplyMessageBubble({
     @required this.message,
     @required this.peer,
+    @required this.color,
     Key key,
   }) : super(key: key);
 
   final Message message;
   final UserDetail peer;
+  final Color color;
 
   String _getReplyDetails() {
     if (message.fromId == peer.id) {
@@ -48,7 +50,7 @@ class ReplyMessageBubble extends StatelessWidget {
                     Icon(
                       Icons.reply,
                       size: 15,
-                      color: kBaseWhiteColor.withOpacity(0.5),
+                      color: Colors.red,//kBaseWhiteColor.withOpacity(0.5),
                     ),
                     SizedBox(width: 3),
                     Text(
@@ -56,7 +58,7 @@ class ReplyMessageBubble extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w300,
-                        color: kBaseWhiteColor.withOpacity(0.5),
+                        color: Colors.red//kBaseWhiteColor.withOpacity(0.5),
                       ),
                     ),
                   ],
@@ -74,7 +76,7 @@ class ReplyMessageBubble extends StatelessWidget {
   }
 
   Widget _buildReplyText(Size size, bool isPeerMsg) {
-    return _ReplyText(message: message);
+    return _ReplyText(message: message, color: color);
   }
 
   Widget _buildMediaReply(Size size) {
@@ -118,9 +120,11 @@ class _ReplyText extends StatelessWidget {
   const _ReplyText({
     Key key,
     @required this.message,
+    @required this.color,
   }) : super(key: key);
 
   final Message message;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +136,7 @@ class _ReplyText extends StatelessWidget {
       ),
       padding: const EdgeInsets.only(top: 10, right: 15, left: 15, bottom: 30),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20), color: kBlackColor2),
+          borderRadius: BorderRadius.circular(20), color: color),
       child: Text(
         message.reply.content,
         maxLines: 1,

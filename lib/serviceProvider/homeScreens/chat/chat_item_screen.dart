@@ -29,7 +29,7 @@ enum LoaderStatus {
   LOADING,
 }
 
-/* class ChatItemScreen extends StatefulWidget {
+class ChatItemScreen extends StatefulWidget {
   final ChatData chatData;
 
   ChatItemScreen(this.chatData);
@@ -310,7 +310,7 @@ class _ChatItemScreenState extends State<ChatItemScreen> {
       for (int i = 0; i < snapshots.data.documents.length; i++) {
         final snapshot = snapshots.data.documents[i];
         Future.doWhile(() {
-          Message newMsg = Message.fromMap(snapshot.data);
+          Message newMsg = Message.fromMap(snapshot.data());
           if (widget.chatData.messages.isNotEmpty) {
             // add message to the list only if it's after the first item in the list
             if (newMsg.sendDate.isAfter(widget.chatData.messages[0].sendDate)) {
@@ -838,9 +838,9 @@ class ChatOps {
     return i == 0 || (c1 && c2);
   }
 }
- */
 
-class ChatItemScreen extends StatefulWidget {
+
+/* class ChatItemScreen extends StatefulWidget {
   final ChatData chatData;
   ChatItemScreen(this.chatData);
 
@@ -1614,4 +1614,4 @@ class ChatOps {
     bool c2 = i != length - 1 && messages[i + 1].fromId == messages[i].fromId;
     return i == 0 || (c1 && c2);
   }
-}
+} */
