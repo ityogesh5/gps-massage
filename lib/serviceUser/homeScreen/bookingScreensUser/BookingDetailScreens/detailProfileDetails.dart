@@ -277,6 +277,16 @@ class _DetailProfileDetailsState extends State<DetailProfileDetails> {
                   ),
                 )
               : Container(),
+          SizedBox(
+            height: 7,
+          ),
+          Text(
+            "施術を受ける場所",
+            style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(
+            height: 7,
+          ),
           Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -343,15 +353,25 @@ class _DetailProfileDetailsState extends State<DetailProfileDetails> {
         buildProileDetailCard(
             "${HealingMatchConstants.searchUserAddressType}", 9.0),
         SizedBox(width: 10),
-        Flexible(
-          child: new Text(
-            "${HealingMatchConstants.searchUserAddress}",
-            style: TextStyle(
-                color: Colors.grey[400],
-                fontSize: 12,
-                fontFamily: 'NotoSansJP'),
-          ),
-        ),
+        HealingMatchConstants.searchUserAddressType.contains('店舗')
+            ? Flexible(
+                child: new Text(
+                  "${widget.therapistDetails.data.addresses[0].address}",
+                  style: TextStyle(
+                      color: Colors.grey[400],
+                      fontSize: 12,
+                      fontFamily: 'NotoSansJP'),
+                ),
+              )
+            : Flexible(
+                child: new Text(
+                  "${HealingMatchConstants.searchUserAddress}",
+                  style: TextStyle(
+                      color: Colors.grey[400],
+                      fontSize: 12,
+                      fontFamily: 'NotoSansJP'),
+                ),
+              ),
       ],
     );
   }

@@ -447,6 +447,21 @@ class _DetailPeofileDetailsHomeState extends State<DetailPeofileDetailsHome> {
     );
   }
 
+  getServiceAddress() {
+    setState(() {
+      shopLocationSelected
+          ? HealingMatchConstants.confServiceAddressType = '店舗'
+          : HealingMatchConstants.confServiceAddressType =
+              userPlaceForMassage.toString();
+
+      shopLocationSelected
+          ? HealingMatchConstants.confServiceAddress =
+              widget.therapistDetails.data.addresses[0].address
+          : HealingMatchConstants.confServiceAddress =
+              userRegisteredAddress.toString();
+    });
+  }
+
   void openUserLocationSelectionDialog() {
     AwesomeDialog dialog;
     dialog = AwesomeDialog(

@@ -589,8 +589,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
         ),
         color: Color.fromRGBO(255, 0, 0, 1),
         onPressed: () {
-          /*NavigationRouter.switchToServiceUserBookingConfirmationScreen(
-              context);*/
+          bookingConfirmField();
         },
         child: new Text(
           '予約に進む',
@@ -941,6 +940,16 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
           .therapistProfileDetails.reviewData.noOfReviewsMembers;
       HealingMatchConstants.confCertificationUpload = HealingMatchConstants
           .therapistProfileDetails.data.certificationUploads;
+      HealingMatchConstants.confSelectedDateTime = selectedTime;
+      HealingMatchConstants.confEndDateTime = endTime;
+      HealingMatchConstants.confServiceName = serviceName;
+      HealingMatchConstants.confNoOfServiceDuration = serviceDuration;
+      HealingMatchConstants.confServiceCost = serviceCostMap;
     });
+    print('EndDateTime:${HealingMatchConstants.confEndDateTime.weekday}');
+    print('EndDateTime:${HealingMatchConstants.confEndDateTime.hour}');
+    print('subCategoryId:${subCategoryId}');
+    ProgressDialogBuilder.hideLoader(context);
+    NavigationRouter.switchToServiceUserBookingConfirmationScreen(context);
   }
 }

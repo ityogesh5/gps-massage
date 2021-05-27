@@ -650,10 +650,15 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
           .therapistProfileDetails.reviewData.noOfReviewsMembers;
       HealingMatchConstants.confCertificationUpload = HealingMatchConstants
           .therapistProfileDetails.data.certificationUploads;
-      HealingMatchConstants.confServiceAddressType =
-          HealingMatchConstants.searchUserAddressType;
-      HealingMatchConstants.confServiceAddress =
-          HealingMatchConstants.searchUserAddress;
+      HealingMatchConstants.searchUserAddressType.contains('店舗')
+          ? HealingMatchConstants.confServiceAddressType = '店舗'
+          : HealingMatchConstants.confServiceAddressType =
+              HealingMatchConstants.searchUserAddressType;
+      HealingMatchConstants.searchUserAddressType.contains('店舗')
+          ? HealingMatchConstants.confServiceAddress = HealingMatchConstants
+              .therapistProfileDetails.data.addresses[0].address
+          : HealingMatchConstants.confServiceAddress =
+              HealingMatchConstants.searchUserAddress;
       HealingMatchConstants.confSelectedDateTime = selectedTime;
       HealingMatchConstants.confEndDateTime = endTime;
       HealingMatchConstants.confServiceName = serviceName;
