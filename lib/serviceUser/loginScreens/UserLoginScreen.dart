@@ -7,6 +7,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/fireBaseHelper/FirebaseAuthHelper.dart';
@@ -15,6 +16,7 @@ import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/login/loginResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -49,6 +51,10 @@ class _UserLoginState extends State<UserLogin> {
   RegExp passwordRegex = new RegExp(
       r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[~!?@#$%^&*_-]).{8,}$');
 
+  final Geolocator geoLocator = Geolocator()..forceAndroidLocationManager;
+  Placemark userAddedAddressPlaceMark;
+  Position _currentPosition;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -69,10 +75,8 @@ class _UserLoginState extends State<UserLogin> {
             padding: const EdgeInsets.only(top: 15, right: 20),
             child: InkWell(
               onTap: () {
-                _sharedPreferences.then((value) {
-                  value.setBool('userLoginSkipped', true);
-                  _getFCMToken();
-                });
+                HealingMatchConstants.isUserRegistrationSkipped = true;
+                _getFCMToken();
               },
               child: Text(
                 HealingMatchConstants.loginUserSkipText,
@@ -545,6 +549,7 @@ class _UserLoginState extends State<UserLogin> {
           print(loginResponseModel.data.userOccupation);
         });
         print('Is User verified : ${loginResponseModel.data.isVerified}');
+        HealingMatchConstants.isUserRegistrationSkipped = false;
         if (loginResponseModel.data.isVerified) {
           FirebaseAuthHelper().signInWithEmailAndPassword(
               loginResponseModel.data.email, password);
@@ -616,6 +621,7 @@ class _UserLoginState extends State<UserLogin> {
       if (fcmTokenValue != null) {
         fcmToken = fcmTokenValue;
         print('FCM Skip Token : $fcmToken');
+        _getCurrentLocation();
       } else {
         fireBaseMessaging.onTokenRefresh.listen((refreshToken) {
           if (refreshToken != null) {
@@ -626,19 +632,85 @@ class _UserLoginState extends State<UserLogin> {
           print('On FCM Skip Token Refresh error : ${handleError.toString()}');
         });
       }
-      _getGuestUserAccessToken();
     }).catchError((onError) {
       print('FCM Skip Token Exception : ${onError.toString()}');
     });
   }
 
   _getGuestUserAccessToken() async {
+    var isTherapistValue = 0;
     try {
-      print('Api not provided for Skip !!');
-      return;
-      //NavigationRouter.switchToServiceUserBottomBar(context);
+      ServiceUserAPIProvider.handleGuestUser(isTherapistValue)
+          .then((guestUserResponse) {
+        if (guestUserResponse != null) {
+          _sharedPreferences.then((value) {
+            value.setString('accessToken', guestUserResponse.accessToken);
+          });
+          ProgressDialogBuilder.hideLoader(context);
+          NavigationRouter.switchToServiceUserBottomBar(context);
+        } else {
+          ProgressDialogBuilder.hideLoader(context);
+          print('Guest user response has no value !!');
+        }
+      }).catchError((onError) {
+        ProgressDialogBuilder.hideLoader(context);
+        print('Catch error guest user : ${onError.toString()}');
+      });
     } catch (e) {
+      ProgressDialogBuilder.hideLoader(context);
       print('Skip exception : ${e.toString()}');
+    }
+  }
+
+  // Get current address from Latitude Longitude
+  _getCurrentLocation() async {
+    ProgressDialogBuilder.showOverlayLoader(context);
+    bool isGPSEnabled = await geoLocator.isLocationServiceEnabled();
+    print('GPS Enabled : $isGPSEnabled');
+    if (HealingMatchConstants.isUserRegistrationSkipped && !isGPSEnabled) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('GPSを有効にしてさらに進んでください！',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                FocusScope.of(context).requestFocus(new FocusNode());
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      fontWeight: FontWeight.w500,
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      ProgressDialogBuilder.hideLoader(context);
+      return;
+    } else {
+      print('Guest User GPS Enabled : $isGPSEnabled');
+      geoLocator
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+          .then((Position position) {
+        _currentPosition = position;
+        print(
+            'Current latLong Guest user : ${_currentPosition.latitude} && \n${_currentPosition.longitude}');
+        HealingMatchConstants.currentLatitude = _currentPosition.latitude;
+        HealingMatchConstants.currentLongitude = _currentPosition.longitude;
+        _getGuestUserAccessToken();
+      }).catchError((e) {
+        print('Current Location exception : ${e.toString()}');
+      });
     }
   }
 }

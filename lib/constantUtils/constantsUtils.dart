@@ -166,6 +166,10 @@ class HealingMatchConstants {
   static const String UNDO_FAVOURITE_THERAPIST =
       ON_PREMISE_USER_BASE_URL + '/favourite/unFavouriteTherapist';
 
+  // handle guest user
+  static const String HANDLE_GUEST_USER =
+      ON_PREMISE_USER_BASE_URL + '/user/guestUser';
+
   //Common string
   static bool isInternetAvailable = false;
   static String registerProgressText = '登録中...';
@@ -177,7 +181,6 @@ class HealingMatchConstants {
   static bool isUserVerified = false;
   static bool isUserLoggedIn = false;
   static bool isBottomBarVisible = true;
-  static String userFcmToken = '';
   static String currentDate;
 
   static String currentDay;

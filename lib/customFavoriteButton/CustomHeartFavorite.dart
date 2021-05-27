@@ -60,11 +60,11 @@ class _CustomFavoriteButtonState extends State<CustomFavoriteButton>
     _curve = CurvedAnimation(curve: Curves.slowMiddle, parent: _controller);
     Animation<Color> _selectedColorAnimation = ColorTween(
       begin: widget._iconColor,
-      end: Colors.grey[400],
+      end: Colors.black38,
     ).animate(_curve);
 
     Animation<Color> _deSelectedColorAnimation = ColorTween(
-      begin: Colors.grey[400],
+      begin: Colors.black38,
       end: widget._iconColor,
     ).animate(_curve);
 

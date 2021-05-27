@@ -34,7 +34,7 @@ class DialogHelper {
   static void showUserLoginOrRegisterDialog(BuildContext context) {
     AwesomeDialog dialog;
     dialog = AwesomeDialog(
-      //showCloseIcon: true,
+      dismissOnTouchOutside: false,
       context: context,
       headerAnimationLoop: false,
       dialogType: DialogType.NO_HEADER,

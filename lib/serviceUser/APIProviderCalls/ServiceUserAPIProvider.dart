@@ -7,6 +7,7 @@ import 'package:googleapis_auth/auth_io.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/event.dart';
+import 'package:gps_massageapp/models/responseModels/gusetUserModel/GuestUserResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/FavouriteTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/UnFavouriteTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/RecommendTherapistModel.dart';
@@ -55,6 +56,8 @@ class ServiceUserAPIProvider {
 
   static UnFavouriteTherapist _unFavouriteTherapist =
       new UnFavouriteTherapist();
+
+  static GuestUserModel _guestUserModel = new GuestUserModel();
 
   // get all therapist users
   static Future<TherapistUsersModel> getAllTherapistUsers(
@@ -407,6 +410,35 @@ class ServiceUserAPIProvider {
       print('Exception UnFavouriteTherapist API : ${e.toString()}');
     }
     return _unFavouriteTherapist;
+  }
+
+  // guest user api call
+  static Future<GuestUserModel> handleGuestUser(var isTherapistValue) async {
+    try {
+      final url = '${HealingMatchConstants.HANDLE_GUEST_USER}';
+      final response = await http.post(url,
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": HealingMatchConstants.accessToken
+          },
+          body: json.encode({
+            "fcmToken": HealingMatchConstants.userDeviceToken,
+            "isTherapist": isTherapistValue,
+            "lat": HealingMatchConstants.currentLatitude,
+            "lon": HealingMatchConstants.currentLongitude,
+          }));
+      print('GuestUser response : ${response.body}');
+      print('statusCode : ${response.statusCode}');
+      if (response.statusCode == 200) {
+        final getResponse = json.decode(response.body);
+        _guestUserModel = GuestUserModel.fromJson(getResponse);
+      } else {
+        print('GuestUser API Request failed !!');
+      }
+    } catch (e) {
+      print('Exception GuestUser API : ${e.toString()}');
+    }
+    return _guestUserModel;
   }
 
   // Get calendar events

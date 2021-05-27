@@ -18,8 +18,8 @@ class HealingMatchApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: ColorConstants.statusBarColor,
-        statusBarBrightness: Brightness.light,
-        statusBarIconBrightness: Brightness.light));
+        statusBarBrightness: Brightness.dark,
+        statusBarIconBrightness: Brightness.dark));
 
     return MaterialApp(
         theme: ThemeData(
@@ -35,6 +35,6 @@ class HealingMatchApp extends StatelessWidget {
         ],
         title: 'Healing Match',
         debugShowCheckedModeBanner: false,
-        home: SplashScreen()); //MyCustomSwitchApp());
+        home: SplashScreen()); //SplashScreen());
   }
 }

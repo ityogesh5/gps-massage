@@ -2217,6 +2217,7 @@ class _RegisterUserState extends State<RegisterUser> {
             value.setBool('isUserRegister', true);
           }
         });
+        HealingMatchConstants.isUserRegistrationSkipped = false;
         FirebaseAuthHelper().signUpWithEmailAndPassword(
             serviceUserDetails.data.email, password);
         ProgressDialogBuilder.hideLoader(context);
