@@ -6,6 +6,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:favorite_button/favorite_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -77,6 +78,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenUserState extends State<HomeScreen> {
   @override
   void initState() {
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    HealingMatchConstants.fbUserId = firebaseAuth.currentUser.uid;
     super.initState();
   }
 

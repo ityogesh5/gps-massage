@@ -1357,7 +1357,6 @@ class _RegistrationSecondPageState
           if (value != null) {
             ServiceProviderApi.saveFirebaseUserID(value, context);
             userData.firebaseUDID = value;
-            
           }
         });
         sharedPreferences.setString("userData", json.encode(userData));

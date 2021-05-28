@@ -29,7 +29,7 @@ enum LoaderStatus {
   LOADING,
 }
 
-/* class ChatItemScreen extends StatefulWidget {
+class ChatItemScreen extends StatefulWidget {
   final ChatData chatData;
 
   ChatItemScreen(this.chatData);
@@ -154,7 +154,7 @@ class _ChatItemScreenState extends State<ChatItemScreen> {
       );
     }
 
-    final userContacts = Provider.of<Chat>(context, listen: false).getContacts;
+    /*  final userContacts = Provider.of<Chat>(context, listen: false).getContacts;
     // add UserDetail to contacts if not already in contacts
     if (!userContacts.contains(peerId)) {
       Provider.of<Chat>(context, listen: false).addToContacts(peerId);
@@ -174,7 +174,7 @@ class _ChatItemScreenState extends State<ChatItemScreen> {
       Provider.of<Chat>(context, listen: false).addToInitChats(initChatData);
     } else {
       Provider.of<Chat>(context, listen: false).bringChatToTop(groupChatId);
-    }
+    } */
   }
 
   void _onUploadFinished(String url) {
@@ -310,7 +310,7 @@ class _ChatItemScreenState extends State<ChatItemScreen> {
       for (int i = 0; i < snapshots.data.documents.length; i++) {
         final snapshot = snapshots.data.documents[i];
         Future.doWhile(() {
-          Message newMsg = Message.fromMap(snapshot.data);
+          Message newMsg = Message.fromMap(snapshot.data());
           if (widget.chatData.messages.isNotEmpty) {
             // add message to the list only if it's after the first item in the list
             if (newMsg.sendDate.isAfter(widget.chatData.messages[0].sendDate)) {
@@ -464,13 +464,13 @@ class _ChatItemScreenState extends State<ChatItemScreen> {
                               filled: false,
                               fillColor: Colors.white,
                               hintText: 'メッセージを入カしてください。',
-                              prefixIcon: IconButton(
+                              /*  prefixIcon: IconButton(
                                 icon: Icon(Icons.attachment_outlined,
                                     color: Colors.grey[300]),
                                 onPressed: () {
                                   //pickImage();
                                 },
-                              ),
+                              ), */
                               hintStyle: TextStyle(color: Colors.grey[300]),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide.none,
@@ -509,15 +509,15 @@ class _ChatItemScreenState extends State<ChatItemScreen> {
                         padding: const EdgeInsets.all(8.0),
                         child: new CircleAvatar(
                           backgroundColor: Colors.lime,
-                          radius: 25,
+                          radius: 20,
                           child: Transform.rotate(
                             angle: -math.pi / 4,
                             child: IconButton(
                               icon: Icon(Icons.send,
-                                  size: 30, color: Colors.white),
+                                  size: 25, color: Colors.white),
                               onPressed: () {
                                 send();
-                               _updateTypingStatus(false, userId);
+                                _updateTypingStatus(false, userId);
                               },
                             ),
                           ),
@@ -694,7 +694,7 @@ class __ToBottomState extends State<_ToBottom> {
       width: 70,
       height: 50,
       decoration: BoxDecoration(
-        color: kBlackColor3,
+        color: ColorConstants.buttonColor,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(10),
           bottomLeft: Radius.circular(10),
@@ -706,11 +706,11 @@ class __ToBottomState extends State<_ToBottom> {
         onPressed: onTap,
         child: Container(
           child: Icon(Icons.arrow_drop_down_outlined,
-              size: 20, color: Theme.of(context).accentColor),
+              size: 20,
+              color: Colors.white /* Theme.of(context).accentColor */),
           // padding: const EdgeInsets.all(3),
           decoration: BoxDecoration(
-              border:
-                  Border.all(color: Theme.of(context).accentColor, width: 1.5),
+              border: Border.all(color: Colors.white, width: 1.5),
               borderRadius: BorderRadius.circular(20)),
         ),
       ),
@@ -838,9 +838,8 @@ class ChatOps {
     return i == 0 || (c1 && c2);
   }
 }
- */
 
-class ChatItemScreen extends StatefulWidget {
+/* class ChatItemScreen extends StatefulWidget {
   final ChatData chatData;
   ChatItemScreen(this.chatData);
 
@@ -1614,4 +1613,4 @@ class ChatOps {
     bool c2 = i != length - 1 && messages[i + 1].fromId == messages[i].fromId;
     return i == 0 || (c1 && c2);
   }
-}
+} */

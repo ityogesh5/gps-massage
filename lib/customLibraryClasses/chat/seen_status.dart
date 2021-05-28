@@ -23,7 +23,7 @@ class SeenStatus extends StatelessWidget {
   Widget _buildStatus(BuildContext context) {
     return Wrap(
       children: [
-        Padding(
+       /*  Padding(
           padding: const EdgeInsets.only(top: 2.0),
           child: Text(
             getTime(),
@@ -35,14 +35,14 @@ class SeenStatus extends StatelessWidget {
         ),
         SizedBox(
           width: 5,
-        ),
+        ), */
         if (isMe)
           Icon(
             Icons.done_all,
             color: isSeen
                 ? Theme.of(context).accentColor
                 : Colors.white.withOpacity(0.35),
-            size: 19,
+            size: 15,
           ),
       ],
     );

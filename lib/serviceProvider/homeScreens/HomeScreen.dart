@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:date_util/date_util.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
@@ -65,6 +66,8 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     super.initState();
     HealingMatchConstants.isProvider = true;
     HealingMatchConstants.isProviderHomePage = true;
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    HealingMatchConstants.fbUserId = firebaseAuth.currentUser.uid;
     getProviderDetails();
 
     dateString = '';

@@ -446,6 +446,9 @@ class HealingMatchConstants {
   static List<StoreServiceTime> therapistDetails = List<StoreServiceTime>();
   static String storeServiceTime = '';
 
+  //Firebase Chat
+  static String fbUserId;
+
   //User Calendar
   static TherapistByIdModel therapistProfileDetails;
   static void Function(DateTime) callBack;

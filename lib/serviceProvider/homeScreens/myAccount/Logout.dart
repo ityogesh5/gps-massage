@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/auth.dart';
 import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -75,6 +76,7 @@ class _ProviderLogoutState extends State<ProviderLogout> {
                   ],
                   radioButtonValue: (value) {
                     if (value == 'Y') {
+                      Auth().signOut();
                       sharedPreferences.then((value) {
                         value.setBool('isProviderLoggedOut', true);
                         value.setBool('isProviderLoggedIn', false);

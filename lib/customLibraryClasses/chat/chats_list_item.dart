@@ -8,7 +8,7 @@ import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/db
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/chatData.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/message.dart';
 import 'package:gps_massageapp/customLibraryClasses/chat/avatar.dart';
-import 'package:gps_massageapp/serviceProvider/homeScreens/chat/chat_item_screen.dart';
+import 'package:gps_massageapp/commonScreens/chat/chat_item_screen.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 

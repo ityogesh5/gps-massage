@@ -546,4 +546,28 @@ class ServiceUserAPIProvider {
     httpClient.close();
     return HealingMatchConstants.userEvents;
   }
+
+  static Future<bool> saveFirebaseUserID(
+      String firebaseID, BuildContext context, int id) async {
+    try {
+      final url = HealingMatchConstants.FIREBASE_UPDATE_USERID;
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '${HealingMatchConstants.accessToken}'
+      };
+      final response = await http.post(url,
+          headers: headers,
+          body: json.encode(
+              {"id": id, "isTherapist": 0, "firebaseUDID": firebaseID}));
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print('Exception : ${e.toString()}');
+      return false;
+    }
+  }
 }

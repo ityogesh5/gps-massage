@@ -1,12 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/db.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/chatData.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/message.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/user.dart';
 
 class Chat with ChangeNotifier {
-  String _userId = "BpDibFDktkZ0q93gW9ibFyZjKNt1";
+  String _userId =
+      HealingMatchConstants.fbUserId; 
   final db = DB();
 
   User _user;
