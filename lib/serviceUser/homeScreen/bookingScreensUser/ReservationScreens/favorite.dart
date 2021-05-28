@@ -437,15 +437,16 @@ class _FavoriteState extends State<Favorite> {
                                                                         .therapistId);
                                                           } else {
                                                             // call un-favorite therapist API
-                                                            ServiceUserAPIProvider
-                                                                .unFavouriteTherapist(
+                                                            ServiceUserAPIProvider.unFavouriteTherapist(
                                                                     favouriteUserList[
                                                                             index]
-                                                                        .therapistId);
-                                                            setState(() {
-                                                              favouriteUserList
-                                                                  .removeAt(
-                                                                      index);
+                                                                        .therapistId)
+                                                                .then((value) {
+                                                              setState(() {
+                                                                favouriteUserList
+                                                                    .removeAt(
+                                                                        index);
+                                                              });
                                                             });
                                                           }
                                                         }),
