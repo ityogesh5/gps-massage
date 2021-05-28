@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
@@ -163,14 +164,24 @@ class _ChatUserListState extends State<ChatUserList> {
                     child: CircleAvatar(
                       radius: 25.0,
                       backgroundColor: Colors.white,
-                      child: CachedNetworkImage(
-                        width: 50.0,
-                        height: 60.0,
-                        fit: BoxFit.cover,
-                        imageUrl: contactList[index].imageUrl,
-                        placeholder: (context, url) => SpinKitWave(
-                            size: 20.0, color: ColorConstants.buttonColor),
-                      ),
+                      child: (contactList[index].imageUrl != '' &&
+                              contactList[index].imageUrl != null)
+                          ? CachedNetworkImage(
+                              width: 50.0,
+                              height: 60.0,
+                              fit: BoxFit.cover,
+                              imageUrl: contactList[index].imageUrl,
+                              placeholder: (context, url) => SpinKitWave(
+                                  size: 20.0,
+                                  color: ColorConstants.buttonColor),
+                            )
+                          : Image.asset(
+                              'assets/images_gps/placeholder_image.png',
+                              width: 50.0,
+                              height: 60.0,
+                              color: Colors.black,
+                              fit: BoxFit.cover,
+                            ),
                     ),
                   ),
                   contactList[index].isOnline

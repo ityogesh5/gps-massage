@@ -28,7 +28,7 @@ class MediaBubble extends StatelessWidget {
   void navToImageView(BuildContext context) {
     Navigator.of(context).push(PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
-          MediaView(url: message.mediaUrl, type:message.mediaType),
+          MediaView(url: message.mediaUrl, type: message.mediaType),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         var begin = 0.0;
         var end = 1.0;
@@ -42,7 +42,6 @@ class MediaBubble extends StatelessWidget {
       },
     ));
   }
-    
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +68,12 @@ class MediaBubble extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      border: isMe ? null : (message.type == MessageType.Media && message.content != null) ?  Border.all(color: kBorderColor3) : null,
+                      border: isMe
+                          ? null
+                          : (message.type == MessageType.Media &&
+                                  message.content != null)
+                              ? Border.all(color: kBorderColor3)
+                              : null,
                       color: isMe ? kBlackColor3 : kBlackColor,
                     ),
                     padding: const EdgeInsets.all(5),
@@ -130,7 +134,10 @@ class _WithText extends StatelessWidget {
             ),
             Padding(
                 padding: const EdgeInsets.only(top: 10.0),
-                child: BubbleText(text: message.content)),
+                child: BubbleText(
+                  text: message.content,
+                  color: Colors.black,
+                )),
           ],
         ),
         SeenStatus(
@@ -158,7 +165,7 @@ class _WithoutText extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Stack(
       children: [
-        Container(          
+        Container(
           constraints: BoxConstraints(
             minWidth: size.width * 0.7,
             maxWidth: size.width * 0.7,
@@ -169,17 +176,17 @@ class _WithoutText extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: message.mediaType == MediaType.Video
-              ? CVideoPlayer(
-                  url: message.mediaUrl,
-                  isLocal: false,
-                )
-              : CachedNetworkImage(
-                  imageUrl: message.mediaUrl,                          
-                  placeholder: (_, __) => Center(child: CupertinoActivityIndicator()),                 
-                  fit: BoxFit.cover,
-                ),
+                ? CVideoPlayer(
+                    url: message.mediaUrl,
+                    isLocal: false,
+                  )
+                : CachedNetworkImage(
+                    imageUrl: message.mediaUrl,
+                    placeholder: (_, __) =>
+                        Center(child: CupertinoActivityIndicator()),
+                    fit: BoxFit.cover,
+                  ),
           ),
-           
         ),
         Positioned(
           bottom: 0,
@@ -188,10 +195,10 @@ class _WithoutText extends StatelessWidget {
             color: Colors.transparent,
             child: ClipRRect(
               borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(10),
-                  bottomRight: Radius.circular(10),
-                ),
-                          child: Container(
+                bottomLeft: Radius.circular(10),
+                bottomRight: Radius.circular(10),
+              ),
+              child: Container(
                 alignment: Alignment.centerRight,
                 padding: const EdgeInsets.all(5),
                 height: 30,
@@ -199,7 +206,7 @@ class _WithoutText extends StatelessWidget {
                   maxWidth: size.width * 0.8,
                 ),
                 width: double.infinity,
-                decoration: BoxDecoration(                 
+                decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
                       Colors.black.withOpacity(0.6),

@@ -82,6 +82,10 @@ class _ChatItemScreenState extends State<ChatItemScreen> {
   void initState() {
     super.initState();
     print('initcalled =============');
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: ColorConstants.statusBarColor,
+        statusBarBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.light));
     db = DB();
     _textEditingController = TextEditingController();
     _scrollController = ScrollController();
@@ -583,6 +587,7 @@ class _ChatItemScreenState extends State<ChatItemScreen> {
     // FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
     return SafeArea(
       bottom: false,
+      top: false,
       child: Scaffold(
         // resizeToAvoidBottomInset: false,
         appBar: PreferredSize(
