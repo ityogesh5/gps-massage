@@ -79,8 +79,10 @@ class NavigationRouter {
   }
 
   static void switchToServiceUserRegistration(BuildContext context) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => RegisterServiceUserScreen()));
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => RegisterServiceUserScreen()),
+    );
   }
 
 //Provider WeeklySchedule

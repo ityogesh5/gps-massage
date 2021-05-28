@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -17,6 +19,7 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/register/cityLi
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/serviceUserRegisterResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/stateListResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:gps_massageapp/utils/text_field_custom.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -100,6 +103,7 @@ class _RegisterUserState extends State<RegisterUser> {
   final gpsAddressController = new TextEditingController();
   final roomNumberController = new TextEditingController();
   final otherController = new TextEditingController();
+  var lineUserImage;
 
   List<String> serviceUserDetails = [];
   String fcmStatus;
@@ -231,7 +235,7 @@ class _RegisterUserState extends State<RegisterUser> {
             child: InkWell(
               onTap: () {
                 HealingMatchConstants.isUserRegistrationSkipped = true;
-                NavigationRouter.switchToServiceUserBottomBar(context);
+                _getFCMToken();
               },
               child: Text(
                 'スキップ',
@@ -294,8 +298,8 @@ class _RegisterUserState extends State<RegisterUser> {
                         _profileImage != null
                             ? Semantics(
                                 child: new Container(
-                                    width: 100.0,
-                                    height: 100.0,
+                                    width: 95.0,
+                                    height: 95.0,
                                     decoration: new BoxDecoration(
                                       border: Border.all(color: Colors.black12),
                                       shape: BoxShape.circle,
@@ -306,18 +310,53 @@ class _RegisterUserState extends State<RegisterUser> {
                                       ),
                                     )),
                               )
-                            : new Container(
-                                width: 95.0,
-                                height: 95.0,
-                                decoration: new BoxDecoration(
-                                  border: Border.all(color: Colors.grey[200]),
-                                  shape: BoxShape.circle,
-                                  image: new DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: new AssetImage(
-                                        'assets/images_gps/placeholder_image.png'),
-                                  ),
-                                )),
+                            : lineUserImage != null
+                                ? CachedNetworkImage(
+                                    imageUrl: lineUserImage,
+                                    filterQuality: FilterQuality.high,
+                                    fadeInCurve: Curves.easeInSine,
+                                    imageBuilder: (context, imageProvider) =>
+                                        Container(
+                                      width: 95.0,
+                                      height: 95.0,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                            image: imageProvider,
+                                            fit: BoxFit.cover),
+                                      ),
+                                    ),
+                                    placeholder: (context, url) =>
+                                        SpinKitDoubleBounce(
+                                            color: Colors.lightGreenAccent),
+                                    errorWidget: (context, url, error) =>
+                                        Container(
+                                      width: 95.0,
+                                      height: 95.0,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border:
+                                            Border.all(color: Colors.black12),
+                                        image: DecorationImage(
+                                            image: new AssetImage(
+                                                'assets/images_gps/placeholder_image.png'),
+                                            fit: BoxFit.cover),
+                                      ),
+                                    ),
+                                  )
+                                : new Container(
+                                    width: 95.0,
+                                    height: 95.0,
+                                    decoration: new BoxDecoration(
+                                      border:
+                                          Border.all(color: Colors.grey[200]),
+                                      shape: BoxShape.circle,
+                                      image: new DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: new AssetImage(
+                                            'assets/images_gps/placeholder_image.png'),
+                                      ),
+                                    )),
                       ],
                     ),
                     SizedBox(height: 10),
@@ -2305,6 +2344,21 @@ class _RegisterUserState extends State<RegisterUser> {
         });
       }
     });
+    _setLineCredentialsForUser();
+  }
+
+  _setLineCredentialsForUser() async {
+    setState(() {
+      if (HealingMatchConstants.lineUserProfileURL != null) {
+        lineUserImage = HealingMatchConstants.lineUserProfileURL;
+      }
+      if (HealingMatchConstants.lineUsername != null) {
+        userNameController.text = HealingMatchConstants.lineUsername;
+      }
+      if (HealingMatchConstants.lineUserEmail != null) {
+        emailController.text = HealingMatchConstants.lineUserEmail;
+      }
+    });
     _getFCMStatus();
   }
 
@@ -2358,5 +2412,103 @@ class _RegisterUserState extends State<RegisterUser> {
       //ProgressDialogBuilder.hideGetCitiesProgressDialog(context);
       print('Response City list : ${response.body}');
     });
+  }
+
+  _getFCMToken() async {
+    fireBaseMessaging.getToken().then((fcmTokenValue) {
+      if (fcmTokenValue != null) {
+        fcmToken = fcmTokenValue;
+        print('FCM Skip Token : $fcmToken');
+        _getCurrentLocation();
+      } else {
+        fireBaseMessaging.onTokenRefresh.listen((refreshToken) {
+          if (refreshToken != null) {
+            fcmToken = refreshToken;
+            print('FCM Skip Refresh Tokens : $fcmToken');
+          }
+        }).onError((handleError) {
+          print('On FCM Skip Token Refresh error : ${handleError.toString()}');
+        });
+      }
+    }).catchError((onError) {
+      print('FCM Skip Token Exception : ${onError.toString()}');
+    });
+  }
+
+  _getGuestUserAccessToken() async {
+    var isTherapistValue = 0;
+    try {
+      ServiceUserAPIProvider.handleGuestUser(isTherapistValue)
+          .then((guestUserResponse) {
+        if (guestUserResponse != null) {
+          _sharedPreferences.then((value) {
+            value.setString('accessToken', guestUserResponse.accessToken);
+          });
+          ProgressDialogBuilder.hideLoader(context);
+          NavigationRouter.switchToServiceUserBottomBar(context);
+        } else {
+          ProgressDialogBuilder.hideLoader(context);
+          print('Guest user response has no value !!');
+        }
+      }).catchError((onError) {
+        ProgressDialogBuilder.hideLoader(context);
+        print('Catch error guest user : ${onError.toString()}');
+      });
+    } catch (e) {
+      ProgressDialogBuilder.hideLoader(context);
+      print('Skip exception : ${e.toString()}');
+    }
+  }
+
+  // Get current address from Latitude Longitude
+  _getCurrentLocation() async {
+    ProgressDialogBuilder.showOverlayLoader(context);
+    bool isGPSEnabled = await geoLocator.isLocationServiceEnabled();
+    print('GPS Enabled : $isGPSEnabled');
+    if (HealingMatchConstants.isUserRegistrationSkipped && !isGPSEnabled) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('GPSを有効にしてさらに進んでください！',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                FocusScope.of(context).requestFocus(new FocusNode());
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      fontWeight: FontWeight.w500,
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      ProgressDialogBuilder.hideLoader(context);
+      return;
+    } else {
+      print('Guest User GPS Enabled : $isGPSEnabled');
+      geoLocator
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+          .then((Position position) {
+        _currentPosition = position;
+        print(
+            'Current latLong Guest user : ${_currentPosition.latitude} && \n${_currentPosition.longitude}');
+        HealingMatchConstants.currentLatitude = _currentPosition.latitude;
+        HealingMatchConstants.currentLongitude = _currentPosition.longitude;
+        _getGuestUserAccessToken();
+      }).catchError((e) {
+        print('Current Location exception : ${e.toString()}');
+      });
+    }
   }
 }

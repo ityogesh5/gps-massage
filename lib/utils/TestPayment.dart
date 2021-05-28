@@ -30,7 +30,7 @@ class _TestPaymentState extends State<TestPayment> {
     super.initState();
     StripePayment.setOptions(StripeOptions(
         publishableKey:
-            "pk_test_51HwMwNBL9ibeFzEEMHOV6az31lNurmBP3cvNPqaBQASqm4LrQhfJL5NHJ8fApM8twA1oxflxWUoatPKcef7ScZHS00WzhyrZFk",
+            "pk_test_51HyDhJHsOI5BijsX0jpyWHCKXh7nI2WsRhiQmSNSW9UcKM6Ly4AoXDGNtwTdCSmxJhcr4sp1Dbl3EAKwyvsbB8Ab00lNFx3MsS",
         //merchantId: "Your_Merchant_id",
         androidPayMode: 'test'));
   }

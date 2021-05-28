@@ -7,6 +7,7 @@ import 'package:googleapis_auth/auth_io.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/event.dart';
+import 'package:gps_massageapp/models/responseModels/LineResponseModel/LineIDTokenResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/gusetUserModel/GuestUserResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/paymentModels/CustomerCreation.dart';
 import 'package:gps_massageapp/models/responseModels/paymentModels/PaymentCustomerCharge.dart';
@@ -68,6 +69,9 @@ class ServiceUserAPIProvider {
   static PaymentCustomerCharge _paymentCustomerCharge =
       new PaymentCustomerCharge();
   static PaymentSuccessModel _paymentSuccessModel = new PaymentSuccessModel();
+
+  static LineIDTokenResponseModel _idTokenResponseModel =
+      new LineIDTokenResponseModel();
 
   // get all therapist users
   static Future<TherapistUsersModel> getAllTherapistUsers(
@@ -533,6 +537,31 @@ class ServiceUserAPIProvider {
       print('Exception paymentSuccess API : ${e.toString()}');
     }
     return _paymentSuccessModel;
+  }
+
+  // Line IDTokenResponse
+// paymentSuccess
+  static Future<LineIDTokenResponseModel> getIDTokenResponse(
+      var idToken) async {
+    try {
+      final url = '${HealingMatchConstants.VERIFY_LINE_ID_TOKEN_URL}';
+      final response = await http.post(url,
+          body: json.encode({
+            "id_token": idToken,
+            "client_id": HealingMatchConstants.clientLineChannelID,
+          }));
+      print('paymentSuccess response : ${response.body}');
+      print('statusCode : ${response.statusCode}');
+      if (response.statusCode == 200) {
+        final getResponse = json.decode(response.body);
+        _idTokenResponseModel = LineIDTokenResponseModel.fromJson(getResponse);
+      } else {
+        print('paymentSuccess API Request failed !!');
+      }
+    } catch (e) {
+      print('Exception paymentSuccess API : ${e.toString()}');
+    }
+    return _idTokenResponseModel;
   }
 
   // Get calendar events

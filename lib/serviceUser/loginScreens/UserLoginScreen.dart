@@ -610,7 +610,7 @@ class _UserLoginState extends State<UserLogin> {
   void _initiateLineLogin() async {
     print('Entering line login...');
     try {
-      LineLoginHelper.startLineLoginForUser(context);
+      LineLoginHelper.startLineLogin(context);
     } catch (e) {
       print(e);
     }

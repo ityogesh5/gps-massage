@@ -8,6 +8,8 @@ import 'package:gps_massageapp/serviceUser/profileScreens/DeleteSubAddressScreen
 import 'package:gps_massageapp/serviceUser/profileScreens/LogOutScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../constantsUtils.dart';
+
 class DialogHelper {
   static Future<SharedPreferences> _sharedPreferences =
       SharedPreferences.getInstance();
@@ -35,6 +37,7 @@ class DialogHelper {
     AwesomeDialog dialog;
     dialog = AwesomeDialog(
       dismissOnTouchOutside: false,
+      useRootNavigator: true,
       context: context,
       headerAnimationLoop: false,
       dialogType: DialogType.NO_HEADER,
@@ -59,6 +62,10 @@ class DialogHelper {
                 Center(
                     child: InkWell(
                   onTap: () {
+                    HealingMatchConstants.lineUserProfileURL = null;
+                    HealingMatchConstants.lineUsername = null;
+                    HealingMatchConstants.lineUserEmail = null;
+                    dialog.dissmiss();
                     NavigationRouter.switchToServiceUserRegistration(context);
                   },
                   child: Text('登録する',
@@ -104,6 +111,10 @@ class DialogHelper {
                 SizedBox(height: 10),
                 InkWell(
                   onTap: () {
+                    HealingMatchConstants.lineUserProfileURL = null;
+                    HealingMatchConstants.lineUsername = null;
+                    HealingMatchConstants.lineUserEmail = null;
+                    dialog.dissmiss();
                     NavigationRouter.switchToUserLogin(context);
                   },
                   child: Text('すでにアカウントをお持ちの方',
@@ -119,17 +130,6 @@ class DialogHelper {
               ],
             ),
           ),
-          /* Positioned(
-            top: -5,
-            right: -5,
-            child: IconButton(
-                icon: Icon(Icons.clear),
-                onPressed: () {
-                  dialog.dissmiss();
-                  NavigationRouter.switchToServiceUserBottomBar(context);
-                  print('Close');
-                }),
-          ),*/
         ],
       ),
       btnOkOnPress: () {

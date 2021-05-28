@@ -182,6 +182,12 @@ class HealingMatchConstants {
   static const String PAYMENT_SUCCESS_CALL_URL =
       ON_PREMISE_USER_BASE_URL + '/user/paymentConfirm';
 
+  // lINE id TOKEN url
+
+  //VERIFY_LINE_ID_TOKEN_URL
+  static const String VERIFY_LINE_ID_TOKEN_URL =
+      'https://api.line.me/oauth2/v2.1/verify';
+
   //Common string
   static bool isInternetAvailable = false;
   static String registerProgressText = '登録中...';
@@ -455,6 +461,8 @@ class HealingMatchConstants {
   static String lineUserProfileURL;
 
   static String lineUserProfileDetails;
+
+  static String lineUserEmail;
 
   // Profile Edit screen user
   static Uint8List userEditProfile;
