@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/fireBaseHelper/FirebaseAuthHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/auth.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/lineLoginHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
@@ -547,10 +548,7 @@ class _UserLoginState extends State<UserLogin> {
         });
         print('Is User verified : ${loginResponseModel.data.isVerified}');
         if (loginResponseModel.data.isVerified) {
-          FirebaseAuthHelper().signInWithEmailAndPassword(
-              loginResponseModel.data.email, password);
-          ProgressDialogBuilder.hideLoader(context);
-          NavigationRouter.switchToServiceUserBottomBar(context);
+          firebaseChatLogin(loginResponseModel.data, password);
         } else {
           ProgressDialogBuilder.hideLoader(context);
           Toast.show("許可されていないユーザー。", context,
@@ -571,6 +569,15 @@ class _UserLoginState extends State<UserLogin> {
       print('Response catch error : ${e.toString()}');
       return;
     }
+  }
+
+  void firebaseChatLogin(Data userData, String password) {
+    Auth().signIn(userData.email, password).then((value) {
+      ProgressDialogBuilder.hideLoader(context);
+      if (value) {
+        NavigationRouter.switchToServiceUserBottomBar(context);
+      }
+    });
   }
 
   _initiateAppleSignIn() async {

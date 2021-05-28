@@ -11,6 +11,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/auth.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/lineLoginHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
@@ -472,10 +473,10 @@ class _ProviderLoginState extends State<ProviderLogin> {
         print('Login response : ${loginResponseModel.toJson()}');
         print('Login token : ${loginResponseModel.accessToken}');
         print('Is Provider verified : ${loginResponseModel.data.isVerified}');
-        hideLoader();
         if (loginResponseModel.data.isVerified) {
-          NavigationRouter.switchToServiceProviderBottomBar(context);
+          firebaseChatLogin(userData, password);
         } else {
+          hideLoader();
           Toast.show("許可されていないユーザー。", context,
               duration: 4,
               gravity: Toast.BOTTOM,
@@ -494,6 +495,15 @@ class _ProviderLoginState extends State<ProviderLogin> {
       hideLoader();
       return;
     }
+  }
+
+  void firebaseChatLogin(Data userData, String password) {
+    Auth().signIn(userData.email, password).then((value) {
+      hideLoader();
+      if (value) {
+        NavigationRouter.switchToServiceProviderBottomBar(context);
+      }
+    });
   }
 
   _initiateAppleSignIn() async {

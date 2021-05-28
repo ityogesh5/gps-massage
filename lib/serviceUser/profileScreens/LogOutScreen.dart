@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/fireBaseHelper/FirebaseAuthHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/auth.dart';
 import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -79,6 +80,7 @@ class _LogOutServiceUserState extends State<LogOutServiceUser> {
                   radioButtonValue: (value) {
                     if (value == 'Y') {
                       print('User Logged out!!');
+                      Auth().signOut();
                       _sharedPreferences.then((value) {
                         value.remove('addressData');
                         value.setBool('isUserLoggedOut', true);

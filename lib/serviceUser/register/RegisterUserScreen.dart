@@ -10,6 +10,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/fireBaseHelper/FirebaseAuthHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/auth.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
@@ -17,6 +18,7 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/register/cityLi
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/serviceUserRegisterResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/stateListResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:gps_massageapp/utils/text_field_custom.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -2217,8 +2219,22 @@ class _RegisterUserState extends State<RegisterUser> {
             value.setBool('isUserRegister', true);
           }
         });
-        FirebaseAuthHelper().signUpWithEmailAndPassword(
-            serviceUserDetails.data.email, password);
+        Auth()
+            .signUp(
+                serviceUserDetails.data.userName,
+                serviceUserDetails.data.email,
+                "password",
+                serviceUserDetails.data.uploadProfileImgUrl != null
+                    ? serviceUserDetails.data.uploadProfileImgUrl
+                    : '',
+                0,
+                serviceUserDetails.data.id)
+            .then((value) {
+          if (value != null) {
+            ServiceUserAPIProvider.saveFirebaseUserID(
+                value, context, serviceUserDetails.data.id);
+          }
+        });
         ProgressDialogBuilder.hideLoader(context);
         NavigationRouter.switchToUserOtpScreen(context);
       } else {

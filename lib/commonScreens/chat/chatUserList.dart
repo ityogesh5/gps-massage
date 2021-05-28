@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:googleapis/servicemanagement/v1.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/chat.dart';
@@ -11,7 +10,7 @@ import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/mo
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/message.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/user.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:gps_massageapp/serviceProvider/homeScreens/chat/chat_item_screen.dart';
+import 'package:gps_massageapp/commonScreens/chat/chat_item_screen.dart';
 import 'package:provider/provider.dart';
 
 class ChatUserList extends StatefulWidget {
@@ -38,7 +37,7 @@ class _ChatUserListState extends State<ChatUserList> {
   }
 
   getChatDetailsFromFirebase() {
-    db.getContactsofUser("3MFwceiZ47ZujApwRAdOvMN1BOD2").then((value) {
+    db.getContactsofUser(HealingMatchConstants.fbUserId).then((value) {
       userDetail = value;
       db.getUserDetilsOfContacts(userDetail.contacts).then((value) {
         contactList.addAll(value);

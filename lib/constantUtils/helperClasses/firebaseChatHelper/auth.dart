@@ -42,4 +42,8 @@ class Auth {
       return null;
     }
   }
+
+  void signOut() async {
+    _firebaseAuth.signOut();
+  }
 }
