@@ -493,8 +493,7 @@ class ServiceUserAPIProvider {
   }
 
   // un-favourite therapist
-  static Future<UnFavouriteTherapist> unFavouriteTherapist(
-      var therapistID) async {
+  static Future<bool> unFavouriteTherapist(var therapistID) async {
     try {
       final url = '${HealingMatchConstants.UNDO_FAVOURITE_THERAPIST}';
       final response = await http.post(url,
@@ -509,14 +508,15 @@ class ServiceUserAPIProvider {
       print('statusCode : ${response.statusCode}');
       if (response.statusCode == 200) {
         final getResponse = json.decode(response.body);
-        _unFavouriteTherapist = UnFavouriteTherapist.fromJson(getResponse);
+        // _unFavouriteTherapist = UnFavouriteTherapist.fromJson(getResponse);
+        return true;
       } else {
         print('Un Favourite API Request failed !!');
       }
     } catch (e) {
       print('Exception UnFavouriteTherapist API : ${e.toString()}');
     }
-    return _unFavouriteTherapist;
+    return false;
   }
 
   // guest user api call
