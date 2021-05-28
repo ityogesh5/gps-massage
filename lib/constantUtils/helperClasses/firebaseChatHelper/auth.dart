@@ -17,7 +17,7 @@ class Auth {
   Future<bool> signIn(String email, String password) async {
     try {
       UserCredential result = await _firebaseAuth.signInWithEmailAndPassword(
-          email: email, password: password);
+          email: email, password: "password");
       _firebaseUser = result.user;
       return true;
     } catch (error) {
