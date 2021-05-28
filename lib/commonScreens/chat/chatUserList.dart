@@ -29,7 +29,6 @@ class _ChatUserListState extends State<ChatUserList> {
   List<UserDetail> contactList = List<UserDetail>();
   int status = 0;
   List<ChatData> chatData = List<ChatData>();
-  Stream<QuerySnapshot> _stream;
 
   void initState() {
     super.initState();
@@ -39,17 +38,24 @@ class _ChatUserListState extends State<ChatUserList> {
   getChatDetailsFromFirebase() {
     db.getContactsofUser(HealingMatchConstants.fbUserId).then((value) {
       userDetail = value;
-      db.getUserDetilsOfContacts(userDetail.contacts).then((value) {
-        contactList.addAll(value);
-        // final chats = Provider.of<Chat>(context).chats;
-        Chat().fetchChats(contactList).then((value) {
-          chatData.addAll(value);
+      if (value.contacts.length != 0) {
+        db.getUserDetilsOfContacts(userDetail.contacts).then((value) {
+          contactList.addAll(value);
+          // final chats = Provider.of<Chat>(context).chats;
 
-          setState(() {
-            status = 1;
+          Chat().fetchChats(contactList).then((value) {
+            chatData.addAll(value);
+
+            setState(() {
+              status = 1;
+            });
           });
         });
-      });
+      } else {
+        setState(() {
+          status = 1;
+        });
+      }
     });
   }
 
@@ -59,71 +65,79 @@ class _ChatUserListState extends State<ChatUserList> {
         ? Center(child: CircularProgressIndicator())
         : Padding(
             padding: const EdgeInsets.all(8.0),
-            child: ListView(
-              physics: BouncingScrollPhysics(),
-              children: [
-                Column(
-                  children: [
-                    SizedBox(
-                      height: 15,
+            child: contactList.length == 0
+                ? Center(
+                    child: Container(
+                      child: Text("現在、チャットの履歴はありません。"),
                     ),
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.07,
-                      decoration: BoxDecoration(boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey[400],
-                          offset: Offset(2.0, 2.0),
-                          blurRadius: 8.0,
-                        )
-                      ]),
-                      child: TextFormField(
-                        autofocus: false,
-                        textInputAction: TextInputAction.search,
-                        decoration: new InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            hintText: '検索',
-                            suffixIcon: IconButton(
-                              icon: Icon(Icons.search_rounded,
-                                  color: Color.fromRGBO(225, 225, 225, 1),
-                                  size: 30),
-                              onPressed: () {},
+                  )
+                : ListView(
+                    physics: BouncingScrollPhysics(),
+                    children: [
+                      Column(
+                        children: [
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.07,
+                            decoration: BoxDecoration(boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey[400],
+                                offset: Offset(2.0, 2.0),
+                                blurRadius: 8.0,
+                              )
+                            ]),
+                            child: TextFormField(
+                              autofocus: false,
+                              textInputAction: TextInputAction.search,
+                              decoration: new InputDecoration(
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  hintText: '検索',
+                                  suffixIcon: IconButton(
+                                    icon: Icon(Icons.search_rounded,
+                                        color: Color.fromRGBO(225, 225, 225, 1),
+                                        size: 30),
+                                    onPressed: () {},
+                                  ),
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.red, width: 2.0),
+                                    borderRadius: BorderRadius.circular(10),
+                                  )),
                             ),
-                            hintStyle: TextStyle(color: Colors.grey),
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Colors.red, width: 2.0),
-                              borderRadius: BorderRadius.circular(10),
-                            )),
+                          ),
+                          SizedBox(height: 15),
+                        ],
                       ),
-                    ),
-                    SizedBox(height: 15),
-                  ],
-                ),
-                Container(
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: contactList.length,
-                      itemBuilder: (context, index) {
-                        Message lastMessage = chatData[index].messages[0];
-                        DateTime lastMessageDate =
-                            DateTime.fromMillisecondsSinceEpoch(
-                                int.parse(lastMessage.timeStamp));
-                        _stream = db.getSnapshotsWithLimit(
-                            chatData[index].groupId, 1);
-                        return buildChatDetails(
-                            index, lastMessage, lastMessageDate, _stream);
-                      }),
-                ),
-              ],
-            ),
+                      Container(
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: contactList.length,
+                            itemBuilder: (context, index) {
+                              return buildChatDetails(index);
+                            }),
+                      ),
+                    ],
+                  ),
           );
   }
 
-  InkWell buildChatDetails(
-      int index, Message lastMessage, DateTime lastMessageDate, Stream stream) {
+  InkWell buildChatDetails(int index) {
+    Stream<QuerySnapshot> _stream;
+    Message lastMessage;
+    DateTime lastMessageDate;
+    if (chatData[index].messages.length != 0) {
+      lastMessage = chatData[index].messages[0];
+      lastMessageDate =
+          DateTime.fromMillisecondsSinceEpoch(int.parse(lastMessage.timeStamp));
+      _stream = db.getSnapshotsWithLimit(chatData[index].groupId, 1);
+    }
+
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -214,58 +228,64 @@ class _ChatUserListState extends State<ChatUserList> {
                     textAlign: TextAlign.left,
                   ),
                   SizedBox(height: 4),
-                  StreamBuilder(
-                    stream: stream,
-                    builder: (context, snapshots) {
-                      if (snapshots.connectionState == ConnectionState.waiting)
-                        return Container(height: 0, width: 0);
-                      else {
-                        if (snapshots.data.documents.isNotEmpty) {
-                          final snapshot = snapshots.data.documents[0];
-                          Message newMsg = Message.fromMap(snapshot.data());
-                          _addNewMessages(newMsg, chatData[index]);
-                          return Row(
-                            children: [
-                              newMsg.type == MessageType.Media
-                                  ? Container(
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            newMsg.mediaType == MediaType.Photo
-                                                ? Icons.photo_camera
-                                                : Icons.videocam,
-                                            size: newMsg.mediaType ==
-                                                    MediaType.Photo
-                                                ? 15
-                                                : 20,
-                                            color:
-                                                Colors.white.withOpacity(0.45),
+                  _stream != null
+                      ? StreamBuilder(
+                          stream: _stream,
+                          builder: (context, snapshots) {
+                            if (snapshots.connectionState ==
+                                ConnectionState.waiting)
+                              return Container(height: 0, width: 0);
+                            else {
+                              if (snapshots.data.documents.isNotEmpty) {
+                                final snapshot = snapshots.data.documents[0];
+                                Message newMsg =
+                                    Message.fromMap(snapshot.data());
+                                _addNewMessages(newMsg, chatData[index]);
+                                return Row(
+                                  children: [
+                                    newMsg.type == MessageType.Media
+                                        ? Container(
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  newMsg.mediaType ==
+                                                          MediaType.Photo
+                                                      ? Icons.photo_camera
+                                                      : Icons.videocam,
+                                                  size: newMsg.mediaType ==
+                                                          MediaType.Photo
+                                                      ? 15
+                                                      : 20,
+                                                  color: Colors.white
+                                                      .withOpacity(0.45),
+                                                ),
+                                                SizedBox(width: 8),
+                                                Text(
+                                                    newMsg.mediaType ==
+                                                            MediaType.Photo
+                                                        ? 'Photo'
+                                                        : 'Video',
+                                                    style:
+                                                        kChatItemSubtitleStyle)
+                                              ],
+                                            ),
+                                          )
+                                        : Flexible(
+                                            child: Text(newMsg.content,
+                                                style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        153, 153, 153, 1),
+                                                    fontSize: 10),
+                                                textAlign: TextAlign.left),
                                           ),
-                                          SizedBox(width: 8),
-                                          Text(
-                                              newMsg.mediaType ==
-                                                      MediaType.Photo
-                                                  ? 'Photo'
-                                                  : 'Video',
-                                              style: kChatItemSubtitleStyle)
-                                        ],
-                                      ),
-                                    )
-                                  : Flexible(
-                                      child: Text(newMsg.content,
-                                          style: TextStyle(
-                                              color: Color.fromRGBO(
-                                                  153, 153, 153, 1),
-                                              fontSize: 10),
-                                          textAlign: TextAlign.left),
-                                    ),
-                            ],
-                          );
-                        } else
-                          return Container(height: 0, width: 0);
-                      }
-                    },
-                  ),
+                                  ],
+                                );
+                              } else
+                                return Container(height: 0, width: 0);
+                            }
+                          },
+                        )
+                      : Container()
                   /* chatData[index].messages.length != 0
                       ? Text("${lastMessage.content}",
                           style: TextStyle(
@@ -276,30 +296,33 @@ class _ChatUserListState extends State<ChatUserList> {
                 ],
               ),
             ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                    "${lastMessageDate.year}/${lastMessageDate.month}/${lastMessageDate.day}",
-                    style: TextStyle(color: Colors.grey[300], fontSize: 12)),
-                SizedBox(height: 8),
-                chatData[index].unreadCount != 0
-                    ? CircleAvatar(
-                        radius: 12,
-                        backgroundColor: Colors.lime,
-                        child: Text(
-                          '${chatData[index].unreadCount}',
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                        ))
-                    : Container(),
-                SizedBox(height: 20),
-              ],
-            ),
+            lastMessageDate != null
+                ? Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                          "${lastMessageDate.year}/${lastMessageDate.month}/${lastMessageDate.day}",
+                          style:
+                              TextStyle(color: Colors.grey[300], fontSize: 12)),
+                      SizedBox(height: 8),
+                      chatData[index].unreadCount != 0
+                          ? CircleAvatar(
+                              radius: 12,
+                              backgroundColor: Colors.lime,
+                              child: Text(
+                                '${chatData[index].unreadCount}',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ))
+                          : Container(),
+                      SizedBox(height: 20),
+                    ],
+                  )
+                : Container()
           ],
         ),
       ),
