@@ -14,6 +14,7 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
 import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
+import 'package:gps_massageapp/customLibraryClasses/customPainterHeart/CustomHeartPainter.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistResultsModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
@@ -640,8 +641,20 @@ class _SearchResultState extends State<SearchResult> {
                                                             ),
                                                             Spacer(),
                                                             FittedBox(
-                                                              child:
-                                                                  FavoriteButton(
+                                                              child: HealingMatchConstants
+                                                                  .isUserRegistrationSkipped
+                                                                  ? GestureDetector(
+                                                                onTap: () {
+                                                                  return;
+                                                                },
+                                                                child: SvgPicture.asset(
+                                                                  'assets/images_gps/heart_wo_color.svg',
+                                                                  width: 25,
+                                                                  height: 25,
+                                                                  color: Colors.grey[400],
+                                                                ),
+                                                              )
+                                                                  :FavoriteButton(
                                                                       iconSize:
                                                                           40,
                                                                       iconColor:
@@ -1840,18 +1853,26 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                                                                     width: 15.0,
                                                                     color: Colors
                                                                         .black,
-                                                                  ), /* Icon(
-                                                          Icons
-                                                              .shopping_bag_rounded,
-                                                          key: key,
-                                                          color: Colors.black ), */
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),
                                                             Spacer(),
                                                             FittedBox(
-                                                              child:
-                                                                  FavoriteButton(
+                                                              child: HealingMatchConstants
+                                                                  .isUserRegistrationSkipped
+                                                                  ? GestureDetector(
+                                                                onTap: () {
+                                                                  return;
+                                                                },
+                                                                child: SvgPicture.asset(
+                                                                  'assets/images_gps/heart_wo_color.svg',
+                                                                  width: 25,
+                                                                  height: 25,
+                                                                  color: Colors.grey[400],
+                                                                ),
+                                                              )
+                                                                  : FavoriteButton(
                                                                       iconSize:
                                                                           40,
                                                                       iconColor:
@@ -2641,8 +2662,9 @@ class _SearchResultChipsState extends State<SearchResultChips> {
   Widget build(BuildContext context) {
     return Container(
       child: Padding(
-          padding: const EdgeInsets.all(6.0),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
                 height: MediaQuery.of(context).size.height * 0.04,

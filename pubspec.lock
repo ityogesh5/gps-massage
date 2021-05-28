@@ -22,6 +22,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.41.2"
+  animated_text_kit:
+    dependency: "direct main"
+    description:
+      name: animated_text_kit
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.2"
   apple_sign_in:
     dependency: "direct main"
     description:
@@ -536,13 +543,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.2.0+1"
-  flutter_socket_io:
-    dependency: "direct main"
-    description:
-      name: flutter_socket_io
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.6.0"
   flutter_spinkit:
     dependency: "direct main"
     description:
@@ -1329,7 +1329,7 @@ packages:
     source: hosted
     version: "0.9.7+15"
   web_socket_channel:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: web_socket_channel
       url: "https://pub.dartlang.org"

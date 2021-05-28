@@ -7,17 +7,30 @@ class UserDefineScreen extends StatefulWidget {
   _UserDefineScreenState createState() => _UserDefineScreenState();
 }
 
-class _UserDefineScreenState extends State<UserDefineScreen> {
+class _UserDefineScreenState extends State<UserDefineScreen>
+    with TickerProviderStateMixin {
   bool passwordVisibility = true;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final phoneNumberController = new TextEditingController();
   final passwordController = new TextEditingController();
   Size size;
   int state = 0;
+  AnimationController controller;
+  Animation<double> animation;
 
   @override
   void initState() {
     super.initState();
+    controller = AnimationController(
+        duration: const Duration(milliseconds: 1000), vsync: this);
+    animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
+    controller.forward();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -84,70 +97,82 @@ class _UserDefineScreenState extends State<UserDefineScreen> {
                       children: <Widget>[
                         SizedBox(height: 20),
                         Center(
-                          child: Text(
-                            HealingMatchConstants.UserSelectFirtTxt,
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
+                          child: FadeTransition(
+                            opacity: animation,
+                            child: Text(
+                              HealingMatchConstants.UserSelectFirtTxt,
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ),
                         ),
                         SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: Column(
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      print("User onTapped");
-                                      NavigationRouter
-                                          .switchToUserInitialTutorialScreen(
-                                              context);
-                                    },
-                                    child: Image.asset(
-                                      'assets/images_gps/user_image.png',
-                                      height: 150.0,
-                                      //width: 150.0,
-                                    ),
-                                  ),
-                                  SizedBox(height: 7),
-                                ],
+                        FadeTransition(
+                          opacity: animation,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    InkWell(
+                                        onTap: () {
+                                          print("User onTapped");
+                                          NavigationRouter
+                                              .switchToUserInitialTutorialScreen(
+                                                  context);
+                                        },
+                                        child: FadeTransition(
+                                          opacity: animation,
+                                          child: Image.asset(
+                                            'assets/images_gps/user_image.png',
+                                            height: 150.0,
+                                          ),
+                                        )),
+                                    SizedBox(height: 7),
+                                  ],
+                                ),
                               ),
-                            ),
-                            SizedBox(width: 10.0),
-                            Expanded(
-                              child: Column(
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      print("Provider onTapped");
-                                      NavigationRouter
-                                          .switchToProviderInitialTutorialScreen(
-                                              context);
-                                    },
-                                    child: Image.asset(
-                                      'assets/images_gps/Provider_image.png',
-                                      height: 150.0,
-                                      //width: 150.0,
-                                    ),
-                                  ),
-                                  SizedBox(height: 7),
-                                ],
+                              SizedBox(width: 10.0),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    InkWell(
+                                        onTap: () {
+                                          print("Provider onTapped");
+                                          NavigationRouter
+                                              .switchToProviderInitialTutorialScreen(
+                                                  context);
+                                        },
+                                        child: FadeTransition(
+                                          opacity: animation,
+                                          child: Image.asset(
+                                            'assets/images_gps/Provider_image.png',
+                                            height: 150.0,
+                                            //width: 150.0,
+                                          ),
+                                        )),
+                                    SizedBox(height: 7),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         SizedBox(height: 15),
-                        Container(
-                         // width: size.width * 0.9,
-                          child: Text(
-                            HealingMatchConstants.UserSelectLastTxt,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 12.0,
-                              fontWeight: FontWeight.bold,
+                        FadeTransition(
+                          opacity: animation,
+                          child: Container(
+                            // width: size.width * 0.9,
+                            child: Text(
+                              HealingMatchConstants.UserSelectLastTxt,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
