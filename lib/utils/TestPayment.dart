@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:stripe_payment/stripe_payment.dart';
 
 class TestPayment extends StatefulWidget {
@@ -30,7 +31,7 @@ class _TestPaymentState extends State<TestPayment> {
     super.initState();
     StripePayment.setOptions(StripeOptions(
         publishableKey:
-            "pk_test_51HyDhJHsOI5BijsX0jpyWHCKXh7nI2WsRhiQmSNSW9UcKM6Ly4AoXDGNtwTdCSmxJhcr4sp1Dbl3EAKwyvsbB8Ab00lNFx3MsS",
+            "pk_test_51HwMwNBL9ibeFzEEMHOV6az31lNurmBP3cvNPqaBQASqm4LrQhfJL5NHJ8fApM8twA1oxflxWUoatPKcef7ScZHS00WzhyrZFk",
         //merchantId: "Your_Merchant_id",
         androidPayMode: 'test'));
   }
@@ -59,11 +60,17 @@ class _TestPaymentState extends State<TestPayment> {
                   print('Received payment method : ${_paymentMethod.toJson()}');
                   print('Received payment method ID : ${_paymentMethod.id}');
                 });
+                Future.delayed(Duration(seconds: 2), () {});
+                _createCustomer(_paymentMethod);
               }).catchError(setError);
             },
           ),
         ),
       ),
     );
+  }
+
+  _createCustomer(PaymentMethod paymentMethod) async {
+    NavigationRouter.switchToPaymentProcessingScreen(context, _paymentMethod);
   }
 }

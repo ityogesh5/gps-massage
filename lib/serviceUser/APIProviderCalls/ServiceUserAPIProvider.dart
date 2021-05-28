@@ -7,7 +7,7 @@ import 'package:googleapis_auth/auth_io.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/event.dart';
-import 'package:gps_massageapp/models/responseModels/gusetUserModel/GuestUserResponseModel.dart';
+import 'package:gps_massageapp/models/responseModels/guestUserModel/GuestUserResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/paymentModels/CustomerCreation.dart';
 import 'package:gps_massageapp/models/responseModels/paymentModels/PaymentCustomerCharge.dart';
 import 'package:gps_massageapp/models/responseModels/paymentModels/PaymentSuccessModel.dart';
@@ -23,6 +23,7 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/Se
 import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistResultsModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 
 class ServiceUserAPIProvider {
@@ -453,17 +454,16 @@ class ServiceUserAPIProvider {
 
   // createCustomerForPayment
   static Future<PaymentCustomerCreation> createCustomerForPayment(
-      var userID, var amount) async {
+      BuildContext context, var userID) async {
     try {
       final url = '${HealingMatchConstants.CREATE_CUSTOMER_FOR_PAYMENT_URL}';
       final response = await http.post(url,
           headers: {
             "Content-Type": "application/json",
-            "x-access-token": HealingMatchConstants.accessToken
+            "x-access-token": '${HealingMatchConstants.accessToken}'
           },
           body: json.encode({
             "userId": userID,
-            "amount": amount,
           }));
       print('createCustomerForPayment response : ${response.body}');
       print('statusCode : ${response.statusCode}');
@@ -471,9 +471,11 @@ class ServiceUserAPIProvider {
         final getResponse = json.decode(response.body);
         _customerCreation = PaymentCustomerCreation.fromJson(getResponse);
       } else {
+        NavigationRouter.switchToPaymentFailedScreen(context);
         print('createCustomerForPayment API Request failed !!');
       }
     } catch (e) {
+      NavigationRouter.switchToPaymentFailedScreen(context);
       print('createCustomerForPayment GuestUser API : ${e.toString()}');
     }
     return _customerCreation;
@@ -481,16 +483,17 @@ class ServiceUserAPIProvider {
 
   // chargePaymentForCustomer
   static Future<PaymentCustomerCharge> chargePaymentForCustomer(
-      var userID, var cardID) async {
+      BuildContext context, var userID, var cardID, var amount) async {
     try {
       final url = '${HealingMatchConstants.CHARGE_CUSTOMER_URL}';
       final response = await http.post(url,
           headers: {
             "Content-Type": "application/json",
-            "x-access-token": HealingMatchConstants.accessToken
+            "x-access-token": '${HealingMatchConstants.accessToken}'
           },
           body: json.encode({
             "userId": userID,
+            "amount": amount,
             "cardId": cardID,
           }));
       print('chargePaymentForCustomer response : ${response.body}');
@@ -499,9 +502,11 @@ class ServiceUserAPIProvider {
         final getResponse = json.decode(response.body);
         _paymentCustomerCharge = PaymentCustomerCharge.fromJson(getResponse);
       } else {
+        NavigationRouter.switchToPaymentFailedScreen(context);
         print('chargePaymentForCustomer API Request failed !!');
       }
     } catch (e) {
+      NavigationRouter.switchToPaymentFailedScreen(context);
       print('Exception chargePaymentForCustomer API : ${e.toString()}');
     }
     return _paymentCustomerCharge;
@@ -509,13 +514,13 @@ class ServiceUserAPIProvider {
 
   // paymentSuccess
   static Future<PaymentSuccessModel> paymentSuccess(
-      var paymentID, var cardID) async {
+      BuildContext context, var paymentID, var cardID) async {
     try {
       final url = '${HealingMatchConstants.PAYMENT_SUCCESS_CALL_URL}';
       final response = await http.post(url,
           headers: {
             "Content-Type": "application/json",
-            "x-access-token": HealingMatchConstants.accessToken
+            "x-access-token": '${HealingMatchConstants.accessToken}'
           },
           body: json.encode({
             "paymentId": paymentID,
@@ -528,8 +533,10 @@ class ServiceUserAPIProvider {
         _paymentSuccessModel = PaymentSuccessModel.fromJson(getResponse);
       } else {
         print('paymentSuccess API Request failed !!');
+        NavigationRouter.switchToPaymentFailedScreen(context);
       }
     } catch (e) {
+      NavigationRouter.switchToPaymentFailedScreen(context);
       print('Exception paymentSuccess API : ${e.toString()}');
     }
     return _paymentSuccessModel;

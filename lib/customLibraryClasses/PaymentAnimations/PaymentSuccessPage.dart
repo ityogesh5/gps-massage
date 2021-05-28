@@ -1,6 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/utils/TestPayment.dart';
 
 class PaymentSuccessPage extends StatefulWidget {
   @override
@@ -21,7 +22,7 @@ class _PaymentSuccessPageState extends State<PaymentSuccessPage> {
           AnimatedTextKit(
             animatedTexts: [
               TypewriterAnimatedText(
-                'Payment Successful !',
+                '支払い取引が成功しました... !! ',
                 textStyle: const TextStyle(
                   fontSize: 22,
                   color: Colors.black,
@@ -46,14 +47,19 @@ class _PaymentSuccessPageState extends State<PaymentSuccessPage> {
           SizedBox(height: 15),
           AnimatedButton(
             width: 350,
-            text: 'Ok',
+            text: 'ホームページに戻る！',
             buttonTextStyle: TextStyle(
                 fontStyle: FontStyle.italic,
                 fontSize: 16,
                 color: Colors.white,
                 fontWeight: FontWeight.bold),
             color: Colors.lime,
-            pressEvent: () {},
+            pressEvent: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => TestPayment()));
+            },
           ),
         ],
       ),

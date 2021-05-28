@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_line_sdk/flutter_line_sdk.dart';
-import 'package:gps_massageapp/models/responseModels/LineResponseModel/LineIDTokenResponseModel.dart';
+import 'package:gps_massageapp/models/LineResponseModels/LineIDTokenModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 import '../constantsUtils.dart';

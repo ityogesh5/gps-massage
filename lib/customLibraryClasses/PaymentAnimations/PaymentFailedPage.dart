@@ -1,6 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/utils/TestPayment.dart';
 
 class PaymentFailedPage extends StatefulWidget {
   @override
@@ -21,7 +22,7 @@ class _PaymentFailedPageState extends State<PaymentFailedPage> {
           AnimatedTextKit(
             animatedTexts: [
               TypewriterAnimatedText(
-                'Transaction failed .... Please retry',
+                '支払い取引に失敗しました... !! ',
                 textStyle: const TextStyle(
                   fontSize: 22,
                   color: Colors.black,
@@ -45,14 +46,19 @@ class _PaymentFailedPageState extends State<PaymentFailedPage> {
           SizedBox(height: 15),
           AnimatedButton(
             width: 350,
-            text: 'Ok',
+            text: 'もう一度やり直してください!',
             buttonTextStyle: TextStyle(
                 fontStyle: FontStyle.italic,
                 fontSize: 16,
                 color: Colors.white,
                 fontWeight: FontWeight.bold),
             color: Colors.redAccent,
-            pressEvent: () {},
+            pressEvent: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => TestPayment()));
+            },
           ),
         ],
       ),
