@@ -904,8 +904,8 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
         HealingMatchConstants.confSelectedDateTime.toLocal().toString();
     String endTime = HealingMatchConstants.confEndDateTime.toLocal().toString();
     int paymentStatus = 0;
-    int subCategoryId = 12;
-    int categoryId = 3;
+    int subCategoryId = HealingMatchConstants.confserviceSubId;
+    int categoryId = HealingMatchConstants.confserviceCId;
     String nameOfService = HealingMatchConstants.confServiceName;
     int totalMinOfService = HealingMatchConstants.confNoOfServiceDuration;
     int priceOfService = HealingMatchConstants.confServiceCost;

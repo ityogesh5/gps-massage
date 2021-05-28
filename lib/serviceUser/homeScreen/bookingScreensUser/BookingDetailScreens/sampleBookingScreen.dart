@@ -32,6 +32,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
   Map<String, Map<int, int>> serviceSelection = Map<String, Map<int, int>>();
   int serviceCId;
   int serviceSubId;
+  var finalAmount;
   DateTime selectedTime, endTime;
   String defaultBannerUrl =
       "https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80";
@@ -318,8 +319,8 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
         InkWell(
           key: globalKeyList[index],
           onTap: () {
-           serviceCId =  therapistListItem.categoryId;
-           serviceSubId = therapistListItem.subCategoryId;
+            serviceCId = therapistListItem.categoryId;
+            serviceSubId = therapistListItem.subCategoryId;
             if (lastIndex == 999) {
               setState(() {
                 visibility[index] = true;
@@ -496,6 +497,10 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
         serviceName = serviceSelection.keys.first;
         serviceDuration = min;
         serviceCostMap = serviceSelection[serviceName][serviceDuration];
+        var originalAmount = '${serviceCostMap.toString()}';
+        finalAmount = int.parse(originalAmount.replaceAll(',', ''));
+        print('w/o comma amount : ${finalAmount.truncate()}');
+
         // serviceCost = serviceCostMap[[serviceDuration]];
         subCategoryId = serviceSelection[serviceName][index];
 
@@ -628,7 +633,9 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
 
   bookingConfirmField() async {
     ProgressDialogBuilder.showOverlayLoader(context);
+    print('cost:${finalAmount}');
     setState(() {
+      print('cost:${finalAmount}');
       HealingMatchConstants.confTherapistId = widget.id;
       HealingMatchConstants.confBooking = HealingMatchConstants
           .therapistProfileDetails.data.uploadProfileImgUrl;
@@ -667,7 +674,9 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
       HealingMatchConstants.confEndDateTime = endTime;
       HealingMatchConstants.confServiceName = serviceName;
       HealingMatchConstants.confNoOfServiceDuration = serviceDuration;
-      HealingMatchConstants.confServiceCost = serviceCostMap;
+      HealingMatchConstants.confServiceCost = finalAmount;
+      HealingMatchConstants.confserviceCId = serviceCId;
+      HealingMatchConstants.confserviceSubId = serviceSubId;
     });
 
     print('EndDateTime:${HealingMatchConstants.confEndDateTime.weekday}');

@@ -468,6 +468,8 @@ class HealingMatchConstants {
   static String confServiceAddressType = '';
   static String confServiceAddress = '';
   static int confNoOfReviewsMembers;
+  static int confserviceCId;
+  static int confserviceSubId;
   static var confNoOfServiceDuration;
   static var confServiceCost;
   static var confCertificationUpload;

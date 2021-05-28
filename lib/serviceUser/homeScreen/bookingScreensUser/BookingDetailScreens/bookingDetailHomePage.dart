@@ -48,6 +48,8 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
   bool shopLocationSelected = false;
   var userPlaceForMassage, therapistAddress, userRegisteredAddress;
   GlobalKey<FormState> _userDetailsFormKey = new GlobalKey<FormState>();
+  int serviceCId;
+  int serviceSubId;
 
   String defaultBannerUrl =
       "https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80";
@@ -1010,6 +1012,8 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
         InkWell(
           key: globalKeyList[index],
           onTap: () {
+            serviceCId = therapistListItem.categoryId;
+            serviceSubId = therapistListItem.subCategoryId;
             if (lastIndex == 999) {
               setState(() {
                 visibility[index] = true;
@@ -1462,12 +1466,13 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
           ? HealingMatchConstants.confServiceAddressType = '店舗'
           : HealingMatchConstants.confServiceAddressType =
               userPlaceForMassage.toString();
-
       shopLocationSelected
           ? HealingMatchConstants.confServiceAddress =
               therapistDetails.data.addresses[0].address
           : HealingMatchConstants.confServiceAddress =
               userRegisteredAddress.toString();
+      HealingMatchConstants.confserviceCId = serviceCId;
+      HealingMatchConstants.confserviceSubId = serviceSubId;
     });
     print('EndDateTime:${HealingMatchConstants.confEndDateTime.weekday}');
     print('EndDateTime:${HealingMatchConstants.confEndDateTime.hour}');
