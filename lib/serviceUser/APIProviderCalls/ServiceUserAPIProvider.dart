@@ -8,6 +8,7 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/event.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/FavouriteTherapistModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/FavouriteList.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/UnFavouriteTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/RecommendTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
@@ -57,6 +58,8 @@ class ServiceUserAPIProvider {
 
   static UnFavouriteTherapist _unFavouriteTherapist =
       new UnFavouriteTherapist();
+
+  static FavouriteListModel _favouriteListModel = new FavouriteListModel();
 
   // get all therapist users
   static Future<TherapistUsersModel> getAllTherapistUsers(
@@ -125,6 +128,37 @@ class ServiceUserAPIProvider {
       ProgressDialogBuilder.hideLoader(context);
     }
     return _therapistsByTypeModel;
+  }
+
+  //get Favourite List
+  static Future<FavouriteListModel> getFavouriteList(
+      int pageNumber, int pageSize) async {
+    try {
+      final url = HealingMatchConstants.ON_PREMISE_USER_BASE_URL +
+          '/favourite/favouriteTherapistList?page=$pageNumber&size=$pageSize';
+      // ?page=$pageNumber&size=$pageSize
+
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': HealingMatchConstants.accessToken
+      };
+      final response = await http.get(url, headers: headers);
+
+      if (response.statusCode == 200) {
+        print('response : ${response.body}');
+        var getFavouriteResponse = json.decode(response.body);
+        _favouriteListModel = FavouriteListModel.fromJson(getFavouriteResponse);
+        print(
+            'getFavouriteResponse : ${_favouriteListModel.data.favouriteUserList.length}');
+      } else {
+        print('Error occurred!!! TypeMassages response');
+        throw Exception();
+      }
+    } catch (e) {
+      print(e.toString());
+      // ProgressDialogBuilder.hideLoader(context);
+    }
+    return _favouriteListModel;
   }
 
   // get home screen user banner images
