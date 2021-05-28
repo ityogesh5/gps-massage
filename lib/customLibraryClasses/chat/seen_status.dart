@@ -17,31 +17,29 @@ class SeenStatus extends StatelessWidget {
     String hRes = hour <= 9 ? '0$hour' : hour.toString();
     String mRes = min <= 9 ? '0$min' : min.toString();
 
-    return '$hRes:$mRes';
+    return '$hRes時$mRes分';
   }
 
   Widget _buildStatus(BuildContext context) {
     return Wrap(
       children: [
-       /*  Padding(
+        Padding(
           padding: const EdgeInsets.only(top: 2.0),
           child: Text(
             getTime(),
             style: TextStyle(
-              fontSize: 14,
-              color: Colors.white.withOpacity(0.6),
+              fontSize: 12,
+              color: Colors.grey[400],
             ),
           ),
         ),
         SizedBox(
           width: 5,
-        ), */
+        ),
         if (isMe)
           Icon(
             Icons.done_all,
-            color: isSeen
-                ? Theme.of(context).accentColor
-                : Colors.white.withOpacity(0.35),
+            color: isSeen ? Colors.blue : Colors.grey[500],
             size: 15,
           ),
       ],

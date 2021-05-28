@@ -3,17 +3,16 @@ import 'dart:math' as math;
 
 import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/chat.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/db.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/chatData.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/message.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/replyMessage.dart';
-import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/user.dart';
 import 'package:gps_massageapp/customLibraryClasses/chat/app_bar.dart';
 import 'package:gps_massageapp/customLibraryClasses/chat/chat_bubble.dart';
 import 'package:gps_massageapp/customLibraryClasses/chat/media_uploading_bubble.dart';
@@ -22,7 +21,6 @@ import 'package:gps_massageapp/customLibraryClasses/chat/selected_media_preview.
 import 'package:gps_massageapp/customLibraryClasses/chat/utils/utils.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
-import 'package:provider/provider.dart';
 
 enum LoaderStatus {
   STABLE,
@@ -51,6 +49,7 @@ class _ChatItemScreenState extends State<ChatItemScreen> {
   String userId;
   String peerId;
   String groupChatId;
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   // for handling media selection
   File _selectedMedia;
@@ -540,7 +539,7 @@ class _ChatItemScreenState extends State<ChatItemScreen> {
 
   Future<dynamic> _updateTypingStatus(bool status, var peerId) {
     final uid = peerId;
-    print('Is typing...Updated && $uid && status : $status');
+    print('Is typing...Updated && $uid \n&& status : $status');
     final docRef =
         FirebaseFirestore.instance.collection(USERS_COLLECTION).doc(uid);
     return FirebaseFirestore.instance.runTransaction((transaction) async {

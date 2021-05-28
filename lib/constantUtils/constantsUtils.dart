@@ -223,6 +223,7 @@ class HealingMatchConstants {
   static bool isUserLoggedIn = false;
   static bool isBottomBarVisible = true;
   static String currentDate;
+  static var isUserOnline = false;
 
   static String currentDay;
 
