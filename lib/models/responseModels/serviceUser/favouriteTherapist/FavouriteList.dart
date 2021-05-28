@@ -336,7 +336,7 @@ class Addresses {
   String capitalAndPrefecture;
   String cityName;
   String area;
-  dynamic distance;
+  double distance;
 
   Addresses(
       {this.id,

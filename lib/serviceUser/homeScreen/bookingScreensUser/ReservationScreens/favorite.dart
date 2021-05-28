@@ -11,9 +11,6 @@ import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:favorite_button/favorite_button.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:intl/intl.dart';
 
 var therapistId;
 
@@ -51,10 +48,9 @@ class _FavoriteState extends State<Favorite> {
 
   List<FavouriteUserList> favouriteUserList = List();
   Map<int, String> storeTypeValues;
-  Map<String, String> certificateImages = Map<String, String>();
   List<CertificationUploads> certificationUploads = [];
   List<dynamic> addresses = [];
-  var certificateUploadKeys;
+  List<Map<String, String>> certificateUploadList = List<Map<String, String>>();
   var addressOfTherapists, distanceRadius;
   List<dynamic> distanceOfTherapist = new List();
   List<GlobalObjectKey<FormState>> formKeyList;
@@ -106,49 +102,51 @@ class _FavoriteState extends State<Favorite> {
           formKeyList = List.generate(favouriteUserList.length,
               (index) => GlobalObjectKey<FormState>(index));
           for (int i = 0; i < favouriteUserList.length; i++) {
+            Map<String, String> certificateUploaded = Map<String, String>();
             if (favouriteUserList[i]
-                    .favouriteTherapistId
-                    .certificationUploads !=
-                null) {
-              certificationUploads = favouriteUserList[i]
+                        .favouriteTherapistId
+                        .qulaificationCertImgUrl !=
+                    null &&
+                favouriteUserList[i]
+                        .favouriteTherapistId
+                        .qulaificationCertImgUrl !=
+                    '') {
+              var split = favouriteUserList[i]
                   .favouriteTherapistId
-                  .certificationUploads;
+                  .qulaificationCertImgUrl
+                  .split(',');
 
-              for (int j = 0; j < certificationUploads.length; j++) {
-                print(
-                    'Certificate upload : ${certificationUploads[j].toJson()}');
-                certificateUploadKeys = certificationUploads[j].toJson();
-                certificateUploadKeys.remove('id');
-                certificateUploadKeys.remove('userId');
-                certificateUploadKeys.remove('createdAt');
-                certificateUploadKeys.remove('updatedAt');
-                print('Keys certificate : $certificateUploadKeys');
-              }
-
-              certificateUploadKeys.forEach((key, value) async {
-                if (certificateUploadKeys[key] != null) {
-                  String jKey = getQualificationJPWordsForType(key);
-                  if (jKey == "はり師" ||
-                      jKey == "きゅう師" ||
-                      jKey == "鍼灸師" ||
-                      jKey == "あん摩マッサージ指圧師" ||
-                      jKey == "柔道整復師" ||
-                      jKey == "理学療法士") {
-                    certificateImages["国家資格保有"] = "国家資格保有";
-                  } else if (jKey == "国家資格取得予定（学生）") {
-                    certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
-                  } else if (jKey == "民間資格") {
-                    certificateImages["民間資格"] = "民間資格";
-                  } else if (jKey == "無資格") {
-                    certificateImages["無資格"] = "無資格";
-                  }
+              for (int i = 0; i < split.length; i++) {
+                String jKey = split[i];
+                if (jKey == "はり師" ||
+                    jKey == "きゅう師" ||
+                    jKey == "鍼灸師" ||
+                    jKey == "あん摩マッサージ指圧師" ||
+                    jKey == "柔道整復師" ||
+                    jKey == "理学療法士") {
+                  certificateUploaded["国家資格保有"] = "国家資格保有";
+                } else if (jKey == "国家資格取得予定（学生）") {
+                  certificateUploaded["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
+                } else if (jKey == "民間資格") {
+                  certificateUploaded["民間資格"] = "民間資格";
+                } else if (jKey == "無資格") {
+                  certificateUploaded["無資格"] = "無資格";
                 }
-              });
-              if (certificateImages.length == 0) {
-                certificateImages["無資格"] = "無資格";
               }
-              print('certificateImages data : $certificateImages');
+              if (certificateUploaded.length > 0) {
+                certificateUploadList.add(certificateUploaded);
+              }
             }
+
+            if (certificateUploaded.length == 0) {
+              certificateUploaded["無資格"] = "無資格";
+              certificateUploadList.add(certificateUploaded);
+            }
+            /* if (certificateImages.length == 0) {
+              certificateImages["無資格"] = "無資格";
+            }
+            print('certificateImages data : $certificateImages'); */
+
             for (int k = 0;
                 k < favouriteUserList[i].favouriteTherapistId.addresses.length;
                 k++) {
@@ -179,43 +177,6 @@ class _FavoriteState extends State<Favorite> {
     }
   }
 
-  String getQualificationJPWordsForType(String key) {
-    switch (key) {
-      case 'acupuncturist':
-        return 'はり師';
-        break;
-      case 'moxibutionist':
-        return 'きゅう師';
-        break;
-      case 'acupuncturistAndMoxibustion':
-        return '鍼灸師';
-        break;
-      case 'anmaMassageShiatsushi':
-        return 'あん摩マッサージ指圧師';
-        break;
-      case 'judoRehabilitationTeacher':
-        return '柔道整復師';
-        break;
-      case 'physicalTherapist':
-        return '理学療法士';
-        break;
-      case 'acquireNationalQualifications':
-        return '国家資格取得予定（学生）';
-        break;
-      case 'privateQualification1':
-        return '民間資格';
-      case 'privateQualification2':
-        return '民間資格';
-      case 'privateQualification3':
-        return '民間資格';
-      case 'privateQualification4':
-        return '民間資格';
-      case 'privateQualification5':
-        return '民間資格';
-        break;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return LazyLoadScrollView(
@@ -239,7 +200,13 @@ class _FavoriteState extends State<Favorite> {
                       itemBuilder: (context, index) {
                         return Container(
                           // height: MediaQuery.of(context).size.height * 0.30,
-                          height: 190,
+                          height: certificateUploadList[index].length != 0 &&
+                                  certificateUploadList[index]
+                                          .keys
+                                          .elementAt(0) !=
+                                      "無資格"
+                              ? 190
+                              : 155.0,
                           width: MediaQuery.of(context).size.width * 0.90,
                           child: WidgetAnimator(
                             InkWell(
@@ -339,6 +306,27 @@ class _FavoriteState extends State<Favorite> {
                                                         backgroundColor:
                                                             Colors.white,
                                                       ),
+                                                SizedBox(height: 5.0),
+                                                favouriteUserList[index]
+                                                            .favouriteTherapistId
+                                                            .addresses[0]
+                                                            .distance !=
+                                                        null
+                                                    ? Text(
+                                                        '${favouriteUserList[index].favouriteTherapistId.addresses[0].distance.toStringAsFixed(2)} ｋｍ圏内',
+                                                        style: TextStyle(
+                                                          fontSize: 9.0,
+                                                          color: Color.fromRGBO(
+                                                              153, 153, 153, 1),
+                                                        ),
+                                                      )
+                                                    : Text(
+                                                        '0.0ｋｍ圏内',
+                                                        style: TextStyle(
+                                                          color: Color.fromRGBO(
+                                                              153, 153, 153, 1),
+                                                        ),
+                                                      )
                                               ],
                                             ),
                                           ),
@@ -454,6 +442,11 @@ class _FavoriteState extends State<Favorite> {
                                                                     favouriteUserList[
                                                                             index]
                                                                         .therapistId);
+                                                            setState(() {
+                                                              favouriteUserList
+                                                                  .removeAt(
+                                                                      index);
+                                                            });
                                                           }
                                                         }),
                                                   ],
@@ -595,12 +588,22 @@ class _FavoriteState extends State<Favorite> {
                                                     ],
                                                   ),
                                                 ),
-                                                SizedBox(
+                                                /*   SizedBox(
                                                   height: 5,
-                                                ),
-                                                certificateImages.length != 0
+                                                ), */
+                                                certificateUploadList[index]
+                                                                .length !=
+                                                            0 &&
+                                                        certificateUploadList[
+                                                                    index]
+                                                                .keys
+                                                                .elementAt(0) !=
+                                                            "無資格"
                                                     ? Container(
                                                         height: 38.0,
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 5.0),
                                                         width: MediaQuery.of(
                                                                     context)
                                                                 .size
@@ -611,16 +614,18 @@ class _FavoriteState extends State<Favorite> {
                                                             scrollDirection:
                                                                 Axis.horizontal,
                                                             itemCount:
-                                                                certificateImages
+                                                                certificateUploadList[
+                                                                        index]
                                                                     .length,
                                                             itemBuilder:
                                                                 (context,
-                                                                    index) {
+                                                                    subindex) {
                                                               String key =
-                                                                  certificateImages
+                                                                  certificateUploadList[
+                                                                          index]
                                                                       .keys
                                                                       .elementAt(
-                                                                          index);
+                                                                          subindex);
                                                               return WidgetAnimator(
                                                                 Wrap(
                                                                   children: [
@@ -690,22 +695,7 @@ class _FavoriteState extends State<Favorite> {
                                                       0, 0, 0, 1),
                                                   fontWeight: FontWeight.bold),
                                             ),
-                                            Spacer(),
-                                            distanceRadius[index] != null
-                                                ? Text(
-                                                    '${distanceRadius[index]}ｋｍ圏内',
-                                                    style: TextStyle(
-                                                      color: Color.fromRGBO(
-                                                          153, 153, 153, 1),
-                                                    ),
-                                                  )
-                                                : Text(
-                                                    '0.0ｋｍ圏内',
-                                                    style: TextStyle(
-                                                      color: Color.fromRGBO(
-                                                          153, 153, 153, 1),
-                                                    ),
-                                                  )
+                                            // Spacer(),
                                           ],
                                         ),
                                       ),
