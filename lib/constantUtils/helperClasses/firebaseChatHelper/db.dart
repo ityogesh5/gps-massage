@@ -23,7 +23,8 @@ class DB {
         'serverId': id,
         'isTherapist': isTherapist,
         'contacts': [],
-        'isTyping':false,
+        'isOnline': false,
+        'isTyping': false,
       });
     } catch (error) {
       print('****************** DB addNewUser error **********************');
