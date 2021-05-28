@@ -10,6 +10,7 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherap
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:favorite_button/favorite_button.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
@@ -49,6 +50,18 @@ class _FavoriteState extends State<Favorite> {
   int status = 0;
 
   List<FavouriteUserList> favouriteUserList = List();
+  Map<int, String> storeTypeValues;
+  Map<String, String> certificateImages = Map<String, String>();
+  List<CertificationUploads> certificationUploads = [];
+  List<dynamic> addresses = [];
+  var certificateUploadKeys;
+  var addressOfTherapists, distanceRadius;
+  List<dynamic> distanceOfTherapist = new List();
+  List<GlobalObjectKey<FormState>> formKeyList;
+  BoxDecoration boxDecoration = BoxDecoration(
+    borderRadius: BorderRadius.circular(8.0),
+    color: Colors.white,
+  );
 
   @override
   void initState() {
@@ -82,39 +95,126 @@ class _FavoriteState extends State<Favorite> {
           count = value.data.count;
         });
       }
+      getSearchResults(favouriteUserList);
     });
   }
 
-  /*_providerRatingList() async {
+  getSearchResults(List<FavouriteUserList> favouriteUserList) async {
     try {
-      // ProgressDialogBuilder.showCommonProgressDialog(context);
-      final url = HealingMatchConstants.ON_PREMISE_USER_BASE_URL +
-          '/favourite/favouriteTherapistList?page=$_pageNumber&size=$_pageSize';
-
-      final response = await http.get(url, headers: {
-        "Content-Type": "application/json",
-        "x-access-token": HealingMatchConstants.accessToken
-      });
-
-      print(response.body);
-      if (response.statusCode == 200) {
-        FavouriteListModel favouriteListModel =
-            FavouriteListModel.fromJson(json.decode(response.body));
+      if (this.mounted) {
         setState(() {
-          favouriteUserList = favouriteListModel.data.favouriteUserList;
-          status = 1;
-          print('list11: ${'Hi'}');
-          print('list: ${favouriteUserList.length}');
-          print('list: ${'Hi'}');
+          formKeyList = List.generate(favouriteUserList.length,
+              (index) => GlobalObjectKey<FormState>(index));
+          for (int i = 0; i < favouriteUserList.length; i++) {
+            if (favouriteUserList[i]
+                    .favouriteTherapistId
+                    .certificationUploads !=
+                null) {
+              certificationUploads = favouriteUserList[i]
+                  .favouriteTherapistId
+                  .certificationUploads;
+
+              for (int j = 0; j < certificationUploads.length; j++) {
+                print(
+                    'Certificate upload : ${certificationUploads[j].toJson()}');
+                certificateUploadKeys = certificationUploads[j].toJson();
+                certificateUploadKeys.remove('id');
+                certificateUploadKeys.remove('userId');
+                certificateUploadKeys.remove('createdAt');
+                certificateUploadKeys.remove('updatedAt');
+                print('Keys certificate : $certificateUploadKeys');
+              }
+
+              certificateUploadKeys.forEach((key, value) async {
+                if (certificateUploadKeys[key] != null) {
+                  String jKey = getQualificationJPWordsForType(key);
+                  if (jKey == "はり師" ||
+                      jKey == "きゅう師" ||
+                      jKey == "鍼灸師" ||
+                      jKey == "あん摩マッサージ指圧師" ||
+                      jKey == "柔道整復師" ||
+                      jKey == "理学療法士") {
+                    certificateImages["国家資格保有"] = "国家資格保有";
+                  } else if (jKey == "国家資格取得予定（学生）") {
+                    certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
+                  } else if (jKey == "民間資格") {
+                    certificateImages["民間資格"] = "民間資格";
+                  } else if (jKey == "無資格") {
+                    certificateImages["無資格"] = "無資格";
+                  }
+                }
+              });
+              if (certificateImages.length == 0) {
+                certificateImages["無資格"] = "無資格";
+              }
+              print('certificateImages data : $certificateImages');
+            }
+            for (int k = 0;
+                k < favouriteUserList[i].favouriteTherapistId.addresses.length;
+                k++) {
+              if (favouriteUserList[i].favouriteTherapistId.addresses != null) {
+                addresses.add(favouriteUserList[i]
+                    .favouriteTherapistId
+                    .addresses[k]
+                    .address);
+
+                distanceOfTherapist.add(favouriteUserList[i]
+                    .favouriteTherapistId
+                    .addresses[k]
+                    .distance
+                    .toStringAsFixed(2));
+
+                addressOfTherapists = addresses;
+
+                distanceRadius = distanceOfTherapist;
+                print(
+                    'Position values : ${addressOfTherapists[0]} && ${addresses.length}');
+              }
+            }
+          }
         });
       }
-
-      print('Status code : ${response.statusCode}');
     } catch (e) {
-      print(e.toString());
-      // ProgressDialogBuilder.hideCommonProgressDialog(context);
+      print('Exception : ${e.toString()}');
     }
-  }*/
+  }
+
+  String getQualificationJPWordsForType(String key) {
+    switch (key) {
+      case 'acupuncturist':
+        return 'はり師';
+        break;
+      case 'moxibutionist':
+        return 'きゅう師';
+        break;
+      case 'acupuncturistAndMoxibustion':
+        return '鍼灸師';
+        break;
+      case 'anmaMassageShiatsushi':
+        return 'あん摩マッサージ指圧師';
+        break;
+      case 'judoRehabilitationTeacher':
+        return '柔道整復師';
+        break;
+      case 'physicalTherapist':
+        return '理学療法士';
+        break;
+      case 'acquireNationalQualifications':
+        return '国家資格取得予定（学生）';
+        break;
+      case 'privateQualification1':
+        return '民間資格';
+      case 'privateQualification2':
+        return '民間資格';
+      case 'privateQualification3':
+        return '民間資格';
+      case 'privateQualification4':
+        return '民間資格';
+      case 'privateQualification5':
+        return '民間資格';
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -131,24 +231,30 @@ class _FavoriteState extends State<Favorite> {
                 Container(
                   //height: MediaQuery.of(context).size.height * 0.32,
                   width: MediaQuery.of(context).size.width * 0.95,
-                  child: GestureDetector(
-                    onTap: () {
-                      NavigationRouter
-                          .switchToServiceUserBookingDetailsCompletedScreenOne(
-                              context, null);
-                    },
-                    child: ListView.builder(
-                        shrinkWrap: true,
-                        // scrollDirection: Axis.horizontal,
-                        physics: BouncingScrollPhysics(),
-                        itemCount: favouriteUserList.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            // height: MediaQuery.of(context).size.height * 0.30,
-                            height: 190,
-                            width: MediaQuery.of(context).size.width * 0.90,
-                            child: WidgetAnimator(
-                              new Card(
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      // scrollDirection: Axis.horizontal,
+                      physics: BouncingScrollPhysics(),
+                      itemCount: favouriteUserList.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          // height: MediaQuery.of(context).size.height * 0.30,
+                          height: 190,
+                          width: MediaQuery.of(context).size.width * 0.90,
+                          child: WidgetAnimator(
+                            InkWell(
+                              splashColor: Colors.lime,
+                              hoverColor: Colors.lime,
+                              onTap: () {
+                                HealingMatchConstants.therapistId =
+                                    favouriteUserList[index].therapistId;
+
+                                NavigationRouter
+                                    .switchToServiceUserBookingDetailsCompletedScreenOne(
+                                        context,
+                                        HealingMatchConstants.therapistId);
+                              },
+                              child: new Card(
                                 color: Color.fromRGBO(242, 242, 242, 1),
                                 semanticContainer: true,
                                 shape: RoundedRectangleBorder(
@@ -321,20 +427,35 @@ class _FavoriteState extends State<Favorite> {
                                                       ),
                                                     ),
                                                     Spacer(),
-                                                    /* FittedBox(
-                                                      child: FavoriteButton(
-                                                          iconSize: 40,
-                                                          iconColor: Colors.red,
-                                                          valueChanged:
-                                                              (_isFavorite) {
-                                                            print(
-                                                                'Is Favorite : $_isFavorite');
-                                                          }),
-                                                    ),*/
-                                                    SvgPicture.asset(
-                                                        'assets/images_gps/recommendedHeart.svg',
-                                                        width: 25,
-                                                        height: 25),
+                                                    FavoriteButton(
+                                                        isFavorite:
+                                                            favouriteUserList[
+                                                                    index]
+                                                                .isFavourite,
+                                                        iconSize: 40,
+                                                        iconColor: Colors.red,
+                                                        valueChanged:
+                                                            (_isFavorite) {
+                                                          print(
+                                                              'Is Favorite : $_isFavorite');
+                                                          if (_isFavorite !=
+                                                                  null &&
+                                                              _isFavorite) {
+                                                            // call favorite therapist API
+                                                            ServiceUserAPIProvider
+                                                                .favouriteTherapist(
+                                                                    favouriteUserList[
+                                                                            index]
+                                                                        .therapistId);
+                                                          } else {
+                                                            // call un-favorite therapist API
+                                                            ServiceUserAPIProvider
+                                                                .unFavouriteTherapist(
+                                                                    favouriteUserList[
+                                                                            index]
+                                                                        .therapistId);
+                                                          }
+                                                        }),
                                                   ],
                                                 ),
                                                 SizedBox(
@@ -477,48 +598,66 @@ class _FavoriteState extends State<Favorite> {
                                                 SizedBox(
                                                   height: 5,
                                                 ),
-                                                Row(
-                                                  children: [
-                                                    Container(
-                                                        padding:
-                                                            EdgeInsets.all(4),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                                gradient: LinearGradient(
-                                                                    begin: Alignment
-                                                                        .topCenter,
-                                                                    end: Alignment
-                                                                        .bottomCenter,
-                                                                    colors: [
-                                                                      Colors
-                                                                          .white,
-                                                                      Colors
-                                                                          .white,
-                                                                    ]),
-                                                                shape: BoxShape
-                                                                    .rectangle,
-                                                                border:
-                                                                    Border.all(
-                                                                  color: Colors
-                                                                          .grey[
-                                                                      300],
+                                                certificateImages.length != 0
+                                                    ? Container(
+                                                        height: 38.0,
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width -
+                                                            130.0, //200.0,
+                                                        child: ListView.builder(
+                                                            shrinkWrap: true,
+                                                            scrollDirection:
+                                                                Axis.horizontal,
+                                                            itemCount:
+                                                                certificateImages
+                                                                    .length,
+                                                            itemBuilder:
+                                                                (context,
+                                                                    index) {
+                                                              String key =
+                                                                  certificateImages
+                                                                      .keys
+                                                                      .elementAt(
+                                                                          index);
+                                                              return WidgetAnimator(
+                                                                Wrap(
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding: index ==
+                                                                              0
+                                                                          ? const EdgeInsets.only(
+                                                                              left: 0.0,
+                                                                              top: 4.0,
+                                                                              right: 4.0,
+                                                                              bottom: 4.0)
+                                                                          : const EdgeInsets.all(4.0),
+                                                                      child:
+                                                                          Container(
+                                                                        padding:
+                                                                            EdgeInsets.all(5),
+                                                                        decoration:
+                                                                            boxDecoration,
+                                                                        child:
+                                                                            Text(
+                                                                          key, //Qualififcation
+                                                                          style:
+                                                                              TextStyle(
+                                                                            fontSize:
+                                                                                14,
+                                                                            color:
+                                                                                Colors.black,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
                                                                 ),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            5.0),
-                                                                color: Colors
-                                                                    .grey[200]),
-                                                        child: Text(
-                                                          '国家資格保有',
-                                                          style: TextStyle(
-                                                            color:
-                                                                Color.fromRGBO(
-                                                                    0, 0, 0, 1),
-                                                          ),
-                                                        )),
-                                                  ],
-                                                )
+                                                              );
+                                                            }),
+                                                      )
+                                                    : Container(),
                                               ],
                                             ),
                                           ),
@@ -545,20 +684,28 @@ class _FavoriteState extends State<Favorite> {
                                               width: 7,
                                             ),
                                             Text(
-                                              '埼玉県浦和区高砂4丁目4',
+                                              '${addressOfTherapists[index]}',
                                               style: TextStyle(
                                                   color: Color.fromRGBO(
                                                       0, 0, 0, 1),
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             Spacer(),
-                                            Text(
-                                              '１.５ｋｍ圏内',
-                                              style: TextStyle(
-                                                color: Color.fromRGBO(
-                                                    153, 153, 153, 1),
-                                              ),
-                                            )
+                                            distanceRadius[index] != null
+                                                ? Text(
+                                                    '${distanceRadius[index]}ｋｍ圏内',
+                                                    style: TextStyle(
+                                                      color: Color.fromRGBO(
+                                                          153, 153, 153, 1),
+                                                    ),
+                                                  )
+                                                : Text(
+                                                    '0.0ｋｍ圏内',
+                                                    style: TextStyle(
+                                                      color: Color.fromRGBO(
+                                                          153, 153, 153, 1),
+                                                    ),
+                                                  )
                                           ],
                                         ),
                                       ),
@@ -570,9 +717,9 @@ class _FavoriteState extends State<Favorite> {
                                 ),
                               ),
                             ),
-                          );
-                        }),
-                  ),
+                          ),
+                        );
+                      }),
                 ),
               ],
             ),
@@ -642,6 +789,7 @@ class _FavoriteState extends State<Favorite> {
                 if (this.mounted) {
                   favouriteUserList.addAll(value.data.favouriteUserList);
                 }
+                getSearchResults(favouriteUserList);
               });
             }
           });
