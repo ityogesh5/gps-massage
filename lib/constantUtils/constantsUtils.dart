@@ -227,6 +227,9 @@ class HealingMatchConstants {
   // therapist booking request
   static const String THERAPIST_BOOKING_REQUEST =
       ON_PREMISE_USER_BASE_URL + '/bookingDetails/bookingRequestStatusList';
+  //booking Status Api
+  static const String BOOKING_STATUS_LIST =
+      ON_PREMISE_USER_BASE_URL + '/booking/bookingStatusList';
 
   //Common string
   static bool isInternetAvailable = false;

@@ -12,6 +12,7 @@ import 'package:gps_massageapp/models/responseModels/paymentModels/CustomerCreat
 import 'package:gps_massageapp/models/responseModels/paymentModels/PaymentCustomerCharge.dart';
 import 'package:gps_massageapp/models/responseModels/paymentModels/PaymentSuccessModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/booking/createBooking.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingStatus.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/FavouriteList.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/FavouriteTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/UnFavouriteTherapistModel.dart';
@@ -78,6 +79,7 @@ class ServiceUserAPIProvider {
   static PaymentCustomerCharge _paymentCustomerCharge =
       new PaymentCustomerCharge();
   static PaymentSuccessModel _paymentSuccessModel = new PaymentSuccessModel();
+  static BookingStatusModel _bookingStatusModel = new BookingStatusModel();
 
   // get all therapist users
   static Future<TherapistUsersModel> getAllTherapistUsers(
@@ -177,6 +179,35 @@ class ServiceUserAPIProvider {
       // ProgressDialogBuilder.hideLoader(context);
     }
     return _favouriteListModel;
+  }
+
+  //GET BOOKING STATUS API
+  static Future<BookingStatusModel> getBookingStatus() async {
+    try {
+      final url = HealingMatchConstants.BOOKING_STATUS_LIST;
+
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': HealingMatchConstants.accessToken
+      };
+      final response = await http.get(url, headers: headers);
+
+      if (response.statusCode == 200) {
+        print('response : ${response.body}');
+        var getBookingStatusResponse = json.decode(response.body);
+        _bookingStatusModel =
+            BookingStatusModel.fromJson(getBookingStatusResponse);
+        print(
+            'getBookingStatusResponse : ${_bookingStatusModel.data.bookingDetailsList.length}');
+      } else {
+        print('Error occurred!!! TypeMassages response');
+        throw Exception();
+      }
+    } catch (e) {
+      print(e.toString());
+      // ProgressDialogBuilder.hideLoader(context);
+    }
+    return _bookingStatusModel;
   }
 
   // get all therapist ratings

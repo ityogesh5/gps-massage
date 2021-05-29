@@ -34,7 +34,7 @@ Map<String, dynamic> _formData = {
 };
 
 List<String> selectedBuildingTypeValues = List<String>();
-var selectedBuildingType;
+var selectedBuildingType = '店舗';
 
 class BookingConfirmationScreen extends StatefulWidget {
   @override
