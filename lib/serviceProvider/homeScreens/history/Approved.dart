@@ -68,8 +68,9 @@ class _ProviderApprovedScreenState extends State<ProviderApprovedScreen> {
   }
 
   Card buildBookingCard(int index) {
-    String jaName = DateFormat('EEEE', 'ja_JP')
-        .format(requestBookingDetailsList[index].startTime);
+    DateTime startTime = requestBookingDetailsList[index].startTime.toLocal();
+    DateTime endTime = requestBookingDetailsList[index].endTime.toLocal();
+    String jaName = DateFormat('EEEE', 'ja_JP').format(startTime);
     return Card(
       // margin: EdgeInsets.all(8.0),
       color: Color.fromRGBO(242, 242, 242, 1),
@@ -135,7 +136,7 @@ class _ProviderApprovedScreenState extends State<ProviderApprovedScreen> {
                       width: 8,
                     ),
                     Text(
-                      '${requestBookingDetailsList[index].startTime.month}月${requestBookingDetailsList[index].startTime.day}',
+                      '${startTime.month}月${startTime.day}',
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.black,
@@ -168,7 +169,39 @@ class _ProviderApprovedScreenState extends State<ProviderApprovedScreen> {
                       width: 8,
                     ),
                     Text(
-                      '${requestBookingDetailsList[index].startTime.hour}: ${requestBookingDetailsList[index].startTime.minute} ~ ${requestBookingDetailsList[index].endTime.hour}: ${requestBookingDetailsList[index].endTime.minute}',
+                      startTime.hour < 10
+                          ? "0${startTime.hour}"
+                          : "${startTime.hour}",
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      startTime.minute < 10
+                          ? ": 0${startTime.minute}"
+                          : ": ${startTime.minute}",
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      endTime.hour < 10
+                          ? " ~ 0${endTime.hour}"
+                          : " ~ ${endTime.hour}",
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      endTime.minute < 10
+                          ? ": 0${endTime.minute}"
+                          : ": ${endTime.minute}",
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.black,
@@ -274,7 +307,7 @@ class _ProviderApprovedScreenState extends State<ProviderApprovedScreen> {
                       '${requestBookingDetailsList[index].location}',
                       style: TextStyle(
                         color: Color.fromRGBO(102, 102, 102, 1),
-                        fontSize: 17,
+                        fontSize: 12,
                       ),
                     )
                   ],

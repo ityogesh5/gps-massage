@@ -34,12 +34,16 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
   GlobalKey endKey = new GlobalKey();
   DateTime newStartTime;
   DateTime newEndTime;
+  DateTime startTime;
+  DateTime endTime;
   int _state = 0;
 
   @override
   void initState() {
-    newStartTime = widget.bookingDetail.startTime;
-    newEndTime = widget.bookingDetail.endTime;
+    newStartTime = widget.bookingDetail.startTime.toLocal();
+    newEndTime = widget.bookingDetail.endTime.toLocal();
+    startTime = widget.bookingDetail.startTime.toLocal();
+    endTime = widget.bookingDetail.endTime.toLocal();
     super.initState();
   }
 
@@ -362,18 +366,18 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            widget.bookingDetail.startTime
+                                            startTime
                                                         .hour <
                                                     10
-                                                ? "0${newStartTime.hour}"
-                                                : "${newStartTime.hour}",
+                                                ? "0${startTime.hour}"
+                                                : "${startTime.hour}",
                                           ),
                                           Text(
-                                            widget.bookingDetail.startTime
+                                            startTime
                                                         .minute <
                                                     10
-                                                ? ":0${newStartTime.minute}"
-                                                : ":${newStartTime.minute}",
+                                                ? ":0${startTime.minute}"
+                                                : ":${startTime.minute}",
                                           ),
                                         ],
                                       ),
@@ -554,7 +558,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
 
   Card buildBookingCard() {
     String jaName =
-        DateFormat('EEEE', 'ja_JP').format(widget.bookingDetail.startTime);
+        DateFormat('EEEE', 'ja_JP').format(startTime);
     return Card(
       // margin: EdgeInsets.all(8.0),
       color: Color.fromRGBO(242, 242, 242, 1),
@@ -730,7 +734,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                       width: 8,
                     ),
                     Text(
-                      '${widget.bookingDetail.startTime.month}月${widget.bookingDetail.startTime.day}',
+                      '${startTime.month}月${startTime.day}',
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.black,
@@ -763,7 +767,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                       width: 8,
                     ),
                     Text(
-                      '${widget.bookingDetail.startTime.hour}: ${widget.bookingDetail.startTime.minute} ~ ${widget.bookingDetail.endTime.hour}: ${widget.bookingDetail.endTime.minute}',
+                      '${startTime.hour}: ${startTime.minute} ~ ${endTime.hour}: ${endTime.minute}',
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.black,
@@ -940,7 +944,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
               widget.bookingDetail.newStartTime = newStartTime;
               widget.bookingDetail.newEndTime = newEndTime;
               widget.bookingDetail.addedPrice = addedpriceReason;
-              widget.bookingDetail.travelAmount = price;
+              widget.bookingDetail.travelAmount = int.parse(price);
               ServiceProviderApi.updateStatusUpdate(widget.bookingDetail,
                       proposeAdditionalCosts, suggestAnotherTime, onCancel)
                   .then((value) {

@@ -4,146 +4,156 @@
 
 import 'dart:convert';
 
-TherapistBookingHistoryResponseModel therapistBookingHistoryResponseModelFromJson(String str) => TherapistBookingHistoryResponseModel.fromJson(json.decode(str));
+TherapistBookingHistoryResponseModel
+    therapistBookingHistoryResponseModelFromJson(String str) =>
+        TherapistBookingHistoryResponseModel.fromJson(json.decode(str));
 
-String therapistBookingHistoryResponseModelToJson(TherapistBookingHistoryResponseModel data) => json.encode(data.toJson());
+String therapistBookingHistoryResponseModelToJson(
+        TherapistBookingHistoryResponseModel data) =>
+    json.encode(data.toJson());
 
 class TherapistBookingHistoryResponseModel {
-    TherapistBookingHistoryResponseModel({
-        this.status,
-        this.data,
-    });
+  TherapistBookingHistoryResponseModel({
+    this.status,
+    this.data,
+  });
 
-    String status;
-    Data data;
+  String status;
+  Data data;
 
-    factory TherapistBookingHistoryResponseModel.fromJson(Map<String, dynamic> json) => TherapistBookingHistoryResponseModel(
+  factory TherapistBookingHistoryResponseModel.fromJson(
+          Map<String, dynamic> json) =>
+      TherapistBookingHistoryResponseModel(
         status: json["status"],
         data: Data.fromJson(json["data"]),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "status": status,
         "data": data.toJson(),
-    };
+      };
 }
 
 class Data {
-    Data({
-        this.count,
-        this.bookingDetailsList,
-        this.totalPages,
-        this.pageNumber,
-    });
+  Data({
+    this.count,
+    this.bookingDetailsList,
+    this.totalPages,
+    this.pageNumber,
+  });
 
-    int count;
-    List<BookingDetailsList> bookingDetailsList;
-    int totalPages;
-    int pageNumber;
+  int count;
+  List<BookingDetailsList> bookingDetailsList;
+  int totalPages;
+  int pageNumber;
 
-    factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
         count: json["count"],
-        bookingDetailsList: List<BookingDetailsList>.from(json["BookingDetailsList"].map((x) => BookingDetailsList.fromJson(x))),
+        bookingDetailsList: List<BookingDetailsList>.from(
+            json["BookingDetailsList"]
+                .map((x) => BookingDetailsList.fromJson(x))),
         totalPages: json["totalPages"],
         pageNumber: json["pageNumber"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "count": count,
-        "BookingDetailsList": List<dynamic>.from(bookingDetailsList.map((x) => x.toJson())),
+        "BookingDetailsList":
+            List<dynamic>.from(bookingDetailsList.map((x) => x.toJson())),
         "totalPages": totalPages,
         "pageNumber": pageNumber,
-    };
+      };
 }
 
 class BookingDetailsList {
-    BookingDetailsList({
-        this.id,
-        this.userId,
-        this.therapistId,
-        this.eventId,
-        this.startTime,
-        this.endTime,
-        this.monthOfBooking,
-        this.yearOfBooking,
-        this.newStartTime,
-        this.newEndTime,
-        this.paymentId,
-        this.paymentStatus,
-        this.paymentRefId,
-        this.subCategoryId,
-        this.categoryId,
-        this.nameOfService,
-        this.totalMinOfService,
-        this.priceOfService,
-        this.addedPrice,
-        this.bookingStatus,
-        this.statusUpdatedAt,
-        this.travelAmount,
-        this.locationType,
-        this.location,
-        this.locationDistance,
-        this.totalCost,
-        this.userReviewStatus,
-        this.therapistReviewStatus,
-        this.therapistComments,
-        this.userComments,
-        this.cancellationReason,
-        this.cancellationFee,
-        this.cancelledUserId,
-        this.orderCompletion,
-        this.createdUser,
-        this.updatedUser,
-        this.createdAt,
-        this.updatedAt,
-        this.bookingUserId,
-        this.reviewAvgData,
-        this.noOfReviewsMembers,
-    });
+  BookingDetailsList({
+    this.id,
+    this.userId,
+    this.therapistId,
+    this.eventId,
+    this.startTime,
+    this.endTime,
+    this.monthOfBooking,
+    this.yearOfBooking,
+    this.newStartTime,
+    this.newEndTime,
+    this.paymentId,
+    this.paymentStatus,
+    this.paymentRefId,
+    this.subCategoryId,
+    this.categoryId,
+    this.nameOfService,
+    this.totalMinOfService,
+    this.priceOfService,
+    this.addedPrice,
+    this.bookingStatus,
+    this.statusUpdatedAt,
+    this.travelAmount,
+    this.locationType,
+    this.location,
+    this.locationDistance,
+    this.totalCost,
+    this.userReviewStatus,
+    this.therapistReviewStatus,
+    this.therapistComments,
+    this.userComments,
+    this.cancellationReason,
+    this.cancellationFee,
+    this.cancelledUserId,
+    this.orderCompletion,
+    this.createdUser,
+    this.updatedUser,
+    this.createdAt,
+    this.updatedAt,
+    this.bookingUserId,
+    this.reviewAvgData,
+    this.noOfReviewsMembers,
+  });
 
-    int id;
-    int userId;
-    int therapistId;
-    dynamic eventId;
-    DateTime startTime;
-    DateTime endTime;
-    String monthOfBooking;
-    String yearOfBooking;
-    dynamic newStartTime;
-    dynamic newEndTime;
-    dynamic paymentId;
-    int paymentStatus;
-    dynamic paymentRefId;
-    int subCategoryId;
-    int categoryId;
-    String nameOfService;
-    int totalMinOfService;
-    int priceOfService;
-    dynamic addedPrice;
-    int bookingStatus;
-    dynamic statusUpdatedAt;
-    dynamic travelAmount;
-    String locationType;
-    String location;
-    dynamic locationDistance;
-    int totalCost;
-    int userReviewStatus;
-    dynamic therapistReviewStatus;
-    dynamic therapistComments;
-    dynamic userComments;
-    dynamic cancellationReason;
-    dynamic cancellationFee;
-    dynamic cancelledUserId;
-    dynamic orderCompletion;
-    String createdUser;
-    String updatedUser;
-    DateTime createdAt;
-    DateTime updatedAt;
-    BookingUserId bookingUserId;
-    String reviewAvgData;
-    int noOfReviewsMembers;
+  int id;
+  int userId;
+  int therapistId;
+  dynamic eventId;
+  DateTime startTime;
+  DateTime endTime;
+  String monthOfBooking;
+  String yearOfBooking;
+  dynamic newStartTime;
+  dynamic newEndTime;
+  dynamic paymentId;
+  int paymentStatus;
+  dynamic paymentRefId;
+  int subCategoryId;
+  int categoryId;
+  String nameOfService;
+  int totalMinOfService;
+  int priceOfService;
+  dynamic addedPrice;
+  int bookingStatus;
+  dynamic statusUpdatedAt;
+  dynamic travelAmount;
+  String locationType;
+  String location;
+  dynamic locationDistance;
+  int totalCost;
+  int userReviewStatus;
+  dynamic therapistReviewStatus;
+  dynamic therapistComments;
+  dynamic userComments;
+  dynamic cancellationReason;
+  dynamic cancellationFee;
+  dynamic cancelledUserId;
+  dynamic orderCompletion;
+  String createdUser;
+  String updatedUser;
+  DateTime createdAt;
+  DateTime updatedAt;
+  BookingUserId bookingUserId;
+  String reviewAvgData;
+  int noOfReviewsMembers;
 
-    factory BookingDetailsList.fromJson(Map<String, dynamic> json) => BookingDetailsList(
+  factory BookingDetailsList.fromJson(Map<String, dynamic> json) =>
+      BookingDetailsList(
         id: json["id"],
         userId: json["userId"],
         therapistId: json["therapistId"],
@@ -185,9 +195,9 @@ class BookingDetailsList {
         bookingUserId: BookingUserId.fromJson(json["bookingUserId"]),
         reviewAvgData: json["reviewAvgData"],
         noOfReviewsMembers: json["NoOfReviewsMembers"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "userId": userId,
         "therapistId": therapistId,
@@ -196,8 +206,8 @@ class BookingDetailsList {
         "endTime": endTime.toIso8601String(),
         "monthOfBooking": monthOfBooking,
         "yearOfBooking": yearOfBooking,
-        "newStartTime": newStartTime,
-        "newEndTime": newEndTime,
+        "newStartTime": newStartTime.toIso8601String(),
+        "newEndTime": newEndTime.toIso8601String(),
         "paymentId": paymentId,
         "paymentStatus": paymentStatus,
         "paymentRefId": paymentRefId,
@@ -208,7 +218,7 @@ class BookingDetailsList {
         "priceOfService": priceOfService,
         "addedPrice": addedPrice,
         "bookingStatus": bookingStatus,
-        "statusUpdatedAt": statusUpdatedAt,
+        "statusUpdatedAt": statusUpdatedAt.toIso8601String(),
         "travelAmount": travelAmount,
         "locationType": locationType,
         "location": location,
@@ -229,37 +239,41 @@ class BookingDetailsList {
         "bookingUserId": bookingUserId.toJson(),
         "reviewAvgData": reviewAvgData,
         "NoOfReviewsMembers": noOfReviewsMembers,
-    };
+      };
 }
 
 class BookingUserId {
-    BookingUserId({
-        this.id,
-        this.userId,
-        this.userName,
-        this.gender,
-        this.uploadProfileImgUrl,
-    });
+  BookingUserId({
+    this.id,
+    this.userId,
+    this.userName,
+    this.gender,
+    this.uploadProfileImgUrl,
+    this.firebaseUdid,
+  });
 
-    int id;
-    String userId;
-    String userName;
-    String gender;
-    String uploadProfileImgUrl;
+  int id;
+  String userId;
+  String userName;
+  String gender;
+  dynamic uploadProfileImgUrl;
+  String firebaseUdid;
 
-    factory BookingUserId.fromJson(Map<String, dynamic> json) => BookingUserId(
+  factory BookingUserId.fromJson(Map<String, dynamic> json) => BookingUserId(
         id: json["id"],
         userId: json["userId"],
         userName: json["userName"],
         gender: json["gender"],
-        uploadProfileImgUrl: json["uploadProfileImgUrl"] == null ? null : json["uploadProfileImgUrl"],
-    );
+        uploadProfileImgUrl: json["uploadProfileImgUrl"],
+        firebaseUdid: json["firebaseUDID"],
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "userId": userId,
         "userName": userName,
         "gender": gender,
-        "uploadProfileImgUrl": uploadProfileImgUrl == null ? null : uploadProfileImgUrl,
-    };
+        "uploadProfileImgUrl": uploadProfileImgUrl,
+        "firebaseUDID": firebaseUdid,
+      };
 }
