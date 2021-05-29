@@ -46,6 +46,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
   int cuppingTipColor;
   int maternityTipColor;
   int babyTipColor;
+  var therapistId;
 
   @override
   Widget build(BuildContext context) {
@@ -313,7 +314,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 onTap: () {
                                   NavigationRouter
                                       .switchToServiceUserDisplayReviewScreen(
-                                          context);
+                                          context, therapistId);
                                 },
                                 child: Container(
                                   child: Text(

@@ -542,7 +542,10 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
         ratingReviewModel = RatingReviewModel.fromJson(ratingResponse);
         // ProgressDialogBuilder.hideRatingsAndReviewProgressDialog(context);
         print('navigate');
-        NavigationRouter.switchToServiceUserDisplayReviewScreen(context);
+        NavigationRouter.switchToServiceUserDisplayReviewScreen(
+          context,
+          HealingMatchConstants.therapistRatingID,
+        );
       } else {}
     } catch (e) {
       // ProgressDialogBuilder.hideRatingsAndReviewProgressDialog(context);

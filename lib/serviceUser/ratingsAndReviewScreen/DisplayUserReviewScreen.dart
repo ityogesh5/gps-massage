@@ -10,6 +10,8 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DisplayUserReview extends StatefulWidget {
+  final int id;
+  DisplayUserReview(this.id);
   @override
   _DisplayUserReviewState createState() => _DisplayUserReviewState();
 }

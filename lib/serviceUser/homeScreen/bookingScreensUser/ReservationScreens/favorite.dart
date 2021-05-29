@@ -442,11 +442,11 @@ class _FavoriteState extends State<Favorite> {
                                                                             index]
                                                                         .therapistId)
                                                                 .then((value) {
-                                                              setState(() {
+                                                              /*  setState(() {
                                                                 favouriteUserList
                                                                     .removeAt(
                                                                         index);
-                                                              });
+                                                              });*/
                                                             });
                                                           }
                                                         }),
@@ -528,56 +528,31 @@ class _FavoriteState extends State<Favorite> {
                                                         ),
                                                       ),
                                                       RatingBar.builder(
-                                                        initialRating: 4.5,
-                                                        minRating: 1,
+                                                        ignoreGestures: true,
+                                                        initialRating: double.parse(
+                                                            favouriteUserList[
+                                                                    index]
+                                                                .reviewAvgData),
+                                                        minRating: 0.25,
                                                         direction:
                                                             Axis.horizontal,
                                                         allowHalfRating: true,
                                                         itemCount: 5,
-                                                        itemSize: 24.0,
-                                                        ignoreGestures: true,
-                                                        itemPadding:
-                                                            new EdgeInsets.only(
-                                                                bottom: 3.0),
-                                                        itemBuilder: (context,
-                                                                index) =>
-                                                            new SizedBox(
-                                                                height: 20.0,
-                                                                width: 18.0,
-                                                                child:
-                                                                    new IconButton(
-                                                                  onPressed:
-                                                                      () {},
-                                                                  padding:
-                                                                      new EdgeInsets
-                                                                              .all(
-                                                                          0.0),
-                                                                  // color: Colors.white,
-                                                                  icon: index >
-                                                                          (4.5).ceilToDouble() -
-                                                                              1
-                                                                      ? SvgPicture
-                                                                          .asset(
-                                                                          "assets/images_gps/star_2.svg",
-                                                                          height:
-                                                                              13.0,
-                                                                          width:
-                                                                              13.0,
-                                                                        )
-                                                                      : SvgPicture
-                                                                          .asset(
-                                                                          "assets/images_gps/star_colour.svg",
-                                                                          height:
-                                                                              13.0,
-                                                                          width:
-                                                                              13.0,
-                                                                          //color: Colors.black,
-                                                                        ),
-                                                                )),
+                                                        itemSize: 25,
+                                                        itemPadding: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal:
+                                                                    4.0),
+                                                        itemBuilder:
+                                                            (context, _) =>
+                                                                Icon(
+                                                          Icons.star,
+                                                          size: 5,
+                                                          color: Color.fromRGBO(
+                                                              255, 217, 0, 1),
+                                                        ),
                                                         onRatingUpdate:
-                                                            (rating) {
-                                                          print(rating);
-                                                        },
+                                                            (rating) {},
                                                       ),
                                                       Text(
                                                         '(${favouriteUserList[index].noOfReviewsMembers})',
@@ -690,10 +665,11 @@ class _FavoriteState extends State<Favorite> {
                                               width: 7,
                                             ),
                                             Text(
-                                              '${addressOfTherapists[index]}',
+                                              '${favouriteUserList[index].favouriteTherapistId.addresses[0].address}',
                                               style: TextStyle(
                                                   color: Color.fromRGBO(
                                                       0, 0, 0, 1),
+                                                  fontSize: 12,
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             // Spacer(),

@@ -781,10 +781,10 @@ class NavigationRouter {
   }
 
   // Service Display User Ratings And Review Screen
-  static void switchToServiceUserDisplayReviewScreen(BuildContext context) {
+  static void switchToServiceUserDisplayReviewScreen(BuildContext context, id) {
     Navigator.of(context).push(PageRouteBuilder(
         pageBuilder: (context, animation, anotherAnimation) {
-          return DisplayUserReview();
+          return DisplayUserReview(id);
         },
         transitionDuration: Duration(milliseconds: 2000),
         transitionsBuilder: (context, animation, anotherAnimation, child) {

@@ -54,7 +54,7 @@ List<String> _options = [
 ];
 
 List<String> userBannerImages = [];
-var bannerImages;
+var bannerImages,therapistId;
 
 // List<TherapistSubCategory> userSubCategory = [];
 
@@ -879,7 +879,7 @@ class _BookingDetailsCompletedScreenOneState
                                       onTap: () {
                                         NavigationRouter
                                             .switchToServiceUserDisplayReviewScreen(
-                                                context);
+                                                context,therapistId);
                                       },
                                       child: Text(
                                         'もっとみる',

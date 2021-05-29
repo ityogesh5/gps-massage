@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:readmore/readmore.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 class DetailProfileDetails extends StatefulWidget {
   final TherapistByIdModel therapistDetails;
@@ -126,6 +127,7 @@ class _DetailProfileDetailsState extends State<DetailProfileDetails> {
                         SizedBox(width: 5.0),
 
                         //Ratings
+
                         buildRatingBar(),
                         SizedBox(width: 5.0),
 
@@ -142,6 +144,28 @@ class _DetailProfileDetailsState extends State<DetailProfileDetails> {
                               fontSize: 10,
                               color: Colors.transparent,
                               fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Container(
+                          child: InkWell(
+                            onTap: () {
+                              NavigationRouter
+                                  .switchToServiceUserDisplayReviewScreen(
+                                      context, widget.therapistDetails.data.id);
+                              print(
+                                  'TherapistId:  ${widget.therapistDetails.data.id}');
+                            },
+                            child: Text(
+                              'もっとみる',
+                              style: TextStyle(
+                                  fontFamily: 'NotoSansJP',
+                                  fontWeight: FontWeight.bold,
+                                  decoration: TextDecoration.underline,
+                                  fontSize: 14),
+                            ),
+                          ),
                         ),
                       ],
                     ),

@@ -478,6 +478,9 @@ class HealingMatchConstants {
   static int selectedMin = 0;
   static List<FlutterWeekViewEvent> userEvents = List<FlutterWeekViewEvent>();
 
+  //Ratings And review
+  static var therapistRatingID = '18';
+
   // User Booking Confirmation
   static int confTherapistId;
   static String confBooking = '';
