@@ -206,6 +206,18 @@ class HealingMatchConstants {
   static const String THERAPIST_BOOKING_REQUEST =
       ON_PREMISE_USER_BASE_URL + '/bookingDetails/bookingRequestStatusList';
 
+  // therapist cancelled booking request
+  static const String THERAPIST_BOOKING_APPROVED =
+      ON_PREMISE_USER_BASE_URL + '/bookingDetails/bookingApprovalStatusList';
+
+  // therapist booking request
+  static const String THERAPIST_CANCELLED_BOOKING =
+      ON_PREMISE_USER_BASE_URL + '/bookingDetails/bookingCancelStatusList';
+
+  // therapist booking status change
+  static const String THERAPIST_BOOKING_STATUS_UPDATE =
+      ON_PREMISE_USER_BASE_URL + '/booking/bookingRequestStatusUpdateById';
+
   // handle guest user
   static const String HANDLE_GUEST_USER =
       ON_PREMISE_USER_BASE_URL + '/user/guestUser';

@@ -6,10 +6,12 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/cardToolTips/timeSpinnerToolTip.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
 import 'package:intl/intl.dart';
 
 class ProviderReceiveBooking extends StatefulWidget {
@@ -20,12 +22,13 @@ class ProviderReceiveBooking extends StatefulWidget {
 }
 
 class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
-  TextEditingController expensesController = TextEditingController();
+  TextEditingController providerCommentsController = TextEditingController();
+  TextEditingController cancellationReasonController = TextEditingController();
   String price;
   String addedpriceReason;
   bool proposeAdditionalCosts = false;
   bool suggestAnotherTime = false;
-  bool onCanel = false;
+  bool onCancel = false;
   ScrollController scrollController = ScrollController();
   GlobalKey startKey = new GlobalKey();
   GlobalKey endKey = new GlobalKey();
@@ -42,7 +45,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
 
   @override
   Widget build(BuildContext context) {
-    if (_state == 0 && onCanel) {
+    if (_state == 0 && onCancel) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         _state = 1;
         scrollController.animateTo(scrollController.position.maxScrollExtent,
@@ -421,7 +424,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                           height: 15.0,
                         ),
                         TextField(
-                          //controller: textEditingController,
+                          controller: providerCommentsController,
                           textInputAction: TextInputAction.done,
                           expands: false,
                           maxLines: 4,
@@ -437,6 +440,9 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                             enabledBorder:
                                 HealingMatchConstants.multiTextFormInputBorder,
                           ),
+                          onChanged: (value) {
+                            widget.bookingDetail.therapistComments = value;
+                          },
                         ),
                         SizedBox(
                           height: 15.0,
@@ -448,7 +454,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                       ],
                     )
                   : buildButton(),
-              onCanel
+              onCancel
                   ? Column(
                       children: [
                         SizedBox(
@@ -471,7 +477,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                         Stack(
                           children: [
                             TextField(
-                              //controller: textEditingController,
+                              controller: cancellationReasonController,
                               textInputAction: TextInputAction.done,
                               expands: false,
                               maxLines: 4,
@@ -488,11 +494,33 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                                 enabledBorder: HealingMatchConstants
                                     .multiTextFormInputBorder,
                               ),
+                              onChanged: (value) {
+                                widget.bookingDetail.cancellationReason = value;
+                              },
                             ),
                             Positioned(
                               bottom: 5.0,
                               right: 5.0,
                               child: InkWell(
+                                onTap: () {
+                                  ProgressDialogBuilder
+                                      .showCommonProgressDialog(context);
+
+                                  ServiceProviderApi.updateStatusUpdate(
+                                          widget.bookingDetail,
+                                          false,
+                                          false,
+                                          onCancel)
+                                      .then((value) {
+                                    ProgressDialogBuilder
+                                        .hideCommonProgressDialog(context);
+                                    if (value) {
+                                      NavigationRouter
+                                          .switchToServiceProviderBottomBar(
+                                              context);
+                                    }
+                                  });
+                                },
                                 child: Container(
                                   decoration: BoxDecoration(
                                       shape: BoxShape.circle,
@@ -881,7 +909,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
             ),
             onPressed: () {
               setState(() {
-                onCanel = true;
+                onCancel = true;
               });
             },
             //  minWidth: MediaQuery.of(context).size.width * 0.38,
@@ -907,7 +935,21 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
             ),
-            onPressed: () {},
+            onPressed: () {
+              ProgressDialogBuilder.showCommonProgressDialog(context);
+              widget.bookingDetail.newStartTime = newStartTime;
+              widget.bookingDetail.newEndTime = newEndTime;
+              widget.bookingDetail.addedPrice = addedpriceReason;
+              widget.bookingDetail.travelAmount = price;
+              ServiceProviderApi.updateStatusUpdate(widget.bookingDetail,
+                      proposeAdditionalCosts, suggestAnotherTime, onCancel)
+                  .then((value) {
+                ProgressDialogBuilder.hideCommonProgressDialog(context);
+                if (value) {
+                  NavigationRouter.switchToServiceProviderBottomBar(context);
+                }
+              });
+            },
             //   minWidth: MediaQuery.of(context).size.width * 0.38,
             splashColor: Colors.pinkAccent[600],
             color: Color.fromRGBO(200, 217, 33, 1),
