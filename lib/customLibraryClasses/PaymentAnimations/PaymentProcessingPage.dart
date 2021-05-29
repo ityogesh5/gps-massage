@@ -26,8 +26,18 @@ class _PaymentProcessingPageState extends State<PaymentProcessingPage> {
   }
 
   void setError(dynamic error) {
-    _scaffoldKey.currentState
-        .showSnackBar(SnackBar(content: Text(error.toString())));
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text(
+        error.toString(),
+        style: TextStyle(
+            fontSize: 14,
+            fontFamily: 'NotoSansJP',
+            color: Colors.white,
+            fontWeight: FontWeight.w500),
+      ),
+      duration: Duration(seconds: 4),
+      backgroundColor: Colors.redAccent,
+    ));
     setState(() {
       _error = error.toString();
     });
@@ -74,32 +84,20 @@ class _PaymentProcessingPageState extends State<PaymentProcessingPage> {
 
   _processPayment() async {
     try {
-      var originalAmount = '${HealingMatchConstants.serviceUserBookingAmount}';
-      var finalAmount = int.parse(originalAmount.replaceAll(',', ''));
-      print('w/o comma amount : ${finalAmount.truncate()}');
-      ServiceUserAPIProvider.createCustomerForPayment(
-              context, HealingMatchConstants.serviceUserID)
+      ServiceUserAPIProvider.chargePaymentForCustomer(
+              context,
+              HealingMatchConstants.serviceUserID,
+              widget.paymentMethod.id,
+              HealingMatchConstants.confServiceCost)
           .then((value) {
         if (value.status == 'success') {
-          ServiceUserAPIProvider.chargePaymentForCustomer(
-                  context,
-                  HealingMatchConstants.serviceUserID,
-                  widget.paymentMethod.id,
-                  finalAmount)
+          ServiceUserAPIProvider.paymentSuccess(
+                  context, value.message.id, widget.paymentMethod.id)
               .then((value) {
             if (value.status == 'success') {
-              ServiceUserAPIProvider.paymentSuccess(
-                      context, value.message.id, widget.paymentMethod.id)
-                  .then((value) {
-                if (value.status == 'success') {
-                  NavigationRouter.switchToPaymentSuccessScreen(context);
-                } else {
-                  NavigationRouter.switchToPaymentFailedScreen(context);
-                }
-              }).catchError((error) {
-                NavigationRouter.switchToPaymentFailedScreen(context);
-                setError(error);
-              });
+              NavigationRouter.switchToPaymentSuccessScreen(context);
+            } else {
+              NavigationRouter.switchToPaymentFailedScreen(context);
             }
           }).catchError((error) {
             NavigationRouter.switchToPaymentFailedScreen(context);
@@ -108,6 +106,9 @@ class _PaymentProcessingPageState extends State<PaymentProcessingPage> {
         } else {
           NavigationRouter.switchToPaymentFailedScreen(context);
         }
+      }).catchError((error) {
+        NavigationRouter.switchToPaymentFailedScreen(context);
+        setError(error);
       }).catchError((error) {
         NavigationRouter.switchToPaymentFailedScreen(context);
         setError(error);

@@ -99,7 +99,7 @@ class _ChatUserListState extends State<ChatUserList> {
                                   Row(
                                     children: [
                                       Text(
-                                        'ユーザーチャット情報！',
+                                        'ユーザーチャットの情報！',
                                         style: TextStyle(
                                             fontSize: 14,
                                             fontFamily: 'NotoSansJP',
@@ -129,7 +129,7 @@ class _ChatUserListState extends State<ChatUserList> {
                                         child: Column(
                                           children: [
                                             Text(
-                                              '現在、チャットの履歴はありません。',
+                                              '予約が完了した後にメッセージのやり取りができます。',
                                               style: TextStyle(
                                                   fontSize: 14,
                                                   fontFamily: 'NotoSansJP',
