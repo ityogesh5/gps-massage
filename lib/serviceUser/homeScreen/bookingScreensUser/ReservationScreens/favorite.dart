@@ -11,6 +11,7 @@ import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:favorite_button/favorite_button.dart';
+import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
 
 var therapistId;
 
@@ -20,6 +21,7 @@ class LoadInitialPage extends StatefulWidget {
 }
 
 class _LoadInitialPageState extends State<LoadInitialPage> {
+  GlobalKey<FormState> _formKeyUsersByType;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,6 +56,7 @@ class _FavoriteState extends State<Favorite> {
   var addressOfTherapists, distanceRadius;
   List<dynamic> distanceOfTherapist = new List();
   List<GlobalObjectKey<FormState>> formKeyList;
+  GlobalKey<FormState> _formKeyUsersByType;
   BoxDecoration boxDecoration = BoxDecoration(
     borderRadius: BorderRadius.circular(8.0),
     color: Colors.white,
@@ -63,6 +66,7 @@ class _FavoriteState extends State<Favorite> {
   void initState() {
     super.initState();
     // _providerRatingList();
+
     getFavoriteList();
   }
 
@@ -375,8 +379,16 @@ class _FavoriteState extends State<Favorite> {
                                                           ),
                                                     SizedBox(width: 4),
                                                     InkWell(
-                                                      onTap: () {},
+                                                      onTap: () {
+                                                        showToolTipForFav(
+                                                            favouriteUserList[
+                                                                    index]
+                                                                .favouriteTherapistId
+                                                                .storeType,
+                                                            formKeyList[index]);
+                                                      },
                                                       child: Container(
+                                                        key: formKeyList[index],
                                                         decoration:
                                                             BoxDecoration(
                                                           gradient: LinearGradient(
@@ -415,41 +427,10 @@ class _FavoriteState extends State<Favorite> {
                                                       ),
                                                     ),
                                                     Spacer(),
-                                                    FavoriteButton(
-                                                        isFavorite:
-                                                            favouriteUserList[
-                                                                    index]
-                                                                .isFavourite,
-                                                        iconSize: 40,
-                                                        iconColor: Colors.red,
-                                                        valueChanged:
-                                                            (_isFavorite) {
-                                                          print(
-                                                              'Is Favorite : $_isFavorite');
-                                                          if (_isFavorite !=
-                                                                  null &&
-                                                              _isFavorite) {
-                                                            // call favorite therapist API
-                                                            ServiceUserAPIProvider
-                                                                .favouriteTherapist(
-                                                                    favouriteUserList[
-                                                                            index]
-                                                                        .therapistId);
-                                                          } else {
-                                                            // call un-favorite therapist API
-                                                            ServiceUserAPIProvider.unFavouriteTherapist(
-                                                                    favouriteUserList[
-                                                                            index]
-                                                                        .therapistId)
-                                                                .then((value) {
-                                                              /*  setState(() {
-                                                                favouriteUserList
-                                                                    .removeAt(
-                                                                        index);
-                                                              });*/
-                                                            });
-                                                          }
-                                                        }),
+                                                    SvgPicture.asset(
+                                                        'assets/images_gps/recommendedHeart.svg',
+                                                        width: 25,
+                                                        height: 25),
                                                   ],
                                                 ),
                                                 SizedBox(
@@ -766,5 +747,21 @@ class _FavoriteState extends State<Favorite> {
     } catch (e) {
       print('Exception more data' + e.toString());
     }
+  }
+
+  void showToolTipForFav(String text, GlobalObjectKey<FormState> formKeyList) {
+    ShowToolTip popup = ShowToolTip(context,
+        text: text,
+        textStyle: TextStyle(color: Colors.black),
+        height: MediaQuery.of(context).size.height / 7,
+        width: MediaQuery.of(context).size.width / 2,
+        backgroundColor: Colors.white,
+        padding: EdgeInsets.all(8.0),
+        borderRadius: BorderRadius.circular(10.0));
+
+    /// show the popup for specific widget
+    popup.show(
+      widgetKey: formKeyList,
+    );
   }
 }
