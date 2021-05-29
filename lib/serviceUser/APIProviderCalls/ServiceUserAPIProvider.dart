@@ -480,11 +480,11 @@ class ServiceUserAPIProvider {
       int categoryId,
       String nameOfService,
       int totalMinOfService,
-      int priceOfService,
+      var priceOfService,
       int bookingStatus,
       String locationType,
       String location,
-      int totalCost,
+      var totalCost,
       int userReviewStatus,
       int therapistReviewStatus,
       String userCommands) async {
