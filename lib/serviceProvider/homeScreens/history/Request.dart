@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/history/BookingCancelPopup.dart';
+import 'package:intl/intl.dart';
 
 class ProviderRequestScreen extends StatefulWidget {
   @override
@@ -8,46 +12,66 @@ class ProviderRequestScreen extends StatefulWidget {
 }
 
 class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
+  List<BookingDetailsList> requestBookingDetailsList =
+      List<BookingDetailsList>();
+  int status = 0;
+
   @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      primary: true,
-      child: Container(
-        padding: EdgeInsets.all(8.0),
-        //  margin: EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Center(
-              child: Text(
-                "サービス利用者からリクエストのあった予約",
-                // textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color.fromRGBO(102, 102, 102, 1),
-                  fontSize: 12.0,
-                  fontFamily: 'NotoSansJP',
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            ListView.separated(
-                separatorBuilder: (context, index) => SizedBox(
-                      height: 15,
-                    ),
-                shrinkWrap: true,
-                physics: BouncingScrollPhysics(),
-                itemCount: 3,
-                itemBuilder: (context, index) {
-                  return buildBookingCard();
-                }),
-          ],
-        ),
-      ),
-    );
+  void initState() {
+    super.initState();
+    ServiceProviderApi.getBookingRequests().then((value) {
+      setState(() {
+        requestBookingDetailsList.addAll(value.data.bookingDetailsList);
+        status = 1;
+      });
+    });
   }
 
-  Card buildBookingCard() {
+  @override
+  Widget build(BuildContext context) {
+    return status == 0
+        ? Center(child: CircularProgressIndicator())
+        : SingleChildScrollView(
+            primary: true,
+            child: Container(
+              padding: EdgeInsets.all(8.0),
+              //  margin: EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Center(
+                    child: Text(
+                      "サービス利用者からリクエストのあった予約",
+                      // textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color.fromRGBO(102, 102, 102, 1),
+                        fontSize: 12.0,
+                        fontFamily: 'NotoSansJP',
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  ListView.separated(
+                      separatorBuilder: (context, index) => SizedBox(
+                            height: 15,
+                          ),
+                      shrinkWrap: true,
+                      physics: BouncingScrollPhysics(),
+                      itemCount: requestBookingDetailsList.length,
+                      itemBuilder: (context, index) {
+                        return buildBookingCard(index);
+                      }),
+                ],
+              ),
+            ),
+          );
+  }
+
+  Card buildBookingCard(int index) {
+    String jaName = DateFormat('EEEE', 'ja_JP')
+        .format(requestBookingDetailsList[index].startTime);
+   
     return Card(
       // margin: EdgeInsets.all(8.0),
       color: Color.fromRGBO(242, 242, 242, 1),
@@ -63,7 +87,7 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
                 Row(
                   children: [
                     Text(
-                      'AK さん',
+                      '${requestBookingDetailsList[index].bookingUserId.userName}',
                       style: TextStyle(
                         fontSize: 16.0,
                         color: Colors.black,
@@ -89,7 +113,9 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
                             borderRadius: BorderRadius.all(Radius.circular(5))),
                         padding: EdgeInsets.all(4),
                         child: Text(
-                          '店舗',
+                          requestBookingDetailsList[index].locationType == "店舗"
+                              ? '店舗'
+                              : '出張',
                           style: TextStyle(
                             fontSize: 9.0,
                             color: Colors.black,
@@ -111,7 +137,7 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
                       width: 8,
                     ),
                     Text(
-                      '10月17',
+                      '${requestBookingDetailsList[index].startTime.month}月${requestBookingDetailsList[index].startTime.day}',
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.black,
@@ -122,7 +148,7 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
                       width: 8,
                     ),
                     Text(
-                      ' 月曜日 ',
+                      ' $jaName ',
                       style: TextStyle(
                         fontSize: 12.0,
                         color: Color.fromRGBO(102, 102, 102, 1),
@@ -144,7 +170,7 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
                       width: 8,
                     ),
                     Text(
-                      '09: 00 ~ 10: 00',
+                      '${requestBookingDetailsList[index].startTime.hour}: ${requestBookingDetailsList[index].startTime.minute} ~ ${requestBookingDetailsList[index].endTime.hour}: ${requestBookingDetailsList[index].endTime.minute}',
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.black,
@@ -152,7 +178,7 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
                       ),
                     ),
                     Text(
-                      ' 60分 ',
+                      ' ${requestBookingDetailsList[index].totalMinOfService}分 ',
                       style: TextStyle(
                         fontSize: 12.0,
                         color: Color.fromRGBO(102, 102, 102, 1),
@@ -170,7 +196,7 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
                           borderRadius: BorderRadius.all(Radius.circular(5))),
                       padding: EdgeInsets.all(4),
                       child: Text(
-                        '足つぼ',
+                        '${requestBookingDetailsList[index].nameOfService}',
                         style: TextStyle(
                           fontSize: 12.0,
                           color: Colors.black,
@@ -180,12 +206,12 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
                   ],
                 ),
                 SizedBox(
-                  height: 2,
+                  height: 4,
                 ),
                 Row(
                   children: [
                     Expanded(
-                      flex: 2,
+                      flex: 4,
                       child: Divider(
                         // height: 50,
                         color: Color.fromRGBO(217, 217, 217, 1),
@@ -235,7 +261,7 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
                           borderRadius: BorderRadius.all(Radius.circular(5))),
                       child: Center(
                         child: Text(
-                          '店舗',
+                          '${requestBookingDetailsList[index].locationType}',
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 12,
@@ -247,7 +273,7 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
                       width: 8,
                     ),
                     Text(
-                      '埼玉県浦和区高砂4丁目4',
+                      '${requestBookingDetailsList[index].location}',
                       style: TextStyle(
                         color: Color.fromRGBO(102, 102, 102, 1),
                         fontSize: 17,
@@ -288,20 +314,12 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
               ),
             ),
             Positioned(
-              top: 88.0,
-              right: 70.0,
+              top: 92.0,
+              right: 55.0,
               child: InkWell(
                 onTap: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return Dialog(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  20.0)), //this right here
-                          child: CancelBooking(),
-                        );
-                      });
+                  NavigationRouter.switchToReceiveBookingScreen(
+                      context, requestBookingDetailsList[index]);
                 },
                 child: Card(
                   elevation: 4.0,
@@ -328,11 +346,12 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
               ),
             ),
             Positioned(
-              top: 88.0,
+              top: 92.0,
               right: 10.0,
               child: InkWell(
                 onTap: () {
-                  print('abc');
+                  NavigationRouter.switchToReceiveBookingScreen(
+                      context, requestBookingDetailsList[index]);
                 },
                 child: Card(
                   elevation: 4.0,
@@ -361,5 +380,31 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
         ),
       ),
     );
+  }
+
+  String getJaDayName(String day) {
+    switch (day) {
+      case 'Monday':
+        return '月曜日';
+        break;
+      case 'Tuesday':
+        return '火曜日';
+        break;
+      case 'Wednesday':
+        return '水曜日';
+        break;
+      case 'Thursday':
+        return '木曜日';
+        break;
+      case 'Friday':
+        return '金曜日';
+        break;
+      case 'Saturday':
+        return '土曜日';
+        break;
+      case 'Sunday':
+        return '日曜日';
+        break;
+    }
   }
 }

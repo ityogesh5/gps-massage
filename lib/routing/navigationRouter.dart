@@ -6,6 +6,7 @@ import 'package:gps_massageapp/initialScreens/providerTutorial.dart';
 import 'package:gps_massageapp/initialScreens/termsAndConditions.dart';
 import 'package:gps_massageapp/initialScreens/userDefineScreen.dart';
 import 'package:gps_massageapp/initialScreens/userTutorial.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/ProviderBottomBar.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/calendar/providerCalendar.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/AdminNotification.dart';
@@ -429,9 +430,12 @@ class NavigationRouter {
 
   //Provider Receive Booking Screen
 
-  static void switchToReceiveBookingScreen(BuildContext context) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => ProviderReceiveBooking()));
+  static void switchToReceiveBookingScreen(
+      BuildContext context, BookingDetailsList bookingDetailsList) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ProviderReceiveBooking(bookingDetailsList)));
   }
 
   //Provider Offer Cancel Screen
@@ -578,11 +582,12 @@ class NavigationRouter {
   }
 
   //Provider User Rating Screen
-  static void switchToProviderSideUserReviewScreen(BuildContext context) {
+  static void switchToProviderSideUserReviewScreen(
+      BuildContext context, int userId) {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (BuildContext context) => UserRatingReviewScreen()));
+            builder: (BuildContext context) => UserRatingReviewScreen(userId)));
   }
 
   //Provider Self Review Screen
@@ -607,7 +612,7 @@ class NavigationRouter {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (BuildContext context) => UserRatingReviewScreen()
+            builder: (BuildContext context) => UserRatingReviewScreen(20)
             // ProviderRatingsAndReviewUser(1)
             ));
   }

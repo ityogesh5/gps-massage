@@ -167,7 +167,7 @@ class _ProviderOfferConfirmedState extends State<ProviderOfferConfirmed> {
                 InkWell(
                   onTap: () {
                     NavigationRouter.switchToProviderSideUserReviewScreen(
-                        context);
+                        context,20);
                   },
                   child: Row(
                     children: [
