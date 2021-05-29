@@ -84,7 +84,7 @@ class _ProviderConfirmReservationScreenState
   }
 
   Card buildBookingCard(int index) {
-  DateTime startTime = requestBookingDetailsList[index].newStartTime != null
+    DateTime startTime = requestBookingDetailsList[index].newStartTime != null
         ? DateTime.parse(requestBookingDetailsList[index].newStartTime)
             .toLocal()
         : requestBookingDetailsList[index].startTime.toLocal();
@@ -386,7 +386,12 @@ class _ProviderConfirmReservationScreenState
                     right: 10.0,
                     child: InkWell(
                       onTap: () {
-                        print('abc');
+                        ServiceProviderApi.updateBookingCompeted(
+                                requestBookingDetailsList[index])
+                            .then((value) {
+                          NavigationRouter.switchToServiceProviderBottomBar(
+                              context);
+                        });
                       },
                       child: Card(
                         elevation: 4.0,

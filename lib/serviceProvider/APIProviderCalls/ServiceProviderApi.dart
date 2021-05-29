@@ -539,6 +539,37 @@ class ServiceProviderApi {
     }
   }
 
+  static Future<bool> updateBookingCompeted(
+    BookingDetailsList bookingDetail,
+  ) async {
+    try {
+      final url = HealingMatchConstants.THERAPIST_BOOKING_STATUS_UPDATE;
+      Map<String, dynamic> body;
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '${HealingMatchConstants.accessToken}'
+      };
+
+      body = {
+        "bookingId": bookingDetail.id.toString(),
+        "bookingStatus": "9",
+      };
+
+      final response =
+          await http.post(url, headers: headers, body: json.encode(body));
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print('Exception : ${e.toString()}');
+      return true;
+    }
+  }
+
   static Future<TherapistBookingHistoryResponseModel>
       getWeeklyBookingCardDetails(int pageNumber, int pageSize) async {
     TherapistBookingHistoryResponseModel therapistBookingHistoryResponseModel;

@@ -521,7 +521,12 @@ class _WeeklyScheduleState extends State<WeeklySchedule> {
                         right: 10.0,
                         child: InkWell(
                           onTap: () {
-                            print('abc');
+                            ServiceProviderApi.updateBookingCompeted(
+                                    requestBookingDetailsList[index])
+                                .then((value) {
+                              NavigationRouter.switchToServiceProviderBottomBar(
+                                  context);
+                            });
                           },
                           child: Card(
                             elevation: 4.0,
