@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:gps_massageapp/commonScreens/chat/chat_item_screen.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/chat.dart';
@@ -10,8 +10,7 @@ import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/db
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/chatData.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/message.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/user.dart';
-import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:gps_massageapp/commonScreens/chat/chat_item_screen.dart';
+import 'package:gps_massageapp/customLibraryClasses/searchDelegateClass/CustomSearchPage.dart';
 import 'package:provider/provider.dart';
 
 class ChatUserList extends StatefulWidget {
@@ -30,6 +29,8 @@ class _ChatUserListState extends State<ChatUserList> {
   List<UserDetail> contactList = List<UserDetail>();
   int status = 0;
   List<ChatData> chatData = List<ChatData>();
+  var userName, userEmail, userChat;
+  var isOnline = false;
 
   void initState() {
     super.initState();
@@ -46,6 +47,11 @@ class _ChatUserListState extends State<ChatUserList> {
 
           Chat().fetchChats(contactList).then((value) {
             chatData.addAll(value);
+            for (int i = 0; i < chatData.length; i++) {
+              userName = chatData[i].peer.username;
+              userEmail = chatData[i].peer.email;
+              userChat = contactList[i];
+            }
 
             setState(() {
               status = 1;
@@ -67,10 +73,80 @@ class _ChatUserListState extends State<ChatUserList> {
         : Padding(
             padding: const EdgeInsets.all(8.0),
             child: contactList.length == 0
-                ? Center(
-                    child: Container(
-                      child: Text("現在、チャットの履歴はありません。"),
-                    ),
+                ? Stack(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Center(
+                            child: Container(
+                              padding: EdgeInsets.all(8.0),
+                              height: MediaQuery.of(context).size.height * 0.22,
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                color: Color.fromRGBO(255, 255, 255, 1),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(16.0)),
+                                border: Border.all(
+                                    color: Color.fromRGBO(217, 217, 217, 1)),
+                              ),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'ユーザーチャット情報！',
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontFamily: 'NotoSansJP',
+                                            fontWeight: FontWeight.bold),
+                                      )
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      InkWell(
+                                        onTap: () {},
+                                        child: new Container(
+                                            width: 80.0,
+                                            height: 80.0,
+                                            decoration: new BoxDecoration(
+                                              border: Border.all(
+                                                  color: Colors.black12),
+                                              shape: BoxShape.circle,
+                                              image: new DecorationImage(
+                                                  fit: BoxFit.fill,
+                                                  image: new AssetImage(
+                                                      'assets/images_gps/appIcon.png')),
+                                            )),
+                                      ),
+                                      SizedBox(width: 10),
+                                      Expanded(
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              '現在、チャットの履歴はありません。',
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontFamily: 'NotoSansJP',
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   )
                 : ListView(
                     physics: BouncingScrollPhysics(),
@@ -80,36 +156,90 @@ class _ChatUserListState extends State<ChatUserList> {
                           SizedBox(
                             height: 15,
                           ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.07,
-                            decoration: BoxDecoration(boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey[400],
-                                offset: Offset(2.0, 2.0),
-                                blurRadius: 8.0,
-                              )
-                            ]),
-                            child: TextFormField(
-                              autofocus: false,
-                              textInputAction: TextInputAction.search,
-                              decoration: new InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  hintText: '検索',
-                                  suffixIcon: IconButton(
-                                    icon: Icon(Icons.search_rounded,
-                                        color: Color.fromRGBO(225, 225, 225, 1),
-                                        size: 30),
-                                    onPressed: () {},
+                          GestureDetector(
+                              onTap: () {
+                                print('On tap search filter');
+                                showSearch(
+                                  context: context,
+                                  delegate: CustomSearchPage<ChatData>(
+                                    onQueryUpdate: (s) => print(s),
+                                    items: chatData,
+                                    searchLabel: 'チャットユーザーを検索',
+                                    suggestion: Center(
+                                      child: Text('ユーザー名とユーザーのメールアドレスで検索'),
+                                    ),
+                                    failure: Center(
+                                      child: Text('ユーザーが見つかりません！'),
+                                    ),
+                                    filter: (chatData) => [
+                                      chatData.peer.username,
+                                    ],
+                                    builder: (chatData) => ListTile(
+                                      title: InkWell(
+                                          onTap: () {
+                                            Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ChatItemScreen(chatData),
+                                              ),
+                                            );
+                                          },
+                                          child: Text(chatData.peer.username)),
+                                      subtitle: Text(chatData.peer.email),
+                                    ),
                                   ),
-                                  hintStyle: TextStyle(color: Colors.grey),
-                                  border: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        color: Colors.red, width: 2.0),
-                                    borderRadius: BorderRadius.circular(10),
-                                  )),
-                            ),
-                          ),
+                                );
+                              },
+                              child: Container(
+                                  padding: const EdgeInsets.all(6.0),
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.07,
+                                  width:
+                                      MediaQuery.of(context).size.height * 0.85,
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: [
+                                          Color.fromRGBO(255, 255, 255, 1),
+                                          Color.fromRGBO(255, 255, 255, 1),
+                                        ]),
+                                    shape: BoxShape.rectangle,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey[400],
+                                        offset: Offset(2.0, 2.0),
+                                        blurRadius: 8.0,
+                                      )
+                                    ],
+                                    border: Border.all(
+                                      color: Colors.grey[500],
+                                    ),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    color: Color.fromRGBO(228, 228, 228, 1),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        '検索',
+                                        style: TextStyle(
+                                            color: Color.fromRGBO(
+                                                225, 225, 225, 1),
+                                            fontSize: 14,
+                                            fontFamily: 'NotoSansJP'),
+                                      ),
+                                      Spacer(),
+                                      InkWell(
+                                        child: Image.asset(
+                                          "assets/images_gps/search.png",
+                                          color:
+                                              Color.fromRGBO(225, 225, 225, 1),
+                                        ),
+                                        onTap: () {},
+                                      ),
+                                    ],
+                                  ))),
                           SizedBox(height: 15),
                         ],
                       ),
@@ -120,6 +250,8 @@ class _ChatUserListState extends State<ChatUserList> {
                             physics: NeverScrollableScrollPhysics(),
                             itemCount: contactList.length,
                             itemBuilder: (context, index) {
+                              isOnline = contactList[index].isOnline;
+                              HealingMatchConstants.isUserOnline = isOnline;
                               return buildChatDetails(index);
                             }),
                       ),
@@ -129,6 +261,14 @@ class _ChatUserListState extends State<ChatUserList> {
   }
 
   InkWell buildChatDetails(int index) {
+    String formatTime(Message message) {
+      int hour = message.sendDate.hour;
+      int min = message.sendDate.minute;
+      String hRes = hour <= 9 ? '0$hour' : hour.toString();
+      String mRes = min <= 9 ? '0$min' : min.toString();
+      return '$hRes時$mRes分';
+    }
+
     Stream<QuerySnapshot> _stream;
     Message lastMessage;
     DateTime lastMessageDate;
@@ -184,41 +324,26 @@ class _ChatUserListState extends State<ChatUserList> {
                             ),
                     ),
                   ),
-                  contactList[index].isOnline
-                      ? Positioned(
-                          right: -20.0,
-                          top: 35,
-                          left: 10.0,
-                          child: InkWell(
-                            onTap: () {},
-                            child: CircleAvatar(
-                              backgroundColor: Colors.white,
-                              radius: 8,
-                              child: CircleAvatar(
-                                backgroundColor: Colors.green[400],
-                                radius: 6,
-                                child: Container(),
-                              ),
-                            ),
+                  Visibility(
+                    visible: isOnline,
+                    child: Positioned(
+                      right: -20.0,
+                      top: 35,
+                      left: 10.0,
+                      child: InkWell(
+                        onTap: () {},
+                        child: CircleAvatar(
+                          backgroundColor: Colors.white,
+                          radius: 8,
+                          child: CircleAvatar(
+                            backgroundColor: Colors.green[400],
+                            radius: 6,
+                            child: Container(),
                           ),
-                        )
-                      : Positioned(
-                          right: -30.0,
-                          top: 35,
-                          left: 10.0,
-                          child: InkWell(
-                            onTap: () {},
-                            child: CircleAvatar(
-                              backgroundColor: Colors.grey[500],
-                              radius: 6,
-                              child: CircleAvatar(
-                                backgroundColor: Colors.green[400],
-                                radius: 5,
-                                child: Container(),
-                              ),
-                            ),
-                          ),
-                        )
+                        ),
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),
@@ -313,8 +438,7 @@ class _ChatUserListState extends State<ChatUserList> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text(
-                          "${lastMessageDate.year}/${lastMessageDate.month}/${lastMessageDate.day}",
+                      Text(formatTime(lastMessage),
                           style:
                               TextStyle(color: Colors.grey[300], fontSize: 12)),
                       SizedBox(height: 8),

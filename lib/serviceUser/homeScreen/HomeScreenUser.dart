@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -79,8 +80,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenUserState extends State<HomeScreen> {
   @override
   void initState() {
-    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-    HealingMatchConstants.fbUserId = firebaseAuth.currentUser.uid;
     super.initState();
   }
 
@@ -130,7 +129,38 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
         HealingMatchConstants.accessToken, _pageNumber, _pageSize, context));
   }
 
+  /// Update user status on Firebase
+  Future<dynamic> _updateOnlineStatus(var fbUserId) {
+    if (HealingMatchConstants.isInternetAvailable) {
+      final docRef =
+          FirebaseFirestore.instance.collection(USERS_COLLECTION).doc(fbUserId);
+      print('Firebase UID Internet available : $fbUserId');
+      return FirebaseFirestore.instance.runTransaction((transaction) async {
+        await transaction.update(docRef, {
+          'isOnline': true,
+        });
+      });
+    } else {
+      final docRef =
+          FirebaseFirestore.instance.collection(USERS_COLLECTION).doc(fbUserId);
+      print('Firebase UID Internet not available : $fbUserId');
+      return FirebaseFirestore.instance.runTransaction((transaction) async {
+        await transaction.update(docRef, {
+          'isOnline': false,
+        });
+      });
+    }
+  }
+
   getAccessToken() async {
+    if (HealingMatchConstants.isUserRegistrationSkipped) {
+      HealingMatchConstants.fbUserId = null;
+    } else {
+      FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+      HealingMatchConstants.fbUserId = firebaseAuth.currentUser.uid;
+      print('Current user id : ${firebaseAuth.currentUser.uid}');
+      _updateOnlineStatus(firebaseAuth.currentUser.uid);
+    }
     _sharedPreferences.then((value) {
       accessToken = value.getString('accessToken');
       var fcmToken = value.getString('deviceToken');

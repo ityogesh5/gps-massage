@@ -223,6 +223,7 @@ class HealingMatchConstants {
   static bool isUserLoggedIn = false;
   static bool isBottomBarVisible = true;
   static String currentDate;
+  static var isUserOnline = false;
 
   static String currentDay;
 
@@ -340,6 +341,8 @@ class HealingMatchConstants {
   static PickedFile idProfileImage;
   static List<String> privateQualification = List<String>();
   static Map<String, String> certificateImages = Map<String, String>();
+
+  static var therapistRatingID = '18';
 
   //userDefinedScreens
   static const String UserSelectFirtTxt = 'どちらで利用しますか？';

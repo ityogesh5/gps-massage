@@ -11,8 +11,9 @@ import 'package:gps_massageapp/models/responseModels/guestUserModel/GuestUserRes
 import 'package:gps_massageapp/models/responseModels/paymentModels/CustomerCreation.dart';
 import 'package:gps_massageapp/models/responseModels/paymentModels/PaymentCustomerCharge.dart';
 import 'package:gps_massageapp/models/responseModels/paymentModels/PaymentSuccessModel.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/FavouriteTherapistModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/booking/createBooking.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/FavouriteList.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/FavouriteTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/UnFavouriteTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/RecommendTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
@@ -20,15 +21,12 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/Ther
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UserBannerImagesModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/DeleteSubAddressModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/EditUserSubAddressModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/ratings/ratingList.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistResultsModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
-
-import 'package:gps_massageapp/models/responseModels/serviceUser/booking/createBooking.dart';
-
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-
 import 'package:http/http.dart' as http;
 
 class ServiceUserAPIProvider {
@@ -60,6 +58,9 @@ class ServiceUserAPIProvider {
 
   static RecommendedTherapistModel _recommendedTherapistModel =
       new RecommendedTherapistModel();
+
+  static UserReviewListById _userReviewListById = new UserReviewListById();
+
   static CreateBookingModel _bookingTherapistModel = new CreateBookingModel();
 
   static FavouriteTherapist _favouriteTherapist = new FavouriteTherapist();
@@ -176,6 +177,63 @@ class ServiceUserAPIProvider {
       // ProgressDialogBuilder.hideLoader(context);
     }
     return _favouriteListModel;
+  }
+
+  // get all therapist ratings
+  static Future<UserReviewListById> getAllTherapistsRatings(
+      BuildContext context) async {
+    ProgressDialogBuilder.showOverlayLoader(context);
+    try {
+      final url = HealingMatchConstants.RATING_PROVIDER_LIST_URL;
+      final response = await http.post(url,
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": HealingMatchConstants.accessToken
+          },
+          body: json.encode({
+            "therapistId": "${HealingMatchConstants.therapistRatingID}",
+          }));
+      print(response.body);
+      if (response.statusCode == 200) {
+        _userReviewListById =
+            UserReviewListById.fromJson(json.decode(response.body));
+      }
+      ProgressDialogBuilder.hideLoader(context);
+      print('Status code : ${response.statusCode}');
+    } catch (e) {
+      ProgressDialogBuilder.hideLoader(context);
+      print('Ratings and review exception : ${e.toString()}');
+    }
+
+    return _userReviewListById;
+  }
+
+  // get limit of therapist ratings
+  static Future<UserReviewListById> getAllTherapistsRatingsByLimit(
+      BuildContext context, int pageNumber, int pageSize) async {
+    try {
+      final url =
+          '${HealingMatchConstants.ON_PREMISE_USER_BASE_URL}/mobileReview/therapistReviewListById?page=$pageNumber&size=$pageSize';
+      final response = await http.post(url,
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": HealingMatchConstants.accessToken
+          },
+          body: json.encode({
+            "therapistId": "${HealingMatchConstants.therapistRatingID}",
+          }));
+      print(response.body);
+      if (response.statusCode == 200) {
+        _userReviewListById =
+            UserReviewListById.fromJson(json.decode(response.body));
+      }
+
+      print('Status code : ${response.statusCode}');
+    } catch (e) {
+      print('Ratings and review exception : ${e.toString()}');
+    }
+
+    return _userReviewListById;
   }
 
   // get home screen user banner images
