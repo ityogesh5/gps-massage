@@ -359,15 +359,16 @@ class _NoticeScreenUserState extends State<NotifyScreenUser>
                                 Row(
                                   children: [
                                     Text(
-                                      'ユーザーチャット情報！',
+                                      '通知の情報！',
                                       style: TextStyle(
-                                          fontSize: 14,
+                                          fontSize: 16,
                                           fontFamily: 'NotoSansJP',
                                           fontWeight: FontWeight.bold),
                                     )
                                   ],
                                 ),
                                 Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     InkWell(
                                       onTap: () {},
@@ -384,14 +385,13 @@ class _NoticeScreenUserState extends State<NotifyScreenUser>
                                                     'assets/images_gps/appIcon.png')),
                                           )),
                                     ),
-                                    SizedBox(width: 10),
                                     Expanded(
                                       child: Column(
                                         children: [
                                           Text(
-                                            '現在、チャットの履歴はありません。',
+                                            'お知らせはありません。',
                                             style: TextStyle(
-                                                fontSize: 14,
+                                                fontSize: 16,
                                                 fontFamily: 'NotoSansJP',
                                                 fontWeight: FontWeight.bold),
                                           ),

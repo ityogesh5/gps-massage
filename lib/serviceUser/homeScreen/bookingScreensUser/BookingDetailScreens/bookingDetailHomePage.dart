@@ -1,30 +1,28 @@
 import 'dart:convert';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
+import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
 import 'package:gps_massageapp/customLibraryClasses/bookingTimeToolTip/bookingTimeToolTip.dart';
+import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
-import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/BookingDetailsCompletedScreenOne.dart';
+import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/detailCarouselWithIndicator.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/detailPeofileDetailsHome.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/detailProfileDetails.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:simple_tooltip/simple_tooltip.dart';
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:toast/toast.dart';
-import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
-import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
-import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 
 class BookingDetailHomePage extends StatefulWidget {
   final int id;
 
   BookingDetailHomePage(this.id);
+
   @override
   _BookingDetailHomePageState createState() => _BookingDetailHomePageState();
 }
@@ -98,14 +96,16 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
         bannerImages.add(defaultBannerUrl);
       }
 
-      setState(() {
-        userRegisteredAddress =
-            HealingMatchConstants.userRegisteredAddressDetail;
-        userPlaceForMassage = HealingMatchConstants.userPlaceForMassage;
-        getServiceType();
+      if (this.mounted) {
+        setState(() {
+          userRegisteredAddress =
+              HealingMatchConstants.userRegisteredAddressDetail;
+          userPlaceForMassage = HealingMatchConstants.userPlaceForMassage;
+          getServiceType();
 
-        status = 1;
-      });
+          status = 1;
+        });
+      }
     } catch (e) {
       ProgressDialogBuilder.hideLoader(context);
       print('Therapist details fetch Exception : ${e.toString()}');
@@ -113,20 +113,23 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
   }
 
   getSubType() {
-    setState(() {
-      if (_value == 1) {
-        allTherapistList.addAll(therapistDetails.therapistEstheticList);
-      }
-      if (_value == 2) {
-        allTherapistList.addAll(therapistDetails.therapistOrteopathicList);
-      }
-      if (_value == 3) {
-        allTherapistList.addAll(therapistDetails.therapistRelaxationList);
-      }
-      if (_value == 4) {
-        allTherapistList.addAll(therapistDetails.therapistFitnessListList);
-      }
-    });
+    if (this.mounted) {
+      setState(() {
+        if (_value == 1) {
+          allTherapistList.addAll(therapistDetails.therapistEstheticList);
+        }
+        if (_value == 2) {
+          allTherapistList.addAll(therapistDetails.therapistOrteopathicList);
+        }
+        if (_value == 3) {
+          allTherapistList.addAll(therapistDetails.therapistRelaxationList);
+        }
+        if (_value == 4) {
+          allTherapistList.addAll(therapistDetails.therapistFitnessListList);
+        }
+      });
+    }
+
     for (int i = 0; i < allTherapistList.length; i++) {
       visibility.add(false);
       globalKeyList.add(GlobalKey());
@@ -213,7 +216,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                                         'assets/images_gps/gps.svg'),
                                     SizedBox(width: 10),
                                     Container(
-                                        padding: EdgeInsets.all(5.0),
+                                        padding: EdgeInsets.all(8.0),
                                         decoration: BoxDecoration(
                                           gradient: LinearGradient(
                                               begin: Alignment.topCenter,
@@ -224,14 +227,14 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                                                 Color.fromRGBO(
                                                     255, 255, 255, 1),
                                               ]),
-                                          shape: BoxShape.rectangle,
-                                          border: Border.all(
+                                          //shape: BoxShape.rectangle,
+                                          /*border: Border.all(
                                             color: Colors.grey[200],
-                                          ),
-                                          borderRadius:
+                                          ),*/
+                                          /*borderRadius:
                                               BorderRadius.circular(6.0),
                                           color:
-                                              Color.fromRGBO(255, 255, 255, 1),
+                                              Color.fromRGBO(255, 255, 255, 1),*/
                                         ),
                                         child: shopLocationSelected
                                             ? Text(
@@ -495,20 +498,23 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                                               'Address Type Container selected...');
                                           _userDetailsFormKey.currentState
                                               .save();
-                                          setState(() {
-                                            address = HealingMatchConstants
-                                                .userAddressDetailsList[index]
-                                                .address;
-                                            placeForMassage =
-                                                HealingMatchConstants
-                                                    .userAddressDetailsList[
-                                                        index]
-                                                    .userPlaceForMassage;
-                                            shopLocationSelected = false;
-                                            userRegisteredAddress = address;
-                                            userPlaceForMassage =
-                                                placeForMassage;
-                                          });
+                                          if(this.mounted){
+                                            setState(() {
+                                              address = HealingMatchConstants
+                                                  .userAddressDetailsList[index]
+                                                  .address;
+                                              placeForMassage =
+                                                  HealingMatchConstants
+                                                      .userAddressDetailsList[
+                                                  index]
+                                                      .userPlaceForMassage;
+                                              shopLocationSelected = false;
+                                              userRegisteredAddress = address;
+                                              userPlaceForMassage =
+                                                  placeForMassage;
+                                            });
+                                          }
+
                                         },
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
@@ -548,19 +554,22 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                                                   .check_circle_outline_outlined,
                                               size: 30),
                                           onPressed: () {
-                                            setState(() {
-                                              address = HealingMatchConstants
-                                                  .userAddressDetailsList[index]
-                                                  .address;
-                                              placeForMassage =
-                                                  HealingMatchConstants
-                                                      .userAddressDetailsList[
-                                                          index]
-                                                      .userPlaceForMassage;
+                                            if(this.mounted){
+                                              setState(() {
+                                                address = HealingMatchConstants
+                                                    .userAddressDetailsList[index]
+                                                    .address;
+                                                placeForMassage =
+                                                    HealingMatchConstants
+                                                        .userAddressDetailsList[
+                                                    index]
+                                                        .userPlaceForMassage;
 
-                                              print(
-                                                  'Selected Place and Address : $address\n$placeForMassage');
-                                            });
+                                                print(
+                                                    'Selected Place and Address : $address\n$placeForMassage');
+                                              });
+                                            }
+
                                           })),
                                   style: TextStyle(color: Colors.black54),
                                 ),
@@ -702,15 +711,17 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
             Visibility(
               visible: result.contains("エステ"),
               child: GestureDetector(
-                //  onTap: () => setState(() => _value = 0),
                 onTap: () {
-                  setState(() {
-                    allTherapistList != null
-                        ? allTherapistList.clear()
-                        : Container();
-                    _value = 1;
-                    getSubType();
-                  });
+                  if(this.mounted){
+                    setState(() {
+                      allTherapistList != null
+                          ? allTherapistList.clear()
+                          : Container();
+                      _value = 1;
+                      getSubType();
+                    });
+                  }
+
                 },
                 child: Column(
                   children: [
@@ -755,13 +766,16 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
               child: GestureDetector(
                 //onTap: () => setState(() => _value = 1),
                 onTap: () {
-                  setState(() {
-                    allTherapistList != null
-                        ? allTherapistList.clear()
-                        : Container();
-                    _value = 2;
-                    getSubType();
-                  });
+                  if(this.mounted){
+                    setState(() {
+                      allTherapistList != null
+                          ? allTherapistList.clear()
+                          : Container();
+                      _value = 2;
+                      getSubType();
+                    });
+                  }
+
                 },
                 child: Column(
                   children: [
@@ -806,13 +820,16 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
               child: GestureDetector(
                 //onTap: () => setState(() => _value = 2),
                 onTap: () {
-                  setState(() {
-                    allTherapistList != null
-                        ? allTherapistList.clear()
-                        : Container();
-                    _value = 3;
-                    getSubType();
-                  });
+                  if(this.mounted){
+                    setState(() {
+                      allTherapistList != null
+                          ? allTherapistList.clear()
+                          : Container();
+                      _value = 3;
+                      getSubType();
+                    });
+                  }
+
                 },
                 child: Column(
                   children: [
@@ -857,13 +874,16 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
               child: GestureDetector(
                 //onTap: () => setState(() => _value = 3),
                 onTap: () {
-                  setState(() {
-                    allTherapistList != null
-                        ? allTherapistList.clear()
-                        : Container();
-                    _value = 4;
-                    getSubType();
-                  });
+                  if(this.mounted){
+                    setState(() {
+                      allTherapistList != null
+                          ? allTherapistList.clear()
+                          : Container();
+                      _value = 4;
+                      getSubType();
+                    });
+                  }
+
                 },
                 child: Column(
                   children: [
@@ -1015,24 +1035,26 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
             serviceCId = therapistListItem.categoryId;
             serviceSubId = therapistListItem.subCategoryId;
             if (lastIndex == 999) {
-              setState(() {
-                visibility[index] = true;
-                lastIndex = index;
-              });
+              if(this.mounted){
+                setState(() {
+                  visibility[index] = true;
+                  lastIndex = index;
+                });
+              }
+
               scrollListandToolTipCall(index, therapistListItem);
             } else if (visibility[index]) {
               scrollListandToolTipCall(index, therapistListItem);
-              /* setState(() {
-                serviceSelection.clear();
-                visibility[lastIndex] = false;
-              }); */
             } else {
-              setState(() {
-                serviceSelection.clear();
-                visibility[lastIndex] = false;
-                visibility[index] = true;
-                lastIndex = index;
-              });
+              if(this.mounted){
+                setState(() {
+                  serviceSelection.clear();
+                  visibility[lastIndex] = false;
+                  visibility[index] = true;
+                  lastIndex = index;
+                });
+              }
+
               scrollListandToolTipCall(index, therapistListItem);
             }
           },
@@ -1186,7 +1208,8 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
         timePrice: serviceSelection[allTherapistList[index].name],
         textStyle: TextStyle(color: Colors.black),
         height: 90,
-        width: MediaQuery.of(context).size.width - 20.0, //180,
+        width: MediaQuery.of(context).size.width - 20.0,
+        //180,
         backgroundColor: Colors.white,
         padding: EdgeInsets.all(8.0),
         borderRadius: BorderRadius.circular(10.0));
@@ -1294,43 +1317,49 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
   }
 
   void updateDateTimeSelection(DateTime time) {
-    setState(() {
-      selectedTime = time;
-      endTime = DateTime(
-          selectedTime.year,
-          selectedTime.month,
-          selectedTime.day,
-          selectedTime.hour,
-          selectedTime.minute + min,
-          selectedTime.second);
-    });
+    if(this.mounted){
+      setState(() {
+        selectedTime = time;
+        endTime = DateTime(
+            selectedTime.year,
+            selectedTime.month,
+            selectedTime.day,
+            selectedTime.hour,
+            selectedTime.minute + min,
+            selectedTime.second);
+      });
+    }
+
   }
 
   //Method called from ShowtoolTip to refresh the page after TimePicker is Selected
   updateServiceSelection(int index, Map<int, int> timePriceSelection) {
-    setState(() {
-      if (timePriceSelection.length != 0) {
-        serviceSelection.clear();
-        serviceSelection[allTherapistList[index].name] = timePriceSelection;
+    if(this.mounted){
+      setState(() {
+        if (timePriceSelection.length != 0) {
+          serviceSelection.clear();
+          serviceSelection[allTherapistList[index].name] = timePriceSelection;
 
-        min = timePriceSelection.keys.first;
-        HealingMatchConstants.selectedMin = min;
+          min = timePriceSelection.keys.first;
+          HealingMatchConstants.selectedMin = min;
 
-        //
-        serviceName = serviceSelection.keys.first;
-        serviceDuration = min;
-        serviceCostMap = serviceSelection[serviceName][serviceDuration];
-        // serviceCost = serviceCostMap[[serviceDuration]];
-        subCategoryId = serviceSelection[serviceName][index];
+          //
+          serviceName = serviceSelection.keys.first;
+          serviceDuration = min;
+          serviceCostMap = serviceSelection[serviceName][serviceDuration];
+          // serviceCost = serviceCostMap[[serviceDuration]];
+          subCategoryId = serviceSelection[serviceName][index];
 
-        print("serviceName:${serviceSelection[allTherapistList[index].name]}");
+          print("serviceName:${serviceSelection[allTherapistList[index].name]}");
 
-        selectedTime = null;
-        endTime = null;
-      } else {
-        visibility[index] = false;
-      }
-    });
+          selectedTime = null;
+          endTime = null;
+        } else {
+          visibility[index] = false;
+        }
+      });
+    }
+
   }
 
   String assignServiceIcon(String name, int cid) {
@@ -1431,49 +1460,52 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
 
   bookingConfirmField() async {
     ProgressDialogBuilder.showOverlayLoader(context);
-    setState(() {
-      HealingMatchConstants.confTherapistId = widget.id;
-      HealingMatchConstants.confBooking = HealingMatchConstants
-          .therapistProfileDetails.data.uploadProfileImgUrl;
-      HealingMatchConstants.confShopName =
-          HealingMatchConstants.therapistProfileDetails.data.storeName;
-      HealingMatchConstants.confUserName =
-          HealingMatchConstants.therapistProfileDetails.data.userName;
-      HealingMatchConstants.confAddress = HealingMatchConstants
-          .therapistProfileDetails.data.addresses[0].address;
-      HealingMatchConstants.confServiceType =
-          HealingMatchConstants.therapistProfileDetails.data.storeType;
-      HealingMatchConstants.confBuisnessTrip =
-          HealingMatchConstants.therapistProfileDetails.data.businessTrip;
-      HealingMatchConstants.confShop =
-          HealingMatchConstants.therapistProfileDetails.data.isShop;
-      HealingMatchConstants.confCoronaMeasures =
-          HealingMatchConstants.therapistProfileDetails.data.coronaMeasure;
-      HealingMatchConstants.confRatingAvg =
-          HealingMatchConstants.therapistProfileDetails.reviewData.ratingAvg;
-      HealingMatchConstants.confNoOfReviewsMembers = HealingMatchConstants
-          .therapistProfileDetails.reviewData.noOfReviewsMembers;
-      HealingMatchConstants.confNoOfReviewsMembers = HealingMatchConstants
-          .therapistProfileDetails.reviewData.noOfReviewsMembers;
-      HealingMatchConstants.confCertificationUpload = HealingMatchConstants
-          .therapistProfileDetails.data.certificationUploads;
-      HealingMatchConstants.confSelectedDateTime = selectedTime;
-      HealingMatchConstants.confEndDateTime = endTime;
-      HealingMatchConstants.confServiceName = serviceName;
-      HealingMatchConstants.confNoOfServiceDuration = serviceDuration;
-      HealingMatchConstants.confServiceCost = serviceCostMap;
-      shopLocationSelected
-          ? HealingMatchConstants.confServiceAddressType = '店舗'
-          : HealingMatchConstants.confServiceAddressType =
-              userPlaceForMassage.toString();
-      shopLocationSelected
-          ? HealingMatchConstants.confServiceAddress =
-              therapistDetails.data.addresses[0].address
-          : HealingMatchConstants.confServiceAddress =
-              userRegisteredAddress.toString();
-      HealingMatchConstants.confserviceCId = serviceCId;
-      HealingMatchConstants.confserviceSubId = serviceSubId;
-    });
+    if(this.mounted){
+      setState(() {
+        HealingMatchConstants.confTherapistId = widget.id;
+        HealingMatchConstants.confBooking = HealingMatchConstants
+            .therapistProfileDetails.data.uploadProfileImgUrl;
+        HealingMatchConstants.confShopName =
+            HealingMatchConstants.therapistProfileDetails.data.storeName;
+        HealingMatchConstants.confUserName =
+            HealingMatchConstants.therapistProfileDetails.data.userName;
+        HealingMatchConstants.confAddress = HealingMatchConstants
+            .therapistProfileDetails.data.addresses[0].address;
+        HealingMatchConstants.confServiceType =
+            HealingMatchConstants.therapistProfileDetails.data.storeType;
+        HealingMatchConstants.confBuisnessTrip =
+            HealingMatchConstants.therapistProfileDetails.data.businessTrip;
+        HealingMatchConstants.confShop =
+            HealingMatchConstants.therapistProfileDetails.data.isShop;
+        HealingMatchConstants.confCoronaMeasures =
+            HealingMatchConstants.therapistProfileDetails.data.coronaMeasure;
+        HealingMatchConstants.confRatingAvg =
+            HealingMatchConstants.therapistProfileDetails.reviewData.ratingAvg;
+        HealingMatchConstants.confNoOfReviewsMembers = HealingMatchConstants
+            .therapistProfileDetails.reviewData.noOfReviewsMembers;
+        HealingMatchConstants.confNoOfReviewsMembers = HealingMatchConstants
+            .therapistProfileDetails.reviewData.noOfReviewsMembers;
+        HealingMatchConstants.confCertificationUpload = HealingMatchConstants
+            .therapistProfileDetails.data.certificationUploads;
+        HealingMatchConstants.confSelectedDateTime = selectedTime;
+        HealingMatchConstants.confEndDateTime = endTime;
+        HealingMatchConstants.confServiceName = serviceName;
+        HealingMatchConstants.confNoOfServiceDuration = serviceDuration;
+        HealingMatchConstants.confServiceCost = serviceCostMap;
+        shopLocationSelected
+            ? HealingMatchConstants.confServiceAddressType = '店舗'
+            : HealingMatchConstants.confServiceAddressType =
+            userPlaceForMassage.toString();
+        shopLocationSelected
+            ? HealingMatchConstants.confServiceAddress =
+            therapistDetails.data.addresses[0].address
+            : HealingMatchConstants.confServiceAddress =
+            userRegisteredAddress.toString();
+        HealingMatchConstants.confserviceCId = serviceCId;
+        HealingMatchConstants.confserviceSubId = serviceSubId;
+      });
+    }
+
     print('EndDateTime:${HealingMatchConstants.confEndDateTime.weekday}');
     print('EndDateTime:${HealingMatchConstants.confEndDateTime.hour}');
     print('subCategoryId:${subCategoryId}');

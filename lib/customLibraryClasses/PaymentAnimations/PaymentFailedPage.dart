@@ -1,7 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/utils/TestPayment.dart';
+import 'package:gps_massageapp/commonScreens/payment/InitiateStripePayment.dart';
 
 class PaymentFailedPage extends StatefulWidget {
   @override
