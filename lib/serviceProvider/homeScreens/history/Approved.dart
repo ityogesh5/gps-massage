@@ -74,8 +74,13 @@ class _ProviderApprovedScreenState extends State<ProviderApprovedScreen> {
   }
 
   Card buildBookingCard(int index) {
-    DateTime startTime = requestBookingDetailsList[index].startTime.toLocal();
-    DateTime endTime = requestBookingDetailsList[index].endTime.toLocal();
+    DateTime startTime = requestBookingDetailsList[index].newStartTime != null
+        ? DateTime.parse(requestBookingDetailsList[index].newStartTime)
+            .toLocal()
+        : requestBookingDetailsList[index].startTime.toLocal();
+    DateTime endTime = requestBookingDetailsList[index].newEndTime != null
+        ? DateTime.parse(requestBookingDetailsList[index].newEndTime).toLocal()
+        : requestBookingDetailsList[index].endTime.toLocal();
     String jaName = DateFormat('EEEE', 'ja_JP').format(startTime);
     return Card(
       // margin: EdgeInsets.all(8.0),

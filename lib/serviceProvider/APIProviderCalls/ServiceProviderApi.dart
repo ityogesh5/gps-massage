@@ -538,4 +538,33 @@ class ServiceProviderApi {
       return true;
     }
   }
+
+  static Future<TherapistBookingHistoryResponseModel>
+      getWeeklyBookingCardDetails(int pageNumber, int pageSize) async {
+    TherapistBookingHistoryResponseModel therapistBookingHistoryResponseModel;
+    try {
+      final url = HealingMatchConstants.THERAPIST_WEEKLY_BOOKING +
+          "?page=$pageNumber&size=$pageSize";
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '${HealingMatchConstants.accessToken}'
+      };
+      final response = await http.post(url,
+          headers: headers,
+          body: json.encode({
+            "therapistId": 18, //HealingMatchConstants.userId,
+          }));
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        therapistBookingHistoryResponseModel =
+            TherapistBookingHistoryResponseModel.fromJson(data);
+        return therapistBookingHistoryResponseModel;
+      } else {
+        return therapistBookingHistoryResponseModel;
+      }
+    } catch (e) {
+      print('Exception : ${e.toString()}');
+      return therapistBookingHistoryResponseModel;
+    }
+  }
 }

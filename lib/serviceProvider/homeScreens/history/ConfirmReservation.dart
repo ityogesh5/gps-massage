@@ -84,8 +84,13 @@ class _ProviderConfirmReservationScreenState
   }
 
   Card buildBookingCard(int index) {
-    DateTime startTime = requestBookingDetailsList[index].startTime.toLocal();
-    DateTime endTime = requestBookingDetailsList[index].endTime.toLocal();
+  DateTime startTime = requestBookingDetailsList[index].newStartTime != null
+        ? DateTime.parse(requestBookingDetailsList[index].newStartTime)
+            .toLocal()
+        : requestBookingDetailsList[index].startTime.toLocal();
+    DateTime endTime = requestBookingDetailsList[index].newEndTime != null
+        ? DateTime.parse(requestBookingDetailsList[index].newEndTime).toLocal()
+        : requestBookingDetailsList[index].endTime.toLocal();
     String jaName = DateFormat('EEEE', 'ja_JP').format(startTime);
 
     return Card(
@@ -324,7 +329,7 @@ class _ProviderConfirmReservationScreenState
                       '${requestBookingDetailsList[index].location}',
                       style: TextStyle(
                         color: Color.fromRGBO(102, 102, 102, 1),
-                        fontSize: 17,
+                        fontSize: 12,
                       ),
                     )
                   ],
@@ -344,7 +349,8 @@ class _ProviderConfirmReservationScreenState
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(
                                         20.0)), //this right here
-                                child: CancelBooking(),
+                                child: CancelBooking(
+                                    requestBookingDetailsList[index]),
                               );
                             });
                       },

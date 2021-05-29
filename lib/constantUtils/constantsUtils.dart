@@ -222,6 +222,10 @@ class HealingMatchConstants {
   static const String THERAPIST_BOOKING_STATUS_UPDATE =
       ON_PREMISE_USER_BASE_URL + '/booking/bookingRequestStatusUpdateById';
 
+  // therapist weekly booking detail request
+  static const String THERAPIST_WEEKLY_BOOKING =
+      ON_PREMISE_USER_BASE_URL + '/bookingDetails/weeklyBookingStatusList';
+
   // handle guest user
   static const String HANDLE_GUEST_USER =
       ON_PREMISE_USER_BASE_URL + '/user/guestUser';
