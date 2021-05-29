@@ -245,7 +245,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                               Expanded(
                                 child: Padding(
                                   padding: const EdgeInsets.only(top: 60),
-                                  child: InkWell(
+                                  child: GestureDetector(
                                     onTap: () {
                                       _ratingAndReview();
                                     },

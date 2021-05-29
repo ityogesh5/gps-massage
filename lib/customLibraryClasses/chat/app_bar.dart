@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/commonScreens/chat/chatUserList.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/user.dart';
 import 'package:gps_massageapp/customLibraryClasses/chat/avatar.dart';
@@ -93,7 +94,11 @@ class _MyAppBarState extends State<MyAppBar>
       leading: IconButton(
         icon: Icon(Icons.arrow_back_ios, color: Colors.black),
         onPressed: () {
-          Navigator.pop(context);
+          Navigator.of(context).popUntil((route) => route.isFirst);
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => ChatUserList()));
         },
       ),
       leadingWidth: 20.0,
@@ -123,7 +128,7 @@ class _MyAppBarState extends State<MyAppBar>
                         return Container(width: 0, height: 0);
                       else {
                         print(
-                            'Typing status appbar : ${widget.isTyping}\n${widget.groupId}');
+                            'Typing status appbar : ${widget.isTyping}\n${widget.peer.id}');
                         return AnimatedContainer(
                             duration: Duration(milliseconds: 300),
                             height: snapshot.data['isOnline'] ? 20 : 20,
