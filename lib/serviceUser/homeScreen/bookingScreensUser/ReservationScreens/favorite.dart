@@ -11,6 +11,7 @@ import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:favorite_button/favorite_button.dart';
+import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
 
 var therapistId;
 
@@ -20,6 +21,7 @@ class LoadInitialPage extends StatefulWidget {
 }
 
 class _LoadInitialPageState extends State<LoadInitialPage> {
+  GlobalKey<FormState> _formKeyUsersByType;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,6 +56,7 @@ class _FavoriteState extends State<Favorite> {
   var addressOfTherapists, distanceRadius;
   List<dynamic> distanceOfTherapist = new List();
   List<GlobalObjectKey<FormState>> formKeyList;
+  GlobalKey<FormState> _formKeyUsersByType;
   BoxDecoration boxDecoration = BoxDecoration(
     borderRadius: BorderRadius.circular(8.0),
     color: Colors.white,
@@ -63,6 +66,7 @@ class _FavoriteState extends State<Favorite> {
   void initState() {
     super.initState();
     // _providerRatingList();
+
     getFavoriteList();
   }
 
@@ -375,8 +379,16 @@ class _FavoriteState extends State<Favorite> {
                                                           ),
                                                     SizedBox(width: 4),
                                                     InkWell(
-                                                      onTap: () {},
+                                                      onTap: () {
+                                                        showToolTipForFav(
+                                                            favouriteUserList[
+                                                                    index]
+                                                                .favouriteTherapistId
+                                                                .storeType,
+                                                            formKeyList[index]);
+                                                      },
                                                       child: Container(
+                                                        key: formKeyList[index],
                                                         decoration:
                                                             BoxDecoration(
                                                           gradient: LinearGradient(
@@ -415,41 +427,10 @@ class _FavoriteState extends State<Favorite> {
                                                       ),
                                                     ),
                                                     Spacer(),
-                                                    FavoriteButton(
-                                                        isFavorite:
-                                                            favouriteUserList[
-                                                                    index]
-                                                                .isFavourite,
-                                                        iconSize: 40,
-                                                        iconColor: Colors.red,
-                                                        valueChanged:
-                                                            (_isFavorite) {
-                                                          print(
-                                                              'Is Favorite : $_isFavorite');
-                                                          if (_isFavorite !=
-                                                                  null &&
-                                                              _isFavorite) {
-                                                            // call favorite therapist API
-                                                            ServiceUserAPIProvider
-                                                                .favouriteTherapist(
-                                                                    favouriteUserList[
-                                                                            index]
-                                                                        .therapistId);
-                                                          } else {
-                                                            // call un-favorite therapist API
-                                                            ServiceUserAPIProvider.unFavouriteTherapist(
-                                                                    favouriteUserList[
-                                                                            index]
-                                                                        .therapistId)
-                                                                .then((value) {
-                                                              setState(() {
-                                                                favouriteUserList
-                                                                    .removeAt(
-                                                                        index);
-                                                              });
-                                                            });
-                                                          }
-                                                        }),
+                                                    SvgPicture.asset(
+                                                        'assets/images_gps/recommendedHeart.svg',
+                                                        width: 25,
+                                                        height: 25),
                                                   ],
                                                 ),
                                                 SizedBox(
@@ -528,56 +509,31 @@ class _FavoriteState extends State<Favorite> {
                                                         ),
                                                       ),
                                                       RatingBar.builder(
-                                                        initialRating: 4.5,
-                                                        minRating: 1,
+                                                        ignoreGestures: true,
+                                                        initialRating: double.parse(
+                                                            favouriteUserList[
+                                                                    index]
+                                                                .reviewAvgData),
+                                                        minRating: 0.25,
                                                         direction:
                                                             Axis.horizontal,
                                                         allowHalfRating: true,
                                                         itemCount: 5,
-                                                        itemSize: 24.0,
-                                                        ignoreGestures: true,
-                                                        itemPadding:
-                                                            new EdgeInsets.only(
-                                                                bottom: 3.0),
-                                                        itemBuilder: (context,
-                                                                index) =>
-                                                            new SizedBox(
-                                                                height: 20.0,
-                                                                width: 18.0,
-                                                                child:
-                                                                    new IconButton(
-                                                                  onPressed:
-                                                                      () {},
-                                                                  padding:
-                                                                      new EdgeInsets
-                                                                              .all(
-                                                                          0.0),
-                                                                  // color: Colors.white,
-                                                                  icon: index >
-                                                                          (4.5).ceilToDouble() -
-                                                                              1
-                                                                      ? SvgPicture
-                                                                          .asset(
-                                                                          "assets/images_gps/star_2.svg",
-                                                                          height:
-                                                                              13.0,
-                                                                          width:
-                                                                              13.0,
-                                                                        )
-                                                                      : SvgPicture
-                                                                          .asset(
-                                                                          "assets/images_gps/star_colour.svg",
-                                                                          height:
-                                                                              13.0,
-                                                                          width:
-                                                                              13.0,
-                                                                          //color: Colors.black,
-                                                                        ),
-                                                                )),
+                                                        itemSize: 25,
+                                                        itemPadding: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal:
+                                                                    4.0),
+                                                        itemBuilder:
+                                                            (context, _) =>
+                                                                Icon(
+                                                          Icons.star,
+                                                          size: 5,
+                                                          color: Color.fromRGBO(
+                                                              255, 217, 0, 1),
+                                                        ),
                                                         onRatingUpdate:
-                                                            (rating) {
-                                                          print(rating);
-                                                        },
+                                                            (rating) {},
                                                       ),
                                                       Text(
                                                         '(${favouriteUserList[index].noOfReviewsMembers})',
@@ -690,10 +646,11 @@ class _FavoriteState extends State<Favorite> {
                                               width: 7,
                                             ),
                                             Text(
-                                              '${addressOfTherapists[index]}',
+                                              '${favouriteUserList[index].favouriteTherapistId.addresses[0].address}',
                                               style: TextStyle(
                                                   color: Color.fromRGBO(
                                                       0, 0, 0, 1),
+                                                  fontSize: 12,
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             // Spacer(),
@@ -790,5 +747,21 @@ class _FavoriteState extends State<Favorite> {
     } catch (e) {
       print('Exception more data' + e.toString());
     }
+  }
+
+  void showToolTipForFav(String text, GlobalObjectKey<FormState> formKeyList) {
+    ShowToolTip popup = ShowToolTip(context,
+        text: text,
+        textStyle: TextStyle(color: Colors.black),
+        height: MediaQuery.of(context).size.height / 7,
+        width: MediaQuery.of(context).size.width / 2,
+        backgroundColor: Colors.white,
+        padding: EdgeInsets.all(8.0),
+        borderRadius: BorderRadius.circular(10.0));
+
+    /// show the popup for specific widget
+    popup.show(
+      widgetKey: formKeyList,
+    );
   }
 }

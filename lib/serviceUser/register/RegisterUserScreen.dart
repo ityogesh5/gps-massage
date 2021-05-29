@@ -1,15 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/constantUtils/fireBaseHelper/FirebaseAuthHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/auth.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
@@ -102,6 +103,7 @@ class _RegisterUserState extends State<RegisterUser> {
   final gpsAddressController = new TextEditingController();
   final roomNumberController = new TextEditingController();
   final otherController = new TextEditingController();
+  var lineUserImage;
 
   List<String> serviceUserDetails = [];
   String fcmStatus;
@@ -188,7 +190,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
   //finding Japanese characters in text regex
   RegExp regexJapanese =
-      RegExp(r'(/[一-龠]+|[ぁ-ゔ]+|[ァ-ヴー]+|[a-zA-Z0-9]+|[ａ-ｚＡ-Ｚ０-９]+|[々〆〤]+/u)');
+  RegExp(r'(/[一-龠]+|[ぁ-ゔ]+|[ァ-ヴー]+|[a-zA-Z0-9]+|[ａ-ｚＡ-Ｚ０-９]+|[々〆〤]+/u)');
 
   // Password combination
   /*r'^
@@ -217,7 +219,7 @@ class _RegisterUserState extends State<RegisterUser> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double containerHeight =
-        48.0; //height of Every TextFormField wrapped with container
+    48.0; //height of Every TextFormField wrapped with container
     double containerWidth =
         size.width * 0.9; //width of Every TextFormField wrapped with container
 
@@ -233,7 +235,7 @@ class _RegisterUserState extends State<RegisterUser> {
             child: InkWell(
               onTap: () {
                 HealingMatchConstants.isUserRegistrationSkipped = true;
-                NavigationRouter.switchToServiceUserBottomBar(context);
+                _getFCMToken();
               },
               child: Text(
                 'スキップ',
@@ -295,31 +297,66 @@ class _RegisterUserState extends State<RegisterUser> {
                       children: [
                         _profileImage != null
                             ? Semantics(
-                                child: new Container(
-                                    width: 100.0,
-                                    height: 100.0,
-                                    decoration: new BoxDecoration(
-                                      border: Border.all(color: Colors.black12),
-                                      shape: BoxShape.circle,
-                                      image: new DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image:
-                                            FileImage(File(_profileImage.path)),
-                                      ),
-                                    )),
-                              )
-                            : new Container(
+                          child: new Container(
+                              width: 95.0,
+                              height: 95.0,
+                              decoration: new BoxDecoration(
+                                border: Border.all(color: Colors.black12),
+                                shape: BoxShape.circle,
+                                image: new DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image:
+                                  FileImage(File(_profileImage.path)),
+                                ),
+                              )),
+                        )
+                            : lineUserImage != null
+                            ? CachedNetworkImage(
+                          imageUrl: lineUserImage,
+                          filterQuality: FilterQuality.high,
+                          fadeInCurve: Curves.easeInSine,
+                          imageBuilder: (context, imageProvider) =>
+                              Container(
                                 width: 95.0,
                                 height: 95.0,
-                                decoration: new BoxDecoration(
-                                  border: Border.all(color: Colors.grey[200]),
+                                decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  image: new DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: new AssetImage(
-                                        'assets/images_gps/placeholder_image.png'),
-                                  ),
-                                )),
+                                  image: DecorationImage(
+                                      image: imageProvider,
+                                      fit: BoxFit.cover),
+                                ),
+                              ),
+                          placeholder: (context, url) =>
+                              SpinKitDoubleBounce(
+                                  color: Colors.lightGreenAccent),
+                          errorWidget: (context, url, error) =>
+                              Container(
+                                width: 95.0,
+                                height: 95.0,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border:
+                                  Border.all(color: Colors.black12),
+                                  image: DecorationImage(
+                                      image: new AssetImage(
+                                          'assets/images_gps/placeholder_image.png'),
+                                      fit: BoxFit.cover),
+                                ),
+                              ),
+                        )
+                            : new Container(
+                            width: 95.0,
+                            height: 95.0,
+                            decoration: new BoxDecoration(
+                              border:
+                              Border.all(color: Colors.grey[200]),
+                              shape: BoxShape.circle,
+                              image: new DecorationImage(
+                                fit: BoxFit.cover,
+                                image: new AssetImage(
+                                    'assets/images_gps/placeholder_image.png'),
+                              ),
+                            )),
                       ],
                     ),
                     SizedBox(height: 10),
@@ -359,11 +396,11 @@ class _RegisterUserState extends State<RegisterUser> {
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
                           focusedBorder:
-                              HealingMatchConstants.textFormInputBorder,
+                          HealingMatchConstants.textFormInputBorder,
                           disabledBorder:
-                              HealingMatchConstants.textFormInputBorder,
+                          HealingMatchConstants.textFormInputBorder,
                           enabledBorder:
-                              HealingMatchConstants.textFormInputBorder,
+                          HealingMatchConstants.textFormInputBorder,
                           //       labelText: 'お名前*',
                         ),
                         labelText: Text.rich(
@@ -373,7 +410,7 @@ class _RegisterUserState extends State<RegisterUser> {
                               TextSpan(
                                 text: '*',
                                 style:
-                                    TextStyle(color: Colors.red, fontSize: 16),
+                                TextStyle(color: Colors.red, fontSize: 16),
                               ),
                             ],
                             style: TextStyle(
@@ -410,7 +447,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                       contentPadding: EdgeInsets.all(16.0),
                                       filled: true,
                                       fillColor:
-                                          ColorConstants.formFieldFillColor,
+                                      ColorConstants.formFieldFillColor,
                                       focusColor: Colors.grey[100],
                                       border: HealingMatchConstants
                                           .textFormInputBorder,
@@ -476,13 +513,13 @@ class _RegisterUserState extends State<RegisterUser> {
                                       fontFamily: 'NotoSansJP',
                                       fontSize: 14),
                                   border:
-                                      HealingMatchConstants.textFormInputBorder,
+                                  HealingMatchConstants.textFormInputBorder,
                                   focusedBorder:
-                                      HealingMatchConstants.textFormInputBorder,
+                                  HealingMatchConstants.textFormInputBorder,
                                   disabledBorder:
-                                      HealingMatchConstants.textFormInputBorder,
+                                  HealingMatchConstants.textFormInputBorder,
                                   enabledBorder:
-                                      HealingMatchConstants.textFormInputBorder,
+                                  HealingMatchConstants.textFormInputBorder,
                                 ),
                               ),
                             ),
@@ -681,11 +718,11 @@ class _RegisterUserState extends State<RegisterUser> {
                         maxLength: 10,
                         autofocus: false,
                         keyboardType:
-                            TextInputType.numberWithOptions(signed: true),
+                        TextInputType.numberWithOptions(signed: true),
                         onEditingComplete: () {
                           var phnNum = phoneNumberController.text.toString();
                           var userPhoneNumber =
-                              phnNum.replaceFirst(RegExp(r'^0+'), "");
+                          phnNum.replaceFirst(RegExp(r'^0+'), "");
                           print('Phone number after edit : $userPhoneNumber');
                           phoneNumberController.text = userPhoneNumber;
                           FocusScope.of(context).requestFocus(FocusNode());
@@ -693,7 +730,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         onSubmitted: (userPhoneNumber) {
                           var phnNum = phoneNumberController.text.toString();
                           var userPhoneNumber =
-                              phnNum.replaceFirst(RegExp(r'^0+'), "");
+                          phnNum.replaceFirst(RegExp(r'^0+'), "");
                           print('Phone number after submit : $userPhoneNumber');
                           phoneNumberController.text = userPhoneNumber;
                           FocusScope.of(context).requestFocus(FocusNode());
@@ -705,11 +742,11 @@ class _RegisterUserState extends State<RegisterUser> {
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
                           focusedBorder:
-                              HealingMatchConstants.textFormInputBorder,
+                          HealingMatchConstants.textFormInputBorder,
                           disabledBorder:
-                              HealingMatchConstants.textFormInputBorder,
+                          HealingMatchConstants.textFormInputBorder,
                           enabledBorder:
-                              HealingMatchConstants.textFormInputBorder,
+                          HealingMatchConstants.textFormInputBorder,
                           // labelText: 'お名前',
                         ),
                         labelText: Text.rich(
@@ -719,7 +756,7 @@ class _RegisterUserState extends State<RegisterUser> {
                               TextSpan(
                                 text: '*',
                                 style:
-                                    TextStyle(color: Colors.red, fontSize: 16),
+                                TextStyle(color: Colors.red, fontSize: 16),
                               ),
                             ],
                             style: TextStyle(
@@ -745,11 +782,11 @@ class _RegisterUserState extends State<RegisterUser> {
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
                           focusedBorder:
-                              HealingMatchConstants.textFormInputBorder,
+                          HealingMatchConstants.textFormInputBorder,
                           disabledBorder:
-                              HealingMatchConstants.textFormInputBorder,
+                          HealingMatchConstants.textFormInputBorder,
                           enabledBorder:
-                              HealingMatchConstants.textFormInputBorder,
+                          HealingMatchConstants.textFormInputBorder,
                           // labelText: 'お名前',
                         ),
                         labelText: Text.rich(
@@ -759,7 +796,7 @@ class _RegisterUserState extends State<RegisterUser> {
                               TextSpan(
                                 text: '*',
                                 style:
-                                    TextStyle(color: Colors.red, fontSize: 16),
+                                TextStyle(color: Colors.red, fontSize: 16),
                               ),
                             ],
                             style: TextStyle(
@@ -794,11 +831,11 @@ class _RegisterUserState extends State<RegisterUser> {
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
                           focusedBorder:
-                              HealingMatchConstants.textFormInputBorder,
+                          HealingMatchConstants.textFormInputBorder,
                           disabledBorder:
-                              HealingMatchConstants.textFormInputBorder,
+                          HealingMatchConstants.textFormInputBorder,
                           enabledBorder:
-                              HealingMatchConstants.textFormInputBorder,
+                          HealingMatchConstants.textFormInputBorder,
                           // labelText: 'お名前',
                         ),
                         labelText: Text.rich(
@@ -808,7 +845,7 @@ class _RegisterUserState extends State<RegisterUser> {
                               TextSpan(
                                 text: '*',
                                 style:
-                                    TextStyle(color: Colors.red, fontSize: 16),
+                                TextStyle(color: Colors.red, fontSize: 16),
                               ),
                             ],
                             style: TextStyle(
@@ -837,11 +874,11 @@ class _RegisterUserState extends State<RegisterUser> {
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
                           focusedBorder:
-                              HealingMatchConstants.textFormInputBorder,
+                          HealingMatchConstants.textFormInputBorder,
                           disabledBorder:
-                              HealingMatchConstants.textFormInputBorder,
+                          HealingMatchConstants.textFormInputBorder,
                           enabledBorder:
-                              HealingMatchConstants.textFormInputBorder,
+                          HealingMatchConstants.textFormInputBorder,
                           // labelText: 'お名前',
                           suffixIcon: IconButton(
                               icon: passwordConfirmVisibility
@@ -850,7 +887,7 @@ class _RegisterUserState extends State<RegisterUser> {
                               onPressed: () {
                                 setState(() {
                                   passwordConfirmVisibility =
-                                      !passwordConfirmVisibility;
+                                  !passwordConfirmVisibility;
                                 });
                               }),
                         ),
@@ -861,7 +898,7 @@ class _RegisterUserState extends State<RegisterUser> {
                               TextSpan(
                                 text: '*',
                                 style:
-                                    TextStyle(color: Colors.red, fontSize: 16),
+                                TextStyle(color: Colors.red, fontSize: 16),
                               ),
                             ],
                             style: TextStyle(
@@ -976,7 +1013,7 @@ class _RegisterUserState extends State<RegisterUser> {
                               Center(
                                 child: Container(
                                   width:
-                                      MediaQuery.of(context).size.width * 0.85,
+                                  MediaQuery.of(context).size.width * 0.85,
                                   child: DropDownFormField(
                                     requiredField: true,
                                     hintText: '登録する地点のカテゴリー ',
@@ -1040,17 +1077,17 @@ class _RegisterUserState extends State<RegisterUser> {
                                 counterText: '',
                                 contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
                                 border:
-                                    HealingMatchConstants.textFormInputBorder,
+                                HealingMatchConstants.textFormInputBorder,
                                 focusedBorder:
-                                    HealingMatchConstants.textFormInputBorder,
+                                HealingMatchConstants.textFormInputBorder,
                                 disabledBorder:
-                                    HealingMatchConstants.textFormInputBorder,
+                                HealingMatchConstants.textFormInputBorder,
                                 enabledBorder:
-                                    HealingMatchConstants.textFormInputBorder,
+                                HealingMatchConstants.textFormInputBorder,
                                 filled: true,
                                 labelText: '登録する地点のカテゴリー (直接入力)',
                                 labelStyle:
-                                    HealingMatchConstants.formLabelTextStyle,
+                                HealingMatchConstants.formLabelTextStyle,
                                 fillColor: ColorConstants.formFieldFillColor,
                               ),
                             ),
@@ -1073,124 +1110,124 @@ class _RegisterUserState extends State<RegisterUser> {
                                   child: Center(
                                       child: stateDropDownValues != null
                                           ? Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.39,
-                                              child: DropDownFormField(
-                                                  requiredField: true,
-                                                  hintText: '府県 ',
-                                                  value: _myPrefecture,
-                                                  onSaved: (value) {
-                                                    setState(() {
-                                                      _myPrefecture = value;
-                                                    });
-                                                  },
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      _myPrefecture = value;
-                                                      HealingMatchConstants
-                                                              .serviceUserPrefecture =
-                                                          _myPrefecture;
-                                                      print(
-                                                          'Prefecture value : ${_myPrefecture.toString()}');
-                                                      _prefId =
-                                                          stateDropDownValues
-                                                                  .indexOf(
-                                                                      value) +
-                                                              1;
-                                                      print(
-                                                          'prefID : $_prefId');
-                                                      cityDropDownValues
-                                                          .clear();
-                                                      _myCity = '';
-                                                      _getCities(_prefId);
-                                                    });
-                                                  },
-                                                  dataSource:
-                                                      stateDropDownValues,
-                                                  isList: true,
-                                                  textField: 'display',
-                                                  valueField: 'value'),
-                                            )
+                                        width: MediaQuery.of(context)
+                                            .size
+                                            .width *
+                                            0.39,
+                                        child: DropDownFormField(
+                                            requiredField: true,
+                                            hintText: '府県 ',
+                                            value: _myPrefecture,
+                                            onSaved: (value) {
+                                              setState(() {
+                                                _myPrefecture = value;
+                                              });
+                                            },
+                                            onChanged: (value) {
+                                              setState(() {
+                                                _myPrefecture = value;
+                                                HealingMatchConstants
+                                                    .serviceUserPrefecture =
+                                                    _myPrefecture;
+                                                print(
+                                                    'Prefecture value : ${_myPrefecture.toString()}');
+                                                _prefId =
+                                                    stateDropDownValues
+                                                        .indexOf(
+                                                        value) +
+                                                        1;
+                                                print(
+                                                    'prefID : $_prefId');
+                                                cityDropDownValues
+                                                    .clear();
+                                                _myCity = '';
+                                                _getCities(_prefId);
+                                              });
+                                            },
+                                            dataSource:
+                                            stateDropDownValues,
+                                            isList: true,
+                                            textField: 'display',
+                                            valueField: 'value'),
+                                      )
                                           : Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.39,
-                                              child: DropDownFormField(
-                                                  hintText: '府県 ',
-                                                  value: _myPrefecture,
-                                                  onSaved: (value) {
-                                                    setState(() {
-                                                      _myPrefecture = value;
-                                                    });
-                                                  },
-                                                  dataSource: [],
-                                                  isList: true,
-                                                  textField: 'display',
-                                                  valueField: 'value'),
-                                            )),
+                                        width: MediaQuery.of(context)
+                                            .size
+                                            .width *
+                                            0.39,
+                                        child: DropDownFormField(
+                                            hintText: '府県 ',
+                                            value: _myPrefecture,
+                                            onSaved: (value) {
+                                              setState(() {
+                                                _myPrefecture = value;
+                                              });
+                                            },
+                                            dataSource: [],
+                                            isList: true,
+                                            textField: 'display',
+                                            valueField: 'value'),
+                                      )),
                                 ),
                                 Expanded(
                                   child: Form(
                                       key: _cityKey,
                                       child: cityDropDownValues != null
                                           ? Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.39,
-                                              child: DropDownFormField(
-                                                  requiredField: true,
-                                                  hintText: '市 ',
-                                                  value: _myCity,
-                                                  onSaved: (value) {
-                                                    setState(() {
-                                                      _myCity = value;
-                                                    });
-                                                  },
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      _myCity = value;
-                                                      HealingMatchConstants
-                                                              .serviceUserCity =
-                                                          _myCity;
-                                                      _cityId =
-                                                          cityDropDownValues
-                                                                  .indexOf(
-                                                                      value) +
-                                                              1;
-                                                      print(
-                                                          '_cityId : $_cityId');
-                                                      //print(_myBldGrp.toString());
-                                                    });
-                                                  },
-                                                  dataSource:
-                                                      cityDropDownValues,
-                                                  isList: true,
-                                                  textField: 'display',
-                                                  valueField: 'value'),
-                                            )
+                                        width: MediaQuery.of(context)
+                                            .size
+                                            .width *
+                                            0.39,
+                                        child: DropDownFormField(
+                                            requiredField: true,
+                                            hintText: '市 ',
+                                            value: _myCity,
+                                            onSaved: (value) {
+                                              setState(() {
+                                                _myCity = value;
+                                              });
+                                            },
+                                            onChanged: (value) {
+                                              setState(() {
+                                                _myCity = value;
+                                                HealingMatchConstants
+                                                    .serviceUserCity =
+                                                    _myCity;
+                                                _cityId =
+                                                    cityDropDownValues
+                                                        .indexOf(
+                                                        value) +
+                                                        1;
+                                                print(
+                                                    '_cityId : $_cityId');
+                                                //print(_myBldGrp.toString());
+                                              });
+                                            },
+                                            dataSource:
+                                            cityDropDownValues,
+                                            isList: true,
+                                            textField: 'display',
+                                            valueField: 'value'),
+                                      )
                                           : Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.39,
-                                              child: DropDownFormField(
-                                                  requiredField: true,
-                                                  hintText: '市 ',
-                                                  value: _myCity,
-                                                  onSaved: (value) {
-                                                    setState(() {
-                                                      _myCity = value;
-                                                    });
-                                                  },
-                                                  dataSource: [],
-                                                  isList: true,
-                                                  textField: 'display',
-                                                  valueField: 'value'),
-                                            )),
+                                        width: MediaQuery.of(context)
+                                            .size
+                                            .width *
+                                            0.39,
+                                        child: DropDownFormField(
+                                            requiredField: true,
+                                            hintText: '市 ',
+                                            value: _myCity,
+                                            onSaved: (value) {
+                                              setState(() {
+                                                _myCity = value;
+                                              });
+                                            },
+                                            dataSource: [],
+                                            isList: true,
+                                            textField: 'display',
+                                            valueField: 'value'),
+                                      )),
                                 ),
                               ],
                             ),
@@ -1219,7 +1256,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                         contentPadding: EdgeInsets.all(16.0),
                                         filled: true,
                                         fillColor:
-                                            ColorConstants.formFieldFillColor,
+                                        ColorConstants.formFieldFillColor,
                                         focusColor: Colors.grey[100],
                                         border: HealingMatchConstants
                                             .textFormInputBorder,
@@ -1257,7 +1294,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                   height: containerHeight,
                                   // height: MediaQuery.of(context).size.height * 0.07,
                                   width:
-                                      MediaQuery.of(context).size.width * 0.39,
+                                  MediaQuery.of(context).size.width * 0.39,
                                   child: TextFormField(
                                     //enableInteractiveSelection: false,
                                     // keyboardType: TextInputType.number,
@@ -1269,7 +1306,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                       contentPadding: EdgeInsets.all(4.0),
                                       filled: true,
                                       fillColor:
-                                          ColorConstants.formFieldFillColor,
+                                      ColorConstants.formFieldFillColor,
                                       labelText: '建物名 ',
                                       /*hintText: 'ビル名 *',
                                     hintStyle: TextStyle(
@@ -1320,7 +1357,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                         counterText: '',
                                         filled: true,
                                         fillColor:
-                                            ColorConstants.formFieldFillColor,
+                                        ColorConstants.formFieldFillColor,
                                         labelText: '部屋番号 ',
                                         /*hintText: '部屋番号 *',
                             hintStyle: TextStyle(
@@ -2078,7 +2115,7 @@ class _RegisterUserState extends State<RegisterUser> {
     String query = Platform.isIOS ? _myCity + ',' + _myPrefecture : address;
     try {
       List<Location> locations =
-          await locationFromAddress(query, localeIdentifier: "ja_JP");
+      await locationFromAddress(query, localeIdentifier: "ja_JP");
       HealingMatchConstants.currentLatitude = locations[0].latitude;
       print("Lat: ${HealingMatchConstants.currentLatitude}");
       HealingMatchConstants.currentLongitude = locations[0].longitude;
@@ -2165,7 +2202,7 @@ class _RegisterUserState extends State<RegisterUser> {
           response.statusCode, context, response.body)) {
         final Map userDetailsResponse = json.decode(response.body.toString());
         final serviceUserDetails =
-            ServiceUserRegisterModel.fromJson(userDetailsResponse);
+        ServiceUserRegisterModel.fromJson(userDetailsResponse);
         print('Response Status Message : ${serviceUserDetails.status}');
         // print('Token : ${serviceUserDetails.data.token}');
         _sharedPreferences.then((value) {
@@ -2219,22 +2256,26 @@ class _RegisterUserState extends State<RegisterUser> {
             value.setBool('isUserRegister', true);
           }
         });
+
         Auth()
             .signUp(
-                serviceUserDetails.data.userName,
-                serviceUserDetails.data.email,
-                "password",
-                serviceUserDetails.data.uploadProfileImgUrl != null
-                    ? serviceUserDetails.data.uploadProfileImgUrl
-                    : '',
-                0,
-                serviceUserDetails.data.id)
+            serviceUserDetails.data.userName,
+            serviceUserDetails.data.email,
+            "password",
+            serviceUserDetails.data.uploadProfileImgUrl != null
+                ? serviceUserDetails.data.uploadProfileImgUrl
+                : '',
+            0,
+            serviceUserDetails.data.id)
             .then((value) {
           if (value != null) {
             ServiceUserAPIProvider.saveFirebaseUserID(
                 value, context, serviceUserDetails.data.id);
           }
         });
+
+        HealingMatchConstants.isUserRegistrationSkipped = false;
+
         ProgressDialogBuilder.hideLoader(context);
         NavigationRouter.switchToUserOtpScreen(context);
       } else {
@@ -2298,7 +2339,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
   _imgFromGallery() async {
     final pickedImage =
-        await picker.getImage(source: ImageSource.gallery, imageQuality: 50);
+    await picker.getImage(source: ImageSource.gallery, imageQuality: 50);
 
     setState(() {
       if (pickedImage != null) {
@@ -2318,6 +2359,21 @@ class _RegisterUserState extends State<RegisterUser> {
         setState(() {
           stateDropDownValues.add(stateList.prefectureJa);
         });
+      }
+    });
+    _setLineCredentialsForUser();
+  }
+
+  _setLineCredentialsForUser() async {
+    setState(() {
+      if (HealingMatchConstants.lineUserProfileURL != null) {
+        lineUserImage = HealingMatchConstants.lineUserProfileURL;
+      }
+      if (HealingMatchConstants.lineUsername != null) {
+        userNameController.text = HealingMatchConstants.lineUsername;
+      }
+      if (HealingMatchConstants.lineUserEmail != null) {
+        emailController.text = HealingMatchConstants.lineUserEmail;
       }
     });
     _getFCMStatus();
@@ -2373,5 +2429,103 @@ class _RegisterUserState extends State<RegisterUser> {
       //ProgressDialogBuilder.hideGetCitiesProgressDialog(context);
       print('Response City list : ${response.body}');
     });
+  }
+
+  _getFCMToken() async {
+    fireBaseMessaging.getToken().then((fcmTokenValue) {
+      if (fcmTokenValue != null) {
+        fcmToken = fcmTokenValue;
+        print('FCM Skip Token : $fcmToken');
+        _getCurrentLocation();
+      } else {
+        fireBaseMessaging.onTokenRefresh.listen((refreshToken) {
+          if (refreshToken != null) {
+            fcmToken = refreshToken;
+            print('FCM Skip Refresh Tokens : $fcmToken');
+          }
+        }).onError((handleError) {
+          print('On FCM Skip Token Refresh error : ${handleError.toString()}');
+        });
+      }
+    }).catchError((onError) {
+      print('FCM Skip Token Exception : ${onError.toString()}');
+    });
+  }
+
+  _getGuestUserAccessToken() async {
+    var isTherapistValue = 0;
+    try {
+      ServiceUserAPIProvider.handleGuestUser(isTherapistValue)
+          .then((guestUserResponse) {
+        if (guestUserResponse != null) {
+          _sharedPreferences.then((value) {
+            value.setString('accessToken', guestUserResponse.accessToken);
+          });
+          ProgressDialogBuilder.hideLoader(context);
+          NavigationRouter.switchToServiceUserBottomBar(context);
+        } else {
+          ProgressDialogBuilder.hideLoader(context);
+          print('Guest user response has no value !!');
+        }
+      }).catchError((onError) {
+        ProgressDialogBuilder.hideLoader(context);
+        print('Catch error guest user : ${onError.toString()}');
+      });
+    } catch (e) {
+      ProgressDialogBuilder.hideLoader(context);
+      print('Skip exception : ${e.toString()}');
+    }
+  }
+
+  // Get current address from Latitude Longitude
+  _getCurrentLocation() async {
+    ProgressDialogBuilder.showOverlayLoader(context);
+    bool isGPSEnabled = await geoLocator.isLocationServiceEnabled();
+    print('GPS Enabled : $isGPSEnabled');
+    if (HealingMatchConstants.isUserRegistrationSkipped && !isGPSEnabled) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('GPSを有効にしてさらに進んでください！',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                FocusScope.of(context).requestFocus(new FocusNode());
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      fontWeight: FontWeight.w500,
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      ProgressDialogBuilder.hideLoader(context);
+      return;
+    } else {
+      print('Guest User GPS Enabled : $isGPSEnabled');
+      geoLocator
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+          .then((Position position) {
+        _currentPosition = position;
+        print(
+            'Current latLong Guest user : ${_currentPosition.latitude} && \n${_currentPosition.longitude}');
+        HealingMatchConstants.currentLatitude = _currentPosition.latitude;
+        HealingMatchConstants.currentLongitude = _currentPosition.longitude;
+        _getGuestUserAccessToken();
+      }).catchError((e) {
+        print('Current Location exception : ${e.toString()}');
+      });
+    }
   }
 }

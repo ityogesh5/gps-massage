@@ -62,7 +62,7 @@ class FavouriteUserList {
   String createdAt;
   String updatedAt;
   FavouriteTherapistId favouriteTherapistId;
-  dynamic reviewAvgData;
+  String reviewAvgData;
   dynamic noOfReviewsMembers;
 
   FavouriteUserList(
@@ -119,10 +119,10 @@ class FavouriteTherapistId {
   bool guestUserStatus;
   String email;
   dynamic phoneNumber;
-  Null firebaseUDID;
-  Null fcmToken;
-  Null lineBotUserId;
-  Null appleUserId;
+  String firebaseUDID;
+  dynamic fcmToken;
+  dynamic lineBotUserId;
+  dynamic appleUserId;
   String userName;
   String dob;
   dynamic age;
@@ -131,8 +131,8 @@ class FavouriteTherapistId {
   bool isVerified;
   bool isActive;
   dynamic isAccepted;
-  Null rejectReason;
-  Null updatedUser;
+  dynamic rejectReason;
+  dynamic updatedUser;
   String uploadProfileImgUrl;
   String proofOfIdentityType;
   String proofOfIdentityImgUrl;
@@ -144,19 +144,17 @@ class FavouriteTherapistId {
   String storeName;
   String storeType;
   dynamic storePhone;
-  String storeDescription;
-  Null userOccupation;
+  dynamic storeDescription;
+  dynamic userOccupation;
   String genderOfService;
   String childrenMeasure;
-  Null customerId;
-  Null userSearchRadiusDistance;
+  String customerId;
+  dynamic userSearchRadiusDistance;
   bool isShop;
   String createdAt;
   String updatedAt;
   List<Addresses> addresses;
   List<CertificationUploads> certificationUploads;
-  List<BankDetails> bankDetails;
-  List<Banners> banners;
 
   FavouriteTherapistId(
       {this.id,
@@ -199,9 +197,7 @@ class FavouriteTherapistId {
       this.createdAt,
       this.updatedAt,
       this.addresses,
-      this.certificationUploads,
-      this.bankDetails,
-      this.banners});
+      this.certificationUploads});
 
   FavouriteTherapistId.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -255,18 +251,6 @@ class FavouriteTherapistId {
         certificationUploads.add(new CertificationUploads.fromJson(v));
       });
     }
-    if (json['bankDetails'] != null) {
-      bankDetails = new List<BankDetails>();
-      json['bankDetails'].forEach((v) {
-        bankDetails.add(new BankDetails.fromJson(v));
-      });
-    }
-    if (json['banners'] != null) {
-      banners = new List<Banners>();
-      json['banners'].forEach((v) {
-        banners.add(new Banners.fromJson(v));
-      });
-    }
   }
 
   Map<String, dynamic> toJson() {
@@ -317,12 +301,6 @@ class FavouriteTherapistId {
       data['certification_uploads'] =
           this.certificationUploads.map((v) => v.toJson()).toList();
     }
-    if (this.bankDetails != null) {
-      data['bankDetails'] = this.bankDetails.map((v) => v.toJson()).toList();
-    }
-    if (this.banners != null) {
-      data['banners'] = this.banners.map((v) => v.toJson()).toList();
-    }
     return data;
   }
 }
@@ -330,13 +308,13 @@ class FavouriteTherapistId {
 class Addresses {
   dynamic id;
   dynamic lat;
-  dynamic lon;
+  double lon;
   Geomet geomet;
   String address;
   String capitalAndPrefecture;
   String cityName;
   String area;
-  double distance;
+  dynamic distance;
 
   Addresses(
       {this.id,
@@ -381,13 +359,13 @@ class Addresses {
 
 class Geomet {
   String type;
-  List<dynamic> coordinates;
+  List<double> coordinates;
 
   Geomet({this.type, this.coordinates});
 
   Geomet.fromJson(Map<String, dynamic> json) {
     type = json['type'];
-    coordinates = json['coordinates'];
+    coordinates = json['coordinates'].cast<double>();
   }
 
   Map<String, dynamic> toJson() {
@@ -469,104 +447,6 @@ class CertificationUploads {
     data['privateQualification3'] = this.privateQualification3;
     data['privateQualification4'] = this.privateQualification4;
     data['privateQualification5'] = this.privateQualification5;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    return data;
-  }
-}
-
-class BankDetails {
-  dynamic id;
-  dynamic userId;
-  String bankName;
-  String branchCode;
-  String branchNumber;
-  String accountNumber;
-  String accountType;
-  String createdAt;
-  String updatedAt;
-
-  BankDetails(
-      {this.id,
-      this.userId,
-      this.bankName,
-      this.branchCode,
-      this.branchNumber,
-      this.accountNumber,
-      this.accountType,
-      this.createdAt,
-      this.updatedAt});
-
-  BankDetails.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    userId = json['userId'];
-    bankName = json['bankName'];
-    branchCode = json['branchCode'];
-    branchNumber = json['branchNumber'];
-    accountNumber = json['accountNumber'];
-    accountType = json['accountType'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['userId'] = this.userId;
-    data['bankName'] = this.bankName;
-    data['branchCode'] = this.branchCode;
-    data['branchNumber'] = this.branchNumber;
-    data['accountNumber'] = this.accountNumber;
-    data['accountType'] = this.accountType;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    return data;
-  }
-}
-
-class Banners {
-  dynamic id;
-  dynamic userId;
-  String bannerImageUrl1;
-  String bannerImageUrl2;
-  String bannerImageUrl3;
-  String bannerImageUrl4;
-  String bannerImageUrl5;
-  String createdAt;
-  String updatedAt;
-
-  Banners(
-      {this.id,
-      this.userId,
-      this.bannerImageUrl1,
-      this.bannerImageUrl2,
-      this.bannerImageUrl3,
-      this.bannerImageUrl4,
-      this.bannerImageUrl5,
-      this.createdAt,
-      this.updatedAt});
-
-  Banners.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    userId = json['userId'];
-    bannerImageUrl1 = json['bannerImageUrl1'];
-    bannerImageUrl2 = json['bannerImageUrl2'];
-    bannerImageUrl3 = json['bannerImageUrl3'];
-    bannerImageUrl4 = json['bannerImageUrl4'];
-    bannerImageUrl5 = json['bannerImageUrl5'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['userId'] = this.userId;
-    data['bannerImageUrl1'] = this.bannerImageUrl1;
-    data['bannerImageUrl2'] = this.bannerImageUrl2;
-    data['bannerImageUrl3'] = this.bannerImageUrl3;
-    data['bannerImageUrl4'] = this.bannerImageUrl4;
-    data['bannerImageUrl5'] = this.bannerImageUrl5;
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
     return data;

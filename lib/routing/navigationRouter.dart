@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/networkHelper/socketExceptionHandler.dart';
+import 'package:gps_massageapp/customLibraryClasses/PaymentAnimations/PaymentFailedPage.dart';
+import 'package:gps_massageapp/customLibraryClasses/PaymentAnimations/PaymentProcessingPage.dart';
+import 'package:gps_massageapp/customLibraryClasses/PaymentAnimations/PaymentSuccessPage.dart';
 import 'package:gps_massageapp/initialScreens/notificationPopup.dart';
 import 'package:gps_massageapp/initialScreens/providerTutorial.dart';
 import 'package:gps_massageapp/initialScreens/termsAndConditions.dart';
@@ -45,7 +48,7 @@ import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/Booking
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/ApprovalWaitingScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/BookingDetailsApprovedScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/BookingDetailsCompletedScreen.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/BookingDetailsCompletedScreenOne.dart';
+
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/BookingDetailsConfirmedScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/ConditionsAppliedScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/bookingDetailHomePage.dart';
@@ -83,8 +86,10 @@ class NavigationRouter {
   }
 
   static void switchToServiceUserRegistration(BuildContext context) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => RegisterServiceUserScreen()));
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => RegisterServiceUserScreen()),
+    );
   }
 
 //Provider WeeklySchedule
@@ -781,10 +786,10 @@ class NavigationRouter {
   }
 
   // Service Display User Ratings And Review Screen
-  static void switchToServiceUserDisplayReviewScreen(BuildContext context) {
+  static void switchToServiceUserDisplayReviewScreen(BuildContext context, id) {
     Navigator.of(context).push(PageRouteBuilder(
         pageBuilder: (context, animation, anotherAnimation) {
-          return DisplayUserReview();
+          return DisplayUserReview(id);
         },
         transitionDuration: Duration(milliseconds: 2000),
         transitionsBuilder: (context, animation, anotherAnimation, child) {
@@ -1145,6 +1150,67 @@ class NavigationRouter {
     Navigator.of(context).push(PageRouteBuilder(
         pageBuilder: (context, animation, anotherAnimation) {
           return ReportUserScreen();
+        },
+        transitionDuration: Duration(milliseconds: 1000),
+        transitionsBuilder: (context, animation, anotherAnimation, child) {
+          animation = CurvedAnimation(
+              curve: HealingMatchConstants.curveList[11], parent: animation);
+          return Align(
+            child: SizeTransition(
+              sizeFactor: animation,
+              child: child,
+              axisAlignment: 0.0,
+            ),
+          );
+        }));
+  }
+
+  // payment processing page
+  static void switchToPaymentProcessingScreen(
+      BuildContext context, var paymentMethod) {
+    Navigator.of(context).push(PageRouteBuilder(
+        pageBuilder: (context, animation, anotherAnimation) {
+          return PaymentProcessingPage(paymentMethod);
+        },
+        transitionDuration: Duration(milliseconds: 1000),
+        transitionsBuilder: (context, animation, anotherAnimation, child) {
+          animation = CurvedAnimation(
+              curve: HealingMatchConstants.curveList[11], parent: animation);
+          return Align(
+            child: SizeTransition(
+              sizeFactor: animation,
+              child: child,
+              axisAlignment: 0.0,
+            ),
+          );
+        }));
+  }
+
+  // payment success page
+  static void switchToPaymentSuccessScreen(BuildContext context) {
+    Navigator.of(context).push(PageRouteBuilder(
+        pageBuilder: (context, animation, anotherAnimation) {
+          return PaymentSuccessPage();
+        },
+        transitionDuration: Duration(milliseconds: 1000),
+        transitionsBuilder: (context, animation, anotherAnimation, child) {
+          animation = CurvedAnimation(
+              curve: HealingMatchConstants.curveList[11], parent: animation);
+          return Align(
+            child: SizeTransition(
+              sizeFactor: animation,
+              child: child,
+              axisAlignment: 0.0,
+            ),
+          );
+        }));
+  }
+
+  // payment failure page
+  static void switchToPaymentFailedScreen(BuildContext context) {
+    Navigator.of(context).push(PageRouteBuilder(
+        pageBuilder: (context, animation, anotherAnimation) {
+          return PaymentFailedPage();
         },
         transitionDuration: Duration(milliseconds: 1000),
         transitionsBuilder: (context, animation, anotherAnimation, child) {

@@ -1,12 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/bubble_type.dart';
-import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/message.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/user.dart';
-import 'package:gps_massageapp/customLibraryClasses/chat/avatar.dart';
-import 'package:gps_massageapp/customLibraryClasses/chat/bubble_text.dart';
 import 'package:gps_massageapp/customLibraryClasses/chat/chat_reply_bubble.dart';
 import 'package:gps_massageapp/customLibraryClasses/chat/dismissible_bubble.dart';
 import 'package:gps_massageapp/customLibraryClasses/chat/media_bubble.dart';
@@ -93,7 +90,7 @@ class _PeerMessage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        withoutAvatar ? SizedBox(width: 30) : Avatar(imageUrl: peer.imageUrl),
+        //withoutAvatar ? SizedBox(width: 30) : Avatar(imageUrl: peer.imageUrl),
         SizedBox(width: 5),
         _WithoutAvatar(
           isMe: isMe,
@@ -148,162 +145,139 @@ class _WithoutAvatar extends StatelessWidget {
       isMe: isMe,
       message: message,
       onDismissed: onReplyPressed,
-      child: Column(
-        crossAxisAlignment:
-            isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+      child: Wrap(
+        spacing: 20,
         children: [
-          Wrap(
+          Stack(
             children: [
-              Stack(
-                children: [
-                  if (message.reply != null)
-                    Align(
-                      alignment: isMe ? Alignment.topRight : Alignment.topLeft,
-                      child: ReplyMessageBubble(
-                        message: message,
-                        peer: peer,
-                        color: isMe
-                            ? Colors.grey[100]
-                            : ColorConstants.buttonColor,
-                      ),
-                    ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Container(
+              if (message.reply != null)
+                Align(
+                  alignment: isMe ? Alignment.topRight : Alignment.topLeft,
+                  child: ReplyMessageBubble(
+                    message: message,
+                    peer: peer,
+                    color: Colors.blue,
+                  ),
+                ),
+              isMe
+                  ? Align(
+                      alignment: Alignment.bottomRight,
+                      child: Container(
                         margin: message.reply != null
                             ? EdgeInsets.only(
                                 top: (message.reply != null &&
                                         message.reply.type == MessageType.Text)
-                                    ? 35
+                                    ? 50
                                     : size.height * 0.25 - 5,
                               )
                             : const EdgeInsets.all(0),
-                        child: CustomChatBubble(
-                          clipper: isMe
-                              ? ChatBubbleSender(type: BubbleType.sendBubble)
-                              : ChatBubbleReceiver(
-                                  type: BubbleType.receiverBubble),
-                          alignment: Alignment.topRight,
-                          margin: EdgeInsets.only(top: 20),
-                          backGroundColor: isMe
-                              ? ColorConstants.buttonColor
-                              : Colors.grey[100],
-                          child: Container(
-                            constraints: BoxConstraints(
-                              maxWidth: MediaQuery.of(context).size.width * 0.7,
-                            ),
-                            child: Padding(
-                              key: key,
-                              padding: const EdgeInsets.all(0.0),
-                              child: Wrap(
-                                crossAxisAlignment: WrapCrossAlignment.end,
-                                runAlignment: WrapAlignment.end,
-                                alignment: WrapAlignment.end,
-                                spacing: 20,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: Text(message.content,
-                                        style: TextStyle(
-                                            fontSize: 14.0,
-                                            color: isMe
-                                                ? Colors.white
-                                                : Colors.black)),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 1.0),
-                                    child: SeenStatus(
-                                      isMe: isMe,
-                                      isSeen: message.isSeen,
-                                      timestamp: message.sendDate,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        )),
-                  ),
-                  /* Container(
-                      // key: key,
-                      margin: message.reply != null
-                          ? EdgeInsets.only(
-                              top: (message.reply != null &&
-                                      message.reply.type == MessageType.Text)
-                                  ? 50
-                                  : size.height * 0.25 - 5,
-                            )
-                          : const EdgeInsets.all(0),
-                      constraints: BoxConstraints(
-                        maxWidth: constraints.maxWidth * 0.8,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: _replyMsgRadius(),
-                        border: isMe ? null : Border.all(color: kBorderColor3),
-                        color: isMe ? ColorConstants.buttonColor : Colors.white,
-                        /* kBlackColor3  : kBlackColor,*/
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                              color: Color.fromRGBO(
-                                  178, 180, 182, 1), //Colors.black54,
-                              blurRadius: isMe ? 0.0 : 8.0,
-                              offset: Offset(0.0, 0.75))
-                        ],
-                      ),
-                      child: Padding(
-                        key: key,
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Wrap(
-                          crossAxisAlignment: WrapCrossAlignment.end,
-                          runAlignment: WrapAlignment.end,
-                          alignment: WrapAlignment.end,
-                          spacing: 20,
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 10.0, bottom: 12),
-                              child: BubbleText(
-                                  text: message.content,
-                                  color: isMe ? Colors.white : Colors.black),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 5.0),
-                              child: SeenStatus(
-                                isMe: isMe,
-                                isSeen: message.isSeen,
-                                timestamp: message.sendDate,
-                              ),
-                            ),
-                          ],
+                        constraints: BoxConstraints(
+                          maxWidth: constraints.maxWidth * 0.8,
                         ),
+                        child: getSenderView(
+                            ChatBubbleSender(type: BubbleType.sendBubble),
+                            context),
                       ),
-                    ), 
-                  ),*/
-                ],
-              ),
+                    )
+                  : Align(
+                      alignment: Alignment.bottomRight,
+                      child: Container(
+                        margin: message.reply != null
+                            ? EdgeInsets.only(
+                                top: (message.reply != null &&
+                                        message.reply.type == MessageType.Text)
+                                    ? 20
+                                    : size.height * 0.25 - 5,
+                              )
+                            : const EdgeInsets.all(0),
+                        constraints: BoxConstraints(
+                          maxWidth: constraints.maxWidth * 0.8,
+                        ),
+                        child: getReceiverView(
+                            ChatBubbleReceiver(type: BubbleType.receiverBubble),
+                            context),
+                      ),
+                    ),
             ],
           ),
-          Row(
-            mainAxisAlignment:
-                isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Text(
-                  getTime(message.sendDate),
-                  style: TextStyle(
-                    fontSize: 10.0,
-                    color: Color.fromRGBO(178, 180, 182, 1),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 5.0)
         ],
       ),
     );
   }
+
+  Widget getSenderView(CustomClipper clipper, BuildContext context) => Column(
+        children: [
+          CustomChatBubble(
+            clipper: clipper,
+            alignment: Alignment.topRight,
+            margin: EdgeInsets.only(top: 20),
+            backGroundColor: Colors.lime,
+            child: Container(
+              constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * 0.7,
+              ),
+              child: Text(
+                '${message.content}',
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w300,
+                    fontFamily: 'NotoSansJP'),
+              ),
+            ),
+          ),
+          SizedBox(height: 5),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              SeenStatus(
+                isMe: isMe,
+                isSeen: message.isSeen,
+                timestamp: message.sendDate,
+              ),
+              Text('')
+            ],
+          ),
+        ],
+      );
+
+  Widget getReceiverView(CustomClipper clipper, BuildContext context) => Column(
+        children: [
+          CustomChatBubble(
+            clipper: clipper,
+            backGroundColor: Color.fromRGBO(255, 255, 255, 1),
+            elevation: 0.1,
+            margin: EdgeInsets.only(top: 20),
+            child: Container(
+              constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * 0.7,
+              ),
+              child: Text(
+                '${message.content}',
+                style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontFamily: 'NotoSansJP',
+                    fontSize: 16,
+                    color: Colors.black),
+              ),
+            ),
+          ),
+          SizedBox(height: 5),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SeenStatus(
+                isMe: isMe,
+                isSeen: message.isSeen,
+                timestamp: message.sendDate,
+              ),
+              Text('')
+            ],
+          ),
+        ],
+      );
 
   String getTime(DateTime timestamp) {
     int hour = timestamp.hour;

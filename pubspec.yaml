@@ -32,6 +32,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: any
+  search_page: any
   curved_navigation_bar:
   flutter_markdown: ^0.5.1
   pin_code_fields: ^5.2.0
@@ -86,7 +87,6 @@ dependencies:
   lazy_load_scrollview: 1.1.0
   cached_network_image: any
   stripe_payment:
-  flutter_socket_io: any
   super_tooltip: any
   time: any
 
@@ -101,10 +101,14 @@ dependencies:
   firebase_analytics: any
   firebase_auth: any
   firebase_storage: any
+
   json_annotation: any
   keyboard_visibility: ^0.5.6
   video_player: ^0.10.12
-  web_socket_channel: any
+
+
+  animated_text_kit: any
+
 
   readmore: any #Gowtham Text ReadMore
 

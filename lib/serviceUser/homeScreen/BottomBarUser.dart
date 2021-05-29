@@ -39,8 +39,6 @@ class _BottomBarUserState extends State<BottomBarUser> {
     selectedpage = widget.page; //initial Page
     super.initState();
     _sharedPreferences.then((value) {
-      HealingMatchConstants.isUserRegistrationSkipped =
-          value.getBool('userLoginSkipped');
       accessToken = value.getString('accessToken');
       if (accessToken != null) {
         print('Access token value : $accessToken');
@@ -107,8 +105,6 @@ class _BottomBarUserState extends State<BottomBarUser> {
                 selectedpage = index;
               } else if (index == 1) {
                 selectedpage = index;
-                /*   NavigationRouter.switchToServiceUserSearchScreenWithOutRegister(
-                    context);*/
               } else if (index == 2) {
                 DialogHelper.showUserLoginOrRegisterDialog(context);
               } else if (index == 3) {

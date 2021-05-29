@@ -3,16 +3,15 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/constantUtils/colorConstants.dart';
+import 'package:gps_massageapp/commonScreens/chat/chatUserList.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/user.dart';
 import 'package:gps_massageapp/customLibraryClasses/chat/avatar.dart';
-import 'package:gps_massageapp/customLibraryClasses/chat/widgets/back_button.dart';
 
 class MyAppBar extends StatefulWidget {
+  bool isTyping = false;
   final UserDetail peer;
   final String groupId;
-  bool isTyping = false;
 
   MyAppBar(this.isTyping, this.peer, this.groupId);
 
@@ -92,9 +91,15 @@ class _MyAppBarState extends State<MyAppBar>
       backgroundColor: Colors.white,
       // centerTitle: true,
       elevation: 0,
-      leading: Padding(
-        padding: const EdgeInsets.only(left:10.0),
-        child: CBackButton(),
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+        onPressed: () {
+          Navigator.of(context).popUntil((route) => route.isFirst);
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => ChatUserList()));
+        },
       ),
       leadingWidth: 20.0,
       centerTitle: false,
@@ -115,7 +120,7 @@ class _MyAppBarState extends State<MyAppBar>
                     fontSize: 16,
                     fontWeight: FontWeight.bold),
               ),
-              /*  if (collapsed)
+              if (collapsed)
                 StreamBuilder(
                     stream: stream,
                     builder: (ctx, snapshot) {
@@ -123,12 +128,12 @@ class _MyAppBarState extends State<MyAppBar>
                         return Container(width: 0, height: 0);
                       else {
                         print(
-                            'Typing status appbar : ${snapshot.data()['isTyping']}');
+                            'Typing status appbar : ${widget.isTyping}\n${widget.peer.id}');
                         return AnimatedContainer(
                             duration: Duration(milliseconds: 300),
-                            height: snapshot.data()()['isOnline'] ? 20 : 20,
-                            child: snapshot.data()['isTyping'] != null &&
-                                    snapshot.data()['isTyping']
+                            height: snapshot.data['isOnline'] ? 20 : 20,
+                            child: snapshot.data['isTyping'] != null &&
+                                    snapshot.data['isTyping']
                                 ? Text(
                                     'タイピング...',
                                     style: TextStyle(
@@ -137,8 +142,8 @@ class _MyAppBarState extends State<MyAppBar>
                                       color: Colors.grey[400],
                                     ),
                                   )
-                                : snapshot.data()['isOnline'] != null &&
-                                        snapshot.data()['isOnline']
+                                : snapshot.data['isOnline'] != null &&
+                                        snapshot.data['isOnline']
                                     ? Text(
                                         'オンライン',
                                         style: TextStyle(
@@ -157,7 +162,7 @@ class _MyAppBarState extends State<MyAppBar>
                                       ));
                         // return Container();
                       }
-                    }), */
+                    }),
               AnimatedContainer(
                 duration: Duration(milliseconds: 200),
                 curve: Curves.easeIn,
@@ -184,7 +189,7 @@ class _MyAppBarState extends State<MyAppBar>
   _getUserStatus(var data, bool isTyping) {
     if (data) {}
   }
-/* 
+/*
   void makeVoiceCall() {
     OverlayUtils.overlay(
       context: context,

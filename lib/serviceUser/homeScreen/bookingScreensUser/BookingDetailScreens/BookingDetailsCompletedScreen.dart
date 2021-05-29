@@ -43,6 +43,7 @@ class BookingDetailsCompletedScreen extends StatefulWidget {
 
 class _BookingDetailsCompletedScreenState
     extends State<BookingDetailsCompletedScreen> {
+  var therapistId;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -283,7 +284,7 @@ class _BookingDetailsCompletedScreenState
                                 onTap: () {
                                   NavigationRouter
                                       .switchToServiceUserDisplayReviewScreen(
-                                          context);
+                                          context, therapistId);
                                 },
                                 child: Text(
                                   'もっとみる',

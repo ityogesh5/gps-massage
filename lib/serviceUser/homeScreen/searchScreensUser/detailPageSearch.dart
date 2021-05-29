@@ -1,9 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/customFavoriteButton/CustomHeartFavorite.dart';
+import 'package:gps_massageapp/customLibraryClasses/customPainterHeart/CustomHeartPainter.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:simple_tooltip/simple_tooltip.dart';
 
@@ -3274,12 +3275,24 @@ class _SearchCauroselWithIndicatorState
                 CircleAvatar(
                   maxRadius: 18,
                   backgroundColor: Colors.white,
-                  child: CustomFavoriteButton(
-                      iconSize: 40,
-                      iconColor: Colors.red,
-                      valueChanged: (_isFavorite) {
-                        print('Is Favorite : $_isFavorite');
-                      }),
+                  child: HealingMatchConstants.isUserRegistrationSkipped
+                      ? GestureDetector(
+                    onTap: () {
+                      return;
+                    },
+                    child: SvgPicture.asset(
+                      'assets/images_gps/heart_wo_color.svg',
+                      width: 25,
+                      height: 25,
+                      color: Colors.grey[400],
+                    ),
+                  )
+                      : FavoriteButton(
+                          iconSize: 40,
+                          iconColor: Colors.red,
+                          valueChanged: (_isFavorite) {
+                            print('Is Favorite : $_isFavorite');
+                          }),
                 ),
               ],
             ),

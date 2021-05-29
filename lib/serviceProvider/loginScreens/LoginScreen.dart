@@ -13,7 +13,6 @@ import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/auth.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/lineLoginHelper.dart';
-import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
@@ -539,7 +538,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
   void _initiateLineLogin() async {
     print('Entering line login...');
     try {
-      LineLoginHelper.startLineLoginForProvider(context);
+      LineLoginHelper.startLineLogin(context);
     } catch (e) {
       print(e);
     }

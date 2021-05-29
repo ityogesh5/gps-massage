@@ -19,6 +19,7 @@ class _NoticeScreenUserState extends State<NotifyScreenUser>
   TabController _tabController;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool userIsOnline = true;
+  List<dynamic> notificationUsersList = new List();
 
   @override
   void initState() {
@@ -151,160 +152,176 @@ class _NoticeScreenUserState extends State<NotifyScreenUser>
         physics: NeverScrollableScrollPhysics(),
         children: [
           // Notice User Screen
-          Padding(
-            padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-            child: ListView(
-              physics: BouncingScrollPhysics(),
-              children: [
-                Container(
-                  child: new ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: 10,
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {
-                            print('Row on tap');
-                            print('Item index : $index');
-                          },
-                          splashColor: Colors.lime,
-                          child: Card(
-                            elevation: 0.0,
-                            color: Color.fromRGBO(251, 251, 251, 1),
-                            semanticContainer: true,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                  flex: 1,
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        width: 2,
-                                      ),
-                                      new Container(
-                                          width: 60.0,
-                                          height: 60.0,
-                                          decoration: new BoxDecoration(
-                                            border: Border.all(
-                                              color: Color.fromRGBO(
-                                                  153, 153, 153, 1),
-                                            ),
-                                            shape: BoxShape.circle,
-                                            image: new DecorationImage(
-                                              fit: BoxFit.fitHeight,
-                                              image: new AssetImage(
-                                                  'assets/images_gps/logo.png'),
-                                            ),
-                                          )),
-                                      Text(
-                                        '9時',
-                                        style: TextStyle(
-                                            color: Colors.grey[400],
-                                            fontSize: 14,
-                                            fontFamily: 'NotoSansJP'),
-                                      ),
-                                    ],
+          notificationUsersList != null && notificationUsersList.isNotEmpty
+              ? Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                  child: ListView(
+                    physics: BouncingScrollPhysics(),
+                    children: [
+                      Container(
+                        child: new ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: notificationUsersList.length,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                onTap: () {
+                                  print('Row on tap');
+                                  print('Item index : $index');
+                                },
+                                splashColor: Colors.lime,
+                                child: Card(
+                                  elevation: 0.0,
+                                  color: Color.fromRGBO(251, 251, 251, 1),
+                                  semanticContainer: true,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12.0),
                                   ),
-                                ),
-                                SizedBox(width: 5),
-                                Expanded(
-                                  flex: 5,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                                  child: Row(
                                     children: <Widget>[
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "店舗名",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold),
-                                            textAlign: TextAlign.left,
-                                          ),
-                                          SizedBox(height: 10),
-                                          Flexible(
-                                            child: Text("セラピストが予定を承認しました。",
-                                                style: TextStyle(
-                                                    color: Colors.grey[400],
-                                                    fontSize: 12),
-                                                textAlign: TextAlign.left,
-                                                maxLines: 2,
-                                                overflow: TextOverflow.clip),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images_gps/calendar.svg',
-                                              height: 15,
-                                              width: 15),
-                                          Text(
-                                            "\t10月17\t",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold),
-                                            textAlign: TextAlign.left,
-                                          ),
-                                          Text(
-                                            "月曜日",
-                                            style: TextStyle(
-                                                color: Colors.grey[400],
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold),
-                                            textAlign: TextAlign.left,
-                                          ),
-                                          SizedBox(height: 10),
-                                        ],
-                                      ),
-                                      Container(
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
+                                      Expanded(
+                                        flex: 1,
+                                        child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
                                           children: [
-                                            SvgPicture.asset(
-                                                'assets/images_gps/cost.svg',
-                                                height: 15,
-                                                width: 15),
-                                            //SizedBox(width: 5),
-                                            Chip(
-                                              label: Text('足つぼ'),
-                                              backgroundColor: Colors.grey[200],
+                                            SizedBox(
+                                              width: 2,
                                             ),
+                                            new Container(
+                                                width: 60.0,
+                                                height: 60.0,
+                                                decoration: new BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Color.fromRGBO(
+                                                        153, 153, 153, 1),
+                                                  ),
+                                                  shape: BoxShape.circle,
+                                                  image: new DecorationImage(
+                                                    fit: BoxFit.fitHeight,
+                                                    image: new AssetImage(
+                                                        'assets/images_gps/logo.png'),
+                                                  ),
+                                                )),
                                             Text(
-                                              "¥4,500",
+                                              '9時',
                                               style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold),
-                                              textAlign: TextAlign.left,
+                                                  color: Colors.grey[400],
+                                                  fontSize: 14,
+                                                  fontFamily: 'NotoSansJP'),
                                             ),
-                                            Flexible(
-                                              child: Text("（交通費込み-¥乳、000）。",
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(width: 5),
+                                      Expanded(
+                                        flex: 5,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "店舗名",
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                  textAlign: TextAlign.left,
+                                                ),
+                                                SizedBox(height: 10),
+                                                Flexible(
+                                                  child: Text(
+                                                      "セラピストが予定を承認しました。",
+                                                      style: TextStyle(
+                                                          color:
+                                                              Colors.grey[400],
+                                                          fontSize: 12),
+                                                      textAlign: TextAlign.left,
+                                                      maxLines: 2,
+                                                      overflow:
+                                                          TextOverflow.clip),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                SvgPicture.asset(
+                                                    'assets/images_gps/calendar.svg',
+                                                    height: 15,
+                                                    width: 15),
+                                                Text(
+                                                  "\t10月17\t",
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                  textAlign: TextAlign.left,
+                                                ),
+                                                Text(
+                                                  "月曜日",
                                                   style: TextStyle(
                                                       color: Colors.grey[400],
-                                                      fontSize: 12)),
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                  textAlign: TextAlign.left,
+                                                ),
+                                                SizedBox(height: 10),
+                                              ],
+                                            ),
+                                            Container(
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: [
+                                                  SvgPicture.asset(
+                                                      'assets/images_gps/cost.svg',
+                                                      height: 15,
+                                                      width: 15),
+                                                  //SizedBox(width: 5),
+                                                  Chip(
+                                                    label: Text('足つぼ'),
+                                                    backgroundColor:
+                                                        Colors.grey[200],
+                                                  ),
+                                                  Text(
+                                                    "¥4,500",
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                    textAlign: TextAlign.left,
+                                                  ),
+                                                  Flexible(
+                                                    child: Text(
+                                                        "（交通費込み-¥乳、000）。",
+                                                        style: TextStyle(
+                                                            color: Colors
+                                                                .grey[400],
+                                                            fontSize: 12)),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -312,18 +329,87 @@ class _NoticeScreenUserState extends State<NotifyScreenUser>
                                     ],
                                   ),
                                 ),
+                              );
+                            }),
+                      ),
+                    ],
+                  ))
+              : Stack(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: Container(
+                            padding: EdgeInsets.all(8.0),
+                            height: MediaQuery.of(context).size.height * 0.22,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              color: Color.fromRGBO(255, 255, 255, 1),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(16.0)),
+                              border: Border.all(
+                                  color: Color.fromRGBO(217, 217, 217, 1)),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      '通知の情報！',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontFamily: 'NotoSansJP',
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    InkWell(
+                                      onTap: () {},
+                                      child: new Container(
+                                          width: 80.0,
+                                          height: 80.0,
+                                          decoration: new BoxDecoration(
+                                            border: Border.all(
+                                                color: Colors.black12),
+                                            shape: BoxShape.circle,
+                                            image: new DecorationImage(
+                                                fit: BoxFit.fill,
+                                                image: new AssetImage(
+                                                    'assets/images_gps/appIcon.png')),
+                                          )),
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            'お知らせはありません。',
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                fontFamily: 'NotoSansJP',
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                )
                               ],
                             ),
                           ),
-                        );
-                      }),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
 
           // Chat List User Screen
-
           ChatUserList(),
         ],
       ),

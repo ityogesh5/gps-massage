@@ -206,6 +206,27 @@ class HealingMatchConstants {
   static const String THERAPIST_BOOKING_REQUEST =
       ON_PREMISE_USER_BASE_URL + '/bookingDetails/bookingRequestStatusList';
 
+  // handle guest user
+  static const String HANDLE_GUEST_USER =
+      ON_PREMISE_USER_BASE_URL + '/user/guestUser';
+
+  // customer create
+  static const String CREATE_CUSTOMER_FOR_PAYMENT_URL =
+      ON_PREMISE_USER_BASE_URL + '/user/customerCreation';
+
+  // handle guest user
+  static const String CHARGE_CUSTOMER_URL =
+      ON_PREMISE_USER_BASE_URL + '/user/paymentCharge';
+
+  // handle guest user
+  static const String PAYMENT_SUCCESS_CALL_URL =
+      ON_PREMISE_USER_BASE_URL + '/user/paymentConfirm';
+
+  // lINE id TOKEN url
+
+  //VERIFY_LINE_ID_TOKEN_URL
+  static const String VERIFY_LINE_ID_TOKEN_URL =
+      'https://api.line.me/oauth2/v2.1/verify';
 
   //Common string
   static bool isInternetAvailable = false;
@@ -218,8 +239,11 @@ class HealingMatchConstants {
   static bool isUserVerified = false;
   static bool isUserLoggedIn = false;
   static bool isBottomBarVisible = true;
-  static String userFcmToken = '';
   static String currentDate;
+  static var isUserOnline = false;
+
+  static var CLIENT_PUBLISHABLE_KEY_STRIPE =
+      'pk_test_51HwMwNBL9ibeFzEEMHOV6az31lNurmBP3cvNPqaBQASqm4LrQhfJL5NHJ8fApM8twA1oxflxWUoatPKcef7ScZHS00WzhyrZFk';
 
   static String currentDay;
 
@@ -337,6 +361,8 @@ class HealingMatchConstants {
   static PickedFile idProfileImage;
   static List<String> privateQualification = List<String>();
   static Map<String, String> certificateImages = Map<String, String>();
+
+  static var therapistRatingID = '18';
 
   //userDefinedScreens
   static const String UserSelectFirtTxt = 'どちらで利用しますか？';
@@ -457,7 +483,8 @@ class HealingMatchConstants {
   static providerLogin.Data userData;
   static bool isProvider = false;
   static bool isProviderHomePage;
-  static String accessToken = '';
+  static String accessToken =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTMwNTkyODZ9.vbtFi4s8AJiysPLNvyk-y8hrGWadZh7PMpD6Ab9Q3bA';
   static int serviceUserId;
   static int userId;
   static List<FlutterWeekViewEvent> events = List<FlutterWeekViewEvent>();
@@ -486,6 +513,8 @@ class HealingMatchConstants {
   static String confServiceAddressType = '';
   static String confServiceAddress = '';
   static int confNoOfReviewsMembers;
+  static int confserviceCId;
+  static int confserviceSubId;
   static var confNoOfServiceDuration;
   static var confServiceCost;
   static var confCertificationUpload;
@@ -509,6 +538,8 @@ class HealingMatchConstants {
   static String lineUserProfileURL;
 
   static String lineUserProfileDetails;
+
+  static String lineUserEmail;
 
   // Profile Edit screen user
   static Uint8List userEditProfile;
@@ -552,9 +583,10 @@ class HealingMatchConstants {
   static List<UserAddresses> userAddressesList = new List<UserAddresses>();
   static var searchDistanceRadius;
   static String userProfileImage;
-  static String serviceUserID;
+  static String serviceUserID = '4';
   static List<AddedSubAddresses> editUserSubAddressList =
       new List<AddedSubAddresses>();
+  static String serviceUserBookingAmount = '2,300';
 
   //Therapist Detail Screen
   static String therapistDStoreName = '';
