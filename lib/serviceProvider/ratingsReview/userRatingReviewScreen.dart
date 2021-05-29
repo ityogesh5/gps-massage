@@ -16,11 +16,19 @@ import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:gps_massageapp/serviceProvider/BlocCalls/GetUserRatingsandReviewScreenBlocCalls/Repository/user_ratings_review_repository.dart';
 
 class UserRatingReviewScreen extends StatefulWidget {
+  final int userId;
+  UserRatingReviewScreen(this.userId);
   @override
   _UserRatingReviewScreenState createState() => _UserRatingReviewScreenState();
 }
 
 class _UserRatingReviewScreenState extends State<UserRatingReviewScreen> {
+  @override
+  void initState() {
+    HealingMatchConstants.serviceUserId = widget.userId;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

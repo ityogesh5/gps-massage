@@ -29,6 +29,19 @@ enum MediaType {
   Video,
 }
 
+/* enum BookingStatus  {
+    user_order_placed: 0,
+    provider_accepted_without_changes: 1,
+    provider_accepted_with_changes: 2,
+    user_accepted: 3,
+    provider_cancel: 4,
+    user_cancel: 5,
+    order_confirm__with_payment: 6,
+    autoCancel_by_provider: 7,
+    autoCancel_by_user: 8,
+    order_Completed: 9
+} */
+
 final String ALL_MESSAGES_COLLECTION = 'MESSAGES';
 final String USERS_COLLECTION = 'USERS';
 final String CHATS_COLLECTION = 'CHATS';
@@ -210,6 +223,10 @@ class HealingMatchConstants {
   //VERIFY_LINE_ID_TOKEN_URL
   static const String VERIFY_LINE_ID_TOKEN_URL =
       'https://api.line.me/oauth2/v2.1/verify';
+
+  // therapist booking request
+  static const String THERAPIST_BOOKING_REQUEST =
+      ON_PREMISE_USER_BASE_URL + '/bookingDetails/bookingRequestStatusList';
 
   //Common string
   static bool isInternetAvailable = false;

@@ -1,12 +1,20 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/customLibraryClasses/cardToolTips/timeSpinnerToolTip.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:intl/intl.dart';
 
 class ProviderReceiveBooking extends StatefulWidget {
+  final BookingDetailsList bookingDetail;
+  ProviderReceiveBooking(this.bookingDetail);
   @override
   _ProviderReceiveBookingState createState() => _ProviderReceiveBookingState();
 }
@@ -14,11 +22,34 @@ class ProviderReceiveBooking extends StatefulWidget {
 class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
   TextEditingController expensesController = TextEditingController();
   String price;
+  String addedpriceReason;
   bool proposeAdditionalCosts = false;
   bool suggestAnotherTime = false;
+  bool onCanel = false;
+  ScrollController scrollController = ScrollController();
+  GlobalKey startKey = new GlobalKey();
+  GlobalKey endKey = new GlobalKey();
+  DateTime newStartTime;
+  DateTime newEndTime;
+  int _state = 0;
+
+  @override
+  void initState() {
+    newStartTime = widget.bookingDetail.startTime;
+    newEndTime = widget.bookingDetail.endTime;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (_state == 0 && onCanel) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        _state = 1;
+        scrollController.animateTo(scrollController.position.maxScrollExtent,
+            duration: Duration(milliseconds: 500), curve: Curves.ease);
+      });
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -41,9 +72,10 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
         ),
       ),
       body: SingleChildScrollView(
+        controller: scrollController,
         child: Container(
           color: Colors.white,
-          padding: EdgeInsets.only(top: 30, left: 8.0, right: 8.0),
+          padding: EdgeInsets.only(top: 30, left: 10.0, right: 10.0),
           child: Column(
             children: [
               Center(
@@ -90,8 +122,8 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                       });
                     },
                     child: Container(
-                      height: 25.0,
-                      width: 25.0,
+                      height: 20.0,
+                      width: 20.0,
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: Colors.black,
@@ -130,23 +162,44 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                           children: [
                             Expanded(
                               flex: 3,
-                              child: TextFormField(
-                                  enabled: false,
-                                  controller: expensesController,
-                                  style: HealingMatchConstants.formTextStyle,
-                                  decoration: InputDecoration(
-                                    labelText: '交通費',
-                                    labelStyle: HealingMatchConstants
-                                        .formLabelTextStyle,
-                                    border: HealingMatchConstants
-                                        .multiTextFormInputBorder,
-                                    focusedBorder: HealingMatchConstants
-                                        .multiTextFormInputBorder,
-                                    disabledBorder: HealingMatchConstants
-                                        .multiTextFormInputBorder,
-                                    enabledBorder: HealingMatchConstants
-                                        .multiTextFormInputBorder,
-                                  )),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.2,
+                                color: Colors.white,
+                                child: DropDownFormField(
+                                  fillColor: Colors.white,
+                                  borderColor: Colors.grey[400],
+                                  contentPadding: EdgeInsets.all(1.0),
+                                  titleText: null,
+                                  hintText: '',
+                                  onSaved: (value) {
+                                    setState(() {
+                                      addedpriceReason = value;
+                                    });
+                                  },
+                                  value: addedpriceReason,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      addedpriceReason = value;
+                                    });
+                                  },
+                                  dataSource: [
+                                    {
+                                      "display": "交通費",
+                                      "value": "交通費",
+                                    },
+                                    {
+                                      "display": "駐車場代",
+                                      "value": "駐車場代",
+                                    },
+                                    {
+                                      "display": "交通費＋駐車場代",
+                                      "value": "交通費＋駐車場代",
+                                    },
+                                  ],
+                                  textField: 'display',
+                                  valueField: 'value',
+                                ),
+                              ),
                             ),
                             SizedBox(
                               width: 10.0,
@@ -174,16 +227,48 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                                   },
                                   dataSource: [
                                     {
-                                      "display": "¥100",
-                                      "value": "100",
+                                      "display": "¥500",
+                                      "value": "500",
                                     },
                                     {
-                                      "display": "¥200",
-                                      "value": "200",
+                                      "display": "¥600",
+                                      "value": "600",
                                     },
                                     {
-                                      "display": "¥300",
-                                      "value": "300",
+                                      "display": "¥700",
+                                      "value": "700",
+                                    },
+                                    {
+                                      "display": "¥800",
+                                      "value": "800",
+                                    },
+                                    {
+                                      "display": "¥900",
+                                      "value": "900",
+                                    },
+                                    {
+                                      "display": "¥1000",
+                                      "value": "1000",
+                                    },
+                                    {
+                                      "display": "¥1100",
+                                      "value": "1100",
+                                    },
+                                    {
+                                      "display": "¥1200",
+                                      "value": "1200",
+                                    },
+                                    {
+                                      "display": "¥1300",
+                                      "value": "1300",
+                                    },
+                                    {
+                                      "display": "¥1400",
+                                      "value": "1400",
+                                    },
+                                    {
+                                      "display": "¥1500",
+                                      "value": "1500",
                                     },
                                   ],
                                   textField: 'display',
@@ -193,41 +278,186 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                             ),
                           ],
                         ),
+                      ],
+                    )
+                  : Container(),
+              SizedBox(
+                height: 12.0,
+              ),
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        suggestAnotherTime = !suggestAnotherTime;
+                      });
+                    },
+                    child: Container(
+                      height: 20.0,
+                      width: 20.0,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.black,
+                        ),
+                        shape: BoxShape.circle,
+                      ),
+                      child: suggestAnotherTime
+                          ? Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: CircleAvatar(
+                                backgroundColor: Colors.black,
+                              ),
+                            )
+                          : Container(),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 5.0,
+                  ),
+                  Text(
+                    '別の時間を提案する',
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              suggestAnotherTime
+                  ? Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Expanded(
+                              child: InkWell(
+                                onTap: () {
+                                  /* setState(() {
+                                  timePicker = true;
+                                }); */
+                                },
+                                child: InkWell(
+                                  onTap: () {
+                                    showToolTip(startKey, newStartTime, context,
+                                        2, true);
+                                  },
+                                  child: Container(
+                                    height: 50.0,
+                                    decoration: BoxDecoration(
+                                      border:
+                                          Border.all(color: Colors.grey[400]),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(6.0),
+                                      child: Row(
+                                        key: startKey,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            widget.bookingDetail.startTime
+                                                        .hour <
+                                                    10
+                                                ? "0${newStartTime.hour}"
+                                                : "${newStartTime.hour}",
+                                          ),
+                                          Text(
+                                            widget.bookingDetail.startTime
+                                                        .minute <
+                                                    10
+                                                ? ":0${newStartTime.minute}"
+                                                : ":${newStartTime.minute}",
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Text("  ~  "),
+                            Expanded(
+                              child: InkWell(
+                                onTap: () {
+                                  showToolTip(
+                                      endKey, newEndTime, context, 2, false);
+                                },
+                                child: Container(
+                                  height: 50.0,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey[400]),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(6.0),
+                                    child: Row(
+                                      key: endKey,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          newEndTime.hour < 10
+                                              ? "0${newEndTime.hour}"
+                                              : "${newEndTime.hour}",
+                                        ),
+                                        Text(
+                                          newEndTime.minute < 10
+                                              ? ":0${newEndTime.minute}"
+                                              : ":${newEndTime.minute}",
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                         SizedBox(
-                          height: 18.0,
+                          height: 15.0,
+                        ),
+                        TextField(
+                          //controller: textEditingController,
+                          textInputAction: TextInputAction.done,
+                          expands: false,
+                          maxLines: 4,
+                          decoration: InputDecoration(
+                            hintText: "距離が遠い為",
+                            hintStyle: HealingMatchConstants.formHintTextStyle,
+                            border:
+                                HealingMatchConstants.multiTextFormInputBorder,
+                            focusedBorder:
+                                HealingMatchConstants.multiTextFormInputBorder,
+                            disabledBorder:
+                                HealingMatchConstants.multiTextFormInputBorder,
+                            enabledBorder:
+                                HealingMatchConstants.multiTextFormInputBorder,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        buildButton(),
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                      ],
+                    )
+                  : buildButton(),
+              onCanel
+                  ? Column(
+                      children: [
+                        SizedBox(
+                          height: 15.0,
                         ),
                         Row(
                           children: [
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  suggestAnotherTime = !suggestAnotherTime;
-                                });
-                              },
-                              child: Container(
-                                height: 25.0,
-                                width: 25.0,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.black,
-                                  ),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: suggestAnotherTime
-                                    ? Padding(
-                                        padding: const EdgeInsets.all(2.0),
-                                        child: CircleAvatar(
-                                          backgroundColor: Colors.black,
-                                        ),
-                                      )
-                                    : Container(),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 5.0,
-                            ),
                             Text(
-                              '別の時間を提案する',
+                              '予約を受けない、または条件提示の理由',
                               style: TextStyle(
                                 fontSize: 14.0,
                                 color: Colors.black,
@@ -236,171 +466,57 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                           ],
                         ),
                         SizedBox(
-                          height: 10.0,
+                          height: 15.0,
                         ),
-                        suggestAnotherTime
-                            ? Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: TextFormField(
-                                            enabled: true,
-                                            initialValue: '09: 30',
-                                            textAlign: TextAlign.center,
-                                            // controller: expensesController,
-                                            style: HealingMatchConstants
-                                                .formTextStyle,
-                                            decoration: InputDecoration(
-                                              //  labelText: '交通費',
-                                              labelStyle: HealingMatchConstants
-                                                  .formLabelTextStyle,
-                                              border: HealingMatchConstants
-                                                  .multiTextFormInputBorder,
-                                              focusedBorder:
-                                                  HealingMatchConstants
-                                                      .multiTextFormInputBorder,
-                                              disabledBorder:
-                                                  HealingMatchConstants
-                                                      .multiTextFormInputBorder,
-                                              enabledBorder:
-                                                  HealingMatchConstants
-                                                      .multiTextFormInputBorder,
-                                            )),
-                                      ),
-                                      SizedBox(
-                                        width: 10.0,
-                                      ),
-                                      Text(
-                                        '~',
-                                        style: TextStyle(fontSize: 14.0),
-                                      ),
-                                      SizedBox(
-                                        width: 10.0,
-                                      ),
-                                      Expanded(
-                                        child: TextFormField(
-                                            enabled: true,
-                                            initialValue: '10: 30',
-                                            textAlign: TextAlign.center,
-                                            //   controller: expensesController,
-                                            style: HealingMatchConstants
-                                                .formTextStyle,
-                                            decoration: InputDecoration(
-                                              //  labelText: '交通費',
-                                              labelStyle: HealingMatchConstants
-                                                  .formLabelTextStyle,
-                                              border: HealingMatchConstants
-                                                  .multiTextFormInputBorder,
-                                              focusedBorder:
-                                                  HealingMatchConstants
-                                                      .multiTextFormInputBorder,
-                                              disabledBorder:
-                                                  HealingMatchConstants
-                                                      .multiTextFormInputBorder,
-                                              enabledBorder:
-                                                  HealingMatchConstants
-                                                      .multiTextFormInputBorder,
-                                            )),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 15.0,
-                                  ),
-                                  TextField(
-                                    //controller: textEditingController,
-                                    textInputAction: TextInputAction.done,
-                                    expands: false,
-                                    maxLines: 4,
-                                    decoration: InputDecoration(
-                                      hintText: "距離が遠い為",
-                                      hintStyle: HealingMatchConstants
-                                          .formHintTextStyle,
-                                      border: HealingMatchConstants
-                                          .multiTextFormInputBorder,
-                                      focusedBorder: HealingMatchConstants
-                                          .multiTextFormInputBorder,
-                                      disabledBorder: HealingMatchConstants
-                                          .multiTextFormInputBorder,
-                                      enabledBorder: HealingMatchConstants
-                                          .multiTextFormInputBorder,
+                        Stack(
+                          children: [
+                            TextField(
+                              //controller: textEditingController,
+                              textInputAction: TextInputAction.done,
+                              expands: false,
+                              maxLines: 4,
+                              decoration: InputDecoration(
+                                hintText: "理由を入力してください。",
+                                hintStyle:
+                                    HealingMatchConstants.formHintTextStyle,
+                                border: HealingMatchConstants
+                                    .multiTextFormInputBorder,
+                                focusedBorder: HealingMatchConstants
+                                    .multiTextFormInputBorder,
+                                disabledBorder: HealingMatchConstants
+                                    .multiTextFormInputBorder,
+                                enabledBorder: HealingMatchConstants
+                                    .multiTextFormInputBorder,
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 5.0,
+                              right: 5.0,
+                              child: InkWell(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border:
+                                          Border.all(color: Colors.grey[400])),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: SvgPicture.asset(
+                                      'assets/images_gps/comment_send.svg',
+                                      height: 21,
+                                      width: 21,
                                     ),
                                   ),
-                                  SizedBox(
-                                    height: 15.0,
-                                  ),
-                                  buildButton(),
-                                  SizedBox(
-                                    height: 15.0,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        '予約を受けない、または条件提示の理由',
-                                        style: TextStyle(
-                                          fontSize: 14.0,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 15.0,
-                                  ),
-                                  Stack(
-                                    children: [
-                                      TextField(
-                                        //controller: textEditingController,
-                                        textInputAction: TextInputAction.done,
-                                        expands: false,
-                                        maxLines: 4,
-                                        decoration: InputDecoration(
-                                          hintText: "理由を入力してください。",
-                                          hintStyle: HealingMatchConstants
-                                              .formHintTextStyle,
-                                          border: HealingMatchConstants
-                                              .multiTextFormInputBorder,
-                                          focusedBorder: HealingMatchConstants
-                                              .multiTextFormInputBorder,
-                                          disabledBorder: HealingMatchConstants
-                                              .multiTextFormInputBorder,
-                                          enabledBorder: HealingMatchConstants
-                                              .multiTextFormInputBorder,
-                                        ),
-                                      ),
-                                      Positioned(
-                                        bottom: 5.0,
-                                        right: 5.0,
-                                        child: InkWell(
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                border: Border.all(
-                                                    color: Colors.grey[400])),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(4.0),
-                                              child: SvgPicture.asset(
-                                                'assets/images_gps/comment_send.svg',
-                                                height: 21,
-                                                width: 21,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 15.0,
-                                  ),
-                                ],
-                              )
-                            : buildButton(),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 15.0,
+                        ),
                       ],
                     )
-                  : buildButton(),
+                  : Container()
             ],
           ),
         ),
@@ -409,6 +525,8 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
   }
 
   Card buildBookingCard() {
+    String jaName =
+        DateFormat('EEEE', 'ja_JP').format(widget.bookingDetail.startTime);
     return Card(
       // margin: EdgeInsets.all(8.0),
       color: Color.fromRGBO(242, 242, 242, 1),
@@ -423,13 +541,35 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
               children: [
                 Row(
                   children: [
-                    SvgPicture.asset('assets/images_gps/female.svg',
-                        height: 18, width: 18, color: Colors.black),
+                    widget.bookingDetail.bookingUserId.uploadProfileImgUrl !=
+                            null
+                        ? CachedNetworkImage(
+                            width: 18.0,
+                            height: 18.0,
+                            fit: BoxFit.cover,
+                            imageUrl: widget.bookingDetail.bookingUserId
+                                .uploadProfileImgUrl,
+                            placeholder: (context, url) => SpinKitWave(
+                                size: 20.0, color: ColorConstants.buttonColor),
+                            errorWidget: (context, url, error) => Column(
+                                  children: [
+                                    SvgPicture.asset(
+                                        'assets/images_gps/profile_pic_user.svg',
+                                        height: 18,
+                                        width: 18,
+                                        color: Colors.black),
+                                  ],
+                                ))
+                        : SvgPicture.asset(
+                            'assets/images_gps/profile_pic_user.svg',
+                            height: 18,
+                            width: 18,
+                            color: Colors.black),
                     SizedBox(
                       width: 5.0,
                     ),
                     Text(
-                      'AK さん',
+                      '${widget.bookingDetail.bookingUserId.userName}',
                       style: TextStyle(
                         fontSize: 16.0,
                         color: Colors.black,
@@ -437,7 +577,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                       ),
                     ),
                     Text(
-                      '(男性)',
+                      '(${widget.bookingDetail.bookingUserId.gender})',
                       style: TextStyle(
                         fontSize: 12.0,
                         color: Color.fromRGBO(181, 181, 181, 1),
@@ -455,7 +595,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                           borderRadius: BorderRadius.all(Radius.circular(5))),
                       padding: EdgeInsets.all(4),
                       child: Text(
-                        '店舗',
+                        widget.bookingDetail.locationType == "店舗" ? '店舗' : '出張',
                         style: TextStyle(
                           fontSize: 9.0,
                           color: Colors.black,
@@ -464,7 +604,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                     ),
                     Spacer(),
                     Text(
-                      '14:38 時',
+                      '${widget.bookingDetail.updatedAt.hour}:${widget.bookingDetail.updatedAt.minute} 時',
                       style: TextStyle(
                         fontSize: 12.0,
                         color: Colors.black,
@@ -478,12 +618,12 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                 InkWell(
                   onTap: () {
                     NavigationRouter.switchToProviderSideUserReviewScreen(
-                        context);
+                        context, widget.bookingDetail.userId);
                   },
                   child: Row(
                     children: [
                       Text(
-                        '(4.0)',
+                        '${widget.bookingDetail.reviewAvgData}',
                         style: TextStyle(
                             decoration: TextDecoration.underline,
                             decorationColor: Colors.black,
@@ -496,7 +636,8 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                       ),
                       SizedBox(width: 5.0),
                       RatingBar.builder(
-                        initialRating: 4,
+                        initialRating:
+                            double.parse(widget.bookingDetail.reviewAvgData),
                         minRating: 1,
                         direction: Axis.horizontal,
                         allowHalfRating: true,
@@ -509,22 +650,23 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                             child: new IconButton(
                               onPressed: () {},
                               padding: new EdgeInsets.all(0.0),
-                              color: Colors.black,
-                              icon: index == 4
+                              // color: Colors.white,
+                              icon: index >
+                                      (double.parse(widget
+                                                  .bookingDetail.reviewAvgData))
+                                              .ceilToDouble() -
+                                          1
                                   ? SvgPicture.asset(
                                       "assets/images_gps/star_2.svg",
                                       height: 13.0,
-                                      width: 12.5,
-                                      color: Colors.black,
+                                      width: 13.0,
                                     )
                                   : SvgPicture.asset(
                                       "assets/images_gps/star_colour.svg",
                                       height: 13.0,
-                                      width: 12.5,
-                                   //   color: Colors.black,
-                                    ), /*  new Icon(
-                                                                Icons.star,
-                                                                size: 20.0), */
+                                      width: 13.0,
+                                      //color: Colors.black,
+                                    ),
                             )),
                         onRatingUpdate: (rating) {
                           print(rating);
@@ -532,7 +674,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                       ),
                       SizedBox(width: 5.0),
                       Text(
-                        '(152 レビュー)',
+                        '${widget.bookingDetail.noOfReviewsMembers}',
                         style: TextStyle(
                             decoration: TextDecoration.underline,
                             decorationColor: Colors.black,
@@ -560,7 +702,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                       width: 8,
                     ),
                     Text(
-                      '10月17',
+                      '${widget.bookingDetail.startTime.month}月${widget.bookingDetail.startTime.day}',
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.black,
@@ -571,7 +713,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                       width: 8,
                     ),
                     Text(
-                      ' 月曜日 ',
+                      ' $jaName ',
                       style: TextStyle(
                         fontSize: 12.0,
                         color: Color.fromRGBO(102, 102, 102, 1),
@@ -593,7 +735,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                       width: 8,
                     ),
                     Text(
-                      '09: 00 ~ 10: 00',
+                      '${widget.bookingDetail.startTime.hour}: ${widget.bookingDetail.startTime.minute} ~ ${widget.bookingDetail.endTime.hour}: ${widget.bookingDetail.endTime.minute}',
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.black,
@@ -601,7 +743,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                       ),
                     ),
                     Text(
-                      ' 60分 ',
+                      ' ${widget.bookingDetail.totalMinOfService}分 ',
                       style: TextStyle(
                         fontSize: 12.0,
                         color: Color.fromRGBO(102, 102, 102, 1),
@@ -619,7 +761,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                           borderRadius: BorderRadius.all(Radius.circular(5))),
                       padding: EdgeInsets.all(4),
                       child: Text(
-                        '足つぼ',
+                        '${widget.bookingDetail.nameOfService}',
                         style: TextStyle(
                           fontSize: 12.0,
                           color: Colors.black,
@@ -674,7 +816,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                           borderRadius: BorderRadius.all(Radius.circular(5))),
                       child: Center(
                         child: Text(
-                          '店舗',
+                          '${widget.bookingDetail.locationType}',
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 12,
@@ -686,14 +828,40 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                       width: 8,
                     ),
                     Text(
-                      '埼玉県浦和区高砂4丁目4',
+                      '${widget.bookingDetail.location}',
                       style: TextStyle(
                         color: Color.fromRGBO(102, 102, 102, 1),
-                        fontSize: 17,
+                        fontSize: 12,
                       ),
-                    )
+                    ),
                   ],
-                )
+                ),
+                widget.bookingDetail.userComments != null &&
+                        widget.bookingDetail.userComments != ''
+                    ? Column(
+                        children: [
+                          SizedBox(
+                            height: 2,
+                          ),
+                          Divider(
+                            // height: 50,
+                            color: Color.fromRGBO(217, 217, 217, 1),
+                          ),
+                          SizedBox(
+                            height: 2,
+                          ),
+                          Center(
+                            child: Text(
+                              '${widget.bookingDetail.userComments}',
+                              style: TextStyle(
+                                color: Color.fromRGBO(102, 102, 102, 1),
+                                fontSize: 12,
+                              ),
+                            ),
+                          )
+                        ],
+                      )
+                    : Container()
               ],
             ),
           ],
@@ -711,7 +879,11 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
             ),
-            onPressed: () {},
+            onPressed: () {
+              setState(() {
+                onCanel = true;
+              });
+            },
             //  minWidth: MediaQuery.of(context).size.width * 0.38,
             // splashColor: Colors.grey,
             color: Color.fromRGBO(217, 217, 217, 1),
@@ -752,6 +924,54 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
           ),
         ),
       ],
+    );
+  }
+
+  //Method called from ShowtoolTip to refresh the page after TimePicker is Selected
+  refreshPage(int index, DateTime newTime, bool isStart) {
+    setState(() {
+      if (isStart) {
+        newStartTime = newTime;
+        newEndTime = DateTime(
+          newStartTime.year,
+          newStartTime.month,
+          newStartTime.day,
+          newStartTime.hour,
+          newStartTime.minute + widget.bookingDetail.totalMinOfService,
+          newStartTime.second,
+        );
+      } else {
+        newEndTime = newTime;
+        newStartTime = DateTime(
+          newEndTime.year,
+          newEndTime.month,
+          newEndTime.day,
+          newEndTime.hour,
+          newEndTime.minute - widget.bookingDetail.totalMinOfService,
+          newEndTime.second,
+        );
+      }
+    });
+  }
+
+  void showToolTip(
+      var key, DateTime time, BuildContext context, int index, bool isStart) {
+    var width = MediaQuery.of(context).size.width - 10.0;
+    print(width);
+    ShowToolTip popup = ShowToolTip(context, refreshPage,
+        time: time,
+        index: index,
+        isStart: isStart,
+        textStyle: TextStyle(color: Colors.black),
+        height: 110,
+        width: MediaQuery.of(context).size.width * 0.73, //180,
+        backgroundColor: Colors.white,
+        padding: EdgeInsets.all(8.0),
+        borderRadius: BorderRadius.circular(10.0));
+
+    /// show the popup for specific widget
+    popup.show(
+      widgetKey: key,
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -63,7 +64,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         child: InkWell(
           onTap: () {
             if (index == 0) {
-              NavigationRouter.switchToReceiveBookingScreen(context);
+            //  NavigationRouter.switchToReceiveBookingScreen(context,BookingDetailsList());
             } else if (index == 1) {
               NavigationRouter.switchToOfferCancelScreen(context);
             } else if (index == 2) {

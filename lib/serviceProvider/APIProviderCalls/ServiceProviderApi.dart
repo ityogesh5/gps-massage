@@ -5,6 +5,7 @@ import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/event.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/shiftTimeUpdateResponse.dart'
     as shiftTimeUpdate;
+import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/userReviewandRatingsResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
@@ -60,7 +61,7 @@ class ServiceProviderApi {
       final response = await http.post(url,
           headers: headers,
           body: json.encode({
-            "userId": '20', //HealingMatchConstants.serviceUserId,
+            "userId": HealingMatchConstants.serviceUserId, //'20',
           }));
       print(
           'Therapist repo token :${HealingMatchConstants.accessToken} : UserId  : ${HealingMatchConstants.serviceUserId}');
@@ -331,7 +332,8 @@ class ServiceProviderApi {
     }
   }
 
-  static Future<bool> saveFirebaseUserID(String firebaseID, BuildContext context) async {
+  static Future<bool> saveFirebaseUserID(
+      String firebaseID, BuildContext context) async {
     try {
       final url = HealingMatchConstants.FIREBASE_UPDATE_USERID;
       Map<String, String> headers = {
@@ -348,14 +350,40 @@ class ServiceProviderApi {
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
         return true;
-      }
-      else
-      {
+      } else {
         return false;
       }
     } catch (e) {
       print('Exception : ${e.toString()}');
       return false;
+    }
+  }
+
+  static Future<TherapistBookingHistoryResponseModel>
+      getBookingRequests() async {
+    TherapistBookingHistoryResponseModel therapistBookingHistoryResponseModel;
+    try {
+      final url = HealingMatchConstants.THERAPIST_BOOKING_REQUEST;
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '${HealingMatchConstants.accessToken}'
+      };
+      final response = await http.post(url,
+          headers: headers,
+          body: json.encode({
+            "therapistId": 18, //HealingMatchConstants.userId,
+          }));
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        therapistBookingHistoryResponseModel =
+            TherapistBookingHistoryResponseModel.fromJson(data);
+        return therapistBookingHistoryResponseModel;
+      } else {
+        return therapistBookingHistoryResponseModel;
+      }
+    } catch (e) {
+      print('Exception : ${e.toString()}');
+      return therapistBookingHistoryResponseModel;
     }
   }
 }
