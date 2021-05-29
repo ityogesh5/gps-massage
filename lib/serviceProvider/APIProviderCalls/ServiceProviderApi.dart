@@ -518,7 +518,9 @@ class ServiceProviderApi {
         body = {
           "bookingId": bookingDetail.id.toString(),
           "bookingStatus": "1",
-          "therapistComments": bookingDetail.therapistComments,
+          "therapistComments": bookingDetail.therapistComments != null
+              ? bookingDetail.therapistComments
+              : '',
         };
       }
 

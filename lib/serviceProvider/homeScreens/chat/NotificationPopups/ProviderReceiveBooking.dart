@@ -6,6 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/db.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/cardToolTips/timeSpinnerToolTip.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
@@ -366,16 +367,12 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            startTime
-                                                        .hour <
-                                                    10
+                                            startTime.hour < 10
                                                 ? "0${startTime.hour}"
                                                 : "${startTime.hour}",
                                           ),
                                           Text(
-                                            startTime
-                                                        .minute <
-                                                    10
+                                            startTime.minute < 10
                                                 ? ":0${startTime.minute}"
                                                 : ":${startTime.minute}",
                                           ),
@@ -557,8 +554,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
   }
 
   Card buildBookingCard() {
-    String jaName =
-        DateFormat('EEEE', 'ja_JP').format(startTime);
+    String jaName = DateFormat('EEEE', 'ja_JP').format(startTime);
     return Card(
       // margin: EdgeInsets.all(8.0),
       color: Color.fromRGBO(242, 242, 242, 1),
@@ -941,16 +937,21 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
             ),
             onPressed: () {
               ProgressDialogBuilder.showCommonProgressDialog(context);
-              widget.bookingDetail.newStartTime = newStartTime;
-              widget.bookingDetail.newEndTime = newEndTime;
-              widget.bookingDetail.addedPrice = addedpriceReason;
-              widget.bookingDetail.travelAmount = int.parse(price);
+              if (suggestAnotherTime) {
+                widget.bookingDetail.newStartTime = newStartTime;
+                widget.bookingDetail.newEndTime = newEndTime;
+              }
+              if (proposeAdditionalCosts) {
+                widget.bookingDetail.addedPrice = addedpriceReason;
+                widget.bookingDetail.travelAmount = int.parse(price);
+              }
               ServiceProviderApi.updateStatusUpdate(widget.bookingDetail,
                       proposeAdditionalCosts, suggestAnotherTime, onCancel)
                   .then((value) {
-                ProgressDialogBuilder.hideCommonProgressDialog(context);
                 if (value) {
-                  NavigationRouter.switchToServiceProviderBottomBar(context);
+                  addFirebaseContacts();
+                } else {
+                  ProgressDialogBuilder.hideCommonProgressDialog(context);
                 }
               });
             },
@@ -1019,5 +1020,26 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
     popup.show(
       widgetKey: key,
     );
+  }
+
+  addFirebaseContacts() {
+    DB db = DB();
+    db.getContactsofUser(HealingMatchConstants.fbUserId).then((value) {
+      if (!value.contacts
+          .contains(widget.bookingDetail.bookingUserId.firebaseUdid)) {
+        value.contacts.add(widget.bookingDetail.bookingUserId.firebaseUdid);
+        //add contacts to self db
+        db.updateContacts(HealingMatchConstants.fbUserId, value.contacts);
+
+        //add contacts to user db
+        db.addToPeerContacts(widget.bookingDetail.bookingUserId.firebaseUdid,
+            HealingMatchConstants.fbUserId);
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
+        NavigationRouter.switchToServiceProviderBottomBar(context);
+      } else {
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
+        NavigationRouter.switchToServiceProviderBottomBar(context);
+      }
+    });
   }
 }

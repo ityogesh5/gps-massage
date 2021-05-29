@@ -94,11 +94,12 @@ class _MyAppBarState extends State<MyAppBar>
       leading: IconButton(
         icon: Icon(Icons.arrow_back_ios, color: Colors.black),
         onPressed: () {
-          Navigator.of(context).popUntil((route) => route.isFirst);
+          /*  Navigator.of(context).popUntil((route) => route.isFirst);
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (BuildContext context) => ChatUserList()));
+                  builder: (BuildContext context) => ChatUserList())); */
+          Navigator.pop(context);
         },
       ),
       leadingWidth: 20.0,
