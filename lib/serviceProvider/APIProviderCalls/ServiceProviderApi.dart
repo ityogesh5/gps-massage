@@ -415,11 +415,12 @@ class ServiceProviderApi {
     }
   }
 
-  static Future<TherapistBookingHistoryResponseModel>
-      getCanceledBookingDetails() async {
+  static Future<TherapistBookingHistoryResponseModel> getCanceledBookingDetails(
+      int pageNumber, int pageSize) async {
     TherapistBookingHistoryResponseModel therapistBookingHistoryResponseModel;
     try {
-      final url = HealingMatchConstants.THERAPIST_CANCELLED_BOOKING;
+      final url = HealingMatchConstants.THERAPIST_CANCELLED_BOOKING +
+          "?page=$pageNumber&size=$pageSize";
       Map<String, String> headers = {
         'Content-Type': 'application/json',
         'x-access-token': '${HealingMatchConstants.accessToken}'
