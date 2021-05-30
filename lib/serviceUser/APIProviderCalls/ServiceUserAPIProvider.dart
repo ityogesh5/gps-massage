@@ -12,6 +12,8 @@ import 'package:gps_massageapp/models/responseModels/paymentModels/CustomerCreat
 import 'package:gps_massageapp/models/responseModels/paymentModels/PaymentCustomerCharge.dart';
 import 'package:gps_massageapp/models/responseModels/paymentModels/PaymentSuccessModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/booking/createBooking.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingStatus.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingCompletedList.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/FavouriteList.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/FavouriteTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/UnFavouriteTherapistModel.dart';
@@ -78,6 +80,9 @@ class ServiceUserAPIProvider {
   static PaymentCustomerCharge _paymentCustomerCharge =
       new PaymentCustomerCharge();
   static PaymentSuccessModel _paymentSuccessModel = new PaymentSuccessModel();
+  static BookingStatusModel _bookingStatusModel = new BookingStatusModel();
+  static BookingCompletedList _bookingCompletedList =
+      new BookingCompletedList();
 
   // get all therapist users
   static Future<TherapistUsersModel> getAllTherapistUsers(
@@ -177,6 +182,67 @@ class ServiceUserAPIProvider {
       // ProgressDialogBuilder.hideLoader(context);
     }
     return _favouriteListModel;
+  }
+
+  //Booking Completed List
+  static Future<BookingCompletedList> getBookingCompletedList(
+      int pageNumber, int pageSize) async {
+    try {
+      final url = HealingMatchConstants.ON_PREMISE_USER_BASE_URL +
+          '/booking/bookingCompleteStatusList?page=$pageNumber&size=$pageSize';
+      // ?page=$pageNumber&size=$pageSize
+
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': HealingMatchConstants.accessToken
+      };
+      final response = await http.get(url, headers: headers);
+
+      if (response.statusCode == 200) {
+        print('response : ${response.body}');
+        var getBookingResponse = json.decode(response.body);
+        _bookingCompletedList =
+            BookingCompletedList.fromJson(getBookingResponse);
+        print(
+            'getFavouriteResponse : ${_bookingCompletedList.data.bookingDetailsList.length}');
+      } else {
+        print('Error occurred!!! TypeMassages response');
+        throw Exception();
+      }
+    } catch (e) {
+      print(e.toString());
+      // ProgressDialogBuilder.hideLoader(context);
+    }
+    return _bookingCompletedList;
+  }
+
+  //GET BOOKING STATUS API
+  static Future<BookingStatusModel> getBookingStatus() async {
+    try {
+      final url = HealingMatchConstants.BOOKING_STATUS_LIST;
+
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': HealingMatchConstants.accessToken
+      };
+      final response = await http.get(url, headers: headers);
+
+      if (response.statusCode == 200) {
+        print('response : ${response.body}');
+        var getBookingStatusResponse = json.decode(response.body);
+        _bookingStatusModel =
+            BookingStatusModel.fromJson(getBookingStatusResponse);
+        print(
+            'getBookingStatusResponse : ${_bookingStatusModel.data.bookingDetailsList.length}');
+      } else {
+        print('Error occurred!!! TypeMassages response');
+        throw Exception();
+      }
+    } catch (e) {
+      print(e.toString());
+      // ProgressDialogBuilder.hideLoader(context);
+    }
+    return _bookingStatusModel;
   }
 
   // get all therapist ratings
@@ -481,11 +547,11 @@ class ServiceUserAPIProvider {
       int categoryId,
       String nameOfService,
       int totalMinOfService,
-      int priceOfService,
+      var priceOfService,
       int bookingStatus,
       String locationType,
       String location,
-      int totalCost,
+      var totalCost,
       int userReviewStatus,
       int therapistReviewStatus,
       String userCommands) async {
@@ -650,6 +716,7 @@ class ServiceUserAPIProvider {
             "userId": userID,
             "amount": amount,
             "cardId": cardID,
+            "bookingId": HealingMatchConstants.bookingId,
           }));
       print('chargePaymentForCustomer response : ${response.body}');
       print('statusCode : ${response.statusCode}');

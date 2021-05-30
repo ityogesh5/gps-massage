@@ -16,8 +16,10 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/profile/profile
 import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistResultsModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:stripe_payment/stripe_payment.dart';
 
 enum MessageType {
   Text,
@@ -52,6 +54,7 @@ final String CHATS_MEDIA_STORAGE_REF = 'ChatsMedia';
 class HealingMatchConstants {
   static const String ON_PREMISE_USER_BASE_URL =
       "http://106.51.49.160:9087/api";
+
   // "http://103.92.19.158:9087/api"; //secondary backup IP
 
   // Development data URL == http://106.51.49.160:9087/api
@@ -248,6 +251,14 @@ class HealingMatchConstants {
   static const String VERIFY_LINE_ID_TOKEN_URL =
       'https://api.line.me/oauth2/v2.1/verify';
 
+  //booking Status Api
+  static const String BOOKING_STATUS_LIST =
+      ON_PREMISE_USER_BASE_URL + '/booking/bookingStatusList';
+
+  //booking Completed List
+  static const String BOOKING_COMPLETED_LIST =
+      ON_PREMISE_USER_BASE_URL + '/booking/bookingCompleteStatusList';
+
   //Common string
   static bool isInternetAvailable = false;
   static String registerProgressText = '登録中...';
@@ -264,6 +275,9 @@ class HealingMatchConstants {
 
   static var CLIENT_PUBLISHABLE_KEY_STRIPE =
       'pk_test_51HwMwNBL9ibeFzEEMHOV6az31lNurmBP3cvNPqaBQASqm4LrQhfJL5NHJ8fApM8twA1oxflxWUoatPKcef7ScZHS00WzhyrZFk';
+
+  static var CLIENT_SECRET_KEY_STRIPE =
+      'sk_test_51HyDhJHsOI5BijsXDYBipQR7TnSU0HmgygzOHQlgENKw6krlttBN6cM2N0vNBVbm9r3kEZe3pMvgW1o5D4dG5HMV00glIPUuVm';
 
   static String currentDay;
 
@@ -539,7 +553,7 @@ class HealingMatchConstants {
   static int confserviceCId;
   static int confserviceSubId;
   static var confNoOfServiceDuration;
-  static var confServiceCost;
+  static var confServiceCost = '230';
   static var confCertificationUpload;
   static bool confBuisnessTrip;
   static bool confShop;
@@ -660,6 +674,9 @@ class HealingMatchConstants {
   static String searchDateTxt = 'さがす条件を選んでください';
   static int searchServiceType = 0;
 
+  //payment
+  static int bookingId;
+
   //Booking confirm screen
   //出張での施術は距離、場所によって別途交通費等がかかる場合があります。
   static String additionalDistanceCost = '出張での施術は距離、場所によって別途交通費等がかかる場合があります。\n'
@@ -730,6 +747,40 @@ class HealingMatchConstants {
       color: ColorConstants.formFieldFillColor,
     ),
   );
+
+  static void initiatePayment(BuildContext context) async {
+    PaymentMethod _paymentMethod;
+    try {
+      StripePayment.setOptions(StripeOptions(
+          publishableKey:
+              "${HealingMatchConstants.CLIENT_PUBLISHABLE_KEY_STRIPE}"));
+
+      StripePayment.paymentRequestWithCardForm(CardFormPaymentRequest())
+          .then((paymentMethod) {
+        _paymentMethod = paymentMethod;
+        var cardJSON = _paymentMethod..card.toJson();
+        var paymentToken = paymentMethod.card.token.toString();
+        print(
+            'Received payment method : ${_paymentMethod.toJson()}\n$cardJSON');
+        print(
+            'Received payment method ID : ${_paymentMethod.id} \n $paymentToken');
+
+        Future.delayed(Duration(seconds: 2), () {});
+        createCustomer(_paymentMethod, context);
+      }).catchError((e) {
+        NavigationRouter.switchToPaymentFailedScreen(context);
+        print('Payment initiate exception : ${e.toString()}');
+      });
+    } catch (e) {
+      NavigationRouter.switchToPaymentFailedScreen(context);
+      print('Payment initiate exception : ${e.toString()}');
+    }
+  }
+
+  static void createCustomer(
+      PaymentMethod paymentMethod, BuildContext context) async {
+    NavigationRouter.switchToPaymentProcessingScreen(context, paymentMethod);
+  }
 
   static List<Curve> curveList = [
     Curves.bounceIn,

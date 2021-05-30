@@ -1,17 +1,16 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gps_massageapp/constantUtils/colorConstants.dart';
-import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/customLibraryClasses/customRadioButtonList/roundedRadioButton.dart';
-import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/booking/createBooking.dart';
-import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
+import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
+import 'package:gps_massageapp/customLibraryClasses/customRadioButtonList/roundedRadioButton.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/booking/createBooking.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 
 double ratingsValue = 4.0;
 bool checkValue = false;
@@ -34,7 +33,7 @@ Map<String, dynamic> _formData = {
 };
 
 List<String> selectedBuildingTypeValues = List<String>();
-var selectedBuildingType;
+var selectedBuildingType = '店舗';
 
 class BookingConfirmationScreen extends StatefulWidget {
   @override
@@ -908,11 +907,11 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
     int categoryId = HealingMatchConstants.confserviceCId;
     String nameOfService = HealingMatchConstants.confServiceName;
     int totalMinOfService = HealingMatchConstants.confNoOfServiceDuration;
-    int priceOfService = HealingMatchConstants.confServiceCost;
+    var priceOfService = HealingMatchConstants.confServiceCost;
     int bookingStatus = 0;
     String locationType = selectedBuildingType;
     String location = HealingMatchConstants.confServiceAddress;
-    int totalCost = HealingMatchConstants.confServiceCost;
+    var totalCost = HealingMatchConstants.confServiceCost;
     int userReviewStatus = 0;
     int therapistReviewStatus = 0;
     String userCommands = _otherBuildingController.text;
