@@ -18,7 +18,6 @@ import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopu
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/ProviderOfferCancelTimerUser.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/ProviderOfferConfirmed.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/ProviderReceiveBooking.dart';
-import 'package:gps_massageapp/serviceProvider/homeScreens/chat/chat.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/ProviderEditProfile.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/ProviderTutorial.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/TermsAndConditions.dart';
@@ -825,10 +824,11 @@ class NavigationRouter {
   }
 
   // Service Provider Chat Screen
-  static void switchToServiceProviderChatHistoryScreen(BuildContext context) {
+ /*  static void switchToServiceProviderChatHistoryScreen(BuildContext context) {
     Navigator.push(
         context, MaterialPageRoute(builder: (BuildContext context) => Chat()));
   }
+ */
 
   // Service User Notifications Screen
   static void switchToServiceUserNoticeScreen(BuildContext context) {
