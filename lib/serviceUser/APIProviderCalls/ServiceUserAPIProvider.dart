@@ -368,7 +368,7 @@ class ServiceUserAPIProvider {
           headers: headers,
           body: json.encode({
             "therapistId": userID,
-            "userId": 233,
+            "userId": HealingMatchConstants.userId,
           }));
       final getTherapistDetails = json.decode(response.body);
       print('Therapist Details Response : ${response.body}');

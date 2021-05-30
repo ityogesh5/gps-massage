@@ -35,6 +35,7 @@ class _PastReservationsState extends State<PastReservations> {
     borderRadius: BorderRadius.circular(8.0),
     color: Colors.white,
   );
+  int status = 0;
 
   @override
   void initState() {
@@ -55,6 +56,7 @@ class _PastReservationsState extends State<PastReservations> {
         setState(() {
           bookingDetailsList = value.data.bookingDetailsList;
           count = value.data.count;
+          status = 1;
         });
       }
       getSearchResults(bookingDetailsList);
@@ -161,749 +163,759 @@ class _PastReservationsState extends State<PastReservations> {
 
   @override
   Widget build(BuildContext context) {
-    return LazyLoadScrollView(
-      isLoading: isLoading,
-      onEndOfPage: () => _getMoreDataByType(),
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Container(
-                  // height: MediaQuery.of(context).size.height * 0.40,
-                  width: MediaQuery.of(context).size.width * 0.95,
-                  child: GestureDetector(
-                    onTap: () {
-                      NavigationRouter
-                          .switchToServiceUserBookingDetailsCompletedScreen(
-                              context);
-                    },
-                    child: ListView.builder(
-                        shrinkWrap: true,
-                        // scrollDirection: Axis.horizontal,
-                        physics: BouncingScrollPhysics(),
-                        itemCount: bookingDetailsList.length,
-                        itemBuilder: (context, index) {
-                          DateTime startTime = bookingDetailsList[index]
-                                      .newStartTime !=
-                                  null
-                              ? DateTime.parse(
-                                      bookingDetailsList[index].newStartTime)
-                                  .toLocal()
-                              : bookingDetailsList[index].startTime.toLocal();
-                          DateTime endTime =
-                              bookingDetailsList[index].newEndTime != null
-                                  ? DateTime.parse(
-                                          bookingDetailsList[index].newEndTime)
-                                      .toLocal()
-                                  : bookingDetailsList[index].endTime.toLocal();
-                          String date = DateFormat('MM月d').format(startTime);
-                          String sTime = DateFormat('kk:mm').format(startTime);
-                          String eTime = DateFormat('kk:mm').format(endTime);
-                          String jaName =
-                              DateFormat('EEEE', 'ja_JP').format(startTime);
-                          return Container(
-                            // height: MediaQuery.of(context).size.height * 0.22,
-                            width: MediaQuery.of(context).size.width * 0.90,
-                            child: WidgetAnimator(
-                              new Card(
-                                color: Colors.grey[200],
-                                semanticContainer: true,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12.0),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10, right: 10, top: 8, bottom: 3),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            child: Column(
-                                              children: [
+    return status == 0
+        ? Center(child: CircularProgressIndicator())
+        : LazyLoadScrollView(
+            isLoading: isLoading,
+            onEndOfPage: () => _getMoreDataByType(),
+            child: Scaffold(
+              backgroundColor: Colors.white,
+              body: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Container(
+                        // height: MediaQuery.of(context).size.height * 0.40,
+                        width: MediaQuery.of(context).size.width * 0.95,
+                        child: GestureDetector(
+                          onTap: () {
+                            NavigationRouter
+                                .switchToServiceUserBookingDetailsCompletedScreen(
+                                    context);
+                          },
+                          child: ListView.builder(
+                              shrinkWrap: true,
+                              // scrollDirection: Axis.horizontal,
+                              physics: BouncingScrollPhysics(),
+                              itemCount: bookingDetailsList.length,
+                              itemBuilder: (context, index) {
+                                DateTime startTime = bookingDetailsList[index]
+                                            .newStartTime !=
+                                        null
+                                    ? DateTime.parse(bookingDetailsList[index]
+                                            .newStartTime)
+                                        .toLocal()
+                                    : bookingDetailsList[index]
+                                        .startTime
+                                        .toLocal();
+                                DateTime endTime =
+                                    bookingDetailsList[index].newEndTime != null
+                                        ? DateTime.parse(
                                                 bookingDetailsList[index]
-                                                            .bookingTherapistId
-                                                            .uploadProfileImgUrl !=
-                                                        null
-                                                    ? CachedNetworkImage(
-                                                        imageUrl: bookingDetailsList[
-                                                                index]
-                                                            .bookingTherapistId
-                                                            .uploadProfileImgUrl,
-                                                        filterQuality:
-                                                            FilterQuality.high,
-                                                        fadeInCurve:
-                                                            Curves.easeInSine,
-                                                        imageBuilder: (context,
-                                                                imageProvider) =>
-                                                            Container(
-                                                          width: 65.0,
-                                                          height: 65.0,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            shape:
-                                                                BoxShape.circle,
-                                                            image: DecorationImage(
-                                                                image:
-                                                                    imageProvider,
-                                                                fit: BoxFit
-                                                                    .cover),
-                                                          ),
-                                                        ),
-                                                        placeholder: (context,
-                                                                url) =>
-                                                            SpinKitDoubleBounce(
-                                                                color: Colors
-                                                                    .lightGreenAccent),
-                                                        errorWidget: (context,
-                                                                url, error) =>
-                                                            Container(
-                                                          width: 56.0,
-                                                          height: 56.0,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            shape:
-                                                                BoxShape.circle,
-                                                            border: Border.all(
-                                                                color: Colors
-                                                                    .black12),
-                                                            image: DecorationImage(
-                                                                image: new AssetImage(
-                                                                    'assets/images_gps/placeholder_image.png'),
-                                                                fit: BoxFit
-                                                                    .cover),
-                                                          ),
-                                                        ),
-                                                      )
-                                                    : CircleAvatar(
-                                                        child: Image.asset(
-                                                          'assets/images_gps/placeholder_image.png',
-                                                          height: 70,
-                                                          color: Colors.black,
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                        radius: 35,
-                                                        backgroundColor:
-                                                            Colors.white,
-                                                      ),
-                                                SizedBox(
-                                                  height: 5,
-                                                ),
-                                                FittedBox(
-                                                  child: bookingDetailsList[
-                                                                  index]
-                                                              .locationDistance !=
-                                                          null
-                                                      ? Text(
-                                                          '${bookingDetailsList[index].locationDistance}km圏内',
-                                                          style: TextStyle(
-                                                            color:
-                                                                Color.fromRGBO(
-                                                                    153,
-                                                                    153,
-                                                                    153,
-                                                                    1),
-                                                          ),
-                                                        )
-                                                      : Text(
-                                                          '0.0km圏内',
-                                                          style: TextStyle(
-                                                            color:
-                                                                Color.fromRGBO(
-                                                                    153,
-                                                                    153,
-                                                                    153,
-                                                                    1),
-                                                          ),
-                                                        ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(width: 10),
-                                          Expanded(
-                                            flex: 4,
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
+                                                    .newEndTime)
+                                            .toLocal()
+                                        : bookingDetailsList[index]
+                                            .endTime
+                                            .toLocal();
+                                String date =
+                                    DateFormat('MM月d').format(startTime);
+                                String sTime =
+                                    DateFormat('kk:mm').format(startTime);
+                                String eTime =
+                                    DateFormat('kk:mm').format(endTime);
+                                String jaName = DateFormat('EEEE', 'ja_JP')
+                                    .format(startTime);
+                                return Container(
+                                  // height: MediaQuery.of(context).size.height * 0.22,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.90,
+                                  child: WidgetAnimator(
+                                    new Card(
+                                      color: Colors.grey[200],
+                                      semanticContainer: true,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(12.0),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10,
+                                            right: 10,
+                                            top: 8,
+                                            bottom: 3),
+                                        child: Column(
+                                          children: [
+                                            Row(
                                               children: [
-                                                Row(
-                                                  children: [
-                                                    bookingDetailsList[index]
-                                                                .bookingTherapistId
-                                                                .storeName !=
-                                                            null
-                                                        ? Text(
-                                                            '${bookingDetailsList[index].bookingTherapistId.storeName}',
-                                                            style: TextStyle(
-                                                                fontSize: 14,
-                                                                color: Color
-                                                                    .fromRGBO(
-                                                                        0,
-                                                                        0,
-                                                                        0,
-                                                                        1),
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                          )
-                                                        : Text(
-                                                            '${bookingDetailsList[index].bookingTherapistId.userName}',
-                                                            style: TextStyle(
-                                                                fontSize: 14,
-                                                                color: Color
-                                                                    .fromRGBO(
-                                                                        0,
-                                                                        0,
-                                                                        0,
-                                                                        1),
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
+                                                Expanded(
+                                                  child: Column(
+                                                    children: [
+                                                      bookingDetailsList[index]
+                                                                  .bookingTherapistId
+                                                                  .uploadProfileImgUrl !=
+                                                              null
+                                                          ? CachedNetworkImage(
+                                                              imageUrl: bookingDetailsList[
+                                                                      index]
+                                                                  .bookingTherapistId
+                                                                  .uploadProfileImgUrl,
+                                                              filterQuality:
+                                                                  FilterQuality
+                                                                      .high,
+                                                              fadeInCurve: Curves
+                                                                  .easeInSine,
+                                                              imageBuilder:
+                                                                  (context,
+                                                                          imageProvider) =>
+                                                                      Container(
+                                                                width: 65.0,
+                                                                height: 65.0,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  shape: BoxShape
+                                                                      .circle,
+                                                                  image: DecorationImage(
+                                                                      image:
+                                                                          imageProvider,
+                                                                      fit: BoxFit
+                                                                          .cover),
+                                                                ),
+                                                              ),
+                                                              placeholder: (context,
+                                                                      url) =>
+                                                                  SpinKitDoubleBounce(
+                                                                      color: Colors
+                                                                          .lightGreenAccent),
+                                                              errorWidget:
+                                                                  (context, url,
+                                                                          error) =>
+                                                                      Container(
+                                                                width: 56.0,
+                                                                height: 56.0,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  shape: BoxShape
+                                                                      .circle,
+                                                                  border: Border.all(
+                                                                      color: Colors
+                                                                          .black12),
+                                                                  image: DecorationImage(
+                                                                      image: new AssetImage(
+                                                                          'assets/images_gps/placeholder_image.png'),
+                                                                      fit: BoxFit
+                                                                          .cover),
+                                                                ),
+                                                              ),
+                                                            )
+                                                          : CircleAvatar(
+                                                              child:
+                                                                  Image.asset(
+                                                                'assets/images_gps/placeholder_image.png',
+                                                                height: 70,
+                                                                color: Colors
+                                                                    .black,
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              ),
+                                                              radius: 35,
+                                                              backgroundColor:
+                                                                  Colors.white,
+                                                            ),
+                                                      SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      FittedBox(
+                                                        child: bookingDetailsList[
+                                                                        index]
+                                                                    .locationDistance !=
+                                                                null
+                                                            ? Text(
+                                                                '${bookingDetailsList[index].locationDistance}km圏内',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          153,
+                                                                          153,
+                                                                          153,
+                                                                          1),
+                                                                ),
+                                                              )
+                                                            : Text(
+                                                                '0.0km圏内',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          153,
+                                                                          153,
+                                                                          153,
+                                                                          1),
+                                                                ),
+                                                              ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(width: 10),
+                                                Expanded(
+                                                  flex: 4,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          bookingDetailsList[
+                                                                          index]
+                                                                      .bookingTherapistId
+                                                                      .storeName !=
+                                                                  null
+                                                              ? Text(
+                                                                  '${bookingDetailsList[index].bookingTherapistId.storeName}',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          14,
+                                                                      color: Color
+                                                                          .fromRGBO(
+                                                                              0,
+                                                                              0,
+                                                                              0,
+                                                                              1),
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                                )
+                                                              : Text(
+                                                                  '${bookingDetailsList[index].bookingTherapistId.userName}',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          14,
+                                                                      color: Color
+                                                                          .fromRGBO(
+                                                                              0,
+                                                                              0,
+                                                                              0,
+                                                                              1),
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                                ),
+                                                          SizedBox(
+                                                            width: 5,
                                                           ),
-                                                    SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    InkWell(
-                                                      onTap: () {},
-                                                      child: Container(
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          gradient: LinearGradient(
-                                                              begin: Alignment
-                                                                  .topCenter,
-                                                              end: Alignment
-                                                                  .bottomCenter,
-                                                              colors: [
-                                                                Colors.white,
-                                                                Colors.white
-                                                              ]),
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          border: Border.all(
-                                                            color: Colors
-                                                                .grey[400],
-                                                          ),
-                                                        ),
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
-                                                          child:
-                                                              SvgPicture.asset(
-                                                            "assets/images_gps/info.svg",
-                                                            height: 10.0,
-                                                            width: 10.0,
-                                                            // key: key,
-                                                            color: Colors.black,
-                                                          ), /* Icon(
+                                                          InkWell(
+                                                            onTap: () {},
+                                                            child: Container(
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                gradient: LinearGradient(
+                                                                    begin: Alignment
+                                                                        .topCenter,
+                                                                    end: Alignment.bottomCenter,
+                                                                    colors: [
+                                                                      Colors
+                                                                          .white,
+                                                                      Colors
+                                                                          .white
+                                                                    ]),
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                                border:
+                                                                    Border.all(
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      400],
+                                                                ),
+                                                              ),
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .all(
+                                                                        8.0),
+                                                                child:
+                                                                    SvgPicture
+                                                                        .asset(
+                                                                  "assets/images_gps/info.svg",
+                                                                  height: 10.0,
+                                                                  width: 10.0,
+                                                                  // key: key,
+                                                                  color: Colors
+                                                                      .black,
+                                                                ), /* Icon(
                                                             Icons
                                                                 .shopping_bag_rounded,
                                                             key: key,
                                                             color: Colors.black ), */
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Spacer(),
+                                                          FavoriteButton(
+                                                              isFavorite:
+                                                                  bookingDetailsList[index]
+                                                                              .favouriteToTherapist ==
+                                                                          1
+                                                                      ? true
+                                                                      : false,
+                                                              iconSize: 40,
+                                                              iconColor:
+                                                                  Colors.red,
+                                                              valueChanged:
+                                                                  (_isFavorite) {
+                                                                print(
+                                                                    'Is Favorite : $_isFavorite');
+                                                              }),
+                                                        ],
+                                                      ),
+                                                      SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      FittedBox(
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            bookingDetailsList[
+                                                                        index]
+                                                                    .bookingTherapistId
+                                                                    .isShop
+                                                                ? Container(
+                                                                    decoration: BoxDecoration(
+                                                                        gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                                                                          Colors
+                                                                              .white,
+                                                                          Colors
+                                                                              .white,
+                                                                        ]),
+                                                                        shape: BoxShape.rectangle,
+                                                                        border: Border.all(
+                                                                          color:
+                                                                              Colors.grey[300],
+                                                                        ),
+                                                                        borderRadius: BorderRadius.circular(5.0),
+                                                                        color: Colors.grey[200]),
+                                                                    padding: EdgeInsets.all(4),
+                                                                    child: Text(
+                                                                      '店舗',
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: Color.fromRGBO(
+                                                                            0,
+                                                                            0,
+                                                                            0,
+                                                                            1),
+                                                                      ),
+                                                                    ))
+                                                                : SizedBox.shrink(),
+                                                            bookingDetailsList[
+                                                                        index]
+                                                                    .bookingTherapistId
+                                                                    .isShop
+                                                                ? SizedBox(
+                                                                    width: 5,
+                                                                  )
+                                                                : SizedBox
+                                                                    .shrink(),
+                                                            bookingDetailsList[
+                                                                        index]
+                                                                    .bookingTherapistId
+                                                                    .businessTrip
+                                                                ? Container(
+                                                                    padding:
+                                                                        EdgeInsets
+                                                                            .all(4),
+                                                                    decoration: BoxDecoration(
+                                                                        gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                                                                          Colors
+                                                                              .white,
+                                                                          Colors
+                                                                              .white,
+                                                                        ]),
+                                                                        shape: BoxShape.rectangle,
+                                                                        border: Border.all(
+                                                                          color:
+                                                                              Colors.grey[300],
+                                                                        ),
+                                                                        borderRadius: BorderRadius.circular(5.0),
+                                                                        color: Colors.grey[200]),
+                                                                    child: Text(
+                                                                      '出張',
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: Color.fromRGBO(
+                                                                            0,
+                                                                            0,
+                                                                            0,
+                                                                            1),
+                                                                      ),
+                                                                    ))
+                                                                : SizedBox.shrink(),
+                                                            bookingDetailsList[
+                                                                        index]
+                                                                    .bookingTherapistId
+                                                                    .businessTrip
+                                                                ? SizedBox(
+                                                                    width: 5,
+                                                                  )
+                                                                : SizedBox
+                                                                    .shrink(),
+                                                            bookingDetailsList[
+                                                                        index]
+                                                                    .bookingTherapistId
+                                                                    .coronaMeasure
+                                                                ? Container(
+                                                                    padding:
+                                                                        EdgeInsets
+                                                                            .all(4),
+                                                                    decoration: BoxDecoration(
+                                                                        gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                                                                          Colors
+                                                                              .white,
+                                                                          Colors
+                                                                              .white,
+                                                                        ]),
+                                                                        shape: BoxShape.rectangle,
+                                                                        border: Border.all(
+                                                                          color:
+                                                                              Colors.grey[300],
+                                                                        ),
+                                                                        borderRadius: BorderRadius.circular(5.0),
+                                                                        color: Colors.grey[200]),
+                                                                    child: Text(
+                                                                      'コロナ対策実施',
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: Color.fromRGBO(
+                                                                            0,
+                                                                            0,
+                                                                            0,
+                                                                            1),
+                                                                      ),
+                                                                    ))
+                                                                : SizedBox.shrink(),
+                                                          ],
                                                         ),
                                                       ),
-                                                    ),
-                                                    Spacer(),
-                                                    FavoriteButton(
-                                                        isFavorite:
-                                                            bookingDetailsList[
-                                                                            index]
-                                                                        .favouriteToTherapist ==
-                                                                    1
-                                                                ? true
-                                                                : false,
-                                                        iconSize: 40,
-                                                        iconColor: Colors.red,
-                                                        valueChanged:
-                                                            (_isFavorite) {
-                                                          print(
-                                                              'Is Favorite : $_isFavorite');
-                                                        }),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                FittedBox(
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      bookingDetailsList[index]
-                                                              .bookingTherapistId
-                                                              .isShop
-                                                          ? Container(
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                      gradient: LinearGradient(
-                                                                          begin: Alignment
-                                                                              .topCenter,
-                                                                          end: Alignment
-                                                                              .bottomCenter,
-                                                                          colors: [
-                                                                            Colors.white,
-                                                                            Colors.white,
-                                                                          ]),
-                                                                      shape: BoxShape
-                                                                          .rectangle,
-                                                                      border:
-                                                                          Border
-                                                                              .all(
-                                                                        color: Colors
-                                                                            .grey[300],
-                                                                      ),
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              5.0),
-                                                                      color: Colors
-                                                                              .grey[
-                                                                          200]),
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .all(4),
-                                                              child: Text(
-                                                                '店舗',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Color
-                                                                      .fromRGBO(
-                                                                          0,
-                                                                          0,
-                                                                          0,
-                                                                          1),
-                                                                ),
-                                                              ))
-                                                          : SizedBox.shrink(),
-                                                      bookingDetailsList[index]
-                                                              .bookingTherapistId
-                                                              .isShop
-                                                          ? SizedBox(
-                                                              width: 5,
-                                                            )
-                                                          : SizedBox.shrink(),
-                                                      bookingDetailsList[index]
-                                                              .bookingTherapistId
-                                                              .businessTrip
-                                                          ? Container(
-                                                              padding:
-                                                                  EdgeInsets.all(
-                                                                      4),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                      gradient: LinearGradient(
-                                                                          begin: Alignment
-                                                                              .topCenter,
-                                                                          end: Alignment
-                                                                              .bottomCenter,
-                                                                          colors: [
-                                                                            Colors.white,
-                                                                            Colors.white,
-                                                                          ]),
-                                                                      shape: BoxShape
-                                                                          .rectangle,
-                                                                      border:
-                                                                          Border
-                                                                              .all(
-                                                                        color: Colors
-                                                                            .grey[300],
-                                                                      ),
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              5.0),
-                                                                      color: Colors
-                                                                              .grey[
-                                                                          200]),
-                                                              child: Text(
-                                                                '出張',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Color
-                                                                      .fromRGBO(
-                                                                          0,
-                                                                          0,
-                                                                          0,
-                                                                          1),
-                                                                ),
-                                                              ))
-                                                          : SizedBox.shrink(),
-                                                      bookingDetailsList[index]
-                                                              .bookingTherapistId
-                                                              .businessTrip
-                                                          ? SizedBox(
-                                                              width: 5,
-                                                            )
-                                                          : SizedBox.shrink(),
-                                                      bookingDetailsList[index]
-                                                              .bookingTherapistId
-                                                              .coronaMeasure
-                                                          ? Container(
-                                                              padding:
-                                                                  EdgeInsets.all(
-                                                                      4),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                      gradient: LinearGradient(
-                                                                          begin: Alignment
-                                                                              .topCenter,
-                                                                          end: Alignment
-                                                                              .bottomCenter,
-                                                                          colors: [
-                                                                            Colors.white,
-                                                                            Colors.white,
-                                                                          ]),
-                                                                      shape: BoxShape
-                                                                          .rectangle,
-                                                                      border:
-                                                                          Border
-                                                                              .all(
-                                                                        color: Colors
-                                                                            .grey[300],
-                                                                      ),
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              5.0),
-                                                                      color: Colors
-                                                                              .grey[
-                                                                          200]),
-                                                              child: Text(
-                                                                'コロナ対策実施',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Color
-                                                                      .fromRGBO(
-                                                                          0,
-                                                                          0,
-                                                                          0,
-                                                                          1),
-                                                                ),
-                                                              ))
-                                                          : SizedBox.shrink(),
-                                                    ],
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                certificateUploadList[index]
-                                                                .length !=
-                                                            0 &&
-                                                        certificateUploadList[
-                                                                    index]
-                                                                .keys
-                                                                .elementAt(0) !=
-                                                            "無資格"
-                                                    ? Container(
-                                                        height: 38.0,
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                top: 5.0),
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width -
-                                                            130.0, //200.0,
-                                                        child: ListView.builder(
-                                                            shrinkWrap: true,
-                                                            scrollDirection:
-                                                                Axis.horizontal,
-                                                            itemCount:
-                                                                certificateUploadList[
-                                                                        index]
-                                                                    .length,
-                                                            itemBuilder:
-                                                                (context,
-                                                                    subindex) {
-                                                              String key =
-                                                                  certificateUploadList[
+                                                      SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      certificateUploadList[
+                                                                          index]
+                                                                      .length !=
+                                                                  0 &&
+                                                              certificateUploadList[
                                                                           index]
                                                                       .keys
                                                                       .elementAt(
-                                                                          subindex);
-                                                              return WidgetAnimator(
-                                                                Wrap(
-                                                                  children: [
-                                                                    Padding(
-                                                                      padding: index ==
-                                                                              0
-                                                                          ? const EdgeInsets.only(
-                                                                              left: 0.0,
-                                                                              top: 4.0,
-                                                                              right: 4.0,
-                                                                              bottom: 4.0)
-                                                                          : const EdgeInsets.all(4.0),
-                                                                      child:
-                                                                          Container(
-                                                                        padding:
-                                                                            EdgeInsets.all(5),
-                                                                        decoration:
-                                                                            boxDecoration,
-                                                                        child:
-                                                                            Text(
-                                                                          key, //Qualififcation
-                                                                          style:
-                                                                              TextStyle(
-                                                                            fontSize:
-                                                                                14,
-                                                                            color:
-                                                                                Colors.black,
+                                                                          0) !=
+                                                                  "無資格"
+                                                          ? Container(
+                                                              height: 38.0,
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 5.0),
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width -
+                                                                  130.0, //200.0,
+                                                              child: ListView
+                                                                  .builder(
+                                                                      shrinkWrap:
+                                                                          true,
+                                                                      scrollDirection:
+                                                                          Axis
+                                                                              .horizontal,
+                                                                      itemCount:
+                                                                          certificateUploadList[index]
+                                                                              .length,
+                                                                      itemBuilder:
+                                                                          (context,
+                                                                              subindex) {
+                                                                        String key = certificateUploadList[index]
+                                                                            .keys
+                                                                            .elementAt(subindex);
+                                                                        return WidgetAnimator(
+                                                                          Wrap(
+                                                                            children: [
+                                                                              Padding(
+                                                                                padding: index == 0 ? const EdgeInsets.only(left: 0.0, top: 4.0, right: 4.0, bottom: 4.0) : const EdgeInsets.all(4.0),
+                                                                                child: Container(
+                                                                                  padding: EdgeInsets.all(5),
+                                                                                  decoration: boxDecoration,
+                                                                                  child: Text(
+                                                                                    key, //Qualififcation
+                                                                                    style: TextStyle(
+                                                                                      fontSize: 14,
+                                                                                      color: Colors.black,
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ],
                                                                           ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              );
-                                                            }),
-                                                      )
-                                                    : Container(),
+                                                                        );
+                                                                      }),
+                                                            )
+                                                          : Container(),
+                                                    ],
+                                                  ),
+                                                ),
                                               ],
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Divider(
-                                        color: Color.fromRGBO(217, 217, 217, 1),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images_gps/calendar.svg',
-                                              color: Color.fromRGBO(0, 0, 0, 1),
-                                              height: 20,
-                                              width: 20),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                            '${date}',
-                                            style: TextStyle(
-                                                color:
-                                                    Color.fromRGBO(0, 0, 0, 1),
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                            '${jaName}',
-                                            style: TextStyle(
-                                              color: Color.fromRGBO(
-                                                  102, 102, 102, 1),
+                                            SizedBox(
+                                              height: 10,
                                             ),
-                                          )
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images_gps/clock.svg',
-                                              color: Color.fromRGBO(0, 0, 0, 1),
-                                              height: 20,
-                                              width: 20),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                            '${sTime}~${eTime}',
-                                            style: TextStyle(
-                                                color:
-                                                    Color.fromRGBO(0, 0, 0, 1),
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                            '${bookingDetailsList[index].totalMinOfService}分',
-                                            style: TextStyle(
+                                            Divider(
                                               color: Color.fromRGBO(
-                                                  102, 102, 102, 1),
+                                                  217, 217, 217, 1),
                                             ),
-                                          )
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images_gps/cost.svg',
-                                              color: Color.fromRGBO(0, 0, 0, 1),
-                                              height: 20,
-                                              width: 20),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Container(
-                                              padding: EdgeInsets.all(4),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  border: Border.all(
-                                                    color: Colors.transparent,
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(12))),
-                                              child: Text(
-                                                '${bookingDetailsList[index].nameOfService}',
-                                                style: TextStyle(
-                                                  color: Color.fromRGBO(
-                                                      0, 0, 0, 1),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Row(
+                                              children: [
+                                                SvgPicture.asset(
+                                                    'assets/images_gps/calendar.svg',
+                                                    color: Color.fromRGBO(
+                                                        0, 0, 0, 1),
+                                                    height: 20,
+                                                    width: 20),
+                                                SizedBox(
+                                                  width: 5,
                                                 ),
-                                              )),
-                                          SizedBox(
-                                            width: 7,
-                                          ),
-                                          Text(
-                                            '¥${bookingDetailsList[index].totalCost}',
-                                            style: TextStyle(
-                                                color:
-                                                    Color.fromRGBO(0, 0, 0, 1),
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          SizedBox(
-                                            width: 8,
-                                          ),
-                                          bookingDetailsList[index]
-                                                      .addedPrice !=
-                                                  null
-                                              ? Text(
-                                                  '(${bookingDetailsList[index].addedPrice})',
+                                                Text(
+                                                  '${date}',
+                                                  style: TextStyle(
+                                                      color: Color.fromRGBO(
+                                                          0, 0, 0, 1),
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(
+                                                  '${jaName}',
                                                   style: TextStyle(
                                                     color: Color.fromRGBO(
-                                                        153, 153, 153, 1),
+                                                        102, 102, 102, 1),
                                                   ),
                                                 )
-                                              : SizedBox.shrink(),
-                                        ],
-                                      ),
-                                      Row(children: <Widget>[
-                                        Expanded(
-                                          child: Divider(
-                                            // height: 50,
-
-                                            color: Color.fromRGBO(
-                                                217, 217, 217, 1),
-                                          ),
-                                        ),
-                                        InkWell(
-                                          onTap: () {
-                                            NavigationRouter
-                                                .switchToServiceUserRatingsAndReviewScreen(
-                                                    context);
-                                            print(accessToken);
-                                          },
-                                          child: Card(
-                                            elevation: 3,
-                                            shape: CircleBorder(),
-                                            child: CircleAvatar(
-                                                maxRadius: 20,
-                                                backgroundColor: Color.fromRGBO(
-                                                    253, 253, 253, 1),
-                                                child: SvgPicture.asset(
-                                                    'assets/images_gps/give_rating.svg',
-                                                    height: 20,
-                                                    width: 20)),
-                                          ),
-                                        ),
-                                      ]),
-                                      Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images_gps/gps.svg',
-                                              color: Color.fromRGBO(0, 0, 0, 1),
-                                              height: 20,
-                                              width: 20),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                            '施術を受ける場所',
-                                            style: TextStyle(
-                                                color:
-                                                    Color.fromRGBO(0, 0, 0, 1),
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Container(
-                                              decoration: BoxDecoration(
-                                                  gradient: LinearGradient(
-                                                      begin:
-                                                          Alignment.topCenter,
-                                                      end: Alignment
-                                                          .bottomCenter,
-                                                      colors: [
-                                                        Color.fromRGBO(
-                                                            255, 255, 255, 1),
-                                                        Color.fromRGBO(
-                                                            255, 255, 255, 1),
-                                                      ]),
-                                                  shape: BoxShape.rectangle,
-                                                  border: Border.all(
-                                                    color: Colors.grey[300],
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          5.0),
-                                                  color: Colors.grey[200]),
-                                              padding: EdgeInsets.all(4),
-                                              child: Text(
-                                                '${bookingDetailsList[index].locationType}',
-                                                style: TextStyle(
-                                                  color: Color.fromRGBO(
-                                                      0, 0, 0, 1),
-                                                ),
-                                              )),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                            '${bookingDetailsList[index].location}',
-                                            style: TextStyle(
-                                              color: Color.fromRGBO(
-                                                  102, 102, 102, 1),
+                                              ],
                                             ),
-                                          ),
-                                        ],
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Row(
+                                              children: [
+                                                SvgPicture.asset(
+                                                    'assets/images_gps/clock.svg',
+                                                    color: Color.fromRGBO(
+                                                        0, 0, 0, 1),
+                                                    height: 20,
+                                                    width: 20),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(
+                                                  '${sTime}~${eTime}',
+                                                  style: TextStyle(
+                                                      color: Color.fromRGBO(
+                                                          0, 0, 0, 1),
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(
+                                                  '${bookingDetailsList[index].totalMinOfService}分',
+                                                  style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        102, 102, 102, 1),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Row(
+                                              children: [
+                                                SvgPicture.asset(
+                                                    'assets/images_gps/cost.svg',
+                                                    color: Color.fromRGBO(
+                                                        0, 0, 0, 1),
+                                                    height: 20,
+                                                    width: 20),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Container(
+                                                    padding: EdgeInsets.all(4),
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        border: Border.all(
+                                                          color: Colors
+                                                              .transparent,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    12))),
+                                                    child: Text(
+                                                      '${bookingDetailsList[index].nameOfService}',
+                                                      style: TextStyle(
+                                                        color: Color.fromRGBO(
+                                                            0, 0, 0, 1),
+                                                      ),
+                                                    )),
+                                                SizedBox(
+                                                  width: 7,
+                                                ),
+                                                Text(
+                                                  '¥${bookingDetailsList[index].totalCost}',
+                                                  style: TextStyle(
+                                                      color: Color.fromRGBO(
+                                                          0, 0, 0, 1),
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                SizedBox(
+                                                  width: 8,
+                                                ),
+                                                bookingDetailsList[index]
+                                                            .addedPrice !=
+                                                        null
+                                                    ? Text(
+                                                        '(${bookingDetailsList[index].addedPrice})',
+                                                        style: TextStyle(
+                                                          color: Color.fromRGBO(
+                                                              153, 153, 153, 1),
+                                                        ),
+                                                      )
+                                                    : SizedBox.shrink(),
+                                              ],
+                                            ),
+                                            Row(children: <Widget>[
+                                              Expanded(
+                                                child: Divider(
+                                                  // height: 50,
+
+                                                  color: Color.fromRGBO(
+                                                      217, 217, 217, 1),
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  NavigationRouter
+                                                      .switchToServiceUserRatingsAndReviewScreen(
+                                                          context);
+                                                  print(accessToken);
+                                                },
+                                                child: Card(
+                                                  elevation: 3,
+                                                  shape: CircleBorder(),
+                                                  child: CircleAvatar(
+                                                      maxRadius: 20,
+                                                      backgroundColor:
+                                                          Color.fromRGBO(
+                                                              253, 253, 253, 1),
+                                                      child: SvgPicture.asset(
+                                                          'assets/images_gps/give_rating.svg',
+                                                          height: 20,
+                                                          width: 20)),
+                                                ),
+                                              ),
+                                            ]),
+                                            Row(
+                                              children: [
+                                                SvgPicture.asset(
+                                                    'assets/images_gps/gps.svg',
+                                                    color: Color.fromRGBO(
+                                                        0, 0, 0, 1),
+                                                    height: 20,
+                                                    width: 20),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(
+                                                  '施術を受ける場所',
+                                                  style: TextStyle(
+                                                      color: Color.fromRGBO(
+                                                          0, 0, 0, 1),
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Container(
+                                                    decoration: BoxDecoration(
+                                                        gradient: LinearGradient(
+                                                            begin: Alignment
+                                                                .topCenter,
+                                                            end: Alignment
+                                                                .bottomCenter,
+                                                            colors: [
+                                                              Color.fromRGBO(
+                                                                  255,
+                                                                  255,
+                                                                  255,
+                                                                  1),
+                                                              Color.fromRGBO(
+                                                                  255,
+                                                                  255,
+                                                                  255,
+                                                                  1),
+                                                            ]),
+                                                        shape:
+                                                            BoxShape.rectangle,
+                                                        border: Border.all(
+                                                          color:
+                                                              Colors.grey[300],
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5.0),
+                                                        color:
+                                                            Colors.grey[200]),
+                                                    padding: EdgeInsets.all(4),
+                                                    child: Text(
+                                                      '${bookingDetailsList[index].locationType}',
+                                                      style: TextStyle(
+                                                        color: Color.fromRGBO(
+                                                            0, 0, 0, 1),
+                                                      ),
+                                                    )),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(
+                                                  '${bookingDetailsList[index].location}',
+                                                  style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        102, 102, 102, 1),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ],
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ),
-                          );
-                        }),
+                                );
+                              }),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
-    );
+          );
   }
 
 /*getId() async {

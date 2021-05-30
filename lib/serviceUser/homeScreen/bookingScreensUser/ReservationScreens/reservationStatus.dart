@@ -435,6 +435,20 @@ class _ReservationStatusState extends State<ReservationStatus> {
                             physics: BouncingScrollPhysics(),
                             itemCount: waitingForApprovalList.length,
                             itemBuilder: (context, index) {
+                              DateTime startTime = DateTime.parse(
+                                      waitingForApprovalList[index].startTime)
+                                  .toLocal();
+                              DateTime endTime = DateTime.parse(
+                                      waitingForApprovalList[index].endTime)
+                                  .toLocal();
+                              String date =
+                                  DateFormat('MM月d').format(startTime);
+                              String sTime =
+                                  DateFormat('kk:mm').format(startTime);
+                              String eTime =
+                                  DateFormat('kk:mm').format(endTime);
+                              String jaName =
+                                  DateFormat('EEEE', 'ja_JP').format(startTime);
                               return Container(
                                 // height: MediaQuery.of(context).size.height * 0.32,
                                 width: MediaQuery.of(context).size.width * 0.90,
@@ -664,6 +678,11 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                               ),
                                                               Spacer(),
                                                               FavoriteButton(
+                                                                  isFavorite:
+                                                                      waitingForApprovalList[index].favouriteToTherapist ==
+                                                                              1
+                                                                          ? true
+                                                                          : false,
                                                                   iconSize: 40,
                                                                   iconColor:
                                                                       Colors
@@ -803,7 +822,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                             child: Row(
                                                               children: [
                                                                 Text(
-                                                                  '(${ratingsValue.toString()})',
+                                                                  '(${waitingForApprovalList[index].ratingAvg})',
                                                                   style:
                                                                       TextStyle(
                                                                     color: Color
@@ -817,7 +836,9 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                 RatingBar
                                                                     .builder(
                                                                   initialRating:
-                                                                      3,
+                                                                      double.parse(
+                                                                          waitingForApprovalList[index]
+                                                                              .ratingAvg),
                                                                   minRating: 1,
                                                                   direction: Axis
                                                                       .horizontal,
@@ -857,7 +878,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                   },
                                                                 ),
                                                                 Text(
-                                                                  '(1518)',
+                                                                  '(${waitingForApprovalList[index].noOfReviewsMembers})',
                                                                   style:
                                                                       TextStyle(
                                                                     color: Color
@@ -959,7 +980,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                     width: 7,
                                                   ),
                                                   Text(
-                                                    '埼玉県浦和区高砂4丁目4',
+                                                    '施術を受ける場所',
                                                     style: TextStyle(
                                                         color: Color.fromRGBO(
                                                             0, 0, 0, 1),
@@ -1044,7 +1065,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                   ),
                                                   FittedBox(
                                                     child: Text(
-                                                      '予約日時：${waitingForApprovalList[index].monthOfBooking}月',
+                                                      '予約日時：${date}',
                                                       style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
@@ -1058,7 +1079,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                   ),
                                                   FittedBox(
                                                       child: Text(
-                                                    '予約日時：${waitingForApprovalList[index].startTime}~予約日時：${waitingForApprovalList[index].endTime}',
+                                                    '${sTime}~${eTime}',
                                                     style: TextStyle(
                                                       color: Color.fromRGBO(
                                                           102, 102, 102, 1),
@@ -1083,7 +1104,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                       height: 10,
                     )
                   : SizedBox.shrink(),
-              approvedWithConditionsList.length != null
+              approvedWithConditionsList.length != 0
                   ? Text(
                       'セラピストから追加の要望があった予約',
                       style: TextStyle(
@@ -1092,12 +1113,12 @@ class _ReservationStatusState extends State<ReservationStatus> {
                       ),
                     )
                   : SizedBox.shrink(),
-              approvedWithConditionsList.length != null
+              approvedWithConditionsList.length != 0
                   ? SizedBox(
                       height: 10,
                     )
                   : SizedBox.shrink(),
-              approvedWithConditionsList.length != null
+              approvedWithConditionsList.length != 0
                   ? Container(
                       // height: MediaQuery.of(context).size.height *
                       height: 274,
@@ -1138,6 +1159,14 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               approvedWithConditionsList[index]
                                                   .endTime)
                                           .toLocal();
+                              String date =
+                                  DateFormat('MM月d').format(startTime);
+                              String sTime =
+                                  DateFormat('kk:mm').format(startTime);
+                              String eTime =
+                                  DateFormat('kk:mm').format(endTime);
+                              String jaName =
+                                  DateFormat('EEEE', 'ja_JP').format(startTime);
                               return Container(
                                 // height: MediaQuery.of(context).size.height * 0.22,
                                 width: MediaQuery.of(context).size.width * 0.90,
@@ -1365,6 +1394,11 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                             ),
                                                             Spacer(),
                                                             FavoriteButton(
+                                                                isFavorite:
+                                                                    approvedWithConditionsList[index].favouriteToTherapist ==
+                                                                            1
+                                                                        ? true
+                                                                        : false,
                                                                 iconSize: 40,
                                                                 iconColor:
                                                                     Colors.red,
@@ -1493,7 +1527,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                         Row(
                                                           children: [
                                                             Text(
-                                                              '(${ratingsValue.toString()})',
+                                                              '(${approvedWithConditionsList[index].ratingAvg})',
                                                               style: TextStyle(
                                                                 color: Color
                                                                     .fromRGBO(
@@ -1504,7 +1538,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                               ),
                                                             ),
                                                             RatingBar.builder(
-                                                              initialRating: 3,
+                                                              initialRating: double.parse(
+                                                                  approvedWithConditionsList[
+                                                                          index]
+                                                                      .ratingAvg),
                                                               minRating: 1,
                                                               direction: Axis
                                                                   .horizontal,
@@ -1543,7 +1580,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                               },
                                                             ),
                                                             Text(
-                                                              '(1518)',
+                                                              '(${approvedWithConditionsList[index].noOfReviewsMembers})',
                                                               style: TextStyle(
                                                                 color: Color
                                                                     .fromRGBO(
@@ -1769,7 +1806,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                     width: 5,
                                                   ),
                                                   Text(
-                                                    '予約日時：${approvedWithConditionsList[index].monthOfBooking}月17',
+                                                    '予約日時：${date}',
                                                     style: TextStyle(
                                                         color: Color.fromRGBO(
                                                             0, 0, 0, 1),
@@ -1780,7 +1817,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                     width: 8,
                                                   ),
                                                   Text(
-                                                    '${startTime}~${endTime}',
+                                                    '${sTime}~${eTime}',
                                                     style: TextStyle(
                                                         color: Color.fromRGBO(
                                                             102, 102, 102, 1),
@@ -1801,23 +1838,25 @@ class _ReservationStatusState extends State<ReservationStatus> {
                       ),
                     )
                   : SizedBox.shrink(),
-              approvedWithConditionsList.length != null
+              approvedWithConditionsList.length != 0
                   ? SizedBox(
                       height: 10,
                     )
                   : SizedBox.shrink(),
-              Text(
-                'セラビストから承認された予約',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromRGBO(0, 0, 0, 1)),
-              ),
-              approvedList.length != null
+              approvedList.length != 0
+                  ? Text(
+                      'セラビストから承認された予約',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromRGBO(0, 0, 0, 1)),
+                    )
+                  : SizedBox.shrink(),
+              approvedList.length != 0
                   ? SizedBox(
                       height: 10,
                     )
                   : SizedBox.shrink(),
-              approvedList.length != null
+              approvedList.length != 0
                   ? Container(
                       // height: MediaQuery.of(context).size.height * 0.39,
                       height: 274,
@@ -1850,6 +1889,14 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                       .toLocal()
                                   : DateTime.parse(approvedList[index].endTime)
                                       .toLocal();
+                              String date =
+                                  DateFormat('MM月d').format(startTime);
+                              String sTime =
+                                  DateFormat('kk:mm').format(startTime);
+                              String eTime =
+                                  DateFormat('kk:mm').format(endTime);
+                              String jaName =
+                                  DateFormat('EEEE', 'ja_JP').format(startTime);
                               return Container(
                                 // height: MediaQuery.of(context).size.height * 0.22,
                                 width: MediaQuery.of(context).size.width * 0.90,
@@ -2070,6 +2117,11 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                             ),
                                                             Spacer(),
                                                             FavoriteButton(
+                                                                isFavorite:
+                                                                    approvedList[index].favouriteToTherapist ==
+                                                                            1
+                                                                        ? true
+                                                                        : false,
                                                                 iconSize: 40,
                                                                 iconColor:
                                                                     Colors.red,
@@ -2210,7 +2262,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                         Row(
                                                           children: [
                                                             Text(
-                                                              '(${ratingsValue.toString()})',
+                                                              '(${approvedList[index].ratingAvg})',
                                                               style: TextStyle(
                                                                 color: Color
                                                                     .fromRGBO(
@@ -2221,7 +2273,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                               ),
                                                             ),
                                                             RatingBar.builder(
-                                                              initialRating: 3,
+                                                              initialRating: double
+                                                                  .parse(approvedList[
+                                                                          index]
+                                                                      .ratingAvg),
                                                               minRating: 1,
                                                               direction: Axis
                                                                   .horizontal,
@@ -2260,7 +2315,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                               },
                                                             ),
                                                             Text(
-                                                              '(1518)',
+                                                              '(${approvedList[index].noOfReviewsMembers})',
                                                               style: TextStyle(
                                                                 color: Color
                                                                     .fromRGBO(
@@ -2518,7 +2573,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                     width: 5,
                                                   ),
                                                   Text(
-                                                    '予約日時：${approvedList[index].monthOfBooking}月17',
+                                                    '予約日時：${date}',
                                                     style: TextStyle(
                                                         color: Color.fromRGBO(
                                                             0, 0, 0, 1),
@@ -2529,7 +2584,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                     width: 8,
                                                   ),
                                                   Text(
-                                                    '${startTime}~${endTime}',
+                                                    '${sTime}~${eTime}',
                                                     style: TextStyle(
                                                       color: Color.fromRGBO(
                                                           102, 102, 102, 1),
@@ -2549,12 +2604,12 @@ class _ReservationStatusState extends State<ReservationStatus> {
                       ),
                     )
                   : SizedBox.shrink(),
-              confirmedPaymentList.length != null
+              confirmedPaymentList.length != 0
                   ? SizedBox(
                       height: 10,
                     )
                   : SizedBox.shrink(),
-              confirmedPaymentList.length != null
+              confirmedPaymentList.length != 0
                   ? Text(
                       '確定した予約（支払い完了）',
                       style: TextStyle(
@@ -2563,12 +2618,12 @@ class _ReservationStatusState extends State<ReservationStatus> {
                       ),
                     )
                   : SizedBox.shrink(),
-              confirmedPaymentList.length != null
+              confirmedPaymentList.length != 0
                   ? SizedBox(
                       height: 10,
                     )
                   : SizedBox.shrink(),
-              confirmedPaymentList.length != null
+              confirmedPaymentList.length != 0
                   ? Container(
                       // height: MediaQuery.of(context).size.height * 0.39,
                       height: 274,
@@ -2604,6 +2659,14 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               confirmedPaymentList[index]
                                                   .endTime)
                                           .toLocal();
+                              String date =
+                                  DateFormat('MM月d').format(startTime);
+                              String sTime =
+                                  DateFormat('kk:mm').format(startTime);
+                              String eTime =
+                                  DateFormat('kk:mm').format(endTime);
+                              String jaName =
+                                  DateFormat('EEEE', 'ja_JP').format(startTime);
                               return Container(
                                 // height: MediaQuery.of(context).size.height * 0.22,
                                 width: MediaQuery.of(context).size.width * 0.90,
@@ -2816,6 +2879,12 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                         ),
                                                         Spacer(),
                                                         FavoriteButton(
+                                                            isFavorite:
+                                                                confirmedPaymentList[index]
+                                                                            .favouriteToTherapist ==
+                                                                        1
+                                                                    ? true
+                                                                    : false,
                                                             iconSize: 40,
                                                             iconColor:
                                                                 Colors.red,
@@ -3025,7 +3094,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                 ),
                                                               ),
                                                         RatingBar.builder(
-                                                          initialRating: 3,
+                                                          initialRating: double.parse(
+                                                              confirmedPaymentList[
+                                                                      index]
+                                                                  .ratingAvg),
                                                           minRating: 1,
                                                           direction:
                                                               Axis.horizontal,
@@ -3293,7 +3365,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 width: 5,
                                               ),
                                               Text(
-                                                '予約日時：${confirmedPaymentList[index].monthOfBooking}月17',
+                                                '予約日時：${date}',
                                                 style: TextStyle(
                                                     color: Color.fromRGBO(
                                                         102, 102, 102, 1),
@@ -3304,7 +3376,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 width: 8,
                                               ),
                                               Text(
-                                                '${startTime}~${endTime}',
+                                                '${sTime}~${eTime}',
                                                 style: TextStyle(
                                                   color: Color.fromRGBO(
                                                       0, 0, 0, 1),
@@ -3322,12 +3394,12 @@ class _ReservationStatusState extends State<ReservationStatus> {
                       ),
                     )
                   : SizedBox.shrink(),
-              CanceledReservationList.length != null
+              CanceledReservationList.length != 0
                   ? SizedBox(
                       height: 10,
                     )
                   : SizedBox.shrink(),
-              CanceledReservationList.length != null
+              CanceledReservationList.length != 0
                   ? Text(
                       'キャンセルされた予約',
                       style: TextStyle(
@@ -3336,12 +3408,12 @@ class _ReservationStatusState extends State<ReservationStatus> {
                       ),
                     )
                   : SizedBox.shrink(),
-              CanceledReservationList.length != null
+              CanceledReservationList.length != 0
                   ? SizedBox(
                       height: 10,
                     )
                   : SizedBox.shrink(),
-              CanceledReservationList.length != null
+              CanceledReservationList.length != 0
                   ? Container(
                       // height: MediaQuery.of(context).size.height * 0.35,
                       height: 255,
@@ -3601,6 +3673,12 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                         ),
                                                         Spacer(),
                                                         FavoriteButton(
+                                                            isFavorite:
+                                                                CanceledReservationList[index]
+                                                                            .favouriteToTherapist ==
+                                                                        1
+                                                                    ? true
+                                                                    : false,
                                                             iconSize: 40,
                                                             iconColor:
                                                                 Colors.red,
@@ -3810,7 +3888,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                 ),
                                                               ),
                                                         RatingBar.builder(
-                                                          initialRating: 3,
+                                                          initialRating:
+                                                          double.parse (   CanceledReservationList[
+                                                                      index]
+                                                                  .ratingAvg),
                                                           minRating: 1,
                                                           direction:
                                                               Axis.horizontal,

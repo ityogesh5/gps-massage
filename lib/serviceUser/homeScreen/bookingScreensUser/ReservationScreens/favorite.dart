@@ -825,7 +825,7 @@ class _FavoriteState extends State<Favorite> {
                 if (this.mounted) {
                   favouriteUserList.addAll(value.data.favouriteUserList);
                 }
-                getSearchResults(favouriteUserList);
+                getSearchResults(value.data.favouriteUserList);
               });
             }
           });
