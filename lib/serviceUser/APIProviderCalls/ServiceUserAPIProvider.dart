@@ -301,7 +301,8 @@ class ServiceUserAPIProvider {
       final response = await http.post(url,
           headers: headers,
           body: json.encode({
-            "therapist_id": userID,
+            "therapistId": userID,
+            "userId": 233,
           }));
       final getTherapistDetails = json.decode(response.body);
       print('Therapist Details Response : ${response.body}');

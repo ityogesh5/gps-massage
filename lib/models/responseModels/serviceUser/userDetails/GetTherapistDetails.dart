@@ -15,6 +15,7 @@ class TherapistByIdModel {
     this.status,
     this.data,
     this.reviewData,
+    this.favouriteDataResponse,
     this.therapistEstheticList,
     this.therapistFitnessListList,
     this.therapistOrteopathicList,
@@ -26,6 +27,7 @@ class TherapistByIdModel {
   String status;
   Data data;
   ReviewData reviewData;
+  FavouriteDataResponse favouriteDataResponse;
   List<TherapistList> therapistEstheticList;
   List<TherapistList> therapistFitnessListList;
   List<TherapistList> therapistOrteopathicList;
@@ -38,6 +40,8 @@ class TherapistByIdModel {
         status: json["status"],
         data: Data.fromJson(json["data"]),
         reviewData: ReviewData.fromJson(json["ReviewData"]),
+        favouriteDataResponse:
+            FavouriteDataResponse.fromJson(json["favouriteDataResponse"]),
         therapistEstheticList: List<TherapistList>.from(
             json["therapistEstheticList"]
                 .map((x) => TherapistList.fromJson(x))),
@@ -62,6 +66,7 @@ class TherapistByIdModel {
         "status": status,
         "data": data.toJson(),
         "ReviewData": reviewData.toJson(),
+        "favouriteDataResponse": favouriteDataResponse.toJson(),
         "therapistEstheticList":
             List<dynamic>.from(therapistEstheticList.map((x) => x.toJson())),
         "therapistFitnessListList":
@@ -77,12 +82,179 @@ class TherapistByIdModel {
       };
 }
 
+class BookingDataResponse {
+  BookingDataResponse({
+    this.id,
+    this.userId,
+    this.therapistId,
+    this.eventId,
+    this.startTime,
+    this.endTime,
+    this.monthOfBooking,
+    this.yearOfBooking,
+    this.newStartTime,
+    this.newEndTime,
+    this.paymentId,
+    this.paymentStatus,
+    this.paymentRefId,
+    this.subCategoryId,
+    this.categoryId,
+    this.nameOfService,
+    this.totalMinOfService,
+    this.priceOfService,
+    this.addedPrice,
+    this.bookingStatus,
+    this.statusUpdatedAt,
+    this.travelAmount,
+    this.locationType,
+    this.location,
+    this.locationDistance,
+    this.totalCost,
+    this.userReviewStatus,
+    this.therapistReviewStatus,
+    this.therapistComments,
+    this.userComments,
+    this.cancellationReason,
+    this.cancellationFee,
+    this.cancelledUserId,
+    this.orderCompletion,
+    this.createdUser,
+    this.updatedUser,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  int id;
+  int userId;
+  int therapistId;
+  dynamic eventId;
+  DateTime startTime;
+  DateTime endTime;
+  String monthOfBooking;
+  String yearOfBooking;
+  dynamic newStartTime;
+  dynamic newEndTime;
+  dynamic paymentId;
+  int paymentStatus;
+  dynamic paymentRefId;
+  int subCategoryId;
+  int categoryId;
+  String nameOfService;
+  int totalMinOfService;
+  int priceOfService;
+  dynamic addedPrice;
+  int bookingStatus;
+  DateTime statusUpdatedAt;
+  dynamic travelAmount;
+  String locationType;
+  String location;
+  dynamic locationDistance;
+  int totalCost;
+  int userReviewStatus;
+  dynamic therapistReviewStatus;
+  dynamic therapistComments;
+  dynamic userComments;
+  dynamic cancellationReason;
+  dynamic cancellationFee;
+  dynamic cancelledUserId;
+  dynamic orderCompletion;
+  String createdUser;
+  String updatedUser;
+  DateTime createdAt;
+  DateTime updatedAt;
+
+  factory BookingDataResponse.fromJson(Map<String, dynamic> json) =>
+      BookingDataResponse(
+        id: json["id"],
+        userId: json["userId"],
+        therapistId: json["therapistId"],
+        eventId: json["eventId"],
+        startTime: DateTime.parse(json["startTime"]),
+        endTime: DateTime.parse(json["endTime"]),
+        monthOfBooking: json["monthOfBooking"],
+        yearOfBooking: json["yearOfBooking"],
+        newStartTime: json["newStartTime"],
+        newEndTime: json["newEndTime"],
+        paymentId: json["paymentId"],
+        paymentStatus: json["paymentStatus"],
+        paymentRefId: json["paymentRefId"],
+        subCategoryId: json["subCategoryId"],
+        categoryId: json["categoryId"],
+        nameOfService: json["nameOfService"],
+        totalMinOfService: json["totalMinOfService"],
+        priceOfService: json["priceOfService"],
+        addedPrice: json["addedPrice"],
+        bookingStatus: json["bookingStatus"],
+        statusUpdatedAt: DateTime.parse(json["statusUpdatedAt"]),
+        travelAmount: json["travelAmount"],
+        locationType: json["locationType"],
+        location: json["location"],
+        locationDistance: json["locationDistance"],
+        totalCost: json["totalCost"],
+        userReviewStatus: json["userReviewStatus"],
+        therapistReviewStatus: json["therapistReviewStatus"],
+        therapistComments: json["therapistComments"],
+        userComments: json["userComments"],
+        cancellationReason: json["cancellationReason"],
+        cancellationFee: json["cancellationFee"],
+        cancelledUserId: json["cancelledUserId"],
+        orderCompletion: json["orderCompletion"],
+        createdUser: json["createdUser"],
+        updatedUser: json["updatedUser"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "userId": userId,
+        "therapistId": therapistId,
+        "eventId": eventId,
+        "startTime": startTime.toIso8601String(),
+        "endTime": endTime.toIso8601String(),
+        "monthOfBooking": monthOfBooking,
+        "yearOfBooking": yearOfBooking,
+        "newStartTime": newStartTime,
+        "newEndTime": newEndTime,
+        "paymentId": paymentId,
+        "paymentStatus": paymentStatus,
+        "paymentRefId": paymentRefId,
+        "subCategoryId": subCategoryId,
+        "categoryId": categoryId,
+        "nameOfService": nameOfService,
+        "totalMinOfService": totalMinOfService,
+        "priceOfService": priceOfService,
+        "addedPrice": addedPrice,
+        "bookingStatus": bookingStatus,
+        "statusUpdatedAt": statusUpdatedAt.toIso8601String(),
+        "travelAmount": travelAmount,
+        "locationType": locationType,
+        "location": location,
+        "locationDistance": locationDistance,
+        "totalCost": totalCost,
+        "userReviewStatus": userReviewStatus,
+        "therapistReviewStatus": therapistReviewStatus,
+        "therapistComments": therapistComments,
+        "userComments": userComments,
+        "cancellationReason": cancellationReason,
+        "cancellationFee": cancellationFee,
+        "cancelledUserId": cancelledUserId,
+        "orderCompletion": orderCompletion,
+        "createdUser": createdUser,
+        "updatedUser": updatedUser,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
+      };
+}
+
 class Data {
   Data({
     this.id,
     this.userId,
+    this.guestUserStatus,
     this.email,
     this.phoneNumber,
+    this.firebaseUdid,
     this.fcmToken,
     this.lineBotUserId,
     this.appleUserId,
@@ -124,8 +296,10 @@ class Data {
 
   int id;
   String userId;
+  bool guestUserStatus;
   String email;
   int phoneNumber;
+  dynamic firebaseUdid;
   dynamic fcmToken;
   dynamic lineBotUserId;
   dynamic appleUserId;
@@ -167,8 +341,10 @@ class Data {
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["id"],
         userId: json["userId"],
+        guestUserStatus: json["guestUserStatus"],
         email: json["email"],
         phoneNumber: json["phoneNumber"],
+        firebaseUdid: json["firebaseUDID"],
         fcmToken: json["fcmToken"],
         lineBotUserId: json["lineBotUserId"],
         appleUserId: json["appleUserId"],
@@ -216,8 +392,10 @@ class Data {
   Map<String, dynamic> toJson() => {
         "id": id,
         "userId": userId,
+        "guestUserStatus": guestUserStatus,
         "email": email,
         "phoneNumber": phoneNumber,
+        "firebaseUDID": firebaseUdid,
         "fcmToken": fcmToken,
         "lineBotUserId": lineBotUserId,
         "appleUserId": appleUserId,
@@ -554,6 +732,23 @@ class CertificationUpload {
       };
 }
 
+class FavouriteDataResponse {
+  FavouriteDataResponse({
+    this.favouriteToTherapist,
+  });
+
+  int favouriteToTherapist;
+
+  factory FavouriteDataResponse.fromJson(Map<String, dynamic> json) =>
+      FavouriteDataResponse(
+        favouriteToTherapist: json["favouriteToTherapist"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "favouriteToTherapist": favouriteToTherapist,
+      };
+}
+
 class ReviewData {
   ReviewData({
     this.ratingAvg,
@@ -723,170 +918,5 @@ class MstMassageCategory {
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
         "categoryId": categoryId == null ? null : categoryId,
-      };
-}
-
-class BookingDataResponse {
-  BookingDataResponse({
-    this.id,
-    this.userId,
-    this.therapistId,
-    this.eventId,
-    this.startTime,
-    this.endTime,
-    this.monthOfBooking,
-    this.yearOfBooking,
-    this.newStartTime,
-    this.newEndTime,
-    this.paymentId,
-    this.paymentStatus,
-    this.paymentRefId,
-    this.subCategoryId,
-    this.categoryId,
-    this.nameOfService,
-    this.totalMinOfService,
-    this.priceOfService,
-    this.addedPrice,
-    this.bookingStatus,
-    this.statusUpdatedAt,
-    this.travelAmount,
-    this.locationType,
-    this.location,
-    this.locationDistance,
-    this.totalCost,
-    this.userReviewStatus,
-    this.therapistReviewStatus,
-    this.therapistComments,
-    this.userComments,
-    this.cancellationReason,
-    this.cancellationFee,
-    this.cancelledUserId,
-    this.orderCompletion,
-    this.createdUser,
-    this.updatedUser,
-    this.createdAt,
-    this.updatedAt,
-  });
-
-  int id;
-  int userId;
-  int therapistId;
-  dynamic eventId;
-  DateTime startTime;
-  DateTime endTime;
-  String monthOfBooking;
-  String yearOfBooking;
-  DateTime newStartTime;
-  DateTime newEndTime;
-  int paymentId;
-  int paymentStatus;
-  String paymentRefId;
-  int subCategoryId;
-  int categoryId;
-  String nameOfService;
-  int totalMinOfService;
-  int priceOfService;
-  dynamic addedPrice;
-  int bookingStatus;
-  DateTime statusUpdatedAt;
-  int travelAmount;
-  String locationType;
-  String location;
-  dynamic locationDistance;
-  int totalCost;
-  int userReviewStatus;
-  int therapistReviewStatus;
-  dynamic therapistComments;
-  dynamic userComments;
-  String cancellationReason;
-  int cancellationFee;
-  int cancelledUserId;
-  dynamic orderCompletion;
-  String createdUser;
-  String updatedUser;
-  DateTime createdAt;
-  DateTime updatedAt;
-
-  factory BookingDataResponse.fromJson(Map<String, dynamic> json) =>
-      BookingDataResponse(
-        id: json["id"],
-        userId: json["userId"],
-        therapistId: json["therapistId"],
-        eventId: json["eventId"],
-        startTime: DateTime.parse(json["startTime"]),
-        endTime: DateTime.parse(json["endTime"]),
-        monthOfBooking: json["monthOfBooking"],
-        yearOfBooking: json["yearOfBooking"],
-        newStartTime: DateTime.parse(json["newStartTime"]),
-        newEndTime: DateTime.parse(json["newEndTime"]),
-        paymentId: json["paymentId"],
-        paymentStatus: json["paymentStatus"],
-        paymentRefId: json["paymentRefId"],
-        subCategoryId: json["subCategoryId"],
-        categoryId: json["categoryId"],
-        nameOfService: json["nameOfService"],
-        totalMinOfService: json["totalMinOfService"],
-        priceOfService: json["priceOfService"],
-        addedPrice: json["addedPrice"],
-        bookingStatus: json["bookingStatus"],
-        statusUpdatedAt: DateTime.parse(json["statusUpdatedAt"]),
-        travelAmount: json["travelAmount"],
-        locationType: json["locationType"],
-        location: json["location"],
-        locationDistance: json["locationDistance"],
-        totalCost: json["totalCost"],
-        userReviewStatus: json["userReviewStatus"],
-        therapistReviewStatus: json["therapistReviewStatus"],
-        therapistComments: json["therapistComments"],
-        userComments: json["userComments"],
-        cancellationReason: json["cancellationReason"],
-        cancellationFee: json["cancellationFee"],
-        cancelledUserId: json["cancelledUserId"],
-        orderCompletion: json["orderCompletion"],
-        createdUser: json["createdUser"],
-        updatedUser: json["updatedUser"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "userId": userId,
-        "therapistId": therapistId,
-        "eventId": eventId,
-        "startTime": startTime.toIso8601String(),
-        "endTime": endTime.toIso8601String(),
-        "monthOfBooking": monthOfBooking,
-        "yearOfBooking": yearOfBooking,
-        "newStartTime": newStartTime.toIso8601String(),
-        "newEndTime": newEndTime.toIso8601String(),
-        "paymentId": paymentId,
-        "paymentStatus": paymentStatus,
-        "paymentRefId": paymentRefId,
-        "subCategoryId": subCategoryId,
-        "categoryId": categoryId,
-        "nameOfService": nameOfService,
-        "totalMinOfService": totalMinOfService,
-        "priceOfService": priceOfService,
-        "addedPrice": addedPrice,
-        "bookingStatus": bookingStatus,
-        "statusUpdatedAt": statusUpdatedAt.toIso8601String(),
-        "travelAmount": travelAmount,
-        "locationType": locationType,
-        "location": location,
-        "locationDistance": locationDistance,
-        "totalCost": totalCost,
-        "userReviewStatus": userReviewStatus,
-        "therapistReviewStatus": therapistReviewStatus,
-        "therapistComments": therapistComments,
-        "userComments": userComments,
-        "cancellationReason": cancellationReason,
-        "cancellationFee": cancellationFee,
-        "cancelledUserId": cancelledUserId,
-        "orderCompletion": orderCompletion,
-        "createdUser": createdUser,
-        "updatedUser": updatedUser,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
       };
 }
