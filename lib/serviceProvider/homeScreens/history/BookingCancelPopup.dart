@@ -95,9 +95,7 @@ class _CancelBookingState extends State<CancelBooking> {
                     )
                   : Container(),
               SizedBox(
-                height: widget.bookingDetail.bookingStatus == 6
-                    ? 15.0
-                    : 0.0,
+                height: widget.bookingDetail.bookingStatus == 6 ? 15.0 : 0.0,
               ),
               buildButton()
               /*  Container(
@@ -139,12 +137,19 @@ class _CancelBookingState extends State<CancelBooking> {
             onPressed: () {
               widget.bookingDetail.cancellationReason =
                   textEditingController.text;
-              ServiceProviderApi.updateStatusUpdate(
-                      widget.bookingDetail, false, false, true)
+              ServiceProviderApi.updateEvent(widget.bookingDetail.eventId, true,
+                      false, false, widget.bookingDetail)
                   .then((value) {
-                ProgressDialogBuilder.hideCommonProgressDialog(context);
                 if (value) {
-                  NavigationRouter.switchToServiceProviderBottomBar(context);
+                  ServiceProviderApi.updateStatusUpdate(
+                          widget.bookingDetail, false, false, true)
+                      .then((value) {
+                    ProgressDialogBuilder.hideCommonProgressDialog(context);
+                    if (value) {
+                      NavigationRouter.switchToServiceProviderBottomBar(
+                          context);
+                    }
+                  });
                 }
               });
             },

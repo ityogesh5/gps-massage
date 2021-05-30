@@ -375,6 +375,11 @@ class ServiceUserAPIProvider {
       print('Therapist Details Response : ${response.body}');
       TherapistByIdModel _therapisyByIdModel =
           TherapistByIdModel.fromJson(getTherapistDetails);
+      HealingMatchConstants.providerName =
+          _therapisyByIdModel.data.storeName != null &&
+                  _therapisyByIdModel.data.storeName != ''
+              ? _therapisyByIdModel.data.storeName
+              : _therapisyByIdModel.data.userName;
       ProgressDialogBuilder.hideLoader(context);
       return _therapisyByIdModel;
     } on SocketException catch (_) {

@@ -926,7 +926,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
       HealingMatchConstants.serviceUserID,
       therapistId,
       HealingMatchConstants.serviceUserName,
-      "ab de vi",
+      HealingMatchConstants.providerName,
       locationType,
       location,
       priceOfService,

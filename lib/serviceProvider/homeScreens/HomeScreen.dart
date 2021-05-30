@@ -1517,6 +1517,10 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
         sharedPreferences.getString("accessToken");
     HealingMatchConstants.userData = userData;
     HealingMatchConstants.userId = userData.id;
+    HealingMatchConstants.providerName =
+        userData.storeName != null && userData.storeName != ''
+            ? userData.storeName
+            : userData.userName;
     if (userData.childrenMeasure != null && userData.childrenMeasure != '') {
       var split = userData.childrenMeasure.split(',');
       childrenMeasure = {for (int i = 0; i < split.length; i++) i: split[i]};

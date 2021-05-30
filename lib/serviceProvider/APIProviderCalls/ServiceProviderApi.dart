@@ -266,6 +266,70 @@ class ServiceProviderApi {
     }
   }
 
+  static Future<bool> updateEvent(
+      String eventID,
+      bool isCancel,
+      bool isPriceChanged,
+      bool isDateChanged,
+      BookingDetailsList bookingDetailsList) async {
+    var accountCredentials = ServiceAccountCredentials.fromJson({
+      "private_key_id": "ea91c6540fdc102720f699c56f692d25d4aefeec",
+      "private_key":
+          "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC916/Vmhw+wpgw\nYjtvKWWnoVFJqz4sXXu5DRWaB9dSxWhIebQv0n+UdTRz8MT3ipOMz8Z4u9ziw2/J\n6tLJTU82iCk7afMEjSGypAK7osXZW5JvLkAohtamTPYSSKc7oeRfNLLCBZFHoVqQ\nvoQLnBTZbk8HSAwUBu4LFTGdSj226R7VoPeFFcdybA7tKNdM4nk/GTdnJUabTWXQ\nISRgD4ZK2SxJDlWqCkyZ1+6x/d6DEYvZX9QgGczMu8rkReNBpN+AOwZjUQ1sByhA\nhzlQXS+UX7KvJW4kfUCTvRDOr952M5J4aAvGpQzy9B3Hhm91fMsPSrdPtklDceJj\n62JfhVztAgMBAAECggEAGPleXtXCwHjeB4NsuS9zeY1twai+6Zw0sf/oJxa/+1oP\n4XTtQNtKwE944oW6i6wVxBDzVZ+1K7m1I5V6PFQoxw47il7iQueEFtmfqGp95521\n0l19wDcY1tDKEFaxdVVTUzj+CSstVQSDgwYlHdffIEl0KQuP1zSgLSIRIFWLb9vZ\ntpKl0VFrbB6W9NRIzcupHIFdhzvTbZPv/Kd0fHh49zL6oAxfFq8kzRci/jhld/Wz\n1oWlvOne1NSMiZWbltr/iI+YsNMcQdEudWPsw1Wvbnj8YEn9bdFUVb5IS0bc7XP9\n3G6TwHpJMZutSvtlqSIJF7PfvwZJQXeTr+G3EMcGywKBgQD3rUBd9o2ad7W8aKZv\nvErKr1TX9C1rZpadnabGPo5CGSx/tUzwUTpf6FxtTqgvjMhUw8HWGM0iJpf2B7Gc\nef+1w5mMaPz9WV9XeC2//0S9f0QGkPiXDEC9raud6uJQ41hYW6yJp7nrahZ9dFog\nnL0w5HEJ/eSWYwlijtOi+AUZiwKBgQDEOOQR3Bz9rUlrlMJf5s7LlO80TUq12s6U\nRqBmiUiwGBSioQ7gUdedlWjL1Ukh6KMLCvFgwbIEYDsZnL/Uzbb/Qkp3yGuEmyRm\na15iMWJ6TYNGxEw7+6nw7LsVwV528/DRyZQVyJHLPAYG3Zytfi2nRRXSeAS7qIQF\nNyweaG8CZwKBgHAdCr/99Udw3OE2dfCqSSjKiRtgOpcdTxx12qJuerLM9mmwxe0a\nt9PmOMB6FIPBtIU6P6oMe/7zfWIvRWTRjMDYk88NT0fXhuLvUbZRdOpai451XTHy\np/O0g7TuOBfpcXo9tTJyrCQ2V4veeVW93Z4eKlUdirXQitUEViS1JInVAoGAXkb3\nTZ10UG3x2L6gpXM/6JCmXXrFapq2podIiftr8S+guoKnox+veQdQUp8nhCNCMwwO\n7W4jGfcibivh/1zXj81J+kNRZWUlGBB+SK9xoVGcwWOPPUKtZBRZzxoZSQ3rpuAz\nRkQXyI4OVz4jCTiWtsd6tKT1oTRWOitIB1QmAgECgYEAw8Q6oLV4Iq4oKTYJpmha\nvPb4BH+df8lvv9hCGviFBk48ZsY4ImRDb//KlknDmiTgGlW+kLWOFY8+a8NhAMB+\nb/AdpUK2tuYg09RM66bneCBU6wCaSBvUMxZHt469tWboam1i74BCQpDdIDd0A1uL\nb7GwDGIB8mLkOwQXOvKRqBY=\n-----END PRIVATE KEY-----\n",
+      "client_email": "healing-match@appspot.gserviceaccount.com",
+      "client_id": "109325874687014297008",
+      "type": "service_account"
+    });
+    final httpClient =
+        await clientViaServiceAccount(accountCredentials, _scopes);
+
+    var calendar = CalendarApi(httpClient);
+    String calendarId = "sugyo.sumihiko@gmail.com";
+    Event event = Event();
+
+    event.status = isCancel ? "cancelled" : "confirmed";
+
+    event.summary =
+        "SP${bookingDetailsList.therapistId},${HealingMatchConstants.providerName},SU${bookingDetailsList.userId},${bookingDetailsList.bookingUserId.userName}";
+    event.description =
+        "${bookingDetailsList.nameOfService},¥${bookingDetailsList.priceOfService + bookingDetailsList.travelAmount}";
+    event.location =
+        "${bookingDetailsList.locationType},${bookingDetailsList.location}";
+
+    if (isDateChanged) {
+      EventDateTime start = new EventDateTime();
+      start.dateTime =
+          DateTime.parse(bookingDetailsList.newStartTime).toLocal();
+      start.timeZone = "GMT+05:30";
+      event.start = start;
+
+      EventDateTime end = new EventDateTime();
+      end.timeZone = "GMT+05:30";
+      end.dateTime = DateTime.parse(bookingDetailsList.newEndTime).toLocal();
+      event.end = end;
+    } else {
+      EventDateTime start = new EventDateTime();
+      start.dateTime = bookingDetailsList.startTime.toLocal();
+      start.timeZone = "GMT+05:30";
+      event.start = start;
+
+      EventDateTime end = new EventDateTime();
+      end.timeZone = "GMT+05:30";
+      end.dateTime = bookingDetailsList.endTime.toLocal();
+      event.end = end;
+    }
+
+    try {
+      calendar.events.update(event, calendarId, eventID).then((value) {
+        print("Updated event");
+        return true;
+      });
+    } catch (e) {
+      log('Error creating event $e');
+      return false;
+    }
+  }
+
   static removeEvent(String eventID, BuildContext context) async {
     var accountCredentials = ServiceAccountCredentials.fromJson({
       "private_key_id": "ea91c6540fdc102720f699c56f692d25d4aefeec",
