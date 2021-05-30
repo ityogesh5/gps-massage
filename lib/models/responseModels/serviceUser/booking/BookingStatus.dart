@@ -53,6 +53,8 @@ class Data {
 }
 
 class BookingDetailsList {
+  String ratingAvg;
+  int noOfReviewsMembers;
   int favouriteToTherapist;
   int id;
   int userId;
@@ -62,8 +64,8 @@ class BookingDetailsList {
   String endTime;
   String monthOfBooking;
   String yearOfBooking;
-  String newStartTime;
-  String newEndTime;
+  dynamic newStartTime;
+  dynamic newEndTime;
   dynamic paymentId;
   int paymentStatus;
   dynamic paymentRefId;
@@ -84,7 +86,7 @@ class BookingDetailsList {
   dynamic therapistReviewStatus;
   String therapistComments;
   dynamic userComments;
-  dynamic cancellationReason;
+  String cancellationReason;
   dynamic cancellationFee;
   dynamic cancelledUserId;
   dynamic orderCompletion;
@@ -95,7 +97,9 @@ class BookingDetailsList {
   BookingTherapistId bookingTherapistId;
 
   BookingDetailsList(
-      {this.favouriteToTherapist,
+      {this.ratingAvg,
+      this.noOfReviewsMembers,
+      this.favouriteToTherapist,
       this.id,
       this.userId,
       this.therapistId,
@@ -137,6 +141,8 @@ class BookingDetailsList {
       this.bookingTherapistId});
 
   BookingDetailsList.fromJson(Map<String, dynamic> json) {
+    ratingAvg = json['ratingAvg'];
+    noOfReviewsMembers = json['NoOfReviewsMembers'];
     favouriteToTherapist = json['favouriteToTherapist'];
     id = json['id'];
     userId = json['userId'];
@@ -183,6 +189,8 @@ class BookingDetailsList {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ratingAvg'] = this.ratingAvg;
+    data['NoOfReviewsMembers'] = this.noOfReviewsMembers;
     data['favouriteToTherapist'] = this.favouriteToTherapist;
     data['id'] = this.id;
     data['userId'] = this.userId;
@@ -233,6 +241,7 @@ class BookingTherapistId {
   int id;
   String userId;
   String userName;
+  String gender;
   String uploadProfileImgUrl;
   String businessForm;
   bool businessTrip;
@@ -241,12 +250,14 @@ class BookingTherapistId {
   String storeType;
   bool isShop;
   String qulaificationCertImgUrl;
+  dynamic firebaseUDID;
   List<CertificationUploads> certificationUploads;
 
   BookingTherapistId(
       {this.id,
       this.userId,
       this.userName,
+      this.gender,
       this.uploadProfileImgUrl,
       this.businessForm,
       this.businessTrip,
@@ -255,12 +266,14 @@ class BookingTherapistId {
       this.storeType,
       this.isShop,
       this.qulaificationCertImgUrl,
+      this.firebaseUDID,
       this.certificationUploads});
 
   BookingTherapistId.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['userId'];
     userName = json['userName'];
+    gender = json['gender'];
     uploadProfileImgUrl = json['uploadProfileImgUrl'];
     businessForm = json['businessForm'];
     businessTrip = json['businessTrip'];
@@ -269,6 +282,7 @@ class BookingTherapistId {
     storeType = json['storeType'];
     isShop = json['isShop'];
     qulaificationCertImgUrl = json['qulaificationCertImgUrl'];
+    firebaseUDID = json['firebaseUDID'];
     if (json['certification_uploads'] != null) {
       certificationUploads = new List<CertificationUploads>();
       json['certification_uploads'].forEach((v) {
@@ -282,6 +296,7 @@ class BookingTherapistId {
     data['id'] = this.id;
     data['userId'] = this.userId;
     data['userName'] = this.userName;
+    data['gender'] = this.gender;
     data['uploadProfileImgUrl'] = this.uploadProfileImgUrl;
     data['businessForm'] = this.businessForm;
     data['businessTrip'] = this.businessTrip;
@@ -290,6 +305,7 @@ class BookingTherapistId {
     data['storeType'] = this.storeType;
     data['isShop'] = this.isShop;
     data['qulaificationCertImgUrl'] = this.qulaificationCertImgUrl;
+    data['firebaseUDID'] = this.firebaseUDID;
     if (this.certificationUploads != null) {
       data['certification_uploads'] =
           this.certificationUploads.map((v) => v.toJson()).toList();

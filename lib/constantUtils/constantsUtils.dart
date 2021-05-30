@@ -255,6 +255,10 @@ class HealingMatchConstants {
   static const String BOOKING_STATUS_LIST =
       ON_PREMISE_USER_BASE_URL + '/booking/bookingStatusList';
 
+  //booking Completed List
+  static const String BOOKING_COMPLETED_LIST =
+      ON_PREMISE_USER_BASE_URL + '/booking/bookingCompleteStatusList';
+
   //Common string
   static bool isInternetAvailable = false;
   static String registerProgressText = '登録中...';
