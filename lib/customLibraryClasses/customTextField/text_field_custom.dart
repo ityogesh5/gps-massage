@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:gps_massageapp/utils/input_decorator.dart';
+import 'package:gps_massageapp/customLibraryClasses/customTextField/input_decorator.dart';
 
 export 'package:flutter/services.dart'
     show TextInputType, TextInputAction, TextCapitalization;

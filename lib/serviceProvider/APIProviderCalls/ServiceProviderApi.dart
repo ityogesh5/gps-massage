@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/event.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/currentBookingRatingResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/shiftTimeUpdateResponse.dart'
     as shiftTimeUpdate;
 import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
@@ -81,7 +82,7 @@ class ServiceProviderApi {
   }
 
   static Future<UserReviewCreateResponseModel> giveUserReview(
-      double rating, String review) async {
+      double rating, String review, int bookingId) async {
     try {
       final url = HealingMatchConstants.ON_PREMISE_USER_BASE_URL +
           '/mobileReview/createUserReview';
@@ -92,7 +93,8 @@ class ServiceProviderApi {
       final response = await http.post(url,
           headers: headers,
           body: json.encode({
-            "userId": '20', //HealingMatchConstants.serviceUserId,
+            "userId": HealingMatchConstants.serviceUserId,
+            "bookingId": bookingId,
             "ratingsCount": rating,
             "reviewComment": review,
           }));
@@ -101,6 +103,36 @@ class ServiceProviderApi {
         var userData = json.decode(response.body);
         UserReviewCreateResponseModel usersReview =
             UserReviewCreateResponseModel.fromJson(userData);
+        print('Types list:  $userData');
+        return usersReview;
+      } else {
+        print('Error occurred!!! TypeMassages response');
+        throw Exception();
+      }
+    } catch (e) {
+      print('Exception : ${e.toString()}');
+    }
+  }
+
+  static Future<CurrentOrderReviewResponseModel> getBookingOrderReviewDetail(
+      int bookingId) async {
+    try {
+      final url = HealingMatchConstants.ON_PREMISE_USER_BASE_URL +
+          '/mobileReview/bookingUserReviewById';
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '${HealingMatchConstants.accessToken}'
+      };
+      final response = await http.post(url,
+          headers: headers,
+          body: json.encode({
+            "bookingId": bookingId,
+          }));
+      print('$response');
+      if (response.statusCode == 200) {
+        var userData = json.decode(response.body);
+        CurrentOrderReviewResponseModel usersReview =
+            CurrentOrderReviewResponseModel.fromJson(userData);
         print('Types list:  $userData');
         return usersReview;
       } else {

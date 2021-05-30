@@ -17,7 +17,7 @@ import 'package:gps_massageapp/models/responseModels/serviceProvider/bankNameDro
 import 'package:gps_massageapp/models/responseModels/serviceProvider/registerProviderResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
-import 'package:gps_massageapp/utils/text_field_custom.dart';
+import 'package:gps_massageapp/customLibraryClasses/customTextField/text_field_custom.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';

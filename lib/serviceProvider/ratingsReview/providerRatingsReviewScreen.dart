@@ -327,7 +327,7 @@ class _LoadUserReviewPageState extends State<LoadUserReviewPage> {
                                         "assets/images_gps/star_colour.svg",
                                         height: 15.0,
                                         width: 15.0,
-                                       // color: Color.fromRGBO(200, 217, 33, 1),
+                                        // color: Color.fromRGBO(200, 217, 33, 1),
                                       ), /*  new Icon(
                                                                 Icons.star,
                                                                 size: 20.0), */
@@ -392,15 +392,16 @@ class _LoadUserReviewPageState extends State<LoadUserReviewPage> {
                         ProgressDialogBuilder.showCommonProgressDialog(context);
                         var userCreateResponse =
                             ServiceProviderApi.giveUserReview(
-                                ratingsValue, reviewController.text);
+                                ratingsValue,
+                                reviewController.text,
+                                HealingMatchConstants.bookingId);
                         userCreateResponse.then((value) {
                           if (this.mounted) {
                             ProgressDialogBuilder.hideCommonProgressDialog(
                                 context);
                             if (value.status == "success") {
-                              NavigationRouter
-                                  .switchToProviderSideUserReviewScreen(
-                                      context,20);
+                              NavigationRouter.switchToProviderReviewScreenSent(
+                                  context, HealingMatchConstants.serviceUserId);
                             }
                           }
                         });
@@ -541,7 +542,7 @@ class _LoadUserReviewPageState extends State<LoadUserReviewPage> {
                             "assets/images_gps/star_colour.svg",
                             height: 13.0,
                             width: 13.0,
-                           // color: Colors.black,
+                            // color: Colors.black,
                           ), /*  new Icon(
                                                                     Icons.star,
                                                                     size: 20.0), */
@@ -811,7 +812,7 @@ class _LoadUserReviewRatingsByIdState extends State<LoadUserReviewRatingsById> {
                             "assets/images_gps/star_colour.svg",
                             height: 13.0,
                             width: 13.0,
-                          //  color: Colors.black,
+                            //  color: Colors.black,
                           ), /*  new Icon(
                                                                     Icons.star,
                                                                     size: 20.0), */

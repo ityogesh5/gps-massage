@@ -18,13 +18,13 @@ import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopu
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/ProviderOfferCancelTimerUser.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/ProviderOfferConfirmed.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/ProviderReceiveBooking.dart';
-import 'package:gps_massageapp/serviceProvider/homeScreens/chat/chat.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/ProviderEditProfile.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/ProviderTutorial.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/TermsAndConditions.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/ChangePassword.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/ForgetPassword.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/LoginScreen.dart';
+import 'package:gps_massageapp/serviceProvider/ratingsReview/givenRatingViewScreen.dart';
 import 'package:gps_massageapp/serviceProvider/ratingsReview/providerRatingsReviewScreen.dart';
 import 'package:gps_massageapp/serviceProvider/ratingsReview/selfReviewScreen.dart';
 import 'package:gps_massageapp/serviceProvider/ratingsReview/userRatingReviewScreen.dart';
@@ -611,11 +611,12 @@ class NavigationRouter {
   }
 
   //Provider Provider Review Screen
-  static void switchToProviderReviewScreenSent(BuildContext context) {
+  static void switchToProviderReviewScreenSent(
+      BuildContext context, int userId) {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (BuildContext context) => UserRatingReviewScreen(20)
+            builder: (BuildContext context) => GivenRatingReviewScreen()
             // ProviderRatingsAndReviewUser(1)
             ));
   }
@@ -823,10 +824,11 @@ class NavigationRouter {
   }
 
   // Service Provider Chat Screen
-  static void switchToServiceProviderChatHistoryScreen(BuildContext context) {
+  /*  static void switchToServiceProviderChatHistoryScreen(BuildContext context) {
     Navigator.push(
         context, MaterialPageRoute(builder: (BuildContext context) => Chat()));
   }
+ */
 
   // Service User Notifications Screen
   static void switchToServiceUserNoticeScreen(BuildContext context) {

@@ -281,6 +281,11 @@ class _ChatUserListState extends State<ChatUserList> {
 
     return InkWell(
       onTap: () {
+        if (chatData[index].unreadCount != 0) {
+          setState(() {
+            chatData[index].unreadCount = 0;
+          });
+        }
         Navigator.push(
             context,
             MaterialPageRoute(

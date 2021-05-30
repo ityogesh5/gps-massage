@@ -38,6 +38,7 @@ class Data {
     this.id,
     this.userId,
     this.therapistId,
+    this.bookingId,
     this.isReviewStatus,
     this.ratingsCount,
     this.reviewComment,
@@ -48,8 +49,9 @@ class Data {
   });
 
   int id;
-  String userId;
+  int userId;
   int therapistId;
+  int bookingId;
   bool isReviewStatus;
   int ratingsCount;
   String reviewComment;
@@ -62,6 +64,7 @@ class Data {
         id: json["id"],
         userId: json["userId"],
         therapistId: json["therapistId"],
+        bookingId: json["bookingId"],
         isReviewStatus: json["isReviewStatus"],
         ratingsCount: json["ratingsCount"],
         reviewComment: json["reviewComment"],
@@ -75,6 +78,7 @@ class Data {
         "id": id,
         "userId": userId,
         "therapistId": therapistId,
+        "bookingId": bookingId,
         "isReviewStatus": isReviewStatus,
         "ratingsCount": ratingsCount,
         "reviewComment": reviewComment,
