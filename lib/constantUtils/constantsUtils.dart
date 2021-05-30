@@ -514,6 +514,9 @@ class HealingMatchConstants {
   //Firebase Chat
   static String fbUserId;
 
+  //Booking ID
+  static int bookingId;
+
   //User Calendar
   static TherapistByIdModel therapistProfileDetails;
   static void Function(DateTime) callBack;

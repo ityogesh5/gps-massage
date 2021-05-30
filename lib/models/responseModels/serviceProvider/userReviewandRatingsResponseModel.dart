@@ -69,7 +69,7 @@ class UserReviewList {
     this.id,
     this.userId,
     this.therapistId,
-    this.ratingsId,
+    this.bookingId,
     this.isReviewStatus,
     this.ratingsCount,
     this.reviewComment,
@@ -83,7 +83,7 @@ class UserReviewList {
   int id;
   int userId;
   int therapistId;
-  dynamic ratingsId;
+  int bookingId;
   bool isReviewStatus;
   int ratingsCount;
   String reviewComment;
@@ -97,12 +97,12 @@ class UserReviewList {
         id: json["id"],
         userId: json["userId"],
         therapistId: json["therapistId"],
-        ratingsId: json["ratingsId"],
+        bookingId: json["bookingId"],
         isReviewStatus: json["isReviewStatus"],
         ratingsCount: json["ratingsCount"],
         reviewComment: json["reviewComment"],
-        createdUser: json["createdUser"] == null ? null : json["createdUser"],
-        updatedUser: json["updatedUser"] == null ? null : json["updatedUser"],
+        createdUser: json["createdUser"],
+        updatedUser: json["updatedUser"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
         reviewTherapistId:
@@ -113,12 +113,12 @@ class UserReviewList {
         "id": id,
         "userId": userId,
         "therapistId": therapistId,
-        "ratingsId": ratingsId,
+        "bookingId": bookingId,
         "isReviewStatus": isReviewStatus,
         "ratingsCount": ratingsCount,
         "reviewComment": reviewComment,
-        "createdUser": createdUser == null ? null : createdUser,
-        "updatedUser": updatedUser == null ? null : updatedUser,
+        "createdUser": createdUser,
+        "updatedUser": updatedUser,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
         "reviewTherapistId": reviewTherapistId.toJson(),
@@ -131,12 +131,14 @@ class ReviewTherapistId {
     this.userId,
     this.userName,
     this.uploadProfileImgUrl,
+    this.storeName,
   });
 
   int id;
   String userId;
   String userName;
   String uploadProfileImgUrl;
+  String storeName;
 
   factory ReviewTherapistId.fromJson(Map<String, dynamic> json) =>
       ReviewTherapistId(
@@ -144,6 +146,7 @@ class ReviewTherapistId {
         userId: json["userId"],
         userName: json["userName"],
         uploadProfileImgUrl: json["uploadProfileImgUrl"],
+        storeName: json["storeName"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -151,5 +154,6 @@ class ReviewTherapistId {
         "userId": userId,
         "userName": userName,
         "uploadProfileImgUrl": uploadProfileImgUrl,
+        "storeName": storeName,
       };
 }

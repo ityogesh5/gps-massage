@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/commonScreens/chat/chat_item_screen.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/chat.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/db.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/chatData.dart';
@@ -256,24 +257,35 @@ class _WeeklyScheduleState extends State<WeeklySchedule> {
                           width: 10,
                         ),
                         Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(
-                                  color: Colors.transparent,
-                                ),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5))),
-                            padding: EdgeInsets.all(4),
-                            child: Text(
-                              requestBookingDetailsList[index].locationType ==
-                                      "店舗"
-                                  ? '店舗'
-                                  : '出張',
-                              style: TextStyle(
-                                fontSize: 9.0,
-                                color: Colors.black,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                color: Colors.transparent,
                               ),
-                            )),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5))),
+                          padding: EdgeInsets.all(4),
+                          child: Text(
+                            requestBookingDetailsList[index].locationType ==
+                                    "店舗"
+                                ? '店舗'
+                                : '出張',
+                            style: TextStyle(
+                              fontSize: 9.0,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        Spacer(),
+                        requestBookingDetailsList[index].bookingStatus == 6
+                            ? Text(
+                                "予約確定",
+                                style: TextStyle(
+                                  fontSize: 12.0,
+                                  color: ColorConstants.buttonColor,
+                                ),
+                              )
+                            : Container(),
                       ],
                     ),
                     SizedBox(

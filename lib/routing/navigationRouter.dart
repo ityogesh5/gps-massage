@@ -24,6 +24,7 @@ import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/TermsAndCon
 import 'package:gps_massageapp/serviceProvider/loginScreens/ChangePassword.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/ForgetPassword.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/LoginScreen.dart';
+import 'package:gps_massageapp/serviceProvider/ratingsReview/givenRatingViewScreen.dart';
 import 'package:gps_massageapp/serviceProvider/ratingsReview/providerRatingsReviewScreen.dart';
 import 'package:gps_massageapp/serviceProvider/ratingsReview/selfReviewScreen.dart';
 import 'package:gps_massageapp/serviceProvider/ratingsReview/userRatingReviewScreen.dart';
@@ -612,11 +613,12 @@ class NavigationRouter {
   }
 
   //Provider Provider Review Screen
-  static void switchToProviderReviewScreenSent(BuildContext context) {
+  static void switchToProviderReviewScreenSent(
+      BuildContext context, int userId) {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (BuildContext context) => UserRatingReviewScreen(20)
+            builder: (BuildContext context) => GivenRatingReviewScreen()
             // ProviderRatingsAndReviewUser(1)
             ));
   }
@@ -824,7 +826,7 @@ class NavigationRouter {
   }
 
   // Service Provider Chat Screen
- /*  static void switchToServiceProviderChatHistoryScreen(BuildContext context) {
+  /*  static void switchToServiceProviderChatHistoryScreen(BuildContext context) {
     Navigator.push(
         context, MaterialPageRoute(builder: (BuildContext context) => Chat()));
   }

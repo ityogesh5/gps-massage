@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
@@ -410,12 +411,20 @@ class _ProviderConfirmReservationScreenState
                   )
                 : Container(),
             requestBookingDetailsList[index].bookingStatus == 9 &&
-                    requestBookingDetailsList[index].therapistReviewStatus == 0
+                    (requestBookingDetailsList[index].therapistReviewStatus ==
+                            0 ||
+                        requestBookingDetailsList[index]
+                                .therapistReviewStatus ==
+                            null)
                 ? Positioned(
                     top: 88.0,
                     right: 10.0,
                     child: InkWell(
                       onTap: () {
+                        HealingMatchConstants.bookingId =
+                            requestBookingDetailsList[index].id;
+                        HealingMatchConstants.serviceUserId =
+                            requestBookingDetailsList[index].userId;
                         NavigationRouter.switchToProviderReviewScreen(
                             context, 0);
                       },
@@ -442,8 +451,12 @@ class _ProviderConfirmReservationScreenState
                     right: 10.0,
                     child: InkWell(
                       onTap: () {
+                        HealingMatchConstants.bookingId =
+                            requestBookingDetailsList[index].id;
+                        HealingMatchConstants.serviceUserId =
+                            requestBookingDetailsList[index].userId;
                         NavigationRouter.switchToProviderReviewScreenSent(
-                            context);
+                            context, HealingMatchConstants.serviceUserId);
                       },
                       child: Card(
                         elevation: 4.0,
