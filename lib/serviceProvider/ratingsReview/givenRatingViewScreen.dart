@@ -34,6 +34,9 @@ class _GivenRatingReviewScreenState extends State<GivenRatingReviewScreen> {
             HealingMatchConstants.bookingId)
         .then((value) {
       currentOrderReviewResponseModel = value;
+    /*   currentOrderReviewResponseModel.bookingReviewData.ratingsCount = 4;
+      currentOrderReviewResponseModel.bookingReviewData.reviewComment =
+          "Sample data for testing has been added"; */
       var providerListApiProvider =
           ServiceProviderApi.getUserReviewById(_pageNumber, _pageSize);
       providerListApiProvider.then((value) {

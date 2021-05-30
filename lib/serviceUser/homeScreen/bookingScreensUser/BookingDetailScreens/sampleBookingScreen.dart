@@ -9,6 +9,7 @@ import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/detailCarouselWithIndicator.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/detailProfileDetails.dart';
+import 'package:intl/intl.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class SampleBookingScreen extends StatefulWidget {
@@ -50,20 +51,882 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
         : Scaffold(
             body: SafeArea(
               child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    DetailCarouselWithIndicator(bannerImages),
-                    DetailProfileDetails(therapistDetails),
-                    buildServices(context),
-                    dateTimeInfoBuilder(context),
-                  ],
+                child: Container(
+                  color: Colors.white,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      DetailCarouselWithIndicator(bannerImages),
+                      DetailProfileDetails(therapistDetails),
+                      therapistDetails.bookingDataResponse.length != 0 &&
+                              (therapistDetails.bookingDataResponse[0]
+                                          .bookingStatus ==
+                                      9 &&
+                                  therapistDetails.bookingDataResponse[0]
+                                          .bookingStatus ==
+                                      4 &&
+                                  therapistDetails.bookingDataResponse[0]
+                                          .bookingStatus ==
+                                      5 &&
+                                  therapistDetails.bookingDataResponse[0]
+                                          .bookingStatus ==
+                                      7 &&
+                                  therapistDetails.bookingDataResponse[0]
+                                          .bookingStatus ==
+                                      8)
+                          ? buildOldBookingDetails(context)
+                          : Container(),
+                      therapistDetails.bookingDataResponse.length != 0 &&
+                              therapistDetails
+                                      .bookingDataResponse[0].bookingStatus !=
+                                  9
+                          ? buildBookingDetails(context)
+                          : buildServices(context),
+                      therapistDetails.bookingDataResponse.length != 0 &&
+                              therapistDetails
+                                      .bookingDataResponse[0].bookingStatus ==
+                                  9
+                          ? dateTimeInfoBuilder(context)
+                          : Container()
+                    ],
+                  ),
                 ),
               ),
             ),
-            bottomNavigationBar: bookAgain(),
+            bottomNavigationBar: therapistDetails.bookingDataResponse.length ==
+                    0
+                ? book() //initial booking
+                : therapistDetails.bookingDataResponse[0].bookingStatus == 0
+                    ? waitingForApproval()
+                    : therapistDetails.bookingDataResponse[0].bookingStatus ==
+                                1 &&
+                            therapistDetails
+                                    .bookingDataResponse[0].bookingStatus ==
+                                3
+                        ? proceedToPayment()
+                        : therapistDetails
+                                    .bookingDataResponse[0].bookingStatus ==
+                                2
+                            ? acceptConditions()
+                            : therapistDetails
+                                        .bookingDataResponse[0].bookingStatus ==
+                                    6
+                                ? Container()
+                                : bookAgain(),
           );
+  }
+
+  buildOldBookingDetails(BuildContext context) {
+    DateTime startTime = therapistDetails.bookingDataResponse[0].newStartTime !=
+            null
+        ? DateTime.parse(therapistDetails.bookingDataResponse[0].newStartTime)
+            .toLocal()
+        : therapistDetails.bookingDataResponse[0].startTime.toLocal();
+    DateTime endTime =
+        therapistDetails.bookingDataResponse[0].newEndTime != null
+            ? DateTime.parse(therapistDetails.bookingDataResponse[0].newEndTime)
+                .toLocal()
+            : therapistDetails.bookingDataResponse[0].endTime.toLocal();
+    String jaName = DateFormat('EEEE', 'ja_JP').format(startTime);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(
+            top: 4.0,
+            left: 14.0,
+            bottom: 4.0,
+          ),
+          child: Text(
+            "以前の予約内容",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.all(12.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12.0),
+            border: Border.all(color: Colors.black),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset(
+                      "assets/images_gps/calendar.svg",
+                      height: 14.77,
+                      width: 15.0,
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      '${startTime.day}月${startTime.month}',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      ' $jaName ',
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        color: Color.fromRGBO(102, 102, 102, 1),
+                      ),
+                    ),
+                    Text(
+                      therapistDetails.bookingDataResponse[0].locationType ==
+                              "店舗"
+                          ? '店舗'
+                          : '出張',
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Spacer(),
+                    Text(
+                      therapistDetails.bookingDataResponse[0].bookingStatus == 9
+                          ? "完了済み"
+                          : "キャンセル",
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        color: Colors.red,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset(
+                      "assets/images_gps/clock.svg",
+                      height: 14.77,
+                      width: 16.0,
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      startTime.hour < 10
+                          ? "0${startTime.hour}"
+                          : "${startTime.hour}",
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      startTime.minute < 10
+                          ? ": 0${startTime.minute}"
+                          : ": ${startTime.minute}",
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      endTime.hour < 10
+                          ? " ~ 0${endTime.hour}"
+                          : " ~ ${endTime.hour}",
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      endTime.minute < 10
+                          ? ": 0${endTime.minute}"
+                          : ": ${endTime.minute}",
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      ' ${therapistDetails.bookingDataResponse[0].totalMinOfService}分 ',
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        color: Color.fromRGBO(102, 102, 102, 1),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset(
+                      "assets/images_gps/clock.svg",
+                      height: 14.77,
+                      width: 16.0,
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          ' ${therapistDetails.bookingDataResponse[0].nameOfService} ',
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 2,
+                    ),
+                    Text(
+                      '¥${therapistDetails.bookingDataResponse[0].priceOfService}',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 3,
+                ),
+                Divider(
+                  color: Color.fromRGBO(102, 102, 102, 1),
+                ),
+                SizedBox(
+                  height: 3,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset(
+                      "assets/images_gps/location.svg",
+                      height: 14.77,
+                      width: 16.0,
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      '施術をする場所',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          '${therapistDetails.bookingDataResponse[0].locationType} ',
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 2,
+                    ),
+                    Text(
+                      '${therapistDetails.bookingDataResponse[0].location} ',
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        color: Color.fromRGBO(102, 102, 102, 1),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  buildBookingDetails(BuildContext context) {
+    DateTime startTime = therapistDetails.bookingDataResponse[0].newStartTime !=
+            null
+        ? DateTime.parse(therapistDetails.bookingDataResponse[0].newStartTime)
+            .toLocal()
+        : therapistDetails.bookingDataResponse[0].startTime.toLocal();
+    DateTime endTime =
+        therapistDetails.bookingDataResponse[0].newEndTime != null
+            ? DateTime.parse(therapistDetails.bookingDataResponse[0].newEndTime)
+                .toLocal()
+            : therapistDetails.bookingDataResponse[0].endTime.toLocal();
+    String jaName = DateFormat('EEEE', 'ja_JP').format(startTime);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(
+            top: 4.0,
+            left: 14.0,
+            bottom: 4.0,
+          ),
+          child: Text(
+            "予約の内容",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.all(12.0),
+          decoration: BoxDecoration(
+            color: Color.fromRGBO(242, 242, 242, 1),
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset(
+                      "assets/images_gps/calendar.svg",
+                      height: 14.77,
+                      width: 15.0,
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      '${startTime.day}月${startTime.month}',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      ' $jaName ',
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        color: Color.fromRGBO(102, 102, 102, 1),
+                      ),
+                    ),
+                    Text(
+                      therapistDetails.bookingDataResponse[0].locationType ==
+                              "店舗"
+                          ? '店舗'
+                          : '出張',
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Spacer(),
+                    Text(
+                      "キャンセルする",
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        color: Colors.red,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset(
+                      "assets/images_gps/clock.svg",
+                      height: 14.77,
+                      width: 16.0,
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      startTime.hour < 10
+                          ? "0${startTime.hour}"
+                          : "${startTime.hour}",
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      startTime.minute < 10
+                          ? ": 0${startTime.minute}"
+                          : ": ${startTime.minute}",
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      endTime.hour < 10
+                          ? " ~ 0${endTime.hour}"
+                          : " ~ ${endTime.hour}",
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      endTime.minute < 10
+                          ? ": 0${endTime.minute}"
+                          : ": ${endTime.minute}",
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      ' ${therapistDetails.bookingDataResponse[0].totalMinOfService}分 ',
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        color: Color.fromRGBO(102, 102, 102, 1),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset(
+                      "assets/images_gps/clock.svg",
+                      height: 14.77,
+                      width: 16.0,
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          ' ${therapistDetails.bookingDataResponse[0].nameOfService} ',
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 2,
+                    ),
+                    Text(
+                      therapistDetails.bookingDataResponse[0].travelAmount ==
+                                  0 ||
+                              therapistDetails
+                                      .bookingDataResponse[0].travelAmount ==
+                                  null
+                          ? '¥${therapistDetails.bookingDataResponse[0].priceOfService}'
+                          : '¥${therapistDetails.bookingDataResponse[0].priceOfService + therapistDetails.bookingDataResponse[0].travelAmount} (交通費込み - ¥${therapistDetails.bookingDataResponse[0].travelAmount})',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 3,
+                ),
+                Divider(
+                  color: Color.fromRGBO(102, 102, 102, 1),
+                ),
+                SizedBox(
+                  height: 3,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset(
+                      "assets/images_gps/location.svg",
+                      height: 14.77,
+                      width: 16.0,
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      '施術をする場所',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          '${therapistDetails.bookingDataResponse[0].locationType} ',
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 2,
+                    ),
+                    Text(
+                      '${therapistDetails.bookingDataResponse[0].location} ',
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        color: Color.fromRGBO(102, 102, 102, 1),
+                      ),
+                    ),
+                  ],
+                ),
+                therapistDetails.bookingDataResponse[0].therapistComments !=
+                            null &&
+                        therapistDetails
+                                .bookingDataResponse[0].therapistComments !=
+                            ''
+                    ? Column(
+                        children: [
+                          SizedBox(
+                            height: 4,
+                          ),
+                          Text(
+                            '${therapistDetails.bookingDataResponse[0].therapistComments} ',
+                            style: TextStyle(
+                              fontSize: 12.0,
+                              color: Color.fromRGBO(102, 102, 102, 1),
+                            ),
+                          ),
+                        ],
+                      )
+                    : Container(),
+              ],
+            ),
+          ),
+        ),
+        therapistDetails.bookingDataResponse[0].bookingStatus == 2 &&
+                therapistDetails.bookingDataResponse[0].addedPrice != null &&
+                therapistDetails.bookingDataResponse[0].addedPrice != ''
+            ? buildConditionReason(context)
+            : Container(),
+        therapistDetails.bookingDataResponse[0].bookingStatus == 2
+            ? buildConditionAppliedDetails(context)
+            : Container(),
+      ],
+    );
+  }
+
+  buildConditionReason(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(
+            top: 4.0,
+            left: 14.0,
+            bottom: 4.0,
+          ),
+          child: Text(
+            "リクエストの理由",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.all(12.0),
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: Colors.black),
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          alignment: Alignment.topLeft,
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Text(
+                  "${therapistDetails.bookingDataResponse[0].addedPrice}",
+                  style: TextStyle(fontSize: 14.0, color: Colors.black),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  buildConditionAppliedDetails(BuildContext context) {
+    bool isDateChanged = false;
+    bool isPriceAdded = false;
+    String sTime = DateFormat('kk:mm')
+        .format(therapistDetails.bookingDataResponse[0].startTime.toLocal());
+    String eTime = DateFormat('kk:mm')
+        .format(therapistDetails.bookingDataResponse[0].endTime.toLocal());
+    String nSTime;
+    String nEndTime;
+
+    if (therapistDetails.bookingDataResponse[0].newStartTime != null) {
+      isDateChanged = true;
+      nSTime = DateFormat('kk:mm').format(
+          DateTime.parse(therapistDetails.bookingDataResponse[0].newStartTime)
+              .toLocal());
+      nEndTime = DateFormat('kk:mm').format(
+          DateTime.parse(therapistDetails.bookingDataResponse[0].newEndTime)
+              .toLocal());
+    }
+
+    if (therapistDetails.bookingDataResponse[0].travelAmount != 0) {
+      isPriceAdded = true;
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(
+            top: 4.0,
+            left: 14.0,
+            bottom: 4.0,
+          ),
+          child: Text(
+            "セラピストからのリクエスト内容",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.all(12.0),
+          decoration: BoxDecoration(
+            color: Color.fromRGBO(242, 242, 242, 1),
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Stack(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // crossAxisAlignment: CrossAxisAlignment.sp,
+                  children: [
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
+                            children: [
+                              Text(
+                                "提案時間",
+                                style: TextStyle(
+                                    fontSize: 14.0, color: Colors.black),
+                              ),
+                              SizedBox(height: 10),
+                            ],
+                          ),
+                          Text(
+                            "サービス料金",
+                            style:
+                                TextStyle(fontSize: 14.0, color: Colors.black),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            "交通費",
+                            style:
+                                TextStyle(fontSize: 14.0, color: Colors.black),
+                          ),
+                          SizedBox(height: 20),
+                          Text(
+                            "合計",
+                            style:
+                                TextStyle(fontSize: 14.0, color: Colors.black),
+                          ),
+                        ]),
+                    Column(
+                        //     mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                "$sTime ~ $eTime  ",
+                                style: TextStyle(
+                                    fontSize: 10.0,
+                                    color: !isDateChanged
+                                        ? Color.fromRGBO(242, 242, 242, 1)
+                                        : Color.fromRGBO(153, 153, 153, 1),
+                                    decoration: TextDecoration.lineThrough),
+                              ),
+                              Icon(
+                                Icons.arrow_forward,
+                                size: 10.0,
+                                color: !isDateChanged
+                                    ? Color.fromRGBO(242, 242, 242, 1)
+                                    : Color.fromRGBO(153, 153, 153, 1),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 14),
+                          Text(
+                            "",
+                            style:
+                                TextStyle(fontSize: 15.0, color: Colors.white),
+                          ),
+                          SizedBox(height: 14),
+                          Row(
+                            children: [
+                              Text(
+                                "¥0",
+                                style: TextStyle(
+                                    fontSize: 10.0,
+                                    color: !isPriceAdded
+                                        ? Color.fromRGBO(242, 242, 242, 1)
+                                        : Color.fromRGBO(153, 153, 153, 1),
+                                    decoration: TextDecoration.lineThrough),
+                              ),
+                              Icon(
+                                Icons.arrow_forward,
+                                size: 10.0,
+                                color: !isPriceAdded
+                                    ? Color.fromRGBO(242, 242, 242, 1)
+                                    : Color.fromRGBO(153, 153, 153, 1),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 24),
+                          Row(
+                            children: [
+                              Text(
+                                "¥${therapistDetails.bookingDataResponse[0].priceOfService}  ",
+                                style: TextStyle(
+                                    fontSize: 10.0,
+                                    color: !isPriceAdded
+                                        ? Color.fromRGBO(242, 242, 242, 1)
+                                        : Color.fromRGBO(153, 153, 153, 1),
+                                    decoration: TextDecoration.lineThrough),
+                              ),
+                              Icon(
+                                Icons.arrow_forward,
+                                size: 10.0,
+                                color: !isPriceAdded
+                                    ? Color.fromRGBO(242, 242, 242, 1)
+                                    : Color.fromRGBO(153, 153, 153, 1),
+                              ),
+                            ],
+                          ),
+                        ]),
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            isDateChanged
+                                ? "$nSTime ~ $nEndTime"
+                                : "$sTime ~ $eTime",
+                            style:
+                                TextStyle(fontSize: 14.0, color: Colors.black),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            "¥${therapistDetails.bookingDataResponse[0].priceOfService}",
+                            style:
+                                TextStyle(fontSize: 14.0, color: Colors.black),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            "¥${therapistDetails.bookingDataResponse[0].travelAmount}",
+                            style:
+                                TextStyle(fontSize: 14.0, color: Colors.black),
+                          ),
+                          SizedBox(height: 20),
+                          Text(
+                            "¥${therapistDetails.bookingDataResponse[0].priceOfService + therapistDetails.bookingDataResponse[0].travelAmount}",
+                            style:
+                                TextStyle(fontSize: 14.0, color: Colors.black),
+                          ),
+                        ]),
+                  ],
+                ),
+                Positioned(
+                  bottom: 20.0,
+                  height: 10.0,
+                  width: MediaQuery.of(context).size.width,
+                  child: new Divider(
+                    color: Color.fromRGBO(102, 102, 102, 1),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   dateTimeInfoBuilder(BuildContext context) {
@@ -218,6 +1081,10 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
           await ServiceUserAPIProvider.getTherapistDetails(context, widget.id);
       HealingMatchConstants.therapistProfileDetails = therapistDetails;
       //append all Service Types for General View
+      allTherapistList.addAll(therapistDetails.therapistEstheticList);
+      allTherapistList.addAll(therapistDetails.therapistRelaxationList);
+      allTherapistList.addAll(therapistDetails.therapistOrteopathicList);
+      allTherapistList.addAll(therapistDetails.therapistFitnessListList);
       setState(() {
         if (HealingMatchConstants.serviceType != 0 &&
             HealingMatchConstants.serviceType == 1) {
@@ -402,7 +1269,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
     }
   }
 
-  Widget bookAgain() {
+  Widget book() {
     return Container(
       margin: EdgeInsets.all(10),
       child: RaisedButton(
@@ -422,6 +1289,104 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
               fontFamily: 'NotoSansJP',
               fontWeight: FontWeight.bold,
               fontSize: 16),
+        ),
+      ),
+    );
+  }
+
+  Widget acceptConditions() {
+    return Container(
+      margin: EdgeInsets.all(10),
+      child: RaisedButton(
+        padding: EdgeInsets.all(10.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(10.0),
+          //side: BorderSide(color: Colors.black),
+        ),
+        color: Colors.red,
+        onPressed: () {},
+        child: new Text(
+          '変更を受け入れる',
+          style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'NotoSansJP',
+              fontWeight: FontWeight.bold,
+              fontSize: 16),
+        ),
+      ),
+    );
+  }
+
+  Widget bookAgain() {
+    return Container(
+      margin: EdgeInsets.all(10),
+      child: RaisedButton(
+        padding: EdgeInsets.all(10.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(10.0),
+          //side: BorderSide(color: Colors.black),
+        ),
+        color: Colors.green,
+        onPressed: () {},
+        child: new Text(
+          'もう一度予約する',
+          style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'NotoSansJP',
+              fontWeight: FontWeight.bold,
+              fontSize: 16),
+        ),
+      ),
+    );
+  }
+
+  Widget proceedToPayment() {
+    return Container(
+      margin: EdgeInsets.all(10),
+      child: RaisedButton(
+        padding: EdgeInsets.all(10.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(10.0),
+          //side: BorderSide(color: Colors.black),
+        ),
+        color: Colors.red,
+        onPressed: () {},
+        child: new Text(
+          '支払いに進む',
+          style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'NotoSansJP',
+              fontWeight: FontWeight.bold,
+              fontSize: 16),
+        ),
+      ),
+    );
+  }
+
+  Widget waitingForApproval() {
+    return Container(
+      margin: EdgeInsets.all(10),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              "assets/images_gps/processing.svg",
+              height: 20.0,
+              width: 20.0,
+              color: Colors.black,
+            ),
+            SizedBox(width: 4),
+            Text(
+              'セラピストの承認待ち',
+              style: TextStyle(
+                  color: Colors.black,
+                  fontFamily: 'NotoSansJP',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14),
+            ),
+          ],
         ),
       ),
     );
