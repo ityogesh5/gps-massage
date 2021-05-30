@@ -675,7 +675,7 @@ class HealingMatchConstants {
   static int searchServiceType = 0;
 
   //payment
-  static int bookingId;
+  static int bookingIdPay;
 
   //Booking confirm screen
   //出張での施術は距離、場所によって別途交通費等がかかる場合があります。

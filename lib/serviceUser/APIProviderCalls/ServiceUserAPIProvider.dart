@@ -715,7 +715,7 @@ class ServiceUserAPIProvider {
             "userId": userID,
             "amount": amount,
             "cardId": cardID,
-            "bookingId": HealingMatchConstants.bookingId,
+            "bookingId": HealingMatchConstants.bookingIdPay,
           }));
       print('chargePaymentForCustomer response : ${response.body}');
       print('statusCode : ${response.statusCode}');

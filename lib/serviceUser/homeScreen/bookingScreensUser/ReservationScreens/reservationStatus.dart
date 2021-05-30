@@ -2374,7 +2374,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                   InkWell(
                                                     onTap: () {
                                                       HealingMatchConstants
-                                                              .bookingId =
+                                                              .bookingIdPay =
                                                           approvedList[index]
                                                               .id;
                                                       print(
