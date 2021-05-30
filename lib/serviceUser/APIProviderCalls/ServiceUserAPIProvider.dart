@@ -29,6 +29,7 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/Se
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
 import 'package:http/http.dart' as http;
 
 class ServiceUserAPIProvider {
@@ -415,6 +416,37 @@ class ServiceUserAPIProvider {
     return _deleteSubAddressModel;
   }
 
+//cancel Booking status
+  static Future<bool> updateBookingCompeted(int bookingDetail) async {
+    try {
+      final url = HealingMatchConstants.THERAPIST_BOOKING_STATUS_UPDATE;
+      Map<String, dynamic> body;
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '${HealingMatchConstants.accessToken}'
+      };
+
+      body = {
+        "bookingId": bookingDetail.toString(),
+        "bookingStatus": "5",
+      };
+
+      final response =
+          await http.post(url, headers: headers, body: json.encode(body));
+      print('userCancel: ${response.body}');
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print('Exception : ${e.toString()}');
+      return true;
+    }
+  }
+
   // get home screen user banner images
   static Future<EditUserSubAddressModel> editUserSubAddress(
       BuildContext context,
@@ -714,9 +746,11 @@ class ServiceUserAPIProvider {
           },
           body: json.encode({
             "userId": userID,
+            "therapistId": HealingMatchConstants.therapistIdPay,
             "amount": amount,
             "cardId": cardID,
             "bookingId": HealingMatchConstants.bookingIdPay,
+            "priceOfService": HealingMatchConstants.priceOfServicePay,
           }));
       print('chargePaymentForCustomer response : ${response.body}');
       print('statusCode : ${response.statusCode}');
