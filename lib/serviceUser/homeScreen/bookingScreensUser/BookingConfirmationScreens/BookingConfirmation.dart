@@ -8,9 +8,11 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
 import 'package:gps_massageapp/customLibraryClasses/customRadioButtonList/roundedRadioButton.dart';
+import 'package:gps_massageapp/models/customModels/calendarEventCreateReqModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/booking/createBooking.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/HomeScreenUser.dart';
 
 double ratingsValue = 4.0;
 bool checkValue = false;
@@ -897,7 +899,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
   }
 
   _updateUserBookingDetails() async {
-    ProgressDialogBuilder.showOverlayLoader(context);
+    //   ProgressDialogBuilder.showOverlayLoader(context);
     int therapistId = HealingMatchConstants.confTherapistId;
     String startTime =
         HealingMatchConstants.confSelectedDateTime.toLocal().toString();
@@ -919,6 +921,19 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
     print('Entering on press');
     print('StartTime: ${HealingMatchConstants.confSelectedDateTime.toLocal()}');
     print('StartTime: ${startTime}');
+    CalendarEventCreateReqModel calendarEventCreateReqModel =
+        CalendarEventCreateReqModel(
+      HealingMatchConstants.serviceUserID,
+      therapistId,
+      HealingMatchConstants.serviceUserName,
+      "ab de vi",
+      locationType,
+      location,
+      priceOfService,
+      nameOfService,
+      HealingMatchConstants.confSelectedDateTime,
+      HealingMatchConstants.confEndDateTime,
+    );
 /*    if (HealingMatchConstants.confServiceAddressType.contains('店舗') &&
             selectedBuildingType == null ||
         selectedBuildingType.isEmpty) {
@@ -945,29 +960,34 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
     }*/
 
     try {
-      createBooking = await ServiceUserAPIProvider.createBooking(
-          context,
-          therapistId,
-          startTime,
-          endTime,
-          paymentStatus,
-          subCategoryId,
-          categoryId,
-          nameOfService,
-          totalMinOfService,
-          priceOfService,
-          bookingStatus,
-          locationType,
-          location,
-          totalCost,
-          userReviewStatus,
-          therapistReviewStatus,
-          userCommands);
+      ServiceUserAPIProvider.createCalendarEvent(calendarEventCreateReqModel)
+          .then((value) async {
+        createBooking = await ServiceUserAPIProvider.createBooking(
+            context,
+            therapistId,
+            startTime,
+            endTime,
+            paymentStatus,
+            subCategoryId,
+            categoryId,
+            nameOfService,
+            totalMinOfService,
+            priceOfService,
+            bookingStatus,
+            locationType,
+            location,
+            totalCost,
+            userReviewStatus,
+            therapistReviewStatus,
+            userCommands,
+            value.id);
+        NavigationRouter.switchToServiceUserReservationAndFavourite(context);
+      });
     } catch (e) {
       print(e.toString());
     }
     ProgressDialogBuilder.hideLoader(context);
-    NavigationRouter.switchToServiceUserReservationAndFavourite(context);
+    //NavigationRouter.switchToServiceUserReservationAndFavourite(context);
   }
 }
 

@@ -517,8 +517,7 @@ class HealingMatchConstants {
   static providerLogin.Data userData;
   static bool isProvider = false;
   static bool isProviderHomePage;
-  static String accessToken =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTMwNTkyODZ9.vbtFi4s8AJiysPLNvyk-y8hrGWadZh7PMpD6Ab9Q3bA';
+  static String accessToken;
   static int serviceUserId;
   static int userId;
   static List<FlutterWeekViewEvent> events = List<FlutterWeekViewEvent>();
@@ -553,7 +552,7 @@ class HealingMatchConstants {
   static int confserviceCId;
   static int confserviceSubId;
   static var confNoOfServiceDuration;
-  static var confServiceCost = '230';
+  static var confServiceCost;
   static var confCertificationUpload;
   static bool confBuisnessTrip;
   static bool confShop;
@@ -674,9 +673,7 @@ class HealingMatchConstants {
   static String searchDateTxt = 'さがす条件を選んでください';
   static int searchServiceType = 0;
 
-  //payment
-  static int bookingId;
-
+  
   //Booking confirm screen
   //出張での施術は距離、場所によって別途交通費等がかかる場合があります。
   static String additionalDistanceCost = '出張での施術は距離、場所によって別途交通費等がかかる場合があります。\n'
