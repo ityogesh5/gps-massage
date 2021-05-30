@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
-import 'package:gps_massageapp/serviceProvider/homeScreens/history/BookingCancelPopup.dart';
 import 'package:intl/intl.dart';
 
 class ProviderRequestScreen extends StatefulWidget {
@@ -69,9 +68,10 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
   }
 
   Card buildBookingCard(int index) {
-    String jaName = DateFormat('EEEE', 'ja_JP')
-        .format(requestBookingDetailsList[index].startTime);
-   
+    DateTime startTime = requestBookingDetailsList[index].startTime.toLocal();
+    DateTime endTime = requestBookingDetailsList[index].endTime.toLocal();
+    String jaName = DateFormat('EEEE', 'ja_JP').format(startTime);
+
     return Card(
       // margin: EdgeInsets.all(8.0),
       color: Color.fromRGBO(242, 242, 242, 1),
@@ -95,7 +95,7 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
                       ),
                     ),
                     Text(
-                      '(男性)',
+                      '(${requestBookingDetailsList[index].bookingUserId.gender})',
                       style: TextStyle(
                         fontSize: 12.0,
                         color: Color.fromRGBO(181, 181, 181, 1),
@@ -137,7 +137,7 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
                       width: 8,
                     ),
                     Text(
-                      '${requestBookingDetailsList[index].startTime.month}月${requestBookingDetailsList[index].startTime.day}',
+                      '${startTime.month}月${startTime.day}',
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.black,
@@ -170,7 +170,39 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
                       width: 8,
                     ),
                     Text(
-                      '${requestBookingDetailsList[index].startTime.hour}: ${requestBookingDetailsList[index].startTime.minute} ~ ${requestBookingDetailsList[index].endTime.hour}: ${requestBookingDetailsList[index].endTime.minute}',
+                      startTime.hour < 10
+                          ? "0${startTime.hour}"
+                          : "${startTime.hour}",
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      startTime.minute < 10
+                          ? ": 0${startTime.minute}"
+                          : ": ${startTime.minute}",
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      endTime.hour < 10
+                          ? " ~ 0${endTime.hour}"
+                          : " ~ ${endTime.hour}",
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      endTime.minute < 10
+                          ? ": 0${endTime.minute}"
+                          : ": ${endTime.minute}",
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.black,
@@ -276,7 +308,7 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
                       '${requestBookingDetailsList[index].location}',
                       style: TextStyle(
                         color: Color.fromRGBO(102, 102, 102, 1),
-                        fontSize: 17,
+                        fontSize: 12,
                       ),
                     )
                   ],
@@ -380,31 +412,5 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
         ),
       ),
     );
-  }
-
-  String getJaDayName(String day) {
-    switch (day) {
-      case 'Monday':
-        return '月曜日';
-        break;
-      case 'Tuesday':
-        return '火曜日';
-        break;
-      case 'Wednesday':
-        return '水曜日';
-        break;
-      case 'Thursday':
-        return '木曜日';
-        break;
-      case 'Friday':
-        return '金曜日';
-        break;
-      case 'Saturday':
-        return '土曜日';
-        break;
-      case 'Sunday':
-        return '日曜日';
-        break;
-    }
   }
 }

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/history/BookingCancelPopup.dart';
+import 'package:intl/intl.dart';
+import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
 class ProviderConfirmReservationScreen extends StatefulWidget {
   @override
@@ -11,46 +15,84 @@ class ProviderConfirmReservationScreen extends StatefulWidget {
 
 class _ProviderConfirmReservationScreenState
     extends State<ProviderConfirmReservationScreen> {
+  List<BookingDetailsList> requestBookingDetailsList =
+      List<BookingDetailsList>();
+  int status = 0;
+  bool isLoading = false;
+  var _pageNumber = 0;
+  var _pageSize = 10;
+
+  @override
+  void initState() {
+    super.initState();
+    getConfirmedDetails();
+  }
+
+  void getConfirmedDetails() {
+    ServiceProviderApi.getConfirmedBookingDetails(_pageNumber, _pageSize)
+        .then((value) {
+      setState(() {
+        requestBookingDetailsList.addAll(value.data.bookingDetailsList);
+        status = 1;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      primary: true,
-      child: Container(
-        padding: EdgeInsets.all(8.0),
-        //  margin: EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Center(
-              child: Text(
-                "サービス利用者の支払いが完了し確定した予約",
-                // textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color.fromRGBO(102, 102, 102, 1),
-                  fontSize: 12.0,
-                  fontFamily: 'NotoSansJP',
+    return status == 0
+        ? Center(child: CircularProgressIndicator())
+        : LazyLoadScrollView(
+            isLoading: isLoading,
+            onEndOfPage: () => _getMoreData(),
+            child: SingleChildScrollView(
+              primary: true,
+              child: Container(
+                padding: EdgeInsets.all(8.0),
+                //  margin: EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Center(
+                      child: Text(
+                        "サービス利用者の支払いが完了し確定した予約",
+                        // textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color.fromRGBO(102, 102, 102, 1),
+                          fontSize: 12.0,
+                          fontFamily: 'NotoSansJP',
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    ListView.separated(
+                        separatorBuilder: (context, index) => SizedBox(
+                              height: 15,
+                            ),
+                        shrinkWrap: true,
+                        physics: BouncingScrollPhysics(),
+                        itemCount: requestBookingDetailsList.length,
+                        itemBuilder: (context, index) {
+                          return buildBookingCard(index);
+                        }),
+                  ],
                 ),
               ),
             ),
-            SizedBox(
-              height: 15,
-            ),
-            ListView.separated(
-                separatorBuilder: (context, index) => SizedBox(
-                      height: 15,
-                    ),
-                shrinkWrap: true,
-                physics: BouncingScrollPhysics(),
-                itemCount: 3,
-                itemBuilder: (context, index) {
-                  return buildBookingCard(index);
-                }),
-          ],
-        ),
-      ),
-    );
+          );
   }
 
   Card buildBookingCard(int index) {
+    DateTime startTime = requestBookingDetailsList[index].newStartTime != null
+        ? DateTime.parse(requestBookingDetailsList[index].newStartTime)
+            .toLocal()
+        : requestBookingDetailsList[index].startTime.toLocal();
+    DateTime endTime = requestBookingDetailsList[index].newEndTime != null
+        ? DateTime.parse(requestBookingDetailsList[index].newEndTime).toLocal()
+        : requestBookingDetailsList[index].endTime.toLocal();
+    String jaName = DateFormat('EEEE', 'ja_JP').format(startTime);
+
     return Card(
       // margin: EdgeInsets.all(8.0),
       color: Color.fromRGBO(242, 242, 242, 1),
@@ -66,7 +108,7 @@ class _ProviderConfirmReservationScreenState
                 Row(
                   children: [
                     Text(
-                      'AK さん',
+                      '${requestBookingDetailsList[index].bookingUserId.userName}',
                       style: TextStyle(
                         fontSize: 16.0,
                         color: Colors.black,
@@ -74,7 +116,7 @@ class _ProviderConfirmReservationScreenState
                       ),
                     ),
                     Text(
-                      '(男性)',
+                      '(${requestBookingDetailsList[index].bookingUserId.gender})',
                       style: TextStyle(
                         fontSize: 12.0,
                         color: Color.fromRGBO(181, 181, 181, 1),
@@ -92,7 +134,9 @@ class _ProviderConfirmReservationScreenState
                             borderRadius: BorderRadius.all(Radius.circular(5))),
                         padding: EdgeInsets.all(4),
                         child: Text(
-                          '店舗',
+                          requestBookingDetailsList[index].locationType == "店舗"
+                              ? '店舗'
+                              : '出張',
                           style: TextStyle(
                             fontSize: 9.0,
                             color: Colors.black,
@@ -114,7 +158,7 @@ class _ProviderConfirmReservationScreenState
                       width: 8,
                     ),
                     Text(
-                      '10月17',
+                      '${startTime.month}月${startTime.day}',
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.black,
@@ -125,7 +169,7 @@ class _ProviderConfirmReservationScreenState
                       width: 8,
                     ),
                     Text(
-                      ' 月曜日 ',
+                      ' $jaName ',
                       style: TextStyle(
                         fontSize: 12.0,
                         color: Color.fromRGBO(102, 102, 102, 1),
@@ -147,7 +191,9 @@ class _ProviderConfirmReservationScreenState
                       width: 8,
                     ),
                     Text(
-                      '09: 00 ~ 10: 00',
+                      startTime.hour < 10
+                          ? "0${startTime.hour}"
+                          : "${startTime.hour}",
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.black,
@@ -155,7 +201,37 @@ class _ProviderConfirmReservationScreenState
                       ),
                     ),
                     Text(
-                      ' 60分 ',
+                      startTime.minute < 10
+                          ? ": 0${startTime.minute}"
+                          : ": ${startTime.minute}",
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      endTime.hour < 10
+                          ? " ~ 0${endTime.hour}"
+                          : " ~ ${endTime.hour}",
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      endTime.minute < 10
+                          ? ": 0${endTime.minute}"
+                          : ": ${endTime.minute}",
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      ' ${requestBookingDetailsList[index].totalMinOfService}分 ',
                       style: TextStyle(
                         fontSize: 12.0,
                         color: Color.fromRGBO(102, 102, 102, 1),
@@ -173,7 +249,7 @@ class _ProviderConfirmReservationScreenState
                           borderRadius: BorderRadius.all(Radius.circular(5))),
                       padding: EdgeInsets.all(4),
                       child: Text(
-                        '足つぼ',
+                        '${requestBookingDetailsList[index].nameOfService}',
                         style: TextStyle(
                           fontSize: 12.0,
                           color: Colors.black,
@@ -238,7 +314,7 @@ class _ProviderConfirmReservationScreenState
                           borderRadius: BorderRadius.all(Radius.circular(5))),
                       child: Center(
                         child: Text(
-                          '店舗',
+                          '${requestBookingDetailsList[index].locationType}',
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 12,
@@ -250,17 +326,17 @@ class _ProviderConfirmReservationScreenState
                       width: 8,
                     ),
                     Text(
-                      '埼玉県浦和区高砂4丁目4',
+                      '${requestBookingDetailsList[index].location}',
                       style: TextStyle(
                         color: Color.fromRGBO(102, 102, 102, 1),
-                        fontSize: 17,
+                        fontSize: 12,
                       ),
                     )
                   ],
                 )
               ],
             ),
-            index == 0
+            requestBookingDetailsList[index].bookingStatus == 6
                 ? Positioned(
                     top: 88.0,
                     right: 70.0,
@@ -273,7 +349,8 @@ class _ProviderConfirmReservationScreenState
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(
                                         20.0)), //this right here
-                                child: CancelBooking(),
+                                child: CancelBooking(
+                                    requestBookingDetailsList[index]),
                               );
                             });
                       },
@@ -303,13 +380,18 @@ class _ProviderConfirmReservationScreenState
                     ),
                   )
                 : Container(),
-            index == 0
+            requestBookingDetailsList[index].bookingStatus == 6
                 ? Positioned(
                     top: 85.0, //88.0
                     right: 10.0,
                     child: InkWell(
                       onTap: () {
-                        print('abc');
+                        ServiceProviderApi.updateBookingCompeted(
+                                requestBookingDetailsList[index])
+                            .then((value) {
+                          NavigationRouter.switchToServiceProviderBottomBar(
+                              context);
+                        });
                       },
                       child: Card(
                         elevation: 4.0,
@@ -327,7 +409,8 @@ class _ProviderConfirmReservationScreenState
                     ),
                   )
                 : Container(),
-            index == 1
+            requestBookingDetailsList[index].bookingStatus == 9 &&
+                    requestBookingDetailsList[index].therapistReviewStatus == 0
                 ? Positioned(
                     top: 88.0,
                     right: 10.0,
@@ -352,7 +435,8 @@ class _ProviderConfirmReservationScreenState
                     ),
                   )
                 : Container(),
-            index == 2
+            requestBookingDetailsList[index].bookingStatus == 9 &&
+                    requestBookingDetailsList[index].therapistReviewStatus == 1
                 ? Positioned(
                     top: 88.0,
                     right: 10.0,
@@ -390,5 +474,41 @@ class _ProviderConfirmReservationScreenState
         ),
       ),
     );
+  }
+
+  _getMoreData() async {
+    try {
+      if (!isLoading) {
+        isLoading = true;
+        _pageNumber++;
+        print('Page number : $_pageNumber Page Size : $_pageSize');
+        TherapistBookingHistoryResponseModel
+            therapistBookingHistoryResponseModel =
+            await ServiceProviderApi.getConfirmedBookingDetails(
+                _pageNumber, _pageSize);
+
+        if (therapistBookingHistoryResponseModel
+            .data.bookingDetailsList.isEmpty) {
+          setState(() {
+            isLoading = false;
+            print(
+                'TherapistList data count is Zero : ${therapistBookingHistoryResponseModel.data.bookingDetailsList.length}');
+          });
+        } else {
+          print(
+              'TherapistList data Size : ${therapistBookingHistoryResponseModel.data.bookingDetailsList.length}');
+          setState(() {
+            isLoading = false;
+            if (this.mounted) {
+              requestBookingDetailsList.addAll(
+                  therapistBookingHistoryResponseModel.data.bookingDetailsList);
+            }
+          });
+        }
+      }
+      //print('Therapist users data Size : ${therapistUsers.length}');
+    } catch (e) {
+      print('Exception more data' + e.toString());
+    }
   }
 }

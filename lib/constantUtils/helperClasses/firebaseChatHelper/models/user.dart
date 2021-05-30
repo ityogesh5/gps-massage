@@ -20,6 +20,7 @@ class UserDetail {
     this.username,
     this.isOnline,
     this.isTyping,
+    this.searchKey,
   });
 
   String id;
@@ -31,6 +32,7 @@ class UserDetail {
   String username;
   bool isOnline;
   bool isTyping;
+  String searchKey;
 
   factory UserDetail.fromJson(Map<String, dynamic> json) => UserDetail(
         id: json["id"],
@@ -42,6 +44,7 @@ class UserDetail {
         username: json["username"],
         isOnline: json["isOnline"],
         isTyping: json["isTyping"],
+        searchKey: json["searchKey"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -54,5 +57,6 @@ class UserDetail {
         "username": username,
         "isOnline": isOnline,
         "isTyping": isTyping,
+        "searchKey": searchKey,
       };
 }

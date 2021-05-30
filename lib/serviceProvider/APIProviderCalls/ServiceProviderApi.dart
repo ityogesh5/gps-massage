@@ -386,4 +386,216 @@ class ServiceProviderApi {
       return therapistBookingHistoryResponseModel;
     }
   }
+
+  static Future<TherapistBookingHistoryResponseModel>
+      getBookingApprovedDetails() async {
+    TherapistBookingHistoryResponseModel therapistBookingHistoryResponseModel;
+    try {
+      final url = HealingMatchConstants.THERAPIST_BOOKING_APPROVED;
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '${HealingMatchConstants.accessToken}'
+      };
+      final response = await http.post(url,
+          headers: headers,
+          body: json.encode({
+            "therapistId": 18, //HealingMatchConstants.userId,
+          }));
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        therapistBookingHistoryResponseModel =
+            TherapistBookingHistoryResponseModel.fromJson(data);
+        return therapistBookingHistoryResponseModel;
+      } else {
+        return therapistBookingHistoryResponseModel;
+      }
+    } catch (e) {
+      print('Exception : ${e.toString()}');
+      return therapistBookingHistoryResponseModel;
+    }
+  }
+
+  static Future<TherapistBookingHistoryResponseModel>
+      getConfirmedBookingDetails(int pageNumber, int pageSize) async {
+    TherapistBookingHistoryResponseModel therapistBookingHistoryResponseModel;
+    try {
+      final url = HealingMatchConstants.THERAPIST_BOOKING_CONFIRMED +
+          "?page=$pageNumber&size=$pageSize";
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '${HealingMatchConstants.accessToken}'
+      };
+      final response = await http.post(url,
+          headers: headers,
+          body: json.encode({
+            "therapistId": 18, //HealingMatchConstants.userId,
+          }));
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        therapistBookingHistoryResponseModel =
+            TherapistBookingHistoryResponseModel.fromJson(data);
+        return therapistBookingHistoryResponseModel;
+      } else {
+        return therapistBookingHistoryResponseModel;
+      }
+    } catch (e) {
+      print('Exception : ${e.toString()}');
+      return therapistBookingHistoryResponseModel;
+    }
+  }
+
+  static Future<TherapistBookingHistoryResponseModel> getCanceledBookingDetails(
+      int pageNumber, int pageSize) async {
+    TherapistBookingHistoryResponseModel therapistBookingHistoryResponseModel;
+    try {
+      final url = HealingMatchConstants.THERAPIST_CANCELLED_BOOKING +
+          "?page=$pageNumber&size=$pageSize";
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '${HealingMatchConstants.accessToken}'
+      };
+      final response = await http.post(url,
+          headers: headers,
+          body: json.encode({
+            "therapistId": 18, //HealingMatchConstants.userId,
+          }));
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        therapistBookingHistoryResponseModel =
+            TherapistBookingHistoryResponseModel.fromJson(data);
+        return therapistBookingHistoryResponseModel;
+      } else {
+        return therapistBookingHistoryResponseModel;
+      }
+    } catch (e) {
+      print('Exception : ${e.toString()}');
+      return therapistBookingHistoryResponseModel;
+    }
+  }
+
+  static Future<bool> updateStatusUpdate(BookingDetailsList bookingDetail,
+      bool isAddedPrice, bool isTimeChange, bool isCancel) async {
+    try {
+      final url = HealingMatchConstants.THERAPIST_BOOKING_STATUS_UPDATE;
+      Map<String, dynamic> body;
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '${HealingMatchConstants.accessToken}'
+      };
+      if (isCancel) {
+        body = {
+          "bookingId": bookingDetail.id.toString(),
+          "cancellationReason": bookingDetail.cancellationReason,
+          "bookingStatus": "4",
+        };
+      } else if (isAddedPrice && isTimeChange) {
+        body = {
+          "bookingId": bookingDetail.id.toString(),
+          "bookingStatus": "2",
+          "newStartTime": bookingDetail.newStartTime.toString(),
+          "newEndTime": bookingDetail.newEndTime.toString(),
+          "addedPrice": bookingDetail.addedPrice,
+          "travelAmount": bookingDetail.travelAmount.toString(),
+          "therapistComments": bookingDetail.therapistComments,
+        };
+      } else if (isAddedPrice) {
+        body = {
+          "bookingId": bookingDetail.id.toString(),
+          "bookingStatus": "2",
+          "addedPrice": bookingDetail.addedPrice,
+          "travelAmount": bookingDetail.travelAmount.toString(),
+          "therapistComments": bookingDetail.therapistComments,
+        };
+      } else if (isAddedPrice) {
+        body = {
+          "bookingId": bookingDetail.id.toString(),
+          "bookingStatus": "2",
+          "newStartTime": bookingDetail.newStartTime.toString(),
+          "newEndTime": bookingDetail.newEndTime.toString(),
+          "therapistComments": bookingDetail.therapistComments,
+        };
+      } else {
+        body = {
+          "bookingId": bookingDetail.id.toString(),
+          "bookingStatus": "1",
+          "therapistComments": bookingDetail.therapistComments != null
+              ? bookingDetail.therapistComments
+              : '',
+        };
+      }
+
+      final response =
+          await http.post(url, headers: headers, body: json.encode(body));
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print('Exception : ${e.toString()}');
+      return true;
+    }
+  }
+
+  static Future<bool> updateBookingCompeted(
+    BookingDetailsList bookingDetail,
+  ) async {
+    try {
+      final url = HealingMatchConstants.THERAPIST_BOOKING_STATUS_UPDATE;
+      Map<String, dynamic> body;
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '${HealingMatchConstants.accessToken}'
+      };
+
+      body = {
+        "bookingId": bookingDetail.id.toString(),
+        "bookingStatus": "9",
+      };
+
+      final response =
+          await http.post(url, headers: headers, body: json.encode(body));
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print('Exception : ${e.toString()}');
+      return true;
+    }
+  }
+
+  static Future<TherapistBookingHistoryResponseModel>
+      getWeeklyBookingCardDetails(int pageNumber, int pageSize) async {
+    TherapistBookingHistoryResponseModel therapistBookingHistoryResponseModel;
+    try {
+      final url = HealingMatchConstants.THERAPIST_WEEKLY_BOOKING +
+          "?page=$pageNumber&size=$pageSize";
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '${HealingMatchConstants.accessToken}'
+      };
+      final response = await http.post(url,
+          headers: headers,
+          body: json.encode({
+            "therapistId": 18, //HealingMatchConstants.userId,
+          }));
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        therapistBookingHistoryResponseModel =
+            TherapistBookingHistoryResponseModel.fromJson(data);
+        return therapistBookingHistoryResponseModel;
+      } else {
+        return therapistBookingHistoryResponseModel;
+      }
+    } catch (e) {
+      print('Exception : ${e.toString()}');
+      return therapistBookingHistoryResponseModel;
+    }
+  }
 }

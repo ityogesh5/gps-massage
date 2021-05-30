@@ -202,6 +202,30 @@ class HealingMatchConstants {
   static const String UNDO_FAVOURITE_THERAPIST =
       ON_PREMISE_USER_BASE_URL + '/favourite/unFavouriteTherapist';
 
+  // therapist booking request
+  static const String THERAPIST_BOOKING_REQUEST =
+      ON_PREMISE_USER_BASE_URL + '/bookingDetails/bookingRequestStatusList';
+
+  // therapist approved booking request
+  static const String THERAPIST_BOOKING_APPROVED =
+      ON_PREMISE_USER_BASE_URL + '/bookingDetails/bookingApprovalStatusList';
+
+  // therapist confirmed booking request
+  static const String THERAPIST_BOOKING_CONFIRMED = ON_PREMISE_USER_BASE_URL +
+      '/bookingDetails/bookingConfirmReservationStatusList';
+
+  // therapist cancel booking list
+  static const String THERAPIST_CANCELLED_BOOKING =
+      ON_PREMISE_USER_BASE_URL + '/bookingDetails/bookingCancelStatusList';
+
+  // therapist booking status change
+  static const String THERAPIST_BOOKING_STATUS_UPDATE =
+      ON_PREMISE_USER_BASE_URL + '/booking/bookingRequestStatusUpdateById';
+
+  // therapist weekly booking detail request
+  static const String THERAPIST_WEEKLY_BOOKING =
+      ON_PREMISE_USER_BASE_URL + '/bookingDetails/weeklyBookingStatusList';
+
   // handle guest user
   static const String HANDLE_GUEST_USER =
       ON_PREMISE_USER_BASE_URL + '/user/guestUser';
@@ -224,9 +248,6 @@ class HealingMatchConstants {
   static const String VERIFY_LINE_ID_TOKEN_URL =
       'https://api.line.me/oauth2/v2.1/verify';
 
-  // therapist booking request
-  static const String THERAPIST_BOOKING_REQUEST =
-      ON_PREMISE_USER_BASE_URL + '/bookingDetails/bookingRequestStatusList';
   //booking Status Api
   static const String BOOKING_STATUS_LIST =
       ON_PREMISE_USER_BASE_URL + '/booking/bookingStatusList';

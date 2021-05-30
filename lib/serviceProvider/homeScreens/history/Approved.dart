@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gps_massageapp/commonScreens/chat/chat_item_screen.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/chat.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/db.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/chatData.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/user.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
+import 'package:intl/intl.dart';
 
 class ProviderApprovedScreen extends StatefulWidget {
   @override
@@ -8,46 +17,71 @@ class ProviderApprovedScreen extends StatefulWidget {
 }
 
 class _ProviderApprovedScreenState extends State<ProviderApprovedScreen> {
+  List<BookingDetailsList> requestBookingDetailsList =
+      List<BookingDetailsList>();
+  int status = 0;
+
   @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      primary: true,
-      child: Container(
-        padding: EdgeInsets.all(8.0),
-        //  margin: EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Center(
-              child: Text(
-                "サービス利用者からのリクエストにすでに回答した予約",
-                // textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color.fromRGBO(102, 102, 102, 1),
-                  fontSize: 12.0,
-                  fontFamily: 'NotoSansJP',
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            ListView.separated(
-                separatorBuilder: (context, index) => SizedBox(
-                      height: 15,
-                    ),
-                shrinkWrap: true,
-                physics: BouncingScrollPhysics(),
-                itemCount: 3,
-                itemBuilder: (context, index) {
-                  return buildBookingCard();
-                }),
-          ],
-        ),
-      ),
-    );
+  void initState() {
+    super.initState();
+    ServiceProviderApi.getBookingApprovedDetails().then((value) {
+      setState(() {
+        requestBookingDetailsList.addAll(value.data.bookingDetailsList);
+        status = 1;
+      });
+    });
   }
 
-  Card buildBookingCard() {
+  @override
+  Widget build(BuildContext context) {
+    return status == 0
+        ? Center(child: CircularProgressIndicator())
+        : SingleChildScrollView(
+            primary: true,
+            child: Container(
+              padding: EdgeInsets.all(8.0),
+              //  margin: EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Center(
+                    child: Text(
+                      "サービス利用者からのリクエストにすでに回答した予約",
+                      // textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color.fromRGBO(102, 102, 102, 1),
+                        fontSize: 12.0,
+                        fontFamily: 'NotoSansJP',
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  ListView.separated(
+                      separatorBuilder: (context, index) => SizedBox(
+                            height: 15,
+                          ),
+                      shrinkWrap: true,
+                      physics: BouncingScrollPhysics(),
+                      itemCount: requestBookingDetailsList.length,
+                      itemBuilder: (context, index) {
+                        return buildBookingCard(index);
+                      }),
+                ],
+              ),
+            ),
+          );
+  }
+
+  Card buildBookingCard(int index) {
+    DateTime startTime = requestBookingDetailsList[index].newStartTime != null
+        ? DateTime.parse(requestBookingDetailsList[index].newStartTime)
+            .toLocal()
+        : requestBookingDetailsList[index].startTime.toLocal();
+    DateTime endTime = requestBookingDetailsList[index].newEndTime != null
+        ? DateTime.parse(requestBookingDetailsList[index].newEndTime).toLocal()
+        : requestBookingDetailsList[index].endTime.toLocal();
+    String jaName = DateFormat('EEEE', 'ja_JP').format(startTime);
     return Card(
       // margin: EdgeInsets.all(8.0),
       color: Color.fromRGBO(242, 242, 242, 1),
@@ -63,7 +97,7 @@ class _ProviderApprovedScreenState extends State<ProviderApprovedScreen> {
                 Row(
                   children: [
                     Text(
-                      'AK さん',
+                      '${requestBookingDetailsList[index].bookingUserId.userName}',
                       style: TextStyle(
                         fontSize: 16.0,
                         color: Colors.black,
@@ -71,7 +105,7 @@ class _ProviderApprovedScreenState extends State<ProviderApprovedScreen> {
                       ),
                     ),
                     Text(
-                      '(男性)',
+                      '(${requestBookingDetailsList[index].bookingUserId.gender})',
                       style: TextStyle(
                         fontSize: 12.0,
                         color: Color.fromRGBO(181, 181, 181, 1),
@@ -89,7 +123,9 @@ class _ProviderApprovedScreenState extends State<ProviderApprovedScreen> {
                             borderRadius: BorderRadius.all(Radius.circular(5))),
                         padding: EdgeInsets.all(4),
                         child: Text(
-                          '店舗',
+                          requestBookingDetailsList[index].locationType == "店舗"
+                              ? '店舗'
+                              : '出張',
                           style: TextStyle(
                             fontSize: 9.0,
                             color: Colors.black,
@@ -111,7 +147,7 @@ class _ProviderApprovedScreenState extends State<ProviderApprovedScreen> {
                       width: 8,
                     ),
                     Text(
-                      '10月17',
+                      '${startTime.month}月${startTime.day}',
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.black,
@@ -122,7 +158,7 @@ class _ProviderApprovedScreenState extends State<ProviderApprovedScreen> {
                       width: 8,
                     ),
                     Text(
-                      ' 月曜日 ',
+                      ' $jaName ',
                       style: TextStyle(
                         fontSize: 12.0,
                         color: Color.fromRGBO(102, 102, 102, 1),
@@ -144,7 +180,9 @@ class _ProviderApprovedScreenState extends State<ProviderApprovedScreen> {
                       width: 8,
                     ),
                     Text(
-                      '09: 00 ~ 10: 00',
+                      startTime.hour < 10
+                          ? "0${startTime.hour}"
+                          : "${startTime.hour}",
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.black,
@@ -152,7 +190,37 @@ class _ProviderApprovedScreenState extends State<ProviderApprovedScreen> {
                       ),
                     ),
                     Text(
-                      ' 60分 ',
+                      startTime.minute < 10
+                          ? ": 0${startTime.minute}"
+                          : ": ${startTime.minute}",
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      endTime.hour < 10
+                          ? " ~ 0${endTime.hour}"
+                          : " ~ ${endTime.hour}",
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      endTime.minute < 10
+                          ? ": 0${endTime.minute}"
+                          : ": ${endTime.minute}",
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      ' ${requestBookingDetailsList[index].totalMinOfService}分 ',
                       style: TextStyle(
                         fontSize: 12.0,
                         color: Color.fromRGBO(102, 102, 102, 1),
@@ -170,7 +238,7 @@ class _ProviderApprovedScreenState extends State<ProviderApprovedScreen> {
                           borderRadius: BorderRadius.all(Radius.circular(5))),
                       padding: EdgeInsets.all(4),
                       child: Text(
-                        '足つぼ',
+                        '${requestBookingDetailsList[index].nameOfService}',
                         style: TextStyle(
                           fontSize: 12.0,
                           color: Colors.black,
@@ -235,7 +303,7 @@ class _ProviderApprovedScreenState extends State<ProviderApprovedScreen> {
                           borderRadius: BorderRadius.all(Radius.circular(5))),
                       child: Center(
                         child: Text(
-                          '店舗',
+                          '${requestBookingDetailsList[index].locationType}',
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 12,
@@ -247,10 +315,10 @@ class _ProviderApprovedScreenState extends State<ProviderApprovedScreen> {
                       width: 8,
                     ),
                     Text(
-                      '埼玉県浦和区高砂4丁目4',
+                      '${requestBookingDetailsList[index].location}',
                       style: TextStyle(
                         color: Color.fromRGBO(102, 102, 102, 1),
-                        fontSize: 17,
+                        fontSize: 12,
                       ),
                     )
                   ],
@@ -262,8 +330,10 @@ class _ProviderApprovedScreenState extends State<ProviderApprovedScreen> {
               right: 10.0,
               child: InkWell(
                 onTap: () {
-                  NavigationRouter.switchToServiceProviderChatHistoryScreen(
-                      context);
+                  ProgressDialogBuilder.showCommonProgressDialog(context);
+                  getChatDetails(requestBookingDetailsList[index]
+                      .bookingUserId
+                      .firebaseUdid);
                 },
                 child: Card(
                   elevation: 4.0,
@@ -284,5 +354,22 @@ class _ProviderApprovedScreenState extends State<ProviderApprovedScreen> {
         ),
       ),
     );
+  }
+
+  getChatDetails(String peerId) {
+    DB db = DB();
+    List<ChatData> chatData = List<ChatData>();
+    List<UserDetail> contactList = List<UserDetail>();
+    db.getUserDetilsOfContacts(['$peerId']).then((value) {
+      contactList.addAll(value);
+      Chat().fetchChats(contactList).then((value) {
+        chatData.addAll(value);
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ChatItemScreen(chatData[0])));
+      });
+    });
   }
 }

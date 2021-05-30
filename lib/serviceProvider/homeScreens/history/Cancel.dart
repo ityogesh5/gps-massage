@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
+import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
+import 'package:intl/intl.dart';
+import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
 class ProviderCancelScreen extends StatefulWidget {
   @override
@@ -7,35 +11,72 @@ class ProviderCancelScreen extends StatefulWidget {
 }
 
 class _ProviderCancelScreenState extends State<ProviderCancelScreen> {
+  List<BookingDetailsList> requestBookingDetailsList =
+      List<BookingDetailsList>();
+  int status = 0;
+  bool isLoading = false;
+  var _pageNumber = 0;
+  var _pageSize = 10;
+
   @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      primary: true,
-      child: Container(
-        padding: EdgeInsets.all(8.0),
-        //  margin: EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 5,
-            ),
-            ListView.separated(
-                separatorBuilder: (context, index) => SizedBox(
-                      height: 15,
-                    ),
-                shrinkWrap: true,
-                physics: BouncingScrollPhysics(),
-                itemCount: 3,
-                itemBuilder: (context, index) {
-                  return buildBookingCard();
-                }),
-          ],
-        ),
-      ),
-    );
+  void initState() {
+    super.initState();
+    getCancelledDetails();
   }
 
-  Card buildBookingCard() {
+  void getCancelledDetails() {
+    ServiceProviderApi.getCanceledBookingDetails(_pageNumber, _pageSize)
+        .then((value) {
+      setState(() {
+        requestBookingDetailsList.addAll(value.data.bookingDetailsList);
+        status = 1;
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return status == 0
+        ? Center(child: CircularProgressIndicator())
+        : LazyLoadScrollView(
+            isLoading: isLoading,
+            onEndOfPage: () => _getMoreData(),
+            child: SingleChildScrollView(
+              primary: true,
+              child: Container(
+                padding: EdgeInsets.all(8.0),
+                //  margin: EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 5,
+                    ),
+                    ListView.separated(
+                        separatorBuilder: (context, index) => SizedBox(
+                              height: 15,
+                            ),
+                        shrinkWrap: true,
+                        physics: BouncingScrollPhysics(),
+                        itemCount: requestBookingDetailsList.length,
+                        itemBuilder: (context, index) {
+                          return buildBookingCard(index);
+                        }),
+                  ],
+                ),
+              ),
+            ),
+          );
+  }
+
+  Card buildBookingCard(int index) {
+    DateTime startTime = requestBookingDetailsList[index].newStartTime != null
+        ? DateTime.parse(requestBookingDetailsList[index].newStartTime)
+            .toLocal()
+        : requestBookingDetailsList[index].startTime.toLocal();
+    DateTime endTime = requestBookingDetailsList[index].newEndTime != null
+        ? DateTime.parse(requestBookingDetailsList[index].newEndTime).toLocal()
+        : requestBookingDetailsList[index].endTime.toLocal();
+    String jaName = DateFormat('EEEE', 'ja_JP').format(startTime);
     return Card(
       // margin: EdgeInsets.all(8.0),
       color: Color.fromRGBO(242, 242, 242, 1),
@@ -49,7 +90,7 @@ class _ProviderCancelScreenState extends State<ProviderCancelScreen> {
             Row(
               children: [
                 Text(
-                  'AK さん',
+                  '${requestBookingDetailsList[index].bookingUserId.userName}',
                   style: TextStyle(
                     fontSize: 16.0,
                     color: Colors.black,
@@ -57,7 +98,7 @@ class _ProviderCancelScreenState extends State<ProviderCancelScreen> {
                   ),
                 ),
                 Text(
-                  '(男性)',
+                  '(${requestBookingDetailsList[index].bookingUserId.gender})',
                   style: TextStyle(
                     fontSize: 12.0,
                     color: Color.fromRGBO(181, 181, 181, 1),
@@ -75,7 +116,9 @@ class _ProviderCancelScreenState extends State<ProviderCancelScreen> {
                         borderRadius: BorderRadius.all(Radius.circular(5))),
                     padding: EdgeInsets.all(4),
                     child: Text(
-                      '店舗',
+                      requestBookingDetailsList[index].locationType == "店舗"
+                          ? '店舗'
+                          : '出張',
                       style: TextStyle(
                         fontSize: 9.0,
                         color: Colors.black,
@@ -97,7 +140,7 @@ class _ProviderCancelScreenState extends State<ProviderCancelScreen> {
                   width: 8,
                 ),
                 Text(
-                  '10月17',
+                  '${startTime.month}月${startTime.day}',
                   style: TextStyle(
                     fontSize: 14.0,
                     color: Colors.black,
@@ -108,7 +151,7 @@ class _ProviderCancelScreenState extends State<ProviderCancelScreen> {
                   width: 8,
                 ),
                 Text(
-                  ' 月曜日 ',
+                  ' $jaName ',
                   style: TextStyle(
                     fontSize: 12.0,
                     color: Color.fromRGBO(102, 102, 102, 1),
@@ -130,7 +173,9 @@ class _ProviderCancelScreenState extends State<ProviderCancelScreen> {
                   width: 8,
                 ),
                 Text(
-                  '09: 00 ~ 10: 00',
+                  startTime.hour < 10
+                      ? "0${startTime.hour}"
+                      : "${startTime.hour}",
                   style: TextStyle(
                     fontSize: 14.0,
                     color: Colors.black,
@@ -138,7 +183,37 @@ class _ProviderCancelScreenState extends State<ProviderCancelScreen> {
                   ),
                 ),
                 Text(
-                  ' 60分 ',
+                  startTime.minute < 10
+                      ? ": 0${startTime.minute}"
+                      : ": ${startTime.minute}",
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  endTime.hour < 10
+                      ? " ~ 0${endTime.hour}"
+                      : " ~ ${endTime.hour}",
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  endTime.minute < 10
+                      ? ": 0${endTime.minute}"
+                      : ": ${endTime.minute}",
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  ' ${requestBookingDetailsList[index].totalMinOfService}分 ',
                   style: TextStyle(
                     fontSize: 12.0,
                     color: Color.fromRGBO(102, 102, 102, 1),
@@ -156,7 +231,7 @@ class _ProviderCancelScreenState extends State<ProviderCancelScreen> {
                       borderRadius: BorderRadius.all(Radius.circular(5))),
                   padding: EdgeInsets.all(4),
                   child: Text(
-                    '足つぼ',
+                    '${requestBookingDetailsList[index].nameOfService}',
                     style: TextStyle(
                       fontSize: 12.0,
                       color: Colors.black,
@@ -211,7 +286,7 @@ class _ProviderCancelScreenState extends State<ProviderCancelScreen> {
                       borderRadius: BorderRadius.all(Radius.circular(5))),
                   child: Center(
                     child: Text(
-                      '店舗',
+                      '${requestBookingDetailsList[index].locationType}',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 12,
@@ -223,10 +298,10 @@ class _ProviderCancelScreenState extends State<ProviderCancelScreen> {
                   width: 8,
                 ),
                 Text(
-                  '埼玉県浦和区高砂4丁目4',
+                  '${requestBookingDetailsList[index].location}',
                   style: TextStyle(
                     color: Color.fromRGBO(102, 102, 102, 1),
-                    fontSize: 17,
+                    fontSize: 12,
                   ),
                 ),
               ],
@@ -243,11 +318,13 @@ class _ProviderCancelScreenState extends State<ProviderCancelScreen> {
             ),
             Row(
               children: [
-                Text(
-                  'コストが高すぎる',
-                  style: TextStyle(
-                    color: Color.fromRGBO(102, 102, 102, 1),
-                    fontSize: 17,
+                Center(
+                  child: Text(
+                    '${requestBookingDetailsList[index].cancellationReason}',
+                    style: TextStyle(
+                      color: Color.fromRGBO(102, 102, 102, 1),
+                      fontSize: 14,
+                    ),
                   ),
                 ),
               ],
@@ -256,5 +333,41 @@ class _ProviderCancelScreenState extends State<ProviderCancelScreen> {
         ),
       ),
     );
+  }
+
+  _getMoreData() async {
+    try {
+      if (!isLoading) {
+        isLoading = true;
+        _pageNumber++;
+        print('Page number : $_pageNumber Page Size : $_pageSize');
+        TherapistBookingHistoryResponseModel
+            therapistBookingHistoryResponseModel =
+            await ServiceProviderApi.getCanceledBookingDetails(
+                _pageNumber, _pageSize);
+
+        if (therapistBookingHistoryResponseModel
+            .data.bookingDetailsList.isEmpty) {
+          setState(() {
+            isLoading = false;
+            print(
+                'TherapistList data count is Zero : ${therapistBookingHistoryResponseModel.data.bookingDetailsList.length}');
+          });
+        } else {
+          print(
+              'TherapistList data Size : ${therapistBookingHistoryResponseModel.data.bookingDetailsList.length}');
+          setState(() {
+            isLoading = false;
+            if (this.mounted) {
+              requestBookingDetailsList.addAll(
+                  therapistBookingHistoryResponseModel.data.bookingDetailsList);
+            }
+          });
+        }
+      }
+      //print('Therapist users data Size : ${therapistUsers.length}');
+    } catch (e) {
+      print('Exception more data' + e.toString());
+    }
   }
 }

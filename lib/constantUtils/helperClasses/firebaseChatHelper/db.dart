@@ -25,6 +25,7 @@ class DB {
         'contacts': [],
         'isOnline': false,
         'isTyping': false,
+        'searchKey': username.toLowerCase(),
       });
     } catch (error) {
       print('****************** DB addNewUser error **********************');

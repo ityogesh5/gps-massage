@@ -12,12 +12,21 @@ class SeenStatus extends StatelessWidget {
   }) : super(key: key);
 
   String getTime() {
+    DateTime currentDate = DateTime.now();
     int hour = timestamp.hour;
     int min = timestamp.minute;
     String hRes = hour <= 9 ? '0$hour' : hour.toString();
     String mRes = min <= 9 ? '0$min' : min.toString();
 
-    return '$hRes時$mRes分';
+    String dayChange = (currentDate.day == timestamp.day &&
+            currentDate.month == timestamp.month)
+        ? "今日"
+        : (currentDate.day - 1 == timestamp.day &&
+                currentDate.month == timestamp.month)
+            ? "昨日"
+            : "${timestamp.day}/${timestamp.month}/${timestamp.year}";
+
+    return '$dayChange $hRes時$mRes分';
   }
 
   Widget _buildStatus(BuildContext context) {

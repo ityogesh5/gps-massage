@@ -6,10 +6,13 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/db.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/cardToolTips/timeSpinnerToolTip.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
 import 'package:intl/intl.dart';
 
 class ProviderReceiveBooking extends StatefulWidget {
@@ -20,29 +23,34 @@ class ProviderReceiveBooking extends StatefulWidget {
 }
 
 class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
-  TextEditingController expensesController = TextEditingController();
+  TextEditingController providerCommentsController = TextEditingController();
+  TextEditingController cancellationReasonController = TextEditingController();
   String price;
   String addedpriceReason;
   bool proposeAdditionalCosts = false;
   bool suggestAnotherTime = false;
-  bool onCanel = false;
+  bool onCancel = false;
   ScrollController scrollController = ScrollController();
   GlobalKey startKey = new GlobalKey();
   GlobalKey endKey = new GlobalKey();
   DateTime newStartTime;
   DateTime newEndTime;
+  DateTime startTime;
+  DateTime endTime;
   int _state = 0;
 
   @override
   void initState() {
-    newStartTime = widget.bookingDetail.startTime;
-    newEndTime = widget.bookingDetail.endTime;
+    newStartTime = widget.bookingDetail.startTime.toLocal();
+    newEndTime = widget.bookingDetail.endTime.toLocal();
+    startTime = widget.bookingDetail.startTime.toLocal();
+    endTime = widget.bookingDetail.endTime.toLocal();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_state == 0 && onCanel) {
+    if (_state == 0 && onCancel) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         _state = 1;
         scrollController.animateTo(scrollController.position.maxScrollExtent,
@@ -359,18 +367,14 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            widget.bookingDetail.startTime
-                                                        .hour <
-                                                    10
-                                                ? "0${newStartTime.hour}"
-                                                : "${newStartTime.hour}",
+                                            startTime.hour < 10
+                                                ? "0${startTime.hour}"
+                                                : "${startTime.hour}",
                                           ),
                                           Text(
-                                            widget.bookingDetail.startTime
-                                                        .minute <
-                                                    10
-                                                ? ":0${newStartTime.minute}"
-                                                : ":${newStartTime.minute}",
+                                            startTime.minute < 10
+                                                ? ":0${startTime.minute}"
+                                                : ":${startTime.minute}",
                                           ),
                                         ],
                                       ),
@@ -421,7 +425,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                           height: 15.0,
                         ),
                         TextField(
-                          //controller: textEditingController,
+                          controller: providerCommentsController,
                           textInputAction: TextInputAction.done,
                           expands: false,
                           maxLines: 4,
@@ -437,6 +441,9 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                             enabledBorder:
                                 HealingMatchConstants.multiTextFormInputBorder,
                           ),
+                          onChanged: (value) {
+                            widget.bookingDetail.therapistComments = value;
+                          },
                         ),
                         SizedBox(
                           height: 15.0,
@@ -448,7 +455,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                       ],
                     )
                   : buildButton(),
-              onCanel
+              onCancel
                   ? Column(
                       children: [
                         SizedBox(
@@ -471,7 +478,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                         Stack(
                           children: [
                             TextField(
-                              //controller: textEditingController,
+                              controller: cancellationReasonController,
                               textInputAction: TextInputAction.done,
                               expands: false,
                               maxLines: 4,
@@ -488,11 +495,33 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                                 enabledBorder: HealingMatchConstants
                                     .multiTextFormInputBorder,
                               ),
+                              onChanged: (value) {
+                                widget.bookingDetail.cancellationReason = value;
+                              },
                             ),
                             Positioned(
                               bottom: 5.0,
                               right: 5.0,
                               child: InkWell(
+                                onTap: () {
+                                  ProgressDialogBuilder
+                                      .showCommonProgressDialog(context);
+
+                                  ServiceProviderApi.updateStatusUpdate(
+                                          widget.bookingDetail,
+                                          false,
+                                          false,
+                                          onCancel)
+                                      .then((value) {
+                                    ProgressDialogBuilder
+                                        .hideCommonProgressDialog(context);
+                                    if (value) {
+                                      NavigationRouter
+                                          .switchToServiceProviderBottomBar(
+                                              context);
+                                    }
+                                  });
+                                },
                                 child: Container(
                                   decoration: BoxDecoration(
                                       shape: BoxShape.circle,
@@ -525,8 +554,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
   }
 
   Card buildBookingCard() {
-    String jaName =
-        DateFormat('EEEE', 'ja_JP').format(widget.bookingDetail.startTime);
+    String jaName = DateFormat('EEEE', 'ja_JP').format(startTime);
     return Card(
       // margin: EdgeInsets.all(8.0),
       color: Color.fromRGBO(242, 242, 242, 1),
@@ -702,7 +730,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                       width: 8,
                     ),
                     Text(
-                      '${widget.bookingDetail.startTime.month}月${widget.bookingDetail.startTime.day}',
+                      '${startTime.month}月${startTime.day}',
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.black,
@@ -735,7 +763,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                       width: 8,
                     ),
                     Text(
-                      '${widget.bookingDetail.startTime.hour}: ${widget.bookingDetail.startTime.minute} ~ ${widget.bookingDetail.endTime.hour}: ${widget.bookingDetail.endTime.minute}',
+                      '${startTime.hour}: ${startTime.minute} ~ ${endTime.hour}: ${endTime.minute}',
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.black,
@@ -881,7 +909,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
             ),
             onPressed: () {
               setState(() {
-                onCanel = true;
+                onCancel = true;
               });
             },
             //  minWidth: MediaQuery.of(context).size.width * 0.38,
@@ -907,7 +935,26 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
             ),
-            onPressed: () {},
+            onPressed: () {
+              ProgressDialogBuilder.showCommonProgressDialog(context);
+              if (suggestAnotherTime) {
+                widget.bookingDetail.newStartTime = newStartTime;
+                widget.bookingDetail.newEndTime = newEndTime;
+              }
+              if (proposeAdditionalCosts) {
+                widget.bookingDetail.addedPrice = addedpriceReason;
+                widget.bookingDetail.travelAmount = int.parse(price);
+              }
+              ServiceProviderApi.updateStatusUpdate(widget.bookingDetail,
+                      proposeAdditionalCosts, suggestAnotherTime, onCancel)
+                  .then((value) {
+                if (value) {
+                  addFirebaseContacts();
+                } else {
+                  ProgressDialogBuilder.hideCommonProgressDialog(context);
+                }
+              });
+            },
             //   minWidth: MediaQuery.of(context).size.width * 0.38,
             splashColor: Colors.pinkAccent[600],
             color: Color.fromRGBO(200, 217, 33, 1),
@@ -973,5 +1020,26 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
     popup.show(
       widgetKey: key,
     );
+  }
+
+  addFirebaseContacts() {
+    DB db = DB();
+    db.getContactsofUser(HealingMatchConstants.fbUserId).then((value) {
+      if (!value.contacts
+          .contains(widget.bookingDetail.bookingUserId.firebaseUdid)) {
+        value.contacts.add(widget.bookingDetail.bookingUserId.firebaseUdid);
+        //add contacts to self db
+        db.updateContacts(HealingMatchConstants.fbUserId, value.contacts);
+
+        //add contacts to user db
+        db.addToPeerContacts(widget.bookingDetail.bookingUserId.firebaseUdid,
+            HealingMatchConstants.fbUserId);
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
+        NavigationRouter.switchToServiceProviderBottomBar(context);
+      } else {
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
+        NavigationRouter.switchToServiceProviderBottomBar(context);
+      }
+    });
   }
 }
