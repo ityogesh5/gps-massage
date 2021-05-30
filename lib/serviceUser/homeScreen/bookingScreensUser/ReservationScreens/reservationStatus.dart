@@ -10,6 +10,7 @@ import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingStatus.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
 
 class ReservationStatus extends StatefulWidget {
   @override
@@ -37,6 +38,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
     borderRadius: BorderRadius.circular(8.0),
     color: Colors.white,
   );
+  GlobalKey<FormState> _formKeyUsersByType;
 
   @override
   void initState() {
@@ -78,11 +80,12 @@ class _ReservationStatusState extends State<ReservationStatus> {
         CanceledReservationList.add(bookingDetailsList[i]);
       }
     }
+    getWaitgFrAprv(waitingForApprovalList);
     getAprvdWthCnd(approvedWithConditionsList);
     getAprvd(approvedList);
   }
 
-  getSearchResults(List<BookingDetailsList> favouriteUserList) async {
+  getWaitgFrAprv(List<BookingDetailsList> favouriteUserList) async {
     try {
       if (this.mounted) {
         setState(() {
@@ -744,7 +747,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                             height: 5,
                                                           ),
                                                           certificateUploadWfaList[
-                                                                          index] !=
+                                                                              index]
+                                                                          .length !=
                                                                       0 &&
                                                                   certificateUploadWfaList[
                                                                               index]
@@ -1427,7 +1431,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                           height: 5,
                                                         ),
                                                         certificateUploadAprWtConList[
-                                                                        index] !=
+                                                                            index]
+                                                                        .length !=
                                                                     0 &&
                                                                 certificateUploadAprWtConList[
                                                                             index]
@@ -2143,7 +2148,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                           height: 5,
                                                         ),
                                                         certificateUploadAprvdList[
-                                                                        index] !=
+                                                                            index]
+                                                                        .length !=
                                                                     0 &&
                                                                 certificateUploadAprvdList[
                                                                             index]
@@ -3396,6 +3402,22 @@ class _ReservationStatusState extends State<ReservationStatus> {
           ),
         ),
       ),
+    );
+  }
+
+  void showToolTipForType(String text) {
+    ShowToolTip popup = ShowToolTip(context,
+        text: text,
+        textStyle: TextStyle(color: Colors.black),
+        height: MediaQuery.of(context).size.height / 7,
+        width: MediaQuery.of(context).size.width / 2,
+        backgroundColor: Colors.white,
+        padding: EdgeInsets.all(8.0),
+        borderRadius: BorderRadius.circular(10.0));
+
+    /// show the popup for specific widget
+    popup.show(
+      widgetKey: _formKeyUsersByType,
     );
   }
 }
