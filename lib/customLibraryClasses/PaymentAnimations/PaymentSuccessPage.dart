@@ -1,7 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/commonScreens/payment/InitiateStripePayment.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 class PaymentSuccessPage extends StatefulWidget {
   @override
@@ -55,10 +55,7 @@ class _PaymentSuccessPageState extends State<PaymentSuccessPage> {
                 fontWeight: FontWeight.bold),
             color: Colors.lime,
             pressEvent: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => TestPayment()));
+              NavigationRouter.switchToServiceUserBottomBar(context);
             },
           ),
         ],

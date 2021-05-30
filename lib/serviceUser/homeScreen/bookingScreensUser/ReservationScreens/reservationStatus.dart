@@ -4,6 +4,7 @@ import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
@@ -2243,23 +2244,36 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                   SizedBox(
                                                     width: 3,
                                                   ),
-                                                  Card(
-                                                    shape: CircleBorder(),
-                                                    elevation: 3,
-                                                    child: CircleAvatar(
-                                                        maxRadius: 20,
-                                                        backgroundColor:
-                                                            Colors.white,
-                                                        child: SvgPicture.asset(
-                                                            'assets/images_gps/pay.svg',
-                                                            color:
-                                                                Color.fromRGBO(
-                                                                    255,
-                                                                    193,
-                                                                    7,
-                                                                    1),
-                                                            height: 20,
-                                                            width: 20)),
+                                                  InkWell(
+                                                    onTap: () {
+                                                      setState(() {
+                                                        HealingMatchConstants
+                                                                .bookingId =
+                                                            approvedList[index]
+                                                                .id;
+                                                      });
+                                                      HealingMatchConstants
+                                                          .initiatePayment(
+                                                              context);
+                                                    },
+                                                    child: Card(
+                                                      shape: CircleBorder(),
+                                                      elevation: 3,
+                                                      child: CircleAvatar(
+                                                          maxRadius: 20,
+                                                          backgroundColor:
+                                                              Colors.white,
+                                                          child: SvgPicture.asset(
+                                                              'assets/images_gps/pay.svg',
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                      255,
+                                                                      193,
+                                                                      7,
+                                                                      1),
+                                                              height: 20,
+                                                              width: 20)),
+                                                    ),
                                                   ),
                                                   SizedBox(
                                                     width: 3,
