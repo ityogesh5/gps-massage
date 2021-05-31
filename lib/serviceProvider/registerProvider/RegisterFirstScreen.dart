@@ -1859,7 +1859,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     if (int.parse(age) < 18) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('有効な生年月日を入力してください。',
+        content: Text('18歳未満の方はセラピストとしての登録はできません。',
             style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
@@ -2266,7 +2266,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
 
     ProgressDialogBuilder.showCommonProgressDialog(context);
 
-    String address = roomnumber +
+    /*  String address = roomnumber +
         ',' +
         buildingname +
         ',' +
@@ -2274,8 +2274,22 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
         ',' +
         myCity +
         ',' +
-        myState;
-    String query = Platform.isIOS ? myCity + ',' + myState : address;
+        myState; */
+
+    String address =
+        myState + myCity + manualAddresss + buildingname + roomnumber;
+
+    String query = Platform.isIOS
+        ? myCity + ',' + myState
+        : roomnumber +
+            ',' +
+            buildingname +
+            ',' +
+            manualAddresss +
+            ',' +
+            myCity +
+            ',' +
+            myState;
     try {
       List<Location> locations =
           await locationFromAddress(query, localeIdentifier: "ja_JP");

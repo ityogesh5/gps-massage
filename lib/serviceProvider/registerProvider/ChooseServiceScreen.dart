@@ -495,6 +495,13 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                     ),
                   ],
                 ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Text(
+                  "税込価格を入力して保存してください",
+                  style: TextStyle(fontSize: 14, color: Colors.grey[500]),
+                ),
               ],
             ),
           ),
@@ -946,6 +953,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
     }
     return showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) {
         return Dialog(
           shape:

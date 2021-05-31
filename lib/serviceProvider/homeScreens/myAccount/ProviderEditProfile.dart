@@ -2843,7 +2843,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         .addAll(childrenMeasuresDropDownValuesSelected);
     HealingMatchConstants.serviceProviderGenderService = genderTreatment;
 
-    String address = roomnumber +
+    /*  String address = roomnumber +
         ',' +
         buildingname +
         ',' +
@@ -2851,9 +2851,22 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         ',' +
         myCity +
         ',' +
-        myState;
+        myState; */
 
-    String query = Platform.isIOS ? myCity + ',' + myState : address;
+    String address =
+        myState + myCity + manualAddresss + buildingname + roomnumber;
+
+    String query = Platform.isIOS
+        ? myCity + ',' + myState
+        : roomnumber +
+            ',' +
+            buildingname +
+            ',' +
+            manualAddresss +
+            ',' +
+            myCity +
+            ',' +
+            myState;
     try {
       List<Location> locations =
           await locationFromAddress(query, localeIdentifier: "ja_JP");

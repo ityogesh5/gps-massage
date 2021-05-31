@@ -479,6 +479,13 @@ class _ShiftServiceState extends State<ShiftService> {
                     ),
                   ],
                 ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Text(
+                  "税込価格を入力して保存してください",
+                  style: TextStyle(fontSize: 14, color: Colors.grey[500]),
+                ),
               ],
             ),
           ),
@@ -904,6 +911,7 @@ class _ShiftServiceState extends State<ShiftService> {
       }
     }
     return showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (context) {
         return Dialog(
