@@ -251,7 +251,7 @@ class BookingTherapistId {
   bool isShop;
   String qulaificationCertImgUrl;
   dynamic firebaseUDID;
-  List<CertificationUploads> certificationUploads;
+  List<BookingCertificationUploads> certificationUploads;
 
   BookingTherapistId(
       {this.id,
@@ -284,9 +284,9 @@ class BookingTherapistId {
     qulaificationCertImgUrl = json['qulaificationCertImgUrl'];
     firebaseUDID = json['firebaseUDID'];
     if (json['certification_uploads'] != null) {
-      certificationUploads = new List<CertificationUploads>();
+      certificationUploads = new List<BookingCertificationUploads>();
       json['certification_uploads'].forEach((v) {
-        certificationUploads.add(new CertificationUploads.fromJson(v));
+        certificationUploads.add(new BookingCertificationUploads.fromJson(v));
       });
     }
   }
@@ -314,7 +314,7 @@ class BookingTherapistId {
   }
 }
 
-class CertificationUploads {
+class BookingCertificationUploads {
   int id;
   int userId;
   dynamic acupuncturist;
@@ -332,7 +332,7 @@ class CertificationUploads {
   String createdAt;
   String updatedAt;
 
-  CertificationUploads(
+  BookingCertificationUploads(
       {this.id,
       this.userId,
       this.acupuncturist,
@@ -350,7 +350,7 @@ class CertificationUploads {
       this.createdAt,
       this.updatedAt});
 
-  CertificationUploads.fromJson(Map<String, dynamic> json) {
+  BookingCertificationUploads.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['userId'];
     acupuncturist = json['acupuncturist'];

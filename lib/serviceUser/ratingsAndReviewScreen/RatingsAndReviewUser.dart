@@ -14,10 +14,13 @@ import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingCompletedList.dart';
 
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 
 class RatingsAndReviewUser extends StatefulWidget {
+  final BookingDetailsList bookingDetail;
+  RatingsAndReviewUser(this.bookingDetail);
   @override
   _RatingsAndReviewUserState createState() => _RatingsAndReviewUserState();
 }
@@ -529,8 +532,9 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
             "x-access-token": accessToken
           },
           body: json.encode({
-            "userId": rUserID,
-            "therapistId": "18",
+            "userId": widget.bookingDetail.userId,
+            "therapistId": widget.bookingDetail.therapistId,
+            "bookingId": widget.bookingDetail.id,
             "ratingsCount": ratingsValue.toString(),
             "reviewComment": reviewComment,
           }));
@@ -544,7 +548,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
         print('navigate');
         NavigationRouter.switchToServiceUserDisplayReviewScreen(
           context,
-          HealingMatchConstants.therapistRatingID,
+          widget.bookingDetail.therapistId,
         );
       } else {}
     } catch (e) {

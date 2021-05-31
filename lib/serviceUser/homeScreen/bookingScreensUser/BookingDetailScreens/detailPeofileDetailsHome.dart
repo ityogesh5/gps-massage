@@ -16,6 +16,7 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/Get
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:readmore/readmore.dart';
 import 'package:toast/toast.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 class DetailPeofileDetailsHome extends StatefulWidget {
   final TherapistByIdModel therapistDetails;
@@ -159,6 +160,28 @@ class _DetailPeofileDetailsHomeState extends State<DetailPeofileDetailsHome> {
                               fontSize: 10,
                               color: Colors.transparent,
                               fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Container(
+                          child: InkWell(
+                            onTap: () {
+                              NavigationRouter
+                                  .switchToServiceUserDisplayReviewScreen(
+                                      context, widget.therapistDetails.data.id);
+                              print(
+                                  'TherapistId:  ${widget.therapistDetails.data.id}');
+                            },
+                            child: Text(
+                              'もっとみる',
+                              style: TextStyle(
+                                  fontFamily: 'NotoSansJP',
+                                  fontWeight: FontWeight.bold,
+                                  decoration: TextDecoration.underline,
+                                  fontSize: 14),
+                            ),
+                          ),
                         ),
                       ],
                     ),

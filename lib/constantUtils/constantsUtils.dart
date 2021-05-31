@@ -702,6 +702,7 @@ class HealingMatchConstants {
       '期限内にセラピストに、よる予約の承認がされなかった為、予約はキャンセルされました';
   static String cancelTimerText = '期限内に支払いが完了しなかった為、予約がキャンセルされました。';
   static bool isBookingDone = false;
+  //booking HomePage
 
   //FontStyle
   static const headersText = TextStyle(
