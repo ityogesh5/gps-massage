@@ -12,6 +12,7 @@ import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvid
 import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingCompletedList.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class PastReservations extends StatefulWidget {
@@ -399,8 +400,18 @@ class _PastReservationsState extends State<PastReservations> {
                                                             width: 5,
                                                           ),
                                                           InkWell(
-                                                            onTap: () {},
+                                                            onTap: () {
+                                                              showToolTipForFav(
+                                                                  bookingDetailsList[
+                                                                          index]
+                                                                      .bookingTherapistId
+                                                                      .storeType,
+                                                                  formKeyList[
+                                                                      index]);
+                                                            },
                                                             child: Container(
+                                                              key: formKeyList[
+                                                                  index],
                                                               decoration:
                                                                   BoxDecoration(
                                                                 gradient: LinearGradient(
@@ -446,12 +457,10 @@ class _PastReservationsState extends State<PastReservations> {
                                                           ),
                                                           Spacer(),
                                                           FavoriteButton(
-                                                              isFavorite:
-                                                                  bookingDetailsList[index]
-                                                                              .favouriteToTherapist ==
-                                                                          1
-                                                                      ? true
-                                                                      : false,
+                                                              isFavorite: bookingDetailsList[
+                                                                          index]
+                                                                      .favouriteToTherapist ==
+                                                                  1,
                                                               iconSize: 40,
                                                               iconColor:
                                                                   Colors.red,
@@ -916,6 +925,22 @@ class _PastReservationsState extends State<PastReservations> {
               ),
             ),
           );
+  }
+
+  void showToolTipForFav(String text, GlobalObjectKey<FormState> formKeyList) {
+    ShowToolTip popup = ShowToolTip(context,
+        text: text,
+        textStyle: TextStyle(color: Colors.black),
+        height: MediaQuery.of(context).size.height / 7,
+        width: MediaQuery.of(context).size.width / 2,
+        backgroundColor: Colors.white,
+        padding: EdgeInsets.all(8.0),
+        borderRadius: BorderRadius.circular(10.0));
+
+    /// show the popup for specific widget
+    popup.show(
+      widgetKey: formKeyList,
+    );
   }
 
 /*getId() async {
