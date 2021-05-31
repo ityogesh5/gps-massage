@@ -62,16 +62,16 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                       therapistDetails.bookingDataResponse.length != 0 &&
                               (therapistDetails.bookingDataResponse[0]
                                           .bookingStatus ==
-                                      9 &&
+                                      9 ||
                                   therapistDetails.bookingDataResponse[0]
                                           .bookingStatus ==
-                                      4 &&
+                                      4 ||
                                   therapistDetails.bookingDataResponse[0]
                                           .bookingStatus ==
-                                      5 &&
+                                      5 ||
                                   therapistDetails.bookingDataResponse[0]
                                           .bookingStatus ==
-                                      7 &&
+                                      7 ||
                                   therapistDetails.bookingDataResponse[0]
                                           .bookingStatus ==
                                       8)
@@ -84,9 +84,21 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                           ? buildBookingDetails(context)
                           : buildServices(context),
                       therapistDetails.bookingDataResponse.length == 0 ||
-                              therapistDetails
-                                      .bookingDataResponse[0].bookingStatus ==
-                                  9
+                              (therapistDetails.bookingDataResponse[0]
+                                          .bookingStatus ==
+                                      9 ||
+                                  therapistDetails.bookingDataResponse[0]
+                                          .bookingStatus ==
+                                      4 ||
+                                  therapistDetails.bookingDataResponse[0]
+                                          .bookingStatus ==
+                                      5 ||
+                                  therapistDetails.bookingDataResponse[0]
+                                          .bookingStatus ==
+                                      7 ||
+                                  therapistDetails.bookingDataResponse[0]
+                                          .bookingStatus ==
+                                      8)
                           ? dateTimeInfoBuilder(context)
                           : Container()
                     ],
@@ -1306,7 +1318,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
         color: Colors.red,
         onPressed: () {},
         child: new Text(
-          '変更を受け入れる',
+          '受け入れて支払う',
           style: TextStyle(
               color: Colors.white,
               fontFamily: 'NotoSansJP',
@@ -1327,7 +1339,9 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
           //side: BorderSide(color: Colors.black),
         ),
         color: Colors.green,
-        onPressed: () {},
+        onPressed: () {
+          bookingConfirmField();
+        },
         child: new Text(
           'もう一度予約する',
           style: TextStyle(
