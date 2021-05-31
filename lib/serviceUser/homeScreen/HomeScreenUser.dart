@@ -1188,6 +1188,16 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                                   : FavoriteButton(
                                                       iconSize: 40,
                                                       iconColor: Colors.red,
+                                                      isFavorite: widget
+                                                                  .getTherapistByType[
+                                                                      index]
+                                                                  .favouriteToTherapist !=
+                                                              null &&
+                                                          widget
+                                                                  .getTherapistByType[
+                                                                      index]
+                                                                  .favouriteToTherapist ==
+                                                              1,
                                                       valueChanged:
                                                           (_isFavorite) {
                                                         print(
@@ -2727,6 +2737,14 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                                       : FavoriteButton(
                                                           iconSize: 40,
                                                           iconColor: Colors.red,
+                                                          isFavorite: therapistUsers[
+                                                                          index]
+                                                                      .favouriteToTherapist !=
+                                                                  null &&
+                                                              therapistUsers[
+                                                                          index]
+                                                                      .favouriteToTherapist ==
+                                                                  1,
                                                           valueChanged:
                                                               (_isFavorite) {
                                                             print(

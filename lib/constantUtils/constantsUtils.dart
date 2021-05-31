@@ -622,10 +622,10 @@ class HealingMatchConstants {
   static List<UserAddresses> userAddressesList = new List<UserAddresses>();
   static var searchDistanceRadius;
   static String userProfileImage;
-  static String serviceUserID = '4';
+  static String serviceUserID;
   static List<AddedSubAddresses> editUserSubAddressList =
       new List<AddedSubAddresses>();
-  static String serviceUserBookingAmount = '2,300';
+  static String serviceUserBookingAmount;
 
   //Therapist Detail Screen
   static String therapistDStoreName = '';
