@@ -249,17 +249,17 @@ class ServiceUserAPIProvider {
 
   // get all therapist ratings
   static Future<UserReviewListById> getAllTherapistsRatings(
-      BuildContext context) async {
+      BuildContext context, int id) async {
     ProgressDialogBuilder.showOverlayLoader(context);
     try {
       final url = HealingMatchConstants.RATING_PROVIDER_LIST_URL;
       final response = await http.post(url,
           headers: {
             "Content-Type": "application/json",
-            "x-access-token": HealingMatchConstants.accessToken
+            "x-access-token": HealingMatchConstants.accessToken,
           },
           body: json.encode({
-            "therapistId": "${HealingMatchConstants.therapistRatingID}",
+            "therapistId": id,
           }));
       print(response.body);
       if (response.statusCode == 200) {
@@ -278,7 +278,7 @@ class ServiceUserAPIProvider {
 
   // get limit of therapist ratings
   static Future<UserReviewListById> getAllTherapistsRatingsByLimit(
-      BuildContext context, int pageNumber, int pageSize) async {
+      BuildContext context, int pageNumber, int pageSize, int id) async {
     try {
       final url =
           '${HealingMatchConstants.ON_PREMISE_USER_BASE_URL}/mobileReview/therapistReviewListById?page=$pageNumber&size=$pageSize';
