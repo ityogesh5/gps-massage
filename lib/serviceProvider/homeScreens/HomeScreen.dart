@@ -106,7 +106,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
               : SingleChildScrollView(
                   child: SafeArea(
                   child: Container(
-                    //  color: Colors.grey,
+                    color: Colors.white,
                     child: Column(
                       children: [
                         Padding(
@@ -189,8 +189,22 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                           userData.storeName !=
                                                               ""
                                                       ? userData.storeName
-                                                      : userData
-                                                          .userName, //User Name
+                                                                  .length >
+                                                              10
+                                                          ? userData.storeName[0]
+                                                                  .substring(
+                                                                      0, 10) +
+                                                              "..."
+                                                          : userData.storeName
+                                                      : userData.userName
+                                                                  .length >
+                                                              10
+                                                          ? userData.userName[0]
+                                                                  .substring(
+                                                                      0, 10) +
+                                                              "..."
+                                                          : userData
+                                                              .userName, //User Name
                                                   style: TextStyle(
                                                       fontSize: 16,
                                                       color: Colors.black,
@@ -668,7 +682,11 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                             style: TextStyle(fontSize: 12),
                                           )),
                                           Text(
-                                            '¥${therapistDetails.therapistProfit.weeklyProfit}',
+                                            therapistDetails.therapistProfit
+                                                        .weeklyProfit ==
+                                                    null
+                                                ? "0.00"
+                                                : '¥${therapistDetails.therapistProfit.weeklyProfit}',
                                             style: TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.bold),
@@ -711,7 +729,11 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                             style: TextStyle(fontSize: 12),
                                           )),
                                           Text(
-                                            '¥ ${therapistDetails.therapistProfit.monthlyProfit}',
+                                            therapistDetails.therapistProfit
+                                                        .monthlyProfit ==
+                                                    null
+                                                ? "0.00"
+                                                : '¥ ${therapistDetails.therapistProfit.monthlyProfit}',
                                             style: TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.bold),
@@ -755,7 +777,11 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                             style: TextStyle(fontSize: 12),
                                           )),
                                           Text(
-                                            '¥ ${therapistDetails.therapistProfit.yearlyProfit}',
+                                            therapistDetails.therapistProfit
+                                                        .yearlyProfit ==
+                                                    null
+                                                ? "0.00"
+                                                : '¥ ${therapistDetails.therapistProfit.yearlyProfit}',
                                             style: TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.bold),

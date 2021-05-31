@@ -416,12 +416,37 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             ),
                           );
                         },
+                        /*      (timeRow[i].hour >= startTime.hour &&
+                                      timeRow[i].minute >= startTime.minute) &&
+                                  (timeRow[i].hour < endTime.hour &&
+                                      timeRow[i].minute < endTime.minute)) */
                         dataCellBuilder: (i, j) {
                           String dayName = DateFormat('EEEE')
                               .format(DateTime(_cyear, _cmonth, j + 1));
                           //Get Japanese Day Name
                           int dayIndex = getJaIndex(dayName);
-                          if (_storeServiceTime[dayIndex].shopOpen) {
+                          DateTime startTime =
+                              _storeServiceTime[dayIndex].startTime.toLocal();
+                          DateTime endTime =
+                              _storeServiceTime[dayIndex].endTime.toLocal();
+                          int endHour = endTime.hour == 0 ? 24 : endTime.hour;
+                          bool checkStartMinute = true;
+                          bool checkEndMinute = true;
+
+                          if ((timeRow[i].hour == startTime.hour)) {
+                            checkStartMinute =
+                                timeRow[i].minute >= startTime.minute;
+                          }
+                          if ((timeRow[i].hour == endHour)) {
+                            checkStartMinute =
+                                timeRow[i].minute <= endTime.minute;
+                          }
+
+                          if (_storeServiceTime[dayIndex].shopOpen &&
+                              ((timeRow[i].hour >= startTime.hour) &&
+                                  (timeRow[i].hour <= endHour)) &&
+                              checkStartMinute &&
+                              checkEndMinute) {
                             if (events.containsKey(timeRow[i]) &&
                                 events[timeRow[i]].contains(j)) {
                               return InkWell(
