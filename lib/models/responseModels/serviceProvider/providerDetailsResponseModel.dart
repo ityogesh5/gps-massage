@@ -35,7 +35,7 @@ class ProviderDetailsResponseModel {
       ProviderDetailsResponseModel(
         status: json["status"],
         data: Data.fromJson(json["data"]),
-        reviewData: ReviewData.fromJson(json["ReviewData"]),
+        reviewData: ReviewData.fromJson(json["reviewData"]),
         therapistEstheticList: List<TherapistEstheticList>.from(
             json["therapistEstheticList"]
                 .map((x) => TherapistEstheticList.fromJson(x))),

@@ -367,14 +367,14 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            startTime.hour < 10
-                                                ? "0${startTime.hour}"
-                                                : "${startTime.hour}",
+                                            newStartTime.hour < 10
+                                                ? "0${newStartTime.hour}"
+                                                : "${newStartTime.hour}",
                                           ),
                                           Text(
-                                            startTime.minute < 10
-                                                ? ":0${startTime.minute}"
-                                                : ":${startTime.minute}",
+                                            newStartTime.minute < 10
+                                                ? ":0${newStartTime.minute}"
+                                                : ":${newStartTime.minute}",
                                           ),
                                         ],
                                       ),
@@ -506,19 +506,28 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                                 onTap: () {
                                   ProgressDialogBuilder
                                       .showCommonProgressDialog(context);
-
-                                  ServiceProviderApi.updateStatusUpdate(
-                                          widget.bookingDetail,
+                                  ServiceProviderApi.updateEvent(
+                                          widget.bookingDetail.eventId,
+                                          onCancel,
                                           false,
                                           false,
-                                          onCancel)
+                                          widget.bookingDetail)
                                       .then((value) {
-                                    ProgressDialogBuilder
-                                        .hideCommonProgressDialog(context);
                                     if (value) {
-                                      NavigationRouter
-                                          .switchToServiceProviderBottomBar(
-                                              context);
+                                      ServiceProviderApi.updateStatusUpdate(
+                                              widget.bookingDetail,
+                                              false,
+                                              false,
+                                              onCancel)
+                                          .then((value) {
+                                        ProgressDialogBuilder
+                                            .hideCommonProgressDialog(context);
+                                        if (value) {
+                                          NavigationRouter
+                                              .switchToServiceProviderBottomBar(
+                                                  context);
+                                        }
+                                      });
                                     }
                                   });
                                 },
@@ -945,13 +954,23 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                 widget.bookingDetail.addedPrice = addedpriceReason;
                 widget.bookingDetail.travelAmount = int.parse(price);
               }
-              ServiceProviderApi.updateStatusUpdate(widget.bookingDetail,
-                      proposeAdditionalCosts, suggestAnotherTime, onCancel)
+              ServiceProviderApi.updateEvent(
+                      widget.bookingDetail.eventId,
+                      onCancel,
+                      proposeAdditionalCosts,
+                      suggestAnotherTime,
+                      widget.bookingDetail)
                   .then((value) {
                 if (value) {
-                  addFirebaseContacts();
-                } else {
-                  ProgressDialogBuilder.hideCommonProgressDialog(context);
+                  ServiceProviderApi.updateStatusUpdate(widget.bookingDetail,
+                          proposeAdditionalCosts, suggestAnotherTime, onCancel)
+                      .then((value) {
+                    if (value) {
+                      addFirebaseContacts();
+                    } else {
+                      ProgressDialogBuilder.hideCommonProgressDialog(context);
+                    }
+                  });
                 }
               });
             },

@@ -166,6 +166,7 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
       var fcmToken = value.getString('deviceToken');
       HealingMatchConstants.userAddressId = value.getString('addressID');
       HealingMatchConstants.serviceUserID = value.getString('userID');
+      HealingMatchConstants.serviceUserName = value.getString("userName");
       if (accessToken != null) {
         print('Access token FCM token value : $accessToken && \n $fcmToken');
         print(

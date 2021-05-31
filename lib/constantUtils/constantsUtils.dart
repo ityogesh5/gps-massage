@@ -517,7 +517,10 @@ class HealingMatchConstants {
   static providerLogin.Data userData;
   static bool isProvider = false;
   static bool isProviderHomePage;
-  static String accessToken = '';
+
+  static String accessToken;
+  static String providerName;
+
   static int serviceUserId;
   static int userId;
   static List<FlutterWeekViewEvent> events = List<FlutterWeekViewEvent>();
@@ -552,7 +555,7 @@ class HealingMatchConstants {
   static int confserviceCId;
   static int confserviceSubId;
   static var confNoOfServiceDuration;
-  static var confServiceCost = '230';
+  static var confServiceCost;
   static var confCertificationUpload;
   static bool confBuisnessTrip;
   static bool confShop;

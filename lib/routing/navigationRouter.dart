@@ -63,6 +63,7 @@ import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/NoticeScre
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchResult.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/detailPageSearch.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/detailPageSearchOne.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/searchScreenWithoutRegister.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/UserChangePassword.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/UserForgetPassword.dart';
@@ -748,7 +749,7 @@ class NavigationRouter {
       BuildContext context, var userID) {
     Navigator.of(context).push(PageRouteBuilder(
         pageBuilder: (context, animation, anotherAnimation) {
-          return SampleBookingScreen(userID); //BookingDetailHomePage(userID);
+          return /* SampleBookingScreen(userID); // */BookingDetailHomePage(userID);
         },
         transitionDuration: Duration(milliseconds: 2000),
         transitionsBuilder: (context, animation, anotherAnimation, child) {

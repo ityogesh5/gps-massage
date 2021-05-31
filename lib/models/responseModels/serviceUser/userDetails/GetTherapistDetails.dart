@@ -39,7 +39,7 @@ class TherapistByIdModel {
       TherapistByIdModel(
         status: json["status"],
         data: Data.fromJson(json["data"]),
-        reviewData: ReviewData.fromJson(json["ReviewData"]),
+        reviewData: ReviewData.fromJson(json["reviewData"]),
         favouriteDataResponse:
             FavouriteDataResponse.fromJson(json["favouriteDataResponse"]),
         therapistEstheticList: List<TherapistList>.from(
