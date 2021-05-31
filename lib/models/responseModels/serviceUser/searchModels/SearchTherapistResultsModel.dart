@@ -54,6 +54,7 @@ class Data {
 class SearchList {
   String ratingAvg;
   dynamic noOfReviewsMembers;
+  int favouriteToTherapist;
   String leastPriceMin;
   int id;
   int userId;
@@ -71,6 +72,7 @@ class SearchList {
   SearchList(
       {this.ratingAvg,
       this.noOfReviewsMembers,
+      this.favouriteToTherapist,
       this.leastPriceMin,
       this.id,
       this.userId,
@@ -88,6 +90,7 @@ class SearchList {
   SearchList.fromJson(Map<String, dynamic> json) {
     ratingAvg = json['ratingAvg'];
     noOfReviewsMembers = json['NoOfReviewsMembers'];
+    favouriteToTherapist = json['favouriteToTherapist'];
     leastPriceMin = json['leastPriceMin'];
     id = json['id'];
     userId = json['userId'];
@@ -107,6 +110,7 @@ class SearchList {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['ratingAvg'] = this.ratingAvg;
     data['NoOfReviewsMembers'] = this.noOfReviewsMembers;
+    data['favouriteToTherapist'] = this.favouriteToTherapist;
     data['leastPriceMin'] = this.leastPriceMin;
     data['id'] = this.id;
     data['userId'] = this.userId;

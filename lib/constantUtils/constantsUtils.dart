@@ -472,8 +472,7 @@ class HealingMatchConstants {
   static providerLogin.Data userData;
   static bool isProvider = false;
   static bool isProviderHomePage;
-  static String accessToken =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTMwNTkyODZ9.vbtFi4s8AJiysPLNvyk-y8hrGWadZh7PMpD6Ab9Q3bA';
+  static String accessToken;
   static int serviceUserId;
   static int userId;
   static List<FlutterWeekViewEvent> events = List<FlutterWeekViewEvent>();
@@ -505,7 +504,7 @@ class HealingMatchConstants {
   static int confserviceCId;
   static int confserviceSubId;
   static var confNoOfServiceDuration;
-  static var confServiceCost = '230';
+  static var confServiceCost;
   static var confCertificationUpload;
   static bool confBuisnessTrip;
   static bool confShop;
@@ -572,10 +571,10 @@ class HealingMatchConstants {
   static List<UserAddresses> userAddressesList = new List<UserAddresses>();
   static var searchDistanceRadius;
   static String userProfileImage;
-  static String serviceUserID = '4';
+  static String serviceUserID;
   static List<AddedSubAddresses> editUserSubAddressList =
       new List<AddedSubAddresses>();
-  static String serviceUserBookingAmount = '2,300';
+  static String serviceUserBookingAmount;
 
   //Therapist Detail Screen
   static String therapistDStoreName = '';

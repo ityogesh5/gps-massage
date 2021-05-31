@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/constantUtils/fireBaseHelper/FirebaseAuthHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/auth.dart';
 import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
@@ -89,8 +88,6 @@ class _LogOutServiceUserState extends State<LogOutServiceUser> {
                         value.setBool('isUserRegister', false);
                         bool loggedOut = value.getBool('isUserLoggedOut');
                         print('userLogout is false : $loggedOut');
-                        FirebaseAuthHelper().signOut();
-                        //_logOutFirebaseUser();
                         NavigationRouter.switchToUserLogin(context);
                       });
                     } else {
