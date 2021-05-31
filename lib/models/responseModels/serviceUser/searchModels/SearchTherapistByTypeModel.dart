@@ -54,6 +54,7 @@ class Data {
 class SearchTherapistTypeList {
   String ratingAvg;
   dynamic noOfReviewsMembers;
+  int favouriteToTherapist;
   String leastPriceMin;
   int id;
   int userId;
@@ -70,24 +71,26 @@ class SearchTherapistTypeList {
 
   SearchTherapistTypeList(
       {this.ratingAvg,
-        this.noOfReviewsMembers,
-        this.leastPriceMin,
-        this.id,
-        this.userId,
-        this.categoryId,
-        this.subCategoryId,
-        this.name,
-        this.sixtyMin,
-        this.nintyMin,
-        this.oneTwentyMin,
-        this.oneFifityMin,
-        this.oneEightyMin,
-        this.lowestPrice,
-        this.user});
+      this.noOfReviewsMembers,
+      this.favouriteToTherapist,
+      this.leastPriceMin,
+      this.id,
+      this.userId,
+      this.categoryId,
+      this.subCategoryId,
+      this.name,
+      this.sixtyMin,
+      this.nintyMin,
+      this.oneTwentyMin,
+      this.oneFifityMin,
+      this.oneEightyMin,
+      this.lowestPrice,
+      this.user});
 
   SearchTherapistTypeList.fromJson(Map<String, dynamic> json) {
     ratingAvg = json['ratingAvg'];
     noOfReviewsMembers = json['NoOfReviewsMembers'];
+    favouriteToTherapist = json['favouriteToTherapist'];
     leastPriceMin = json['leastPriceMin'];
     id = json['id'];
     userId = json['userId'];
@@ -107,6 +110,7 @@ class SearchTherapistTypeList {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['ratingAvg'] = this.ratingAvg;
     data['NoOfReviewsMembers'] = this.noOfReviewsMembers;
+    data['favouriteToTherapist'] = this.favouriteToTherapist;
     data['leastPriceMin'] = this.leastPriceMin;
     data['id'] = this.id;
     data['userId'] = this.userId;
@@ -143,18 +147,18 @@ class User {
 
   User(
       {this.id,
-        this.userName,
-        this.uploadProfileImgUrl,
-        this.businessForm,
-        this.storeName,
-        this.storeType,
-        this.coronameasure,
-        this.businesstrip,
-        this.childrenMeasure,
-        this.genderOfService,
-        this.isShop,
-        this.addresses,
-        this.certificationUploads});
+      this.userName,
+      this.uploadProfileImgUrl,
+      this.businessForm,
+      this.storeName,
+      this.storeType,
+      this.coronameasure,
+      this.businesstrip,
+      this.childrenMeasure,
+      this.genderOfService,
+      this.isShop,
+      this.addresses,
+      this.certificationUploads});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -177,7 +181,8 @@ class User {
     if (json['certification_uploads'] != null) {
       certificationUploads = new List<CertificationSearchTypeUploads>();
       json['certification_uploads'].forEach((v) {
-        certificationUploads.add(new CertificationSearchTypeUploads.fromJson(v));
+        certificationUploads
+            .add(new CertificationSearchTypeUploads.fromJson(v));
       });
     }
   }
@@ -219,21 +224,21 @@ class SearchTypeAddresses {
 
   SearchTypeAddresses(
       {this.id,
-        this.lat,
-        this.lon,
-        this.geomet,
-        this.address,
-        this.capitalAndPrefecture,
-        this.cityName,
-        this.area,
-        this.distance});
+      this.lat,
+      this.lon,
+      this.geomet,
+      this.address,
+      this.capitalAndPrefecture,
+      this.cityName,
+      this.area,
+      this.distance});
 
   SearchTypeAddresses.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     lat = json['lat'];
     lon = json['lon'];
     geomet =
-    json['geomet'] != null ? new Geomet.fromJson(json['geomet']) : null;
+        json['geomet'] != null ? new Geomet.fromJson(json['geomet']) : null;
     address = json['address'];
     capitalAndPrefecture = json['capitalAndPrefecture'];
     cityName = json['cityName'];
@@ -295,19 +300,19 @@ class CertificationSearchTypeUploads {
 
   CertificationSearchTypeUploads(
       {this.id,
-        this.userId,
-        this.acupuncturist,
-        this.moxibutionist,
-        this.acupuncturistAndMoxibustion,
-        this.anmaMassageShiatsushi,
-        this.judoRehabilitationTeacher,
-        this.physicalTherapist,
-        this.acquireNationalQualifications,
-        this.privateQualification1,
-        this.privateQualification2,
-        this.privateQualification3,
-        this.privateQualification4,
-        this.privateQualification5});
+      this.userId,
+      this.acupuncturist,
+      this.moxibutionist,
+      this.acupuncturistAndMoxibustion,
+      this.anmaMassageShiatsushi,
+      this.judoRehabilitationTeacher,
+      this.physicalTherapist,
+      this.acquireNationalQualifications,
+      this.privateQualification1,
+      this.privateQualification2,
+      this.privateQualification3,
+      this.privateQualification4,
+      this.privateQualification5});
 
   CertificationSearchTypeUploads.fromJson(Map<String, dynamic> json) {
     id = json['id'];

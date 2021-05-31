@@ -56,6 +56,7 @@ class TypeTherapistData {
   User user;
   String reviewAvgData;
   int noOfReviewsMembers;
+  int favouriteToTherapist;
   int lowestPrice;
   String priceForMinute;
 
@@ -68,6 +69,7 @@ class TypeTherapistData {
       this.user,
       this.reviewAvgData,
       this.noOfReviewsMembers,
+      this.favouriteToTherapist,
       this.lowestPrice,
       this.priceForMinute});
 
@@ -80,6 +82,7 @@ class TypeTherapistData {
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
     reviewAvgData = json['reviewAvgData'];
     noOfReviewsMembers = json['NoOfReviewsMembers'];
+    favouriteToTherapist = json['favouriteToTherapist'];
     lowestPrice = json['lowestPrice'];
     priceForMinute = json['priceForMinute'];
   }
@@ -96,6 +99,7 @@ class TypeTherapistData {
     }
     data['reviewAvgData'] = this.reviewAvgData;
     data['NoOfReviewsMembers'] = this.noOfReviewsMembers;
+    data['favouriteToTherapist'] = this.favouriteToTherapist;
     data['lowestPrice'] = this.lowestPrice;
     data['priceForMinute'] = this.priceForMinute;
     return data;
