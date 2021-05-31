@@ -577,15 +577,28 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                       ),
                     ),
                     Spacer(),
-                    Text(
-                      therapistDetails.bookingDataResponse[0].bookingStatus == 9
-                          ? "完了済み"
-                          : "キャンセル",
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        color: Colors.red,
-                      ),
-                    ),
+                    therapistDetails.bookingDataResponse[0].bookingStatus == 9
+                        ? Text(
+                            '完了済み',
+                            style: TextStyle(
+                              fontSize: 12.0,
+                              color: Colors.red,
+                            ),
+                          )
+                        : InkWell(
+                            onTap: () {
+                              NavigationRouter
+                                  .switchToServiceUserBookingCancelScreen(
+                                      context);
+                            },
+                            child: Text(
+                              'キャンセル',
+                              style: TextStyle(
+                                fontSize: 12.0,
+                                color: Colors.red,
+                              ),
+                            ),
+                          )
                   ],
                 ),
                 SizedBox(
@@ -842,11 +855,17 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                       ),
                     ),
                     Spacer(),
-                    Text(
-                      "キャンセルする",
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        color: Colors.red,
+                    InkWell(
+                      onTap: () {
+                        NavigationRouter.switchToServiceUserBookingCancelScreen(
+                            context);
+                      },
+                      child: Text(
+                        "キャンセルする",
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          color: Colors.red,
+                        ),
                       ),
                     ),
                   ],
