@@ -29,13 +29,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.2"
-  apple_sign_in:
-    dependency: "direct main"
-    description:
-      name: apple_sign_in
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.0"
   args:
     dependency: transitive
     description:
@@ -742,13 +735,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.6"
-  keyboard_visibility:
-    dependency: "direct main"
-    description:
-      name: keyboard_visibility
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.5.6"
   lazy_load_scrollview:
     dependency: "direct main"
     description:

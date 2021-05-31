@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:core';
 import 'dart:io';
 
-import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -50,13 +49,6 @@ class _ProviderLoginState extends State<ProviderLogin> {
   void initState() {
     super.initState();
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
-
-    if (Platform.isIOS) {
-      //check for ios if developing for both android & ios
-      AppleSignIn.onCredentialRevoked.listen((_) {
-        print("Credentials revoked");
-      });
-    }
   }
 
   showOverlayLoader() {
@@ -512,7 +504,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
   }
 
   _initiateAppleSignIn() async {
-    if (await AppleSignIn.isAvailable()) {
+    /* if (await AppleSignIn.isAvailable()) {
       final AuthorizationResult result = await AppleSignIn.performRequests([
         AppleIdRequest(requestedScopes: [Scope.email, Scope.fullName])
       ]);
@@ -538,7 +530,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
       }
     } else {
       print('Apple SignIn is not available for your device');
-    }
+    }*/
   }
 
   void _initiateLineLogin() async {

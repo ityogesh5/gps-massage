@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -590,7 +589,7 @@ class _UserLoginState extends State<UserLogin> {
   }
 
   _initiateAppleSignIn() async {
-    if (await AppleSignIn.isAvailable()) {
+    /*if (await AppleSignIn.isAvailable()) {
       final AuthorizationResult result = await AppleSignIn.performRequests([
         AppleIdRequest(requestedScopes: [Scope.email, Scope.fullName])
       ]);
@@ -616,7 +615,7 @@ class _UserLoginState extends State<UserLogin> {
       }
     } else {
       print('Apple SignIn is not available for your device');
-    }
+    }*/
   }
 
   void _initiateLineLogin() async {
