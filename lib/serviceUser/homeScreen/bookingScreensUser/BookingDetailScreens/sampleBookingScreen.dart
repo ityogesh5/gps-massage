@@ -83,7 +83,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                                   9
                           ? buildBookingDetails(context)
                           : buildServices(context),
-                      therapistDetails.bookingDataResponse.length != 0 &&
+                      therapistDetails.bookingDataResponse.length == 0 ||
                               therapistDetails
                                       .bookingDataResponse[0].bookingStatus ==
                                   9
