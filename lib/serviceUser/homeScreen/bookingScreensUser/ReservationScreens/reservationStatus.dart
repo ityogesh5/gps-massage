@@ -2137,7 +2137,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                       HealingMatchConstants
                                                                           .confServiceCost = approvedList[
                                                                               index]
-                                                                          .priceOfService;
+                                                                          .totalCost;
                                                                       print(
                                                                           'bookingId: ${HealingMatchConstants.bookingId}');
 
@@ -3809,7 +3809,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                         child: Column(
                                           children: [
                                             Text(
-                                              'お気に入りはありません。',
+                                              '予約状況はありません。',
                                               style: TextStyle(
                                                   fontSize: 16,
                                                   fontFamily: 'NotoSansJP',

@@ -2055,6 +2055,11 @@ class _ReservationListState extends State<ReservationList> {
   String finalDate = '';
   String currentDay = '';
   String currentMonth = '';
+  String month;
+  String day;
+  String sTime;
+  String eTime;
+  String jaName;
 
   @override
   void initState() {
@@ -2081,17 +2086,22 @@ class _ReservationListState extends State<ReservationList> {
 
   @override
   Widget build(BuildContext context) {
-    DateTime startTime = bookingDetailsList[0].newStartTime != null
-        ? DateTime.parse(bookingDetailsList[0].newStartTime).toLocal()
-        : DateTime.parse(bookingDetailsList[0].startTime).toLocal();
-    DateTime endTime = bookingDetailsList[0].newEndTime != null
-        ? DateTime.parse(bookingDetailsList[0].newEndTime).toLocal()
-        : DateTime.parse(bookingDetailsList[0].endTime).toLocal();
-    String month = DateFormat('MM月').format(startTime);
-    String day = DateFormat('d').format(startTime);
-    String sTime = DateFormat('kk:mm').format(startTime);
-    String eTime = DateFormat('kk:mm').format(endTime);
-    String jaName = DateFormat('EEEE', 'ja_JP').format(startTime);
+    if (bookingDetailsList.length != 0 && bookingDetailsList.isNotEmpty) {
+      DateTime startTime = bookingDetailsList[0].newStartTime != null
+          ? DateTime.parse(bookingDetailsList[0].newStartTime).toLocal()
+          : DateTime.parse(bookingDetailsList[0].startTime).toLocal();
+      DateTime endTime = bookingDetailsList[0].newEndTime != null
+          ? DateTime.parse(bookingDetailsList[0].newEndTime).toLocal()
+          : DateTime.parse(bookingDetailsList[0].endTime).toLocal();
+      setState(() {
+        month = DateFormat('MM月').format(startTime);
+        day = DateFormat('d').format(startTime);
+        sTime = DateFormat('kk:mm').format(startTime);
+        eTime = DateFormat('kk:mm').format(endTime);
+        jaName = DateFormat('EEEE', 'ja_JP').format(startTime);
+      });
+    }
+
     GlobalKey key = new GlobalKey();
     void showToolTip(String text) {
       ShowToolTip popup = ShowToolTip(context,
@@ -2109,7 +2119,7 @@ class _ReservationListState extends State<ReservationList> {
       );
     }
 
-    return bookingDetailsList.length != 0
+    return bookingDetailsList.length != 0 && bookingDetailsList.isNotEmpty
         ? Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
