@@ -1517,8 +1517,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
         sharedPreferences.getString("accessToken");
     HealingMatchConstants.userData = userData;
 
-    HealingMatchConstants.userId =
-        HealingMatchConstants.isUserRegistrationSkipped ? 0 : userData.id;
+    HealingMatchConstants.userId = userData.id;
 
     HealingMatchConstants.providerName =
         userData.storeName != null && userData.storeName != ''

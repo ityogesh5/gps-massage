@@ -149,7 +149,7 @@ class _PastReservationsState extends State<PastReservations> {
                 if (this.mounted) {
                   bookingDetailsList.addAll(value.data.bookingDetailsList);
                 }
-                // getSearchResults(favouriteUserList);
+                getSearchResults(value.data.bookingDetailsList);
               });
             }
           });
