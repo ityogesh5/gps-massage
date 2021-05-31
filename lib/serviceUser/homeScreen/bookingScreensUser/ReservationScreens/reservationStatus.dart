@@ -1046,6 +1046,20 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 approvedWithConditionsList[
                                                         index]
                                                     .id;
+
+                                            HealingMatchConstants
+                                                    .therapistIdPay =
+                                                approvedWithConditionsList[
+                                                        index]
+                                                    .therapistId;
+                                            HealingMatchConstants
+                                                    .confServiceCost =
+                                                approvedWithConditionsList[
+                                                        index]
+                                                    .priceOfService;
+                                            print(
+                                                'bookingId: ${HealingMatchConstants.bookingId}');
+
                                             NavigationRouter
                                                 .switchToUserSearchDetailPageOne(
                                                     context,
@@ -1468,11 +1482,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                     width: 3,
                                                                   ),
                                                                   InkWell(
-                                                                    onTap: () {
-                                                                      NavigationRouter
-                                                                          .switchToUserBookingApprovedThirdScreen(
-                                                                              context);
-                                                                    },
+                                                                    onTap:
+                                                                        () {},
                                                                     child: Card(
                                                                       elevation:
                                                                           3,

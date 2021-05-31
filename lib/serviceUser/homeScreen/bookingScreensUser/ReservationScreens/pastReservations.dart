@@ -215,21 +215,20 @@ class _PastReservationsState extends State<PastReservations> {
                                         DateFormat('kk:mm').format(endTime);
                                     String jaName = DateFormat('EEEE', 'ja_JP')
                                         .format(startTime);
-                                    return InkWell(
-                                      onTap: () {
-                                        NavigationRouter
-                                            .switchToUserSearchDetailPageOne(
-                                                context,
-                                                bookingDetailsList[index]
-                                                    .therapistId);
-                                      },
-                                      child: Container(
-                                        // height: MediaQuery.of(context).size.height * 0.22,
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.90,
-                                        child: WidgetAnimator(
-                                          new Card(
+                                    return Container(
+                                      // height: MediaQuery.of(context).size.height * 0.22,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.90,
+                                      child: WidgetAnimator(
+                                        InkWell(
+                                          onTap: () {
+                                            NavigationRouter
+                                                .switchToUserSearchDetailPageOne(
+                                                    context,
+                                                    bookingDetailsList[index]
+                                                        .therapistId);
+                                          },
+                                          child: new Card(
                                             color: Colors.grey[200],
                                             semanticContainer: true,
                                             shape: RoundedRectangleBorder(
@@ -407,58 +406,58 @@ class _PastReservationsState extends State<PastReservations> {
                                                                 SizedBox(
                                                                   width: 5,
                                                                 ),
-                                                                InkWell(
-                                                                  onTap: () {
-                                                                    showToolTipForFav(
-                                                                        bookingDetailsList[index]
-                                                                            .bookingTherapistId
-                                                                            .storeType,
-                                                                        formKeyList[
-                                                                            index]);
-                                                                  },
+                                                                Container(
                                                                   child:
-                                                                      Container(
-                                                                    key: formKeyList[
-                                                                        index],
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      gradient: LinearGradient(
-                                                                          begin:
-                                                                              Alignment.topCenter,
-                                                                          end: Alignment.bottomCenter,
-                                                                          colors: [
-                                                                            Colors.white,
-                                                                            Colors.white
-                                                                          ]),
-                                                                      shape: BoxShape
-                                                                          .circle,
-                                                                      border:
-                                                                          Border
-                                                                              .all(
-                                                                        color: Colors
-                                                                            .grey[400],
-                                                                      ),
-                                                                    ),
+                                                                      InkWell(
+                                                                    onTap: () {
+                                                                      /*   showToolTipForFav(
+                                                                          bookingDetailsList[index]
+                                                                              .bookingTherapistId
+                                                                              .storeType,
+                                                                          formKeyList[
+                                                                              index]);*/
+                                                                    },
                                                                     child:
-                                                                        Padding(
-                                                                      padding:
-                                                                          const EdgeInsets.all(
-                                                                              8.0),
-                                                                      child: SvgPicture
-                                                                          .asset(
-                                                                        "assets/images_gps/info.svg",
-                                                                        height:
-                                                                            10.0,
-                                                                        width:
-                                                                            10.0,
-                                                                        // key: key,
-                                                                        color: Colors
-                                                                            .black,
-                                                                      ), /* Icon(
+                                                                        Container(
+                                                                      // key: formKeyList[index],
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        gradient: LinearGradient(
+                                                                            begin:
+                                                                                Alignment.topCenter,
+                                                                            end: Alignment.bottomCenter,
+                                                                            colors: [
+                                                                              Colors.white,
+                                                                              Colors.white
+                                                                            ]),
+                                                                        shape: BoxShape
+                                                                            .circle,
+                                                                        border:
+                                                                            Border.all(
+                                                                          color:
+                                                                              Colors.grey[400],
+                                                                        ),
+                                                                      ),
+                                                                      child:
+                                                                          Padding(
+                                                                        padding:
+                                                                            const EdgeInsets.all(8.0),
+                                                                        child: SvgPicture
+                                                                            .asset(
+                                                                          "assets/images_gps/info.svg",
+                                                                          height:
+                                                                              10.0,
+                                                                          width:
+                                                                              10.0,
+                                                                          // key: key,
+                                                                          color:
+                                                                              Colors.black,
+                                                                        ), /* Icon(
                                                             Icons
-                                                                .shopping_bag_rounded,
+                                                                  .shopping_bag_rounded,
                                                             key: key,
                                                             color: Colors.black ), */
+                                                                      ),
                                                                     ),
                                                                   ),
                                                                 ),

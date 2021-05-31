@@ -206,15 +206,28 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                       ),
                     ),
                     Spacer(),
-                    Text(
-                      therapistDetails.bookingDataResponse[0].bookingStatus == 9
-                          ? "完了済み"
-                          : "キャンセル",
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        color: Colors.red,
-                      ),
-                    ),
+                    therapistDetails.bookingDataResponse[0].bookingStatus == 9
+                        ? Text(
+                            '完了済み',
+                            style: TextStyle(
+                              fontSize: 12.0,
+                              color: Colors.red,
+                            ),
+                          )
+                        : InkWell(
+                            onTap: () {
+                              NavigationRouter
+                                  .switchToServiceUserBookingCancelScreen(
+                                      context);
+                            },
+                            child: Text(
+                              'キャンセル',
+                              style: TextStyle(
+                                fontSize: 12.0,
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
                   ],
                 ),
                 SizedBox(
@@ -472,7 +485,10 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                     ),
                     Spacer(),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        NavigationRouter.switchToServiceUserBookingCancelScreen(
+                            context);
+                      },
                       child: Text(
                         "キャンセルする",
                         style: TextStyle(
@@ -1367,7 +1383,16 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
           //side: BorderSide(color: Colors.black),
         ),
         color: Colors.red,
-        onPressed: () {},
+        onPressed: () {
+          HealingMatchConstants.bookingIdPay =
+              therapistDetails.bookingDataResponse[0].id;
+
+          HealingMatchConstants.therapistIdPay =
+              therapistDetails.bookingDataResponse[0].therapistId;
+          HealingMatchConstants.confServiceCost =
+              therapistDetails.bookingDataResponse[0].priceOfService;
+          HealingMatchConstants.initiatePayment(context);
+        },
         child: new Text(
           '支払いに進む',
           style: TextStyle(

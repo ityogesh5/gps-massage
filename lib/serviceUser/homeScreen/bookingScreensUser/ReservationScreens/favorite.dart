@@ -389,17 +389,16 @@ class _FavoriteState extends State<Favorite> {
                                                                     width: 4),
                                                                 InkWell(
                                                                   onTap: () {
-                                                                    showToolTipForFav(
+                                                                    /*    showToolTipForFav(
                                                                         favouriteUserList[index]
                                                                             .favouriteTherapistId
                                                                             .storeType,
                                                                         formKeyList[
-                                                                            index]);
+                                                                            index]);*/
                                                                   },
                                                                   child:
                                                                       Container(
-                                                                    key: formKeyList[
-                                                                        index],
+                                                                    // key: formKeyList[index],
                                                                     decoration:
                                                                         BoxDecoration(
                                                                       gradient: LinearGradient(

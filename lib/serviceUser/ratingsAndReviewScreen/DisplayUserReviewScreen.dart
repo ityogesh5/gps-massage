@@ -346,7 +346,8 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
 
   _providerRatingList() async {
     try {
-      ServiceUserAPIProvider.getAllTherapistsRatings(context).then((value) {
+      ServiceUserAPIProvider.getAllTherapistsRatings(context, widget.id)
+          .then((value) {
         if (value != null) {
           setState(() {
             totalElements = value.therapistsData.totalElements;
@@ -369,7 +370,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
         print('Page number : $_pageNumber Page Size : $_pageSize');
         var ratingsProvider =
             ServiceUserAPIProvider.getAllTherapistsRatingsByLimit(
-                context, _pageNumber, _pageSize);
+                context, _pageNumber, _pageSize, widget.id);
         ratingsProvider.then((value) {
           if (value != null && this.mounted) {
             setState(() {

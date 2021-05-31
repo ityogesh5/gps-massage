@@ -45,14 +45,14 @@ class Data {
     this.createdAt,
   });
 
-  int id;
-  int userId;
+  dynamic id;
+  dynamic userId;
   String therapistId;
   bool isReviewStatus;
   String ratingsCount;
   String reviewComment;
-  int createdUser;
-  int updatedUser;
+  dynamic createdUser;
+  dynamic updatedUser;
   DateTime updatedAt;
   DateTime createdAt;
 

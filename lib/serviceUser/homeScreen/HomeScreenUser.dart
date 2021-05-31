@@ -62,6 +62,7 @@ var accessToken, deviceToken;
 var userID;
 List<UserAddresses> constantUserAddressValuesList = new List<UserAddresses>();
 bool isRecommended = false;
+int status = 0;
 
 String result = '';
 var colorsValue = Colors.white;
@@ -196,6 +197,7 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
         setState(() {
           bookingDetailsList = value.data.bookingDetailsList;
           print('bookingDetails:${bookingDetailsList.length}');
+          status = 1;
         });
       }
     });
@@ -748,7 +750,9 @@ class _LoadHomePageState extends State<LoadHomePage> {
           ),
           BuildMassageTypeChips(),
           BuildProviderUsers(getTherapistProfiles: widget.getTherapistProfiles),
-          ReservationList(),
+          status == 0
+              ? Center(child: CircularProgressIndicator())
+              : ReservationList(),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
@@ -984,6 +988,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                           onTap: () {
                             HealingMatchConstants.therapistId =
                                 widget.getTherapistByType[index].user.id;
+
                             NavigationRouter
                                 .switchToServiceUserBookingDetailsCompletedScreenOne(
                                     context, HealingMatchConstants.therapistId);

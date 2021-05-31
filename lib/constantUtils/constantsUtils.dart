@@ -396,7 +396,7 @@ class HealingMatchConstants {
   static List<String> privateQualification = List<String>();
   static Map<String, String> certificateImages = Map<String, String>();
 
-  static var therapistRatingID = '18';
+  static var therapistRatingID;
 
   //userDefinedScreens
   static const String UserSelectFirtTxt = 'どちらで利用しますか？';
