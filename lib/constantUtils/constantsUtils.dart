@@ -517,8 +517,10 @@ class HealingMatchConstants {
   static providerLogin.Data userData;
   static bool isProvider = false;
   static bool isProviderHomePage;
+
   static String accessToken;
   static String providerName;
+
   static int serviceUserId;
   static int userId;
   static List<FlutterWeekViewEvent> events = List<FlutterWeekViewEvent>();
@@ -620,10 +622,10 @@ class HealingMatchConstants {
   static List<UserAddresses> userAddressesList = new List<UserAddresses>();
   static var searchDistanceRadius;
   static String userProfileImage;
-  static String serviceUserID = '4';
+  static String serviceUserID;
   static List<AddedSubAddresses> editUserSubAddressList =
       new List<AddedSubAddresses>();
-  static String serviceUserBookingAmount = '2,300';
+  static String serviceUserBookingAmount;
 
   //Therapist Detail Screen
   static String therapistDStoreName = '';
@@ -700,6 +702,7 @@ class HealingMatchConstants {
       '期限内にセラピストに、よる予約の承認がされなかった為、予約はキャンセルされました';
   static String cancelTimerText = '期限内に支払いが完了しなかった為、予約がキャンセルされました。';
   static bool isBookingDone = false;
+  //booking HomePage
 
   //FontStyle
   static const headersText = TextStyle(

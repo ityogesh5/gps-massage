@@ -88,8 +88,10 @@ class _LogOutServiceUserState extends State<LogOutServiceUser> {
                         value.setBool('isUserRegister', false);
                         bool loggedOut = value.getBool('isUserLoggedOut');
                         print('userLogout is false : $loggedOut');
+
                         Auth().signOut();
                         //_logOutFirebaseUser();
+
                         NavigationRouter.switchToUserLogin(context);
                       });
                     } else {

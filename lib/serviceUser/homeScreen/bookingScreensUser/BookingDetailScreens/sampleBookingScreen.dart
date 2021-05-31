@@ -471,11 +471,14 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                       ),
                     ),
                     Spacer(),
-                    Text(
-                      "キャンセルする",
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        color: Colors.red,
+                    InkWell(
+                      onTap: () {},
+                      child: Text(
+                        "キャンセルする",
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          color: Colors.red,
+                        ),
                       ),
                     ),
                   ],

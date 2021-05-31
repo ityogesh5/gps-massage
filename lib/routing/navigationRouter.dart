@@ -76,6 +76,8 @@ import 'package:gps_massageapp/serviceUser/ratingsAndReviewScreen/DisplayUserRev
 import 'package:gps_massageapp/serviceUser/ratingsAndReviewScreen/RatingsAndReviewUser.dart';
 import 'package:gps_massageapp/serviceUser/register/RegisterOTPScreen.dart';
 import 'package:gps_massageapp/serviceUser/register/RegisterUserScreen.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingCompletedList.dart'
+    as userBooking;
 
 class NavigationRouter {
   // Network dis connect handler class
@@ -749,7 +751,8 @@ class NavigationRouter {
       BuildContext context, var userID) {
     Navigator.of(context).push(PageRouteBuilder(
         pageBuilder: (context, animation, anotherAnimation) {
-          return /* SampleBookingScreen(userID); // */BookingDetailHomePage(userID);
+          return /* SampleBookingScreen(userID); // */ BookingDetailHomePage(
+              userID);
         },
         transitionDuration: Duration(milliseconds: 2000),
         transitionsBuilder: (context, animation, anotherAnimation, child) {
@@ -766,10 +769,11 @@ class NavigationRouter {
   }
 
   // Service User Ratings And Review Screen
-  static void switchToServiceUserRatingsAndReviewScreen(BuildContext context) {
+  static void switchToServiceUserRatingsAndReviewScreen(
+      BuildContext context, userBooking.BookingDetailsList bookingDetail) {
     Navigator.of(context).push(PageRouteBuilder(
         pageBuilder: (context, animation, anotherAnimation) {
-          return RatingsAndReviewUser();
+          return RatingsAndReviewUser(bookingDetail);
         },
         transitionDuration: Duration(milliseconds: 2000),
         transitionsBuilder: (context, animation, anotherAnimation, child) {

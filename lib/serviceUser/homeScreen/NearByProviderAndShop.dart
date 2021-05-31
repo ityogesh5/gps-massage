@@ -12,7 +12,6 @@ import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
-import 'package:gps_massageapp/customLibraryClasses/customPainterHeart/CustomHeartPainter.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
@@ -910,22 +909,32 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                             ),
                                                       Spacer(),
                                                       HealingMatchConstants
-                                                          .isUserRegistrationSkipped
+                                                              .isUserRegistrationSkipped
                                                           ? GestureDetector(
-                                                        onTap: () {
-                                                          return;
-                                                        },
-                                                        child: SvgPicture.asset(
-                                                          'assets/images_gps/heart_wo_color.svg',
-                                                          width: 25,
-                                                          height: 25,
-                                                          color: Colors.grey[400],
-                                                        ),
-                                                      )
+                                                              onTap: () {
+                                                                return;
+                                                              },
+                                                              child: SvgPicture
+                                                                  .asset(
+                                                                'assets/images_gps/heart_wo_color.svg',
+                                                                width: 25,
+                                                                height: 25,
+                                                                color: Colors
+                                                                    .grey[400],
+                                                              ),
+                                                            )
                                                           : FavoriteButton(
                                                               iconSize: 40,
                                                               iconColor:
                                                                   Colors.red,
+                                                              isFavorite: therapistUsers[
+                                                                              index]
+                                                                          .favouriteToTherapist !=
+                                                                      null &&
+                                                                  therapistUsers[
+                                                                              index]
+                                                                          .favouriteToTherapist ==
+                                                                      1,
                                                               valueChanged:
                                                                   (_isFavorite) {
                                                                 print(
@@ -1714,22 +1723,34 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                             ),
                                                       Spacer(),
                                                       HealingMatchConstants
-                                                          .isUserRegistrationSkipped
+                                                              .isUserRegistrationSkipped
                                                           ? GestureDetector(
-                                                        onTap: () {
-                                                          return;
-                                                        },
-                                                        child: SvgPicture.asset(
-                                                          'assets/images_gps/heart_wo_color.svg',
-                                                          width: 25,
-                                                          height: 25,
-                                                          color: Colors.grey[400],
-                                                        ),
-                                                      )
+                                                              onTap: () {
+                                                                return;
+                                                              },
+                                                              child: SvgPicture
+                                                                  .asset(
+                                                                'assets/images_gps/heart_wo_color.svg',
+                                                                width: 25,
+                                                                height: 25,
+                                                                color: Colors
+                                                                    .grey[400],
+                                                              ),
+                                                            )
                                                           : FavoriteButton(
                                                               iconSize: 40,
                                                               iconColor:
                                                                   Colors.red,
+                                                              isFavorite: widget
+                                                                          .getTherapistByType[
+                                                                              index]
+                                                                          .favouriteToTherapist !=
+                                                                      null &&
+                                                                  widget
+                                                                          .getTherapistByType[
+                                                                              index]
+                                                                          .favouriteToTherapist ==
+                                                                      1,
                                                               valueChanged:
                                                                   (_isFavorite) {
                                                                 print(

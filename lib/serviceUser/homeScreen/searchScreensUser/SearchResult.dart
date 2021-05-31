@@ -14,7 +14,6 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
 import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
-import 'package:gps_massageapp/customLibraryClasses/customPainterHeart/CustomHeartPainter.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistResultsModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
@@ -660,6 +659,16 @@ class _SearchResultState extends State<SearchResult> {
                                                                       iconColor:
                                                                           Colors
                                                                               .red,
+                                                                  isFavorite: widget
+                                                                      .getTherapistsSearchResults[
+                                                                  index]
+                                                                      .favouriteToTherapist !=
+                                                                      null &&
+                                                                      widget
+                                                                          .getTherapistsSearchResults[
+                                                                      index]
+                                                                          .favouriteToTherapist ==
+                                                                          1,
                                                                       valueChanged:
                                                                           (_isFavorite) {
                                                                         print(
@@ -1878,6 +1887,16 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                                                                       iconColor:
                                                                           Colors
                                                                               .red,
+                                                                  isFavorite: widget
+                                                                      .getTherapistsSearchResults[
+                                                                  index]
+                                                                      .favouriteToTherapist !=
+                                                                      null &&
+                                                                      widget
+                                                                          .getTherapistsSearchResults[
+                                                                      index]
+                                                                          .favouriteToTherapist ==
+                                                                          1,
                                                                       valueChanged:
                                                                           (_isFavorite) {
                                                                         print(

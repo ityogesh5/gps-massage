@@ -34,6 +34,8 @@ import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapi
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingStatus.dart';
+import 'package:intl/intl.dart';
 
 List<String> userBannerImages = [];
 List<String> _options = ['エステ', 'リラクゼーション', '整骨・整体', 'フィットネス'];
@@ -55,6 +57,7 @@ String therapistImage = '';
 int _selectedIndex;
 List<TypeTherapistData> therapistListByType = [];
 List<InitialTherapistData> therapistUsers = [];
+List<BookingDetailsList> bookingDetailsList = List();
 var accessToken, deviceToken;
 var userID;
 List<UserAddresses> constantUserAddressValuesList = new List<UserAddresses>();
@@ -153,13 +156,13 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
   }
 
   getAccessToken() async {
-  if (HealingMatchConstants.isUserRegistrationSkipped) {
+    if (HealingMatchConstants.isUserRegistrationSkipped) {
       HealingMatchConstants.fbUserId = null;
-       HealingMatchConstants.serviceUserID ="0";
+      HealingMatchConstants.serviceUserID = "0";
     } else {
       FirebaseAuth firebaseAuth = FirebaseAuth.instance;
       HealingMatchConstants.fbUserId = firebaseAuth.currentUser.uid;
-      
+
       print('Current user id : ${firebaseAuth.currentUser.uid}');
       _updateOnlineStatus(firebaseAuth.currentUser.uid);
     }
@@ -179,8 +182,21 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
         initBlocCall();
         getBannerImages();
         getUserDetails();
+        getBookingList();
       } else {
         print('No token value found !!');
+      }
+    });
+  }
+
+  getBookingList() async {
+    var getFavourite = ServiceUserAPIProvider.getBookingStatus();
+    getFavourite.then((value) {
+      if (this.mounted) {
+        setState(() {
+          bookingDetailsList = value.data.bookingDetailsList;
+          print('bookingDetails:${bookingDetailsList.length}');
+        });
       }
     });
   }
@@ -1188,6 +1204,16 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                                   : FavoriteButton(
                                                       iconSize: 40,
                                                       iconColor: Colors.red,
+                                                      isFavorite: widget
+                                                                  .getTherapistByType[
+                                                                      index]
+                                                                  .favouriteToTherapist !=
+                                                              null &&
+                                                          widget
+                                                                  .getTherapistByType[
+                                                                      index]
+                                                                  .favouriteToTherapist ==
+                                                              1,
                                                       valueChanged:
                                                           (_isFavorite) {
                                                         print(
@@ -2050,176 +2076,381 @@ class _ReservationListState extends State<ReservationList> {
 
   @override
   Widget build(BuildContext context) {
-    return HealingMatchConstants.isBookingDone
-        ? Container(
-            padding: EdgeInsets.all(5.0),
-            child: Card(
-              elevation: 5,
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [Text('今後の予約')],
-                    ),
-                    ListTile(
-                      leading: new Container(
-                          width: 70.0,
-                          height: 70.0,
-                          decoration: new BoxDecoration(
-                            border: Border.all(color: Colors.black12),
-                            shape: BoxShape.circle,
-                            image: new DecorationImage(
-                                fit: BoxFit.cover,
-                                image: new AssetImage(
-                                    'assets/images_gps/logo.png')),
-                          )),
-                      title: Row(
-                        children: [
-                          Text('お名前'),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          CircleAvatar(
-                            maxRadius: 10,
-                            backgroundColor: Colors.black26,
-                            child: CircleAvatar(
-                              maxRadius: 8,
-                              backgroundColor: Colors.white,
-                              child: SvgPicture.asset(
-                                  'assets/images_gps/info.svg',
-                                  height: 15,
-                                  width: 15),
-                            ),
-                          ),
-                          Spacer(),
-                          SvgPicture.asset('assets/images_gps/processing.svg',
-                              height: 17, width: 15),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            '承認待ち',
-                            style: TextStyle(
-                              color: Colors.orange,
-                            ),
-                          )
-                        ],
-                      ),
+    DateTime startTime = bookingDetailsList[0].newStartTime != null
+        ? DateTime.parse(bookingDetailsList[0].newStartTime).toLocal()
+        : DateTime.parse(bookingDetailsList[0].startTime).toLocal();
+    DateTime endTime = bookingDetailsList[0].newEndTime != null
+        ? DateTime.parse(bookingDetailsList[0].newEndTime).toLocal()
+        : DateTime.parse(bookingDetailsList[0].endTime).toLocal();
+    String month = DateFormat('MM月').format(startTime);
+    String day = DateFormat('d').format(startTime);
+    String sTime = DateFormat('kk:mm').format(startTime);
+    String eTime = DateFormat('kk:mm').format(endTime);
+    String jaName = DateFormat('EEEE', 'ja_JP').format(startTime);
+    GlobalKey key = new GlobalKey();
+    void showToolTip(String text) {
+      ShowToolTip popup = ShowToolTip(context,
+          text: text,
+          textStyle: TextStyle(color: Colors.black),
+          height: 180,
+          width: 180,
+          backgroundColor: Colors.white,
+          padding: EdgeInsets.all(8.0),
+          borderRadius: BorderRadius.circular(10.0));
 
-                      // trailing: Text('承認待ち'),
-                      subtitle: Column(
-                        children: [
-                          FittedBox(
-                            child: Row(
-                              children: [
-                                Text(
-                                  '4.0',
-                                  style: TextStyle(),
-                                ),
-                                RatingBar.builder(
-                                  ignoreGestures: true,
-                                  initialRating: 3,
-                                  minRating: 0.25,
-                                  direction: Axis.horizontal,
-                                  allowHalfRating: true,
-                                  itemCount: 5,
-                                  itemSize: 25,
-                                  itemPadding:
-                                      EdgeInsets.symmetric(horizontal: 4.0),
-                                  itemBuilder: (context, _) => Icon(
-                                    Icons.star,
-                                    size: 5,
-                                    color: Color.fromRGBO(255, 217, 0, 1),
-                                  ),
-                                  onRatingUpdate: (rating) {
-                                    print(rating);
-                                  },
-                                ),
-                                Text('(1518)'),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            children: [
-                              SvgPicture.asset('assets/images_gps/clock.svg',
-                                  height: 15, width: 15),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                '09: 00 ~ 10: 00',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              //Text('(60分)')
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            children: [
-                              SvgPicture.asset('assets/images_gps/cost.svg',
-                                  height: 20, width: 20),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                '¥4,500',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 19),
-                              ),
-                              Text('(オフィス)'),
-                            ],
-                          )
-                        ],
-                      ),
+      /// show the popup for specific widget
+      popup.show(
+        widgetKey: key,
+      );
+    }
+
+    return bookingDetailsList.length != 0
+        ? Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+                padding: EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Color.fromRGBO(255, 255, 255, 1),
+                          Color.fromRGBO(255, 255, 255, 1),
+                        ]),
+                    shape: BoxShape.rectangle,
+                    border: Border.all(
+                      color: Colors.grey[300],
                     ),
-                    Divider(
-                      color: Colors.black,
-                      // height: 50,
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Colors.grey[200]),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('今後の予約',
+                        style: TextStyle(
+                            color: Color.fromRGBO(0, 0, 0, 1),
+                            fontWeight: FontWeight.bold,
+                            fontFamily: ColorConstants.fontFamily)),
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Column(
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  NavigationRouter
+                                      .switchToUserCalendarScreenScreen(
+                                          context);
+                                },
+                                child: CircleAvatar(
+                                  maxRadius: 41,
+                                  backgroundColor:
+                                      Color.fromRGBO(225, 225, 225, 1),
+                                  child: CircleAvatar(
+                                    backgroundColor:
+                                        Color.fromRGBO(255, 255, 255, 1),
+                                    maxRadius: 40,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        bookingDetailsList[0].startTime != null
+                                            ? Text(
+                                                '${day}',
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    color: Color.fromRGBO(
+                                                        200, 217, 33, 1),
+                                                    fontFamily: 'NotoSansJP',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              )
+                                            : Text(
+                                                '31',
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    color: Color.fromRGBO(
+                                                        200, 217, 33, 1),
+                                                    fontFamily: 'NotoSansJP',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                        bookingDetailsList[0].startTime != null
+                                            ? Text(
+                                                '${month}',
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontFamily: 'NotoSansJP',
+                                                  color: Color.fromRGBO(
+                                                      200, 217, 33, 1),
+                                                ),
+                                              )
+                                            : Text(
+                                                '3月',
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontFamily: 'NotoSansJP',
+                                                  color: Color.fromRGBO(
+                                                      200, 217, 33, 1),
+                                                ),
+                                              ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Expanded(
+                          flex: 3,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                      '${bookingDetailsList[0].bookingTherapistId.storeName}',
+                                      style: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily:
+                                              ColorConstants.fontFamily)),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      showToolTip(
+                                        bookingDetailsList[0]
+                                            .bookingTherapistId
+                                            .storeType,
+                                      );
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                            colors: [
+                                              Colors.white,
+                                              Colors.white
+                                            ]),
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color: Colors.grey[400],
+                                        ),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SvgPicture.asset(
+                                          "assets/images_gps/info.svg",
+                                          height: 10.0,
+                                          width: 10.0,
+                                          key: key,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  bookingDetailsList[0].bookingTherapistId == 0
+                                      ? Row(
+                                          children: [
+                                            SvgPicture.asset(
+                                                'assets/images_gps/processing.svg',
+                                                height: 17,
+                                                width: 15),
+                                            Text(
+                                              '承認待ち',
+                                              style: TextStyle(
+                                                color: Colors.orange,
+                                              ),
+                                            )
+                                          ],
+                                        )
+                                      : SizedBox.shrink(),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              FittedBox(
+                                child: Row(
+                                  children: [
+                                    Text('${bookingDetailsList[0].ratingAvg}',
+                                        style: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontFamily:
+                                                ColorConstants.fontFamily)),
+                                    RatingBar.builder(
+                                      initialRating: double.parse(
+                                          bookingDetailsList[0].ratingAvg),
+                                      minRating: 1,
+                                      direction: Axis.horizontal,
+                                      allowHalfRating: true,
+                                      ignoreGestures: true,
+                                      itemCount: 5,
+                                      itemSize: 22,
+                                      itemPadding:
+                                          EdgeInsets.symmetric(horizontal: 4.0),
+                                      itemBuilder: (context, _) => Icon(
+                                        Icons.star,
+                                        size: 5,
+                                        color: Color.fromRGBO(255, 217, 0, 1),
+                                      ),
+                                      onRatingUpdate: (rating) {
+                                        // print(rating);
+                                      },
+                                    ),
+                                    Text(
+                                        '(${bookingDetailsList[0].noOfReviewsMembers})',
+                                        style: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontFamily:
+                                                ColorConstants.fontFamily)),
+                                  ],
+                                ),
+                              ),
+                              FittedBox(
+                                child: Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                        'assets/images_gps/clock.svg',
+                                        color: Color.fromRGBO(0, 0, 0, 1),
+                                        height: 20,
+                                        width: 20),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      '${sTime}~${eTime}',
+                                      style: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      '${bookingDetailsList[0].totalMinOfService}分',
+                                      style: TextStyle(
+                                        color: Color.fromRGBO(102, 102, 102, 1),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 7,
+                              ),
+                              Row(
+                                children: [
+                                  SvgPicture.asset('assets/images_gps/cost.svg',
+                                      color: Color.fromRGBO(0, 0, 0, 1),
+                                      height: 20,
+                                      width: 20),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    '¥${bookingDetailsList[0].totalCost}',
+                                    style: TextStyle(
+                                        color: Color.fromRGBO(0, 0, 0, 1),
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                    width: 8,
+                                  ),
+                                  bookingDetailsList[0].addedPrice != null
+                                      ? Text(
+                                          '(${bookingDetailsList[0].addedPrice})',
+                                          style: TextStyle(
+                                            color: Color.fromRGBO(
+                                                153, 153, 153, 1),
+                                          ),
+                                        )
+                                      : SizedBox.shrink(),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                     Row(
                       children: [
-                        SvgPicture.asset('assets/images_gps/location.svg',
-                            height: 20, width: 15),
-                        Text('オフィス'),
+                        Expanded(
+                          child: Divider(
+                            // height: 50,
+
+                            color: Color.fromRGBO(217, 217, 217, 1),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        SvgPicture.asset('assets/images_gps/gps.svg',
+                            color: Color.fromRGBO(0, 0, 0, 1),
+                            height: 20,
+                            width: 20),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          '施術を受ける場所',
+                          style: TextStyle(
+                              color: Color.fromRGBO(0, 0, 0, 1),
+                              fontWeight: FontWeight.bold),
+                        ),
                       ],
                     ),
                     SizedBox(
-                      height: 5,
+                      height: 7,
                     ),
                     Row(
                       children: [
                         Container(
-                          width: 100,
-                          height: 40,
-                          child: RaisedButton(
+                            decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      Color.fromRGBO(255, 255, 255, 1),
+                                      Color.fromRGBO(255, 255, 255, 1),
+                                    ]),
+                                shape: BoxShape.rectangle,
+                                border: Border.all(
+                                  color: Colors.grey[300],
+                                ),
+                                borderRadius: BorderRadius.circular(5.0),
+                                color: Colors.grey[200]),
+                            padding: EdgeInsets.all(4),
                             child: Text(
-                              'オフィス',
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 15),
-                            ),
-                            color: Colors.white,
-                            onPressed: () {},
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                          ),
-                        ),
+                              '${bookingDetailsList[0].locationType}',
+                              style: TextStyle(
+                                color: Color.fromRGBO(0, 0, 0, 1),
+                              ),
+                            )),
                         SizedBox(
                           width: 5,
                         ),
-                        Text('オフィス')
+                        Text(
+                          '${bookingDetailsList[0].location}',
+                          style: TextStyle(
+                            color: Color.fromRGBO(102, 102, 102, 1),
+                          ),
+                        ),
                       ],
                     ),
                   ],
-                ),
-              ),
-            ),
+                )),
           )
         : Padding(
             padding: const EdgeInsets.all(8.0),
@@ -2727,6 +2958,14 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                                       : FavoriteButton(
                                                           iconSize: 40,
                                                           iconColor: Colors.red,
+                                                          isFavorite: therapistUsers[
+                                                                          index]
+                                                                      .favouriteToTherapist !=
+                                                                  null &&
+                                                              therapistUsers[
+                                                                          index]
+                                                                      .favouriteToTherapist ==
+                                                                  1,
                                                           valueChanged:
                                                               (_isFavorite) {
                                                             print(

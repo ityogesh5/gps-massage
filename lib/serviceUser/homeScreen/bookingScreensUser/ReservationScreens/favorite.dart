@@ -199,9 +199,9 @@ class _FavoriteState extends State<Favorite> {
                                                     .therapistId;
 
                                             NavigationRouter
-                                                .switchToServiceUserBookingDetailsCompletedScreenOne(
+                                                .switchToUserSearchDetailPageOne(
                                                     context,
-                                                    HealingMatchConstants
+                                                    favouriteUserList[index]
                                                         .therapistId);
                                           },
                                           child: new Card(
