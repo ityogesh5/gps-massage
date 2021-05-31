@@ -464,7 +464,7 @@ class ServiceProviderApi {
       final response = await http.post(url,
           headers: headers,
           body: json.encode({
-            "therapistId": 18, //HealingMatchConstants.userId,
+            "therapistId": HealingMatchConstants.userId,
           }));
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
@@ -492,7 +492,7 @@ class ServiceProviderApi {
       final response = await http.post(url,
           headers: headers,
           body: json.encode({
-            "therapistId": 18, //HealingMatchConstants.userId,
+            "therapistId": HealingMatchConstants.userId,
           }));
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
@@ -521,7 +521,7 @@ class ServiceProviderApi {
       final response = await http.post(url,
           headers: headers,
           body: json.encode({
-            "therapistId": 18, //HealingMatchConstants.userId,
+            "therapistId": HealingMatchConstants.userId,
           }));
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
@@ -550,7 +550,7 @@ class ServiceProviderApi {
       final response = await http.post(url,
           headers: headers,
           body: json.encode({
-            "therapistId": 18, //HealingMatchConstants.userId,
+            "therapistId": HealingMatchConstants.userId,
           }));
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
@@ -676,7 +676,7 @@ class ServiceProviderApi {
       final response = await http.post(url,
           headers: headers,
           body: json.encode({
-            "therapistId": 18, //HealingMatchConstants.userId,
+            "therapistId": HealingMatchConstants.userId,
           }));
       if (response.statusCode == 200) {
         var data = json.decode(response.body);

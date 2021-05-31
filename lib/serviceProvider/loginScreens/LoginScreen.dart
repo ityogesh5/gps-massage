@@ -497,7 +497,13 @@ class _ProviderLoginState extends State<ProviderLogin> {
   }
 
   void firebaseChatLogin(Data userData, String password) {
-    Auth().signIn(userData.email, password).then((value) {
+    Auth()
+        .signIn(
+            userData.phoneNumber.toString() +
+                userData.id.toString() +
+                "@nexware.global.com",
+            password)
+        .then((value) {
       hideLoader();
       if (value) {
         NavigationRouter.switchToServiceProviderBottomBar(context);

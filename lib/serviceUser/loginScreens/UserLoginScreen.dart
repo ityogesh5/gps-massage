@@ -575,7 +575,13 @@ class _UserLoginState extends State<UserLogin> {
   }
 
   void firebaseChatLogin(Data userData, String password) {
-    Auth().signIn(userData.email, password).then((value) {
+    Auth()
+        .signIn(
+            userData.phoneNumber.toString() +
+                userData.id.toString() +
+                "@nexware.global.com",
+            password)
+        .then((value) {
       ProgressDialogBuilder.hideLoader(context);
       if (value) {
         NavigationRouter.switchToServiceUserBottomBar(context);

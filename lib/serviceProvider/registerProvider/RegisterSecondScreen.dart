@@ -1348,7 +1348,9 @@ class _RegistrationSecondPageState
                 userData.storeName != null && userData.storeName != ''
                     ? userData.storeName
                     : userData.userName,
-                userData.email,
+                userData.phoneNumber.toString() +
+                    userData.id.toString() +
+                    "@nexware.global.com",
                 "password",
                 userData.uploadProfileImgUrl,
                 1,
