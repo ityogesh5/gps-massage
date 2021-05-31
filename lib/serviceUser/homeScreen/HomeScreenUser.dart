@@ -153,11 +153,13 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
   }
 
   getAccessToken() async {
-    if (HealingMatchConstants.isUserRegistrationSkipped) {
+  if (HealingMatchConstants.isUserRegistrationSkipped) {
       HealingMatchConstants.fbUserId = null;
+       HealingMatchConstants.serviceUserID ="0";
     } else {
       FirebaseAuth firebaseAuth = FirebaseAuth.instance;
       HealingMatchConstants.fbUserId = firebaseAuth.currentUser.uid;
+      
       print('Current user id : ${firebaseAuth.currentUser.uid}');
       _updateOnlineStatus(firebaseAuth.currentUser.uid);
     }
@@ -166,6 +168,7 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
       var fcmToken = value.getString('deviceToken');
       HealingMatchConstants.userAddressId = value.getString('addressID');
       HealingMatchConstants.serviceUserID = value.getString('userID');
+
       HealingMatchConstants.serviceUserName = value.getString("userName");
       if (accessToken != null) {
         print('Access token FCM token value : $accessToken && \n $fcmToken');

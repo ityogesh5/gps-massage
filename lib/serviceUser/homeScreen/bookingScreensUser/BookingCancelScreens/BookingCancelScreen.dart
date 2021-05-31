@@ -4,6 +4,8 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/customRadioButtonList/roundedRadioButton.dart';
 import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 
 bool isOtherSelected = false;
 final _cancelReasonController = new TextEditingController();
@@ -153,8 +155,7 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
                               ],
                               radioButtonValue: (value) {
                                 if (value == 'Y') {
-                                  DialogHelper.showUserBookingCancelDialog(
-                                      context);
+                                  cancelBooking();
                                 } else if (value == 'N') {
                                   Navigator.of(context, rootNavigator: true)
                                       .pop(context);
@@ -175,6 +176,12 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
         ),
       ),
     );
+  }
+
+  cancelBooking() {
+    var cancelBooking = ServiceUserAPIProvider.updateBookingCompeted(
+        HealingMatchConstants.bookingIdPay);
+    NavigationRouter.switchToServiceUserBottomBar(context);
   }
 
   Widget massageBuildTypeDisplayContent() {
