@@ -578,8 +578,8 @@ class _UserLoginState extends State<UserLogin> {
   void firebaseChatLogin(Data userData, String password) {
     Auth()
         .signIn(
-            userData.phoneNumber.toString() +
-                userData.id.toString() +
+            /* userData.phoneNumber.toString() */"8056687695251" +
+            /*     userData.id.toString() + */
                 "@nexware.global.com",
             password)
         .then((value) {

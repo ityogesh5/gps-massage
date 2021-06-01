@@ -56,6 +56,8 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
 
   @override
   void initState() {
+    HealingMatchConstants.bookingAddressId =
+        HealingMatchConstants.userRegAddressId;
     getProviderInfo();
     super.initState();
   }
@@ -1382,6 +1384,8 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                     if (this.mounted) {
                       setState(() {
                         shopLocationSelected = true;
+                        HealingMatchConstants.bookingAddressId =
+                            therapistDetails.data.addresses[0].id;
                         dialog.dissmiss();
                       });
                     }
@@ -1512,6 +1516,12 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                                               address = HealingMatchConstants
                                                   .userAddressDetailsList[index]
                                                   .address;
+                                              HealingMatchConstants
+                                                      .bookingAddressId =
+                                                  HealingMatchConstants
+                                                      .userAddressDetailsList[
+                                                          index]
+                                                      .id;
                                               placeForMassage =
                                                   HealingMatchConstants
                                                       .userAddressDetailsList[

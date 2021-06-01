@@ -42,7 +42,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
   List<BookingDetailsList> confirmedPaymentList = List(); //bookingStatus = 6
   List<Map<String, String>> certificateUploadConfdPayList =
       List<Map<String, String>>();
-  List<BookingDetailsList> CanceledReservationList =
+  List<BookingDetailsList> canceledReservationList =
       List(); //bookingStatus = 4,5,7,8
   List<Map<String, String>> certificateUploadCancelList =
       List<Map<String, String>>();
@@ -91,14 +91,14 @@ class _ReservationStatusState extends State<ReservationStatus> {
       } else if (bookingStatusVal == 6) {
         confirmedPaymentList.add(bookingDetailsList[i]);
       } else {
-        CanceledReservationList.add(bookingDetailsList[i]);
+        canceledReservationList.add(bookingDetailsList[i]);
       }
     }
     getWaitgFrAprv(waitingForApprovalList);
     getAprvdWthCnd(approvedWithConditionsList);
     getAprvd(approvedList);
     getConfdPay(confirmedPaymentList);
-    getCancelList(CanceledReservationList);
+    getCancelList(canceledReservationList);
   }
 
   getWaitgFrAprv(List<BookingDetailsList> favouriteUserList) async {
@@ -3079,12 +3079,12 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                       }),
                                 )
                               : SizedBox.shrink(),
-                          CanceledReservationList.length != 0
+                          canceledReservationList.length != 0
                               ? SizedBox(
                                   height: 10,
                                 )
                               : SizedBox.shrink(),
-                          CanceledReservationList.length != 0
+                          canceledReservationList.length != 0
                               ? Text(
                                   'キャンセルされた予約',
                                   style: TextStyle(
@@ -3093,12 +3093,12 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                   ),
                                 )
                               : SizedBox.shrink(),
-                          CanceledReservationList.length != 0
+                          canceledReservationList.length != 0
                               ? SizedBox(
                                   height: 10,
                                 )
                               : SizedBox.shrink(),
-                          CanceledReservationList.length != 0
+                          canceledReservationList.length != 0
                               ? Container(
                                   // height: MediaQuery.of(context).size.height * 0.35,
                                   height: 255,
@@ -3108,34 +3108,34 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                       shrinkWrap: true,
                                       scrollDirection: Axis.horizontal,
                                       physics: BouncingScrollPhysics(),
-                                      itemCount: CanceledReservationList.length,
+                                      itemCount: canceledReservationList.length,
                                       itemBuilder: (context, index) {
                                         DateTime startTime =
-                                            CanceledReservationList[
+                                            canceledReservationList[
                                                             index]
                                                         .newStartTime !=
                                                     null
                                                 ? DateTime.parse(
-                                                        CanceledReservationList[
+                                                        canceledReservationList[
                                                                 index]
                                                             .newStartTime)
                                                     .toLocal()
                                                 : DateTime.parse(
-                                                        CanceledReservationList[
+                                                        canceledReservationList[
                                                                 index]
                                                             .startTime)
                                                     .toLocal();
                                         DateTime endTime =
-                                            CanceledReservationList[index]
+                                            canceledReservationList[index]
                                                         .newEndTime !=
                                                     null
                                                 ? DateTime.parse(
-                                                        CanceledReservationList[
+                                                        canceledReservationList[
                                                                 index]
                                                             .newEndTime)
                                                     .toLocal()
                                                 : DateTime.parse(
-                                                        CanceledReservationList[
+                                                        canceledReservationList[
                                                                 index]
                                                             .endTime)
                                                     .toLocal();
@@ -3153,7 +3153,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             NavigationRouter
                                                 .switchToUserSearchDetailPageOne(
                                                     context,
-                                                    CanceledReservationList[
+                                                    canceledReservationList[
                                                             index]
                                                         .therapistId);
                                           },
@@ -3183,12 +3183,12 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                             flex: 1,
                                                             child: Column(
                                                               children: [
-                                                                CanceledReservationList[index]
+                                                                canceledReservationList[index]
                                                                             .bookingTherapistId
                                                                             .uploadProfileImgUrl !=
                                                                         null
                                                                     ? CachedNetworkImage(
-                                                                        imageUrl: CanceledReservationList[index]
+                                                                        imageUrl: canceledReservationList[index]
                                                                             .bookingTherapistId
                                                                             .uploadProfileImgUrl,
                                                                         filterQuality:
@@ -3249,11 +3249,11 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                             Colors.white,
                                                                       ),
                                                                 FittedBox(
-                                                                  child: CanceledReservationList[index]
+                                                                  child: canceledReservationList[index]
                                                                               .locationDistance !=
                                                                           null
                                                                       ? Text(
-                                                                          '${CanceledReservationList[index].locationDistance}圏内',
+                                                                          '${canceledReservationList[index].locationDistance}圏内',
                                                                           style:
                                                                               TextStyle(
                                                                             color: Color.fromRGBO(
@@ -3291,17 +3291,17 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                               children: [
                                                                 Row(
                                                                   children: [
-                                                                    CanceledReservationList[index].bookingTherapistId.storeName !=
+                                                                    canceledReservationList[index].bookingTherapistId.storeName !=
                                                                             null
                                                                         ? Text(
-                                                                            '${CanceledReservationList[index].bookingTherapistId.storeName}',
+                                                                            '${canceledReservationList[index].bookingTherapistId.storeName}',
                                                                             style: TextStyle(
                                                                                 fontSize: 14,
                                                                                 color: Color.fromRGBO(0, 0, 0, 1),
                                                                                 fontWeight: FontWeight.bold),
                                                                           )
                                                                         : Text(
-                                                                            '${CanceledReservationList[index].bookingTherapistId.userName}',
+                                                                            '${canceledReservationList[index].bookingTherapistId.userName}',
                                                                             style: TextStyle(
                                                                                 fontSize: 14,
                                                                                 color: Color.fromRGBO(0, 0, 0, 1),
@@ -3356,7 +3356,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                     ),
                                                                     Spacer(),
                                                                     FavoriteButton(
-                                                                        isFavorite: CanceledReservationList[index].favouriteToTherapist ==
+                                                                        isFavorite: canceledReservationList[index].favouriteToTherapist ==
                                                                                 1
                                                                             ? true
                                                                             : false,
@@ -3381,7 +3381,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         MainAxisAlignment
                                                                             .spaceBetween,
                                                                     children: [
-                                                                      CanceledReservationList[index]
+                                                                      canceledReservationList[index]
                                                                               .bookingTherapistId
                                                                               .isShop
                                                                           ? Container(
@@ -3404,7 +3404,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                                 ),
                                                                               ))
                                                                           : SizedBox.shrink(),
-                                                                      CanceledReservationList[index]
+                                                                      canceledReservationList[index]
                                                                               .bookingTherapistId
                                                                               .isShop
                                                                           ? SizedBox(
@@ -3412,7 +3412,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                             )
                                                                           : SizedBox
                                                                               .shrink(),
-                                                                      CanceledReservationList[index]
+                                                                      canceledReservationList[index]
                                                                               .bookingTherapistId
                                                                               .businessTrip
                                                                           ? Container(
@@ -3435,7 +3435,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                                 ),
                                                                               ))
                                                                           : SizedBox.shrink(),
-                                                                      CanceledReservationList[index]
+                                                                      canceledReservationList[index]
                                                                               .bookingTherapistId
                                                                               .businessTrip
                                                                           ? SizedBox(
@@ -3443,7 +3443,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                             )
                                                                           : SizedBox
                                                                               .shrink(),
-                                                                      CanceledReservationList[index]
+                                                                      canceledReservationList[index]
                                                                               .bookingTherapistId
                                                                               .coronaMeasure
                                                                           ? Container(
@@ -3474,10 +3474,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                 ),
                                                                 Row(
                                                                   children: [
-                                                                    CanceledReservationList[index].ratingAvg !=
+                                                                    canceledReservationList[index].ratingAvg !=
                                                                             null
                                                                         ? Text(
-                                                                            '(${CanceledReservationList[index].ratingAvg})',
+                                                                            '(${canceledReservationList[index].ratingAvg})',
                                                                             style:
                                                                                 TextStyle(
                                                                               color: Color.fromRGBO(153, 153, 153, 1),
@@ -3494,7 +3494,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         .builder(
                                                                       initialRating:
                                                                           double.parse(
-                                                                              CanceledReservationList[index].ratingAvg),
+                                                                              canceledReservationList[index].ratingAvg),
                                                                       minRating:
                                                                           1,
                                                                       direction:
@@ -3535,7 +3535,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                       },
                                                                     ),
                                                                     Text(
-                                                                      '(${CanceledReservationList[index].noOfReviewsMembers})',
+                                                                      '(${canceledReservationList[index].noOfReviewsMembers})',
                                                                       style:
                                                                           TextStyle(
                                                                         color: Color.fromRGBO(
@@ -3663,7 +3663,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                               .grey[
                                                                           200]),
                                                               child: Text(
-                                                                '${CanceledReservationList[index].locationType}',
+                                                                '${canceledReservationList[index].locationType}',
                                                                 style:
                                                                     TextStyle(
                                                                   color: Color
@@ -3678,7 +3678,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                             width: 5,
                                                           ),
                                                           Text(
-                                                            '${CanceledReservationList[index].location}',
+                                                            '${canceledReservationList[index].location}',
                                                             style: TextStyle(
                                                               color: Color
                                                                   .fromRGBO(

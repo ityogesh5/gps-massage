@@ -980,7 +980,8 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
             userReviewStatus,
             therapistReviewStatus,
             userCommands,
-            value.id);
+            value.id,
+            HealingMatchConstants.bookingAddressId);
         NavigationRouter.switchToServiceUserReservationAndFavourite(context);
       });
     } catch (e) {

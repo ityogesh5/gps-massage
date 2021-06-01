@@ -222,6 +222,7 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
         HealingMatchConstants.serviceUserOccupation = value.data.userOccupation;
         for (int i = 0; i < value.data.addresses.length; i++) {
           if (value.data.addresses[0].isDefault) {
+            HealingMatchConstants.userRegAddressId = value.data.addresses[0].id;
             HealingMatchConstants.userAddressesList =
                 value.data.addresses.cast<UserAddresses>();
             HealingMatchConstants.serviceUserID =
