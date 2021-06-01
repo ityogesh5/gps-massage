@@ -2208,6 +2208,7 @@ class _RegisterUserState extends State<RegisterUser> {
         _sharedPreferences.then((value) {
           value.clear();
           value.setString('accessToken', serviceUserDetails.accessToken);
+          HealingMatchConstants.accessToken = serviceUserDetails.accessToken;
 
           value.setString('did', serviceUserDetails.data.id.toString());
 
@@ -2273,14 +2274,20 @@ class _RegisterUserState extends State<RegisterUser> {
             .then((value) {
           if (value != null) {
             ServiceUserAPIProvider.saveFirebaseUserID(
-                value, context, serviceUserDetails.data.id);
+                    value, context, serviceUserDetails.data.id)
+                .then((value) {
+              HealingMatchConstants.isUserRegistrationSkipped = false;
+
+              ProgressDialogBuilder.hideLoader(context);
+              NavigationRouter.switchToUserOtpScreen(context);
+            });
           }
         });
 
-        HealingMatchConstants.isUserRegistrationSkipped = false;
+        /*    HealingMatchConstants.isUserRegistrationSkipped = false;
 
         ProgressDialogBuilder.hideLoader(context);
-        NavigationRouter.switchToUserOtpScreen(context);
+        NavigationRouter.switchToUserOtpScreen(context); */
       } else {
         ProgressDialogBuilder.hideLoader(context);
         print('Response error occured!');

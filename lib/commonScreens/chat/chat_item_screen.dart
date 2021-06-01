@@ -20,7 +20,7 @@ import 'package:gps_massageapp/customLibraryClasses/chat/reply_message_preview.d
 import 'package:gps_massageapp/customLibraryClasses/chat/selected_media_preview.dart';
 import 'package:gps_massageapp/customLibraryClasses/chat/utils/utils.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
+//import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 enum LoaderStatus {
   STABLE,
@@ -61,7 +61,7 @@ class _ChatItemScreenState extends State<ChatItemScreen> {
 
   // resize the body with animation when keyboard opens
   // normally it just pops up without transition
-  KeyboardVisibilityNotification _keyboard;
+  //KeyboardVisibilityNotification _keyboard;
   bool isVisible = false;
   bool scrolledAbove = false;
 
@@ -89,16 +89,16 @@ class _ChatItemScreenState extends State<ChatItemScreen> {
     _textEditingController = TextEditingController();
     _scrollController = ScrollController();
     _textFieldFocusNode = FocusNode();
-    _keyboard = KeyboardVisibilityNotification();
+   // _keyboard = KeyboardVisibilityNotification();
 
     bodyFocusNode = FocusNode();
 
     // used for animating body when keyboard appeares
-    _keyboard.addNewListener(onChange: (visible) {
+   /*  _keyboard.addNewListener(onChange: (visible) {
       setState(() {
         isVisible = visible;
       });
-    });
+    }); */
 
     // get UserDetail and chat details
     userId = widget.chatData.userId;
