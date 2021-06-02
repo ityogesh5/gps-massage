@@ -246,6 +246,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                           children: [
                             GestureDetector(
                               onTap: () {
+                                HealingMatchConstants.bookingAddressId = 0;
                                 _getCurrentLocation();
                               },
                               child: CircleAvatar(
@@ -378,6 +379,11 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                                     addressTypeValues = 1;
                                                     _addressType = 1;
                                                     HealingMatchConstants
+                                                            .bookingAddressId =
+                                                        constantUserAddressValuesList[
+                                                                index]
+                                                            .id;
+                                                    HealingMatchConstants
                                                             .searchUserAddress =
                                                         constantUserAddressValuesList[
                                                                 index]
@@ -456,6 +462,11 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                                   setState(() {
                                                     addressTypeValues = 2;
                                                     _addressType = 2;
+                                                    HealingMatchConstants
+                                                            .bookingAddressId =
+                                                        constantUserAddressValuesList[
+                                                                index]
+                                                            .id;
                                                     HealingMatchConstants
                                                             .searchUserAddress =
                                                         constantUserAddressValuesList[
@@ -536,6 +547,11 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                                     addressTypeValues = 3;
                                                     _addressType = 3;
                                                     HealingMatchConstants
+                                                            .bookingAddressId =
+                                                        constantUserAddressValuesList[
+                                                                index]
+                                                            .id;
+                                                    HealingMatchConstants
                                                             .searchUserAddress =
                                                         constantUserAddressValuesList[
                                                                 index]
@@ -614,6 +630,11 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                                   setState(() {
                                                     addressTypeValues = 4;
                                                     _addressType = 4;
+                                                    HealingMatchConstants
+                                                            .bookingAddressId =
+                                                        constantUserAddressValuesList[
+                                                                index]
+                                                            .id;
                                                     HealingMatchConstants
                                                             .searchUserAddress =
                                                         constantUserAddressValuesList[

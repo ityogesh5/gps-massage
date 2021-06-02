@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:core';
 import 'dart:io';
 
+// import 'package:apple_sign_in/apple_sign_in.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,6 +19,7 @@ import 'package:gps_massageapp/models/responseModels/serviceProvider/loginRespon
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:toast/toast.dart';
 
 class ProviderLogin extends StatefulWidget {
@@ -49,6 +52,13 @@ class _ProviderLoginState extends State<ProviderLogin> {
   void initState() {
     super.initState();
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
+
+    if (Platform.isIOS) {
+      //check for ios if developing for both android & ios
+      /*  AppleSignIn.onCredentialRevoked.listen((_) {
+        print("Credentials revoked");
+      }); */
+    }
   }
 
   showOverlayLoader() {
@@ -504,33 +514,14 @@ class _ProviderLoginState extends State<ProviderLogin> {
   }
 
   _initiateAppleSignIn() async {
-    /* if (await AppleSignIn.isAvailable()) {
-      final AuthorizationResult result = await AppleSignIn.performRequests([
-        AppleIdRequest(requestedScopes: [Scope.email, Scope.fullName])
+    if (await SignInWithApple.isAvailable()) {
+      final credential = await SignInWithApple.getAppleIDCredential(scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
       ]);
-
-      switch (result.status) {
-        case AuthorizationStatus.authorized:
-          print("user credentials : ${result.credential.user}");
-          print(result.credential.authorizationCode);
-          print(result.credential.authorizedScopes);
-          print(result.credential.email);
-          print(result.credential.fullName);
-          print(result.credential.identityToken);
-          print(result.credential.realUserStatus);
-          print(result.credential.state);
-          print(result.credential.user); //All the required credentials
-          break;
-        case AuthorizationStatus.error:
-          print("Sign in failed: ${result.error.localizedDescription}");
-          break;
-        case AuthorizationStatus.cancelled:
-          print('User cancelled');
-          break;
-      }
     } else {
       print('Apple SignIn is not available for your device');
-    }*/
+    }
   }
 
   void _initiateLineLogin() async {

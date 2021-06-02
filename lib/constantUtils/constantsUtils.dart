@@ -626,6 +626,10 @@ class HealingMatchConstants {
       new List<AddedSubAddresses>();
   static String serviceUserBookingAmount;
 
+  //User booking Screen
+  static dynamic bookingAddressId;
+  static dynamic userRegAddressId;
+
   //Therapist Detail Screen
   static String therapistDStoreName = '';
   static var therapistDProfileImage;

@@ -624,7 +624,8 @@ class ServiceUserAPIProvider {
       int userReviewStatus,
       int therapistReviewStatus,
       String userCommands,
-      String eventId) async {
+      String eventId,
+      dynamic bookingAddressId) async {
     try {
       final url = '${HealingMatchConstants.BOOKING_THERAPIST}';
       final response = await http.post(url,
@@ -650,6 +651,13 @@ class ServiceUserAPIProvider {
             "userCommands": userCommands,
             "travelAmount": 0,
             "eventId": eventId,
+            "addressId": bookingAddressId,
+            "lat": bookingAddressId == 0
+                ? HealingMatchConstants.currentLatitude
+                : 0,
+            "lon": bookingAddressId == 0
+                ? HealingMatchConstants.currentLongitude
+                : 0,
           }));
 
       print('booking results Body : ${response.body}');

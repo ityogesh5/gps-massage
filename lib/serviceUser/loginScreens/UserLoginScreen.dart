@@ -19,6 +19,7 @@ import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvid
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:toast/toast.dart';
 
 class UserLogin extends StatefulWidget {
@@ -576,8 +577,8 @@ class _UserLoginState extends State<UserLogin> {
   void firebaseChatLogin(Data userData, String password) {
     Auth()
         .signIn(
-            userData.phoneNumber.toString() +
-                userData.id.toString() +
+            /* userData.phoneNumber.toString() */ "8056687695251" +
+                /*     userData.id.toString() + */
                 "@nexware.global.com",
             password)
         .then((value) {
@@ -589,33 +590,14 @@ class _UserLoginState extends State<UserLogin> {
   }
 
   _initiateAppleSignIn() async {
-    /*if (await AppleSignIn.isAvailable()) {
-      final AuthorizationResult result = await AppleSignIn.performRequests([
-        AppleIdRequest(requestedScopes: [Scope.email, Scope.fullName])
+    if (await SignInWithApple.isAvailable()) {
+      final credential = await SignInWithApple.getAppleIDCredential(scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
       ]);
-
-      switch (result.status) {
-        case AuthorizationStatus.authorized:
-          print("user credentials : ${result.credential.user}");
-          print(result.credential.authorizationCode);
-          print(result.credential.authorizedScopes);
-          print(result.credential.email);
-          print(result.credential.fullName);
-          print(result.credential.identityToken);
-          print(result.credential.realUserStatus);
-          print(result.credential.state);
-          print(result.credential.user); //All the required credentials
-          break;
-        case AuthorizationStatus.error:
-          print("Sign in failed: ${result.error.localizedDescription}");
-          break;
-        case AuthorizationStatus.cancelled:
-          print('User cancelled');
-          break;
-      }
     } else {
       print('Apple SignIn is not available for your device');
-    }*/
+    }
   }
 
   void _initiateLineLogin() async {
