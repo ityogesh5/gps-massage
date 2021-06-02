@@ -22,6 +22,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:toast/toast.dart';
+import 'package:keyboard_actions/keyboard_actions.dart';
 
 class UserLogin extends StatefulWidget {
   @override
@@ -43,6 +44,7 @@ class _UserLoginState extends State<UserLogin> {
   var fcmToken = '';
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   User firebaseUser;
+  final FocusNode _nodeText1 = FocusNode();
 
 //Regex validation for emojis in text
   RegExp regexEmojis = RegExp(
@@ -92,188 +94,172 @@ class _UserLoginState extends State<UserLogin> {
           )
         ],
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.only(
-                // top: MediaQuery.of(context).size.height / 7,
-                right: MediaQuery.of(context).size.width / 25,
-                left: MediaQuery.of(context).size.width / 25),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                /*   SvgPicture.asset('assets/images_gps/normalLogo.svg',
-                    height: 150, width: 140),*/
-                Center(
-                    child: Text(HealingMatchConstants.loginUserText,
-                        style: TextStyle(
-                            color: Color.fromRGBO(0, 0, 0, 1),
-                            fontSize: 20,
-                            fontFamily: 'NotoSansJP',
-                            fontWeight: FontWeight.bold))),
-                SizedBox(
-                  height: 20,
-                ),
-                TextFormField(
-                  maxLength: 10,
-                  controller: phoneNumberController,
-                  keyboardType: TextInputType.phone,
-                  style: HealingMatchConstants.formTextStyle,
-                  decoration: InputDecoration(
-                    counterText: '',
-                    contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
-                    border: HealingMatchConstants.textFormInputBorder,
-                    focusedBorder: HealingMatchConstants.textFormInputBorder,
-                    disabledBorder: HealingMatchConstants.textFormInputBorder,
-                    enabledBorder: HealingMatchConstants.textFormInputBorder,
-                    filled: true,
-                    labelText: HealingMatchConstants.loginPhoneNumber,
-                    labelStyle: HealingMatchConstants.formLabelTextStyle,
-                    fillColor: ColorConstants.formFieldFillColor,
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                TextFormField(
-                  controller: passwordController,
-                  style: HealingMatchConstants.formTextStyle,
-                  obscureText: passwordVisibility,
-                  decoration: new InputDecoration(
-                    contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
-                    border: HealingMatchConstants.textFormInputBorder,
-                    focusedBorder: HealingMatchConstants.textFormInputBorder,
-                    disabledBorder: HealingMatchConstants.textFormInputBorder,
-                    enabledBorder: HealingMatchConstants.textFormInputBorder,
-                    suffixIcon: IconButton(
-                        icon: passwordVisibility
-                            ? Icon(Icons.visibility_off)
-                            : Icon(Icons.visibility),
-                        onPressed: () {
-                          setState(() {
-                            passwordVisibility = !passwordVisibility;
-                          });
-                        }),
-                    filled: true,
-                    // hintStyle:
-                    //     TextStyle(color: Colors.grey, fontFamily: 'NotoSansJP'),
-                    labelText: HealingMatchConstants.loginUserPassword,
-                    labelStyle: HealingMatchConstants.formLabelTextStyle,
-                    fillColor: ColorConstants.formFieldFillColor,
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        NavigationRouter.switchToUserForgetPasswordScreen(
-                            context);
-                        // NavigationRouter.switchToNearByProviderAndShop(context);
-                      },
-                      child: Text(
-                        '${HealingMatchConstants.loginUserForgetPassword}',
-                        style: TextStyle(
-                            color: Color.fromRGBO(102, 102, 102, 1),
-                            fontFamily: 'NotoSansJP'
-//                    decoration: TextDecoration.underline,
-                            ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  width: double.infinity,
-                  height: MediaQuery.of(context).size.height * 0.065,
-                  child: RaisedButton(
-                    child: Text(
-                      '${HealingMatchConstants.loginUserButton}',
-                      style: TextStyle(
-                          color: Color.fromRGBO(255, 255, 255, 1),
-                          fontFamily: 'NotoSansJP',
-                          fontSize: 18),
-                    ),
-                    color: Color.fromRGBO(200, 217, 33, 1),
-                    onPressed: () {
-                      _loginServiceUser();
-                    },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Row(children: <Widget>[
-                  Expanded(
-                    child: new Container(
-                        margin: const EdgeInsets.only(left: 10.0, right: 15.0),
-                        child: Divider(
-                          //  height: 50,
-                          color: Color.fromRGBO(225, 225, 225, 1),
-                        )),
-                  ),
-                  Text(
-                    "または",
-                    style: TextStyle(
-                      color: Color.fromRGBO(225, 225, 225, 1),
-                    ),
-                  ),
-                  Expanded(
-                    child: new Container(
-                        margin: const EdgeInsets.only(left: 15.0, right: 10.0),
-                        child: Divider(
-                          color: Color.fromRGBO(225, 225, 225, 1),
-                          //height: 50,
-                        )),
-                  ),
-                ]),
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
+      body: KeyboardActions(
+        config: _buildConfig(context),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                padding: EdgeInsets.only(
+                    // top: MediaQuery.of(context).size.height / 7,
+                    right: MediaQuery.of(context).size.width / 25,
+                    left: MediaQuery.of(context).size.width / 25),
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    InkWell(
-                        onTap: () {
-                          _initiateLineLogin();
-                          print('Line login');
-                        },
-                        child: Container(
-                          width: 45.0,
-                          height: 45,
-                          decoration: new BoxDecoration(
-                            border: Border.all(color: Colors.black38),
-                            shape: BoxShape.circle,
-                          ),
-                          child: Container(
-                              width: 20.0,
-                              height: 20,
-                              decoration: new BoxDecoration(
-                                border: Border.all(color: Colors.white),
-                                shape: BoxShape.circle,
-                                image: new DecorationImage(
-                                  fit: BoxFit.contain,
-                                  image: new AssetImage(
-                                      'assets/images_gps/line1.png'),
-                                ),
-                              )),
-                        )),
+                    /*   SvgPicture.asset('assets/images_gps/normalLogo.svg',
+                        height: 150, width: 140),*/
+                    Center(
+                        child: Text(HealingMatchConstants.loginUserText,
+                            style: TextStyle(
+                                color: Color.fromRGBO(0, 0, 0, 1),
+                                fontSize: 20,
+                                fontFamily: 'NotoSansJP',
+                                fontWeight: FontWeight.bold))),
                     SizedBox(
-                      width: Platform.isIOS ? 10 : 0,
+                      height: 20,
                     ),
-                    Platform.isIOS
-                        ? InkWell(
+                    TextFormField(
+                      maxLength: 10,
+                      focusNode: _nodeText1,
+                      controller: phoneNumberController,
+                      keyboardType: TextInputType.phone,
+                      style: HealingMatchConstants.formTextStyle,
+                      decoration: InputDecoration(
+                        counterText: '',
+                        contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
+                        border: HealingMatchConstants.textFormInputBorder,
+                        focusedBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        disabledBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        enabledBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        filled: true,
+                        labelText: HealingMatchConstants.loginPhoneNumber,
+                        labelStyle: HealingMatchConstants.formLabelTextStyle,
+                        fillColor: ColorConstants.formFieldFillColor,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      controller: passwordController,
+                      style: HealingMatchConstants.formTextStyle,
+                      obscureText: passwordVisibility,
+                      decoration: new InputDecoration(
+                        contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
+                        border: HealingMatchConstants.textFormInputBorder,
+                        focusedBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        disabledBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        enabledBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        suffixIcon: IconButton(
+                            icon: passwordVisibility
+                                ? Icon(Icons.visibility_off)
+                                : Icon(Icons.visibility),
+                            onPressed: () {
+                              setState(() {
+                                passwordVisibility = !passwordVisibility;
+                              });
+                            }),
+                        filled: true,
+                        // hintStyle:
+                        //     TextStyle(color: Colors.grey, fontFamily: 'NotoSansJP'),
+                        labelText: HealingMatchConstants.loginUserPassword,
+                        labelStyle: HealingMatchConstants.formLabelTextStyle,
+                        fillColor: ColorConstants.formFieldFillColor,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            NavigationRouter.switchToUserForgetPasswordScreen(
+                                context);
+                            // NavigationRouter.switchToNearByProviderAndShop(context);
+                          },
+                          child: Text(
+                            '${HealingMatchConstants.loginUserForgetPassword}',
+                            style: TextStyle(
+                                color: Color.fromRGBO(102, 102, 102, 1),
+                                fontFamily: 'NotoSansJP'
+//                    decoration: TextDecoration.underline,
+                                ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      width: double.infinity,
+                      height: MediaQuery.of(context).size.height * 0.065,
+                      child: RaisedButton(
+                        child: Text(
+                          '${HealingMatchConstants.loginUserButton}',
+                          style: TextStyle(
+                              color: Color.fromRGBO(255, 255, 255, 1),
+                              fontFamily: 'NotoSansJP',
+                              fontSize: 18),
+                        ),
+                        color: Color.fromRGBO(200, 217, 33, 1),
+                        onPressed: () {
+                          _loginServiceUser();
+                        },
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(children: <Widget>[
+                      Expanded(
+                        child: new Container(
+                            margin:
+                                const EdgeInsets.only(left: 10.0, right: 15.0),
+                            child: Divider(
+                              //  height: 50,
+                              color: Color.fromRGBO(225, 225, 225, 1),
+                            )),
+                      ),
+                      Text(
+                        "または",
+                        style: TextStyle(
+                          color: Color.fromRGBO(225, 225, 225, 1),
+                        ),
+                      ),
+                      Expanded(
+                        child: new Container(
+                            margin:
+                                const EdgeInsets.only(left: 15.0, right: 10.0),
+                            child: Divider(
+                              color: Color.fromRGBO(225, 225, 225, 1),
+                              //height: 50,
+                            )),
+                      ),
+                    ]),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        InkWell(
                             onTap: () {
-                              print('Apple login');
-                              _initiateAppleSignIn();
+                              _initiateLineLogin();
+                              print('Line login');
                             },
                             child: Container(
                               width: 45.0,
@@ -285,37 +271,69 @@ class _UserLoginState extends State<UserLogin> {
                               child: Container(
                                   width: 20.0,
                                   height: 20,
-                                  margin: EdgeInsets.all(8.0),
                                   decoration: new BoxDecoration(
                                     border: Border.all(color: Colors.white),
                                     shape: BoxShape.circle,
                                     image: new DecorationImage(
                                       fit: BoxFit.contain,
                                       image: new AssetImage(
-                                          'assets/images_gps/apple2.jpg'),
+                                          'assets/images_gps/line1.png'),
                                     ),
                                   )),
-                            ))
-                        : Container(),
+                            )),
+                        SizedBox(
+                          width: Platform.isIOS ? 10 : 0,
+                        ),
+                        Platform.isIOS
+                            ? InkWell(
+                                onTap: () {
+                                  print('Apple login');
+                                  _initiateAppleSignIn();
+                                },
+                                child: Container(
+                                  width: 45.0,
+                                  height: 45,
+                                  decoration: new BoxDecoration(
+                                    border: Border.all(color: Colors.black38),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Container(
+                                      width: 20.0,
+                                      height: 20,
+                                      margin: EdgeInsets.all(8.0),
+                                      decoration: new BoxDecoration(
+                                        border: Border.all(color: Colors.white),
+                                        shape: BoxShape.circle,
+                                        image: new DecorationImage(
+                                          fit: BoxFit.contain,
+                                          image: new AssetImage(
+                                              'assets/images_gps/apple2.jpg'),
+                                        ),
+                                      )),
+                                ))
+                            : Container(),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        NavigationRouter.switchToServiceUserRegistration(
+                            context);
+                      },
+                      child: Text(
+                        HealingMatchConstants.loginUserNewRegistrationText,
+                        style: TextStyle(
+                            color: Color.fromRGBO(0, 0, 0, 1),
+                            decoration: TextDecoration.underline,
+                            fontFamily: 'NotoSansJP',
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
                   ],
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-                InkWell(
-                  onTap: () {
-                    NavigationRouter.switchToServiceUserRegistration(context);
-                  },
-                  child: Text(
-                    HealingMatchConstants.loginUserNewRegistrationText,
-                    style: TextStyle(
-                        color: Color.fromRGBO(0, 0, 0, 1),
-                        decoration: TextDecoration.underline,
-                        fontFamily: 'NotoSansJP',
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         ),
@@ -578,8 +596,8 @@ class _UserLoginState extends State<UserLogin> {
   void firebaseChatLogin(Data userData, String password) {
     Auth()
         .signIn(
-            /* userData.phoneNumber.toString() */"8056687695251" +
-            /*     userData.id.toString() + */
+            userData.phoneNumber.toString() /* "8056687695251" */ +
+                userData.id.toString() +
                 "@nexware.global.com",
             password)
         .then((value) {
@@ -591,13 +609,11 @@ class _UserLoginState extends State<UserLogin> {
   }
 
   _initiateAppleSignIn() async {
-     if (await SignInWithApple.isAvailable()) {
-      final credential = await SignInWithApple.getAppleIDCredential(
-          scopes: [
-            AppleIDAuthorizationScopes.email,
-            AppleIDAuthorizationScopes.fullName,
-          ]);
-          
+    if (await SignInWithApple.isAvailable()) {
+      final credential = await SignInWithApple.getAppleIDCredential(scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ]);
     } else {
       print('Apple SignIn is not available for your device');
     }
@@ -708,5 +724,36 @@ class _UserLoginState extends State<UserLogin> {
         print('Current Location exception : ${e.toString()}');
       });
     }
+  }
+
+  KeyboardActionsConfig _buildConfig(BuildContext context) {
+    return KeyboardActionsConfig(
+      keyboardActionsPlatform: KeyboardActionsPlatform.IOS,
+      keyboardBarColor: Colors.grey[200],
+      nextFocus: true,
+      actions: [
+        KeyboardActionsItem(
+          toolbarButtons: [
+            (node) {
+              return GestureDetector(
+                onTap: () => node.unfocus(),
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    "Done",
+                    style: TextStyle(fontWeight: FontWeight.w500),
+                  ),
+                ),
+              );
+            }
+          ],
+          displayArrows: false,
+          focusNode: _nodeText1,
+          footerBuilder: (_) => PreferredSize(
+              child: SizedBox(height: 2, child: Container()),
+              preferredSize: Size.fromHeight(2)),
+        ),
+      ],
+    );
   }
 }
