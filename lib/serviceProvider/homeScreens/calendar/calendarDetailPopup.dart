@@ -209,7 +209,7 @@ class ProviderCalendarDetailPopup {
                     SizedBox(
                       height: 8,
                     ),
-                    Expanded(
+                    FittedBox(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -218,30 +218,25 @@ class ProviderCalendarDetailPopup {
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(12.0),
                             ),
-                            child: Text(
-                              '${locSplit[0]} ',
-                              style: TextStyle(
-                                fontSize: 12.0,
-                                color: Colors.black,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                '${locSplit[0]} ',
+                                style: TextStyle(
+                                  fontSize: 12.0,
+                                  color: Colors.black,
+                                ),
                               ),
                             ),
                           ),
                           SizedBox(
                             width: 2,
                           ),
-                          FittedBox(
-                            child: Row(
-                              children: [
-                                Text(
-                                  '${locSplit[1]} ',
-                                  maxLines: 2,
-                                  overflow: TextOverflow.clip,
-                                  style: TextStyle(
-                                    fontSize: 12.0,
-                                    color: Color.fromRGBO(102, 102, 102, 1),
-                                  ),
-                                ),
-                              ],
+                          Text(
+                            '${locSplit[1]} ',
+                            style: TextStyle(
+                              fontSize: 12.0,
+                              color: Color.fromRGBO(102, 102, 102, 1),
                             ),
                           ),
                         ],

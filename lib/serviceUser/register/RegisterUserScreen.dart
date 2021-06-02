@@ -719,22 +719,6 @@ class _RegisterUserState extends State<RegisterUser> {
                         autofocus: false,
                         keyboardType:
                             TextInputType.numberWithOptions(signed: true),
-                        onEditingComplete: () {
-                          var phnNum = phoneNumberController.text.toString();
-                          var userPhoneNumber =
-                              phnNum.replaceFirst(RegExp(r'^0+'), "");
-                          print('Phone number after edit : $userPhoneNumber');
-                          phoneNumberController.text = userPhoneNumber;
-                          FocusScope.of(context).requestFocus(FocusNode());
-                        },
-                        onSubmitted: (userPhoneNumber) {
-                          var phnNum = phoneNumberController.text.toString();
-                          var userPhoneNumber =
-                              phnNum.replaceFirst(RegExp(r'^0+'), "");
-                          print('Phone number after submit : $userPhoneNumber');
-                          phoneNumberController.text = userPhoneNumber;
-                          FocusScope.of(context).requestFocus(FocusNode());
-                        },
                         decoration: new InputDecoration(
                           counterText: '',
                           filled: true,
@@ -1467,7 +1451,7 @@ class _RegisterUserState extends State<RegisterUser> {
     var userName = userNameController.text.trim();
     var email = emailController.text.trim();
     var phnNum = phoneNumberController.text.trim();
-    var userPhoneNumber = phnNum.replaceFirst(RegExp(r'^0+'), "");
+    var userPhoneNumber = phoneNumberController.text.trim();
     print('phnNumber: $userPhoneNumber');
     HealingMatchConstants.serviceUserPhoneNumber = userPhoneNumber;
     var password = passwordController.text.toString().trim();
