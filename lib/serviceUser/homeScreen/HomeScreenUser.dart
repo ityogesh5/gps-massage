@@ -195,7 +195,7 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
     getFavourite.then((value) {
       if (this.mounted) {
         setState(() {
-          bookingDetailsList = value.data.bookingDetailsList;
+          bookingDetailsList = value.bookingDetailsList;
           print('bookingDetails:${bookingDetailsList.length}');
           status = 1;
         });
@@ -2088,11 +2088,11 @@ class _ReservationListState extends State<ReservationList> {
   Widget build(BuildContext context) {
     if (bookingDetailsList.length != 0 && bookingDetailsList.isNotEmpty) {
       DateTime startTime = bookingDetailsList[0].newStartTime != null
-          ? DateTime.parse(bookingDetailsList[0].newStartTime).toLocal()
-          : DateTime.parse(bookingDetailsList[0].startTime).toLocal();
+          ? bookingDetailsList[0].newStartTime.toLocal()
+          : bookingDetailsList[0].startTime.toLocal();
       DateTime endTime = bookingDetailsList[0].newEndTime != null
-          ? DateTime.parse(bookingDetailsList[0].newEndTime).toLocal()
-          : DateTime.parse(bookingDetailsList[0].endTime).toLocal();
+          ? bookingDetailsList[0].newEndTime.toLocal()
+          : bookingDetailsList[0].endTime.toLocal();
       setState(() {
         month = DateFormat('MM月').format(startTime);
         day = DateFormat('d').format(startTime);
@@ -2298,14 +2298,15 @@ class _ReservationListState extends State<ReservationList> {
                               FittedBox(
                                 child: Row(
                                   children: [
-                                    Text('${bookingDetailsList[0].ratingAvg}',
+                                    Text(
+                                        '${bookingDetailsList[0].reviewAvgData}',
                                         style: TextStyle(
                                             color: Color.fromRGBO(0, 0, 0, 1),
                                             fontFamily:
                                                 ColorConstants.fontFamily)),
                                     RatingBar.builder(
                                       initialRating: double.parse(
-                                          bookingDetailsList[0].ratingAvg),
+                                          bookingDetailsList[0].reviewAvgData),
                                       minRating: 1,
                                       direction: Axis.horizontal,
                                       allowHalfRating: true,

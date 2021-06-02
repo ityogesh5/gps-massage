@@ -67,7 +67,7 @@ class TherapistReviewList {
     this.id,
     this.userId,
     this.therapistId,
-    this.ratingsId,
+    this.bookingId,
     this.isReviewStatus,
     this.ratingsCount,
     this.reviewComment,
@@ -81,10 +81,10 @@ class TherapistReviewList {
   int id;
   int userId;
   int therapistId;
-  dynamic ratingsId;
+  int bookingId;
   bool isReviewStatus;
   int ratingsCount;
-  String reviewComment;
+  ReviewComment reviewComment;
   String createdUser;
   String updatedUser;
   DateTime createdAt;
@@ -96,10 +96,10 @@ class TherapistReviewList {
         id: json["id"],
         userId: json["userId"],
         therapistId: json["therapistId"],
-        ratingsId: json["ratingsId"],
+        bookingId: json["bookingId"] == null ? null : json["bookingId"],
         isReviewStatus: json["isReviewStatus"],
         ratingsCount: json["ratingsCount"],
-        reviewComment: json["reviewComment"],
+        reviewComment: reviewCommentValues.map[json["reviewComment"]],
         createdUser: json["createdUser"],
         updatedUser: json["updatedUser"],
         createdAt: DateTime.parse(json["createdAt"]),
@@ -111,10 +111,10 @@ class TherapistReviewList {
         "id": id,
         "userId": userId,
         "therapistId": therapistId,
-        "ratingsId": ratingsId,
+        "bookingId": bookingId == null ? null : bookingId,
         "isReviewStatus": isReviewStatus,
         "ratingsCount": ratingsCount,
-        "reviewComment": reviewComment,
+        "reviewComment": reviewCommentValues.reverse[reviewComment],
         "createdUser": createdUser,
         "updatedUser": updatedUser,
         "createdAt": createdAt.toIso8601String(),
@@ -122,6 +122,14 @@ class TherapistReviewList {
         "reviewUserId": reviewUserId.toJson(),
       };
 }
+
+enum ReviewComment { VERY_VERY_GOOD, TEST, REVIEW_COMMENT_TEST }
+
+final reviewCommentValues = EnumValues({
+  "test": ReviewComment.REVIEW_COMMENT_TEST,
+  "test...": ReviewComment.TEST,
+  "very very good": ReviewComment.VERY_VERY_GOOD
+});
 
 class ReviewUserId {
   ReviewUserId({
@@ -132,21 +140,47 @@ class ReviewUserId {
   });
 
   int id;
-  String userId;
-  String userName;
-  dynamic uploadProfileImgUrl;
+  UserId userId;
+  UserName userName;
+  String uploadProfileImgUrl;
 
   factory ReviewUserId.fromJson(Map<String, dynamic> json) => ReviewUserId(
         id: json["id"],
-        userId: json["userId"],
-        userName: json["userName"],
-        uploadProfileImgUrl: json["uploadProfileImgUrl"],
+        userId: userIdValues.map[json["userId"]],
+        userName: userNameValues.map[json["userName"]],
+        uploadProfileImgUrl: json["uploadProfileImgUrl"] == null
+            ? null
+            : json["uploadProfileImgUrl"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "userId": userId,
-        "userName": userName,
-        "uploadProfileImgUrl": uploadProfileImgUrl,
+        "userId": userIdValues.reverse[userId],
+        "userName": userNameValues.reverse[userName],
+        "uploadProfileImgUrl":
+            uploadProfileImgUrl == null ? null : uploadProfileImgUrl,
       };
+}
+
+enum UserId { U282, U277 }
+
+final userIdValues = EnumValues({"U277": UserId.U277, "U282": UserId.U282});
+
+enum UserName { MARSMELO, AKIL }
+
+final userNameValues =
+    EnumValues({"Akil": UserName.AKIL, "marsmelo": UserName.MARSMELO});
+
+class EnumValues<T> {
+  Map<String, T> map;
+  Map<T, String> reverseMap;
+
+  EnumValues(this.map);
+
+  Map<T, String> get reverse {
+    if (reverseMap == null) {
+      reverseMap = map.map((k, v) => new MapEntry(v, k));
+    }
+    return reverseMap;
+  }
 }

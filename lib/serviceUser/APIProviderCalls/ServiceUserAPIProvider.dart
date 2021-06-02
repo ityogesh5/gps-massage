@@ -12,6 +12,7 @@ import 'package:gps_massageapp/models/responseModels/guestUserModel/GuestUserRes
 import 'package:gps_massageapp/models/responseModels/paymentModels/CustomerCreation.dart';
 import 'package:gps_massageapp/models/responseModels/paymentModels/PaymentCustomerCharge.dart';
 import 'package:gps_massageapp/models/responseModels/paymentModels/PaymentSuccessModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/currentBookingRatingResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/booking/createBooking.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingStatus.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingCompletedList.dart';
@@ -235,7 +236,7 @@ class ServiceUserAPIProvider {
         _bookingStatusModel =
             BookingStatusModel.fromJson(getBookingStatusResponse);
         print(
-            'getBookingStatusResponse : ${_bookingStatusModel.data.bookingDetailsList.length}');
+            'getBookingStatusResponse : ${_bookingStatusModel.bookingDetailsList.length}');
       } else {
         print('Error occurred!!! TypeMassages response');
         throw Exception();
@@ -302,6 +303,36 @@ class ServiceUserAPIProvider {
     }
 
     return _userReviewListById;
+  }
+
+  static Future<CurrentOrderReviewResponseModel> getBookingOrderReviewUser(
+      int bookingId) async {
+    try {
+      final url = HealingMatchConstants.ON_PREMISE_USER_BASE_URL +
+          '/mobileReview/bookingTherapistReviewById';
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '${HealingMatchConstants.accessToken}'
+      };
+      final response = await http.post(url,
+          headers: headers,
+          body: json.encode({
+            "bookingId": bookingId,
+          }));
+      print('$response');
+      if (response.statusCode == 200) {
+        var userData = json.decode(response.body);
+        CurrentOrderReviewResponseModel usersReview =
+            CurrentOrderReviewResponseModel.fromJson(userData);
+        print('Types list:  $userData');
+        return usersReview;
+      } else {
+        print('Error occurred!!! TypeMassages response');
+        throw Exception();
+      }
+    } catch (e) {
+      print('Exception : ${e.toString()}');
+    }
   }
 
   // get home screen user banner images

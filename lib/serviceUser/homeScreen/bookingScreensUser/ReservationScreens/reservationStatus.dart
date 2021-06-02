@@ -69,7 +69,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
     getFavourite.then((value) {
       if (this.mounted) {
         setState(() {
-          bookingDetailsList = value.data.bookingDetailsList;
+          bookingDetailsList = value.bookingDetailsList;
           print('bookingDetails:${bookingDetailsList.length}');
           status = 1;
           getStatusValue();
@@ -441,14 +441,14 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                       physics: BouncingScrollPhysics(),
                                       itemCount: waitingForApprovalList.length,
                                       itemBuilder: (context, index) {
-                                        DateTime startTime = DateTime.parse(
-                                                waitingForApprovalList[index]
-                                                    .startTime)
-                                            .toLocal();
-                                        DateTime endTime = DateTime.parse(
-                                                waitingForApprovalList[index]
-                                                    .endTime)
-                                            .toLocal();
+                                        DateTime startTime =
+                                            waitingForApprovalList[index]
+                                                .startTime
+                                                .toLocal();
+                                        DateTime endTime =
+                                            waitingForApprovalList[index]
+                                                .endTime
+                                                .toLocal();
                                         String date = DateFormat('MM月d')
                                             .format(startTime);
                                         String sTime = DateFormat('kk:mm')
@@ -726,13 +726,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                             Row(
                                                                           children: [
                                                                             Text(
-                                                                              '(${waitingForApprovalList[index].ratingAvg})',
+                                                                              '(${waitingForApprovalList[index].reviewAvgData})',
                                                                               style: TextStyle(
                                                                                 color: Color.fromRGBO(153, 153, 153, 1),
                                                                               ),
                                                                             ),
                                                                             RatingBar.builder(
-                                                                              initialRating: double.parse(waitingForApprovalList[index].ratingAvg),
+                                                                              initialRating: double.parse(waitingForApprovalList[index].reviewAvgData),
                                                                               minRating: 1,
                                                                               direction: Axis.horizontal,
                                                                               allowHalfRating: true,
@@ -1007,29 +1007,25 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             approvedWithConditionsList[index]
                                                         .newStartTime !=
                                                     null
-                                                ? DateTime.parse(
-                                                        approvedWithConditionsList[
-                                                                index]
-                                                            .newStartTime)
+                                                ? approvedWithConditionsList[
+                                                        index]
+                                                    .newStartTime
                                                     .toLocal()
-                                                : DateTime.parse(
-                                                        approvedWithConditionsList[
-                                                                index]
-                                                            .startTime)
+                                                : approvedWithConditionsList[
+                                                        index]
+                                                    .startTime
                                                     .toLocal();
                                         DateTime endTime =
                                             approvedWithConditionsList[index]
                                                         .newEndTime !=
                                                     null
-                                                ? DateTime.parse(
-                                                        approvedWithConditionsList[
-                                                                index]
-                                                            .newEndTime)
+                                                ? approvedWithConditionsList[
+                                                        index]
+                                                    .newEndTime
                                                     .toLocal()
-                                                : DateTime.parse(
-                                                        approvedWithConditionsList[
-                                                                index]
-                                                            .endTime)
+                                                : approvedWithConditionsList[
+                                                        index]
+                                                    .endTime
                                                     .toLocal();
                                         String date = DateFormat('MM月d')
                                             .format(startTime);
@@ -1327,7 +1323,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                     Row(
                                                                       children: [
                                                                         Text(
-                                                                          '(${approvedWithConditionsList[index].ratingAvg})',
+                                                                          '(${approvedWithConditionsList[index].reviewAvgData})',
                                                                           style:
                                                                               TextStyle(
                                                                             color: Color.fromRGBO(
@@ -1340,7 +1336,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         RatingBar
                                                                             .builder(
                                                                           initialRating:
-                                                                              double.parse(approvedWithConditionsList[index].ratingAvg),
+                                                                              double.parse(approvedWithConditionsList[index].reviewAvgData),
                                                                           minRating:
                                                                               1,
                                                                           direction:
@@ -1460,7 +1456,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                       getChatDetails(approvedWithConditionsList[
                                                                               index]
                                                                           .bookingTherapistId
-                                                                          .firebaseUDID);
+                                                                          .firebaseUdid);
                                                                     },
                                                                     child: Card(
                                                                       elevation:
@@ -1674,24 +1670,24 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                       physics: BouncingScrollPhysics(),
                                       itemCount: approvedList.length,
                                       itemBuilder: (context, index) {
-                                        DateTime startTime = approvedList[index]
-                                                    .newStartTime !=
-                                                null
-                                            ? DateTime.parse(approvedList[index]
-                                                    .newStartTime)
-                                                .toLocal()
-                                            : DateTime.parse(approvedList[index]
-                                                    .startTime)
-                                                .toLocal();
-                                        DateTime endTime = approvedList[index]
-                                                    .newEndTime !=
-                                                null
-                                            ? DateTime.parse(approvedList[index]
-                                                    .newEndTime)
-                                                .toLocal()
-                                            : DateTime.parse(
-                                                    approvedList[index].endTime)
-                                                .toLocal();
+                                        DateTime startTime =
+                                            approvedList[index].newStartTime !=
+                                                    null
+                                                ? approvedList[index]
+                                                    .newStartTime
+                                                    .toLocal()
+                                                : approvedList[index]
+                                                    .startTime
+                                                    .toLocal();
+                                        DateTime endTime =
+                                            approvedList[index].newEndTime !=
+                                                    null
+                                                ? approvedList[index]
+                                                    .newEndTime
+                                                    .toLocal()
+                                                : approvedList[index]
+                                                    .endTime
+                                                    .toLocal();
                                         String date = DateFormat('MM月d')
                                             .format(startTime);
                                         String sTime = DateFormat('kk:mm')
@@ -1971,7 +1967,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                     Row(
                                                                       children: [
                                                                         Text(
-                                                                          '(${approvedList[index].ratingAvg})',
+                                                                          '(${approvedList[index].reviewAvgData})',
                                                                           style:
                                                                               TextStyle(
                                                                             color: Color.fromRGBO(
@@ -1984,7 +1980,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         RatingBar
                                                                             .builder(
                                                                           initialRating:
-                                                                              double.parse(approvedList[index].ratingAvg),
+                                                                              double.parse(approvedList[index].reviewAvgData),
                                                                           minRating:
                                                                               1,
                                                                           direction:
@@ -2103,7 +2099,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                       getChatDetails(approvedList[
                                                                               index]
                                                                           .bookingTherapistId
-                                                                          .firebaseUDID);
+                                                                          .firebaseUdid);
                                                                     },
                                                                     child: Card(
                                                                       elevation:
@@ -2372,28 +2368,22 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             confirmedPaymentList[index]
                                                         .newStartTime !=
                                                     null
-                                                ? DateTime.parse(
-                                                        confirmedPaymentList[
-                                                                index]
-                                                            .newStartTime)
+                                                ? confirmedPaymentList[index]
+                                                    .newStartTime
                                                     .toLocal()
-                                                : DateTime.parse(
-                                                        confirmedPaymentList[
-                                                                index]
-                                                            .startTime)
+                                                : confirmedPaymentList[index]
+                                                    .startTime
                                                     .toLocal();
-                                        DateTime endTime = confirmedPaymentList[
-                                                        index]
-                                                    .newEndTime !=
-                                                null
-                                            ? DateTime.parse(
-                                                    confirmedPaymentList[index]
-                                                        .newEndTime)
-                                                .toLocal()
-                                            : DateTime.parse(
-                                                    confirmedPaymentList[index]
-                                                        .endTime)
-                                                .toLocal();
+                                        DateTime endTime =
+                                            confirmedPaymentList[index]
+                                                        .newEndTime !=
+                                                    null
+                                                ? confirmedPaymentList[index]
+                                                    .newEndTime
+                                                    .toLocal()
+                                                : confirmedPaymentList[index]
+                                                    .endTime
+                                                    .toLocal();
                                         String date = DateFormat('MM月d')
                                             .format(startTime);
                                         String sTime = DateFormat('kk:mm')
@@ -2731,10 +2721,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                 ),
                                                                 Row(
                                                                   children: [
-                                                                    confirmedPaymentList[index].ratingAvg !=
+                                                                    confirmedPaymentList[index].reviewAvgData !=
                                                                             null
                                                                         ? Text(
-                                                                            '(${confirmedPaymentList[index].ratingAvg})',
+                                                                            '(${confirmedPaymentList[index].reviewAvgData})',
                                                                             style:
                                                                                 TextStyle(
                                                                               color: Color.fromRGBO(153, 153, 153, 1),
@@ -2751,7 +2741,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         .builder(
                                                                       initialRating:
                                                                           double.parse(
-                                                                              confirmedPaymentList[index].ratingAvg),
+                                                                              confirmedPaymentList[index].reviewAvgData),
                                                                       minRating:
                                                                           1,
                                                                       direction:
@@ -2880,7 +2870,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                   getChatDetails(confirmedPaymentList[
                                                                           index]
                                                                       .bookingTherapistId
-                                                                      .firebaseUDID);
+                                                                      .firebaseUdid);
                                                                 },
                                                                 child: Card(
                                                                   elevation: 3,
@@ -3111,33 +3101,24 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                       itemCount: CanceledReservationList.length,
                                       itemBuilder: (context, index) {
                                         DateTime startTime =
-                                            CanceledReservationList[
-                                                            index]
+                                            CanceledReservationList[index]
                                                         .newStartTime !=
                                                     null
-                                                ? DateTime.parse(
-                                                        CanceledReservationList[
-                                                                index]
-                                                            .newStartTime)
+                                                ? CanceledReservationList[index]
+                                                    .newStartTime
                                                     .toLocal()
-                                                : DateTime.parse(
-                                                        CanceledReservationList[
-                                                                index]
-                                                            .startTime)
+                                                : CanceledReservationList[index]
+                                                    .startTime
                                                     .toLocal();
                                         DateTime endTime =
                                             CanceledReservationList[index]
                                                         .newEndTime !=
                                                     null
-                                                ? DateTime.parse(
-                                                        CanceledReservationList[
-                                                                index]
-                                                            .newEndTime)
+                                                ? CanceledReservationList[index]
+                                                    .newEndTime
                                                     .toLocal()
-                                                : DateTime.parse(
-                                                        CanceledReservationList[
-                                                                index]
-                                                            .endTime)
+                                                : CanceledReservationList[index]
+                                                    .endTime
                                                     .toLocal();
                                         String date = DateFormat('MM月d')
                                             .format(startTime);
@@ -3474,10 +3455,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                 ),
                                                                 Row(
                                                                   children: [
-                                                                    CanceledReservationList[index].ratingAvg !=
+                                                                    CanceledReservationList[index].reviewAvgData !=
                                                                             null
                                                                         ? Text(
-                                                                            '(${CanceledReservationList[index].ratingAvg})',
+                                                                            '(${CanceledReservationList[index].reviewAvgData})',
                                                                             style:
                                                                                 TextStyle(
                                                                               color: Color.fromRGBO(153, 153, 153, 1),
@@ -3494,7 +3475,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         .builder(
                                                                       initialRating:
                                                                           double.parse(
-                                                                              CanceledReservationList[index].ratingAvg),
+                                                                              CanceledReservationList[index].reviewAvgData),
                                                                       minRating:
                                                                           1,
                                                                       direction:
