@@ -1297,6 +1297,10 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                     .addAll(value.homeTherapistData.recommendedTherapistData);
                 getCertificateValues(widget.getRecommendedTherapists);
               }
+            }).catchError(() {
+              setState(() {
+                isLoading = false;
+              });
             });
           });
         }
@@ -1304,6 +1308,9 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
       //print('Therapist users data Size : ${therapistUsers.length}');
     } catch (e) {
       print('Exception more data' + e.toString());
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 }

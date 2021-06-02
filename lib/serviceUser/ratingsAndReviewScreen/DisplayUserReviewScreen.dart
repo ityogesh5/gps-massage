@@ -383,10 +383,17 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
               }
             });
           }
+        }).catchError(() {
+          setState(() {
+            isLoadingData = false;
+          });
         });
       }
     } catch (e) {
       print('Ratings and review exception pagination : ${e.toString()}');
+      setState(() {
+        isLoadingData = false;
+      });
     }
   }
 }
