@@ -75,6 +75,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   var differenceInTime;
   Position _currentPosition;
   String address;
+  var gpsColor = 0;
 
   void initState() {
     super.initState();
@@ -246,16 +247,22 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                HealingMatchConstants.bookingAddressId = 0;
+                                setState(() {
+                                  gpsColor = 1;
+                                });
+
                                 _getCurrentLocation();
                               },
                               child: CircleAvatar(
                                 maxRadius: 32,
-                                backgroundColor:
-                                    Color.fromRGBO(200, 217, 33, 1),
+                                backgroundColor: gpsColor == 0
+                                    ? Colors.grey[200]
+                                    : Color.fromRGBO(200, 217, 33, 1),
                                 child: SvgPicture.asset(
                                     'assets/images_gps/current_location.svg',
-                                    color: Color.fromRGBO(255, 255, 255, 1),
+                                    color: gpsColor == 0
+                                        ? Colors.black
+                                        : Color.fromRGBO(255, 255, 255, 1),
                                     height: 30,
                                     width: 30),
                               ),

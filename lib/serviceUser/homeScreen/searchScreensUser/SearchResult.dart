@@ -246,11 +246,8 @@ class _SearchResultState extends State<SearchResult> {
                 therapistCity.add(
                     getTherapistsSearchResults[i].user.addresses[k].cityName);
 
-                distanceOfTherapist.add(getTherapistsSearchResults[i]
-                    .user
-                    .addresses[k]
-                    .distance
-                    .toStringAsFixed(2));
+                distanceOfTherapist.add(
+                    getTherapistsSearchResults[i].user.addresses[k].distance);
 
                 hasShop.add(getTherapistsSearchResults[i].user.isShop);
                 isShop = hasShop;
@@ -641,34 +638,33 @@ class _SearchResultState extends State<SearchResult> {
                                                             Spacer(),
                                                             FittedBox(
                                                               child: HealingMatchConstants
-                                                                  .isUserRegistrationSkipped
+                                                                      .isUserRegistrationSkipped
                                                                   ? GestureDetector(
-                                                                onTap: () {
-                                                                  return;
-                                                                },
-                                                                child: SvgPicture.asset(
-                                                                  'assets/images_gps/heart_wo_color.svg',
-                                                                  width: 25,
-                                                                  height: 25,
-                                                                  color: Colors.grey[400],
-                                                                ),
-                                                              )
-                                                                  :FavoriteButton(
+                                                                      onTap:
+                                                                          () {
+                                                                        return;
+                                                                      },
+                                                                      child: SvgPicture
+                                                                          .asset(
+                                                                        'assets/images_gps/heart_wo_color.svg',
+                                                                        width:
+                                                                            25,
+                                                                        height:
+                                                                            25,
+                                                                        color: Colors
+                                                                            .grey[400],
+                                                                      ),
+                                                                    )
+                                                                  : FavoriteButton(
                                                                       iconSize:
                                                                           40,
                                                                       iconColor:
                                                                           Colors
                                                                               .red,
-                                                                  isFavorite: widget
-                                                                      .getTherapistsSearchResults[
-                                                                  index]
-                                                                      .favouriteToTherapist !=
-                                                                      null &&
-                                                                      widget
-                                                                          .getTherapistsSearchResults[
-                                                                      index]
-                                                                          .favouriteToTherapist ==
-                                                                          1,
+                                                                      isFavorite: widget.getTherapistsSearchResults[index].favouriteToTherapist !=
+                                                                              null &&
+                                                                          widget.getTherapistsSearchResults[index].favouriteToTherapist ==
+                                                                              1,
                                                                       valueChanged:
                                                                           (_isFavorite) {
                                                                         print(
@@ -1357,13 +1353,24 @@ class _SearchResultState extends State<SearchResult> {
                 widget.getTherapistsSearchResults.addAll(value.data.searchList);
                 getSearchResults(widget.getTherapistsSearchResults);
               }
+            }).catchError((error) {
+              if (error != null) {
+                setState(() {
+                  isLoading = false;
+                });
+              }
             });
           });
         }
       }
       //print('Therapist users data Size : ${therapistUsers.length}');
-    } catch (e) {
-      print('Exception more data' + e.toString());
+    } catch (error) {
+      print('Exception more data' + error.toString());
+      if (error != null) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
   }
 
@@ -1482,11 +1489,8 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                 therapistCity.add(
                     getTherapistsSearchResults[i].user.addresses[k].cityName);
 
-                distanceOfTherapist.add(getTherapistsSearchResults[i]
-                    .user
-                    .addresses[k]
-                    .distance
-                    .toStringAsFixed(2));
+                distanceOfTherapist.add(
+                    getTherapistsSearchResults[i].user.addresses[k].distance);
 
                 hasShop.add(getTherapistsSearchResults[i].user.isShop);
                 isShop = hasShop;
@@ -1869,34 +1873,33 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                                                             Spacer(),
                                                             FittedBox(
                                                               child: HealingMatchConstants
-                                                                  .isUserRegistrationSkipped
+                                                                      .isUserRegistrationSkipped
                                                                   ? GestureDetector(
-                                                                onTap: () {
-                                                                  return;
-                                                                },
-                                                                child: SvgPicture.asset(
-                                                                  'assets/images_gps/heart_wo_color.svg',
-                                                                  width: 25,
-                                                                  height: 25,
-                                                                  color: Colors.grey[400],
-                                                                ),
-                                                              )
+                                                                      onTap:
+                                                                          () {
+                                                                        return;
+                                                                      },
+                                                                      child: SvgPicture
+                                                                          .asset(
+                                                                        'assets/images_gps/heart_wo_color.svg',
+                                                                        width:
+                                                                            25,
+                                                                        height:
+                                                                            25,
+                                                                        color: Colors
+                                                                            .grey[400],
+                                                                      ),
+                                                                    )
                                                                   : FavoriteButton(
                                                                       iconSize:
                                                                           40,
                                                                       iconColor:
                                                                           Colors
                                                                               .red,
-                                                                  isFavorite: widget
-                                                                      .getTherapistsSearchResults[
-                                                                  index]
-                                                                      .favouriteToTherapist !=
-                                                                      null &&
-                                                                      widget
-                                                                          .getTherapistsSearchResults[
-                                                                      index]
-                                                                          .favouriteToTherapist ==
-                                                                          1,
+                                                                      isFavorite: widget.getTherapistsSearchResults[index].favouriteToTherapist !=
+                                                                              null &&
+                                                                          widget.getTherapistsSearchResults[index].favouriteToTherapist ==
+                                                                              1,
                                                                       valueChanged:
                                                                           (_isFavorite) {
                                                                         print(
@@ -2586,13 +2589,24 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                 widget.getTherapistsSearchResults.addAll(value.data.searchList);
                 getSearchResultsByType(widget.getTherapistsSearchResults);
               }
+            }).catchError((error) {
+              if (error != null) {
+                setState(() {
+                  isLoading = false;
+                });
+              }
             });
           });
         }
       }
       //print('Therapist users data Size : ${therapistUsers.length}');
-    } catch (e) {
-      print('Exception more data' + e.toString());
+    } catch (error) {
+      print('Exception more data' + error.toString());
+      if (error != null) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
   }
 
@@ -2691,13 +2705,13 @@ class _SearchResultChipsState extends State<SearchResultChips> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
+                    /*  Text(
                       'ソ－ト',
                       style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey[300],
                           fontFamily: 'NotoSansJP'),
-                    ),
+                    ),*/
                     _buildChips(),
                   ],
                 ),

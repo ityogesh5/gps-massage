@@ -1412,6 +1412,12 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                 therapistUsers.addAll(value.homeTherapistData.therapistData);
                 getProvidersList(therapistUsers);
               }
+            }).catchError((error) {
+              if (error != null) {
+                setState(() {
+                  isLoading = false;
+                });
+              }
             });
           });
         }
@@ -1419,6 +1425,9 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
       //print('Therapist users data Size : ${therapistUsers.length}');
     } catch (e) {
       print('Exception more data' + e.toString());
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 }
@@ -2342,6 +2351,10 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                     .addAll(value.homeTherapistData.typeTherapistData);
                 getProvidersCertifications(widget.getTherapistByType);
               }
+            }).catchError((){
+              setState(() {
+                isLoading = false;
+              });
             });
           });
         }
@@ -2349,6 +2362,9 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
       //print('Therapist users data Size : ${therapistUsers.length}');
     } catch (e) {
       print('Exception more data' + e.toString());
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 }

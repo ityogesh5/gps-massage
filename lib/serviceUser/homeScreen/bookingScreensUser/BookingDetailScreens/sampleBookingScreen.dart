@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
@@ -1237,7 +1236,6 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
     String path =
         assignServiceIcon(therapistListItem.name, therapistListItem.categoryId);
     return Column(
-      mainAxisSize: MainAxisSize.min,
       children: [
         InkWell(
           key: globalKeyList[index],

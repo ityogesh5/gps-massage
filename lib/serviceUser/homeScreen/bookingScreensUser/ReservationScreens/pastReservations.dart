@@ -967,17 +967,6 @@ class _PastReservationsState extends State<PastReservations> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Row(
-                                        children: [
-                                          Text(
-                                            '過去の予約の情報！',
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                fontFamily: 'NotoSansJP',
-                                                fontWeight: FontWeight.bold),
-                                          )
-                                        ],
-                                      ),
-                                      Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         children: [

@@ -357,17 +357,6 @@ class _NoticeScreenUserState extends State<NotifyScreenUser>
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  children: [
-                                    Text(
-                                      '通知の情報！',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontFamily: 'NotoSansJP',
-                                          fontWeight: FontWeight.bold),
-                                    )
-                                  ],
-                                ),
-                                Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     InkWell(

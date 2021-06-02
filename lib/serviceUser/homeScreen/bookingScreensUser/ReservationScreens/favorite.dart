@@ -713,17 +713,6 @@ class _FavoriteState extends State<Favorite> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Row(
-                                        children: [
-                                          Text(
-                                            'お気に入りの情報！',
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                fontFamily: 'NotoSansJP',
-                                                fontWeight: FontWeight.bold),
-                                          )
-                                        ],
-                                      ),
-                                      Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         children: [

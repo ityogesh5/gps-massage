@@ -3813,17 +3813,6 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
-                                      children: [
-                                        Text(
-                                          '予約状況の情報！',
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontFamily: 'NotoSansJP',
-                                              fontWeight: FontWeight.bold),
-                                        )
-                                      ],
-                                    ),
-                                    Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
@@ -3846,7 +3835,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                           child: Column(
                                             children: [
                                               Text(
-                                                '予約状況はありません。',
+                                                '予約状況の情報はありません。',
                                                 style: TextStyle(
                                                     fontSize: 16,
                                                     fontFamily: 'NotoSansJP',
