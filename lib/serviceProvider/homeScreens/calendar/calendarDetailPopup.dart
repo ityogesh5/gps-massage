@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:googleapis/calendar/v3.dart' as Calendar;
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:googleapis/calendar/v3.dart' as Calendar;
 
 class ProviderCalendarDetailPopup {
   static void showBookingDetail(BuildContext context, Calendar.Event event,
@@ -209,16 +209,15 @@ class ProviderCalendarDetailPopup {
                     SizedBox(
                       height: 8,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
                             child: Text(
                               '${locSplit[0]} ',
                               style: TextStyle(
@@ -227,18 +226,26 @@ class ProviderCalendarDetailPopup {
                               ),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          width: 2,
-                        ),
-                        Text(
-                          '${locSplit[1]} ',
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            color: Color.fromRGBO(102, 102, 102, 1),
+                          SizedBox(
+                            width: 2,
                           ),
-                        ),
-                      ],
+                          FittedBox(
+                            child: Row(
+                              children: [
+                                Text(
+                                  '${locSplit[1]} ',
+                                  maxLines: 2,
+                                  overflow: TextOverflow.clip,
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                    color: Color.fromRGBO(102, 102, 102, 1),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(
                       height: 8,

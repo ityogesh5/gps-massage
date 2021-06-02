@@ -21,6 +21,7 @@ import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityH
 import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
 import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
 import 'package:gps_massageapp/customLibraryClasses/customPainterHeart/CustomHeartPainter.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingStatus.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/RecommendTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
@@ -32,10 +33,9 @@ import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/Reposit
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_bloc.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_state.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingStatus.dart';
-import 'package:intl/intl.dart';
 
 List<String> userBannerImages = [];
 List<String> _options = ['エステ', 'リラクゼーション', '整骨・整体', 'フィットネス'];
@@ -2107,8 +2107,8 @@ class _ReservationListState extends State<ReservationList> {
       ShowToolTip popup = ShowToolTip(context,
           text: text,
           textStyle: TextStyle(color: Colors.black),
-          height: 180,
-          width: 180,
+          height: 150,
+          width: 190,
           backgroundColor: Colors.white,
           padding: EdgeInsets.all(8.0),
           borderRadius: BorderRadius.circular(10.0));
@@ -2274,6 +2274,7 @@ class _ReservationListState extends State<ReservationList> {
                                     ),
                                   ),
                                   Spacer(),
+                                  // ignore: unrelated_type_equality_checks
                                   bookingDetailsList[0].bookingTherapistId == 0
                                       ? Row(
                                           children: [
@@ -2409,60 +2410,64 @@ class _ReservationListState extends State<ReservationList> {
                         ),
                       ],
                     ),
-                    Row(
-                      children: [
-                        SvgPicture.asset('assets/images_gps/gps.svg',
-                            color: Color.fromRGBO(0, 0, 0, 1),
-                            height: 20,
-                            width: 20),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          '施術を受ける場所',
-                          style: TextStyle(
+                    FittedBox(
+                      child: Row(
+                        children: [
+                          SvgPicture.asset('assets/images_gps/gps.svg',
                               color: Color.fromRGBO(0, 0, 0, 1),
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                              height: 20,
+                              width: 20),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            '施術を受ける場所',
+                            style: TextStyle(
+                                color: Color.fromRGBO(0, 0, 0, 1),
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(
                       height: 7,
                     ),
-                    Row(
-                      children: [
-                        Container(
-                            decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                    colors: [
-                                      Color.fromRGBO(255, 255, 255, 1),
-                                      Color.fromRGBO(255, 255, 255, 1),
-                                    ]),
-                                shape: BoxShape.rectangle,
-                                border: Border.all(
-                                  color: Colors.grey[300],
+                    FittedBox(
+                      child: Row(
+                        children: [
+                          Container(
+                              decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [
+                                        Color.fromRGBO(255, 255, 255, 1),
+                                        Color.fromRGBO(255, 255, 255, 1),
+                                      ]),
+                                  shape: BoxShape.rectangle,
+                                  border: Border.all(
+                                    color: Colors.grey[300],
+                                  ),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  color: Colors.grey[200]),
+                              padding: EdgeInsets.all(4),
+                              child: Text(
+                                '${bookingDetailsList[0].locationType}',
+                                style: TextStyle(
+                                  color: Color.fromRGBO(0, 0, 0, 1),
                                 ),
-                                borderRadius: BorderRadius.circular(5.0),
-                                color: Colors.grey[200]),
-                            padding: EdgeInsets.all(4),
-                            child: Text(
-                              '${bookingDetailsList[0].locationType}',
-                              style: TextStyle(
-                                color: Color.fromRGBO(0, 0, 0, 1),
-                              ),
-                            )),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          '${bookingDetailsList[0].location}',
-                          style: TextStyle(
-                            color: Color.fromRGBO(102, 102, 102, 1),
+                              )),
+                          SizedBox(
+                            width: 5,
                           ),
-                        ),
-                      ],
+                          Text(
+                            '${bookingDetailsList[0].location}',
+                            style: TextStyle(
+                              color: Color.fromRGBO(102, 102, 102, 1),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 )),

@@ -2254,6 +2254,8 @@ class _RegisterUserState extends State<RegisterUser> {
                 'capitalAndPrefecture', userAddressData.capitalAndPrefecture);
 
             value.setBool('isUserRegister', true);
+            HealingMatchConstants.isUserRegistrationSkipped = false;
+            value.setBool('isGuest',false);
           }
         });
 
@@ -2276,8 +2278,6 @@ class _RegisterUserState extends State<RegisterUser> {
                 value, context, serviceUserDetails.data.id);
           }
         });
-
-        HealingMatchConstants.isUserRegistrationSkipped = false;
 
         ProgressDialogBuilder.hideLoader(context);
         NavigationRouter.switchToUserOtpScreen(context);
@@ -2463,6 +2463,7 @@ class _RegisterUserState extends State<RegisterUser> {
         if (guestUserResponse != null) {
           _sharedPreferences.then((value) {
             value.setString('accessToken', guestUserResponse.accessToken);
+            value.setBool('isGuest',true);
           });
           ProgressDialogBuilder.hideLoader(context);
           NavigationRouter.switchToServiceUserBottomBar(context);
