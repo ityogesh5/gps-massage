@@ -1,24 +1,23 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
-import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
-import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingStatus.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
-import 'package:intl/intl.dart';
-
 import 'package:gps_massageapp/commonScreens/chat/chat_item_screen.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/chat.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/db.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/chatData.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/user.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
+import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
+import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingStatus.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
+import 'package:intl/intl.dart';
 
 class ReservationStatus extends StatefulWidget {
   @override
@@ -432,7 +431,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                           waitingForApprovalList.length != 0
                               ? Container(
                                   // height: MediaQuery.of(context).size.height * 0.37,
-                                  height: 255,
+                                  height: 260,
                                   width:
                                       MediaQuery.of(context).size.width * 0.95,
                                   child: ListView.builder(
@@ -623,11 +622,19 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                           ),
                                                                           Spacer(),
                                                                           FavoriteButton(
-                                                                              isFavorite: waitingForApprovalList[index].favouriteToTherapist == 1 ? true : false,
+                                                                              isFavorite: waitingForApprovalList[index].favouriteToTherapist == 1,
                                                                               iconSize: 40,
                                                                               iconColor: Colors.red,
                                                                               valueChanged: (_isFavorite) {
                                                                                 print('Is Favorite : $_isFavorite');
+                                                                                print('Is Favorite : $_isFavorite');
+                                                                                if (_isFavorite != null && _isFavorite) {
+                                                                                  // call favorite therapist API
+                                                                                  ServiceUserAPIProvider.favouriteTherapist(waitingForApprovalList[index].id);
+                                                                                } else {
+                                                                                  // call un-favorite therapist API
+                                                                                  ServiceUserAPIProvider.unFavouriteTherapist(waitingForApprovalList[index].id);
+                                                                                }
                                                                               }),
                                                                         ],
                                                                       ),
@@ -771,7 +778,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                           ? Container(
                                                                               height: 38.0,
                                                                               padding: EdgeInsets.only(top: 5.0),
-                                                                              width: MediaQuery.of(context).size.width - 130.0, //200.0,
+                                                                              width: MediaQuery.of(context).size.width - 130.0,
+                                                                              //200.0,
                                                                               child: ListView.builder(
                                                                                   shrinkWrap: true,
                                                                                   scrollDirection: Axis.horizontal,
@@ -787,7 +795,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                                               padding: EdgeInsets.all(5),
                                                                                               decoration: boxDecoration,
                                                                                               child: Text(
-                                                                                                key, //Qualififcation
+                                                                                                key,
+                                                                                                //Qualififcation
                                                                                                 style: TextStyle(
                                                                                                   fontSize: 14,
                                                                                                   color: Colors.black,
@@ -855,54 +864,58 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                           SizedBox(
                                                             height: 10,
                                                           ),
-                                                          Row(
-                                                            children: [
-                                                              FittedBox(
-                                                                child: Container(
-                                                                    padding: EdgeInsets.all(4),
-                                                                    decoration: BoxDecoration(
-                                                                        gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
-                                                                          Colors
-                                                                              .white,
-                                                                          Colors
-                                                                              .white,
-                                                                        ]),
-                                                                        shape: BoxShape.rectangle,
-                                                                        border: Border.all(
-                                                                          color:
-                                                                              Colors.grey[300],
+                                                          Expanded(
+                                                            child: Row(
+                                                              children: [
+                                                                FittedBox(
+                                                                  child: Container(
+                                                                      padding: EdgeInsets.all(4),
+                                                                      decoration: BoxDecoration(
+                                                                          gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                                                                            Colors.white,
+                                                                            Colors.white,
+                                                                          ]),
+                                                                          shape: BoxShape.rectangle,
+                                                                          border: Border.all(
+                                                                            color:
+                                                                                Colors.grey[300],
+                                                                          ),
+                                                                          borderRadius: BorderRadius.circular(5.0),
+                                                                          color: Colors.grey[200]),
+                                                                      child: Text(
+                                                                        '${waitingForApprovalList[index].locationType}',
+                                                                        style:
+                                                                            TextStyle(
+                                                                          color: Color.fromRGBO(
+                                                                              0,
+                                                                              0,
+                                                                              0,
+                                                                              1),
                                                                         ),
-                                                                        borderRadius: BorderRadius.circular(5.0),
-                                                                        color: Colors.grey[200]),
-                                                                    child: Text(
-                                                                      '${waitingForApprovalList[index].locationType}',
-                                                                      style:
-                                                                          TextStyle(
-                                                                        color: Color.fromRGBO(
-                                                                            0,
-                                                                            0,
-                                                                            0,
-                                                                            1),
-                                                                      ),
-                                                                    )),
-                                                              ),
-                                                              SizedBox(
-                                                                width: 5,
-                                                              ),
-                                                              FittedBox(
-                                                                  child: Text(
-                                                                '${waitingForApprovalList[index].location}',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Color
-                                                                      .fromRGBO(
-                                                                          152,
-                                                                          152,
-                                                                          152,
-                                                                          1),
+                                                                      )),
                                                                 ),
-                                                              )),
-                                                            ],
+                                                                SizedBox(
+                                                                  width: 5,
+                                                                ),
+                                                                FittedBox(
+                                                                    child: Text(
+                                                                  '${waitingForApprovalList[index].location}',
+                                                                  maxLines: 2,
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .clip,
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Color
+                                                                        .fromRGBO(
+                                                                            152,
+                                                                            152,
+                                                                            152,
+                                                                            1),
+                                                                  ),
+                                                                )),
+                                                              ],
+                                                            ),
                                                           ),
                                                           SizedBox(
                                                             height: 10,
@@ -1222,15 +1235,21 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         ),
                                                                         Spacer(),
                                                                         FavoriteButton(
-                                                                            isFavorite: approvedWithConditionsList[index].favouriteToTherapist == 1
-                                                                                ? true
-                                                                                : false,
+                                                                            isFavorite: approvedWithConditionsList[index].favouriteToTherapist ==
+                                                                                1,
                                                                             iconSize:
                                                                                 40,
                                                                             iconColor:
                                                                                 Colors.red,
                                                                             valueChanged: (_isFavorite) {
                                                                               print('Is Favorite : $_isFavorite');
+                                                                              if (_isFavorite != null && _isFavorite) {
+                                                                                // call favorite therapist API
+                                                                                ServiceUserAPIProvider.favouriteTherapist(approvedWithConditionsList[index].id);
+                                                                              } else {
+                                                                                // call un-favorite therapist API
+                                                                                ServiceUserAPIProvider.unFavouriteTherapist(approvedWithConditionsList[index].id);
+                                                                              }
                                                                             }),
                                                                       ],
                                                                     ),
@@ -1397,7 +1416,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                             padding:
                                                                                 EdgeInsets.only(top: 5.0),
                                                                             width:
-                                                                                MediaQuery.of(context).size.width - 130.0, //200.0,
+                                                                                MediaQuery.of(context).size.width - 130.0,
+                                                                            //200.0,
                                                                             child: ListView.builder(
                                                                                 shrinkWrap: true,
                                                                                 scrollDirection: Axis.horizontal,
@@ -1413,7 +1433,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                                             padding: EdgeInsets.all(5),
                                                                                             decoration: boxDecoration,
                                                                                             child: Text(
-                                                                                              key, //Qualififcation
+                                                                                              key,
+                                                                                              //Qualififcation
                                                                                               style: TextStyle(
                                                                                                 fontSize: 14,
                                                                                                 color: Colors.black,
@@ -1864,15 +1885,22 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         ),
                                                                         Spacer(),
                                                                         FavoriteButton(
-                                                                            isFavorite: approvedList[index].favouriteToTherapist == 1
-                                                                                ? true
-                                                                                : false,
+                                                                            isFavorite: approvedList[index].favouriteToTherapist ==
+                                                                                1,
                                                                             iconSize:
                                                                                 40,
                                                                             iconColor:
                                                                                 Colors.red,
                                                                             valueChanged: (_isFavorite) {
                                                                               print('Is Favorite : $_isFavorite');
+                                                                              print('Is Favorite : $_isFavorite');
+                                                                              if (_isFavorite != null && _isFavorite) {
+                                                                                // call favorite therapist API
+                                                                                ServiceUserAPIProvider.favouriteTherapist(approvedList[index].id);
+                                                                              } else {
+                                                                                // call un-favorite therapist API
+                                                                                ServiceUserAPIProvider.unFavouriteTherapist(approvedList[index].id);
+                                                                              }
                                                                             }),
                                                                       ],
                                                                     ),
@@ -2041,7 +2069,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                             padding:
                                                                                 EdgeInsets.only(top: 5.0),
                                                                             width:
-                                                                                MediaQuery.of(context).size.width - 130.0, //200.0,
+                                                                                MediaQuery.of(context).size.width - 130.0,
+                                                                            //200.0,
                                                                             child: ListView.builder(
                                                                                 shrinkWrap: true,
                                                                                 scrollDirection: Axis.horizontal,
@@ -2057,7 +2086,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                                             padding: EdgeInsets.all(5),
                                                                                             decoration: boxDecoration,
                                                                                             child: Text(
-                                                                                              key, //Qualififcation
+                                                                                              key,
+                                                                                              //Qualififcation
                                                                                               style: TextStyle(
                                                                                                 fontSize: 14,
                                                                                                 color: Colors.black,
@@ -2603,10 +2633,9 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                     ),
                                                                     Spacer(),
                                                                     FavoriteButton(
-                                                                        isFavorite: confirmedPaymentList[index].favouriteToTherapist ==
-                                                                                1
-                                                                            ? true
-                                                                            : false,
+                                                                        isFavorite:
+                                                                            confirmedPaymentList[index].favouriteToTherapist ==
+                                                                                1,
                                                                         iconSize:
                                                                             40,
                                                                         iconColor:
@@ -2616,6 +2645,16 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                             (_isFavorite) {
                                                                           print(
                                                                               'Is Favorite : $_isFavorite');
+                                                                          print(
+                                                                              'Is Favorite : $_isFavorite');
+                                                                          if (_isFavorite != null &&
+                                                                              _isFavorite) {
+                                                                            // call favorite therapist API
+                                                                            ServiceUserAPIProvider.favouriteTherapist(confirmedPaymentList[index].id);
+                                                                          } else {
+                                                                            // call un-favorite therapist API
+                                                                            ServiceUserAPIProvider.unFavouriteTherapist(confirmedPaymentList[index].id);
+                                                                          }
                                                                         }),
                                                                   ],
                                                                 ),
@@ -2828,7 +2867,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                                         padding: EdgeInsets.all(5),
                                                                                         decoration: boxDecoration,
                                                                                         child: Text(
-                                                                                          key, //Qualififcation
+                                                                                          key,
+                                                                                          //Qualififcation
                                                                                           style: TextStyle(
                                                                                             fontSize: 14,
                                                                                             color: Colors.black,
@@ -3350,6 +3390,16 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                             (_isFavorite) {
                                                                           print(
                                                                               'Is Favorite : $_isFavorite');
+                                                                          print(
+                                                                              'Is Favorite : $_isFavorite');
+                                                                          if (_isFavorite != null &&
+                                                                              _isFavorite) {
+                                                                            // call favorite therapist API
+                                                                            ServiceUserAPIProvider.favouriteTherapist(canceledReservationList[index].id);
+                                                                          } else {
+                                                                            // call un-favorite therapist API
+                                                                            ServiceUserAPIProvider.unFavouriteTherapist(canceledReservationList[index].id);
+                                                                          }
                                                                         }),
                                                                   ],
                                                                 ),
@@ -3557,7 +3607,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                                         padding: EdgeInsets.all(5),
                                                                                         decoration: boxDecoration,
                                                                                         child: Text(
-                                                                                          key, //Qualififcation
+                                                                                          key,
+                                                                                          //Qualififcation
                                                                                           style: TextStyle(
                                                                                             fontSize: 14,
                                                                                             color: Colors.black,

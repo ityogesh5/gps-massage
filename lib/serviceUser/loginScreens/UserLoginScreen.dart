@@ -531,6 +531,8 @@ class _UserLoginState extends State<UserLogin> {
             value.setBool('isUserLoggedIn', true);
             value.setBool('userLoginSkipped', false);
             value.setBool('isProviderLoggedIn', false);
+            HealingMatchConstants.isUserRegistrationSkipped = false;
+            value.setBool('isGuest', false);
 
             print(
                 'Address place : ${userAddressData.userPlaceForMassage} : ${userAddressData.otherAddressType}');
@@ -549,7 +551,6 @@ class _UserLoginState extends State<UserLogin> {
           print(loginResponseModel.data.userOccupation);
         });
         print('Is User verified : ${loginResponseModel.data.isVerified}');
-        HealingMatchConstants.isUserRegistrationSkipped = false;
         if (loginResponseModel.data.isVerified) {
           firebaseChatLogin(loginResponseModel.data, password);
         } else {
@@ -638,6 +639,7 @@ class _UserLoginState extends State<UserLogin> {
         if (guestUserResponse != null) {
           _sharedPreferences.then((value) {
             value.setString('accessToken', guestUserResponse.accessToken);
+            value.setBool('isGuest', true);
           });
           ProgressDialogBuilder.hideLoader(context);
           NavigationRouter.switchToServiceUserBottomBar(context);
