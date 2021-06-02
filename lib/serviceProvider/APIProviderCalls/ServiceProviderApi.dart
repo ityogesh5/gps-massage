@@ -299,13 +299,13 @@ class ServiceProviderApi {
     if (isDateChanged) {
       EventDateTime start = new EventDateTime();
       start.dateTime =
-          DateTime.parse(bookingDetailsList.newStartTime).toLocal();
+        bookingDetailsList.newStartTime;
       start.timeZone = "GMT+05:30";
       event.start = start;
 
       EventDateTime end = new EventDateTime();
       end.timeZone = "GMT+05:30";
-      end.dateTime = DateTime.parse(bookingDetailsList.newEndTime).toLocal();
+      end.dateTime = bookingDetailsList.newEndTime;
       event.end = end;
     } else {
       EventDateTime start = new EventDateTime();

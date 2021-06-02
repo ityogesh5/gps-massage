@@ -513,7 +513,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                                           false,
                                           widget.bookingDetail)
                                       .then((value) {
-                                    if (value) {
+                                //    if (value) {
                                       ServiceProviderApi.updateStatusUpdate(
                                               widget.bookingDetail,
                                               false,
@@ -528,7 +528,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                                                   context);
                                         }
                                       });
-                                    }
+                                  //  }
                                   });
                                 },
                                 child: Container(
@@ -961,17 +961,17 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                       suggestAnotherTime,
                       widget.bookingDetail)
                   .then((value) {
-                if (value) {
-                  ServiceProviderApi.updateStatusUpdate(widget.bookingDetail,
-                          proposeAdditionalCosts, suggestAnotherTime, onCancel)
-                      .then((value) {
-                    if (value) {
-                      addFirebaseContacts();
-                    } else {
-                      ProgressDialogBuilder.hideCommonProgressDialog(context);
-                    }
-                  });
-                }
+                /*   if (value) { */
+                ServiceProviderApi.updateStatusUpdate(widget.bookingDetail,
+                        proposeAdditionalCosts, suggestAnotherTime, onCancel)
+                    .then((value) {
+                  if (value) {
+                    addFirebaseContacts();
+                  } else {
+                    ProgressDialogBuilder.hideCommonProgressDialog(context);
+                  }
+                });
+                /* } */
               });
             },
             //   minWidth: MediaQuery.of(context).size.width * 0.38,
