@@ -630,10 +630,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                                 print('Is Favorite : $_isFavorite');
                                                                                 if (_isFavorite != null && _isFavorite) {
                                                                                   // call favorite therapist API
-                                                                                  ServiceUserAPIProvider.favouriteTherapist(waitingForApprovalList[index].id);
+                                                                                  ServiceUserAPIProvider.favouriteTherapist(waitingForApprovalList[index].therapistId);
                                                                                 } else {
                                                                                   // call un-favorite therapist API
-                                                                                  ServiceUserAPIProvider.unFavouriteTherapist(waitingForApprovalList[index].id);
+                                                                                  ServiceUserAPIProvider.unFavouriteTherapist(waitingForApprovalList[index].therapistId);
                                                                                 }
                                                                               }),
                                                                         ],
@@ -1249,10 +1249,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                               print('Is Favorite : $_isFavorite');
                                                                               if (_isFavorite != null && _isFavorite) {
                                                                                 // call favorite therapist API
-                                                                                ServiceUserAPIProvider.favouriteTherapist(approvedWithConditionsList[index].id);
+                                                                                ServiceUserAPIProvider.favouriteTherapist(approvedWithConditionsList[index].therapistId);
                                                                               } else {
                                                                                 // call un-favorite therapist API
-                                                                                ServiceUserAPIProvider.unFavouriteTherapist(approvedWithConditionsList[index].id);
+                                                                                ServiceUserAPIProvider.unFavouriteTherapist(approvedWithConditionsList[index].therapistId);
                                                                               }
                                                                             }),
                                                                       ],
@@ -1900,10 +1900,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                               print('Is Favorite : $_isFavorite');
                                                                               if (_isFavorite != null && _isFavorite) {
                                                                                 // call favorite therapist API
-                                                                                ServiceUserAPIProvider.favouriteTherapist(approvedList[index].id);
+                                                                                ServiceUserAPIProvider.favouriteTherapist(approvedList[index].therapistId);
                                                                               } else {
                                                                                 // call un-favorite therapist API
-                                                                                ServiceUserAPIProvider.unFavouriteTherapist(approvedList[index].id);
+                                                                                ServiceUserAPIProvider.unFavouriteTherapist(approvedList[index].therapistId);
                                                                               }
                                                                             }),
                                                                       ],
@@ -2660,10 +2660,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                           if (_isFavorite != null &&
                                                                               _isFavorite) {
                                                                             // call favorite therapist API
-                                                                            ServiceUserAPIProvider.favouriteTherapist(confirmedPaymentList[index].id);
+                                                                            ServiceUserAPIProvider.favouriteTherapist(confirmedPaymentList[index].therapistId);
                                                                           } else {
                                                                             // call un-favorite therapist API
-                                                                            ServiceUserAPIProvider.unFavouriteTherapist(confirmedPaymentList[index].id);
+                                                                            ServiceUserAPIProvider.unFavouriteTherapist(confirmedPaymentList[index].therapistId);
                                                                           }
                                                                         }),
                                                                   ],
@@ -3413,10 +3413,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                           if (_isFavorite != null &&
                                                                               _isFavorite) {
                                                                             // call favorite therapist API
-                                                                            ServiceUserAPIProvider.favouriteTherapist(CanceledReservationList[index].id);
+                                                                            ServiceUserAPIProvider.favouriteTherapist(CanceledReservationList[index].therapistId);
                                                                           } else {
                                                                             // call un-favorite therapist API
-                                                                            ServiceUserAPIProvider.unFavouriteTherapist(CanceledReservationList[index].id);
+                                                                            ServiceUserAPIProvider.unFavouriteTherapist(CanceledReservationList[index].therapistId);
                                                                           }
                                                                         }),
                                                                   ],

@@ -480,11 +480,11 @@ class _PastReservationsState extends State<PastReservations> {
                                                                           _isFavorite) {
                                                                         // call favorite therapist API
                                                                         ServiceUserAPIProvider.favouriteTherapist(
-                                                                            bookingDetailsList[index].id);
+                                                                            bookingDetailsList[index].therapistId);
                                                                       } else {
                                                                         // call un-favorite therapist API
                                                                         ServiceUserAPIProvider.unFavouriteTherapist(
-                                                                            bookingDetailsList[index].id);
+                                                                            bookingDetailsList[index].therapistId);
                                                                       }
                                                                     }),
                                                               ],
