@@ -69,7 +69,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
       if (this.mounted) {
         setState(() {
           bookingDetailsList = value.bookingDetailsList;
-          print('bookingDetails:${bookingDetailsList}');
+          print('bookingDetails:${bookingDetailsList.length}');
           status = 1;
           getStatusValue();
         });

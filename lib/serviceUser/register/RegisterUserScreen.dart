@@ -720,6 +720,22 @@ class _RegisterUserState extends State<RegisterUser> {
                         autofocus: false,
                         keyboardType:
                             TextInputType.numberWithOptions(signed: true),
+                        onEditingComplete: () {
+                          var phnNum = phoneNumberController.text.toString();
+                          var userPhoneNumber =
+                              phnNum.replaceFirst(RegExp(r'^0+'), "");
+                          print('Phone number after edit : $userPhoneNumber');
+                          phoneNumberController.text = userPhoneNumber;
+                          FocusScope.of(context).requestFocus(FocusNode());
+                        },
+                        onSubmitted: (userPhoneNumber) {
+                          var phnNum = phoneNumberController.text.toString();
+                          var userPhoneNumber =
+                              phnNum.replaceFirst(RegExp(r'^0+'), "");
+                          print('Phone number after submit : $userPhoneNumber');
+                          phoneNumberController.text = userPhoneNumber;
+                          FocusScope.of(context).requestFocus(FocusNode());
+                        },
                         decoration: new InputDecoration(
                           counterText: '',
                           filled: true,
@@ -1452,7 +1468,7 @@ class _RegisterUserState extends State<RegisterUser> {
     var userName = userNameController.text.trim();
     var email = emailController.text.trim();
     var phnNum = phoneNumberController.text.trim();
-    var userPhoneNumber = phoneNumberController.text.trim();
+    var userPhoneNumber = phnNum.replaceFirst(RegExp(r'^0+'), "");
     print('phnNumber: $userPhoneNumber');
     HealingMatchConstants.serviceUserPhoneNumber = userPhoneNumber;
     var password = passwordController.text.toString().trim();
@@ -2194,7 +2210,6 @@ class _RegisterUserState extends State<RegisterUser> {
         _sharedPreferences.then((value) {
           value.clear();
           value.setString('accessToken', serviceUserDetails.accessToken);
-          HealingMatchConstants.accessToken = serviceUserDetails.accessToken;
 
           value.setString('did', serviceUserDetails.data.id.toString());
 
@@ -2265,9 +2280,14 @@ class _RegisterUserState extends State<RegisterUser> {
                 value, context, serviceUserDetails.data.id);
           } else {
             ProgressDialogBuilder.hideLoader(context);
-            return;
           }
+        }).catchError((error) {
+          print('Exception caught while firebase : ${error.toString()}');
+          ProgressDialogBuilder.hideLoader(context);
         });
+
+        ProgressDialogBuilder.hideLoader(context);
+        NavigationRouter.switchToUserOtpScreen(context);
       } else {
         ProgressDialogBuilder.hideLoader(context);
         print('Response error occured!');

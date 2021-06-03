@@ -23,7 +23,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 List<AddUserSearchAddress> otherUserAddress = new List<AddUserSearchAddress>();
-int _addressType = 0;
 
 class SearchScreenUser extends StatefulWidget {
   @override
@@ -34,7 +33,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   final Geolocator geoLocator = Geolocator()..forceAndroidLocationManager;
   Placemark userAddedAddressPlaceMark;
   int _value = 0;
-  int addressTypeValues = 0;
+
   var _pageNumber = 1;
   var _pageSize = 10;
   bool _isVisible = true;
@@ -76,6 +75,11 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   Position _currentPosition;
   String address;
   var gpsColor = 0;
+  clearSearchContents() {
+    HealingMatchConstants.searchUserAddress = null;
+    HealingMatchConstants.serviceType = null;
+    HealingMatchConstants.addressTypeValues = 0;
+  }
 
   void initState() {
     super.initState();
@@ -93,6 +97,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
     setState(() {
       print(daysToDisplay);
     });
+    clearSearchContents();
   }
 
   @override
@@ -365,7 +370,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                               boxShadow: [
                                                 BoxShadow(
                                                   offset: Offset.zero,
-                                                  color: _addressType == 1 &&
+                                                  color: HealingMatchConstants
+                                                                  .addressTypeValues ==
+                                                              1 &&
                                                           HealingMatchConstants
                                                                   .searchUserAddress !=
                                                               null
@@ -383,8 +390,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                               InkWell(
                                                 onTap: () {
                                                   setState(() {
-                                                    addressTypeValues = 1;
-                                                    _addressType = 1;
+                                                    HealingMatchConstants
+                                                        .addressTypeValues = 1;
                                                     HealingMatchConstants
                                                             .bookingAddressId =
                                                         constantUserAddressValuesList[
@@ -449,7 +456,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                               boxShadow: [
                                                 BoxShadow(
                                                   offset: Offset.zero,
-                                                  color: _addressType == 2 &&
+                                                  color: HealingMatchConstants
+                                                                  .addressTypeValues ==
+                                                              2 &&
                                                           HealingMatchConstants
                                                                   .searchUserAddress !=
                                                               null
@@ -467,8 +476,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                               InkWell(
                                                 onTap: () {
                                                   setState(() {
-                                                    addressTypeValues = 2;
-                                                    _addressType = 2;
+                                                    HealingMatchConstants
+                                                        .addressTypeValues = 2;
                                                     HealingMatchConstants
                                                             .bookingAddressId =
                                                         constantUserAddressValuesList[
@@ -533,7 +542,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                               boxShadow: [
                                                 BoxShadow(
                                                   offset: Offset.zero,
-                                                  color: _addressType == 3 &&
+                                                  color: HealingMatchConstants
+                                                                  .addressTypeValues ==
+                                                              3 &&
                                                           HealingMatchConstants
                                                                   .searchUserAddress !=
                                                               null
@@ -551,8 +562,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                               InkWell(
                                                 onTap: () {
                                                   setState(() {
-                                                    addressTypeValues = 3;
-                                                    _addressType = 3;
+                                                    HealingMatchConstants
+                                                        .addressTypeValues = 3;
                                                     HealingMatchConstants
                                                             .bookingAddressId =
                                                         constantUserAddressValuesList[
@@ -617,7 +628,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                               boxShadow: [
                                                 BoxShadow(
                                                   offset: Offset.zero,
-                                                  color: _addressType == 4 &&
+                                                  color: HealingMatchConstants
+                                                                  .addressTypeValues ==
+                                                              4 &&
                                                           HealingMatchConstants
                                                                   .searchUserAddress !=
                                                               null
@@ -635,8 +648,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                               InkWell(
                                                 onTap: () {
                                                   setState(() {
-                                                    addressTypeValues = 4;
-                                                    _addressType = 4;
+                                                    HealingMatchConstants
+                                                        .addressTypeValues = 4;
                                                     HealingMatchConstants
                                                             .bookingAddressId =
                                                         constantUserAddressValuesList[
@@ -1821,30 +1834,30 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   getAddressType() {
     if (HealingMatchConstants.isLocationCriteria == true) {
       setState(() {
-        addressTypeValues = 0;
+        HealingMatchConstants.addressTypeValues = 0;
       });
     }
-    if (addressTypeValues == 0) {
+    if (HealingMatchConstants.addressTypeValues == 0) {
       setState(() {
         HealingMatchConstants.searchUserAddressType = '店舗';
       });
     }
-    if (addressTypeValues == 1) {
+    if (HealingMatchConstants.addressTypeValues == 1) {
       setState(() {
         HealingMatchConstants.searchUserAddressType = '自宅';
       });
     }
-    if (addressTypeValues == 2) {
+    if (HealingMatchConstants.addressTypeValues == 2) {
       setState(() {
         HealingMatchConstants.searchUserAddressType = 'オフィス';
       });
     }
-    if (addressTypeValues == 3) {
+    if (HealingMatchConstants.addressTypeValues == 3) {
       setState(() {
         HealingMatchConstants.searchUserAddressType = '実家';
       });
     }
-    if (addressTypeValues == 4) {
+    if (HealingMatchConstants.addressTypeValues == 4) {
       setState(() {
         HealingMatchConstants.searchUserAddressType = 'その他';
       });

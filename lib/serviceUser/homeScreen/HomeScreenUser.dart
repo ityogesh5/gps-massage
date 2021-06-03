@@ -2276,7 +2276,7 @@ class _ReservationListState extends State<ReservationList> {
                                   ),
                                   Spacer(),
                                   // ignore: unrelated_type_equality_checks
-                                  bookingDetailsList[0].bookingTherapistId == 0
+                                  bookingDetailsList[0].bookingStatus == 0
                                       ? Row(
                                           children: [
                                             SvgPicture.asset(
@@ -2464,6 +2464,9 @@ class _ReservationListState extends State<ReservationList> {
                           ),
                           Text(
                             '${bookingDetailsList[0].location}',
+                            maxLines: bookingDetailsList[0].location.length > 25
+                                ? 2
+                                : 1,
                             style: TextStyle(
                               color: Color.fromRGBO(102, 102, 102, 1),
                             ),

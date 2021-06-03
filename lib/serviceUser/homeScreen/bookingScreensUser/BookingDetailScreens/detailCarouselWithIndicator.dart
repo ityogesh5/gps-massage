@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/customFavoriteButton/CustomHeartFavorite.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
@@ -28,6 +29,12 @@ class _DetailCarouselWithIndicatorState
     // TODO: implement initState
     super.initState();
     getBanners();
+  }
+
+  clearSearchContents() {
+    HealingMatchConstants.searchUserAddress = null;
+    HealingMatchConstants.serviceType = null;
+    HealingMatchConstants.addressTypeValues = 0;
   }
 
   getBanners() {
@@ -125,6 +132,7 @@ class _DetailCarouselWithIndicatorState
                 ),
                 onPressed: () {
                   Navigator.pop(context);
+                  clearSearchContents();
                 },
               ),
             ),
