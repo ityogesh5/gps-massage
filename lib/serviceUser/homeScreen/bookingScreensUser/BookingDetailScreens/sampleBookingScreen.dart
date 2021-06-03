@@ -57,7 +57,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      DetailCarouselWithIndicator(bannerImages),
+                      DetailCarouselWithIndicator(therapistDetails, widget.id),
                       DetailProfileDetails(therapistDetails),
                       therapistDetails.bookingDataResponse.length != 0 &&
                               (therapistDetails.bookingDataResponse[0]

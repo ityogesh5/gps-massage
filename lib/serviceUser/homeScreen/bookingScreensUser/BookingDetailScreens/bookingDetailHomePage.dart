@@ -152,7 +152,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    DetailCarouselWithIndicator(bannerImages),
+                    DetailCarouselWithIndicator(therapistDetails, widget.id),
                     DetailPeofileDetailsHome(therapistDetails, widget.id),
                     Padding(
                       padding: const EdgeInsets.only(

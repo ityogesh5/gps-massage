@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/customFavoriteButton/CustomHeartFavorite.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
+import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 
 class DetailCarouselWithIndicator extends StatefulWidget {
-  List<String> bannerImages = List<String>();
-  DetailCarouselWithIndicator(this.bannerImages);
+  final TherapistByIdModel therapistDetails;
+  final int id;
+  DetailCarouselWithIndicator(this.therapistDetails, this.id);
   @override
   _DetailCarouselWithIndicatorState createState() =>
       _DetailCarouselWithIndicatorState();
@@ -15,9 +18,38 @@ class DetailCarouselWithIndicator extends StatefulWidget {
 
 class _DetailCarouselWithIndicatorState
     extends State<DetailCarouselWithIndicator> {
+  List<String> bannerImages = List<String>();
   int _currentIndex = 0;
   String defaultBannerUrl =
       'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80';
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getBanners();
+  }
+
+  getBanners() {
+    if (widget.therapistDetails.data.banners[0].bannerImageUrl1 != null) {
+      bannerImages.add(widget.therapistDetails.data.banners[0].bannerImageUrl1);
+    }
+    if (widget.therapistDetails.data.banners[0].bannerImageUrl2 != null) {
+      bannerImages.add(widget.therapistDetails.data.banners[0].bannerImageUrl2);
+    }
+    if (widget.therapistDetails.data.banners[0].bannerImageUrl3 != null) {
+      bannerImages.add(widget.therapistDetails.data.banners[0].bannerImageUrl3);
+    }
+    if (widget.therapistDetails.data.banners[0].bannerImageUrl4 != null) {
+      bannerImages.add(widget.therapistDetails.data.banners[0].bannerImageUrl4);
+    }
+    if (widget.therapistDetails.data.banners[0].bannerImageUrl5 != null) {
+      bannerImages.add(widget.therapistDetails.data.banners[0].bannerImageUrl5);
+    }
+    if (bannerImages.length == 0) {
+      bannerImages.add(defaultBannerUrl);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +61,7 @@ class _DetailCarouselWithIndicatorState
           child: Column(children: [
             CarouselSlider(
               items: <Widget>[
-                for (int i = 0; i < widget.bannerImages.length; i++)
+                for (int i = 0; i < bannerImages.length; i++)
                   Container(
                     child: Container(
                       child: ClipRRect(
@@ -45,7 +77,7 @@ class _DetailCarouselWithIndicatorState
                               CachedNetworkImage(
                                   width: 2000.0,
                                   fit: BoxFit.cover,
-                                  imageUrl: widget.bannerImages[i],
+                                  imageUrl: bannerImages[i].toString(),
                                   placeholder: (context, url) => SpinKitWave(
                                       color: Colors.lightBlueAccent),
                                   errorWidget: (context, url, error) {
@@ -105,10 +137,21 @@ class _DetailCarouselWithIndicatorState
                   maxRadius: 18,
                   backgroundColor: Colors.white,
                   child: CustomFavoriteButton(
+                      isFavorite: widget.therapistDetails.favouriteDataResponse
+                              .favouriteToTherapist ==
+                          1,
                       iconSize: 40,
                       iconColor: Colors.red,
                       valueChanged: (_isFavorite) {
                         print('Is Favorite : $_isFavorite');
+                        if (_isFavorite != null && _isFavorite) {
+                          // call favorite therapist API
+                          ServiceUserAPIProvider.favouriteTherapist(widget.id);
+                        } else {
+                          // call un-favorite therapist API
+                          ServiceUserAPIProvider.unFavouriteTherapist(
+                              widget.id);
+                        }
                       }),
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.01),
@@ -136,8 +179,8 @@ class _DetailCarouselWithIndicatorState
             right: 50.0,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: widget.bannerImages.map((url) {
-                int index = widget.bannerImages.indexOf(url);
+              children: bannerImages.map((url) {
+                int index = bannerImages.indexOf(url);
                 return Expanded(
                   child: Container(
                     width: 45.0,
