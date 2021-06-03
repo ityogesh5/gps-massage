@@ -42,7 +42,7 @@ class _UserLoginState extends State<UserLogin> {
   List<Address> addressList = List<Address>();
   var phnNum;
   final fireBaseMessaging = new FirebaseMessaging();
-  var fcmToken = '';
+  var fcmToken;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   User firebaseUser;
   final FocusNode _nodeText1 = FocusNode();
@@ -364,6 +364,7 @@ class _UserLoginState extends State<UserLogin> {
 
   _loginServiceUser() async {
     ProgressDialogBuilder.showOverlayLoader(context);
+    _getFCMLoginToken();
     var userPhoneNumber = phoneNumberController.text.toString();
     // var editedPhone = userPhoneNumber.replaceFirst(RegExp(r'^0+'), "");
     //print('phnNumber: ${editedPhone}');
@@ -494,7 +495,8 @@ class _UserLoginState extends State<UserLogin> {
           body: json.encode({
             "phoneNumber": userPhoneNumber,
             "password": password,
-            "isTherapist": "0"
+            "isTherapist": "0",
+            "fcmToken": fcmToken
           }));
       print('Status code : ${response.statusCode}');
       if (StatusCodeHelper.isLoginSuccess(
@@ -633,6 +635,26 @@ class _UserLoginState extends State<UserLogin> {
     } catch (e) {
       print(e);
     }
+  }
+
+  _getFCMLoginToken() async {
+    fireBaseMessaging.getToken().then((fcmTokenValue) {
+      if (fcmTokenValue != null) {
+        fcmToken = fcmTokenValue;
+        print('FCM Login Token : $fcmToken');
+      } else {
+        fireBaseMessaging.onTokenRefresh.listen((refreshToken) {
+          if (refreshToken != null) {
+            fcmToken = refreshToken;
+            print('FCM Login Refresh Tokens : $fcmToken');
+          }
+        }).onError((handleError) {
+          print('On FCM Login Token Refresh error : ${handleError.toString()}');
+        });
+      }
+    }).catchError((onError) {
+      print('FCM Login Token Exception : ${onError.toString()}');
+    });
   }
 
   _getFCMToken() async {
