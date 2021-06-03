@@ -61,8 +61,15 @@ class _UserLoginState extends State<UserLogin> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    _getFCMToken();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    phoneNumberController.dispose();
+    passwordController.dispose();
   }
 
   @override
@@ -609,9 +616,20 @@ class _UserLoginState extends State<UserLogin> {
         .then((value) {
       ProgressDialogBuilder.hideLoader(context);
       if (value) {
+        Toast.show("正常にログインしました。", context,
+            duration: Toast.LENGTH_LONG,
+            gravity: Toast.BOTTOM,
+            backgroundColor: Colors.lime,
+            textColor: Colors.white);
         NavigationRouter.switchToServiceUserBottomBar(context);
       } else {
         ProgressDialogBuilder.hideLoader(context);
+        Toast.show("許可されていないユーザー。", context,
+            duration: 4,
+            gravity: Toast.CENTER,
+            backgroundColor: Colors.redAccent,
+            textColor: Colors.white);
+        print('Unverified User!!');
         return;
       }
     });
@@ -660,9 +678,14 @@ class _UserLoginState extends State<UserLogin> {
   _getFCMToken() async {
     fireBaseMessaging.getToken().then((fcmTokenValue) {
       if (fcmTokenValue != null) {
-        fcmToken = fcmTokenValue;
         print('FCM Skip Token : $fcmToken');
-        _getCurrentLocation();
+        if (HealingMatchConstants.isUserRegistrationSkipped) {
+          fcmToken = fcmTokenValue;
+          _getCurrentLocation();
+          HealingMatchConstants.userDeviceToken = fcmToken;
+        } else {
+          fcmToken = fcmTokenValue;
+        }
       } else {
         fireBaseMessaging.onTokenRefresh.listen((refreshToken) {
           if (refreshToken != null) {

@@ -25,14 +25,12 @@ import 'package:gps_massageapp/serviceUser/BlocCalls/searchBlocCalls/search_stat
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
-int _selectedIndex;
-List<String> _options = ['料金', '距離', '評価', '施術回数'];
-
 Animation<double> animation_rotation;
 Animation<double> animation_radius_in;
 Animation<double> animation_radius_out;
 AnimationController controller;
-
+var _selectedIndex;
+List<String> _options = ['料金', '距離', '評価', '施術回数'];
 double radius;
 double dotRadius;
 
@@ -359,6 +357,9 @@ class _SearchResultState extends State<SearchResult> {
           ),
           onPressed: () {
             Navigator.pop(context);
+            setState(() {
+              _selectedIndex = null;
+            });
           },
         ),
         title: Text(
@@ -1597,6 +1598,9 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
           ),
           onPressed: () {
             Navigator.pop(context);
+            setState(() {
+              _selectedIndex = null;
+            });
           },
         ),
         title: Text(
@@ -2631,7 +2635,6 @@ class _SearchResultChipsState extends State<SearchResultChips> {
 
   Widget _buildChips() {
     List<Widget> chips = new List();
-
     for (int i = 0; i < _options.length; i++) {
       ChoiceChip choiceChip = ChoiceChip(
         selected: _selectedIndex == i,
