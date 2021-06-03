@@ -21,9 +21,9 @@ class HealingMatchApp extends StatelessWidget {
         statusBarBrightness: Brightness.dark,
         statusBarIconBrightness: Brightness.dark));
 
-    return MaterialApp(
+    return MaterialApp(      
         theme: ThemeData(
-          appBarTheme: AppBarTheme(brightness: Brightness.light),
+          appBarTheme: AppBarTheme(brightness: Brightness.dark),
           fontFamily: 'NotoSansJP',
         ),
         localizationsDelegates: [

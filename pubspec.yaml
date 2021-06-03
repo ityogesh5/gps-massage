@@ -109,9 +109,11 @@ dependencies:
   #keyboard_visibility: 4.0.3
 
   video_player: ^0.10.12
+  keyboard_actions: ^3.3.1+1
 
 
   animated_text_kit: any
+  flutter_datetime_picker: any
 
 
   readmore: any #Gowtham Text ReadMore

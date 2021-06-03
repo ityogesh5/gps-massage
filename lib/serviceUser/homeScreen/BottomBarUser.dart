@@ -24,7 +24,8 @@ class BottomBarUser extends StatefulWidget {
 }
 
 class _BottomBarUserState extends State<BottomBarUser> {
-  int selectedpage; //
+  int selectedpage;
+  int skippedPage;
 
   final _pageOptions = [
     HomeScreen(),
@@ -37,6 +38,7 @@ class _BottomBarUserState extends State<BottomBarUser> {
   @override
   void initState() {
     selectedpage = widget.page; //initial Page
+    skippedPage = widget.page;
     super.initState();
     _sharedPreferences.then((value) {
       accessToken = value.getString('accessToken');
@@ -70,31 +72,41 @@ class _BottomBarUserState extends State<BottomBarUser> {
             "assets/images_gps/provicer_home_black.svg",
             height: 25.0,
             width: 25.0,
-            color: selectedpage == 0 ? Colors.white : Colors.black,
+            color: selectedpage == 0 && skippedPage == 0
+                ? Colors.white
+                : Colors.black,
           ),
           SvgPicture.asset(
             "assets/images_gps/search.svg",
             height: 25.0,
             width: 25.0,
-            color: selectedpage == 1 ? Colors.white : Colors.black,
+            color: selectedpage == 1 && skippedPage == 1
+                ? Colors.white
+                : Colors.black,
           ),
           SvgPicture.asset(
             "assets/images_gps/status.svg",
             height: 25.0,
             width: 25.0,
-            color: selectedpage == 2 ? Colors.white : Colors.black,
+            color: selectedpage == 2 || skippedPage == 2
+                ? Colors.white
+                : Colors.black,
           ),
           SvgPicture.asset(
             "assets/images_gps/provider_profile_black.svg",
             height: 25.0,
             width: 25.0,
-            color: selectedpage == 3 ? Colors.white : Colors.black,
+            color: selectedpage == 3 || skippedPage == 3
+                ? Colors.white
+                : Colors.black,
           ),
           SvgPicture.asset(
             "assets/images_gps/provider_notification_chat_black.svg",
             height: 25.0,
             width: 25.0,
-            color: selectedpage == 4 ? Colors.white : Colors.black,
+            color: selectedpage == 4 || skippedPage == 4
+                ? Colors.white
+                : Colors.black,
           ),
         ],
         onTap: (index) {
@@ -103,13 +115,18 @@ class _BottomBarUserState extends State<BottomBarUser> {
                 HealingMatchConstants.isUserRegistrationSkipped) {
               if (index == 0) {
                 selectedpage = index;
+                skippedPage = index;
               } else if (index == 1) {
                 selectedpage = index;
+                skippedPage = index;
               } else if (index == 2) {
+                skippedPage = index;
                 DialogHelper.showUserLoginOrRegisterDialog(context);
               } else if (index == 3) {
+                skippedPage = index;
                 DialogHelper.showUserLoginOrRegisterDialog(context);
               } else if (index == 4) {
+                skippedPage = index;
                 DialogHelper.showUserLoginOrRegisterDialog(context);
               }
             } else {
