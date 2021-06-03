@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
@@ -68,6 +69,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   String rUserPlaceMassage = '';
   String rUserArea = '';
   String rOtherOption = '';
+  var constantListPositionType, userAddressListPositionType;
 
   String imgBase64ProfileImage;
   Uint8List profileImageInBytes;
@@ -187,23 +189,24 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   }
 
   Future<Null> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        //locale : const Locale("ja","JP"),
-        initialDatePickerMode: DatePickerMode.day,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(1901, 1),
-        lastDate: DateTime.now());
-    if (picked != null) {
-      setState(() {
-        _selectedDOBDate = new DateFormat("yyyy-MM-dd").format(picked);
-        _userDOBController.value =
-            TextEditingValue(text: _selectedDOBDate.toString());
-        //print(_selectedDOBDate);
-        selectedYear = picked.year;
-        calculateAge();
-      });
-    }
+    DatePicker.showDatePicker(context,
+        locale: LocaleType.jp,
+        currentTime: selectedDate,
+        minTime: DateTime(1901, 1),
+        maxTime: DateTime.now(), onConfirm: (DateTime picked) {
+      if (picked != null) {
+        setState(() {
+          selectedDate = picked;
+          _selectedDOBDate = new DateFormat("yyyy-MM-dd").format(picked);
+          _userDOBController.value =
+              TextEditingValue(text: _selectedDOBDate.toString());
+
+          //print(_selectedDOBDate);
+          selectedYear = picked.year;
+          calculateAge();
+        });
+      }
+    });
   }
 
   void calculateAge() {
@@ -1380,18 +1383,11 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                                   });
                                                                   //Delete Value at index
 
-                                                                  var position =
+                                                                  constantListPositionType =
                                                                       constantUserAddressValuesList[
                                                                           index];
                                                                   print(
-                                                                      'Position of other address : $position');
-                                                                  /*openAddressEditDialog(
-                                                                      constantUserAddressValuesList[
-                                                                              index]
-                                                                          .subAddress,
-                                                                      constantUserAddressValuesList
-                                                                          .indexOf(
-                                                                              position));*/
+                                                                      'Position of other address : $constantListPositionType');
                                                                 },
                                                               )),
                                                       style: TextStyle(
@@ -1552,10 +1548,14 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                                       HealingMatchConstants
                                                                               .userAddressesList[
                                                                           index];
+                                                                  userAddressListPositionType = HealingMatchConstants
+                                                                      .userAddressesList[
+                                                                          index]
+                                                                      .addressTypeSelection;
                                                                   print(
                                                                       'Position of sub edit list position : $position');
                                                                   print(
-                                                                      'Position of sub edit list address : ${position.address}');
+                                                                      'Position of sub edit list addressType : ${position.addressTypeSelection}');
                                                                   openAddressEditDialog(
                                                                       position
                                                                           .address,
@@ -2332,13 +2332,37 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     if (roomNumber != null || roomNumber.isNotEmpty) {
       print('numbers : $roomNumber');
     }
-    // Getting user GPS Address value
-    /*  if (_myAddressInputType.contains('現在地を取得する') && _isGPSLocation) {
-      print('GPS Address : $userGPSAddress');
-      String userCurrentLocation =
-          roomNumber + ',' + buildingName + ',' + userGPSAddress;
-      print('GPS Modified Address : ${userCurrentLocation.trim()}');
-    } else */
+
+    if (constantListPositionType == userAddressListPositionType) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('選択した更新する地点のカテゴリーがすでに追加されました。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+                Navigator.pop(context);
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return;
+    }
     if (HealingMatchConstants.userEditAddress.isEmpty) {
       String manualUserAddress = roomNumber +
           ',' +

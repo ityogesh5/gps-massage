@@ -111,6 +111,8 @@ dependencies:
 
 
   readmore: any #Gowtham Text ReadMore
+  argon_buttons_flutter: any
+  flutter_datetime_picker: any
 
 
 

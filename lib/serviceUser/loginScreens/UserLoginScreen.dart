@@ -344,6 +344,7 @@ class _UserLoginState extends State<UserLogin> {
   }
 
   _loginServiceUser() async {
+    ProgressDialogBuilder.showOverlayLoader(context);
     var userPhoneNumber = phoneNumberController.text.toString();
     // var editedPhone = userPhoneNumber.replaceFirst(RegExp(r'^0+'), "");
     //print('phnNumber: ${editedPhone}');
@@ -375,6 +376,7 @@ class _UserLoginState extends State<UserLogin> {
           ],
         ),
       ));
+      ProgressDialogBuilder.hideLoader(context);
       return null;
     }
 
@@ -406,6 +408,7 @@ class _UserLoginState extends State<UserLogin> {
           ],
         ),
       ));
+      ProgressDialogBuilder.hideLoader(context);
       return null;
     }
 
@@ -433,6 +436,7 @@ class _UserLoginState extends State<UserLogin> {
           ],
         ),
       ));
+      ProgressDialogBuilder.hideLoader(context);
       return null;
     }
 
@@ -460,12 +464,11 @@ class _UserLoginState extends State<UserLogin> {
           ],
         ),
       ));
+      ProgressDialogBuilder.hideLoader(context);
       return null;
     }
 
     try {
-      ProgressDialogBuilder.showOverlayLoader(context);
-
       final url = HealingMatchConstants.LOGIN_USER_URL;
       final response = await http.post(url,
           headers: {"Content-Type": "application/json"},
@@ -560,6 +563,7 @@ class _UserLoginState extends State<UserLogin> {
               backgroundColor: Colors.redAccent,
               textColor: Colors.white);
           print('Unverified User!!');
+          ProgressDialogBuilder.hideLoader(context);
           return;
         }
       } else {
@@ -585,6 +589,9 @@ class _UserLoginState extends State<UserLogin> {
       ProgressDialogBuilder.hideLoader(context);
       if (value) {
         NavigationRouter.switchToServiceUserBottomBar(context);
+      } else {
+        ProgressDialogBuilder.hideLoader(context);
+        return;
       }
     });
   }
