@@ -22,7 +22,7 @@ class _AnimatorState extends State<Animator>
   void initState() {
     super.initState();
     animationController =
-        AnimationController(duration: Duration(milliseconds: 300), vsync: this);
+        AnimationController(duration: Duration(milliseconds: 200), vsync: this);
     animation =
         CurvedAnimation(parent: animationController, curve: Curves.slowMiddle);
     timer = Timer(widget.time, animationController.forward);
@@ -62,7 +62,7 @@ wait() {
       duration = Duration();
     });
   }
-  duration += Duration(milliseconds: 200);
+  duration += Duration(milliseconds: 100);
   return duration;
 }
 
