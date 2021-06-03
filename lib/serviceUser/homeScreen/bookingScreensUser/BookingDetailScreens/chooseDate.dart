@@ -386,7 +386,7 @@ class _ChooseDateState extends State<ChooseDate> {
 
   LazyDataTable buildLazyDataTable() {
     lazyDataTable = LazyDataTable(
-      rows: 45,
+      rows: timeRow.length,
       columns: daysToDisplay,
       tableTheme: LazyDataTableTheme(
         columnHeaderColor: Color.fromRGBO(247, 247, 247, 1),

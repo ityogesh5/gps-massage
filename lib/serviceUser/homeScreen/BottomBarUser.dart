@@ -131,6 +131,7 @@ class _BottomBarUserState extends State<BottomBarUser> {
               }
             } else {
               selectedpage = index;
+              skippedPage = index;
 
               // changing selected page as per bar index selected by the user
             }
