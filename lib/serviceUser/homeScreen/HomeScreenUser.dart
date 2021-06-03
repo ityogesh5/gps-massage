@@ -196,7 +196,7 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
       if (this.mounted) {
         setState(() {
           bookingDetailsList = value.bookingDetailsList;
-          print('bookingDetails:${bookingDetailsList.length}');
+          print('bookingDetails:${bookingDetailsList}');
           status = 1;
         });
       }
@@ -2087,7 +2087,7 @@ class _ReservationListState extends State<ReservationList> {
 
   @override
   Widget build(BuildContext context) {
-    if (bookingDetailsList.length != 0 && bookingDetailsList.isNotEmpty) {
+    if (bookingDetailsList != null && bookingDetailsList.isNotEmpty) {
       DateTime startTime = bookingDetailsList[0].newStartTime != null
           ? bookingDetailsList[0].newStartTime.toLocal()
           : bookingDetailsList[0].startTime.toLocal();
@@ -2101,7 +2101,7 @@ class _ReservationListState extends State<ReservationList> {
         eTime = DateFormat('kk:mm').format(endTime);
         jaName = DateFormat('EEEE', 'ja_JP').format(startTime);
       });
-    }
+    } else {}
 
     GlobalKey key = new GlobalKey();
     void showToolTip(String text) {
@@ -2120,7 +2120,7 @@ class _ReservationListState extends State<ReservationList> {
       );
     }
 
-    return bookingDetailsList.length != 0 && bookingDetailsList.isNotEmpty
+    return bookingDetailsList != null && bookingDetailsList.isNotEmpty
         ? Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(

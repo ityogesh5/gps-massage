@@ -69,7 +69,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
       if (this.mounted) {
         setState(() {
           bookingDetailsList = value.bookingDetailsList;
-          print('bookingDetails:${bookingDetailsList.length}');
+          print('bookingDetails:${bookingDetailsList}');
           status = 1;
           getStatusValue();
         });
@@ -3835,7 +3835,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                           child: Column(
                                             children: [
                                               Text(
-                                                '予約状況の情報はありません。',
+                                                '予約はありません。',
                                                 style: TextStyle(
                                                     fontSize: 16,
                                                     fontFamily: 'NotoSansJP',

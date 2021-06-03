@@ -735,7 +735,7 @@ class _FavoriteState extends State<Favorite> {
                                             child: Column(
                                               children: [
                                                 Text(
-                                                  'お気に入りはありません。',
+                                                  'お気に入りに登録したセラピスト・店舗はありません。',
                                                   style: TextStyle(
                                                       fontSize: 16,
                                                       fontFamily: 'NotoSansJP',

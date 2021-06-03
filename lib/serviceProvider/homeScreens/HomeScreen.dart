@@ -1606,7 +1606,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     ShowToolTip popup = ShowToolTip(context,
         text: text,
         textStyle: TextStyle(color: Colors.black),
-        height: 180,
+        height: 130,
         width: 180,
         backgroundColor: Colors.white,
         padding: EdgeInsets.all(8.0),

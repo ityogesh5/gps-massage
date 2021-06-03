@@ -989,7 +989,7 @@ class _PastReservationsState extends State<PastReservations> {
                                             child: Column(
                                               children: [
                                                 Text(
-                                                  '過去の予約はありません。',
+                                                  '今までに受けたサービスはありません。',
                                                   style: TextStyle(
                                                       fontSize: 16,
                                                       fontFamily: 'NotoSansJP',
