@@ -29,6 +29,7 @@ class _SplashScreenPageState extends State<SplashScreen>
   bool providerLoggedOut = false;
   bool userRegistered = false;
   bool providerRegistered = false;
+  bool isGuestUser = false;
 
   startTime() async {
     var _duration = new Duration(seconds: 3);
@@ -100,8 +101,12 @@ class _SplashScreenPageState extends State<SplashScreen>
       providerRegistered = value.getBool('isProviderRegister');
       userLoggedOut = value.getBool('isUserLoggedOut');
       providerLoggedOut = value.getBool('isProviderLoggedOut');
+      isGuestUser = value.getBool('isGuest');
       print('User Register : $userRegistered');
-      if (userLoggedIn != null && userLoggedIn) {
+      if (isGuestUser != null && isGuestUser) {
+        NavigationRouter.switchToUserLogin(context);
+        print('Is Guest User : $isGuestUser !!');
+      } else if (userLoggedIn != null && userLoggedIn) {
         print('Entering 1 loop !!');
         NavigationRouter.switchToServiceUserBottomBar(context);
       } else if (providerLoggedIn != null && providerLoggedIn) {

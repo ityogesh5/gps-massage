@@ -385,6 +385,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
   }
 
   _providerLoginDetails() async {
+    showOverlayLoader();
     var userPhoneNumber = phoneNumberController.text.toString();
     var password = passwordController.text.toString();
     SharedPreferences instances = await SharedPreferences.getInstance();
@@ -403,6 +404,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
             label: 'はい',
             textColor: Colors.white),
       ));
+      hideLoader();
       return;
     }
 
@@ -422,6 +424,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
             label: 'はい',
             textColor: Colors.white),
       ));
+      hideLoader();
       return;
     }
 
@@ -437,6 +440,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
             label: 'はい',
             textColor: Colors.white),
       ));
+      hideLoader();
       return;
     }
 
@@ -452,11 +456,11 @@ class _ProviderLoginState extends State<ProviderLogin> {
             label: 'はい',
             textColor: Colors.white),
       ));
+      hideLoader();
       return;
     }
 
     try {
-      showOverlayLoader();
       final url = HealingMatchConstants.LOGIN_USER_URL;
       final response = await http.post(url,
           headers: {"Content-Type": "application/json"},
@@ -515,6 +519,9 @@ class _ProviderLoginState extends State<ProviderLogin> {
       hideLoader();
       if (value) {
         NavigationRouter.switchToServiceProviderBottomBar(context);
+      } else {
+        hideLoader();
+        return;
       }
     });
   }

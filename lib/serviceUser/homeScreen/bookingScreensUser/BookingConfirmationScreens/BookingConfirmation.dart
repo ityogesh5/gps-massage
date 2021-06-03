@@ -12,7 +12,6 @@ import 'package:gps_massageapp/models/customModels/calendarEventCreateReqModel.d
 import 'package:gps_massageapp/models/responseModels/serviceUser/booking/createBooking.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/HomeScreenUser.dart';
 
 double ratingsValue = 4.0;
 bool checkValue = false;
@@ -302,27 +301,29 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                               ),
                             ),
                             Spacer(),
-                            Row(
-                              children: [
-                                HealingMatchConstants.serviceDistanceRadius !=
-                                            null &&
-                                        HealingMatchConstants
-                                                .serviceDistanceRadius !=
-                                            0
-                                    ? Text(
-                                        '${HealingMatchConstants.serviceDistanceRadius}Ｋｍ圏内',
-                                        textAlign: TextAlign.right,
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.grey[400],
-                                            fontFamily: 'NotoSansJP'),
-                                      )
-                                    : Text(
-                                        '0.0ｋｍ圏内',
-                                        style: TextStyle(
-                                            fontSize: 14, color: Colors.grey),
-                                      ),
-                              ],
+                            FittedBox(
+                              child: Row(
+                                children: [
+                                  HealingMatchConstants.serviceDistanceRadius !=
+                                              null &&
+                                          HealingMatchConstants
+                                                  .serviceDistanceRadius !=
+                                              0
+                                      ? Text(
+                                          '${HealingMatchConstants.serviceDistanceRadius}Ｋｍ圏内',
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.grey[400],
+                                              fontFamily: 'NotoSansJP'),
+                                        )
+                                      : Text(
+                                          '0.0ｋｍ圏内',
+                                          style: TextStyle(
+                                              fontSize: 14, color: Colors.grey),
+                                        ),
+                                ],
+                              ),
                             )
                           ]),
                     )
@@ -887,7 +888,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
         text: text,
         textStyle: TextStyle(color: Colors.black),
         height: 100,
-        width: 180,
+        width: 190,
         backgroundColor: Colors.white,
         padding: EdgeInsets.all(8.0),
         borderRadius: BorderRadius.circular(10.0));
@@ -934,30 +935,6 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
       HealingMatchConstants.confSelectedDateTime,
       HealingMatchConstants.confEndDateTime,
     );
-/*    if (HealingMatchConstants.confServiceAddressType.contains('店舗') &&
-            selectedBuildingType == null ||
-        selectedBuildingType.isEmpty) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('施術を受ける建物を選んでください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
-      return;
-    } else if (isOtherSelected &&
-        selectedBuildingType.toString().contains('その他')) {
-      HealingMatchConstants.selectedBookingPlace = '公園';
-      print('Entering on if : ${HealingMatchConstants.selectedBookingPlace}');
-    } else {
-      HealingMatchConstants.selectedBookingPlace =
-          selectedBuildingType.toString();
-      print('Entering on else : ${HealingMatchConstants.selectedBookingPlace}');
-    }*/
 
     try {
       ServiceUserAPIProvider.createCalendarEvent(calendarEventCreateReqModel)

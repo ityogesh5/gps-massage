@@ -12,9 +12,9 @@ import 'package:gps_massageapp/models/responseModels/guestUserModel/GuestUserRes
 import 'package:gps_massageapp/models/responseModels/paymentModels/CustomerCreation.dart';
 import 'package:gps_massageapp/models/responseModels/paymentModels/PaymentCustomerCharge.dart';
 import 'package:gps_massageapp/models/responseModels/paymentModels/PaymentSuccessModel.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/booking/createBooking.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingStatus.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingCompletedList.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingStatus.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/booking/createBooking.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/FavouriteList.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/FavouriteTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/UnFavouriteTherapistModel.dart';
@@ -30,7 +30,6 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/Se
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
 import 'package:http/http.dart' as http;
 
 class ServiceUserAPIProvider {
@@ -514,12 +513,15 @@ class ServiceUserAPIProvider {
       print('Search results Body : ${response.body}');
       print('statusCode : ${response.statusCode}');
       if (response.statusCode == 200) {
-        final getDeletedResponse = json.decode(response.body);
+        final getSearchResponse = json.decode(response.body);
         _searchTherapistResultsModel =
-            SearchTherapistResultsModel.fromJson(getDeletedResponse);
+            SearchTherapistResultsModel.fromJson(getSearchResponse);
+      } else {
+        return null;
       }
     } catch (e) {
       print('Exception Search API : ${e.toString()}');
+      return null;
     }
     return _searchTherapistResultsModel;
   }
@@ -541,12 +543,17 @@ class ServiceUserAPIProvider {
       print('Search results Body : ${response.body}');
       print('statusCode : ${response.statusCode}');
       if (response.statusCode == 200) {
-        final getDeletedResponse = json.decode(response.body);
-        _searchTherapistByTypeModel =
-            SearchTherapistByTypeModel.fromJson(getDeletedResponse);
+        final getSearchResultsResponse = json.decode(response.body);
+        if (getSearchResultsResponse != null) {
+          _searchTherapistByTypeModel =
+              SearchTherapistByTypeModel.fromJson(getSearchResultsResponse);
+        } else {
+          return null;
+        }
       }
     } catch (e) {
       print('Exception Search API : ${e.toString()}');
+      return null;
     }
     return _searchTherapistByTypeModel;
   }

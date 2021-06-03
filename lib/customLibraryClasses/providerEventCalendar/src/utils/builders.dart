@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:googleapis/calendar/v3.dart' as Calendar;
@@ -92,39 +90,41 @@ class DefaultBuilders {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      HealingMatchConstants.isProvider ? split[3] : split[1],
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 16.0),
-                    ),
-                    googleApiEvent.status == 'tentative'
-                        ? Row(
-                            children: [
-                              SvgPicture.asset(
-                                "assets/images_gps/processing.svg",
-                                height: 20.0,
-                                width: 20.0,
-                              ),
-                              /*  Icon(
-                Icons.hourglass_top_outlined,
-                color: Color.fromRGBO(255, 193, 7, 1),
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        HealingMatchConstants.isProvider ? split[3] : split[1],
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16.0),
+                      ),
+                      googleApiEvent.status == 'tentative'
+                          ? Row(
+                              children: [
+                                SvgPicture.asset(
+                                  "assets/images_gps/processing.svg",
+                                  height: 20.0,
+                                  width: 20.0,
+                                ),
+                                /*  Icon(
+                  Icons.hourglass_top_outlined,
+                  color: Color.fromRGBO(255, 193, 7, 1),
               ), */
-                              Text("承認待ち",
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(255, 193, 7, 1),
-                                  ))
-                            ],
-                          )
-                        : Row(
-                            children: [
-                              Text("承認済み",
-                                  style: TextStyle(color: Colors.black))
-                            ],
-                          )
-                  ],
+                                Text("承認待ち",
+                                    style: TextStyle(
+                                      color: Color.fromRGBO(255, 193, 7, 1),
+                                    ))
+                              ],
+                            )
+                          : Row(
+                              children: [
+                                Text("承認済み",
+                                    style: TextStyle(color: Colors.black))
+                              ],
+                            )
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: 4,
@@ -226,5 +226,4 @@ class DefaultBuilders {
   /// The default day view style builder.
   static DayBarStyle defaultDayBarStyleBuilder(DateTime date) =>
       DayBarStyle.fromDate(date: date);
-
 }

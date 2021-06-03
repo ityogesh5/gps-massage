@@ -1,19 +1,17 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
-import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingCompletedList.dart';
-import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
-import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingCompletedList.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
+import 'package:intl/intl.dart';
+import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PastReservations extends StatefulWidget {
   @override
@@ -475,6 +473,19 @@ class _PastReservationsState extends State<PastReservations> {
                                                                         (_isFavorite) {
                                                                       print(
                                                                           'Is Favorite : $_isFavorite');
+                                                                      print(
+                                                                          'Is Favorite : $_isFavorite');
+                                                                      if (_isFavorite !=
+                                                                              null &&
+                                                                          _isFavorite) {
+                                                                        // call favorite therapist API
+                                                                        ServiceUserAPIProvider.favouriteTherapist(
+                                                                            bookingDetailsList[index].therapistId);
+                                                                      } else {
+                                                                        // call un-favorite therapist API
+                                                                        ServiceUserAPIProvider.unFavouriteTherapist(
+                                                                            bookingDetailsList[index].therapistId);
+                                                                      }
                                                                     }),
                                                               ],
                                                             ),

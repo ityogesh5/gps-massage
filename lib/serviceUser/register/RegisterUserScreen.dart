@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoding/geocoding.dart';
@@ -14,13 +15,13 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/auth.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
+import 'package:gps_massageapp/customLibraryClasses/customTextField/text_field_custom.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/cityListResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/serviceUserRegisterResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/stateListResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
-import 'package:gps_massageapp/customLibraryClasses/customTextField/text_field_custom.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -117,7 +118,7 @@ class _RegisterUserState extends State<RegisterUser> {
   List<dynamic> cityDropDownValues = List();
   List<dynamic> addressValues = List();
   final fireBaseMessaging = new FirebaseMessaging();
-  var fcmToken = '';
+  var fcmToken;
 
   StatesListResponseModel states;
   CitiesListResponseModel cities;
@@ -132,24 +133,24 @@ class _RegisterUserState extends State<RegisterUser> {
 //Date picker
 
   Future<Null> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        //locale : const Locale("ja","JP"),
-        initialDatePickerMode: DatePickerMode.day,
-        initialDate: selectedDate,
-        firstDate: DateTime(1901, 1),
-        lastDate: DateTime.now());
-    if (picked != null) {
-      setState(() {
-        selectedDate = picked;
-        _selectedDOBDate = new DateFormat("yyyy-MM-dd").format(picked);
-        _userDOBController.value =
-            TextEditingValue(text: _selectedDOBDate.toString());
-        //print(_selectedDOBDate);
-        selectedYear = picked.year;
-        calculateAge();
-      });
-    }
+    DatePicker.showDatePicker(context,
+        locale: LocaleType.jp,
+        currentTime: selectedDate,
+        minTime: DateTime(1901, 1),
+        maxTime: DateTime.now(), onConfirm: (DateTime picked) {
+      if (picked != null) {
+        setState(() {
+          selectedDate = picked;
+          _selectedDOBDate = new DateFormat("yyyy-MM-dd").format(picked);
+          _userDOBController.value =
+              TextEditingValue(text: _selectedDOBDate.toString());
+
+          //print(_selectedDOBDate);
+          selectedYear = picked.year;
+          calculateAge();
+        });
+      }
+    });
   }
 
   void calculateAge() {
@@ -2122,6 +2123,7 @@ class _RegisterUserState extends State<RegisterUser> {
       print("Long : ${HealingMatchConstants.currentLongitude}");
       HealingMatchConstants.userAddress = address;
     } catch (e) {
+      ProgressDialogBuilder.hideLoader(context);
       Toast.show("有効な住所を入力してください ", context,
           duration: Toast.LENGTH_LONG,
           gravity: Toast.CENTER,
@@ -2255,6 +2257,8 @@ class _RegisterUserState extends State<RegisterUser> {
                 'capitalAndPrefecture', userAddressData.capitalAndPrefecture);
 
             value.setBool('isUserRegister', true);
+            HealingMatchConstants.isUserRegistrationSkipped = false;
+            value.setBool('isGuest', false);
           }
         });
 
@@ -2281,6 +2285,9 @@ class _RegisterUserState extends State<RegisterUser> {
               ProgressDialogBuilder.hideLoader(context);
               NavigationRouter.switchToUserOtpScreen(context);
             });
+          } else {
+            ProgressDialogBuilder.hideLoader(context);
+            return;
           }
         });
 
@@ -2446,11 +2453,13 @@ class _RegisterUserState extends State<RegisterUser> {
       if (fcmTokenValue != null) {
         fcmToken = fcmTokenValue;
         print('FCM Skip Token : $fcmToken');
+        HealingMatchConstants.userDeviceToken = fcmToken;
         _getCurrentLocation();
       } else {
         fireBaseMessaging.onTokenRefresh.listen((refreshToken) {
           if (refreshToken != null) {
             fcmToken = refreshToken;
+            HealingMatchConstants.userDeviceToken = fcmToken;
             print('FCM Skip Refresh Tokens : $fcmToken');
           }
         }).onError((handleError) {
@@ -2470,6 +2479,7 @@ class _RegisterUserState extends State<RegisterUser> {
         if (guestUserResponse != null) {
           _sharedPreferences.then((value) {
             value.setString('accessToken', guestUserResponse.accessToken);
+            value.setBool('isGuest', true);
           });
           ProgressDialogBuilder.hideLoader(context);
           NavigationRouter.switchToServiceUserBottomBar(context);

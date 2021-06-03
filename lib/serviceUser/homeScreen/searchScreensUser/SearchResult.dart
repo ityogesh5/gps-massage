@@ -25,14 +25,12 @@ import 'package:gps_massageapp/serviceUser/BlocCalls/searchBlocCalls/search_stat
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
-int _selectedIndex;
-List<String> _options = ['料金', '距離', '評価', '施術回数'];
-
 Animation<double> animation_rotation;
 Animation<double> animation_radius_in;
 Animation<double> animation_radius_out;
 AnimationController controller;
-
+var _selectedIndex;
+List<String> _options = ['料金', '距離', '評価', '施術回数'];
 double radius;
 double dotRadius;
 
@@ -246,11 +244,8 @@ class _SearchResultState extends State<SearchResult> {
                 therapistCity.add(
                     getTherapistsSearchResults[i].user.addresses[k].cityName);
 
-                distanceOfTherapist.add(getTherapistsSearchResults[i]
-                    .user
-                    .addresses[k]
-                    .distance
-                    .toStringAsFixed(2));
+                distanceOfTherapist.add(
+                    getTherapistsSearchResults[i].user.addresses[k].distance);
 
                 hasShop.add(getTherapistsSearchResults[i].user.isShop);
                 isShop = hasShop;
@@ -362,6 +357,9 @@ class _SearchResultState extends State<SearchResult> {
           ),
           onPressed: () {
             Navigator.pop(context);
+            setState(() {
+              _selectedIndex = null;
+            });
           },
         ),
         title: Text(
@@ -559,12 +557,14 @@ class _SearchResultState extends State<SearchResult> {
                                                       children: [
                                                         Row(
                                                           children: [
-                                                            widget
+                                                            widget.getTherapistsSearchResults[index].user.storeName !=
+                                                                        null &&
+                                                                    widget
                                                                         .getTherapistsSearchResults[
                                                                             index]
                                                                         .user
-                                                                        .storeName !=
-                                                                    null
+                                                                        .storeName
+                                                                        .isNotEmpty
                                                                 ? Text(
                                                                     '${widget.getTherapistsSearchResults[index].user.storeName}',
                                                                     style: TextStyle(
@@ -641,34 +641,33 @@ class _SearchResultState extends State<SearchResult> {
                                                             Spacer(),
                                                             FittedBox(
                                                               child: HealingMatchConstants
-                                                                  .isUserRegistrationSkipped
+                                                                      .isUserRegistrationSkipped
                                                                   ? GestureDetector(
-                                                                onTap: () {
-                                                                  return;
-                                                                },
-                                                                child: SvgPicture.asset(
-                                                                  'assets/images_gps/heart_wo_color.svg',
-                                                                  width: 25,
-                                                                  height: 25,
-                                                                  color: Colors.grey[400],
-                                                                ),
-                                                              )
-                                                                  :FavoriteButton(
+                                                                      onTap:
+                                                                          () {
+                                                                        return;
+                                                                      },
+                                                                      child: SvgPicture
+                                                                          .asset(
+                                                                        'assets/images_gps/heart_wo_color.svg',
+                                                                        width:
+                                                                            25,
+                                                                        height:
+                                                                            25,
+                                                                        color: Colors
+                                                                            .grey[400],
+                                                                      ),
+                                                                    )
+                                                                  : FavoriteButton(
                                                                       iconSize:
                                                                           40,
                                                                       iconColor:
                                                                           Colors
                                                                               .red,
-                                                                  isFavorite: widget
-                                                                      .getTherapistsSearchResults[
-                                                                  index]
-                                                                      .favouriteToTherapist !=
-                                                                      null &&
-                                                                      widget
-                                                                          .getTherapistsSearchResults[
-                                                                      index]
-                                                                          .favouriteToTherapist ==
-                                                                          1,
+                                                                      isFavorite: widget.getTherapistsSearchResults[index].favouriteToTherapist !=
+                                                                              null &&
+                                                                          widget.getTherapistsSearchResults[index].favouriteToTherapist ==
+                                                                              1,
                                                                       valueChanged:
                                                                           (_isFavorite) {
                                                                         print(
@@ -830,52 +829,48 @@ class _SearchResultState extends State<SearchResult> {
                                                         SizedBox(
                                                           height: 5,
                                                         ),
-                                                        FittedBox(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              widget
-                                                                          .getTherapistsSearchResults[
-                                                                              index]
-                                                                          .user
-                                                                          .genderOfService !=
-                                                                      null
-                                                                  ? Container(
-                                                                      padding: widget.getTherapistsSearchResults[index].user.genderOfService !=
-                                                                              null
+                                                        widget
+                                                                    .getTherapistsSearchResults[
+                                                                        index]
+                                                                    .user
+                                                                    .genderOfService !=
+                                                                null
+                                                            ? FittedBox(
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  children: [
+                                                                    widget.getTherapistsSearchResults[index].user.genderOfService !=
+                                                                            null
+                                                                        ? Container(
+                                                                            /*padding: widget.getTherapistsSearchResults[index].user.genderOfService !=
+                                                                              null && widget.getTherapistsSearchResults[index].user.genderOfService.isNotEmpty
                                                                           ? EdgeInsets.all(
                                                                               4)
-                                                                          : EdgeInsets.all(
-                                                                              0),
-                                                                      decoration: BoxDecoration(
-                                                                          gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
-                                                                            Colors.white,
-                                                                            Colors.white,
-                                                                          ]),
-                                                                          shape: BoxShape.rectangle,
-                                                                          border: Border.all(
-                                                                            color:
-                                                                                Colors.grey[300],
-                                                                          ),
-                                                                          borderRadius: BorderRadius.circular(5.0),
-                                                                          color: Colors.grey[200]),
-                                                                      child: Text(
-                                                                        '${widget.getTherapistsSearchResults[index].user.genderOfService}',
-                                                                        style:
-                                                                            TextStyle(
-                                                                          color: Color.fromRGBO(
-                                                                              0,
-                                                                              0,
-                                                                              0,
-                                                                              1),
-                                                                        ),
-                                                                      ))
-                                                                  : Container(),
-                                                            ],
-                                                          ),
-                                                        ),
+                                                                          : SizedBox.shrink(),*/
+                                                                            decoration: BoxDecoration(
+                                                                                gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                                                                                  Colors.white,
+                                                                                  Colors.white,
+                                                                                ]),
+                                                                                shape: BoxShape.rectangle,
+                                                                                border: Border.all(
+                                                                                  color: Colors.grey[300],
+                                                                                ),
+                                                                                borderRadius: BorderRadius.circular(5.0),
+                                                                                color: Colors.grey[200]),
+                                                                            child: Text(
+                                                                              '${widget.getTherapistsSearchResults[index].user.genderOfService}',
+                                                                              style: TextStyle(
+                                                                                color: Color.fromRGBO(0, 0, 0, 1),
+                                                                              ),
+                                                                            ))
+                                                                        : SizedBox.shrink(),
+                                                                  ],
+                                                                ),
+                                                              )
+                                                            : SizedBox.shrink(),
                                                         SizedBox(
                                                           height: 5,
                                                         ),
@@ -908,17 +903,14 @@ class _SearchResultState extends State<SearchResult> {
                                                                           return WidgetAnimator(
                                                                             Wrap(
                                                                               children: [
-                                                                                Padding(
-                                                                                  padding: index == 0 ? const EdgeInsets.only(left: 0.0, top: 4.0, right: 4.0, bottom: 4.0) : const EdgeInsets.all(4.0),
-                                                                                  child: Container(
-                                                                                    padding: EdgeInsets.all(5),
-                                                                                    decoration: boxDecoration,
-                                                                                    child: Text(
-                                                                                      key,
-                                                                                      style: TextStyle(
-                                                                                        fontSize: 14,
-                                                                                        color: Colors.black,
-                                                                                      ),
+                                                                                Container(
+                                                                                  padding: EdgeInsets.all(5),
+                                                                                  decoration: boxDecoration,
+                                                                                  child: Text(
+                                                                                    key,
+                                                                                    style: TextStyle(
+                                                                                      fontSize: 14,
+                                                                                      color: Colors.black,
                                                                                     ),
                                                                                   ),
                                                                                 ),
@@ -927,7 +919,7 @@ class _SearchResultState extends State<SearchResult> {
                                                                           );
                                                                         }),
                                                               )
-                                                            : Container(),
+                                                            : SizedBox.shrink(),
                                                         SizedBox(
                                                           height: 5,
                                                         ),
@@ -1357,13 +1349,24 @@ class _SearchResultState extends State<SearchResult> {
                 widget.getTherapistsSearchResults.addAll(value.data.searchList);
                 getSearchResults(widget.getTherapistsSearchResults);
               }
+            }).catchError((error) {
+              if (error != null) {
+                setState(() {
+                  isLoading = false;
+                });
+              }
             });
           });
         }
       }
       //print('Therapist users data Size : ${therapistUsers.length}');
-    } catch (e) {
-      print('Exception more data' + e.toString());
+    } catch (error) {
+      print('Exception more data' + error.toString());
+      if (error != null) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
   }
 
@@ -1482,11 +1485,8 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                 therapistCity.add(
                     getTherapistsSearchResults[i].user.addresses[k].cityName);
 
-                distanceOfTherapist.add(getTherapistsSearchResults[i]
-                    .user
-                    .addresses[k]
-                    .distance
-                    .toStringAsFixed(2));
+                distanceOfTherapist.add(
+                    getTherapistsSearchResults[i].user.addresses[k].distance);
 
                 hasShop.add(getTherapistsSearchResults[i].user.isShop);
                 isShop = hasShop;
@@ -1598,6 +1598,9 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
           ),
           onPressed: () {
             Navigator.pop(context);
+            setState(() {
+              _selectedIndex = null;
+            });
           },
         ),
         title: Text(
@@ -1791,12 +1794,14 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                                                       children: [
                                                         Row(
                                                           children: [
-                                                            widget
+                                                            widget.getTherapistsSearchResults[index].user.storeName !=
+                                                                        null &&
+                                                                    widget
                                                                         .getTherapistsSearchResults[
                                                                             index]
                                                                         .user
-                                                                        .storeName !=
-                                                                    null
+                                                                        .storeName
+                                                                        .isNotEmpty
                                                                 ? Text(
                                                                     '${widget.getTherapistsSearchResults[index].user.storeName}',
                                                                     style: TextStyle(
@@ -1869,34 +1874,33 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                                                             Spacer(),
                                                             FittedBox(
                                                               child: HealingMatchConstants
-                                                                  .isUserRegistrationSkipped
+                                                                      .isUserRegistrationSkipped
                                                                   ? GestureDetector(
-                                                                onTap: () {
-                                                                  return;
-                                                                },
-                                                                child: SvgPicture.asset(
-                                                                  'assets/images_gps/heart_wo_color.svg',
-                                                                  width: 25,
-                                                                  height: 25,
-                                                                  color: Colors.grey[400],
-                                                                ),
-                                                              )
+                                                                      onTap:
+                                                                          () {
+                                                                        return;
+                                                                      },
+                                                                      child: SvgPicture
+                                                                          .asset(
+                                                                        'assets/images_gps/heart_wo_color.svg',
+                                                                        width:
+                                                                            25,
+                                                                        height:
+                                                                            25,
+                                                                        color: Colors
+                                                                            .grey[400],
+                                                                      ),
+                                                                    )
                                                                   : FavoriteButton(
                                                                       iconSize:
                                                                           40,
                                                                       iconColor:
                                                                           Colors
                                                                               .red,
-                                                                  isFavorite: widget
-                                                                      .getTherapistsSearchResults[
-                                                                  index]
-                                                                      .favouriteToTherapist !=
-                                                                      null &&
-                                                                      widget
-                                                                          .getTherapistsSearchResults[
-                                                                      index]
-                                                                          .favouriteToTherapist ==
-                                                                          1,
+                                                                      isFavorite: widget.getTherapistsSearchResults[index].favouriteToTherapist !=
+                                                                              null &&
+                                                                          widget.getTherapistsSearchResults[index].favouriteToTherapist ==
+                                                                              1,
                                                                       valueChanged:
                                                                           (_isFavorite) {
                                                                         print(
@@ -2586,13 +2590,24 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                 widget.getTherapistsSearchResults.addAll(value.data.searchList);
                 getSearchResultsByType(widget.getTherapistsSearchResults);
               }
+            }).catchError((error) {
+              if (error != null) {
+                setState(() {
+                  isLoading = false;
+                });
+              }
             });
           });
         }
       }
       //print('Therapist users data Size : ${therapistUsers.length}');
-    } catch (e) {
-      print('Exception more data' + e.toString());
+    } catch (error) {
+      print('Exception more data' + error.toString());
+      if (error != null) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
   }
 
@@ -2620,7 +2635,6 @@ class _SearchResultChipsState extends State<SearchResultChips> {
 
   Widget _buildChips() {
     List<Widget> chips = new List();
-
     for (int i = 0; i < _options.length; i++) {
       ChoiceChip choiceChip = ChoiceChip(
         selected: _selectedIndex == i,

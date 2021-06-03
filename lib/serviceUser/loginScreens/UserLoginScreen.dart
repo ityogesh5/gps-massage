@@ -43,7 +43,7 @@ class _UserLoginState extends State<UserLogin> {
   List<Address> addressList = List<Address>();
   var phnNum;
   final fireBaseMessaging = new FirebaseMessaging();
-  var fcmToken = '';
+  var fcmToken;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   User firebaseUser;
   final FocusNode _nodeText1 = FocusNode();
@@ -62,8 +62,15 @@ class _UserLoginState extends State<UserLogin> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    _getFCMToken();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    phoneNumberController.dispose();
+    passwordController.dispose();
   }
 
   @override
@@ -364,6 +371,8 @@ class _UserLoginState extends State<UserLogin> {
   }
 
   _loginServiceUser() async {
+    ProgressDialogBuilder.showOverlayLoader(context);
+    _getFCMLoginToken();
     var userPhoneNumber = phoneNumberController.text.toString();
     // var editedPhone = userPhoneNumber.replaceFirst(RegExp(r'^0+'), "");
     //print('phnNumber: ${editedPhone}');
@@ -395,6 +404,7 @@ class _UserLoginState extends State<UserLogin> {
           ],
         ),
       ));
+      ProgressDialogBuilder.hideLoader(context);
       return null;
     }
 
@@ -426,6 +436,7 @@ class _UserLoginState extends State<UserLogin> {
           ],
         ),
       ));
+      ProgressDialogBuilder.hideLoader(context);
       return null;
     }
 
@@ -453,6 +464,7 @@ class _UserLoginState extends State<UserLogin> {
           ],
         ),
       ));
+      ProgressDialogBuilder.hideLoader(context);
       return null;
     }
 
@@ -480,19 +492,19 @@ class _UserLoginState extends State<UserLogin> {
           ],
         ),
       ));
+      ProgressDialogBuilder.hideLoader(context);
       return null;
     }
 
     try {
-      ProgressDialogBuilder.showOverlayLoader(context);
-
       final url = HealingMatchConstants.LOGIN_USER_URL;
       final response = await http.post(url,
           headers: {"Content-Type": "application/json"},
           body: json.encode({
             "phoneNumber": userPhoneNumber,
             "password": password,
-            "isTherapist": "0"
+            "isTherapist": "0",
+            "fcmToken": fcmToken
           }));
       print('Status code : ${response.statusCode}');
       if (StatusCodeHelper.isLoginSuccess(
@@ -550,6 +562,8 @@ class _UserLoginState extends State<UserLogin> {
             value.setBool('isUserLoggedIn', true);
             value.setBool('userLoginSkipped', false);
             value.setBool('isProviderLoggedIn', false);
+            HealingMatchConstants.isUserRegistrationSkipped = false;
+            value.setBool('isGuest', false);
 
             print(
                 'Address place : ${userAddressData.userPlaceForMassage} : ${userAddressData.otherAddressType}');
@@ -568,7 +582,6 @@ class _UserLoginState extends State<UserLogin> {
           print(loginResponseModel.data.userOccupation);
         });
         print('Is User verified : ${loginResponseModel.data.isVerified}');
-        HealingMatchConstants.isUserRegistrationSkipped = false;
         if (loginResponseModel.data.isVerified) {
           firebaseChatLogin(loginResponseModel.data, password);
         } else {
@@ -579,6 +592,7 @@ class _UserLoginState extends State<UserLogin> {
               backgroundColor: Colors.redAccent,
               textColor: Colors.white);
           print('Unverified User!!');
+          ProgressDialogBuilder.hideLoader(context);
           return;
         }
       } else {
@@ -603,7 +617,21 @@ class _UserLoginState extends State<UserLogin> {
         .then((value) {
       ProgressDialogBuilder.hideLoader(context);
       if (value) {
+        Toast.show("正常にログインしました。", context,
+            duration: Toast.LENGTH_LONG,
+            gravity: Toast.BOTTOM,
+            backgroundColor: Colors.lime,
+            textColor: Colors.white);
         NavigationRouter.switchToServiceUserBottomBar(context);
+      } else {
+        ProgressDialogBuilder.hideLoader(context);
+        Toast.show("許可されていないユーザー。", context,
+            duration: 4,
+            gravity: Toast.CENTER,
+            backgroundColor: Colors.redAccent,
+            textColor: Colors.white);
+        print('Unverified User!!');
+        return;
       }
     });
   }
@@ -628,12 +656,37 @@ class _UserLoginState extends State<UserLogin> {
     }
   }
 
-  _getFCMToken() async {
+  _getFCMLoginToken() async {
     fireBaseMessaging.getToken().then((fcmTokenValue) {
       if (fcmTokenValue != null) {
         fcmToken = fcmTokenValue;
+        print('FCM Login Token : $fcmToken');
+      } else {
+        fireBaseMessaging.onTokenRefresh.listen((refreshToken) {
+          if (refreshToken != null) {
+            fcmToken = refreshToken;
+            print('FCM Login Refresh Tokens : $fcmToken');
+          }
+        }).onError((handleError) {
+          print('On FCM Login Token Refresh error : ${handleError.toString()}');
+        });
+      }
+    }).catchError((onError) {
+      print('FCM Login Token Exception : ${onError.toString()}');
+    });
+  }
+
+  _getFCMToken() async {
+    fireBaseMessaging.getToken().then((fcmTokenValue) {
+      if (fcmTokenValue != null) {
         print('FCM Skip Token : $fcmToken');
-        _getCurrentLocation();
+        if (HealingMatchConstants.isUserRegistrationSkipped) {
+          fcmToken = fcmTokenValue;
+          _getCurrentLocation();
+          HealingMatchConstants.userDeviceToken = fcmToken;
+        } else {
+          fcmToken = fcmTokenValue;
+        }
       } else {
         fireBaseMessaging.onTokenRefresh.listen((refreshToken) {
           if (refreshToken != null) {
@@ -657,6 +710,7 @@ class _UserLoginState extends State<UserLogin> {
         if (guestUserResponse != null) {
           _sharedPreferences.then((value) {
             value.setString('accessToken', guestUserResponse.accessToken);
+            value.setBool('isGuest', true);
           });
           ProgressDialogBuilder.hideLoader(context);
           NavigationRouter.switchToServiceUserBottomBar(context);
