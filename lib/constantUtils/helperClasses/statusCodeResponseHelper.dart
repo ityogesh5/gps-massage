@@ -97,12 +97,7 @@ class StatusCodeHelper {
   static bool isLoginSuccess(
       int statusCode, BuildContext context, String body) {
     if (statusCode == 200) {
-      Toast.show("正常にログインしました。", context,
-          duration: Toast.LENGTH_LONG,
-          gravity: Toast.BOTTOM,
-          backgroundColor: Colors.lime,
-          textColor: Colors.white);
-      print('Response Success!!');
+      print('Login Response Success!!');
       return true;
     } else if (statusCode == 400) {
       //ユーザーが見つかりません。

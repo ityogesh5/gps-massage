@@ -118,7 +118,7 @@ class _RegisterUserState extends State<RegisterUser> {
   List<dynamic> cityDropDownValues = List();
   List<dynamic> addressValues = List();
   final fireBaseMessaging = new FirebaseMessaging();
-  var fcmToken = '';
+  var fcmToken;
 
   StatesListResponseModel states;
   CitiesListResponseModel cities;
@@ -2444,11 +2444,13 @@ class _RegisterUserState extends State<RegisterUser> {
       if (fcmTokenValue != null) {
         fcmToken = fcmTokenValue;
         print('FCM Skip Token : $fcmToken');
+        HealingMatchConstants.userDeviceToken = fcmToken;
         _getCurrentLocation();
       } else {
         fireBaseMessaging.onTokenRefresh.listen((refreshToken) {
           if (refreshToken != null) {
             fcmToken = refreshToken;
+            HealingMatchConstants.userDeviceToken = fcmToken;
             print('FCM Skip Refresh Tokens : $fcmToken');
           }
         }).onError((handleError) {

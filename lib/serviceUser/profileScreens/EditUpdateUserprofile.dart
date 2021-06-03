@@ -1287,7 +1287,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                   child: WidgetAnimator(
                                                     TextFormField(
                                                       //display the address
-                                                      readOnly: true,
+                                                      readOnly: false,
                                                       autofocus: isFocus,
                                                       initialValue:
                                                           constantUserAddressValuesList[
@@ -1381,13 +1381,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                                         .removeAt(
                                                                             index);
                                                                   });
-                                                                  //Delete Value at index
-
-                                                                  constantListPositionType =
-                                                                      constantUserAddressValuesList[
-                                                                          index];
-                                                                  print(
-                                                                      'Position of other address : $constantListPositionType');
                                                                 },
                                                               )),
                                                       style: TextStyle(
@@ -1548,10 +1541,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                                       HealingMatchConstants
                                                                               .userAddressesList[
                                                                           index];
-                                                                  userAddressListPositionType = HealingMatchConstants
-                                                                      .userAddressesList[
-                                                                          index]
-                                                                      .addressTypeSelection;
                                                                   print(
                                                                       'Position of sub edit list position : $position');
                                                                   print(
@@ -2333,36 +2322,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       print('numbers : $roomNumber');
     }
 
-    if (constantListPositionType == userAddressListPositionType) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        duration: Duration(seconds: 3),
-        content: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              child: Text('選択した更新する地点のカテゴリーがすでに追加されました。',
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  style: TextStyle(fontFamily: 'NotoSansJP')),
-            ),
-            InkWell(
-              onTap: () {
-                _scaffoldKey.currentState.hideCurrentSnackBar();
-                Navigator.pop(context);
-              },
-              child: Text('はい',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'NotoSansJP',
-                      fontWeight: FontWeight.bold,
-                      decoration: TextDecoration.underline)),
-            ),
-          ],
-        ),
-      ));
-      return;
-    }
     if (HealingMatchConstants.userEditAddress.isEmpty) {
       String manualUserAddress = roomNumber +
           ',' +
