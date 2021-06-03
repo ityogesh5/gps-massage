@@ -109,6 +109,7 @@ dependencies:
 
 
   animated_text_kit: any
+  flutter_datetime_picker: any
 
 
   readmore: any #Gowtham Text ReadMore

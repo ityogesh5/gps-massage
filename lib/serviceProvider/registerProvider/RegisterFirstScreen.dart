@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
@@ -176,16 +177,12 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     debugPrint("Focus: " + _focus.hasFocus.toString());
   }
 
-  Future<Null> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        //locale : const Locale("ja","JP"),
-        initialDatePickerMode: DatePickerMode.day,
-        initialDate: selectedDate,
-        firstDate: DateTime(1901, 1),
-        lastDate: DateTime.now());
-
-    if (picked != null) {
+  _selectDate(BuildContext context) {
+    DatePicker.showDatePicker(context,
+        locale: LocaleType.jp,
+        currentTime: selectedDate,
+        minTime: DateTime(1901, 1),
+        maxTime: DateTime.now(), onConfirm: (DateTime picked) {
       setState(() {
         selectedDate = picked;
         _selectedDOBDate = new DateFormat("yyyy-MM-dd").format(picked);
@@ -196,7 +193,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
         selectedYear = picked.year;
         calculateAge();
       });
-    }
+    });
   }
 
   void calculateAge() {
