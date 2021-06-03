@@ -7,6 +7,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
@@ -14,6 +15,7 @@ import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/au
 import 'package:gps_massageapp/constantUtils/helperClasses/lineLoginHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
+import 'package:gps_massageapp/customLibraryClasses/keyboardDoneButton/keyboardActionConfig.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/login/loginResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
@@ -95,7 +97,7 @@ class _UserLoginState extends State<UserLogin> {
         ],
       ),
       body: KeyboardActions(
-        config: _buildConfig(context),
+        config: KeyboardCustomActions().buildConfig(context, _nodeText1),
         child: Center(
           child: SingleChildScrollView(
             child: Padding(
@@ -298,18 +300,16 @@ class _UserLoginState extends State<UserLogin> {
                                     shape: BoxShape.circle,
                                   ),
                                   child: Container(
+                                    width: 30.0,
+                                    height: 30,
+                                    margin: EdgeInsets.all(4.0),
+                                    child: SvgPicture.asset(
+                                      "assets/images_gps/appleLogo.svg",
+                                      height: 20.0,
                                       width: 20.0,
-                                      height: 20,
-                                      margin: EdgeInsets.all(8.0),
-                                      decoration: new BoxDecoration(
-                                        border: Border.all(color: Colors.white),
-                                        shape: BoxShape.circle,
-                                        image: new DecorationImage(
-                                          fit: BoxFit.contain,
-                                          image: new AssetImage(
-                                              'assets/images_gps/apple2.jpg'),
-                                        ),
-                                      )),
+                                      color: Colors.black,
+                                    ),
+                                  ),
                                 ))
                             : Container(),
                       ],
@@ -724,36 +724,5 @@ class _UserLoginState extends State<UserLogin> {
         print('Current Location exception : ${e.toString()}');
       });
     }
-  }
-
-  KeyboardActionsConfig _buildConfig(BuildContext context) {
-    return KeyboardActionsConfig(
-      keyboardActionsPlatform: KeyboardActionsPlatform.IOS,
-      keyboardBarColor: Colors.grey[200],
-      nextFocus: true,
-      actions: [
-        KeyboardActionsItem(
-          toolbarButtons: [
-            (node) {
-              return GestureDetector(
-                onTap: () => node.unfocus(),
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    "Done",
-                    style: TextStyle(fontWeight: FontWeight.w500),
-                  ),
-                ),
-              );
-            }
-          ],
-          displayArrows: false,
-          focusNode: _nodeText1,
-          footerBuilder: (_) => PreferredSize(
-              child: SizedBox(height: 2, child: Container()),
-              preferredSize: Size.fromHeight(2)),
-        ),
-      ],
-    );
   }
 }
