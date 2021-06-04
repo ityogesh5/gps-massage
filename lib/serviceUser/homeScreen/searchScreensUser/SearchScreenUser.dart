@@ -32,53 +32,49 @@ class SearchScreenUser extends StatefulWidget {
 
 class _SearchScreenUserState extends State<SearchScreenUser> {
   final Geolocator geoLocator = Geolocator()..forceAndroidLocationManager;
+  GlobalKey<ScaffoldState> _searchKey = new GlobalKey<ScaffoldState>();
   Placemark userAddedAddressPlaceMark;
+  NumberPicker dayPicker;
   int _value = 0;
   int addressTypeValues = 0;
-  var _pageNumber = 1;
-  var _pageSize = 10;
-  bool _isVisible = true;
-  bool _addAddressVisible = false;
-  String _currentAddress = '';
-  Placemark currentLocationPlaceMark;
-
-  NumberPicker dayPicker;
+  int _pageNumber = 1;
+  int _pageSize = 10;
   int _cyear;
   int _cmonth;
   int _currentDay;
   int daysToDisplay;
-  DateTime today = DateTime.now();
   int _lastday;
-
-  DateTime displayDay;
   int _counter = 0;
-  final yearKey = new GlobalKey<FormState>();
-  final monthKey = new GlobalKey<FormState>();
-
+  bool _isVisible = true;
   bool readonly = false;
-  var yearString, monthString, dateString;
-  final keywordController = new TextEditingController();
-
+  bool _addAddressVisible = false;
+  bool isAllAddressCategoryAvailable = false;
+  String _currentAddress = '';
   String addressTypeValue,
       massageServiceTypeValue,
       keyWordSearchValue,
       userPlaceForMassage;
   String userID;
-
-  bool isAllAddressCategoryAvailable = false;
-
-  var searchAddressLatitude, searchAddressLongitude;
-
-  List<UserAddresses> constantUserAddressValuesList = new List<UserAddresses>();
-  var constantUserAddressSize = new List();
-  GlobalKey<ScaffoldState> _searchKey = new GlobalKey<ScaffoldState>();
-  var differenceInTime;
-  Position _currentPosition;
   String address;
+  Placemark currentLocationPlaceMark;
+  Position _currentPosition;
+  DateTime today = DateTime.now();
+  DateTime displayDay;
+  final yearKey = new GlobalKey<FormState>();
+  final monthKey = new GlobalKey<FormState>();
+  final keywordController = new TextEditingController();
+  var yearString, monthString, dateString;
+  var constantUserAddressSize = new List();
+  var differenceInTime;
   var gpsColor = 0;
+  var searchAddressLatitude, searchAddressLongitude;
+  List<UserAddresses> constantUserAddressValuesList = new List<UserAddresses>();
+  List<String> yearDropDownValues = List<String>();
+  List<String> monthDropDownValues = List<String>();
 
   void initState() {
     super.initState();
+    buildYearDropDown();
     getValidSearchFields();
 
     dateString = '';
@@ -1124,40 +1120,37 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                     setState(() {
                                       yearString = value;
                                       _cyear = int.parse(value);
-                                      _currentDay = 1;
+                                      _currentDay = (_cyear == today.year) &&
+                                              (_cmonth == today.month)
+                                          ? today.day
+                                          : 1;
                                       displayDay = DateTime(
                                           _cyear, _cmonth, _currentDay);
                                       daysToDisplay =
                                           totalDays(_cmonth, _cyear);
+                                      dayPicker.animateInt(_currentDay);
                                     });
                                   },
                                   value: yearString,
                                   onChanged: (value) {
                                     yearString = value;
                                     _cyear = int.parse(value);
-                                    _currentDay = 1;
+                                    _currentDay = (_cyear == today.year) &&
+                                            (_cmonth == today.month)
+                                        ? today.day
+                                        : 1;
+                                    buildMonthDropDown(_cyear);
                                     setState(() {
                                       displayDay = DateTime(
                                           _cyear, _cmonth, _currentDay);
 
                                       daysToDisplay =
                                           totalDays(_cmonth, _cyear);
+                                      dayPicker.animateInt(_currentDay);
                                     });
                                   },
-                                  dataSource: [
-                                    {
-                                      "display": "2020",
-                                      "value": "2020",
-                                    },
-                                    {
-                                      "display": "2021",
-                                      "value": "2021",
-                                    },
-                                    {
-                                      "display": "2022",
-                                      "value": "2022",
-                                    },
-                                  ],
+                                  dataSource: yearDropDownValues,
+                                  isList: true,
                                   textField: 'display',
                                   valueField: 'value',
                                 ),
@@ -1196,7 +1189,12 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                               _cyear, _cmonth, _currentDay);
                                           daysToDisplay =
                                               totalDays(_cmonth, _cyear);
-                                          _currentDay = 1;
+                                          _currentDay =
+                                              (_cyear == today.year) &&
+                                                      (_cmonth == today.month)
+                                                  ? today.day
+                                                  : 1;
+                                          dayPicker.animateInt(_currentDay);
                                           _incrementCounter();
                                         });
                                       },
@@ -1209,11 +1207,18 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                         setState(() {
                                           daysToDisplay =
                                               totalDays(_cmonth, _cyear);
-                                          _currentDay = 1;
+                                          _currentDay =
+                                              (_cyear == today.year) &&
+                                                      (_cmonth == today.month)
+                                                  ? today.day
+                                                  : 1;
+                                          dayPicker.animateInt(_currentDay);
                                           _incrementCounter();
                                         });
                                       },
-                                      dataSource: [
+                                      dataSource: monthDropDownValues,
+                                      isList: true,
+                                      /*  [
                                         {
                                           "display": "1月",
                                           "value": "1",
@@ -1262,7 +1267,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                           "display": "12月",
                                           "value": "12",
                                         },
-                                      ],
+                                      ],*/
                                       textField: 'display',
                                       valueField: 'value',
                                     ),
@@ -1342,7 +1347,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
       //getEventDateTime(),
       zeroPad: false,
       initialValue: _currentDay,
-      minValue: 1,
+      minValue:
+          (_cyear == today.year) && (_cmonth == today.month) ? today.day : 1,
       maxValue: daysToDisplay,
       onChanged: (newValue) => setState(() {
         if ((newValue != _currentDay)) {
@@ -1558,6 +1564,25 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
         ],
       ),
     );
+  }
+
+  buildYearDropDown() {
+    for (int i = today.year; i <= today.year + 1; i++) {
+      yearDropDownValues.add(i.toString());
+    }
+    buildMonthDropDown(today.year);
+  }
+
+  buildMonthDropDown(int _cyear) {
+    monthDropDownValues.clear();
+    if (_cyear == today.year) {
+      monthString = today.month.toString();
+      _cmonth = today.month;
+    }
+
+    for (int i = _cyear == today.year ? today.month : 1; i <= 12; i++) {
+      monthDropDownValues.add(i.toString());
+    }
   }
 
   timeDurationSinceDate(var dateString, {bool numericDates = true}) {

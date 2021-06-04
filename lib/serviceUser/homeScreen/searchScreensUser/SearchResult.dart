@@ -2061,54 +2061,67 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                                                           ),
                                                         ),
                                                         SizedBox(
-                                                          height: 5,
-                                                        ),
-                                                        FittedBox(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              widget
+                                                          height: widget
                                                                           .getTherapistsSearchResults[
                                                                               index]
                                                                           .user
                                                                           .genderOfService !=
-                                                                      null
-                                                                  ? Container(
-                                                                      padding: widget.getTherapistsSearchResults[index].user.genderOfService !=
-                                                                              null
-                                                                          ? EdgeInsets.all(
-                                                                              4)
-                                                                          : EdgeInsets.all(
-                                                                              0),
-                                                                      decoration: BoxDecoration(
-                                                                          gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
-                                                                            Colors.white,
-                                                                            Colors.white,
-                                                                          ]),
-                                                                          shape: BoxShape.rectangle,
-                                                                          border: Border.all(
-                                                                            color:
-                                                                                Colors.grey[300],
-                                                                          ),
-                                                                          borderRadius: BorderRadius.circular(5.0),
-                                                                          color: Colors.grey[200]),
-                                                                      child: Text(
-                                                                        '${widget.getTherapistsSearchResults[index].user.genderOfService}',
-                                                                        style:
-                                                                            TextStyle(
-                                                                          color: Color.fromRGBO(
-                                                                              0,
-                                                                              0,
-                                                                              0,
-                                                                              1),
-                                                                        ),
-                                                                      ))
-                                                                  : Container(),
-                                                            ],
-                                                          ),
+                                                                      null &&
+                                                                  widget
+                                                                          .getTherapistsSearchResults[
+                                                                              index]
+                                                                          .user
+                                                                          .genderOfService !=
+                                                                      ""
+                                                              ? 5
+                                                              : 0,
                                                         ),
+                                                        widget
+                                                                        .getTherapistsSearchResults[
+                                                                            index]
+                                                                        .user
+                                                                        .genderOfService !=
+                                                                    null &&
+                                                                widget
+                                                                        .getTherapistsSearchResults[
+                                                                            index]
+                                                                        .user
+                                                                        .genderOfService !=
+                                                                    ""
+                                                            ? FittedBox(
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  children: [
+                                                                    widget.getTherapistsSearchResults[index].user.genderOfService !=
+                                                                            null
+                                                                        ? Container(
+                                                                            padding: widget.getTherapistsSearchResults[index].user.genderOfService != null
+                                                                                ? EdgeInsets.all(4)
+                                                                                : EdgeInsets.all(0),
+                                                                            decoration: BoxDecoration(
+                                                                                gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                                                                                  Colors.white,
+                                                                                  Colors.white,
+                                                                                ]),
+                                                                                shape: BoxShape.rectangle,
+                                                                                border: Border.all(
+                                                                                  color: Colors.grey[300],
+                                                                                ),
+                                                                                borderRadius: BorderRadius.circular(5.0),
+                                                                                color: Colors.grey[200]),
+                                                                            child: Text(
+                                                                              '${widget.getTherapistsSearchResults[index].user.genderOfService}',
+                                                                              style: TextStyle(
+                                                                                color: Color.fromRGBO(0, 0, 0, 1),
+                                                                              ),
+                                                                            ))
+                                                                        : Container(),
+                                                                  ],
+                                                                ),
+                                                              )
+                                                            : Container(),
                                                         SizedBox(
                                                           height: 5,
                                                         ),
