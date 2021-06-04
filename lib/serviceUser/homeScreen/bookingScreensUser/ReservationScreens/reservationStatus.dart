@@ -1067,7 +1067,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                         index]
                                                     .priceOfService;
                                             print(
-                                                'bookingId: ${HealingMatchConstants.bookingId}');
+                                                'bookingId: ${HealingMatchConstants.bookingIdPay}');
 
                                             NavigationRouter
                                                 .switchToUserSearchDetailPageOne(
@@ -1499,8 +1499,11 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                     width: 3,
                                                                   ),
                                                                   InkWell(
-                                                                    onTap:
-                                                                        () {},
+                                                                    onTap: () {
+                                                                      NavigationRouter
+                                                                          .switchToServiceUserWaitingForApprovalScreen(
+                                                                              context);
+                                                                    },
                                                                     child: Card(
                                                                       elevation:
                                                                           3,
@@ -2165,7 +2168,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                               index]
                                                                           .totalCost;
                                                                       print(
-                                                                          'bookingId: ${HealingMatchConstants.bookingId}');
+                                                                          'bookingId: ${HealingMatchConstants.bookingIdPay}');
 
                                                                       HealingMatchConstants
                                                                           .initiatePayment(

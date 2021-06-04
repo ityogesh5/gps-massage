@@ -84,7 +84,7 @@ class TherapistReviewList {
   int bookingId;
   bool isReviewStatus;
   int ratingsCount;
-  ReviewComment reviewComment;
+  String reviewComment;
   String createdUser;
   String updatedUser;
   DateTime createdAt;
@@ -96,10 +96,10 @@ class TherapistReviewList {
         id: json["id"],
         userId: json["userId"],
         therapistId: json["therapistId"],
-        bookingId: json["bookingId"] == null ? null : json["bookingId"],
+        bookingId: json["bookingId"],
         isReviewStatus: json["isReviewStatus"],
         ratingsCount: json["ratingsCount"],
-        reviewComment: reviewCommentValues.map[json["reviewComment"]],
+        reviewComment: json["reviewComment"],
         createdUser: json["createdUser"],
         updatedUser: json["updatedUser"],
         createdAt: DateTime.parse(json["createdAt"]),
@@ -111,10 +111,10 @@ class TherapistReviewList {
         "id": id,
         "userId": userId,
         "therapistId": therapistId,
-        "bookingId": bookingId == null ? null : bookingId,
+        "bookingId": bookingId,
         "isReviewStatus": isReviewStatus,
         "ratingsCount": ratingsCount,
-        "reviewComment": reviewCommentValues.reverse[reviewComment],
+        "reviewComment": reviewComment,
         "createdUser": createdUser,
         "updatedUser": updatedUser,
         "createdAt": createdAt.toIso8601String(),
@@ -122,14 +122,6 @@ class TherapistReviewList {
         "reviewUserId": reviewUserId.toJson(),
       };
 }
-
-enum ReviewComment { VERY_VERY_GOOD, TEST, REVIEW_COMMENT_TEST }
-
-final reviewCommentValues = EnumValues({
-  "test": ReviewComment.REVIEW_COMMENT_TEST,
-  "test...": ReviewComment.TEST,
-  "very very good": ReviewComment.VERY_VERY_GOOD
-});
 
 class ReviewUserId {
   ReviewUserId({
@@ -142,34 +134,30 @@ class ReviewUserId {
   int id;
   UserId userId;
   UserName userName;
-  String uploadProfileImgUrl;
+  dynamic uploadProfileImgUrl;
 
   factory ReviewUserId.fromJson(Map<String, dynamic> json) => ReviewUserId(
         id: json["id"],
         userId: userIdValues.map[json["userId"]],
         userName: userNameValues.map[json["userName"]],
-        uploadProfileImgUrl: json["uploadProfileImgUrl"] == null
-            ? null
-            : json["uploadProfileImgUrl"],
+        uploadProfileImgUrl: json["uploadProfileImgUrl"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "userId": userIdValues.reverse[userId],
         "userName": userNameValues.reverse[userName],
-        "uploadProfileImgUrl":
-            uploadProfileImgUrl == null ? null : uploadProfileImgUrl,
+        "uploadProfileImgUrl": uploadProfileImgUrl,
       };
 }
 
-enum UserId { U282, U277 }
+enum UserId { U294 }
 
-final userIdValues = EnumValues({"U277": UserId.U277, "U282": UserId.U282});
+final userIdValues = EnumValues({"U294": UserId.U294});
 
-enum UserName { MARSMELO, AKIL }
+enum UserName { WGAG }
 
-final userNameValues =
-    EnumValues({"Akil": UserName.AKIL, "marsmelo": UserName.MARSMELO});
+final userNameValues = EnumValues({"wgag": UserName.WGAG});
 
 class EnumValues<T> {
   Map<String, T> map;

@@ -30,6 +30,7 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/User
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/DeleteSubAddressModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/EditUserSubAddressModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/ratings/ratingList.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/ratings/viewGivenRatings.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistResultsModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
@@ -308,7 +309,7 @@ class ServiceUserAPIProvider {
     return _userReviewListById;
   }
 
-  static Future<CurrentOrderReviewResponseModel> getBookingOrderReviewUser(
+  static Future<ViewGivenRating> getBookingOrderReviewUser(
       int bookingId) async {
     try {
       final url = HealingMatchConstants.ON_PREMISE_USER_BASE_URL +
@@ -325,8 +326,7 @@ class ServiceUserAPIProvider {
       print('$response');
       if (response.statusCode == 200) {
         var userData = json.decode(response.body);
-        CurrentOrderReviewResponseModel usersReview =
-            CurrentOrderReviewResponseModel.fromJson(userData);
+        ViewGivenRating usersReview = ViewGivenRating.fromJson(userData);
         print('Types list:  $userData');
         return usersReview;
       } else {

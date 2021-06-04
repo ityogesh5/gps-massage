@@ -407,10 +407,11 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                       child: WidgetAnimator(
                         TextFormField(
                           //enableInteractiveSelection: false,
-                          //maxLength: 20,
+                          maxLength: 20,
                           autofocus: false,
                           controller: userNameController,
                           decoration: new InputDecoration(
+                            counterText: '',
                             filled: true,
                             fillColor: ColorConstants.formFieldFillColor,
                             labelText: 'お名前',
@@ -822,6 +823,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                 child: WidgetAnimator(
                                   TextFormField(
                                     controller: otherController,
+                                    enabled: false,
                                     style: HealingMatchConstants.formTextStyle,
                                     decoration: InputDecoration(
                                       counterText: '',
@@ -2125,14 +2127,124 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     if (_myAddressInputType != null || _myAddressInputType.isNotEmpty) {
       print('_myAddressInputType : $_myAddressInputType');
     }
-
-    if (userName != null || userName.isNotEmpty) {
-      print('Username : $userName');
+    if (userName.length == 0 || userName.isEmpty || userName == null) {
+      ProgressDialogBuilder.hideLoader(context);
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('有効なユーザー名を入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+    if (userName.length > 20) {
+      ProgressDialogBuilder.hideLoader(context);
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('名前は20文字数以内に入力してください。。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
     }
 
     // user DOB validation
-    if (userDOB != null || userDOB.isNotEmpty) {
-      print('dob user : $userDOB');
+    if (userDOB == null || userDOB.isEmpty) {
+      ProgressDialogBuilder.hideLoader(context);
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('有効な生年月日を選択してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+    //age validation
+    if (ageOfUser < 18) {
+      ProgressDialogBuilder.hideLoader(context);
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('大変申し訳ありませんが１８歳未満の方の登録はできません。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
     }
     // user gender validation
     if (_myGender != null || _myGender.isNotEmpty) {

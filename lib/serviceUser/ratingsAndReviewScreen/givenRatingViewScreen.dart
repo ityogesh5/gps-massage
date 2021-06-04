@@ -4,12 +4,13 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/currentBookingRatingResponseModel.dart';
-
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/userReviewandRatingsResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/ratings/ratingList.dart';
 import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/ratings/viewGivenRatings.dart';
 
 class GivenRatingList extends StatefulWidget {
   @override
@@ -22,7 +23,7 @@ class _GivenRatingListState extends State<GivenRatingList> {
   var _pageNumber = 0;
   var _pageSize = 10;
   int _totalReviews = 0;
-  CurrentOrderReviewResponseModel currentOrderReviewResponseModel;
+  ViewGivenRating currentOrderReviewResponseModel;
   int status = 0;
 
   @override
@@ -36,6 +37,7 @@ class _GivenRatingListState extends State<GivenRatingList> {
             HealingMatchConstants.bookingId)
         .then((value) {
       currentOrderReviewResponseModel = value;
+
       /*   currentOrderReviewResponseModel.bookingReviewData.ratingsCount = 4;
       currentOrderReviewResponseModel.bookingReviewData.reviewComment =
           "Sample data for testing has been added"; */
@@ -63,8 +65,7 @@ class _GivenRatingListState extends State<GivenRatingList> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
-            Navigator.pop(context);
-            //   NavigationRouter.switchToServiceProviderBottomBar(context);
+            NavigationRouter.switchToServiceUserBottomBarFavourite(context);
           },
         ),
         backgroundColor: Colors.transparent,
@@ -269,7 +270,7 @@ class _GivenRatingListState extends State<GivenRatingList> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "${userReviewList}",
+                "${userReviewList.reviewUserId.userName}",
                 style: TextStyle(
                   fontSize: 14.0,
                   fontWeight: FontWeight.bold,

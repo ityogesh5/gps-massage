@@ -74,6 +74,7 @@ import 'package:gps_massageapp/serviceUser/profileScreens/TermsAndConditions.dar
 import 'package:gps_massageapp/serviceUser/profileScreens/UserTutorial.dart';
 import 'package:gps_massageapp/serviceUser/ratingsAndReviewScreen/DisplayUserReviewScreen.dart';
 import 'package:gps_massageapp/serviceUser/ratingsAndReviewScreen/RatingsAndReviewUser.dart';
+import 'package:gps_massageapp/serviceUser/ratingsAndReviewScreen/givenRatingViewScreen.dart';
 import 'package:gps_massageapp/serviceUser/register/RegisterOTPScreen.dart';
 import 'package:gps_massageapp/serviceUser/register/RegisterUserScreen.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingCompletedList.dart'
@@ -794,6 +795,26 @@ class NavigationRouter {
     Navigator.of(context).push(PageRouteBuilder(
         pageBuilder: (context, animation, anotherAnimation) {
           return DisplayUserReview(id);
+        },
+        transitionDuration: Duration(milliseconds: 2000),
+        transitionsBuilder: (context, animation, anotherAnimation, child) {
+          animation = CurvedAnimation(
+              curve: HealingMatchConstants.curveList[2], parent: animation);
+          return Align(
+            child: SizeTransition(
+              sizeFactor: animation,
+              child: child,
+              axisAlignment: 0.0,
+            ),
+          );
+        }));
+  }
+
+  // Switch to given Rating List
+  static void switchToServiceUserGivenReviewScreen(BuildContext context) {
+    Navigator.of(context).push(PageRouteBuilder(
+        pageBuilder: (context, animation, anotherAnimation) {
+          return GivenRatingList();
         },
         transitionDuration: Duration(milliseconds: 2000),
         transitionsBuilder: (context, animation, anotherAnimation, child) {

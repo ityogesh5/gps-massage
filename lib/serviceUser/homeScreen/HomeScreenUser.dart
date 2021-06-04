@@ -852,7 +852,7 @@ class _HomeScreenByMassageType extends State<HomeScreenByMassageType> {
                       }
                     },
                     child: Text(
-                      'もっと見る',
+                      'もっとみる',
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,

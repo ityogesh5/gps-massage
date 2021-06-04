@@ -12,6 +12,7 @@ import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvid
 import 'package:intl/intl.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 
 class PastReservations extends StatefulWidget {
   @override
@@ -805,42 +806,106 @@ class _PastReservationsState extends State<PastReservations> {
                                                           : SizedBox.shrink(),
                                                     ],
                                                   ),
-                                                  Row(children: <Widget>[
-                                                    Expanded(
-                                                      child: Divider(
-                                                        // height: 50,
+                                                  bookingDetailsList[index]
+                                                              .bookingStatus ==
+                                                          9
+                                                      ? Row(children: <Widget>[
+                                                          Expanded(
+                                                            child: Divider(
+                                                              // height: 50,
 
-                                                        color: Color.fromRGBO(
-                                                            217, 217, 217, 1),
-                                                      ),
-                                                    ),
-                                                    InkWell(
-                                                      onTap: () {
-                                                        NavigationRouter
-                                                            .switchToServiceUserRatingsAndReviewScreen(
-                                                                context,
-                                                                bookingDetailsList[
-                                                                    index]);
-                                                        print(accessToken);
-                                                      },
-                                                      child: Card(
-                                                        elevation: 3,
-                                                        shape: CircleBorder(),
-                                                        child: CircleAvatar(
-                                                            maxRadius: 20,
-                                                            backgroundColor:
-                                                                Color.fromRGBO(
-                                                                    253,
-                                                                    253,
-                                                                    253,
-                                                                    1),
-                                                            child: SvgPicture.asset(
-                                                                'assets/images_gps/give_rating.svg',
-                                                                height: 20,
-                                                                width: 20)),
-                                                      ),
-                                                    ),
-                                                  ]),
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                      217,
+                                                                      217,
+                                                                      217,
+                                                                      1),
+                                                            ),
+                                                          ),
+                                                          bookingDetailsList[index]
+                                                                          .bookingStatus ==
+                                                                      9 &&
+                                                                  bookingDetailsList[
+                                                                              index]
+                                                                          .userReviewStatus ==
+                                                                      1
+                                                              ? InkWell(
+                                                                  onTap: () {},
+                                                                  child: Card(
+                                                                    elevation:
+                                                                        4.0,
+                                                                    shape:
+                                                                        CircleBorder(),
+                                                                    margin: EdgeInsets
+                                                                        .all(
+                                                                            0.0),
+                                                                    child:
+                                                                        Container(
+                                                                      decoration: BoxDecoration(
+                                                                          color: Colors.white,
+                                                                          border: Border.all(
+                                                                            color:
+                                                                                Colors.white,
+                                                                          ),
+                                                                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                                                                      child:
+                                                                          Padding(
+                                                                        padding:
+                                                                            const EdgeInsets.all(10.0),
+                                                                        child: SvgPicture
+                                                                            .asset(
+                                                                          "assets/images_gps/givenReview.svg",
+                                                                          height:
+                                                                              15.0,
+                                                                          width:
+                                                                              15.0,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                )
+                                                              : InkWell(
+                                                                  onTap: () {
+                                                                    HealingMatchConstants
+                                                                        .therapistRatingID = bookingDetailsList[
+                                                                            index]
+                                                                        .therapistId;
+                                                                    HealingMatchConstants
+                                                                            .bookingId =
+                                                                        bookingDetailsList[index]
+                                                                            .id;
+                                                                    NavigationRouter.switchToServiceUserRatingsAndReviewScreen(
+                                                                        context,
+                                                                        bookingDetailsList[
+                                                                            index]);
+                                                                    print(
+                                                                        accessToken);
+                                                                    print(
+                                                                        'bookindId:${HealingMatchConstants.bookingId = bookingDetailsList[index].id}');
+                                                                  },
+                                                                  child: Card(
+                                                                    elevation:
+                                                                        3,
+                                                                    shape:
+                                                                        CircleBorder(),
+                                                                    child: CircleAvatar(
+                                                                        maxRadius:
+                                                                            20,
+                                                                        backgroundColor: Color.fromRGBO(
+                                                                            253,
+                                                                            253,
+                                                                            253,
+                                                                            1),
+                                                                        child: SvgPicture.asset(
+                                                                            'assets/images_gps/give_rating.svg',
+                                                                            height:
+                                                                                20,
+                                                                            width:
+                                                                                20)),
+                                                                  ),
+                                                                )
+                                                        ])
+                                                      : Container(),
                                                   Row(
                                                     children: [
                                                       SvgPicture.asset(

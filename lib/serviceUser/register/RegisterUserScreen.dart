@@ -1584,7 +1584,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
     // Age 18+ validation
 
-    if (ageOfUser != 0 && ageOfUser < 18) {
+    if (ageOfUser < 18) {
       ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,

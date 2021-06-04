@@ -532,7 +532,6 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
             "x-access-token": accessToken
           },
           body: json.encode({
-            "userId": widget.bookingDetail.userId,
             "therapistId": widget.bookingDetail.therapistId,
             "bookingId": widget.bookingDetail.id,
             "ratingsCount": ratingsValue.toString(),
@@ -546,9 +545,8 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
         ratingReviewModel = RatingReviewModel.fromJson(ratingResponse);
         // ProgressDialogBuilder.hideRatingsAndReviewProgressDialog(context);
         print('navigate');
-        NavigationRouter.switchToServiceUserDisplayReviewScreen(
+        NavigationRouter.switchToServiceUserGivenReviewScreen(
           context,
-          widget.bookingDetail.therapistId,
         );
       } else {}
     } catch (e) {
@@ -582,7 +580,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
             "x-access-token": HealingMatchConstants.accessToken
           },
           body: json.encode({
-            "therapistId": "18",
+            "therapistId": widget.bookingDetail.therapistId,
           }));
       // print(response.body);
       print('Body : ${response.body}');

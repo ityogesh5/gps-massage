@@ -36,6 +36,7 @@ class Data {
     this.id,
     this.userId,
     this.therapistId,
+    this.bookingId,
     this.isReviewStatus,
     this.ratingsCount,
     this.reviewComment,
@@ -47,9 +48,10 @@ class Data {
 
   dynamic id;
   dynamic userId;
-  String therapistId;
+  dynamic therapistId;
+  dynamic bookingId;
   bool isReviewStatus;
-  String ratingsCount;
+  dynamic ratingsCount;
   String reviewComment;
   dynamic createdUser;
   dynamic updatedUser;
@@ -60,6 +62,7 @@ class Data {
         id: json["id"],
         userId: json["userId"],
         therapistId: json["therapistId"],
+        bookingId: json["bookingId"],
         isReviewStatus: json["isReviewStatus"],
         ratingsCount: json["ratingsCount"],
         reviewComment: json["reviewComment"],
@@ -73,6 +76,7 @@ class Data {
         "id": id,
         "userId": userId,
         "therapistId": therapistId,
+        "bookingId": bookingId,
         "isReviewStatus": isReviewStatus,
         "ratingsCount": ratingsCount,
         "reviewComment": reviewComment,
