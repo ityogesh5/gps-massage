@@ -425,6 +425,7 @@ class _ProviderConfirmReservationScreenState
                             requestBookingDetailsList[index].id;
                         HealingMatchConstants.serviceUserId =
                             requestBookingDetailsList[index].userId;
+                        HealingMatchConstants.serviceUserName = requestBookingDetailsList[index].bookingUserId.userName;
                         NavigationRouter.switchToProviderReviewScreen(
                             context, 0);
                       },

@@ -34,7 +34,7 @@ class _GivenRatingReviewScreenState extends State<GivenRatingReviewScreen> {
             HealingMatchConstants.bookingId)
         .then((value) {
       currentOrderReviewResponseModel = value;
-    /*   currentOrderReviewResponseModel.bookingReviewData.ratingsCount = 4;
+      /*   currentOrderReviewResponseModel.bookingReviewData.ratingsCount = 4;
       currentOrderReviewResponseModel.bookingReviewData.reviewComment =
           "Sample data for testing has been added"; */
       var providerListApiProvider =
@@ -93,7 +93,7 @@ class _GivenRatingReviewScreenState extends State<GivenRatingReviewScreen> {
                           child: Row(
                             children: [
                               Text(
-                                '店舗についてのレビュー',
+                                '${HealingMatchConstants.serviceUserName}さんについてのレビュー',
                                 style: TextStyle(
                                     color: Color.fromRGBO(0, 0, 0, 1),
                                     fontSize: 14.0,
@@ -125,47 +125,56 @@ class _GivenRatingReviewScreenState extends State<GivenRatingReviewScreen> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                RatingBar.builder(
-                                  initialRating: (double.parse(
-                                      (currentOrderReviewResponseModel
-                                              .bookingReviewData.ratingsCount)
-                                          .toString())),
-                                  minRating: 1,
-                                  direction: Axis.horizontal,
-                                  allowHalfRating: true,
-                                  itemCount: 5,
-                                  itemSize: 24.0,
-                                  ignoreGestures: true,
-                                  itemPadding: new EdgeInsets.only(bottom: 3.0),
-                                  itemBuilder: (context, index) => new SizedBox(
-                                      height: 20.0,
-                                      width: 18.0,
-                                      child: new IconButton(
-                                        onPressed: () {},
-                                        padding: new EdgeInsets.all(0.0),
-                                        // color: Colors.white,
-                                        icon: index >
-                                                (double.parse(
-                                                        (currentOrderReviewResponseModel
-                                                                .bookingReviewData
-                                                                .ratingsCount)
-                                                            .toString())) -
-                                                    1
-                                            ? SvgPicture.asset(
-                                                "assets/images_gps/star_2.svg",
-                                                height: 13.0,
-                                                width: 13.0,
-                                              )
-                                            : SvgPicture.asset(
-                                                "assets/images_gps/star_colour.svg",
-                                                height: 13.0,
-                                                width: 13.0,
-                                                //color: Colors.black,
-                                              ),
-                                      )),
-                                  onRatingUpdate: (rating) {
-                                    print(rating);
-                                  },
+                                Row(
+                                  children: [
+                                    RatingBar.builder(
+                                      initialRating: (double.parse(
+                                          (currentOrderReviewResponseModel
+                                                  .bookingReviewData
+                                                  .ratingsCount)
+                                              .toString())),
+                                      minRating: 1,
+                                      direction: Axis.horizontal,
+                                      allowHalfRating: true,
+                                      itemCount: 5,
+                                      itemSize: 24.0,
+                                      ignoreGestures: true,
+                                      itemPadding:
+                                          new EdgeInsets.only(bottom: 3.0),
+                                      itemBuilder: (context, index) =>
+                                          new SizedBox(
+                                              height: 20.0,
+                                              width: 18.0,
+                                              child: new IconButton(
+                                                onPressed: () {},
+                                                padding:
+                                                    new EdgeInsets.all(0.0),
+                                                // color: Colors.white,
+                                                icon: index >
+                                                        (double.parse((currentOrderReviewResponseModel
+                                                                    .bookingReviewData
+                                                                    .ratingsCount)
+                                                                .toString())) -
+                                                            1
+                                                    ? SvgPicture.asset(
+                                                        "assets/images_gps/star_2.svg",
+                                                        height: 13.0,
+                                                        width: 13.0,
+                                                      )
+                                                    : SvgPicture.asset(
+                                                        "assets/images_gps/star_colour.svg",
+                                                        height: 13.0,
+                                                        width: 13.0,
+                                                        //color: Colors.black,
+                                                      ),
+                                              )),
+                                      onRatingUpdate: (rating) {
+                                        print(rating);
+                                      },
+                                    ),
+                                    Text(
+                                        "  (${currentOrderReviewResponseModel.bookingReviewData.ratingsCount.toStringAsFixed(2)})"),
+                                  ],
                                 ),
                                 Text(
                                     "${currentOrderReviewResponseModel.bookingReviewData.reviewComment}"),
@@ -320,7 +329,7 @@ class _GivenRatingReviewScreenState extends State<GivenRatingReviewScreen> {
             ),
             SizedBox(width: 5),
             Text(
-              "(${userReviewList.ratingsCount.toStringAsFixed(2)})",
+              " (${userReviewList.ratingsCount.toStringAsFixed(2)})",
               style: TextStyle(
                 shadows: [
                   Shadow(

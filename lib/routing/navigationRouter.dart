@@ -640,7 +640,7 @@ class NavigationRouter {
   //Provider Provider Review Screen
   static void switchToProviderReviewScreenSent(
       BuildContext context, int userId) {
-    Navigator.push(
+    Navigator.pushReplacement(
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => GivenRatingReviewScreen()
