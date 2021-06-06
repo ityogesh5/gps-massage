@@ -11,8 +11,10 @@ import 'operationManagement/OperationManagement.dart';
 
 class BottomBarProvider extends StatefulWidget {
   final int page;
+  final int opManagementPage;
+  final int historyPage;
 
-  BottomBarProvider(this.page);
+  BottomBarProvider(this.page, {this.opManagementPage, this.historyPage});
 
   @override
   _BottomBarProviderPageState createState() => _BottomBarProviderPageState();
@@ -21,13 +23,7 @@ class BottomBarProvider extends StatefulWidget {
 class _BottomBarProviderPageState extends State<BottomBarProvider> {
   int selectedpage; //initial value
 
-  final _pageOptions = [
-    ProviderHomeScreen(),
-    OperationManagement(),
-    History(),
-    MyAccount(),
-    ChatTabBar(),
-  ]; // listing of all 3 pages index wise
+  var _pageOptions; // listing of all 3 pages index wise
 
   /*final bgcolor = [
     Colors.orange,
@@ -39,6 +35,14 @@ class _BottomBarProviderPageState extends State<BottomBarProvider> {
   void initState() {
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
     selectedpage = widget.page; //initial Page
+    _pageOptions = [
+      ProviderHomeScreen(),
+      OperationManagement(
+          widget.opManagementPage == null ? 0 : widget.opManagementPage),
+      History(widget.historyPage == null ? 0 : widget.historyPage),
+      MyAccount(),
+      ChatTabBar(),
+    ];
     super.initState();
   }
 
@@ -98,6 +102,8 @@ class _BottomBarProviderPageState extends State<BottomBarProvider> {
           setState(() {
             selectedpage =
                 index; // changing selected page as per bar index selected by the user
+            _pageOptions[1] = OperationManagement(0);
+            _pageOptions[2] = History(0);
           });
         },
       ),

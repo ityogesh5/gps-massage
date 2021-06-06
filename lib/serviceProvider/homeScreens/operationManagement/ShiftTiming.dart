@@ -1569,6 +1569,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
     String day = _storeServiceTime[index].weekDay;
     return showDialog(
         context: context,
+        barrierDismissible: false,
         builder: (context) {
           return Dialog(
             shape:

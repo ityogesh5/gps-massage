@@ -8,21 +8,25 @@ import 'package:gps_massageapp/serviceProvider/homeScreens/operationManagement/S
 import 'package:gps_massageapp/serviceProvider/homeScreens/operationManagement/ShiftTiming.dart';
 
 class OperationManagement extends StatefulWidget {
+  final int tabindex;
+  OperationManagement(this.tabindex);
   @override
   _OperationManagementState createState() => _OperationManagementState();
 }
 
 class _OperationManagementState extends State<OperationManagement>
     with SingleTickerProviderStateMixin {
-  int _tabIndex = 0;
+  int _tabIndex;
   TabController _tabController;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
+    _tabIndex = widget.tabindex;
     _tabController = TabController(vsync: this, length: 4);
     _tabController.addListener(_handleTabSelection);
+    _tabController.index = widget.tabindex;
   }
 
   buildUnSelectedTabBar(String title) {

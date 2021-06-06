@@ -417,7 +417,7 @@ class ServiceProviderApi {
         ProgressDialogBuilder.hideCommonProgressDialog(context);
         /*  Navigator.pop(context);
         Navigator.pop(context); */
-        NavigationRouter.switchToServiceProviderBottomBar(context);
+        NavigationRouter.switchToServiceProviderServiceTiming(context);
       }
     } catch (e) {
       print('Exception : ${e.toString()}');

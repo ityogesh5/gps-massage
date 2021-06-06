@@ -405,6 +405,30 @@ class NavigationRouter {
   }
 
   // Provider bottom bar myAccount
+  static void switchToServiceProviderServicePricePage(BuildContext context) {
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => BottomBarProvider(
+                  1,
+                  opManagementPage: 2,
+                )));
+  }
+
+  // Provider bottom bar shiftTiming
+  static void switchToServiceProviderServiceTiming(BuildContext context) {
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => BottomBarProvider(
+                  1,
+                  opManagementPage: 3,
+                )));
+  }
+
+  // Provider bottom bar myAccount
   static void switchToServiceProviderMyAccount(BuildContext context) {
     Navigator.of(context).popUntil((route) => route.isFirst);
     Navigator.pushReplacement(

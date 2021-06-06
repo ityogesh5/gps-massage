@@ -1945,6 +1945,8 @@ class _ShiftServiceState extends State<ShiftService> {
         updateResponseModel = LoginResponseModel.fromJson(updateResponse);
         HealingMatchConstants.userData = updateResponseModel.data;
         instances.setString("userData", json.encode(updateResponseModel.data));
+        refreshPage();
+        //     NavigationRouter.switchToServiceProviderServicePricePage(context);
       } else {
         ProgressDialogBuilder.hideCommonProgressDialog(context);
         print('Response error occured!');
@@ -1959,6 +1961,18 @@ class _ShiftServiceState extends State<ShiftService> {
       print("Error");
       ProgressDialogBuilder.hideCommonProgressDialog(context);
     }
+  }
+
+  void refreshPage() {
+    estheticServicePriceModel.clear();
+    relaxationServicePriceModel.clear();
+    treatmentServicePriceModel.clear();
+    fitnessServicePriceModel.clear();
+    deletedEstheticList.clear();
+    deletedRelaxationList.clear();
+    deletedTreatmentList.clear();
+    deletedFitnessList.clear();
+    getSavedValues();
   }
 
   deleteUnSelectedValues() async {
