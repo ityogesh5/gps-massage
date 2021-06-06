@@ -298,8 +298,7 @@ class ServiceProviderApi {
 
     if (isDateChanged) {
       EventDateTime start = new EventDateTime();
-      start.dateTime =
-        bookingDetailsList.newStartTime;
+      start.dateTime = bookingDetailsList.newStartTime;
       start.timeZone = "GMT+05:30";
       event.start = start;
 
@@ -452,11 +451,12 @@ class ServiceProviderApi {
     }
   }
 
-  static Future<TherapistBookingHistoryResponseModel>
-      getBookingRequests() async {
+  static Future<TherapistBookingHistoryResponseModel> getBookingRequests(
+      int pageNumber, int pageSize) async {
     TherapistBookingHistoryResponseModel therapistBookingHistoryResponseModel;
     try {
-      final url = HealingMatchConstants.THERAPIST_BOOKING_REQUEST;
+      final url = HealingMatchConstants.THERAPIST_BOOKING_REQUEST +
+          "?page=$pageNumber&size=$pageSize";
       Map<String, String> headers = {
         'Content-Type': 'application/json',
         'x-access-token': '${HealingMatchConstants.accessToken}'
@@ -480,11 +480,12 @@ class ServiceProviderApi {
     }
   }
 
-  static Future<TherapistBookingHistoryResponseModel>
-      getBookingApprovedDetails() async {
+  static Future<TherapistBookingHistoryResponseModel> getBookingApprovedDetails(
+      int pageNumber, int pageSize) async {
     TherapistBookingHistoryResponseModel therapistBookingHistoryResponseModel;
     try {
-      final url = HealingMatchConstants.THERAPIST_BOOKING_APPROVED;
+      final url = HealingMatchConstants.THERAPIST_BOOKING_APPROVED +
+          "?page=$pageNumber&size=$pageSize";
       Map<String, String> headers = {
         'Content-Type': 'application/json',
         'x-access-token': '${HealingMatchConstants.accessToken}'

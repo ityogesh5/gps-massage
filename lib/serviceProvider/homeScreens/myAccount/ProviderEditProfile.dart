@@ -3746,27 +3746,16 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
   _getState() async {
     await http.get(HealingMatchConstants.STATE_PROVIDER_URL).then((response) {
       states = StatesList.fromJson(json.decode(response.body));
-      // print(states.toJson());
-
       for (var stateList in states.data) {
         stateDropDownValues.add(stateList.prefectureJa);
-        // print(stateDropDownValues);
       }
       setState(() {
-        /*   if (myState != null && myState != '') {
-          _prefid = stateDropDownValues.indexOf(myState) + 1;
-          print('prefID : ${_prefid.toString()}'); */
         status = status + 1;
         print("s Status: $status");
         if (status == 2) {
           getProfileDetails();
         }
-        /*   cityDropDownValues.clear();
-          myCity = '';
-          _getCityDropDown(_prefid); */
-        /*   } */
       });
-      // print('prefID : ${stateDropDownValues.indexOf(_mystate).toString()}');
     });
   }
 
