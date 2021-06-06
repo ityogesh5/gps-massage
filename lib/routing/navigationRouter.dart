@@ -428,6 +428,17 @@ class NavigationRouter {
                 )));
   }
 
+  static void switchToProviderCompletedHistoryScreen(BuildContext context) {
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => BottomBarProvider(
+                  2,
+                  historyPage: 2,
+                )));
+  }
+
   // Provider bottom bar myAccount
   static void switchToServiceProviderMyAccount(BuildContext context) {
     Navigator.of(context).popUntil((route) => route.isFirst);

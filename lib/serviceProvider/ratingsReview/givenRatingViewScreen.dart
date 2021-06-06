@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/currentBookingRatingResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/userReviewandRatingsResponseModel.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
@@ -60,8 +61,8 @@ class _GivenRatingReviewScreenState extends State<GivenRatingReviewScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
-            Navigator.pop(context);
-            //   NavigationRouter.switchToServiceProviderBottomBar(context);
+            // Navigator.pop(context);
+            NavigationRouter.switchToProviderCompletedHistoryScreen(context);
           },
         ),
         backgroundColor: Colors.transparent,
@@ -75,139 +76,144 @@ class _GivenRatingReviewScreenState extends State<GivenRatingReviewScreen> {
         ),
         centerTitle: true,
       ),
-      body: status == 0
-          ? Container(
-              color: Colors.white,
-              child: Center(child: SpinKitThreeBounce(color: Colors.lime)),
-            )
-          : LazyLoadScrollView(
-              isLoading: isLoading,
-              onEndOfPage: () => _getMoreDataByType(),
-              child: SingleChildScrollView(
-                child: Container(
-                    padding: EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 6.0),
-                          child: Row(
-                            children: [
-                              Text(
-                                '${HealingMatchConstants.serviceUserName}さんについてのレビュー',
-                                style: TextStyle(
-                                    color: Color.fromRGBO(0, 0, 0, 1),
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                '($_totalReviews レビュー)',
-                                style: TextStyle(
-                                    color: Color.fromRGBO(153, 153, 153, 1),
-                                    fontSize: 12.0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 16.0,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.grey[300],
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          alignment: Alignment.topLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+      body: WillPopScope(
+        onWillPop: () {
+          NavigationRouter.switchToProviderCompletedHistoryScreen(context);
+        },
+        child: status == 0
+            ? Container(
+                color: Colors.white,
+                child: Center(child: SpinKitThreeBounce(color: Colors.lime)),
+              )
+            : LazyLoadScrollView(
+                isLoading: isLoading,
+                onEndOfPage: () => _getMoreDataByType(),
+                child: SingleChildScrollView(
+                  child: Container(
+                      padding: EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 6.0),
+                            child: Row(
                               children: [
-                                Row(
-                                  children: [
-                                    RatingBar.builder(
-                                      initialRating: (double.parse(
-                                          (currentOrderReviewResponseModel
-                                                  .bookingReviewData
-                                                  .ratingsCount)
-                                              .toString())),
-                                      minRating: 1,
-                                      direction: Axis.horizontal,
-                                      allowHalfRating: true,
-                                      itemCount: 5,
-                                      itemSize: 24.0,
-                                      ignoreGestures: true,
-                                      itemPadding:
-                                          new EdgeInsets.only(bottom: 3.0),
-                                      itemBuilder: (context, index) =>
-                                          new SizedBox(
-                                              height: 20.0,
-                                              width: 18.0,
-                                              child: new IconButton(
-                                                onPressed: () {},
-                                                padding:
-                                                    new EdgeInsets.all(0.0),
-                                                // color: Colors.white,
-                                                icon: index >
-                                                        (double.parse((currentOrderReviewResponseModel
-                                                                    .bookingReviewData
-                                                                    .ratingsCount)
-                                                                .toString())) -
-                                                            1
-                                                    ? SvgPicture.asset(
-                                                        "assets/images_gps/star_2.svg",
-                                                        height: 13.0,
-                                                        width: 13.0,
-                                                      )
-                                                    : SvgPicture.asset(
-                                                        "assets/images_gps/star_colour.svg",
-                                                        height: 13.0,
-                                                        width: 13.0,
-                                                        //color: Colors.black,
-                                                      ),
-                                              )),
-                                      onRatingUpdate: (rating) {
-                                        print(rating);
-                                      },
-                                    ),
-                                    Text(
-                                        "  (${currentOrderReviewResponseModel.bookingReviewData.ratingsCount.toStringAsFixed(2)})"),
-                                  ],
+                                Text(
+                                  '${HealingMatchConstants.serviceUserName}さんについてのレビュー',
+                                  style: TextStyle(
+                                      color: Color.fromRGBO(0, 0, 0, 1),
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 Text(
-                                    "${currentOrderReviewResponseModel.bookingReviewData.reviewComment}"),
+                                  '($_totalReviews レビュー)',
+                                  style: TextStyle(
+                                      color: Color.fromRGBO(153, 153, 153, 1),
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ],
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 8.0,
-                        ),
-                        ListView.separated(
-                            separatorBuilder: (context, index) => Divider(
-                                //color: Color.fromRGBO(251, 251, 251, 1),
-                                ),
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: userReviewList.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              if (index == userReviewList.length) {
-                                return _buildProgressIndicator();
-                              } else if (userReviewList[index].bookingId !=
-                                  HealingMatchConstants.bookingId) {
-                                return buildReviewContent(
-                                    userReviewList[index]);
-                              } else {
-                                return Container();
-                              }
-                            })
-                      ],
-                    )),
+                          SizedBox(
+                            height: 16.0,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            alignment: Alignment.topLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      RatingBar.builder(
+                                        initialRating: (double.parse(
+                                            (currentOrderReviewResponseModel
+                                                    .bookingReviewData
+                                                    .ratingsCount)
+                                                .toString())),
+                                        minRating: 1,
+                                        direction: Axis.horizontal,
+                                        allowHalfRating: true,
+                                        itemCount: 5,
+                                        itemSize: 24.0,
+                                        ignoreGestures: true,
+                                        itemPadding:
+                                            new EdgeInsets.only(bottom: 3.0),
+                                        itemBuilder: (context, index) =>
+                                            new SizedBox(
+                                                height: 20.0,
+                                                width: 18.0,
+                                                child: new IconButton(
+                                                  onPressed: () {},
+                                                  padding:
+                                                      new EdgeInsets.all(0.0),
+                                                  // color: Colors.white,
+                                                  icon: index >
+                                                          (double.parse((currentOrderReviewResponseModel
+                                                                      .bookingReviewData
+                                                                      .ratingsCount)
+                                                                  .toString())) -
+                                                              1
+                                                      ? SvgPicture.asset(
+                                                          "assets/images_gps/star_2.svg",
+                                                          height: 13.0,
+                                                          width: 13.0,
+                                                        )
+                                                      : SvgPicture.asset(
+                                                          "assets/images_gps/star_colour.svg",
+                                                          height: 13.0,
+                                                          width: 13.0,
+                                                          //color: Colors.black,
+                                                        ),
+                                                )),
+                                        onRatingUpdate: (rating) {
+                                          print(rating);
+                                        },
+                                      ),
+                                      Text(
+                                          "  (${currentOrderReviewResponseModel.bookingReviewData.ratingsCount.toStringAsFixed(2)})"),
+                                    ],
+                                  ),
+                                  Text(
+                                      "${currentOrderReviewResponseModel.bookingReviewData.reviewComment}"),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 8.0,
+                          ),
+                          ListView.separated(
+                              separatorBuilder: (context, index) => Divider(
+                                  //color: Color.fromRGBO(251, 251, 251, 1),
+                                  ),
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: userReviewList.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                if (index == userReviewList.length) {
+                                  return _buildProgressIndicator();
+                                } else if (userReviewList[index].bookingId !=
+                                    HealingMatchConstants.bookingId) {
+                                  return buildReviewContent(
+                                      userReviewList[index]);
+                                } else {
+                                  return Container();
+                                }
+                              })
+                        ],
+                      )),
+                ),
               ),
-            ),
+      ),
     );
   }
 

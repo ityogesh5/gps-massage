@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -226,24 +227,23 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     //  getProfileDetails();
   }
 
-  Future<Null> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        //locale : const Locale("ja","JP"),
-        initialDatePickerMode: DatePickerMode.day,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(1901, 1),
-        lastDate: DateTime.now());
-    if (picked != null) {
+  _selectDate(BuildContext context) {
+    DatePicker.showDatePicker(context,
+        locale: LocaleType.jp,
+        currentTime: selectedDate,
+        minTime: DateTime(1901, 1),
+        maxTime: DateTime.now(), onConfirm: (DateTime picked) {
       setState(() {
+        selectedDate = picked;
         _selectedDOBDate = new DateFormat("yyyy-MM-dd").format(picked);
         userDOBController.value =
             TextEditingValue(text: _selectedDOBDate.toString());
+
         //print(_selectedDOBDate);
         selectedYear = picked.year;
         calculateAge();
       });
-    }
+    });
   }
 
   void calculateAge() {
