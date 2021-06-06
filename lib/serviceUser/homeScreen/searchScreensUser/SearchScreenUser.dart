@@ -45,7 +45,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   int _lastday;
   int _selectedYearIndex = 0;
   int _selectedMonthIndex = 0;
-  int _changedNumber;
+  int _yearChangedNumber = 0;
+  int _monthChangedNumber = 0;
   bool _isVisible = true;
   bool readonly = false;
   bool _addAddressVisible = false;
@@ -101,7 +102,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
         children: [
           SingleChildScrollView(
             scrollDirection: Axis.vertical,
-            physics: BouncingScrollPhysics(),
+            physics: ClampingScrollPhysics(),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -1258,7 +1259,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                 CupertinoButton(
                   child: Text(
                     "キャンセル",
-                    style: TextStyle(color: Colors.grey),
+                    style: TextStyle(color: Colors.grey, fontSize: 12.0),
                   ),
                   onPressed: () {
                     Navigator.pop(context);
@@ -1270,9 +1271,10 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                         initialItem: _selectedYearIndex,
                       ),
                       itemExtent: 32.0,
+                      // magnification: 0.0,
                       backgroundColor: Colors.white,
                       onSelectedItemChanged: (int index) {
-                        _changedNumber = index;
+                        _yearChangedNumber = index;
                       },
                       children: new List<Widget>.generate(
                           yearDropDownValues.length, (int index) {
@@ -1282,10 +1284,10 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                       })),
                 ),
                 CupertinoButton(
-                  child: Text("完了"),
+                  child: Text("完了", style: TextStyle(fontSize: 12.0)),
                   onPressed: () {
                     setState(() {
-                      _selectedYearIndex = _changedNumber;
+                      _selectedYearIndex = _yearChangedNumber;
                       yearController.text =
                           yearDropDownValues[_selectedYearIndex];
                       _cyear = int.parse(yearController.text);
@@ -1327,7 +1329,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                 CupertinoButton(
                   child: Text(
                     "キャンセル",
-                    style: TextStyle(color: Colors.grey),
+                    style: TextStyle(color: Colors.grey, fontSize: 12.0),
                   ),
                   onPressed: () {
                     Navigator.pop(context);
@@ -1341,7 +1343,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                       itemExtent: 32.0,
                       backgroundColor: Colors.white,
                       onSelectedItemChanged: (int index) {
-                        _changedNumber = index;
+                        _monthChangedNumber = index;
                       },
                       children: new List<Widget>.generate(
                           monthDropDownValues.length, (int index) {
@@ -1351,10 +1353,11 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                       })),
                 ),
                 CupertinoButton(
-                  child: Text("完了"),
+                  child: Text("完了", style: TextStyle(fontSize: 12.0)),
                   onPressed: () {
                     setState(() {
-                      _selectedMonthIndex = _changedNumber;
+
+                      _selectedMonthIndex = _monthChangedNumber;
                       monthController.text =
                           monthDropDownValues[_selectedMonthIndex];
                       _cmonth = int.parse(monthController.text);
@@ -1590,6 +1593,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                       color: Colors.black),
                   spacing: 50,
                   itemHeight: 40,
+                  itemWidth: 70.0,
                   isForce2Digits: true,
                   onTimeChange: (time) {
                     setState(() {

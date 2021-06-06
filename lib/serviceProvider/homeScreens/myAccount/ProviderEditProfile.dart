@@ -156,6 +156,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
   int childrenMeasureStatus = 0;
 
   List<String> selectedStoreTypeDisplayValues = List<String>();
+  Map<String, String> deletedStoreTypeDisplayValues = Map<String, String>();
 
   DateTime selectedDate = DateTime.now();
 
@@ -2996,12 +2997,32 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
           HealingMatchConstants.serviceProviderCoronaMeasure == "はい"
               ? '1'
               : '0',
+
       'childrenMeasure': childrenMeasure,
       'businessForm': HealingMatchConstants.serviceProviderBusinessForm,
       'bankDetails': json.encode(userData.bankDetails),
       'addressTypeSelection': "直接入力",
       'address': json.encode(userData.addresses), //address update in json
     });
+    if (deletedStoreTypeDisplayValues.isNotEmpty) {
+      var keys = deletedStoreTypeDisplayValues.keys;
+      for (var key in keys) {
+        switch (key) {
+          case "エステ":
+            request.fields.addAll({"deleteEsthetic": "1"});
+            break;
+          case "接骨・整体":
+            request.fields.addAll({"deleteOrteopathic": "1"});
+            break;
+          case "リラクゼーション":
+            request.fields.addAll({"deleteRelaxation": "1"});
+            break;
+          case "フィットネス":
+            request.fields.addAll({"deleteFitness": "1"});
+            break;
+        }
+      }
+    }
     /* if (storePhoneNumberController.text != '' &&
         storePhoneNumberController.text != null) {
       request.fields.addAll({
@@ -3306,11 +3327,20 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                           setState(() {
                             selectedStoreTypeDisplayValues
                                 .remove(storeTypeDisplayValues);
+                            deletedStoreTypeDisplayValues[
+                                    storeTypeDisplayValues] =
+                                storeTypeDisplayValues;
                           });
                         } else {
                           setState(() {
                             selectedStoreTypeDisplayValues
                                 .add(storeTypeDisplayValues);
+                            if (deletedStoreTypeDisplayValues[
+                                    storeTypeDisplayValues] !=
+                                null) {
+                              deletedStoreTypeDisplayValues
+                                  .remove(storeTypeDisplayValues);
+                            }
                           });
                         }
                       },
@@ -3321,6 +3351,12 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                       setState(() {
                         selectedStoreTypeDisplayValues
                             .add(storeTypeDisplayValues);
+                        if (deletedStoreTypeDisplayValues[
+                                storeTypeDisplayValues] !=
+                            null) {
+                          deletedStoreTypeDisplayValues
+                              .remove(storeTypeDisplayValues);
+                        }
                       });
                     },
                     child: Container(
