@@ -304,26 +304,32 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                       ),
                     ),
                     SizedBox(height: 6),
-                    Row(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          SvgPicture.asset('assets/images_gps/gps.svg',
-                              height: 25, width: 25),
-                          SizedBox(width: 5),
-                          Flexible(
-                            child: Text(
-                              '${HealingMatchConstants.confAddress}',
-                              softWrap: true,
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'NotoSansJP'),
+                    Expanded(
+                      child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            SvgPicture.asset('assets/images_gps/gps.svg',
+                                height: 25, width: 25),
+                            SizedBox(width: 5),
+                            Flexible(
+                              child: Text(
+                                '${HealingMatchConstants.confAddress}',
+                                maxLines:
+                                    HealingMatchConstants.confAddress.length >
+                                            10
+                                        ? 2
+                                        : 1,
+                                softWrap: true,
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'NotoSansJP'),
+                              ),
                             ),
-                          ),
-                        ])
+                          ]),
+                    ),
                   ],
                 ),
               ),

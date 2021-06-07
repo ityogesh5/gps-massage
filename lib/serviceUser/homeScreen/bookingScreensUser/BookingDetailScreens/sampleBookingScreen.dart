@@ -1098,8 +1098,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                     )))
             : InkWell(
                 onTap: () {
-                  HealingMatchConstants.callBack = updateDateTimeSelection;
-                  NavigationRouter.switchToUserChooseDate(context);
+                  calendarNavigator();
                 },
                 child: Card(
                   shape: CircleBorder(),
