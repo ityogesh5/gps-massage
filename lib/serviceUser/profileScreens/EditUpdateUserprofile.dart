@@ -2031,37 +2031,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       return null;
     }
 
-    // room number validation
-    if (roomNumber == null || roomNumber.isEmpty) {
-      ProgressDialogBuilder.hideLoader(context);
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        duration: Duration(seconds: 3),
-        content: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              child: Text('有効な号室を入力してください。',
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  style: TextStyle(fontFamily: 'NotoSansJP')),
-            ),
-            InkWell(
-              onTap: () {
-                _scaffoldKey.currentState.hideCurrentSnackBar();
-              },
-              child: Text('はい',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'NotoSansJP',
-                      decoration: TextDecoration.underline)),
-            ),
-          ],
-        ),
-      ));
-      return null;
-    }
-
     // user city validation
     if (_myCity == null || _myCity.isEmpty) {
       ProgressDialogBuilder.hideLoader(context);

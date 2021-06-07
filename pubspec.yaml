@@ -68,7 +68,9 @@ dependencies:
   infinite_listview: ^1.0.0
   horizontal_center_date_picker: any
 
+
   sign_in_with_apple: any 
+
 
   date_util: ^0.1.4
 
@@ -105,8 +107,10 @@ dependencies:
   firebase_storage: any
 
   json_annotation: any
+  flutter_datetime_picker: any
 
   #keyboard_visibility: 4.0.3
+
 
   video_player: ^0.10.12
   keyboard_actions: ^3.3.1+1
@@ -118,7 +122,7 @@ dependencies:
 
   readmore: any #Gowtham Text ReadMore
   argon_buttons_flutter: any
-  flutter_datetime_picker: any
+ 
 
 
 

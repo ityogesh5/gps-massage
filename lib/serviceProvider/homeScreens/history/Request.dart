@@ -4,6 +4,7 @@ import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBo
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
 import 'package:intl/intl.dart';
+import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
 class ProviderRequestScreen extends StatefulWidget {
   @override
@@ -14,11 +15,14 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
   List<BookingDetailsList> requestBookingDetailsList =
       List<BookingDetailsList>();
   int status = 0;
+  bool isLoading = false;
+  var _pageNumber = 0;
+  var _pageSize = 10;
 
   @override
   void initState() {
     super.initState();
-    ServiceProviderApi.getBookingRequests().then((value) {
+    ServiceProviderApi.getBookingRequests(_pageNumber, _pageSize).then((value) {
       setState(() {
         requestBookingDetailsList.addAll(value.data.bookingDetailsList);
         status = 1;
@@ -30,38 +34,42 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
   Widget build(BuildContext context) {
     return status == 0
         ? Center(child: CircularProgressIndicator())
-        : SingleChildScrollView(
-            primary: true,
-            child: Container(
-              padding: EdgeInsets.all(8.0),
-              //  margin: EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Center(
-                    child: Text(
-                      "サービス利用者からリクエストのあった予約",
-                      // textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Color.fromRGBO(102, 102, 102, 1),
-                        fontSize: 12.0,
-                        fontFamily: 'NotoSansJP',
+        : LazyLoadScrollView(
+            isLoading: isLoading,
+            onEndOfPage: () => _getMoreData(),
+            child: SingleChildScrollView(
+              primary: true,
+              child: Container(
+                padding: EdgeInsets.all(8.0),
+                //  margin: EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Center(
+                      child: Text(
+                        "サービス利用者からリクエストのあった予約",
+                        // textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color.fromRGBO(102, 102, 102, 1),
+                          fontSize: 12.0,
+                          fontFamily: 'NotoSansJP',
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  ListView.separated(
-                      separatorBuilder: (context, index) => SizedBox(
-                            height: 15,
-                          ),
-                      shrinkWrap: true,
-                      physics: BouncingScrollPhysics(),
-                      itemCount: requestBookingDetailsList.length,
-                      itemBuilder: (context, index) {
-                        return buildBookingCard(index);
-                      }),
-                ],
+                    SizedBox(
+                      height: 15,
+                    ),
+                    ListView.separated(
+                        separatorBuilder: (context, index) => SizedBox(
+                              height: 15,
+                            ),
+                        shrinkWrap: true,
+                        physics: BouncingScrollPhysics(),
+                        itemCount: requestBookingDetailsList.length,
+                        itemBuilder: (context, index) {
+                          return buildBookingCard(index);
+                        }),
+                  ],
+                ),
               ),
             ),
           );
@@ -412,5 +420,41 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
         ),
       ),
     );
+  }
+
+  _getMoreData() async{
+    try {
+      if (!isLoading) {
+        isLoading = true;
+        _pageNumber++;
+        print('Page number : $_pageNumber Page Size : $_pageSize');
+        TherapistBookingHistoryResponseModel
+            therapistBookingHistoryResponseModel =
+            await ServiceProviderApi.getBookingRequests(
+                _pageNumber, _pageSize);
+
+        if (therapistBookingHistoryResponseModel
+            .data.bookingDetailsList.isEmpty) {
+          setState(() {
+            isLoading = false;
+            print(
+                'TherapistList data count is Zero : ${therapistBookingHistoryResponseModel.data.bookingDetailsList.length}');
+          });
+        } else {
+          print(
+              'TherapistList data Size : ${therapistBookingHistoryResponseModel.data.bookingDetailsList.length}');
+          setState(() {
+            isLoading = false;
+            if (this.mounted) {
+              requestBookingDetailsList.addAll(
+                  therapistBookingHistoryResponseModel.data.bookingDetailsList);
+            }
+          });
+        }
+      }
+      //print('Therapist users data Size : ${therapistUsers.length}');
+    } catch (e) {
+      print('Exception more data' + e.toString());
+    }
   }
 }

@@ -406,6 +406,41 @@ class NavigationRouter {
   }
 
   // Provider bottom bar myAccount
+  static void switchToServiceProviderServicePricePage(BuildContext context) {
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => BottomBarProvider(
+                  1,
+                  opManagementPage: 2,
+                )));
+  }
+
+  // Provider bottom bar shiftTiming
+  static void switchToServiceProviderServiceTiming(BuildContext context) {
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => BottomBarProvider(
+                  1,
+                  opManagementPage: 3,
+                )));
+  }
+
+  static void switchToProviderCompletedHistoryScreen(BuildContext context) {
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => BottomBarProvider(
+                  2,
+                  historyPage: 2,
+                )));
+  }
+
+  // Provider bottom bar myAccount
   static void switchToServiceProviderMyAccount(BuildContext context) {
     Navigator.of(context).popUntil((route) => route.isFirst);
     Navigator.pushReplacement(
@@ -617,7 +652,7 @@ class NavigationRouter {
   //Provider Provider Review Screen
   static void switchToProviderReviewScreenSent(
       BuildContext context, int userId) {
-    Navigator.push(
+    Navigator.pushReplacement(
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => GivenRatingReviewScreen()

@@ -11,6 +11,7 @@ class ColorConstants {
   static final multiTextHintTextColor = Color.fromRGBO(217, 217, 217, 1);
   static final buttonColor = Color.fromRGBO(200, 217, 33, 1);
   static final fontFamily = 'NotoSansJP';
+  static final dateFieldBorderColor = Color.fromRGBO(228, 228, 228, 1);
 
   static final statusBarColor = Colors.grey[200];
 }

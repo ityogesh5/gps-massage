@@ -132,43 +132,21 @@ class ReviewUserId {
   });
 
   int id;
-  UserId userId;
-  UserName userName;
-  dynamic uploadProfileImgUrl;
+  String userId;
+  String userName;
+  String uploadProfileImgUrl;
 
   factory ReviewUserId.fromJson(Map<String, dynamic> json) => ReviewUserId(
         id: json["id"],
-        userId: userIdValues.map[json["userId"]],
-        userName: userNameValues.map[json["userName"]],
+        userId: json["userId"],
+        userName: json["userName"],
         uploadProfileImgUrl: json["uploadProfileImgUrl"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "userId": userIdValues.reverse[userId],
-        "userName": userNameValues.reverse[userName],
+        "userId": userId,
+        "userName": userName,
         "uploadProfileImgUrl": uploadProfileImgUrl,
       };
-}
-
-enum UserId { U294 }
-
-final userIdValues = EnumValues({"U294": UserId.U294});
-
-enum UserName { WGAG }
-
-final userNameValues = EnumValues({"wgag": UserName.WGAG});
-
-class EnumValues<T> {
-  Map<String, T> map;
-  Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    if (reverseMap == null) {
-      reverseMap = map.map((k, v) => new MapEntry(v, k));
-    }
-    return reverseMap;
-  }
 }

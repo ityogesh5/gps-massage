@@ -897,7 +897,7 @@ class _PastReservationsState extends State<PastReservations> {
                                                                             253,
                                                                             1),
                                                                         child: SvgPicture.asset(
-                                                                            'assets/images_gps/chat.svg',
+                                                                            'assets/images_gps/giveRating.svg',
                                                                             height:
                                                                                 20,
                                                                             width:
@@ -981,11 +981,24 @@ class _PastReservationsState extends State<PastReservations> {
                                                       SizedBox(
                                                         width: 5,
                                                       ),
-                                                      Text(
-                                                        '${bookingDetailsList[index].location}',
-                                                        style: TextStyle(
-                                                          color: Color.fromRGBO(
-                                                              102, 102, 102, 1),
+                                                      Flexible(
+                                                        child: Text(
+                                                          '${bookingDetailsList[index].location}',
+                                                          maxLines: bookingDetailsList[
+                                                                          index]
+                                                                      .location
+                                                                      .length >
+                                                                  10
+                                                              ? 2
+                                                              : 1,
+                                                          style: TextStyle(
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    102,
+                                                                    102,
+                                                                    102,
+                                                                    1),
+                                                          ),
                                                         ),
                                                       ),
                                                     ],

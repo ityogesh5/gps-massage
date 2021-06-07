@@ -172,22 +172,38 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                           initialRating: 0,
                                           minRating: 1,
                                           direction: Axis.horizontal,
-                                          allowHalfRating: true,
+                                          allowHalfRating: false,
                                           itemCount: 5,
-                                          itemSize: 30,
-                                          itemPadding: EdgeInsets.symmetric(
-                                              horizontal: 4.0),
-                                          itemBuilder: (context, _) => Icon(
-                                            Icons.star,
-                                            size: 5,
-                                            color:
-                                                Color.fromRGBO(200, 217, 33, 1),
-                                          ),
+                                          itemSize: 24.0,
+                                          itemPadding: new EdgeInsets.all(4.0),
+                                          itemBuilder: (context, index) =>
+                                              new SizedBox(
+                                                  height: 20.0,
+                                                  width: 20.0,
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsets.all(2.0),
+                                                    child: index >
+                                                            ratingsValue - 1
+                                                        ? SvgPicture.asset(
+                                                            "assets/images_gps/star_2.svg",
+                                                            height: 15.0,
+                                                            width: 15.0,
+                                                            /*  color:
+                                                                Colors.white, */
+                                                          )
+                                                        : SvgPicture.asset(
+                                                            "assets/images_gps/star_colour.svg",
+                                                            height: 15.0,
+                                                            width: 15.0,
+                                                            // color: Color.fromRGBO(200, 217, 33, 1),
+                                                          ), /*  new Icon(
+                                                                Icons.star,
+                                                                size: 20.0), */
+                                                  )),
                                           onRatingUpdate: (rating) {
-                                            setState(() {
-                                              ratingsValue = rating;
-                                            });
-                                            print(ratingsValue);
+                                            print(rating);
+                                            ratingsValue = rating;
                                           },
                                         ),
                                       ],

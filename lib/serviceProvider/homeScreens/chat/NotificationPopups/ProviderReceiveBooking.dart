@@ -27,6 +27,8 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
   TextEditingController cancellationReasonController = TextEditingController();
   String price;
   String addedpriceReason;
+  String sTime;
+  String eTime;
   bool proposeAdditionalCosts = false;
   bool suggestAnotherTime = false;
   bool onCancel = false;
@@ -45,6 +47,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
     newEndTime = widget.bookingDetail.endTime.toLocal();
     startTime = widget.bookingDetail.startTime.toLocal();
     endTime = widget.bookingDetail.endTime.toLocal();
+
     super.initState();
   }
 
@@ -367,11 +370,6 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            newStartTime.hour < 10
-                                                ? "0${newStartTime.hour}"
-                                                : "${newStartTime.hour}",
-                                          ),
-                                          Text(
                                             newStartTime.minute < 10
                                                 ? ":0${newStartTime.minute}"
                                                 : ":${newStartTime.minute}",
@@ -513,22 +511,22 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                                           false,
                                           widget.bookingDetail)
                                       .then((value) {
-                                //    if (value) {
-                                      ServiceProviderApi.updateStatusUpdate(
-                                              widget.bookingDetail,
-                                              false,
-                                              false,
-                                              onCancel)
-                                          .then((value) {
-                                        ProgressDialogBuilder
-                                            .hideCommonProgressDialog(context);
-                                        if (value) {
-                                          NavigationRouter
-                                              .switchToServiceProviderBottomBar(
-                                                  context);
-                                        }
-                                      });
-                                  //  }
+                                    //    if (value) {
+                                    ServiceProviderApi.updateStatusUpdate(
+                                            widget.bookingDetail,
+                                            false,
+                                            false,
+                                            onCancel)
+                                        .then((value) {
+                                      ProgressDialogBuilder
+                                          .hideCommonProgressDialog(context);
+                                      if (value) {
+                                        NavigationRouter
+                                            .switchToServiceProviderBottomBar(
+                                                context);
+                                      }
+                                    });
+                                    //  }
                                   });
                                 },
                                 child: Container(
@@ -564,6 +562,12 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
 
   Card buildBookingCard() {
     String jaName = DateFormat('EEEE', 'ja_JP').format(startTime);
+    sTime = DateFormat('kk:mm').format(startTime);
+    eTime = DateFormat('kk:mm').format(endTime);
+    DateTime updatedTime = widget.bookingDetail.updatedAt.toLocal();
+    String updateTimeFormat = DateFormat('kk:mm').format(updatedTime);
+    String dateFormat = DateFormat('MM月dd').format(startTime);
+
     return Card(
       // margin: EdgeInsets.all(8.0),
       color: Color.fromRGBO(242, 242, 242, 1),
@@ -641,7 +645,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                     ),
                     Spacer(),
                     Text(
-                      '${widget.bookingDetail.updatedAt.hour}:${widget.bookingDetail.updatedAt.minute} 時',
+                      '$updateTimeFormat 時',
                       style: TextStyle(
                         fontSize: 12.0,
                         color: Colors.black,
@@ -739,7 +743,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                       width: 8,
                     ),
                     Text(
-                      '${startTime.month}月${startTime.day}',
+                      '$dateFormat',
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.black,
@@ -772,7 +776,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                       width: 8,
                     ),
                     Text(
-                      '${startTime.hour}: ${startTime.minute} ~ ${endTime.hour}: ${endTime.minute}',
+                      '$sTime ~ $eTime',
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.black,
@@ -864,11 +868,13 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                     SizedBox(
                       width: 8,
                     ),
-                    Text(
-                      '${widget.bookingDetail.location}',
-                      style: TextStyle(
-                        color: Color.fromRGBO(102, 102, 102, 1),
-                        fontSize: 12,
+                    Flexible(
+                      child: Text(
+                        '${widget.bookingDetail.location}',
+                        style: TextStyle(
+                          color: Color.fromRGBO(102, 102, 102, 1),
+                          fontSize: 12,
+                        ),
                       ),
                     ),
                   ],

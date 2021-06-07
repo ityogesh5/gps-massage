@@ -41,7 +41,6 @@ class _ProviderLoginState extends State<ProviderLogin> {
 
   FocusNode phoneNumberFocus = FocusNode();
   FocusNode createPasswordFocus = FocusNode();
-  
 
   List<String> serviceProviderLoginDetails = [];
 
@@ -512,9 +511,9 @@ class _ProviderLoginState extends State<ProviderLogin> {
   void firebaseChatLogin(Data userData, String password) {
     Auth()
         .signIn(
-            userData.phoneNumber.toString() +
-                userData.id.toString() +
-                "@nexware.global.com",
+            /*    userData.phoneNumber.toString() +
+                userData.id.toString() + */
+            "8056687696252" + "@nexware.global.com",
             password)
         .then((value) {
       hideLoader();

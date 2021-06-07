@@ -2273,8 +2273,17 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
         ',' +
         myState; */
 
-    String address =
-        myState + myCity + manualAddresss + buildingname + roomnumber;
+    String address = buildingname != null || buildingname != ''
+        ? myState +
+            ' ' +
+            myCity +
+            ' ' +
+            manualAddresss +
+            ' ' +
+            buildingname +
+            ' ' +
+            roomnumber
+        : myState + ' ' + myCity + ' ' + manualAddresss + ' ' + roomnumber;
 
     String query = Platform.isIOS
         ? myCity + ',' + myState

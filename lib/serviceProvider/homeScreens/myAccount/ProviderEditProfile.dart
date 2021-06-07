@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -156,6 +157,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
   int childrenMeasureStatus = 0;
 
   List<String> selectedStoreTypeDisplayValues = List<String>();
+  Map<String, String> deletedStoreTypeDisplayValues = Map<String, String>();
 
   DateTime selectedDate = DateTime.now();
 
@@ -225,24 +227,23 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     //  getProfileDetails();
   }
 
-  Future<Null> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        //locale : const Locale("ja","JP"),
-        initialDatePickerMode: DatePickerMode.day,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(1901, 1),
-        lastDate: DateTime.now());
-    if (picked != null) {
+  _selectDate(BuildContext context) {
+    DatePicker.showDatePicker(context,
+        locale: LocaleType.jp,
+        currentTime: selectedDate,
+        minTime: DateTime(1901, 1),
+        maxTime: DateTime.now(), onConfirm: (DateTime picked) {
       setState(() {
+        selectedDate = picked;
         _selectedDOBDate = new DateFormat("yyyy-MM-dd").format(picked);
         userDOBController.value =
             TextEditingValue(text: _selectedDOBDate.toString());
+
         //print(_selectedDOBDate);
         selectedYear = picked.year;
         calculateAge();
       });
-    }
+    });
   }
 
   void calculateAge() {
@@ -2843,18 +2844,17 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         .addAll(childrenMeasuresDropDownValuesSelected);
     HealingMatchConstants.serviceProviderGenderService = genderTreatment;
 
-    /*  String address = roomnumber +
-        ',' +
-        buildingname +
-        ',' +
-        manualAddresss +
-        ',' +
-        myCity +
-        ',' +
-        myState; */
-
-    String address =
-        myState + myCity + manualAddresss + buildingname + roomnumber;
+    String address = buildingname != null || buildingname != ''
+        ? myState +
+            ' ' +
+            myCity +
+            ' ' +
+            manualAddresss +
+            ' ' +
+            buildingname +
+            ' ' +
+            roomnumber
+        : myState + ' ' + myCity + ' ' + manualAddresss + ' ' + roomnumber;
 
     String query = Platform.isIOS
         ? myCity + ',' + myState
@@ -2996,12 +2996,32 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
           HealingMatchConstants.serviceProviderCoronaMeasure == "はい"
               ? '1'
               : '0',
+
       'childrenMeasure': childrenMeasure,
       'businessForm': HealingMatchConstants.serviceProviderBusinessForm,
       'bankDetails': json.encode(userData.bankDetails),
       'addressTypeSelection': "直接入力",
       'address': json.encode(userData.addresses), //address update in json
     });
+    if (deletedStoreTypeDisplayValues.isNotEmpty) {
+      var keys = deletedStoreTypeDisplayValues.keys;
+      for (var key in keys) {
+        switch (key) {
+          case "エステ":
+            request.fields.addAll({"deleteEsthetic": "1"});
+            break;
+          case "接骨・整体":
+            request.fields.addAll({"deleteOrteopathic": "1"});
+            break;
+          case "リラクゼーション":
+            request.fields.addAll({"deleteRelaxation": "1"});
+            break;
+          case "フィットネス":
+            request.fields.addAll({"deleteFitness": "1"});
+            break;
+        }
+      }
+    }
     /* if (storePhoneNumberController.text != '' &&
         storePhoneNumberController.text != null) {
       request.fields.addAll({
@@ -3306,11 +3326,20 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                           setState(() {
                             selectedStoreTypeDisplayValues
                                 .remove(storeTypeDisplayValues);
+                            deletedStoreTypeDisplayValues[
+                                    storeTypeDisplayValues] =
+                                storeTypeDisplayValues;
                           });
                         } else {
                           setState(() {
                             selectedStoreTypeDisplayValues
                                 .add(storeTypeDisplayValues);
+                            if (deletedStoreTypeDisplayValues[
+                                    storeTypeDisplayValues] !=
+                                null) {
+                              deletedStoreTypeDisplayValues
+                                  .remove(storeTypeDisplayValues);
+                            }
                           });
                         }
                       },
@@ -3321,6 +3350,12 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                       setState(() {
                         selectedStoreTypeDisplayValues
                             .add(storeTypeDisplayValues);
+                        if (deletedStoreTypeDisplayValues[
+                                storeTypeDisplayValues] !=
+                            null) {
+                          deletedStoreTypeDisplayValues
+                              .remove(storeTypeDisplayValues);
+                        }
                       });
                     },
                     child: Container(
@@ -3710,27 +3745,16 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
   _getState() async {
     await http.get(HealingMatchConstants.STATE_PROVIDER_URL).then((response) {
       states = StatesList.fromJson(json.decode(response.body));
-      // print(states.toJson());
-
       for (var stateList in states.data) {
         stateDropDownValues.add(stateList.prefectureJa);
-        // print(stateDropDownValues);
       }
       setState(() {
-        /*   if (myState != null && myState != '') {
-          _prefid = stateDropDownValues.indexOf(myState) + 1;
-          print('prefID : ${_prefid.toString()}'); */
         status = status + 1;
         print("s Status: $status");
         if (status == 2) {
           getProfileDetails();
         }
-        /*   cityDropDownValues.clear();
-          myCity = '';
-          _getCityDropDown(_prefid); */
-        /*   } */
       });
-      // print('prefID : ${stateDropDownValues.indexOf(_mystate).toString()}');
     });
   }
 

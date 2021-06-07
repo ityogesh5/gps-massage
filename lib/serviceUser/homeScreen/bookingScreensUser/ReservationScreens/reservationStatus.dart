@@ -69,10 +69,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
       if (this.mounted) {
         setState(() {
           bookingDetailsList = value.bookingDetailsList;
-          print('bookingDetails:${bookingDetailsList.length}');
+          print('bookingDetails:${bookingDetailsList}');
           status = 1;
-          getStatusValue();
         });
+        getStatusValue();
       }
     });
   }
@@ -3393,10 +3393,9 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                     ),
                                                                     Spacer(),
                                                                     FavoriteButton(
-                                                                        isFavorite: canceledReservationList[index].favouriteToTherapist ==
-                                                                                1
-                                                                            ? true
-                                                                            : false,
+                                                                        isFavorite:
+                                                                            canceledReservationList[index].favouriteToTherapist ==
+                                                                                1,
                                                                         iconSize:
                                                                             40,
                                                                         iconColor:

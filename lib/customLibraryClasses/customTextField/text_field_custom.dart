@@ -1073,6 +1073,7 @@ class _TextFieldState extends State<TextFieldCustom>
 
     Widget child = RepaintBoundary(
       child: EditableText(
+        autocorrectionTextRectColor: Colors.white,
         key: editableTextKey,
         readOnly: widget.readOnly,
         toolbarOptions: widget.toolbarOptions,

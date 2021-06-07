@@ -292,6 +292,11 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                             FittedBox(
                               child: Text(
                                 '${HealingMatchConstants.confAddress}',
+                                maxLines:
+                                    HealingMatchConstants.confAddress.length >
+                                            10
+                                        ? 2
+                                        : 1,
                                 softWrap: true,
                                 style: TextStyle(
                                     fontSize: 14,

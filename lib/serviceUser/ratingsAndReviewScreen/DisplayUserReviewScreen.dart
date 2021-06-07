@@ -131,7 +131,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                                             CrossAxisAlignment.center,
                                         children: [
                                           Text(
-                                            "${ratingListValues[index].reviewUserId.userName}",
+                                            '${ratingListValues[index].reviewUserId.userName}',
                                             style: TextStyle(
                                                 fontFamily: 'NotoSansJP',
                                                 fontSize: 14,

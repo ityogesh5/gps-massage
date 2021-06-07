@@ -5,7 +5,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoding/geocoding.dart';
@@ -26,6 +25,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:toast/toast.dart';
 
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
@@ -2285,6 +2285,8 @@ class _RegisterUserState extends State<RegisterUser> {
           print('Exception caught while firebase : ${error.toString()}');
           ProgressDialogBuilder.hideLoader(context);
         });
+
+        HealingMatchConstants.isUserRegistrationSkipped = false;
 
         ProgressDialogBuilder.hideLoader(context);
         NavigationRouter.switchToUserOtpScreen(context);

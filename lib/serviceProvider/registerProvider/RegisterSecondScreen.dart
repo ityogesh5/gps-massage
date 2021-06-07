@@ -1687,6 +1687,7 @@ class _BannerImageUploadState extends State<BannerImageUpload> {
         cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
         materialOptions: MaterialOptions(
           selectionLimitReachedText: "バナーイメージは5個以上選択できません。選択を解除してやり直すことができます。",
+          textOnNothingSelected: "掲載写真を選択してください。",
           statusBarColor: "#F6F6F6",
           actionBarColor: "#C8D921",
           actionBarTitle: "Healing Match App",
