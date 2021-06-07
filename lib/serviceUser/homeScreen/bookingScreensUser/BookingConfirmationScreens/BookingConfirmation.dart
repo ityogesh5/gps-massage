@@ -289,7 +289,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                             SvgPicture.asset('assets/images_gps/gps.svg',
                                 height: 25, width: 25),
                             SizedBox(width: 5),
-                            FittedBox(
+                            Flexible(
                               child: Text(
                                 '${HealingMatchConstants.confAddress}',
                                 maxLines:
