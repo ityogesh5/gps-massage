@@ -1232,7 +1232,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                             _cmonth,
                             _currentDay,
                             HealingMatchConstants.dateTime.hour,
-                            HealingMatchConstants.dateTime.month));
+                            HealingMatchConstants.dateTime.minute));
                         //proceedToSearchResults();
                       },
                       icon: Image.asset(
@@ -1553,100 +1553,68 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   }
 
   buildTimeController(DateTime _dateTime) {
-    return Stack(
-      children: [
-        /*   Container(
-          height: 140.0,
-          width: MediaQuery.of(context).size.width,
-          //color: Color.fromRGBO(242, 242, 242, 1)
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.bottomLeft,
-                end: Alignment(0.8, 0.0),
-                colors: [
-                  // Color.fromRGBO(242, 242, 242, 1),
-                  Colors.grey[350],
-                  Colors.white,
-                ],
-                // colors: [Colors.blue, Colors.indigo, Colors.indigo],
-                tileMode: TileMode.clamp,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey[350],
-                  blurRadius: 4.0,
-                  spreadRadius: 2.0,
-                  offset: Offset(
-                    0.0,
-                    0.0,
-                  ),
-                ),
-              ]),
-        ), */
-        Padding(
-          padding: const EdgeInsets.only(left: 18.0, right: 18.0),
-          child: Stack(
-            children: [
-              Container(
-                  height: 120.0,
-                  // padding: EdgeInsets.all(8.0),
-                  margin: EdgeInsets.only(top: 12.0),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.transparent),
-                      borderRadius: BorderRadius.circular(10.0),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey[100],
-                          blurRadius: 6.0,
-                          spreadRadius: 10.0,
-                          offset: Offset(
-                            0.0,
-                            0.0,
-                          ),
-                        ),
-                      ]),
-                  child: TimePickerSpinner(
-                    alignment: Alignment.topCenter,
-                    is24HourMode: true,
-                    minutesInterval: 15,
-                    time: _dateTime,
-                    normalTextStyle: TextStyle(
-                      fontSize: 18,
-                      color: Color.fromRGBO(217, 217, 217, 1), //Colors.grey,
-                      fontWeight: FontWeight.bold,
+    return Padding(
+      padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+      child: Stack(
+        children: [
+          Container(
+              height: 120.0,
+              padding: EdgeInsets.all(6.0),
+              margin: EdgeInsets.only(top: 12.0),
+              decoration: BoxDecoration(
+                  border: Border.all(color: Colors.transparent),
+                  borderRadius: BorderRadius.circular(10.0),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey[100],
+                      blurRadius: 6.0,
+                      spreadRadius: 10.0,
+                      offset: Offset(
+                        0.0,
+                        0.0,
+                      ),
                     ),
-                    highlightedTextStyle: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: Colors.black),
-                    spacing: 50,
-                    itemHeight: 40,
-                    itemWidth: 70.0,
-                    isForce2Digits: true,
-                    onTimeChange: (time) {
-                      setState(() {
-                        _dateTime = time;
-                        print('Selected Date and Time : $_dateTime');
-                        HealingMatchConstants.dateTime = _dateTime;
-                        /* timeDurationSinceDate(HealingMatchConstants.dateTime); */
-                      });
-                    },
-                  )),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomPaint(
-                    size: Size(20.0, 12.0),
-                    painter: TrianglePainter(
-                        isDownArrow: false, color: Colors.white),
-                  ),
-                ],
+                  ]),
+              child: TimePickerSpinner(
+                alignment: Alignment.topCenter,
+                is24HourMode: true,
+                minutesInterval: 15,
+                time: _dateTime,
+                normalTextStyle: TextStyle(
+                  fontSize: 18,
+                  color: Color.fromRGBO(217, 217, 217, 1), //Colors.grey,
+                  fontWeight: FontWeight.bold,
+                ),
+                highlightedTextStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Colors.black),
+                spacing: 50,
+                itemHeight: 40,
+                itemWidth: 70.0,
+                isForce2Digits: true,
+                onTimeChange: (time) {
+                  setState(() {
+                    _dateTime = time;
+                    print('Selected Date and Time : $_dateTime');
+                    HealingMatchConstants.dateTime = _dateTime;
+                    /* timeDurationSinceDate(HealingMatchConstants.dateTime); */
+                  });
+                },
+              )),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CustomPaint(
+                size: Size(20.0, 12.0),
+                painter: TrianglePainter(
+                    isDownArrow: false, color: Colors.white),
               ),
             ],
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
