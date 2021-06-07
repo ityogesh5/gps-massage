@@ -180,7 +180,7 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
 
   cancelBooking() {
     var cancelBooking = ServiceUserAPIProvider.updateBookingCompeted(
-        HealingMatchConstants.bookingIdPay);
+        HealingMatchConstants.bookingIdPay, selectedBuildingType);
     NavigationRouter.switchToServiceUserBottomBar(context);
   }
 

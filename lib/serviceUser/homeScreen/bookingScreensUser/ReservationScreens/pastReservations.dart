@@ -12,6 +12,7 @@ import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvid
 import 'package:intl/intl.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 
 class PastReservations extends StatefulWidget {
   @override
@@ -163,7 +164,7 @@ class _PastReservationsState extends State<PastReservations> {
   @override
   Widget build(BuildContext context) {
     return status == 0
-        ? Center(child: CircularProgressIndicator())
+        ? Center(child: SpinKitThreeBounce(color: Colors.lime))
         : LazyLoadScrollView(
             isLoading: isLoading,
             onEndOfPage: () => _getMoreDataByType(),
@@ -805,42 +806,106 @@ class _PastReservationsState extends State<PastReservations> {
                                                           : SizedBox.shrink(),
                                                     ],
                                                   ),
-                                                  Row(children: <Widget>[
-                                                    Expanded(
-                                                      child: Divider(
-                                                        // height: 50,
+                                                  bookingDetailsList[index]
+                                                              .bookingStatus ==
+                                                          9
+                                                      ? Row(children: <Widget>[
+                                                          Expanded(
+                                                            child: Divider(
+                                                              // height: 50,
 
-                                                        color: Color.fromRGBO(
-                                                            217, 217, 217, 1),
-                                                      ),
-                                                    ),
-                                                    InkWell(
-                                                      onTap: () {
-                                                        NavigationRouter
-                                                            .switchToServiceUserRatingsAndReviewScreen(
-                                                                context,
-                                                                bookingDetailsList[
-                                                                    index]);
-                                                        print(accessToken);
-                                                      },
-                                                      child: Card(
-                                                        elevation: 3,
-                                                        shape: CircleBorder(),
-                                                        child: CircleAvatar(
-                                                            maxRadius: 20,
-                                                            backgroundColor:
-                                                                Color.fromRGBO(
-                                                                    253,
-                                                                    253,
-                                                                    253,
-                                                                    1),
-                                                            child: SvgPicture.asset(
-                                                                'assets/images_gps/give_rating.svg',
-                                                                height: 20,
-                                                                width: 20)),
-                                                      ),
-                                                    ),
-                                                  ]),
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                      217,
+                                                                      217,
+                                                                      217,
+                                                                      1),
+                                                            ),
+                                                          ),
+                                                          bookingDetailsList[index]
+                                                                          .bookingStatus ==
+                                                                      9 &&
+                                                                  bookingDetailsList[
+                                                                              index]
+                                                                          .userReviewStatus ==
+                                                                      1
+                                                              ? InkWell(
+                                                                  onTap: () {},
+                                                                  child: Card(
+                                                                    elevation:
+                                                                        4.0,
+                                                                    shape:
+                                                                        CircleBorder(),
+                                                                    margin: EdgeInsets
+                                                                        .all(
+                                                                            0.0),
+                                                                    child:
+                                                                        Container(
+                                                                      decoration: BoxDecoration(
+                                                                          color: Colors.white,
+                                                                          border: Border.all(
+                                                                            color:
+                                                                                Colors.white,
+                                                                          ),
+                                                                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                                                                      child:
+                                                                          Padding(
+                                                                        padding:
+                                                                            const EdgeInsets.all(10.0),
+                                                                        child: SvgPicture
+                                                                            .asset(
+                                                                          "assets/images_gps/givenReview.svg",
+                                                                          height:
+                                                                              15.0,
+                                                                          width:
+                                                                              15.0,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                )
+                                                              : InkWell(
+                                                                  onTap: () {
+                                                                    HealingMatchConstants
+                                                                        .therapistRatingID = bookingDetailsList[
+                                                                            index]
+                                                                        .therapistId;
+                                                                    HealingMatchConstants
+                                                                            .bookingId =
+                                                                        bookingDetailsList[index]
+                                                                            .id;
+                                                                    NavigationRouter.switchToServiceUserRatingsAndReviewScreen(
+                                                                        context,
+                                                                        bookingDetailsList[
+                                                                            index]);
+                                                                    print(
+                                                                        accessToken);
+                                                                    print(
+                                                                        'bookindId:${HealingMatchConstants.bookingId = bookingDetailsList[index].id}');
+                                                                  },
+                                                                  child: Card(
+                                                                    elevation:
+                                                                        3,
+                                                                    shape:
+                                                                        CircleBorder(),
+                                                                    child: CircleAvatar(
+                                                                        maxRadius:
+                                                                            20,
+                                                                        backgroundColor: Color.fromRGBO(
+                                                                            253,
+                                                                            253,
+                                                                            253,
+                                                                            1),
+                                                                        child: SvgPicture.asset(
+                                                                            'assets/images_gps/giveRating.svg',
+                                                                            height:
+                                                                                20,
+                                                                            width:
+                                                                                20)),
+                                                                  ),
+                                                                )
+                                                        ])
+                                                      : Container(),
                                                   Row(
                                                     children: [
                                                       SvgPicture.asset(
@@ -916,11 +981,24 @@ class _PastReservationsState extends State<PastReservations> {
                                                       SizedBox(
                                                         width: 5,
                                                       ),
-                                                      Text(
-                                                        '${bookingDetailsList[index].location}',
-                                                        style: TextStyle(
-                                                          color: Color.fromRGBO(
-                                                              102, 102, 102, 1),
+                                                      Flexible(
+                                                        child: Text(
+                                                          '${bookingDetailsList[index].location}',
+                                                          maxLines: bookingDetailsList[
+                                                                          index]
+                                                                      .location
+                                                                      .length >
+                                                                  10
+                                                              ? 2
+                                                              : 1,
+                                                          style: TextStyle(
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    102,
+                                                                    102,
+                                                                    102,
+                                                                    1),
+                                                          ),
                                                         ),
                                                       ),
                                                     ],
@@ -940,79 +1018,73 @@ class _PastReservationsState extends State<PastReservations> {
                     )
                   : Stack(
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Center(
-                              child: Container(
-                                padding: EdgeInsets.all(8.0),
-                                height:
-                                    MediaQuery.of(context).size.height * 0.22,
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                  color: Color.fromRGBO(255, 255, 255, 1),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(16.0)),
-                                  border: Border.all(
-                                      color: Color.fromRGBO(217, 217, 217, 1)),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          '過去の予約の情報！',
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontFamily: 'NotoSansJP',
-                                              fontWeight: FontWeight.bold),
-                                        )
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        InkWell(
-                                          onTap: () {},
-                                          child: new Container(
-                                              width: 80.0,
-                                              height: 80.0,
-                                              decoration: new BoxDecoration(
-                                                border: Border.all(
-                                                    color: Colors.black12),
-                                                shape: BoxShape.circle,
-                                                image: new DecorationImage(
-                                                    fit: BoxFit.fill,
-                                                    image: new AssetImage(
-                                                        'assets/images_gps/appIcon.png')),
-                                              )),
-                                        ),
-                                        Expanded(
-                                          child: Column(
-                                            children: [
-                                              Text(
-                                                '過去の予約はありません。',
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    fontFamily: 'NotoSansJP',
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ],
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(
+                                child: Container(
+                                  padding: EdgeInsets.all(8.0),
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.22,
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                    color: Color.fromRGBO(255, 255, 255, 1),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(16.0)),
+                                    border: Border.all(
+                                        color:
+                                            Color.fromRGBO(217, 217, 217, 1)),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          InkWell(
+                                            onTap: () {},
+                                            child: new Container(
+                                                width: 80.0,
+                                                height: 80.0,
+                                                decoration: new BoxDecoration(
+                                                  border: Border.all(
+                                                      color: Colors.black12),
+                                                  shape: BoxShape.circle,
+                                                  image: new DecorationImage(
+                                                      fit: BoxFit.fill,
+                                                      image: new AssetImage(
+                                                          'assets/images_gps/appIcon.png')),
+                                                )),
                                           ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
+                                          Expanded(
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  '今までに受けたサービスはありません。',
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontFamily: 'NotoSansJP',
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ],
                     ),

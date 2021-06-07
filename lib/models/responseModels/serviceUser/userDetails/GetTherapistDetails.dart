@@ -336,7 +336,7 @@ class Data {
   List<Address> addresses;
   List<CertificationUpload> certificationUploads;
   List<BankDetail> bankDetails;
-  List<Banner> banners;
+  List<Banners> banners;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["id"],
@@ -386,7 +386,7 @@ class Data {
         bankDetails: List<BankDetail>.from(
             json["bankDetails"].map((x) => BankDetail.fromJson(x))),
         banners:
-            List<Banner>.from(json["banners"].map((x) => Banner.fromJson(x))),
+            List<Banners>.from(json["banners"].map((x) => Banners.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -607,8 +607,8 @@ class BankDetail {
       };
 }
 
-class Banner {
-  Banner({
+class Banners {
+  Banners({
     this.id,
     this.userId,
     this.bannerImageUrl1,
@@ -630,7 +630,7 @@ class Banner {
   DateTime createdAt;
   DateTime updatedAt;
 
-  factory Banner.fromJson(Map<String, dynamic> json) => Banner(
+  factory Banners.fromJson(Map<String, dynamic> json) => Banners(
         id: json["id"],
         userId: json["userId"],
         bannerImageUrl1: json["bannerImageUrl1"],

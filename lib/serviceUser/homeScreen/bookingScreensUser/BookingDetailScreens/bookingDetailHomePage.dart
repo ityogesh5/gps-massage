@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
 import 'package:gps_massageapp/customLibraryClasses/bookingTimeToolTip/bookingTimeToolTip.dart';
@@ -151,7 +152,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    DetailCarouselWithIndicator(bannerImages),
+                    DetailCarouselWithIndicator(therapistDetails, widget.id),
                     DetailPeofileDetailsHome(therapistDetails, widget.id),
                     Padding(
                       padding: const EdgeInsets.only(
@@ -388,7 +389,9 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
         ),
         color: Colors.red,
         onPressed: () {
-          bookingConfirmField();
+          HealingMatchConstants.isUserRegistrationSkipped
+              ? DialogHelper.showUserLoginOrRegisterDialog(context)
+              : bookingConfirmField();
         },
         child: new Text(
           '予約に進む',
@@ -2254,30 +2257,54 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                     fontFamily: 'NotoSansJP'),
               ),
         Spacer(),
-        InkWell(
-          onTap: () {
-            HealingMatchConstants.callBack = updateDateTimeSelection;
-            NavigationRouter.switchToUserChooseDate(context);
-          },
-          child: Card(
-            shape: CircleBorder(),
-            elevation: 8.0,
-            child: CircleAvatar(
-              maxRadius: 20,
-              backgroundColor: Color.fromRGBO(217, 217, 217, 1),
-              child: CircleAvatar(
-                maxRadius: 38,
-                backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-                child: SvgPicture.asset(
-                  'assets/images_gps/calendar.svg',
-                  height: 20,
-                  width: 20,
-                  color: Color.fromRGBO(200, 217, 33, 1),
+        HealingMatchConstants.isUserRegistrationSkipped
+            ? InkWell(
+                onTap: () {
+                  return;
+                },
+                child: Card(
+                  shape: CircleBorder(),
+                  elevation: 8.0,
+                  child: CircleAvatar(
+                    maxRadius: 20,
+                    backgroundColor: Color.fromRGBO(217, 217, 217, 1),
+                    child: CircleAvatar(
+                      maxRadius: 38,
+                      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+                      child: SvgPicture.asset(
+                        'assets/images_gps/calendar.svg',
+                        height: 20,
+                        width: 20,
+                        color: Color.fromRGBO(217, 217, 217, 1),
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            : InkWell(
+                onTap: () {
+                  HealingMatchConstants.callBack = updateDateTimeSelection;
+                  NavigationRouter.switchToUserChooseDate(context);
+                },
+                child: Card(
+                  shape: CircleBorder(),
+                  elevation: 8.0,
+                  child: CircleAvatar(
+                    maxRadius: 20,
+                    backgroundColor: Color.fromRGBO(217, 217, 217, 1),
+                    child: CircleAvatar(
+                      maxRadius: 38,
+                      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+                      child: SvgPicture.asset(
+                        'assets/images_gps/calendar.svg',
+                        height: 20,
+                        width: 20,
+                        color: Color.fromRGBO(200, 217, 33, 1),
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-        ),
       ],
     );
   }

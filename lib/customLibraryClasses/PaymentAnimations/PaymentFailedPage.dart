@@ -54,7 +54,7 @@ class _PaymentFailedPageState extends State<PaymentFailedPage> {
                 fontWeight: FontWeight.bold),
             color: Colors.redAccent,
             pressEvent: () {
-              NavigationRouter.switchToServiceUserBottomBar(context);
+              NavigationRouter.switchToServiceUserBottomBarFavourite(context);
             },
           ),
         ],

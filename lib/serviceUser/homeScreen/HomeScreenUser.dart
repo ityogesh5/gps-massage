@@ -195,8 +195,8 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
     getFavourite.then((value) {
       if (this.mounted) {
         setState(() {
-          bookingDetailsList = value.data.bookingDetailsList;
-          print('bookingDetails:${bookingDetailsList.length}');
+          bookingDetailsList = value.bookingDetailsList;
+          print('bookingDetails:${bookingDetailsList}');
           status = 1;
         });
       }
@@ -852,7 +852,7 @@ class _HomeScreenByMassageType extends State<HomeScreenByMassageType> {
                       }
                     },
                     child: Text(
-                      'もっと見る',
+                      'もっとみる',
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -2087,13 +2087,13 @@ class _ReservationListState extends State<ReservationList> {
 
   @override
   Widget build(BuildContext context) {
-    if (bookingDetailsList.length != 0 && bookingDetailsList.isNotEmpty) {
+    if (bookingDetailsList != null && bookingDetailsList.isNotEmpty) {
       DateTime startTime = bookingDetailsList[0].newStartTime != null
-          ? DateTime.parse(bookingDetailsList[0].newStartTime).toLocal()
-          : DateTime.parse(bookingDetailsList[0].startTime).toLocal();
+          ? bookingDetailsList[0].newStartTime.toLocal()
+          : bookingDetailsList[0].startTime.toLocal();
       DateTime endTime = bookingDetailsList[0].newEndTime != null
-          ? DateTime.parse(bookingDetailsList[0].newEndTime).toLocal()
-          : DateTime.parse(bookingDetailsList[0].endTime).toLocal();
+          ? bookingDetailsList[0].newEndTime.toLocal()
+          : bookingDetailsList[0].endTime.toLocal();
       setState(() {
         month = DateFormat('MM月').format(startTime);
         day = DateFormat('d').format(startTime);
@@ -2101,7 +2101,7 @@ class _ReservationListState extends State<ReservationList> {
         eTime = DateFormat('kk:mm').format(endTime);
         jaName = DateFormat('EEEE', 'ja_JP').format(startTime);
       });
-    }
+    } else {}
 
     GlobalKey key = new GlobalKey();
     void showToolTip(String text) {
@@ -2120,7 +2120,7 @@ class _ReservationListState extends State<ReservationList> {
       );
     }
 
-    return bookingDetailsList.length != 0 && bookingDetailsList.isNotEmpty
+    return bookingDetailsList != null && bookingDetailsList.isNotEmpty
         ? Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -2276,7 +2276,7 @@ class _ReservationListState extends State<ReservationList> {
                                   ),
                                   Spacer(),
                                   // ignore: unrelated_type_equality_checks
-                                  bookingDetailsList[0].bookingTherapistId == 0
+                                  bookingDetailsList[0].bookingStatus == 0
                                       ? Row(
                                           children: [
                                             SvgPicture.asset(
@@ -2300,14 +2300,15 @@ class _ReservationListState extends State<ReservationList> {
                               FittedBox(
                                 child: Row(
                                   children: [
-                                    Text('${bookingDetailsList[0].ratingAvg}',
+                                    Text(
+                                        '${bookingDetailsList[0].reviewAvgData}',
                                         style: TextStyle(
                                             color: Color.fromRGBO(0, 0, 0, 1),
                                             fontFamily:
                                                 ColorConstants.fontFamily)),
                                     RatingBar.builder(
                                       initialRating: double.parse(
-                                          bookingDetailsList[0].ratingAvg),
+                                          bookingDetailsList[0].reviewAvgData),
                                       minRating: 1,
                                       direction: Axis.horizontal,
                                       allowHalfRating: true,
@@ -2463,6 +2464,9 @@ class _ReservationListState extends State<ReservationList> {
                           ),
                           Text(
                             '${bookingDetailsList[0].location}',
+                            maxLines: bookingDetailsList[0].location.length > 25
+                                ? 2
+                                : 1,
                             style: TextStyle(
                               color: Color.fromRGBO(102, 102, 102, 1),
                             ),

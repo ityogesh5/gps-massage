@@ -5,7 +5,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoding/geocoding.dart';
@@ -26,6 +25,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:toast/toast.dart';
 
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
@@ -1584,7 +1584,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
     // Age 18+ validation
 
-    if (ageOfUser != 0 && ageOfUser < 18) {
+    if (ageOfUser < 18) {
       ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -2210,7 +2210,6 @@ class _RegisterUserState extends State<RegisterUser> {
         _sharedPreferences.then((value) {
           value.clear();
           value.setString('accessToken', serviceUserDetails.accessToken);
-          HealingMatchConstants.accessToken = serviceUserDetails.accessToken;
 
           value.setString('did', serviceUserDetails.data.id.toString());
 
@@ -2278,23 +2277,19 @@ class _RegisterUserState extends State<RegisterUser> {
             .then((value) {
           if (value != null) {
             ServiceUserAPIProvider.saveFirebaseUserID(
-                    value, context, serviceUserDetails.data.id)
-                .then((value) {
-              HealingMatchConstants.isUserRegistrationSkipped = false;
-
-              ProgressDialogBuilder.hideLoader(context);
-              NavigationRouter.switchToUserOtpScreen(context);
-            });
+                value, context, serviceUserDetails.data.id);
           } else {
             ProgressDialogBuilder.hideLoader(context);
-            return;
           }
+        }).catchError((error) {
+          print('Exception caught while firebase : ${error.toString()}');
+          ProgressDialogBuilder.hideLoader(context);
         });
 
-        /*    HealingMatchConstants.isUserRegistrationSkipped = false;
+        HealingMatchConstants.isUserRegistrationSkipped = false;
 
         ProgressDialogBuilder.hideLoader(context);
-        NavigationRouter.switchToUserOtpScreen(context); */
+        NavigationRouter.switchToUserOtpScreen(context);
       } else {
         ProgressDialogBuilder.hideLoader(context);
         print('Response error occured!');

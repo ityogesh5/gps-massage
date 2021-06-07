@@ -36,7 +36,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
   ScrollController _scroll;
   FocusNode _focus = new FocusNode();
   final reviewController = new TextEditingController();
-  var ratingsValue = 0.0;
+  double ratingsValue = 0.0;
   var rUserID;
   String accessToken;
 
@@ -170,24 +170,40 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                       children: [
                                         RatingBar.builder(
                                           initialRating: 0,
-                                          minRating: 0.5,
+                                          minRating: 1,
                                           direction: Axis.horizontal,
-                                          allowHalfRating: true,
+                                          allowHalfRating: false,
                                           itemCount: 5,
-                                          itemSize: 30,
-                                          itemPadding: EdgeInsets.symmetric(
-                                              horizontal: 4.0),
-                                          itemBuilder: (context, _) => Icon(
-                                            Icons.star,
-                                            size: 5,
-                                            color:
-                                                Color.fromRGBO(200, 217, 33, 1),
-                                          ),
+                                          itemSize: 24.0,
+                                          itemPadding: new EdgeInsets.all(4.0),
+                                          itemBuilder: (context, index) =>
+                                              new SizedBox(
+                                                  height: 20.0,
+                                                  width: 20.0,
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsets.all(2.0),
+                                                    child: index >
+                                                            ratingsValue - 1
+                                                        ? SvgPicture.asset(
+                                                            "assets/images_gps/star_2.svg",
+                                                            height: 15.0,
+                                                            width: 15.0,
+                                                            /*  color:
+                                                                Colors.white, */
+                                                          )
+                                                        : SvgPicture.asset(
+                                                            "assets/images_gps/star_colour.svg",
+                                                            height: 15.0,
+                                                            width: 15.0,
+                                                            // color: Color.fromRGBO(200, 217, 33, 1),
+                                                          ), /*  new Icon(
+                                                                Icons.star,
+                                                                size: 20.0), */
+                                                  )),
                                           onRatingUpdate: (rating) {
-                                            setState(() {
-                                              ratingsValue = rating;
-                                            });
-                                            print(ratingsValue);
+                                            print(rating);
+                                            ratingsValue = rating;
                                           },
                                         ),
                                       ],
@@ -532,10 +548,9 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
             "x-access-token": accessToken
           },
           body: json.encode({
-            "userId": widget.bookingDetail.userId,
             "therapistId": widget.bookingDetail.therapistId,
             "bookingId": widget.bookingDetail.id,
-            "ratingsCount": ratingsValue.toString(),
+            "ratingsCount": ratingsValue,
             "reviewComment": reviewComment,
           }));
       print(response.body);
@@ -546,9 +561,8 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
         ratingReviewModel = RatingReviewModel.fromJson(ratingResponse);
         // ProgressDialogBuilder.hideRatingsAndReviewProgressDialog(context);
         print('navigate');
-        NavigationRouter.switchToServiceUserDisplayReviewScreen(
+        NavigationRouter.switchToServiceUserGivenReviewScreen(
           context,
-          widget.bookingDetail.therapistId,
         );
       } else {}
     } catch (e) {
@@ -582,7 +596,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
             "x-access-token": HealingMatchConstants.accessToken
           },
           body: json.encode({
-            "therapistId": "18",
+            "therapistId": widget.bookingDetail.therapistId,
           }));
       // print(response.body);
       print('Body : ${response.body}');

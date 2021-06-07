@@ -96,7 +96,7 @@ class _ChatUserListState extends State<ChatUserList> {
                                     MainAxisAlignment.spaceEvenly,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Row(
+                                  /* Row(
                                     children: [
                                       Text(
                                         'ユーザーチャットの情報！',
@@ -106,7 +106,7 @@ class _ChatUserListState extends State<ChatUserList> {
                                             fontWeight: FontWeight.bold),
                                       )
                                     ],
-                                  ),
+                                  ),*/
                                   Row(
                                     children: [
                                       InkWell(
