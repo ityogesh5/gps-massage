@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
@@ -59,6 +60,8 @@ class _RegistrationSecondPageState
   Bank.BankNameDropDownModel bankNameDropDownModel;
   List<String> bankNameDropDownList = List<String>();
   List<String> privateQualification = List<String>();
+  final fireBaseMessaging = new FirebaseMessaging();
+  var fcmToken;
 
   void initState() {
     super.initState();
@@ -68,6 +71,7 @@ class _RegistrationSecondPageState
     qualification = '';
     accountType = '';
     getsavedValues();
+    _getFCMToken();
   }
 
   saveValues() {
@@ -1298,6 +1302,13 @@ class _RegistrationSecondPageState
       'fitnessList': json.encode(
         HealingMatchConstants.fitnessServicePriceModel,
       ),
+      "fcmToken": fcmToken,
+      "isStore": HealingMatchConstants.serviceProviderBusinessForm ==
+                  "施術店舗あり 施術従業員あり" ||
+              HealingMatchConstants.serviceProviderBusinessForm ==
+                  "施術店舗あり 施術従業員なし（個人経営）"
+          ? "true"
+          : "false"
     });
 
     if (HealingMatchConstants.serviceProviderStorePhoneNumber != '') {
@@ -1364,7 +1375,7 @@ class _RegistrationSecondPageState
         sharedPreferences.setString("userData", json.encode(userData));
         sharedPreferences.setString(
             "accessToken", registerResponseModel.accessToken);
-      /*   sharedPreferences.setBool('isProviderRegister', true); */
+        /*   sharedPreferences.setBool('isProviderRegister', true); */
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         print('Login response : ${registerResponseModel.toJson()}');
         print('Login token : ${registerResponseModel.accessToken}');
@@ -1654,6 +1665,28 @@ class _RegistrationSecondPageState
         ),
       ],
     );
+  }
+
+  _getFCMToken() async {
+    fireBaseMessaging.getToken().then((fcmTokenValue) {
+      if (fcmTokenValue != null) {
+        fcmToken = fcmTokenValue;
+        print('FCM Skip Token : $fcmToken');
+        HealingMatchConstants.userDeviceToken = fcmToken;
+      } else {
+        fireBaseMessaging.onTokenRefresh.listen((refreshToken) {
+          if (refreshToken != null) {
+            fcmToken = refreshToken;
+            HealingMatchConstants.userDeviceToken = fcmToken;
+            print('FCM Skip Refresh Tokens : $fcmToken');
+          }
+        }).onError((handleError) {
+          print('On FCM Skip Token Refresh error : ${handleError.toString()}');
+        });
+      }
+    }).catchError((onError) {
+      print('FCM Skip Token Exception : ${onError.toString()}');
+    });
   }
 }
 
