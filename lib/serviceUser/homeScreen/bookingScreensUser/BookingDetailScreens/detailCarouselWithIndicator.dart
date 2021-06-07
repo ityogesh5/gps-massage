@@ -44,14 +44,15 @@ class _DetailCarouselWithIndicatorState
                             children: <Widget>[
                               CachedNetworkImage(
                                   width: 2000.0,
-                                  fit: BoxFit.cover,
+                                  height: 250.0,
+                                  fit: BoxFit.fill,
                                   imageUrl: widget.bannerImages[i],
                                   placeholder: (context, url) => SpinKitWave(
                                       color: Colors.lightBlueAccent),
                                   errorWidget: (context, url, error) {
                                     return CachedNetworkImage(
                                       width: 2000.0,
-                                      fit: BoxFit.cover,
+                                      fit: BoxFit.fill,
                                       imageUrl: defaultBannerUrl,
                                       placeholder: (context, url) =>
                                           SpinKitWave(
