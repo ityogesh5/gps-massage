@@ -1091,10 +1091,11 @@ class NavigationRouter {
   }
 
   //Booking approved screen three
-  static void switchToUserBookingApprovedThirdScreen(BuildContext context) {
+  static void switchToUserBookingApprovedThirdScreen(
+      BuildContext context, int id) {
     Navigator.of(context).push(PageRouteBuilder(
         pageBuilder: (context, animation, anotherAnimation) {
-          return BookingApproveThirdScreen();
+          return BookingApproveThirdScreen(id);
         },
         transitionDuration: Duration(milliseconds: 2000),
         transitionsBuilder: (context, animation, anotherAnimation, child) {

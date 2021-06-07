@@ -403,7 +403,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
   @override
   Widget build(BuildContext context) {
     return status == 0
-        ? Center(child: CircularProgressIndicator())
+        ? Center(child: SpinKitThreeBounce(color: Colors.lime))
         : Scaffold(
             backgroundColor: Colors.white,
             body: bookingDetailsList != null && bookingDetailsList.isNotEmpty
@@ -431,7 +431,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                           waitingForApprovalList.length != 0
                               ? Container(
                                   // height: MediaQuery.of(context).size.height * 0.37,
-                                  height: 260,
+                                  height: 275,
                                   width:
                                       MediaQuery.of(context).size.width * 0.95,
                                   child: ListView.builder(
@@ -487,7 +487,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                     Padding(
                                                       padding:
                                                           const EdgeInsets.all(
-                                                              3.0),
+                                                              8.0),
                                                       child: Column(
                                                         children: [
                                                           Row(
@@ -1006,7 +1006,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                           approvedWithConditionsList.length != 0
                               ? Container(
                                   // height: MediaQuery.of(context).size.height *
-                                  height: 274,
+                                  height: 300,
                                   width:
                                       MediaQuery.of(context).size.width * 0.95,
                                   child: ListView.builder(
@@ -1097,7 +1097,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                     Padding(
                                                       padding:
                                                           const EdgeInsets.all(
-                                                              5.0),
+                                                              8.0),
                                                       child: Column(
                                                         children: [
                                                           Row(
@@ -1500,9 +1500,22 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                   ),
                                                                   InkWell(
                                                                     onTap: () {
-                                                                      NavigationRouter
-                                                                          .switchToServiceUserWaitingForApprovalScreen(
-                                                                              context);
+                                                                      HealingMatchConstants
+                                                                          .bookingIdPay = approvedWithConditionsList[
+                                                                              index]
+                                                                          .id;
+                                                                      HealingMatchConstants
+                                                                          .therapistIdPay = approvedWithConditionsList[
+                                                                              index]
+                                                                          .therapistId;
+                                                                      HealingMatchConstants
+                                                                          .confServiceCost = approvedWithConditionsList[
+                                                                              index]
+                                                                          .totalCost;
+                                                                      NavigationRouter.switchToUserBookingApprovedThirdScreen(
+                                                                          context,
+                                                                          approvedWithConditionsList[index]
+                                                                              .therapistId);
                                                                     },
                                                                     child: Card(
                                                                       elevation:
@@ -1685,7 +1698,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                           approvedList.length != 0
                               ? Container(
                                   // height: MediaQuery.of(context).size.height * 0.39,
-                                  height: 274,
+                                  height: 300,
                                   width:
                                       MediaQuery.of(context).size.width * 0.95,
                                   child: ListView.builder(
@@ -1752,7 +1765,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                     Padding(
                                                       padding:
                                                           const EdgeInsets.all(
-                                                              5.0),
+                                                              8.0),
                                                       child: Column(
                                                         children: [
                                                           Row(
@@ -2388,7 +2401,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                           confirmedPaymentList.length != 0
                               ? Container(
                                   // height: MediaQuery.of(context).size.height * 0.39,
-                                  height: 274,
+                                  height: 300,
                                   width:
                                       MediaQuery.of(context).size.width * 0.95,
                                   child: ListView.builder(
@@ -2454,7 +2467,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 ),
                                                 child: Padding(
                                                   padding:
-                                                      const EdgeInsets.all(5.0),
+                                                      const EdgeInsets.all(8.0),
                                                   child: Column(
                                                     children: [
                                                       Row(
@@ -3134,7 +3147,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                           canceledReservationList.length != 0
                               ? Container(
                                   // height: MediaQuery.of(context).size.height * 0.35,
-                                  height: 255,
+                                  height: 275,
                                   width:
                                       MediaQuery.of(context).size.width * 0.95,
                                   child: ListView.builder(
@@ -3198,7 +3211,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 ),
                                                 child: Padding(
                                                   padding:
-                                                      const EdgeInsets.all(5.0),
+                                                      const EdgeInsets.all(8.0),
                                                   child: Column(
                                                     children: [
                                                       Row(

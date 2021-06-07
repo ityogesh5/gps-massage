@@ -164,7 +164,7 @@ class _PastReservationsState extends State<PastReservations> {
   @override
   Widget build(BuildContext context) {
     return status == 0
-        ? Center(child: CircularProgressIndicator())
+        ? Center(child: SpinKitThreeBounce(color: Colors.lime))
         : LazyLoadScrollView(
             isLoading: isLoading,
             onEndOfPage: () => _getMoreDataByType(),
@@ -897,7 +897,7 @@ class _PastReservationsState extends State<PastReservations> {
                                                                             253,
                                                                             1),
                                                                         child: SvgPicture.asset(
-                                                                            'assets/images_gps/give_rating.svg',
+                                                                            'assets/images_gps/chat.svg',
                                                                             height:
                                                                                 20,
                                                                             width:

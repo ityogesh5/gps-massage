@@ -1360,7 +1360,9 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
           //side: BorderSide(color: Colors.black),
         ),
         color: Colors.red,
-        onPressed: () {},
+        onPressed: () {
+          HealingMatchConstants.initiatePayment(context);
+        },
         child: new Text(
           '受け入れて支払う',
           style: TextStyle(

@@ -457,7 +457,8 @@ class ServiceUserAPIProvider {
   }
 
 //cancel Booking status
-  static Future<bool> updateBookingCompeted(int bookingDetail) async {
+  static Future<bool> updateBookingCompeted(
+      int bookingDetail, String cancelReason) async {
     try {
       final url = HealingMatchConstants.THERAPIST_BOOKING_STATUS_UPDATE;
       Map<String, dynamic> body;
@@ -468,6 +469,7 @@ class ServiceUserAPIProvider {
 
       body = {
         "bookingId": bookingDetail.toString(),
+        "cancellationReason": cancelReason,
         "bookingStatus": "5",
       };
 

@@ -4,6 +4,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/customLibraryClasses/customRadioButtonList/roundedRadioButton.dart';
 import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
+import 'package:intl/intl.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 bool isOtherSelected = false;
 final _cancelReasonController = new TextEditingController();
@@ -17,6 +24,8 @@ var selectedBuildingType;
 bool isCancelSelected = false;
 
 class BookingApproveThirdScreen extends StatefulWidget {
+  final int therapistId;
+  BookingApproveThirdScreen(this.therapistId);
   @override
   State createState() {
     return _BookingApproveThirdScreenState();
@@ -24,6 +33,32 @@ class BookingApproveThirdScreen extends StatefulWidget {
 }
 
 class _BookingApproveThirdScreenState extends State<BookingApproveThirdScreen> {
+  TherapistByIdModel therapistDetails;
+  int status = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    getProviderInfo();
+  }
+
+  getProviderInfo() async {
+    try {
+      ProgressDialogBuilder.showOverlayLoader(context);
+      therapistDetails = await ServiceUserAPIProvider.getTherapistDetails(
+          context, widget.therapistId);
+      HealingMatchConstants.therapistProfileDetails = therapistDetails;
+      //append all Service Types for General View
+
+      setState(() {
+        status = 1;
+      });
+    } catch (e) {
+      ProgressDialogBuilder.hideLoader(context);
+      print('Therapist details fetch Exception : ${e.toString()}');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +82,9 @@ class _BookingApproveThirdScreenState extends State<BookingApproveThirdScreen> {
         ),
         centerTitle: true,
       ),
-      body: ApprovalSecondScreen(),
+      body: status == 0
+          ? SpinKitThreeBounce(color: Colors.lime)
+          : ApprovalSecondScreen(),
     );
   }
 }
@@ -60,8 +97,38 @@ class ApprovalSecondScreen extends StatefulWidget {
 }
 
 class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
+  bool isPriceAdded = false;
+  bool isDateChanged = false;
   @override
   Widget build(BuildContext context) {
+    DateTime startTime = HealingMatchConstants
+        .therapistProfileDetails.bookingDataResponse[0].startTime
+        .toLocal();
+    DateTime endTime = HealingMatchConstants
+        .therapistProfileDetails.bookingDataResponse[0].endTime
+        .toLocal();
+    String date = DateFormat('MM月d').format(startTime);
+    String sTime = DateFormat('kk:mm').format(startTime);
+    String eTime = DateFormat('kk:mm').format(endTime);
+    String jaName = DateFormat('EEEE', 'ja_JP').format(startTime);
+    String nSTime;
+    String nEndTime;
+    if (HealingMatchConstants
+            .therapistProfileDetails.bookingDataResponse[0].newStartTime !=
+        null) {
+      isDateChanged = true;
+      nSTime = DateFormat('kk:mm').format(DateTime.parse(HealingMatchConstants
+              .therapistProfileDetails.bookingDataResponse[0].newStartTime)
+          .toLocal());
+      nEndTime = DateFormat('kk:mm').format(DateTime.parse(HealingMatchConstants
+              .therapistProfileDetails.bookingDataResponse[0].newEndTime)
+          .toLocal());
+    }
+    if (HealingMatchConstants
+            .therapistProfileDetails.bookingDataResponse[0].travelAmount !=
+        0) {
+      isPriceAdded = true;
+    }
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ListView(
@@ -95,7 +162,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                       fontSize: 16.0,
                       fontFamily: 'NotoSansJP'),
                 ),
-                SizedBox(height: 15),
+                SizedBox(height: 10),
                 Container(
                   decoration: BoxDecoration(
                       gradient: LinearGradient(
@@ -112,43 +179,91 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                       borderRadius: BorderRadius.circular(16.0),
                       color: Colors.grey[100]),
                   width: MediaQuery.of(context).size.width * 0.90,
-                  height: MediaQuery.of(context).size.height * 0.45,
+                  height: 275,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.04),
+                          height: MediaQuery.of(context).size.height * 0.02),
                       Expanded(
                         child: new Row(
                           children: [
-                            SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.03),
-                            new Container(
-                                width: 25.0,
-                                height: 25.0,
-                                decoration: new BoxDecoration(
-                                  border: Border.all(color: Colors.grey[300]),
-                                  shape: BoxShape.circle,
-                                  color: Colors.grey[300],
-                                  image: new DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: new AssetImage(
-                                        'assets/images_gps/profile.png'),
+                            HealingMatchConstants.therapistProfileDetails.data
+                                        .uploadProfileImgUrl !=
+                                    null
+                                ? CachedNetworkImage(
+                                    imageUrl: HealingMatchConstants
+                                        .therapistProfileDetails
+                                        .data
+                                        .uploadProfileImgUrl,
+                                    filterQuality: FilterQuality.high,
+                                    fadeInCurve: Curves.easeInSine,
+                                    imageBuilder: (context, imageProvider) =>
+                                        Container(
+                                      width: 65.0,
+                                      height: 65.0,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                            image: imageProvider,
+                                            fit: BoxFit.cover),
+                                      ),
+                                    ),
+                                    placeholder: (context, url) =>
+                                        SpinKitDoubleBounce(
+                                            color: Colors.lightGreenAccent),
+                                    errorWidget: (context, url, error) =>
+                                        Container(
+                                      width: 56.0,
+                                      height: 56.0,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border:
+                                            Border.all(color: Colors.black12),
+                                        image: DecorationImage(
+                                            image: new AssetImage(
+                                                'assets/images_gps/placeholder_image.png'),
+                                            fit: BoxFit.cover),
+                                      ),
+                                    ),
+                                  )
+                                : CircleAvatar(
+                                    child: Image.asset(
+                                      'assets/images_gps/placeholder_image.png',
+                                      height: 65,
+                                      color: Colors.black,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    radius: 35,
+                                    backgroundColor: Colors.white,
                                   ),
-                                )),
-                            SizedBox(
+                            /*  SizedBox(
                                 width:
-                                    MediaQuery.of(context).size.width * 0.02),
-                            Text(
-                              'お名前',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'NotoSansJP'),
-                            ),
+                                    MediaQuery.of(context).size.width * 0.02),*/
+                            HealingMatchConstants.therapistProfileDetails.data
+                                        .storeName.isNotEmpty &&
+                                    HealingMatchConstants
+                                            .therapistProfileDetails
+                                            .data
+                                            .storeName !=
+                                        null
+                                ? Text(
+                                    '${HealingMatchConstants.therapistProfileDetails.data.storeName}',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'NotoSansJP'),
+                                  )
+                                : Text(
+                                    '${HealingMatchConstants.therapistProfileDetails.data.userName}',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'NotoSansJP'),
+                                  ),
                           ],
                         ),
                       ),
@@ -165,9 +280,9 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                                 width:
                                     MediaQuery.of(context).size.width * 0.02),
                             Text(
-                              '10月17',
+                              '$date',
                               style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 14,
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
                                   fontFamily: 'NotoSansJP'),
@@ -176,7 +291,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                                 width:
                                     MediaQuery.of(context).size.width * 0.03),
                             Text(
-                              '月曜日出張',
+                              '$jaName',
                               style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.grey[400],
@@ -198,18 +313,18 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                                 width:
                                     MediaQuery.of(context).size.width * 0.02),
                             new Text(
-                              '09:  00～10:  00',
+                              '$sTime～$eTime',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 16,
+                                  fontSize: 14,
                                   fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(
                                 width:
                                     MediaQuery.of(context).size.width * 0.02),
                             new Text(
-                              '60分',
+                              '${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].totalMinOfService}分',
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 14,
@@ -232,27 +347,28 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                                 width:
                                     MediaQuery.of(context).size.width * 0.02),
                             Chip(
-                              label: Text('足つぼ'),
+                              label: Text(
+                                  '${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].nameOfService}'),
                               backgroundColor: Colors.white,
                             ),
                             Text(
-                              "\t\t¥4,500",
+                              "¥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].priceOfService}",
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 16,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.bold),
                               textAlign: TextAlign.left,
                             ),
                             SizedBox(
                                 width:
                                     MediaQuery.of(context).size.width * 0.01),
-                            Text(
+                            /* Text(
                               '(交通費込み-1,000)',
                               style: TextStyle(
                                   fontSize: 12,
                                   color: Colors.grey[400],
                                   fontFamily: 'NotoSansJP'),
-                            ),
+                            ),*/
                           ],
                         ),
                       ),
@@ -330,7 +446,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(2),
                                   child: Text(
-                                    '店舗',
+                                    '${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].locationType}',
                                     style: TextStyle(
                                         fontSize: 12,
                                         color: Colors.black,
@@ -343,7 +459,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                                     MediaQuery.of(context).size.width * 0.02),
                             Flexible(
                               child: Text(
-                                '埼玉県浦和区高砂4丁目4',
+                                '${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].location}',
                                 style: TextStyle(
                                     fontSize: 12,
                                     color: Colors.grey[500],
@@ -353,11 +469,10 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 15),
                     ],
                   ),
                 ),
-                SizedBox(height: 15),
+                SizedBox(height: 10),
               ],
             ),
           ),
@@ -372,184 +487,166 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                   fontWeight: FontWeight.bold),
             ),
           ),
-          SizedBox(height: 12),
+          SizedBox(height: 7),
           Container(
+            margin: const EdgeInsets.all(12.0),
             decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color.fromRGBO(242, 242, 242, 1),
-                      Color.fromRGBO(242, 242, 242, 1)
-                    ]),
-                shape: BoxShape.rectangle,
-                border: Border.all(
-                  color: Colors.grey[100],
-                ),
-                borderRadius: BorderRadius.circular(16.0),
-                color: Colors.grey[100]),
-            width: MediaQuery.of(context).size.width * 0.90,
-            height: MediaQuery.of(context).size.height * 0.30,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(height: MediaQuery.of(context).size.height * 0.04),
-                Expanded(
-                  child: new Row(
+              color: Color.fromRGBO(242, 242, 242, 1),
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Stack(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    // crossAxisAlignment: CrossAxisAlignment.sp,
                     children: [
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                      Text(
-                        '提案時間',
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
-                            fontWeight: FontWeight.normal,
-                            fontFamily: 'NotoSansJP'),
-                      ),
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.07),
-                      Spacer(),
-                      Text(
-                        '10:  00~11:  00',
-                        style: TextStyle(
-                            decoration: TextDecoration.lineThrough,
-                            fontSize: 12,
-                            color: Colors.grey[400],
-                            fontFamily: 'NotoSansJP'),
-                      ),
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                      Icon(Icons.arrow_forward,
-                          color: Colors.grey[400], size: 20),
-                      Spacer(),
-                      Text(
-                        '10:  30~11:  30',
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.black,
-                            fontWeight: FontWeight.normal,
-                            fontFamily: 'NotoSansJP'),
-                      ),
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Column(
+                              children: [
+                                Text(
+                                  "提案時間",
+                                  style: TextStyle(
+                                      fontSize: 14.0, color: Colors.black),
+                                ),
+                                SizedBox(height: 10),
+                              ],
+                            ),
+                            Text(
+                              "サービス料金",
+                              style: TextStyle(
+                                  fontSize: 14.0, color: Colors.black),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              "交通費",
+                              style: TextStyle(
+                                  fontSize: 14.0, color: Colors.black),
+                            ),
+                            SizedBox(height: 20),
+                            Text(
+                              "合計",
+                              style: TextStyle(
+                                  fontSize: 14.0, color: Colors.black),
+                            ),
+                          ]),
+                      Column(
+                          //     mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "$sTime ~ $eTime  ",
+                                  style: TextStyle(
+                                      fontSize: 10.0,
+                                      color: !isDateChanged
+                                          ? Color.fromRGBO(242, 242, 242, 1)
+                                          : Color.fromRGBO(153, 153, 153, 1),
+                                      decoration: TextDecoration.lineThrough),
+                                ),
+                                Icon(
+                                  Icons.arrow_forward,
+                                  size: 10.0,
+                                  color: !isDateChanged
+                                      ? Color.fromRGBO(242, 242, 242, 1)
+                                      : Color.fromRGBO(153, 153, 153, 1),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 14),
+                            Text(
+                              "",
+                              style: TextStyle(
+                                  fontSize: 15.0, color: Colors.white),
+                            ),
+                            SizedBox(height: 14),
+                            Row(
+                              children: [
+                                Text(
+                                  "¥0",
+                                  style: TextStyle(
+                                      fontSize: 10.0,
+                                      color: !isPriceAdded
+                                          ? Color.fromRGBO(242, 242, 242, 1)
+                                          : Color.fromRGBO(153, 153, 153, 1),
+                                      decoration: TextDecoration.lineThrough),
+                                ),
+                                Icon(
+                                  Icons.arrow_forward,
+                                  size: 10.0,
+                                  color: !isPriceAdded
+                                      ? Color.fromRGBO(242, 242, 242, 1)
+                                      : Color.fromRGBO(153, 153, 153, 1),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 24),
+                            Row(
+                              children: [
+                                Text(
+                                  "¥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].priceOfService}  ",
+                                  style: TextStyle(
+                                      fontSize: 10.0,
+                                      color: !isPriceAdded
+                                          ? Color.fromRGBO(242, 242, 242, 1)
+                                          : Color.fromRGBO(153, 153, 153, 1),
+                                      decoration: TextDecoration.lineThrough),
+                                ),
+                                Icon(
+                                  Icons.arrow_forward,
+                                  size: 10.0,
+                                  color: !isPriceAdded
+                                      ? Color.fromRGBO(242, 242, 242, 1)
+                                      : Color.fromRGBO(153, 153, 153, 1),
+                                ),
+                              ],
+                            ),
+                          ]),
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              isDateChanged
+                                  ? "$nSTime ~ $nEndTime"
+                                  : "$sTime ~ $eTime",
+                              style: TextStyle(
+                                  fontSize: 14.0, color: Colors.black),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              "¥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].priceOfService}",
+                              style: TextStyle(
+                                  fontSize: 14.0, color: Colors.black),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              "¥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].travelAmount}",
+                              style: TextStyle(
+                                  fontSize: 14.0, color: Colors.black),
+                            ),
+                            SizedBox(height: 20),
+                            Text(
+                              "¥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].priceOfService + HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].travelAmount}",
+                              style: TextStyle(
+                                  fontSize: 14.0, color: Colors.black),
+                            ),
+                          ]),
                     ],
                   ),
-                ),
-                SizedBox(height: 10),
-                Expanded(
-                  child: Row(
-                    children: [
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                      new Text(
-                        'サービス料金',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 16,
-                            fontFamily: 'NotoSansJP'),
-                      ),
-                      Spacer(),
-                      //¥4,500
-                      new Text(
-                        '¥3,500',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 14,
-                            fontFamily: 'NotoSansJP'),
-                      ),
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                    ],
+                  Positioned(
+                    bottom: 20.0,
+                    height: 10.0,
+                    width: MediaQuery.of(context).size.width,
+                    child: new Divider(
+                      color: Color.fromRGBO(102, 102, 102, 1),
+                    ),
                   ),
-                ),
-                SizedBox(height: 15),
-                Expanded(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                      new Text(
-                        '交通費',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 16,
-                            fontFamily: 'NotoSansJP'),
-                      ),
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.07),
-                      Spacer(),
-                      Text(
-                        '¥0',
-                        style: TextStyle(
-                            decoration: TextDecoration.lineThrough,
-                            fontSize: 12,
-                            color: Colors.grey[400],
-                            fontFamily: 'NotoSansJP'),
-                      ),
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                      Icon(Icons.arrow_forward,
-                          color: Colors.grey[400], size: 20),
-                      Spacer(),
-                      new Text(
-                        '¥1,000',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 14,
-                            fontFamily: 'NotoSansJP'),
-                      ),
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Row(children: <Widget>[
-                    Expanded(
-                        child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Divider(),
-                    )),
-                  ]),
-                ),
-                Expanded(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                      new Text(
-                        '合計',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 16,
-                            fontFamily: 'NotoSansJP'),
-                      ),
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.05),
-                      Spacer(),
-                      Text(
-                        '¥3,500',
-                        style: TextStyle(
-                            decoration: TextDecoration.lineThrough,
-                            fontSize: 12,
-                            color: Colors.grey[400],
-                            fontFamily: 'NotoSansJP'),
-                      ),
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                      Icon(Icons.arrow_forward,
-                          color: Colors.grey[400], size: 20),
-                      Spacer(),
-                      new Text(
-                        '¥4,500',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 14,
-                            fontFamily: 'NotoSansJP'),
-                      ),
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 15),
-              ],
+                ],
+              ),
             ),
           ),
           SizedBox(height: 15),
@@ -586,6 +683,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                         setState(() {
                           isCancelSelected = !isCancelSelected;
                         });
+                        HealingMatchConstants.initiatePayment(context);
                       }
                       print('Radio value : $isCancelSelected');
                     },
@@ -746,9 +844,33 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
               ),
             ),
           ),
+          Container(
+            width: double.infinity,
+            height: 45,
+            child: RaisedButton(
+              child: Text(
+                'キャンセルする',
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+              color: Colors.red,
+              onPressed: () {
+                cancelBooking();
+              },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+            ),
+          ),
         ],
       ),
     );
+  }
+
+  cancelBooking() {
+    var cancelBooking = ServiceUserAPIProvider.updateBookingCompeted(
+        HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].id,
+        selectedBuildingType);
+    NavigationRouter.switchToServiceUserBottomBar(context);
   }
 
   void _handleCategoryChange(bool newVal, BuildingCategory category) {

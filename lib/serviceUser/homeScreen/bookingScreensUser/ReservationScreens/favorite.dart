@@ -155,7 +155,7 @@ class _FavoriteState extends State<Favorite> {
   @override
   Widget build(BuildContext context) {
     return status == 0
-        ? Center(child: CircularProgressIndicator())
+        ? Center(child: SpinKitThreeBounce(color: Colors.lime))
         : LazyLoadScrollView(
             isLoading: isLoading,
             onEndOfPage: () => _getMoreDataByType(),
@@ -389,16 +389,17 @@ class _FavoriteState extends State<Favorite> {
                                                                     width: 4),
                                                                 InkWell(
                                                                   onTap: () {
-                                                                    /*    showToolTipForFav(
+                                                                    showToolTipForFav(
                                                                         favouriteUserList[index]
                                                                             .favouriteTherapistId
                                                                             .storeType,
                                                                         formKeyList[
-                                                                            index]);*/
+                                                                            index]);
                                                                   },
                                                                   child:
                                                                       Container(
-                                                                    // key: formKeyList[index],
+                                                                    key: formKeyList[
+                                                                        index],
                                                                     decoration:
                                                                         BoxDecoration(
                                                                       gradient: LinearGradient(

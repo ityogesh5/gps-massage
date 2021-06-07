@@ -36,7 +36,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
   ScrollController _scroll;
   FocusNode _focus = new FocusNode();
   final reviewController = new TextEditingController();
-  var ratingsValue = 0.0;
+  double ratingsValue = 0.0;
   var rUserID;
   String accessToken;
 
@@ -170,7 +170,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                       children: [
                                         RatingBar.builder(
                                           initialRating: 0,
-                                          minRating: 0.5,
+                                          minRating: 1,
                                           direction: Axis.horizontal,
                                           allowHalfRating: true,
                                           itemCount: 5,
@@ -534,7 +534,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
           body: json.encode({
             "therapistId": widget.bookingDetail.therapistId,
             "bookingId": widget.bookingDetail.id,
-            "ratingsCount": ratingsValue.toString(),
+            "ratingsCount": ratingsValue,
             "reviewComment": reviewComment,
           }));
       print(response.body);
