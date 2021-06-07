@@ -237,7 +237,7 @@ class ShowToolTip {
           _refreshState(() {
             _timePrice.clear();
           });
-        } else {
+        } else if (price != 0) {
           _timePrice.clear();
           _refreshState(() {
             if (_timePrice[min] != null) {

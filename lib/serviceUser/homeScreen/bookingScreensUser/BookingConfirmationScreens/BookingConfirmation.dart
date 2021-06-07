@@ -68,7 +68,8 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           onPressed: () {
-            NavigationRouter.switchToServiceUserBottomBar(context);
+            Navigator.pop(context);
+            /*  NavigationRouter.switchToServiceUserBottomBar(context); */
           },
           color: Colors.black,
         ),
@@ -109,7 +110,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                   borderRadius: BorderRadius.circular(16.0),
                   color: Colors.grey[200]),
               width: MediaQuery.of(context).size.width * 0.90,
-              height: 200,
+              height: 210,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -118,7 +119,29 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        buildProfileImage(),
+                        Column(
+                          children: [
+                            buildProfileImage(),
+                            HealingMatchConstants.serviceDistanceRadius !=
+                                        null &&
+                                    HealingMatchConstants
+                                            .serviceDistanceRadius !=
+                                        0
+                                ? Text(
+                                    '${HealingMatchConstants.serviceDistanceRadius}Ｋｍ圏内',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        fontSize: 10,
+                                        color: Colors.grey[400],
+                                        fontFamily: 'NotoSansJP'),
+                                  )
+                                : Text(
+                                    '0.0ｋｍ圏内',
+                                    style: TextStyle(
+                                        fontSize: 14, color: Colors.grey),
+                                  ),
+                          ],
+                        ),
                         SizedBox(width: 5),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -305,33 +328,8 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                                     fontFamily: 'NotoSansJP'),
                               ),
                             ),
-                            Spacer(),
-                            FittedBox(
-                              child: Row(
-                                children: [
-                                  HealingMatchConstants.serviceDistanceRadius !=
-                                              null &&
-                                          HealingMatchConstants
-                                                  .serviceDistanceRadius !=
-                                              0
-                                      ? Text(
-                                          '${HealingMatchConstants.serviceDistanceRadius}Ｋｍ圏内',
-                                          textAlign: TextAlign.right,
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.grey[400],
-                                              fontFamily: 'NotoSansJP'),
-                                        )
-                                      : Text(
-                                          '0.0ｋｍ圏内',
-                                          style: TextStyle(
-                                              fontSize: 14, color: Colors.grey),
-                                        ),
-                                ],
-                              ),
-                            )
                           ]),
-                    )
+                    ),
                   ],
                 ),
               ),

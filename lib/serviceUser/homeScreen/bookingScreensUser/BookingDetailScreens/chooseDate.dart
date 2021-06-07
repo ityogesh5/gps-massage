@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
 import 'package:gps_massageapp/customLibraryClasses/customSwitch/custom_switch.dart';
@@ -20,6 +21,7 @@ class ChooseDate extends StatefulWidget {
 }
 
 class _ChooseDateState extends State<ChooseDate> {
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool readonly = false;
   String yearString, monthString, dateString;
   DateTime today = DateTime.now();
@@ -167,6 +169,7 @@ class _ChooseDateState extends State<ChooseDate> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.white,
       appBar: buildAppBar(context),
       body: loadingStatus == 0
@@ -490,17 +493,18 @@ class _ChooseDateState extends State<ChooseDate> {
                 bool isTimeAvailable = checkTimeAvailable(i, j);
 
                 if (!isSeleted && isTimeAvailable) {
-                  setState(() {
-                    bookEvents[timeRow[i]] = [j];
-                    isSeleted = true;
-                    selectedTime = DateTime(_cyear, _cmonth, j + 1,
-                        timeRow[i].hour, timeRow[i].minute, timeRow[i].second);
-                  });
+                  saveSelectedTime(j, i);
+                } else if (isSeleted) {
+                  showAlreadySelectedTimeError();
+                } else if (!isTimeAvailable) {
+                  showProviderTimeUnavailble();
                 }
               },
               child: Center(
                   child: SvgPicture.asset(
-                "assets/images_gps/O.svg",
+                isSeleted
+                    ? "assets/images_gps/greyO.svg"
+                    : "assets/images_gps/O.svg",
                 height: 20.0,
                 width: 20.0,
               )),
@@ -527,6 +531,21 @@ class _ChooseDateState extends State<ChooseDate> {
       ),
     );
     return lazyDataTable;
+  }
+
+  void saveSelectedTime(int j, int i) {
+    bool isValid = timeDurationSinceDate(DateTime(_cyear, _cmonth, j + 1,
+        timeRow[i].hour, timeRow[i].minute, timeRow[i].second));
+    if (isValid) {
+      setState(() {
+        bookEvents[timeRow[i]] = [j];
+        isSeleted = true;
+        selectedTime = DateTime(_cyear, _cmonth, j + 1, timeRow[i].hour,
+            timeRow[i].minute, timeRow[i].second);
+      });
+    } else {
+      showInvalidTimeError();
+    }
   }
 
   int getJaIndex(String day) {
@@ -749,8 +768,8 @@ class _ChooseDateState extends State<ChooseDate> {
                             InkWell(
                               onTap: () {
                                 /* setState(() {
-                                                                          timePicker = true;
-                                                                        }); */
+                                                                                            timePicker = true;
+                                                                                          }); */
                               },
                               child: InkWell(
                                 onTap: () {
@@ -1152,20 +1171,20 @@ class _ChooseDateState extends State<ChooseDate> {
           ),
         ),
         /*     Positioned(
-                                                  top: buttonPosition.dy + buttonSize.height,
-                                                  left: buttonPosition.dx,
-                                                  width: buttonSize.width,
-                                                  child: Container(
-                                                    color: Colors.red,
-                                                    height: 150.0,
-                                                    width: 100.0,
-                                                    child: CustomPaint(
-                                                      size: Size(15.0, 10.0),
-                                                      painter: TrianglePainter(
-                                                          isDownArrow: false, color: Colors.red), //grey[100]),
-                                                    ),
-                                                  ),
-                                                ), */
+                                                                    top: buttonPosition.dy + buttonSize.height,
+                                                                    left: buttonPosition.dx,
+                                                                    width: buttonSize.width,
+                                                                    child: Container(
+                                                                      color: Colors.red,
+                                                                      height: 150.0,
+                                                                      width: 100.0,
+                                                                      child: CustomPaint(
+                                                                        size: Size(15.0, 10.0),
+                                                                        painter: TrianglePainter(
+                                                                            isDownArrow: false, color: Colors.red), //grey[100]),
+                                                                      ),
+                                                                    ),
+                                                                  ), */
       ],
     );
   }
@@ -1265,5 +1284,109 @@ class _ChooseDateState extends State<ChooseDate> {
       }
     }
     return true;
+  }
+
+  bool timeDurationSinceDate(var dateString, {bool numericDates = true}) {
+    final date2 = DateTime.now();
+    var differenceInTime = date2.difference(dateString);
+    print('Converted Date and Time  : ${differenceInTime.inMinutes}');
+    if (differenceInTime.inMinutes > -30) {
+      print('PAST TIME');
+      return false;
+    } else if (differenceInTime.inMinutes.floor() <= -30) {
+      print('FUTURE TIME');
+      return true;
+    }
+  }
+
+  showAlreadySelectedTimeError() {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      backgroundColor: ColorConstants.snackBarColor,
+      duration: Duration(seconds: 3),
+      content: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Flexible(
+            child: Text('ほかの日時を選択したい時は、もう選択した日時を無効にしてお試しください。',
+                overflow: TextOverflow.ellipsis,
+                maxLines: 3,
+                style: TextStyle(fontFamily: 'NotoSansJP')),
+          ),
+          InkWell(
+            onTap: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            child: Text('はい',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'NotoSansJP',
+                    fontWeight: FontWeight.w500,
+                    decoration: TextDecoration.underline)),
+          ),
+        ],
+      ),
+    ));
+    return;
+  }
+
+  showProviderTimeUnavailble() {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      backgroundColor: ColorConstants.snackBarColor,
+      duration: Duration(seconds: 3),
+      content: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Flexible(
+            child: Text(
+                'ご選択の予約時間以内にはセラピストに予約不可(X)とマークされたところもありますので、ほかの時間をお選びください。',
+                overflow: TextOverflow.ellipsis,
+                maxLines: 3,
+                style: TextStyle(fontFamily: 'NotoSansJP')),
+          ),
+          InkWell(
+            onTap: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            child: Text('はい',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'NotoSansJP',
+                    fontWeight: FontWeight.w500,
+                    decoration: TextDecoration.underline)),
+          ),
+        ],
+      ),
+    ));
+    return;
+  }
+
+  showInvalidTimeError() {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      backgroundColor: ColorConstants.snackBarColor,
+      duration: Duration(seconds: 3),
+      content: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Flexible(
+            child: Text('予約の時間を現在の時間より30分後にする必要があります。',
+                overflow: TextOverflow.ellipsis,
+                maxLines: 3,
+                style: TextStyle(fontFamily: 'NotoSansJP')),
+          ),
+          InkWell(
+            onTap: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            child: Text('はい',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'NotoSansJP',
+                    fontWeight: FontWeight.w500,
+                    decoration: TextDecoration.underline)),
+          ),
+        ],
+      ),
+    ));
+    return;
   }
 }

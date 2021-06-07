@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
@@ -20,10 +21,15 @@ class SampleBookingScreen extends StatefulWidget {
 }
 
 class _SampleBookingScreenState extends State<SampleBookingScreen> {
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   TherapistByIdModel therapistDetails;
   int status = 0;
   int lastIndex = 999;
   int min = 0;
+  int serviceCId;
+  int serviceSubId;
+  bool isLoading = false;
+  var finalAmount;
   var serviceName, serviceDuration, serviceCostMap, serviceCost, subCategoryId;
   ItemScrollController scrollController = ItemScrollController();
   List<bool> visibility = List<bool>();
@@ -31,9 +37,6 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
   List<GlobalKey> globalKeyList = List<GlobalKey>();
   List<String> bannerImages = List<String>();
   Map<String, Map<int, int>> serviceSelection = Map<String, Map<int, int>>();
-  int serviceCId;
-  int serviceSubId;
-  var finalAmount;
   DateTime selectedTime, endTime;
   String defaultBannerUrl =
       "https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80";
@@ -49,6 +52,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
     return status == 0
         ? Container()
         : Scaffold(
+            key: _scaffoldKey,
             body: SafeArea(
               child: SingleChildScrollView(
                 child: Container(
@@ -112,7 +116,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                 : therapistDetails.bookingDataResponse[0].bookingStatus == 0
                     ? waitingForApproval()
                     : therapistDetails.bookingDataResponse[0].bookingStatus ==
-                                1 &&
+                                1 ||
                             therapistDetails
                                     .bookingDataResponse[0].bookingStatus ==
                                 3
@@ -996,6 +1000,13 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
   }
 
   Widget buildDateTimeDetails() {
+    String dateFormat;
+    String jaName;
+
+    if (selectedTime != null) {
+      dateFormat = DateFormat('MM月dd').format(selectedTime);
+      jaName = DateFormat('EEEE', 'ja_JP').format(selectedTime);
+    }
     return Row(
       children: [
         selectedTime != null
@@ -1011,7 +1022,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                             height: 16, width: 16),
                         SizedBox(width: 10),
                         new Text(
-                          '${selectedTime.day}月${selectedTime.month}:',
+                          '$dateFormat :',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 12,
@@ -1019,7 +1030,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                         ),
                         SizedBox(width: 5),
                         new Text(
-                          "月曜日",
+                          "$jaName",
                           style: TextStyle(
                               color: Colors.grey[400],
                               fontSize: 12,
@@ -1089,8 +1100,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
               )
             : InkWell(
                 onTap: () {
-                  HealingMatchConstants.callBack = updateDateTimeSelection;
-                  NavigationRouter.switchToUserChooseDate(context);
+                  calendarNavigator();
                 },
                 child: Card(
                   shape: CircleBorder(),
@@ -1109,10 +1119,44 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                       ),
                     ),
                   ),
-                ),
-              ),
+                ))
       ],
     );
+  }
+
+  void calendarNavigator() {
+    if (serviceSelection.keys.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('受けたい施術と価格を選んでください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 3,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      fontWeight: FontWeight.w500,
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return;
+    }
+
+    HealingMatchConstants.callBack = updateDateTimeSelection;
+    NavigationRouter.switchToUserChooseDate(context);
   }
 
   void updateDateTimeSelection(DateTime time) {
@@ -1135,11 +1179,6 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
       therapistDetails =
           await ServiceUserAPIProvider.getTherapistDetails(context, widget.id);
       HealingMatchConstants.therapistProfileDetails = therapistDetails;
-      //append all Service Types for General View
-     /*  allTherapistList.addAll(therapistDetails.therapistEstheticList);
-      allTherapistList.addAll(therapistDetails.therapistRelaxationList);
-      allTherapistList.addAll(therapistDetails.therapistOrteopathicList);
-      allTherapistList.addAll(therapistDetails.therapistFitnessListList); */
       setState(() {
         if (HealingMatchConstants.serviceType != 0 &&
             HealingMatchConstants.serviceType == 1) {
@@ -1337,6 +1376,13 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
           HealingMatchConstants.isUserRegistrationSkipped
               ? DialogHelper.showUserLoginOrRegisterDialog(context)
               : bookingConfirmField();
+
+          if (!isLoading) {
+            setState(() {
+              isLoading = true;
+              validateFields();
+            });
+          }
         },
         child: new Text(
           '予約に進む',
@@ -1665,8 +1711,47 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
     return "";
   }
 
+  void validateFields() {
+    ProgressDialogBuilder.showCommonProgressDialog(context);
+    if (serviceSelection.keys.isEmpty ||
+        selectedTime == null ||
+        endTime == null) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('続行するには、すべての値を選択してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 3,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      fontWeight: FontWeight.w500,
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      setState(() {
+        isLoading = false;
+      });
+      ProgressDialogBuilder.hideCommonProgressDialog(context);
+      return;
+    }
+    bookingConfirmField();
+  }
+
   bookingConfirmField() async {
-    ProgressDialogBuilder.showOverlayLoader(context);
     print('cost:${finalAmount}');
     setState(() {
       print('cost:${finalAmount}');
@@ -1711,12 +1796,14 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
       HealingMatchConstants.confServiceCost = finalAmount;
       HealingMatchConstants.confserviceCId = serviceCId;
       HealingMatchConstants.confserviceSubId = serviceSubId;
+      isLoading = false;
     });
 
     print('EndDateTime:${HealingMatchConstants.confEndDateTime.weekday}');
     print('EndDateTime:${HealingMatchConstants.confEndDateTime.hour}');
     print('subCategoryId:${subCategoryId}');
-    ProgressDialogBuilder.hideLoader(context);
+    ProgressDialogBuilder.hideCommonProgressDialog(context);
+    //  ProgressDialogBuilder.hideLoader(context);
     NavigationRouter.switchToServiceUserBookingConfirmationScreen(context);
   }
 }

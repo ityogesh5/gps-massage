@@ -189,7 +189,7 @@ class _DetailProfileDetailsState extends State<DetailProfileDetails> {
           childrenMeasure != null
               ? Container(
                   height: 30.0,
-                  width: MediaQuery.of(context).size.width - 130.0, //200.0,
+                  width: MediaQuery.of(context).size.width,// - 130.0, //200.0,
                   child: ListView.builder(
                       itemCount: childrenMeasure.length,
                       padding: EdgeInsets.all(0.0),
@@ -209,7 +209,7 @@ class _DetailProfileDetailsState extends State<DetailProfileDetails> {
           certificateImages != null
               ? Container(
                   height: 30.0,
-                  width: MediaQuery.of(context).size.width - 130.0, //200.0,
+                  width: MediaQuery.of(context).size.width,// - 130.0, //200.0,
                   child: ListView.builder(
                       itemCount: certificateImages.length,
                       padding: EdgeInsets.all(0.0),
@@ -557,6 +557,7 @@ class _DetailProfileDetailsState extends State<DetailProfileDetails> {
 
   Container buildProileDetailCard(String key, double size) {
     return Container(
+        margin: EdgeInsets.only(left: 2.0, right: 2.0),
         padding: EdgeInsets.only(left: 8.0, top: 4.0, bottom: 4.0, right: 8.0),
         decoration: BoxDecoration(
             gradient: LinearGradient(

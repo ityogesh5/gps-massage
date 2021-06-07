@@ -1537,6 +1537,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     // showOverlayLoader();
 
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setBool('isProviderRegister', true);
     userData =
         Data.fromJson(json.decode(sharedPreferences.getString("userData")));
     HealingMatchConstants.accessToken =
