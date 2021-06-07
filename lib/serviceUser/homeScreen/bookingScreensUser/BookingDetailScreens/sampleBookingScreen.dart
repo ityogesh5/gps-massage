@@ -1111,10 +1111,10 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
           await ServiceUserAPIProvider.getTherapistDetails(context, widget.id);
       HealingMatchConstants.therapistProfileDetails = therapistDetails;
       //append all Service Types for General View
-      allTherapistList.addAll(therapistDetails.therapistEstheticList);
+     /*  allTherapistList.addAll(therapistDetails.therapistEstheticList);
       allTherapistList.addAll(therapistDetails.therapistRelaxationList);
       allTherapistList.addAll(therapistDetails.therapistOrteopathicList);
-      allTherapistList.addAll(therapistDetails.therapistFitnessListList);
+      allTherapistList.addAll(therapistDetails.therapistFitnessListList); */
       setState(() {
         if (HealingMatchConstants.serviceType != 0 &&
             HealingMatchConstants.serviceType == 1) {
@@ -1129,7 +1129,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
           allTherapistList.addAll(therapistDetails.therapistOrteopathicList);
         }
         if (HealingMatchConstants.serviceType != 0 &&
-            HealingMatchConstants.serviceType == 1) {
+            HealingMatchConstants.serviceType == 4) {
           allTherapistList.addAll(therapistDetails.therapistFitnessListList);
         }
       });
@@ -1545,7 +1545,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
     if (cid == 1) {
       if (name.contains("ブライダル")) {
         return "assets/images_gps/subCategory/esthetic/bridal.svg";
-      } else if (name.contains("ボディ")) {
+      } else if (name == ("ボディ")) {
         return "assets/images_gps/subCategory/esthetic/body.svg";
       } else if (name.contains("太もも・ヒップ")) {
         return "assets/images_gps/subCategory/esthetic/thighsHips.svg";
@@ -1555,7 +1555,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
         return "assets/images_gps/subCategory/esthetic/breastEnhancement.svg";
       } else if (name.contains("脱毛（女性")) {
         return "assets/images_gps/subCategory/esthetic/hairRemovalWomen.svg";
-      } else if (name.contains("脱毛（女性")) {
+      } else if (name.contains("脱毛（男性")) {
         return "assets/images_gps/subCategory/esthetic/hairRemovalMen.svg";
       } else if (name.contains("アロマテラピー")) {
         return "assets/images_gps/subCategory/esthetic/aromatherapy.svg";
@@ -1585,7 +1585,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
       } else if (name.contains("カッピング")) {
         return "assets/images_gps/subCategory/relaxation/cupping1.svg";
       } else {
-        return "assets/images_gps/subCategory/relaxation/relaxationOthers.svg";
+        return "assets/images_gps/subCategory/relaxation/relaxationOther.svg";
       }
     }
     //treatment
@@ -1596,6 +1596,8 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
         return "assets/images_gps/subCategory/osteopathic/beautyAcupunctureFace.svg";
       } else if (name.contains("きゅう")) {
         return "assets/images_gps/subCategory/osteopathic/Kyu.svg";
+      } else if (name == ("ベビーマッサージ")) {
+        return "assets/images_gps/subCategory/osteopathic/babyMassage.svg";
       } else if (name.contains("マッサージ")) {
         return "assets/images_gps/subCategory/osteopathic/Massage.svg";
       } else if (name.contains("ストレッチ")) {
@@ -1606,8 +1608,6 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
         return "assets/images_gps/subCategory/osteopathic/cupping.svg";
       } else if (name.contains("マタニティ")) {
         return "assets/images_gps/subCategory/osteopathic/maternity1.svg";
-      } else if (name.contains("ベビーマッサージ")) {
-        return "assets/images_gps/subCategory/osteopathic/babyMassage.svg";
       }
       //other fields
       else {
@@ -1616,7 +1616,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
     }
     //fitness
     else if (cid == 2) {
-      if (name.contains("ヨガ")) {
+      if (name == "ヨガ") {
         return "assets/images_gps/subCategory/fitness/yoga.svg";
       } else if (name.contains("ホットヨガ")) {
         return "assets/images_gps/subCategory/fitness/hotYoga.svg";

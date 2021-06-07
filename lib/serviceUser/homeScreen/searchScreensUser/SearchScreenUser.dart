@@ -1227,7 +1227,13 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                     backgroundColor: Color.fromRGBO(200, 217, 33, 1),
                     child: IconButton(
                       onPressed: () {
-                        proceedToSearchResults();
+                        timeDurationSinceDate(DateTime(
+                            _cyear,
+                            _cmonth,
+                            _currentDay,
+                            HealingMatchConstants.dateTime.hour,
+                            HealingMatchConstants.dateTime.month));
+                        //proceedToSearchResults();
                       },
                       icon: Image.asset(
                         "assets/images_gps/search.png",
@@ -1356,7 +1362,6 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                   child: Text("完了", style: TextStyle(fontSize: 12.0)),
                   onPressed: () {
                     setState(() {
-
                       _selectedMonthIndex = _monthChangedNumber;
                       monthController.text =
                           monthDropDownValues[_selectedMonthIndex];
@@ -1548,65 +1553,100 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   }
 
   buildTimeController(DateTime _dateTime) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 18.0, right: 18.0),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CustomPaint(
-                      size: Size(25.0, 15.0),
-                      painter: TrianglePainter(
-                          isDownArrow: false, color: Colors.white),
-                    ),
-                  ],
+    return Stack(
+      children: [
+        /*   Container(
+          height: 140.0,
+          width: MediaQuery.of(context).size.width,
+          //color: Color.fromRGBO(242, 242, 242, 1)
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.bottomLeft,
+                end: Alignment(0.8, 0.0),
+                colors: [
+                  // Color.fromRGBO(242, 242, 242, 1),
+                  Colors.grey[350],
+                  Colors.white,
+                ],
+                // colors: [Colors.blue, Colors.indigo, Colors.indigo],
+                tileMode: TileMode.clamp,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey[350],
+                  blurRadius: 4.0,
+                  spreadRadius: 2.0,
+                  offset: Offset(
+                    0.0,
+                    0.0,
+                  ),
                 ),
+              ]),
+        ), */
+        Padding(
+          padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+          child: Stack(
+            children: [
+              Container(
+                  height: 120.0,
+                  // padding: EdgeInsets.all(8.0),
+                  margin: EdgeInsets.only(top: 12.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.transparent),
+                      borderRadius: BorderRadius.circular(10.0),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey[100],
+                          blurRadius: 6.0,
+                          spreadRadius: 10.0,
+                          offset: Offset(
+                            0.0,
+                            0.0,
+                          ),
+                        ),
+                      ]),
+                  child: TimePickerSpinner(
+                    alignment: Alignment.topCenter,
+                    is24HourMode: true,
+                    minutesInterval: 15,
+                    time: _dateTime,
+                    normalTextStyle: TextStyle(
+                      fontSize: 18,
+                      color: Color.fromRGBO(217, 217, 217, 1), //Colors.grey,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    highlightedTextStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Colors.black),
+                    spacing: 50,
+                    itemHeight: 40,
+                    itemWidth: 70.0,
+                    isForce2Digits: true,
+                    onTimeChange: (time) {
+                      setState(() {
+                        _dateTime = time;
+                        print('Selected Date and Time : $_dateTime');
+                        HealingMatchConstants.dateTime = _dateTime;
+                        /* timeDurationSinceDate(HealingMatchConstants.dateTime); */
+                      });
+                    },
+                  )),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomPaint(
+                    size: Size(20.0, 12.0),
+                    painter: TrianglePainter(
+                        isDownArrow: false, color: Colors.white),
+                  ),
+                ],
               ),
             ],
           ),
-          Card(
-            elevation: 10.0,
-            child: Container(
-                height: 120.0,
-                padding: EdgeInsets.all(8.0),
-                // margin: EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.transparent),
-                    borderRadius: BorderRadius.circular(5.0),
-                    color: Colors.white),
-                child: TimePickerSpinner(
-                  alignment: Alignment.topCenter,
-                  is24HourMode: true,
-                  minutesInterval: 15,
-                  normalTextStyle: TextStyle(
-                    fontSize: 18,
-                    color: Color.fromRGBO(217, 217, 217, 1), //Colors.grey,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  highlightedTextStyle: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                      color: Colors.black),
-                  spacing: 50,
-                  itemHeight: 40,
-                  itemWidth: 70.0,
-                  isForce2Digits: true,
-                  onTimeChange: (time) {
-                    setState(() {
-                      _dateTime = time;
-                      print('Selected Date and Time : $_dateTime');
-                      HealingMatchConstants.dateTime = _dateTime;
-                      timeDurationSinceDate(HealingMatchConstants.dateTime);
-                    });
-                  },
-                )),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -1634,18 +1674,50 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   }
 
   timeDurationSinceDate(var dateString, {bool numericDates = true}) {
-    final date2 = DateTime.now();
-    differenceInTime = date2.difference(dateString);
-    print('Converted Date and Time  : ${differenceInTime.inMinutes}');
-    if (differenceInTime.inMinutes >= 1) {
-      print('PAST TIME');
+    if (_isVisible) {
+      final date2 = DateTime.now();
+      differenceInTime = date2.difference(dateString);
+      print('Converted Date and Time  : ${differenceInTime.inMinutes}');
+      if (differenceInTime.inMinutes > -30) {
+        print('PAST TIME');
+        showInValidTimeError();
+      } else if (differenceInTime.inMinutes.floor() <= -30) {
+        print('FUTURE TIME');
+        proceedToSearchResults();
+      }
+    } else {
+      proceedToSearchResults();
     }
-    if (differenceInTime.inMinutes.floor() < 1) {
-      print('FUTURE TIME');
-    }
-    if (differenceInTime.inMinutes.floor() == 30) {
-      print('30 MINUTES IN PRIOR');
-    }
+  }
+
+  void showInValidTimeError() {
+    _searchKey.currentState.showSnackBar(SnackBar(
+      backgroundColor: ColorConstants.snackBarColor,
+      duration: Duration(seconds: 3),
+      content: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Flexible(
+            child: Text('有効な時間を選択してください。',
+                overflow: TextOverflow.ellipsis,
+                maxLines: 3,
+                style: TextStyle(fontFamily: 'NotoSansJP')),
+          ),
+          InkWell(
+            onTap: () {
+              _searchKey.currentState.hideCurrentSnackBar();
+            },
+            child: Text('はい',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'NotoSansJP',
+                    fontWeight: FontWeight.w500,
+                    decoration: TextDecoration.underline)),
+          ),
+        ],
+      ),
+    ));
+    return;
   }
 
   getValidSearchFields() async {
@@ -1807,13 +1879,18 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
             'Current Search address : ${HealingMatchConstants.searchUserAddress} : '
             '${HealingMatchConstants.currentLatitude} && '
             '${HealingMatchConstants.currentLongitude}');
-        proceedToSearchResults();
+        timeDurationSinceDate(HealingMatchConstants.dateTime);
+        //proceedToSearchResults();
       } else {
         return null;
       }
     } catch (e) {
       print(e);
     }
+  }
+
+  validateTimeSelected() {
+    //if(HealingMatchConstants.dateTime
   }
 
   proceedToSearchResults() async {

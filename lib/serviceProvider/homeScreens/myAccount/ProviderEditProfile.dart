@@ -2844,18 +2844,17 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         .addAll(childrenMeasuresDropDownValuesSelected);
     HealingMatchConstants.serviceProviderGenderService = genderTreatment;
 
-    /*  String address = roomnumber +
-        ',' +
-        buildingname +
-        ',' +
-        manualAddresss +
-        ',' +
-        myCity +
-        ',' +
-        myState; */
-
-    String address =
-        myState + myCity + manualAddresss + buildingname + roomnumber;
+    String address = buildingname != null || buildingname != ''
+        ? myState +
+            ' ' +
+            myCity +
+            ' ' +
+            manualAddresss +
+            ' ' +
+            buildingname +
+            ' ' +
+            roomnumber
+        : myState + ' ' + myCity + ' ' + manualAddresss + ' ' + roomnumber;
 
     String query = Platform.isIOS
         ? myCity + ',' + myState
