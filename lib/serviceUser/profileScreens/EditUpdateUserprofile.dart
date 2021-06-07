@@ -3677,13 +3677,13 @@ class _AddAddressState extends State<AddAddress> {
     }
     ProgressDialogBuilder.showOverlayLoader(context);
     String manualAddedAddress = addedRoomNumberController.text.toString() +
-        '' +
+        ' ' +
         addedBuildingNameController.text.toString() +
-        '' +
+        ' ' +
         addedUserAreaController.text.toString() +
-        '' +
+        ' ' +
         _myAddedCity +
-        '' +
+        ' ' +
         _myAddedPrefecture;
     print('USER MANUAL ADDRESS : $manualAddedAddress');
     String address = Platform.isIOS

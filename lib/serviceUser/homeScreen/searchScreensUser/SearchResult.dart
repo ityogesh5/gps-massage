@@ -70,7 +70,7 @@ class InitialSearchResultsScreen extends StatefulWidget {
 
 class _InitialSearchResultsScreenState
     extends State<InitialSearchResultsScreen> {
-  var _pageNumber = 1;
+  var _pageNumber = 0;
   var _pageSize = 10;
 
   @override
@@ -154,7 +154,7 @@ class SearchResult extends StatefulWidget {
 class _SearchResultState extends State<SearchResult> {
   double ratingsValue = 3.0;
   bool isLoading = false;
-  var _pageNumber = 1;
+  var _pageNumber = 0;
   var _pageSize = 10;
   var therapistId;
   SearchBloc _searchBloc;
@@ -1401,7 +1401,7 @@ class SearchResultByType extends StatefulWidget {
 class _SearchResultByTypeState extends State<SearchResultByType> {
   double ratingsValue = 3.0;
   bool isLoading = false;
-  var _pageNumber = 1;
+  var _pageNumber = 0;
   var _pageSize = 10;
   var therapistId;
   SearchBloc _searchBloc;
@@ -2657,7 +2657,7 @@ class SearchResultChips extends StatefulWidget {
 }
 
 class _SearchResultChipsState extends State<SearchResultChips> {
-  var _pageNumber = 1;
+  var _pageNumber = 0;
   var _pageSize = 10;
 
   Widget _buildChips() {
@@ -2757,7 +2757,7 @@ class HomePageError extends StatefulWidget {
 }
 
 class _HomePageErrorState extends State<HomePageError> {
-  var _pageNumber = 1;
+  var _pageNumber = 0;
   var _pageSize = 10;
 
   @override
