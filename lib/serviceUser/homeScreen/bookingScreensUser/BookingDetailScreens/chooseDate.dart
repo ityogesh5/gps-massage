@@ -13,6 +13,7 @@ import 'package:gps_massageapp/customLibraryClasses/lazyTable/lazy_data_table.da
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/event.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
+import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:intl/intl.dart';
 
 class ChooseDate extends StatefulWidget {
@@ -60,7 +61,7 @@ class _ChooseDateState extends State<ChooseDate> {
     daysToDisplay = totalDays(_cmonth, _cyear);
     timeBuilder(_cyear, _cmonth);
     selectedMin = HealingMatchConstants.selectedMin;
-    ServiceProviderApi.getCalEvents().then((value) {
+    ServiceUserAPIProvider.getCalEvents().then((value) {
       calendarEvents.addAll(value);
       getEvents();
     });
