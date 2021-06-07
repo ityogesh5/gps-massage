@@ -2973,13 +2973,13 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       'isTherapist': '1',
       'email': HealingMatchConstants.serviceProviderEmailAddress,
       'storeName': bussinessForm == "施術店舗あり 施術従業員あり" ||
-              bussinessForm == "施術店舗なし 施術従業員あり（出張のみ)"
+              bussinessForm == "施術店舗あり 施術従業員なし（個人経営）"
           ? HealingMatchConstants.serviceProviderStoreName
           : '',
-      'storePhone': bussinessForm == "施術店舗あり 施術従業員あり" ||
+      /*  'storePhone': bussinessForm == "施術店舗あり 施術従業員あり" ||
               bussinessForm == "施術店舗なし 施術従業員あり（出張のみ)"
           ? HealingMatchConstants.serviceProviderStorePhoneNumber
-          : '0',
+          : '0', */
       'genderOfService':
           HealingMatchConstants.serviceProviderGenderService != null
               ? HealingMatchConstants.serviceProviderGenderService
@@ -3003,6 +3003,12 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       'addressTypeSelection': "直接入力",
       'address': json.encode(userData.addresses), //address update in json
     });
+    if (bussinessForm == "施術店舗あり 施術従業員あり" ||
+        bussinessForm == "施術店舗あり 施術従業員なし（個人経営）") {
+      request.fields.addAll({
+        "storePhone": HealingMatchConstants.serviceProviderStorePhoneNumber
+      });
+    }
     if (deletedStoreTypeDisplayValues.isNotEmpty) {
       var keys = deletedStoreTypeDisplayValues.keys;
       for (var key in keys) {

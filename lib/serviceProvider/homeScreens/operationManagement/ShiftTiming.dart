@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
@@ -32,6 +33,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
   int daysToDisplay;
   int startTime;
   int endTime;
+  int loadingStatus = 0;
   Map<DateTime, List<int>> events = Map<DateTime, List<int>>();
   List<DateTime> timeRow = List<DateTime>();
   List<FlutterWeekViewEvent> calendarEvents = List<FlutterWeekViewEvent>();
@@ -134,419 +136,444 @@ class _ShiftTimingState extends State<ShiftTiming> {
   }
 
   getEvents() {
-    calendarEvents.addAll(HealingMatchConstants.events);
-    for (var event in calendarEvents) {
-      DateTime start = DateTime(event.start.year, event.start.month, 1,
-          event.start.hour, event.start.minute);
-      DateTime end = DateTime(event.start.year, event.start.month, 1,
-          event.end.hour, event.end.minute);
+    ServiceProviderApi.getCalEvents().then((value) {
+      calendarEvents.addAll(HealingMatchConstants.events);
+      for (var event in calendarEvents) {
+        DateTime start = DateTime(event.start.year, event.start.month, 1,
+            event.start.hour, event.start.minute);
+        DateTime end = DateTime(event.start.year, event.start.month, 1,
+            event.end.hour, event.end.minute);
 
-      while (start.compareTo(end) < 0) {
-        if (events[start] == null) {
-          events[start] = [event.start.day - 1];
-        } else if (!(events[start].contains([event.start.day - 1]))) {
-          events[start].addAll([event.start.day - 1]);
+        while (start.compareTo(end) < 0) {
+          if (events[start] == null) {
+            events[start] = [event.start.day - 1];
+          } else if (!(events[start].contains([event.start.day - 1]))) {
+            events[start].addAll([event.start.day - 1]);
+          }
+          scheduleEventId[DateTime(start.year, start.month, event.start.day - 1,
+              start.hour, start.minute, start.second)] = event.events.id;
+          start = start.add(Duration(minutes: 15));
         }
-        scheduleEventId[DateTime(start.year, start.month, event.start.day - 1,
-            start.hour, start.minute, start.second)] = event.events.id;
-        start = start.add(Duration(minutes: 15));
       }
-    }
+      setState(() {
+        loadingStatus = 1;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        /*  height: MediaQuery.of(context).size.height,
+      body: loadingStatus == 0
+          ? Container(
+              color: Colors.white,
+              child: Center(child: SpinKitThreeBounce(color: Colors.lime)),
+            )
+          : Container(
+              /*  height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
        */
-        padding: EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Text(
-              "営業日時を自由に組むことができます。",
-              style: TextStyle(
-                  fontSize: 12.0,
-                  color: Color.fromRGBO(102, 102, 102, 1),
-                  fontFamily: 'NotoSansJP'),
-            ),
-            SizedBox(
-              height: 10.0,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Row(
+              padding: EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Text(
+                    "営業日時を自由に組むことができます。",
+                    style: TextStyle(
+                        fontSize: 12.0,
+                        color: Color.fromRGBO(102, 102, 102, 1),
+                        fontFamily: 'NotoSansJP'),
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        width: 80.0, //MediaQuery.of(context).size.width * 0.2,
-                        color: Colors.transparent,
-                        child: DropDownFormField(
-                          fillColor: Colors.white,
-                          borderColor: Color.fromRGBO(228, 228, 228, 1),
-                          contentPadding: EdgeInsets.all(1.0),
-                          titleText: null,
-                          hintText: readonly
-                              ? yearString
-                              : HealingMatchConstants
-                                  .registrationBankAccountType,
-                          onSaved: (value) {
-                            setState(() {
-                              yearString = value;
-                              _cyear = int.parse(value);
-                              _currentDay = 1;
-                              displayDay =
-                                  DateTime(_cyear, _cmonth, _currentDay);
-                              daysToDisplay = totalDays(_cmonth, _cyear);
-                              timeBuilder(_cyear, _cmonth);
-                            });
-                          },
-                          value: yearString,
-                          onChanged: (value) {
-                            yearString = value;
-                            _cyear = int.parse(value);
-                            _currentDay = 1;
-                            setState(() {
-                              displayDay =
-                                  DateTime(_cyear, _cmonth, _currentDay);
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width:
+                                  80.0, //MediaQuery.of(context).size.width * 0.2,
+                              color: Colors.transparent,
+                              child: DropDownFormField(
+                                fillColor: Colors.white,
+                                borderColor: Color.fromRGBO(228, 228, 228, 1),
+                                contentPadding: EdgeInsets.all(1.0),
+                                titleText: null,
+                                hintText: readonly
+                                    ? yearString
+                                    : HealingMatchConstants
+                                        .registrationBankAccountType,
+                                onSaved: (value) {
+                                  setState(() {
+                                    yearString = value;
+                                    _cyear = int.parse(value);
+                                    _currentDay = 1;
+                                    displayDay =
+                                        DateTime(_cyear, _cmonth, _currentDay);
+                                    daysToDisplay = totalDays(_cmonth, _cyear);
+                                    timeBuilder(_cyear, _cmonth);
+                                  });
+                                },
+                                value: yearString,
+                                onChanged: (value) {
+                                  yearString = value;
+                                  _cyear = int.parse(value);
+                                  _currentDay = 1;
+                                  setState(() {
+                                    displayDay =
+                                        DateTime(_cyear, _cmonth, _currentDay);
 
-                              daysToDisplay = totalDays(_cmonth, _cyear);
-                              timeBuilder(_cyear, _cmonth);
-                            });
-                          },
-                          dataSource: [
-                            {
-                              "display": "2020",
-                              "value": "2020",
-                            },
-                            {
-                              "display": "2021",
-                              "value": "2021",
-                            },
-                            {
-                              "display": "2022",
-                              "value": "2022",
-                            },
+                                    daysToDisplay = totalDays(_cmonth, _cyear);
+                                    timeBuilder(_cyear, _cmonth);
+                                  });
+                                },
+                                dataSource: [
+                                  {
+                                    "display": "2020",
+                                    "value": "2020",
+                                  },
+                                  {
+                                    "display": "2021",
+                                    "value": "2021",
+                                  },
+                                  {
+                                    "display": "2022",
+                                    "value": "2022",
+                                  },
+                                ],
+                                textField: 'display',
+                                valueField: 'value',
+                              ),
+                            ),
+                            SizedBox(
+                              width: 15.0,
+                            ),
+                            Container(
+                              width:
+                                  80.0, //MediaQuery.of(context).size.width * 0.2,
+                              child: DropDownFormField(
+                                fillColor: Colors.white,
+                                borderColor: Color.fromRGBO(228, 228, 228, 1),
+                                titleText: null,
+                                hintText: readonly
+                                    ? monthString
+                                    : HealingMatchConstants
+                                        .registrationBankAccountType,
+                                onSaved: (value) {
+                                  setState(() {
+                                    monthString = value;
+                                    _cmonth = int.parse(value);
+                                    displayDay =
+                                        DateTime(_cyear, _cmonth, _currentDay);
+                                    daysToDisplay = totalDays(_cmonth, _cyear);
+                                    _currentDay = 1;
+                                    timeBuilder(_cyear, _cmonth);
+                                  });
+                                },
+                                value: monthString,
+                                onChanged: (value) {
+                                  monthString = value;
+                                  _cmonth = int.parse(value);
+                                  displayDay =
+                                      DateTime(_cyear, _cmonth, _currentDay);
+                                  setState(() {
+                                    daysToDisplay = totalDays(_cmonth, _cyear);
+                                    _currentDay = 1;
+                                    timeBuilder(_cyear, _cmonth);
+                                  });
+                                },
+                                dataSource: [
+                                  {
+                                    "display": "1月",
+                                    "value": "1",
+                                  },
+                                  {
+                                    "display": "2月",
+                                    "value": "2",
+                                  },
+                                  {
+                                    "display": "3月",
+                                    "value": "3",
+                                  },
+                                  {
+                                    "display": "4月",
+                                    "value": "4",
+                                  },
+                                  {
+                                    "display": "5月",
+                                    "value": "5",
+                                  },
+                                  {
+                                    "display": "6月",
+                                    "value": "6",
+                                  },
+                                  {
+                                    "display": "7月",
+                                    "value": "7",
+                                  },
+                                  {
+                                    "display": "8月",
+                                    "value": "8",
+                                  },
+                                  {
+                                    "display": "9月",
+                                    "value": "9",
+                                  },
+                                  {
+                                    "display": "10月",
+                                    "value": "10",
+                                  },
+                                  {
+                                    "display": "11月",
+                                    "value": "11",
+                                  },
+                                  {
+                                    "display": "12月",
+                                    "value": "12",
+                                  },
+                                ],
+                                textField: 'display',
+                                valueField: 'value',
+                              ),
+                            ),
                           ],
-                          textField: 'display',
-                          valueField: 'value',
                         ),
                       ),
-                      SizedBox(
-                        width: 15.0,
-                      ),
-                      Container(
-                        width: 80.0, //MediaQuery.of(context).size.width * 0.2,
-                        child: DropDownFormField(
-                          fillColor: Colors.white,
-                          borderColor: Color.fromRGBO(228, 228, 228, 1),
-                          titleText: null,
-                          hintText: readonly
-                              ? monthString
-                              : HealingMatchConstants
-                                  .registrationBankAccountType,
-                          onSaved: (value) {
-                            setState(() {
-                              monthString = value;
-                              _cmonth = int.parse(value);
-                              displayDay =
-                                  DateTime(_cyear, _cmonth, _currentDay);
-                              daysToDisplay = totalDays(_cmonth, _cyear);
-                              _currentDay = 1;
-                              timeBuilder(_cyear, _cmonth);
-                            });
-                          },
-                          value: monthString,
-                          onChanged: (value) {
-                            monthString = value;
-                            _cmonth = int.parse(value);
-                            displayDay = DateTime(_cyear, _cmonth, _currentDay);
-                            setState(() {
-                              daysToDisplay = totalDays(_cmonth, _cyear);
-                              _currentDay = 1;
-                              timeBuilder(_cyear, _cmonth);
-                            });
-                          },
-                          dataSource: [
-                            {
-                              "display": "1月",
-                              "value": "1",
-                            },
-                            {
-                              "display": "2月",
-                              "value": "2",
-                            },
-                            {
-                              "display": "3月",
-                              "value": "3",
-                            },
-                            {
-                              "display": "4月",
-                              "value": "4",
-                            },
-                            {
-                              "display": "5月",
-                              "value": "5",
-                            },
-                            {
-                              "display": "6月",
-                              "value": "6",
-                            },
-                            {
-                              "display": "7月",
-                              "value": "7",
-                            },
-                            {
-                              "display": "8月",
-                              "value": "8",
-                            },
-                            {
-                              "display": "9月",
-                              "value": "9",
-                            },
-                            {
-                              "display": "10月",
-                              "value": "10",
-                            },
-                            {
-                              "display": "11月",
-                              "value": "11",
-                            },
-                            {
-                              "display": "12月",
-                              "value": "12",
-                            },
-                          ],
-                          textField: 'display',
-                          valueField: 'value',
+                      IconButton(
+                        icon: SvgPicture.asset(
+                          "assets/images_gps/settings.svg",
+                          height: 25.0,
+                          width: 25.0,
                         ),
+                        onPressed: () {
+                          setDayTiming();
+                        },
                       ),
                     ],
                   ),
-                ),
-                IconButton(
-                  icon: SvgPicture.asset(
-                    "assets/images_gps/settings.svg",
-                    height: 25.0,
-                    width: 25.0,
-                  ),
-                  onPressed: () {
-                    setDayTiming();
-                  },
-                ),
-              ],
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 12.0, bottom: 8.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Flexible(
-                      fit: FlexFit.loose,
-                      child: LazyDataTable(
-                        rows: timeRow.length,
-                        columns: daysToDisplay,
-                        tableTheme: LazyDataTableTheme(
-                          columnHeaderColor: Color.fromRGBO(247, 247, 247, 1),
-                          columnHeaderBorder: Border.fromBorderSide(
-                            BorderSide(color: Colors.transparent),
-                          ),
-                          rowHeaderBorder: Border.fromBorderSide(
-                            BorderSide(color: Colors.transparent),
-                          ),
-                          rowHeaderColor: Color.fromRGBO(247, 247, 247, 1),
-                          cornerBorder: Border.fromBorderSide(
-                            BorderSide(color: Colors.transparent),
-                          ),
-                          cornerColor: Color.fromRGBO(247, 247, 247, 1),
-                          cellBorder: Border.symmetric(
-                              horizontal: BorderSide.none,
-                              vertical: BorderSide(
-                                color: Color.fromRGBO(240, 240, 240, 1),
-                              )),
-                          alternateCellBorder: Border.symmetric(
-                              horizontal: BorderSide.none,
-                              vertical: BorderSide(
-                                color: Color.fromRGBO(240, 240, 240, 1),
-                              )),
-                          alternateCellColor: Colors.white,
-                        ),
-                        tableDimensions: LazyDataTableDimensions(
-                          cellHeight: 50,
-                          cellWidth: 50,
-                          columnHeaderHeight: 50,
-                          rowHeaderWidth: 50,
-                        ),
-                        columnHeaderBuilder: (i) => Center(
-                          child: Text(
-                            "${i + 1}",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        rowHeaderBuilder: (i) {
-                          return Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  timeRow[i].hour < 10
-                                      ? "0${timeRow[i].hour}"
-                                      : "${timeRow[i].hour}",
-                                  style: TextStyle(
-                                    fontSize: 12.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromRGBO(158, 158, 158, 1),
-                                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 12.0, bottom: 8.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Flexible(
+                            fit: FlexFit.loose,
+                            child: LazyDataTable(
+                              rows: timeRow.length,
+                              columns: daysToDisplay,
+                              tableTheme: LazyDataTableTheme(
+                                columnHeaderColor:
+                                    Color.fromRGBO(247, 247, 247, 1),
+                                columnHeaderBorder: Border.fromBorderSide(
+                                  BorderSide(color: Colors.transparent),
                                 ),
-                                Text(
-                                  timeRow[i].minute == 0
-                                      ? ": 00"
-                                      : ": ${timeRow[i].minute}",
-                                  style: TextStyle(
-                                    fontSize: 12.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromRGBO(158, 158, 158, 1),
-                                  ),
+                                rowHeaderBorder: Border.fromBorderSide(
+                                  BorderSide(color: Colors.transparent),
                                 ),
-                              ],
-                            ),
-                          );
-                        },
-                        /*      (timeRow[i].hour >= startTime.hour &&
+                                rowHeaderColor:
+                                    Color.fromRGBO(247, 247, 247, 1),
+                                cornerBorder: Border.fromBorderSide(
+                                  BorderSide(color: Colors.transparent),
+                                ),
+                                cornerColor: Color.fromRGBO(247, 247, 247, 1),
+                                cellBorder: Border.symmetric(
+                                    horizontal: BorderSide.none,
+                                    vertical: BorderSide(
+                                      color: Color.fromRGBO(240, 240, 240, 1),
+                                    )),
+                                alternateCellBorder: Border.symmetric(
+                                    horizontal: BorderSide.none,
+                                    vertical: BorderSide(
+                                      color: Color.fromRGBO(240, 240, 240, 1),
+                                    )),
+                                alternateCellColor: Colors.white,
+                              ),
+                              tableDimensions: LazyDataTableDimensions(
+                                cellHeight: 50,
+                                cellWidth: 50,
+                                columnHeaderHeight: 50,
+                                rowHeaderWidth: 50,
+                              ),
+                              columnHeaderBuilder: (i) => Center(
+                                child: Text(
+                                  "${i + 1}",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              rowHeaderBuilder: (i) {
+                                return Center(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        timeRow[i].hour < 10
+                                            ? "0${timeRow[i].hour}"
+                                            : "${timeRow[i].hour}",
+                                        style: TextStyle(
+                                          fontSize: 12.0,
+                                          fontWeight: FontWeight.bold,
+                                          color:
+                                              Color.fromRGBO(158, 158, 158, 1),
+                                        ),
+                                      ),
+                                      Text(
+                                        timeRow[i].minute == 0
+                                            ? ": 00"
+                                            : ": ${timeRow[i].minute}",
+                                        style: TextStyle(
+                                          fontSize: 12.0,
+                                          fontWeight: FontWeight.bold,
+                                          color:
+                                              Color.fromRGBO(158, 158, 158, 1),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                              /*      (timeRow[i].hour >= startTime.hour &&
                                       timeRow[i].minute >= startTime.minute) &&
                                   (timeRow[i].hour < endTime.hour &&
                                       timeRow[i].minute < endTime.minute)) */
-                        dataCellBuilder: (i, j) {
-                          String dayName = DateFormat('EEEE')
-                              .format(DateTime(_cyear, _cmonth, j + 1));
-                          //Get Japanese Day Name
-                          int dayIndex = getJaIndex(dayName);
-                          DateTime startTime =
-                              _storeServiceTime[dayIndex].startTime.toLocal();
-                          DateTime endTime =
-                              _storeServiceTime[dayIndex].endTime.toLocal();
-                          int endHour = endTime.hour == 0 ? 24 : endTime.hour;
-                          bool checkStartMinute = true;
-                          bool checkEndMinute = true;
+                              dataCellBuilder: (i, j) {
+                                String dayName = DateFormat('EEEE')
+                                    .format(DateTime(_cyear, _cmonth, j + 1));
+                                //Get Japanese Day Name
+                                int dayIndex = getJaIndex(dayName);
+                                DateTime startTime = _storeServiceTime[dayIndex]
+                                    .startTime
+                                    .toLocal();
+                                DateTime endTime = _storeServiceTime[dayIndex]
+                                    .endTime
+                                    .toLocal();
+                                int endHour =
+                                    endTime.hour == 0 ? 24 : endTime.hour;
+                                bool checkStartMinute = true;
+                                bool checkEndMinute = true;
 
-                          if ((timeRow[i].hour == startTime.hour)) {
-                            checkStartMinute =
-                                timeRow[i].minute >= startTime.minute;
-                          }
-                          if ((timeRow[i].hour == endHour)) {
-                            checkStartMinute =
-                                timeRow[i].minute <= endTime.minute;
-                          }
+                                if ((timeRow[i].hour == startTime.hour)) {
+                                  checkStartMinute =
+                                      timeRow[i].minute >= startTime.minute;
+                                }
+                                if ((timeRow[i].hour == endHour)) {
+                                  checkStartMinute =
+                                      timeRow[i].minute <= endTime.minute;
+                                }
 
-                          if (_storeServiceTime[dayIndex].shopOpen &&
-                              ((timeRow[i].hour >= startTime.hour) &&
-                                  (timeRow[i].hour <= endHour)) &&
-                              checkStartMinute &&
-                              checkEndMinute) {
-                            if (events.containsKey(timeRow[i]) &&
-                                events[timeRow[i]].contains(j)) {
-                              return InkWell(
-                                  onTap: () {
-                                    var eventId = scheduleEventId[DateTime(
-                                        timeRow[i].year,
-                                        timeRow[i].month,
-                                        j + 1,
-                                        timeRow[i].hour,
-                                        timeRow[i].minute,
-                                        timeRow[i].second)];
-                                    setState(() {
-                                      if (events[timeRow[i]].length == 1) {
-                                        events.remove(timeRow[i]);
-                                      } else {
-                                        events[timeRow[i]].remove(j);
-                                      }
-                                    });
-                                    if (eventId != null) {
-                                      ProgressDialogBuilder
-                                          .showCommonProgressDialog(context);
-                                      ServiceProviderApi.removeEvent(
-                                          eventId, context);
-                                    }
-                                  },
-                                  child: Center(
-                                      child: SvgPicture.asset(
-                                    "assets/images_gps/X.svg",
-                                    height: 20.0,
-                                    width: 20.0,
-                                  )));
-                            } else {
-                              return InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    if (events[timeRow[i]] == null) {
-                                      events[timeRow[i]] = [j];
-                                    } else {
-                                      events[timeRow[i]].addAll([j]);
-                                    }
-                                    ProgressDialogBuilder
-                                        .showCommonProgressDialog(context);
-                                    ServiceProviderApi.createEvent(
-                                            DateTime(
+                                if (_storeServiceTime[dayIndex].shopOpen &&
+                                    ((timeRow[i].hour >= startTime.hour) &&
+                                        (timeRow[i].hour <= endHour)) &&
+                                    checkStartMinute &&
+                                    checkEndMinute) {
+                                  if (events.containsKey(timeRow[i]) &&
+                                      events[timeRow[i]].contains(j)) {
+                                    return InkWell(
+                                        onTap: () {
+                                          var eventId = scheduleEventId[
+                                              DateTime(
+                                                  timeRow[i].year,
+                                                  timeRow[i].month,
+                                                  j + 1,
+                                                  timeRow[i].hour,
+                                                  timeRow[i].minute,
+                                                  timeRow[i].second)];
+                                          setState(() {
+                                            if (events[timeRow[i]].length ==
+                                                1) {
+                                              events.remove(timeRow[i]);
+                                            } else {
+                                              events[timeRow[i]].remove(j);
+                                            }
+                                          });
+                                          if (eventId != null) {
+                                            ProgressDialogBuilder
+                                                .showCommonProgressDialog(
+                                                    context);
+                                            ServiceProviderApi.removeEvent(
+                                                eventId, context);
+                                          }
+                                        },
+                                        child: Center(
+                                            child: SvgPicture.asset(
+                                          "assets/images_gps/X.svg",
+                                          height: 20.0,
+                                          width: 20.0,
+                                        )));
+                                  } else {
+                                    return InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          if (events[timeRow[i]] == null) {
+                                            events[timeRow[i]] = [j];
+                                          } else {
+                                            events[timeRow[i]].addAll([j]);
+                                          }
+                                          ProgressDialogBuilder
+                                              .showCommonProgressDialog(
+                                                  context);
+                                          ServiceProviderApi.createEvent(
+                                                  DateTime(
+                                                      timeRow[i].year,
+                                                      timeRow[i].month,
+                                                      j + 1,
+                                                      timeRow[i].hour,
+                                                      timeRow[i].minute,
+                                                      timeRow[i].second),
+                                                  context)
+                                              .then((value) {
+                                            scheduleEventId[DateTime(
                                                 timeRow[i].year,
                                                 timeRow[i].month,
                                                 j + 1,
                                                 timeRow[i].hour,
                                                 timeRow[i].minute,
-                                                timeRow[i].second),
-                                            context)
-                                        .then((value) {
-                                      scheduleEventId[DateTime(
-                                          timeRow[i].year,
-                                          timeRow[i].month,
-                                          j + 1,
-                                          timeRow[i].hour,
-                                          timeRow[i].minute,
-                                          timeRow[i].second)] = value.id;
-                                      ProgressDialogBuilder
-                                          .hideCommonProgressDialog(context);
-                                    });
-                                  });
-                                },
-                                child: Center(
-                                    child: SvgPicture.asset(
-                                  "assets/images_gps/O.svg",
-                                  height: 20.0,
-                                  width: 20.0,
-                                )),
-                              );
-                            }
-                          } else {
-                            return Center(
-                                child: SvgPicture.asset(
-                              "assets/images_gps/X.svg",
-                              height: 20.0,
-                              width: 20.0,
-                            ));
-                          }
-                        },
-                        cornerWidget: Center(
-                          child: Text(
-                            "日時",
-                            style: TextStyle(
-                              fontSize: 12.0,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromRGBO(158, 158, 158, 1),
+                                                timeRow[i].second)] = value.id;
+                                            ProgressDialogBuilder
+                                                .hideCommonProgressDialog(
+                                                    context);
+                                          });
+                                        });
+                                      },
+                                      child: Center(
+                                          child: SvgPicture.asset(
+                                        "assets/images_gps/O.svg",
+                                        height: 20.0,
+                                        width: 20.0,
+                                      )),
+                                    );
+                                  }
+                                } else {
+                                  return Center(
+                                      child: SvgPicture.asset(
+                                    "assets/images_gps/X.svg",
+                                    height: 20.0,
+                                    width: 20.0,
+                                  ));
+                                }
+                              },
+                              cornerWidget: Center(
+                                child: Text(
+                                  "日時",
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromRGBO(158, 158, 158, 1),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
     );
   }
 

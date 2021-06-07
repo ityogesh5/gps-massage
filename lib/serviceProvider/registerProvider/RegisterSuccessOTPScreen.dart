@@ -10,6 +10,7 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/login/sendVerif
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/verifyOtp.dart';
 import 'package:http/http.dart' as http;
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegistrationSuccessOtpScreen extends StatefulWidget {
   @override
@@ -241,6 +242,8 @@ class _RegistrationSuccessOtpScreenState
     }
     try {
       ProgressDialogBuilder.showVerifyOtpProgressDialog(context);
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
       final url = HealingMatchConstants.CHANGE_PASSWORD_VERIFY_OTP_URL;
       final response = await http.post(url,
           headers: {"Content-Type": "application/json"},
@@ -252,6 +255,7 @@ class _RegistrationSuccessOtpScreenState
       print('Status code : ${response.statusCode}');
       if (StatusCodeHelper.isVerifyOtpUserUser(
           response.statusCode, context, response.body)) {
+        sharedPreferences.setBool('isProviderRegister', true);
         final vrfyOtp = json.decode(response.body);
         UserVerifyOtp = VerifyOtpModel.fromJson(vrfyOtp);
         ProgressDialogBuilder.hideVerifyOtpProgressDialog(context);
