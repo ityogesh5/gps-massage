@@ -411,9 +411,15 @@ class ServiceProviderApi {
           }));
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
-        shiftTimeUpdate.ShiftTimeUpdateResponse shiftTimeUpdateResponse =
-            shiftTimeUpdate.ShiftTimeUpdateResponse.fromJson(data);
+        /*  shiftTimeUpdate.ShiftTimeUpdateResponse shiftTimeUpdateResponse =
+            shiftTimeUpdate.ShiftTimeUpdateResponse.fromJson(data); */
+        ProviderDetailsResponseModel therapistDetails =
+            ProviderDetailsResponseModel.fromJson(data);
         HealingMatchConstants.therapistDetails.clear();
+        HealingMatchConstants.therapistDetails =
+            therapistDetails.data.storeServiceTimes;
+        HealingMatchConstants.storeServiceTime =
+            json.encode(therapistDetails.data.storeServiceTimes);
         ProgressDialogBuilder.hideCommonProgressDialog(context);
         /*  Navigator.pop(context);
         Navigator.pop(context); */
