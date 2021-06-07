@@ -131,7 +131,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                                     '${HealingMatchConstants.serviceDistanceRadius}Ｋｍ圏内',
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
-                                        fontSize: 10,
+                                        fontSize: 8.0,
                                         color: Colors.grey[400],
                                         fontFamily: 'NotoSansJP'),
                                   )
