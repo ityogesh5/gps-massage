@@ -2206,6 +2206,7 @@ class _RegisterUserState extends State<RegisterUser> {
         final serviceUserDetails =
             ServiceUserRegisterModel.fromJson(userDetailsResponse);
         print('Response Status Message : ${serviceUserDetails.status}');
+        HealingMatchConstants.accessToken = serviceUserDetails.accessToken;
         // print('Token : ${serviceUserDetails.data.token}');
         _sharedPreferences.then((value) {
           value.clear();

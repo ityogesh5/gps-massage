@@ -1303,7 +1303,7 @@ class _RegistrationSecondPageState
         HealingMatchConstants.fitnessServicePriceModel,
       ),
       "fcmToken": fcmToken,
-      "isStore": HealingMatchConstants.serviceProviderBusinessForm ==
+      "isShop": HealingMatchConstants.serviceProviderBusinessForm ==
                   "施術店舗あり 施術従業員あり" ||
               HealingMatchConstants.serviceProviderBusinessForm ==
                   "施術店舗あり 施術従業員なし（個人経営）"
@@ -1354,6 +1354,7 @@ class _RegistrationSecondPageState
             RegisterResponseModel.fromJson(json.decode(response.body));
         Data userData = registerResponseModel.data;
         HealingMatchConstants.userId = userData.id;
+        HealingMatchConstants.accessToken = registerResponseModel.accessToken;
         Auth()
             .signUp(
                 userData.storeName != null && userData.storeName != ''
