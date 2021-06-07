@@ -511,7 +511,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
   void firebaseChatLogin(Data userData, String password) {
     Auth()
         .signIn(
-            userData.phoneNumber.toString() + userData.id.toString(), password)
+            userData.phoneNumber.toString() + userData.id.toString() + "@nexware.global.com", password)
         .then((value) {
       hideLoader();
       if (value) {
