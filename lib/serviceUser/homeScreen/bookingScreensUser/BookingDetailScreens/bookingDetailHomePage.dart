@@ -590,18 +590,11 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                               color: Colors.red,
                             ),
                           )
-                        : InkWell(
-                            onTap: () {
-                              NavigationRouter
-                                  .switchToServiceUserBookingCancelScreen(
-                                      context);
-                            },
-                            child: Text(
-                              'キャンセル',
-                              style: TextStyle(
-                                fontSize: 12.0,
-                                color: Colors.red,
-                              ),
+                        : Text(
+                            'キャンセルしました',
+                            style: TextStyle(
+                              fontSize: 12.0,
+                              color: Colors.red,
                             ),
                           )
                   ],
@@ -863,7 +856,8 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                     InkWell(
                       onTap: () {
                         NavigationRouter.switchToServiceUserBookingCancelScreen(
-                            context);
+                            context,
+                            therapistDetails.bookingDataResponse[0].id);
                       },
                       child: Text(
                         "キャンセルする",

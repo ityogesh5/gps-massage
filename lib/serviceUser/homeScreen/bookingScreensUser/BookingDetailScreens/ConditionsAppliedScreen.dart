@@ -695,11 +695,7 @@ class _ConditionsApplyBookingScreenState
                         ),
                         Spacer(),
                         InkWell(
-                          onTap: () {
-                            NavigationRouter
-                                .switchToServiceUserBookingCancelScreen(
-                                    context);
-                          },
+                          onTap: () {},
                           child: Text(
                             'キャンセルする',
                             style: TextStyle(

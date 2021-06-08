@@ -6,18 +6,24 @@ import 'package:gps_massageapp/customLibraryClasses/customRadioButtonList/rounde
 import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
+import 'package:toast/toast.dart';
 
 bool isOtherSelected = false;
 final _cancelReasonController = new TextEditingController();
+GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 Map<String, dynamic> _formData = {
   'text': null,
   'category': null,
   'date': null,
   'time': null,
 };
-var selectedBuildingType;
+String selectedBuildingType;
 
 class BookingCancelScreen extends StatefulWidget {
+  final int bookingId;
+  BookingCancelScreen(this.bookingId);
   @override
   State<StatefulWidget> createState() {
     return _BookingCancelScreenState();
@@ -28,17 +34,20 @@ class _BookingCancelScreenState extends State<BookingCancelScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.grey[200],
       body: ListView(
         physics: BouncingScrollPhysics(),
         shrinkWrap: true,
-        children: [ConfirmCancelScreen()],
+        children: [ConfirmCancelScreen(widget.bookingId)],
       ),
     );
   }
 }
 
 class ConfirmCancelScreen extends StatefulWidget {
+  final int bookingId;
+  ConfirmCancelScreen(this.bookingId);
   @override
   State<StatefulWidget> createState() {
     return _ConfirmCancelScreenState();
@@ -179,9 +188,46 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
   }
 
   cancelBooking() {
-    var cancelBooking = ServiceUserAPIProvider.updateBookingCompeted(
-        HealingMatchConstants.bookingIdPay, selectedBuildingType);
-    NavigationRouter.switchToServiceUserBottomBar(context);
+    String otherCategory = _cancelReasonController.text;
+    String cancelReason =
+        selectedBuildingType == "その他" ? otherCategory : selectedBuildingType;
+    if (cancelReason == null || cancelReason == '') {
+      ProgressDialogBuilder.hideLoader(context);
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('キャンセルの理由を選択してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+
+    try {
+      var cancelBooking = ServiceUserAPIProvider.updateBookingCompeted(
+          widget.bookingId, cancelReason);
+      NavigationRouter.switchToServiceUserBottomBar(context);
+    } catch (e) {
+      print('cancelException : ${e.toString()}');
+    }
   }
 
   Widget massageBuildTypeDisplayContent() {

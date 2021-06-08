@@ -576,7 +576,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                     children: [
                                                                       Row(
                                                                         children: [
-                                                                          waitingForApprovalList[index].bookingTherapistId.storeName != null
+                                                                          waitingForApprovalList[index].bookingTherapistId.storeName != null && waitingForApprovalList[index].bookingTherapistId.storeName.isNotEmpty
                                                                               ? Text(
                                                                                   '${waitingForApprovalList[index].bookingTherapistId.storeName}',
                                                                                   style: TextStyle(fontSize: 14, color: Color.fromRGBO(0, 0, 0, 1), fontWeight: FontWeight.bold),
@@ -1186,8 +1186,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                   children: [
                                                                     Row(
                                                                       children: [
-                                                                        approvedWithConditionsList[index].bookingTherapistId.storeName !=
-                                                                                null
+                                                                        approvedWithConditionsList[index].bookingTherapistId.storeName != null &&
+                                                                                approvedWithConditionsList[index].bookingTherapistId.storeName.isNotEmpty
                                                                             ? Text(
                                                                                 '${approvedWithConditionsList[index].bookingTherapistId.storeName}',
                                                                                 style: TextStyle(fontSize: 14, color: Color.fromRGBO(0, 0, 0, 1), fontWeight: FontWeight.bold),
@@ -1852,8 +1852,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                   children: [
                                                                     Row(
                                                                       children: [
-                                                                        approvedList[index].bookingTherapistId.storeName !=
-                                                                                null
+                                                                        approvedList[index].bookingTherapistId.storeName != null &&
+                                                                                approvedList[index].bookingTherapistId.storeName.isNotEmpty
                                                                             ? Text(
                                                                                 '${approvedList[index].bookingTherapistId.storeName}',
                                                                                 style: TextStyle(fontSize: 14, color: Color.fromRGBO(0, 0, 0, 1), fontWeight: FontWeight.bold),
@@ -2213,9 +2213,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                           .bookingIdPay = approvedList[
                                                                               index]
                                                                           .id;
-                                                                      NavigationRouter
-                                                                          .switchToServiceUserBookingCancelScreen(
-                                                                              context);
+                                                                      NavigationRouter.switchToServiceUserBookingCancelScreen(
+                                                                          context,
+                                                                          approvedList[index]
+                                                                              .id);
                                                                     },
                                                                     child: Card(
                                                                       elevation:
@@ -2585,7 +2586,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                 Row(
                                                                   children: [
                                                                     confirmedPaymentList[index].bookingTherapistId.storeName !=
-                                                                            null
+                                                                                null &&
+                                                                            confirmedPaymentList[index].bookingTherapistId.storeName.isNotEmpty
                                                                         ? Text(
                                                                             '${confirmedPaymentList[index].bookingTherapistId.storeName}',
                                                                             style: TextStyle(
@@ -2956,9 +2958,11 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                       confirmedPaymentList[
                                                                               index]
                                                                           .id;
-                                                                  NavigationRouter
-                                                                      .switchToServiceUserBookingCancelScreen(
-                                                                          context);
+                                                                  NavigationRouter.switchToServiceUserBookingCancelScreen(
+                                                                      context,
+                                                                      confirmedPaymentList[
+                                                                              index]
+                                                                          .id);
                                                                 },
                                                                 child: Card(
                                                                   shape:
@@ -3329,7 +3333,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                 Row(
                                                                   children: [
                                                                     canceledReservationList[index].bookingTherapistId.storeName !=
-                                                                            null
+                                                                                null &&
+                                                                            canceledReservationList[index].bookingTherapistId.storeName.isNotEmpty
                                                                         ? Text(
                                                                             '${canceledReservationList[index].bookingTherapistId.storeName}',
                                                                             style: TextStyle(

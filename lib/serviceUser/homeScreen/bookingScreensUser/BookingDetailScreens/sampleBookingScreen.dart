@@ -82,9 +82,21 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                           ? buildOldBookingDetails(context)
                           : Container(),
                       therapistDetails.bookingDataResponse.length != 0 &&
-                              therapistDetails
-                                      .bookingDataResponse[0].bookingStatus !=
-                                  9
+                              !(therapistDetails.bookingDataResponse[0]
+                                          .bookingStatus ==
+                                      9 ||
+                                  therapistDetails.bookingDataResponse[0]
+                                          .bookingStatus ==
+                                      4 ||
+                                  therapistDetails.bookingDataResponse[0]
+                                          .bookingStatus ==
+                                      5 ||
+                                  therapistDetails.bookingDataResponse[0]
+                                          .bookingStatus ==
+                                      7 ||
+                                  therapistDetails.bookingDataResponse[0]
+                                          .bookingStatus ==
+                                      8)
                           ? buildBookingDetails(context)
                           : buildServices(context),
                       therapistDetails.bookingDataResponse.length == 0 ||
@@ -215,21 +227,14 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                             '完了済み',
                             style: TextStyle(
                               fontSize: 12.0,
-                              color: Colors.red,
+                              color: Colors.black,
                             ),
                           )
-                        : InkWell(
-                            onTap: () {
-                              NavigationRouter
-                                  .switchToServiceUserBookingCancelScreen(
-                                      context);
-                            },
-                            child: Text(
-                              'キャンセル',
-                              style: TextStyle(
-                                fontSize: 12.0,
-                                color: Colors.red,
-                              ),
+                        : Text(
+                            'キャンセルしました',
+                            style: TextStyle(
+                              fontSize: 12.0,
+                              color: Colors.black,
                             ),
                           ),
                   ],
@@ -491,7 +496,8 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                     InkWell(
                       onTap: () {
                         NavigationRouter.switchToServiceUserBookingCancelScreen(
-                            context);
+                            context,
+                            therapistDetails.bookingDataResponse[0].id);
                       },
                       child: Text(
                         "キャンセルする",

@@ -716,7 +716,7 @@ class _RegisterUserState extends State<RegisterUser> {
                       width: MediaQuery.of(context).size.width * 0.85,
                       child: TextFieldCustom(
                         controller: phoneNumberController,
-                        maxLength: 10,
+                        maxLength: 11,
                         autofocus: false,
                         keyboardType:
                             TextInputType.numberWithOptions(signed: true),
@@ -1677,7 +1677,7 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     // user phone number validation
-    if (userPhoneNumber.length > 10 ||
+    if (userPhoneNumber.length > 11 ||
         userPhoneNumber == null ||
         userPhoneNumber.length < 10) {
       ProgressDialogBuilder.hideLoader(context);
