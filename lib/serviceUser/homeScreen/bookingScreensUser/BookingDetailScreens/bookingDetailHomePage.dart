@@ -30,6 +30,7 @@ class BookingDetailHomePage extends StatefulWidget {
 }
 
 class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   TherapistByIdModel therapistDetails;
   int status = 0;
   int _value = 0;
@@ -146,6 +147,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
     return status == 0
         ? Container()
         : Scaffold(
+            key: _scaffoldKey,
             body: SafeArea(
               child: SingleChildScrollView(
                 child: Column(
@@ -669,7 +671,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     SvgPicture.asset(
-                      "assets/images_gps/clock.svg",
+                      "assets/images_gps/cost.svg",
                       height: 14.77,
                       width: 16.0,
                     ),
@@ -738,36 +740,38 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                 SizedBox(
                   height: 8,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          '${therapistDetails.bookingDataResponse[0].locationType} ',
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            color: Colors.black,
+                FittedBox(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            '${therapistDetails.bookingDataResponse[0].locationType} ',
+                            style: TextStyle(
+                              fontSize: 12.0,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      width: 2,
-                    ),
-                    Text(
-                      '${therapistDetails.bookingDataResponse[0].location} ',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        color: Color.fromRGBO(102, 102, 102, 1),
+                      SizedBox(
+                        width: 2,
                       ),
-                    ),
-                  ],
+                      Text(
+                        '${therapistDetails.bookingDataResponse[0].location} ',
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          color: Color.fromRGBO(102, 102, 102, 1),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -1036,11 +1040,13 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                     SizedBox(
                       width: 2,
                     ),
-                    Text(
-                      '${therapistDetails.bookingDataResponse[0].location} ',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        color: Color.fromRGBO(102, 102, 102, 1),
+                    Flexible(
+                      child: Text(
+                        '${therapistDetails.bookingDataResponse[0].location} ',
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          color: Color.fromRGBO(102, 102, 102, 1),
+                        ),
                       ),
                     ),
                   ],
@@ -1689,30 +1695,43 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
         left: 14.0,
         bottom: 4.0,
       ),
-      child: Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Color.fromRGBO(255, 255, 255, 1),
-                  Color.fromRGBO(255, 255, 255, 1),
-                ]),
-            shape: BoxShape.rectangle,
-            border: Border.all(
-              color: Colors.grey[300],
+      child: Column(
+        children: [
+          Text(
+            '施術を受ける日時',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
             ),
-            borderRadius: BorderRadius.circular(5.0),
-            color: Colors.grey[200]),
-        width: MediaQuery.of(context).size.width * 0.90,
-        height: 90.0,
-        child: Padding(
-          padding: const EdgeInsets.only(
-              top: 8.0, left: 12.0, bottom: 8.0, right: 8.0),
-          child: Container(
-            child: buildDateTimeDetails(),
           ),
-        ),
+          SizedBox(
+            height: 7,
+          ),
+          Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color.fromRGBO(255, 255, 255, 1),
+                      Color.fromRGBO(255, 255, 255, 1),
+                    ]),
+                shape: BoxShape.rectangle,
+                border: Border.all(
+                  color: Colors.grey[300],
+                ),
+                borderRadius: BorderRadius.circular(5.0),
+                color: Colors.grey[200]),
+            width: MediaQuery.of(context).size.width * 0.90,
+            height: 90.0,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  top: 8.0, left: 12.0, bottom: 8.0, right: 8.0),
+              child: Container(
+                child: buildDateTimeDetails(),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -2277,8 +2296,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
               )
             : InkWell(
                 onTap: () {
-                  HealingMatchConstants.callBack = updateDateTimeSelection;
-                  NavigationRouter.switchToUserChooseDate(context);
+                  calendarNavigator();
                 },
                 child: Card(
                   shape: CircleBorder(),
@@ -2301,6 +2319,41 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
               ),
       ],
     );
+  }
+
+  void calendarNavigator() {
+    if (serviceSelection.keys.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('受けたい施術と価格を選んでください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 3,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      fontWeight: FontWeight.w500,
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return;
+    }
+
+    HealingMatchConstants.callBack = updateDateTimeSelection;
+    NavigationRouter.switchToUserChooseDate(context);
   }
 
   void updateDateTimeSelection(DateTime time) {

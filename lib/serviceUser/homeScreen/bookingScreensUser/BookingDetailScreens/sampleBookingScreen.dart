@@ -400,11 +400,18 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                     SizedBox(
                       width: 2,
                     ),
-                    Text(
-                      '${therapistDetails.bookingDataResponse[0].location} ',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        color: Color.fromRGBO(102, 102, 102, 1),
+                    Flexible(
+                      child: Text(
+                        '${therapistDetails.bookingDataResponse[0].location} ',
+                        maxLines: therapistDetails
+                                    .bookingDataResponse[0].location.length >
+                                15
+                            ? 2
+                            : 1,
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          color: Color.fromRGBO(102, 102, 102, 1),
+                        ),
                       ),
                     ),
                   ],
@@ -579,7 +586,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     SvgPicture.asset(
-                      "assets/images_gps/clock.svg",
+                      "assets/images_gps/cost.svg",
                       height: 14.77,
                       width: 16.0,
                     ),
@@ -654,36 +661,38 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                 SizedBox(
                   height: 8,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          '${therapistDetails.bookingDataResponse[0].locationType} ',
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            color: Colors.black,
+                FittedBox(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            '${therapistDetails.bookingDataResponse[0].locationType} ',
+                            style: TextStyle(
+                              fontSize: 12.0,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      width: 2,
-                    ),
-                    Text(
-                      '${therapistDetails.bookingDataResponse[0].location} ',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        color: Color.fromRGBO(102, 102, 102, 1),
+                      SizedBox(
+                        width: 2,
                       ),
-                    ),
-                  ],
+                      Text(
+                        '${therapistDetails.bookingDataResponse[0].location} ',
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          color: Color.fromRGBO(102, 102, 102, 1),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 therapistDetails.bookingDataResponse[0].therapistComments !=
                             null &&
@@ -977,30 +986,44 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
         left: 14.0,
         bottom: 4.0,
       ),
-      child: Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Color.fromRGBO(255, 255, 255, 1),
-                  Color.fromRGBO(255, 255, 255, 1),
-                ]),
-            shape: BoxShape.rectangle,
-            border: Border.all(
-              color: Colors.grey[300],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '施術を受ける日時',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
             ),
-            borderRadius: BorderRadius.circular(5.0),
-            color: Colors.grey[200]),
-        width: MediaQuery.of(context).size.width * 0.90,
-        height: 90.0,
-        child: Padding(
-          padding: const EdgeInsets.only(
-              top: 8.0, left: 12.0, bottom: 8.0, right: 8.0),
-          child: Container(
-            child: buildDateTimeDetails(),
           ),
-        ),
+          SizedBox(
+            height: 7,
+          ),
+          Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color.fromRGBO(255, 255, 255, 1),
+                      Color.fromRGBO(255, 255, 255, 1),
+                    ]),
+                shape: BoxShape.rectangle,
+                border: Border.all(
+                  color: Colors.grey[300],
+                ),
+                borderRadius: BorderRadius.circular(5.0),
+                color: Colors.grey[200]),
+            width: MediaQuery.of(context).size.width * 0.90,
+            height: 90.0,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  top: 8.0, left: 12.0, bottom: 8.0, right: 8.0),
+              child: Container(
+                child: buildDateTimeDetails(),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -1082,9 +1105,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
         Spacer(),
         HealingMatchConstants.isUserRegistrationSkipped
             ? InkWell(
-                onTap: () {
-                  calendarNavigator();
-                },
+                onTap: () {},
                 child: Card(
                     shape: CircleBorder(),
                     elevation: 8.0,
@@ -1098,7 +1119,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                           'assets/images_gps/calendar.svg',
                           height: 20,
                           width: 20,
-                          color: Color.fromRGBO(200, 217, 33, 1),
+                          color: Color.fromRGBO(217, 217, 217, 1),
                         ),
                       ),
                     )))

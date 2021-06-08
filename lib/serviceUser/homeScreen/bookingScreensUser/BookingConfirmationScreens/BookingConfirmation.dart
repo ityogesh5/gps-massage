@@ -320,31 +320,6 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                                     fontFamily: 'NotoSansJP'),
                               ),
                             ),
-                            Spacer(),
-                            FittedBox(
-                              child: Row(
-                                children: [
-                                  HealingMatchConstants.serviceDistanceRadius !=
-                                              null &&
-                                          HealingMatchConstants
-                                                  .serviceDistanceRadius !=
-                                              0
-                                      ? Text(
-                                          '${HealingMatchConstants.serviceDistanceRadius}Ｋｍ圏内',
-                                          textAlign: TextAlign.right,
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.grey[400],
-                                              fontFamily: 'NotoSansJP'),
-                                        )
-                                      : Text(
-                                          '0.0ｋｍ圏内',
-                                          style: TextStyle(
-                                              fontSize: 14, color: Colors.grey),
-                                        ),
-                                ],
-                              ),
-                            )
                           ]),
                     )
                   ],
