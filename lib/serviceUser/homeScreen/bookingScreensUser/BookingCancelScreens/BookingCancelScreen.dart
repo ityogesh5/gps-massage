@@ -224,7 +224,7 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
     try {
       var cancelBooking = ServiceUserAPIProvider.updateBookingCompeted(
           widget.bookingId, cancelReason);
-      NavigationRouter.switchToServiceUserBottomBar(context);
+      DialogHelper.showUserBookingCancelDialog(context);
     } catch (e) {
       print('cancelException : ${e.toString()}');
     }
