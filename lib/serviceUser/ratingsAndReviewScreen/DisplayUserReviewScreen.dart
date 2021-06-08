@@ -239,72 +239,65 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Center(
-                                child: Container(
-                                  padding: EdgeInsets.all(8.0),
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.22,
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                    color: Color.fromRGBO(255, 255, 255, 1),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(16.0)),
-                                    border: Border.all(
-                                        color:
-                                            Color.fromRGBO(217, 217, 217, 1)),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'レビューの情報！',
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                fontFamily: 'NotoSansJP',
-                                                fontWeight: FontWeight.bold),
-                                          )
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          InkWell(
-                                            onTap: () {},
-                                            child: new Container(
-                                                width: 80.0,
-                                                height: 80.0,
-                                                decoration: new BoxDecoration(
-                                                  border: Border.all(
-                                                      color: Colors.black12),
-                                                  shape: BoxShape.circle,
-                                                  image: new DecorationImage(
-                                                      fit: BoxFit.fill,
-                                                      image: new AssetImage(
-                                                          'assets/images_gps/appIcon.png')),
-                                                )),
-                                          ),
-                                          SizedBox(width: 10),
-                                          Expanded(
-                                            child: Column(
-                                              children: [
-                                                Text(
-                                                  'まだレビューはありません。',
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontFamily: 'NotoSansJP',
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                              ],
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8.0),
+                                    height: MediaQuery.of(context).size.height *
+                                        0.22,
+                                    width: MediaQuery.of(context).size.width,
+                                    decoration: BoxDecoration(
+                                      color: Color.fromRGBO(255, 255, 255, 1),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(16.0)),
+                                      border: Border.all(
+                                          color:
+                                              Color.fromRGBO(217, 217, 217, 1)),
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            InkWell(
+                                              onTap: () {},
+                                              child: new Container(
+                                                  width: 80.0,
+                                                  height: 80.0,
+                                                  decoration: new BoxDecoration(
+                                                    border: Border.all(
+                                                        color: Colors.black12),
+                                                    shape: BoxShape.circle,
+                                                    image: new DecorationImage(
+                                                        fit: BoxFit.fill,
+                                                        image: new AssetImage(
+                                                            'assets/images_gps/appIcon.png')),
+                                                  )),
                                             ),
-                                          ),
-                                        ],
-                                      )
-                                    ],
+                                            SizedBox(width: 10),
+                                            Expanded(
+                                              child: Column(
+                                                children: [
+                                                  Text(
+                                                    '今のところ、このセラピストの方にはレビューがありません。',
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),

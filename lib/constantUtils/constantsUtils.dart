@@ -56,7 +56,7 @@ class HealingMatchConstants {
       // "http://103.92.19.158:9087/api"; //secondary backup IP
 
       "http://106.51.49.160:9094/api"; // Development data URL
-  // "http://e66d1ba24a20.ngrok.io/api";
+  // "http://89225207f502.ngrok.io/api";
   // "http://106.51.49.160:9094/api"; // Testing data URL
 
 // get therapist list By ID

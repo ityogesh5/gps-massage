@@ -1311,11 +1311,11 @@ class _RegistrationSecondPageState
           : "false"
     });
 
-    if (HealingMatchConstants.serviceProviderStorePhoneNumber != '') {
+    /* if (HealingMatchConstants.serviceProviderStorePhoneNumber != '') {
       request.fields.addAll({
         'storePhone': HealingMatchConstants.serviceProviderStorePhoneNumber
       });
-    }
+    }*/
 
     var a = request.fields.toString();
 

@@ -1677,7 +1677,7 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     // user phone number validation
-    if (userPhoneNumber.length > 11 ||
+    if (userPhoneNumber.length > 10 ||
         userPhoneNumber == null ||
         userPhoneNumber.length < 10) {
       ProgressDialogBuilder.hideLoader(context);
