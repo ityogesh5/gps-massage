@@ -31,12 +31,6 @@ class _DetailCarouselWithIndicatorState
     getBanners();
   }
 
-  clearSearchContents() {
-    HealingMatchConstants.searchUserAddress = null;
-    HealingMatchConstants.serviceType = null;
-    HealingMatchConstants.addressTypeValues = 0;
-  }
-
   getBanners() {
     if (widget.therapistDetails.data.banners[0].bannerImageUrl1 != null) {
       bannerImages.add(widget.therapistDetails.data.banners[0].bannerImageUrl1);
@@ -133,7 +127,6 @@ class _DetailCarouselWithIndicatorState
                 ),
                 onPressed: () {
                   Navigator.pop(context);
-                  clearSearchContents();
                 },
               ),
             ),
