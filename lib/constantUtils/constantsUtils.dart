@@ -55,9 +55,9 @@ class HealingMatchConstants {
   static const String ON_PREMISE_USER_BASE_URL =
       // "http://103.92.19.158:9087/api"; //secondary backup IP
 
-      "http://106.51.49.160:9094/api"; // Development data URL
-  // "http://89225207f502.ngrok.io/api";
-  // "http://106.51.49.160:9094/api"; // Testing data URL
+      //  "http://106.51.49.160:9087/api"; // Development data URL
+
+      "http://106.51.49.160:9094/api"; // Testing data URL
 
 // get therapist list By ID
   static const String THERAPIST_USER_BY_ID_URL =
@@ -617,7 +617,7 @@ class HealingMatchConstants {
   static bool isTimeCriteria = true;
   static int serviceType = 0;
   static int addressTypeValues = 0;
-  static DateTime dateTime = DateTime.now();
+  static DateTime dateTime = DateTime.now().add(Duration(minutes: 45));
   static List<UserAddresses> userAddressesList = new List<UserAddresses>();
   static var searchDistanceRadius;
   static String userProfileImage;

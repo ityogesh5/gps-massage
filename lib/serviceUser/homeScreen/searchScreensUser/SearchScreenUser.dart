@@ -54,7 +54,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   String addressTypeValue,
       massageServiceTypeValue,
       keyWordSearchValue,
-      userPlaceForMassage;
+      userPlaceForMassage,
+      addressName,
+      addressIcon;
   String userID;
   String address;
   Placemark currentLocationPlaceMark;
@@ -336,366 +338,107 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                             ],
                           ),
                         ),
-                        SizedBox(width: 5),
+                        //  SizedBox(width: 4),
                         Expanded(
                           flex: 4,
                           child: SizedBox(
-                            height: 100,
+                            height: 92,
                             child: ListView.builder(
                                 physics: BouncingScrollPhysics(),
                                 shrinkWrap: true,
                                 scrollDirection: Axis.horizontal,
                                 itemCount: constantUserAddressValuesList.length,
                                 itemBuilder: (context, index) {
-                                  return Row(
-                                    //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Visibility(
-                                        visible: constantUserAddressValuesList[
-                                                        index]
-                                                    .userPlaceForMassage !=
-                                                null &&
-                                            constantUserAddressValuesList[index]
-                                                .userPlaceForMassage
-                                                .contains('自宅'),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              // BoxShape.circle or BoxShape.retangle
-                                              //color: const Color(0xFF66BB6A),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  offset: Offset.zero,
-                                                  color: HealingMatchConstants
-                                                                  .addressTypeValues ==
-                                                              1 &&
-                                                          HealingMatchConstants
-                                                                  .searchUserAddress !=
-                                                              null
-                                                      ? Colors.grey[200]
-                                                      : Colors.white,
-                                                  blurRadius: 7.0,
-                                                ),
-                                              ]),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              InkWell(
-                                                onTap: () {
-                                                  setState(() {
+                                  int addressType = getAddressIconandName(
+                                      constantUserAddressValuesList[index]
+                                          .userPlaceForMassage);
+                                  return Container(
+                                    margin:
+                                        EdgeInsets.only(left: 4.0, right: 4.0),
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            offset: Offset.zero,
+                                            color: HealingMatchConstants
+                                                            .addressTypeValues ==
+                                                        addressType &&
                                                     HealingMatchConstants
-                                                        .addressTypeValues = 1;
-                                                    HealingMatchConstants
-                                                            .bookingAddressId =
-                                                        constantUserAddressValuesList[
-                                                                index]
-                                                            .id;
-                                                    HealingMatchConstants
-                                                            .searchUserAddress =
-                                                        constantUserAddressValuesList[
-                                                                index]
-                                                            .address;
-                                                  });
-                                                  print(
-                                                      'User address home : ${HealingMatchConstants.searchUserAddress}');
-                                                },
-                                                child: CircleAvatar(
-                                                  maxRadius: 32,
-                                                  backgroundColor:
-                                                      Colors.grey[100],
-                                                  child: SvgPicture.asset(
-                                                      'assets/images_gps/house.svg',
-                                                      placeholderBuilder:
-                                                          (context) {
-                                                    return SpinKitDoubleBounce(
-                                                        color: Colors
-                                                            .lightGreenAccent);
-                                                  },
-                                                      color: Color.fromRGBO(
-                                                          0, 0, 0, 1),
-                                                      height: 30,
-                                                      width: 30),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 8,
-                                              ),
-                                              Text(
-                                                HealingMatchConstants
-                                                    .searchHomeIconTxt,
-                                                style: TextStyle(
+                                                            .searchUserAddress !=
+                                                        null
+                                                ? Colors.grey[200]
+                                                : Colors.white,
+                                            blurRadius: 7.0,
+                                          ),
+                                        ]),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              HealingMatchConstants
+                                                      .addressTypeValues =
+                                                  addressType;
+                                              HealingMatchConstants
+                                                      .bookingAddressId =
+                                                  constantUserAddressValuesList[
+                                                          index]
+                                                      .id;
+                                              HealingMatchConstants
+                                                      .searchUserAddress =
+                                                  constantUserAddressValuesList[
+                                                          index]
+                                                      .address;
+                                            });
+                                            print(
+                                                'User address $addressName : ${HealingMatchConstants.searchUserAddress}');
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                border: Border.all(
+                                                    color: HealingMatchConstants
+                                                                    .addressTypeValues ==
+                                                                addressType &&
+                                                            HealingMatchConstants
+                                                                    .searchUserAddress !=
+                                                                null
+                                                        ? Color.fromRGBO(
+                                                            102, 102, 102, 1)
+                                                        : Colors.transparent)),
+                                            child: CircleAvatar(
+                                              maxRadius: 30,
+                                              backgroundColor: Colors.grey[100],
+                                              child: SvgPicture.asset(
+                                                  '$addressIcon',
+                                                  placeholderBuilder:
+                                                      (context) {
+                                                return SpinKitDoubleBounce(
+                                                    color: Colors
+                                                        .lightGreenAccent);
+                                              },
                                                   color: Color.fromRGBO(
                                                       0, 0, 0, 1),
-                                                ),
-                                              )
-                                            ],
+                                                  height: 30,
+                                                  width: 30),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(width: 1),
-                                      Visibility(
-                                        visible: constantUserAddressValuesList[
-                                                        index]
-                                                    .userPlaceForMassage !=
-                                                null &&
-                                            constantUserAddressValuesList[index]
-                                                .userPlaceForMassage
-                                                .contains('オフィス'),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              // BoxShape.circle or BoxShape.retangle
-                                              //color: const Color(0xFF66BB6A),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  offset: Offset.zero,
-                                                  color: HealingMatchConstants
-                                                                  .addressTypeValues ==
-                                                              2 &&
-                                                          HealingMatchConstants
-                                                                  .searchUserAddress !=
-                                                              null
-                                                      ? Colors.grey[200]
-                                                      : Colors.white,
-                                                  blurRadius: 7.0,
-                                                ),
-                                              ]),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              InkWell(
-                                                onTap: () {
-                                                  setState(() {
-                                                    HealingMatchConstants
-                                                        .addressTypeValues = 2;
-                                                    HealingMatchConstants
-                                                            .bookingAddressId =
-                                                        constantUserAddressValuesList[
-                                                                index]
-                                                            .id;
-                                                    HealingMatchConstants
-                                                            .searchUserAddress =
-                                                        constantUserAddressValuesList[
-                                                                index]
-                                                            .address;
-                                                  });
-                                                  print(
-                                                      'User address office : ${HealingMatchConstants.searchUserAddress}');
-                                                },
-                                                child: CircleAvatar(
-                                                  maxRadius: 32,
-                                                  backgroundColor:
-                                                      Colors.grey[100],
-                                                  child: SvgPicture.asset(
-                                                      'assets/images_gps/office.svg',
-                                                      placeholderBuilder:
-                                                          (context) {
-                                                    return SpinKitDoubleBounce(
-                                                        color: Colors
-                                                            .lightGreenAccent);
-                                                  },
-                                                      color: Color.fromRGBO(
-                                                          0, 0, 0, 1),
-                                                      height: 30,
-                                                      width: 30),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 5,
-                                              ),
-                                              Text(
-                                                HealingMatchConstants
-                                                    .searchOfficeIconTxt,
-                                                style: TextStyle(
-                                                  color: Color.fromRGBO(
-                                                      0, 0, 0, 1),
-                                                ),
-                                              )
-                                            ],
-                                          ),
+                                        SizedBox(
+                                          height: 8,
                                         ),
-                                      ),
-                                      SizedBox(width: 1),
-                                      Visibility(
-                                        visible: constantUserAddressValuesList[
-                                                        index]
-                                                    .userPlaceForMassage !=
-                                                null &&
-                                            constantUserAddressValuesList[index]
-                                                .userPlaceForMassage
-                                                .contains('実家'),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              // BoxShape.circle or BoxShape.retangle
-                                              //color: const Color(0xFF66BB6A),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  offset: Offset.zero,
-                                                  color: HealingMatchConstants
-                                                                  .addressTypeValues ==
-                                                              3 &&
-                                                          HealingMatchConstants
-                                                                  .searchUserAddress !=
-                                                              null
-                                                      ? Colors.grey[200]
-                                                      : Colors.white,
-                                                  blurRadius: 7.0,
-                                                ),
-                                              ]),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              InkWell(
-                                                onTap: () {
-                                                  setState(() {
-                                                    HealingMatchConstants
-                                                        .addressTypeValues = 3;
-                                                    HealingMatchConstants
-                                                            .bookingAddressId =
-                                                        constantUserAddressValuesList[
-                                                                index]
-                                                            .id;
-                                                    HealingMatchConstants
-                                                            .searchUserAddress =
-                                                        constantUserAddressValuesList[
-                                                                index]
-                                                            .address;
-                                                  });
-                                                  print(
-                                                      'User address parents house : ${HealingMatchConstants.searchUserAddress}');
-                                                },
-                                                child: CircleAvatar(
-                                                  maxRadius: 32,
-                                                  backgroundColor:
-                                                      Colors.grey[100],
-                                                  child: SvgPicture.asset(
-                                                      'assets/images_gps/parents_house.svg',
-                                                      placeholderBuilder:
-                                                          (context) {
-                                                    return SpinKitDoubleBounce(
-                                                        color: Colors
-                                                            .lightGreenAccent);
-                                                  },
-                                                      color: Color.fromRGBO(
-                                                          0, 0, 0, 1),
-                                                      height: 30,
-                                                      width: 30),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 5,
-                                              ),
-                                              Text(
-                                                HealingMatchConstants
-                                                    .searchPHomeIconTxt,
-                                                style: TextStyle(
-                                                  color: Color.fromRGBO(
-                                                      0, 0, 0, 1),
-                                                ),
-                                              ),
-                                            ],
+                                        Text(
+                                          "$addressName",
+                                          style: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
                                           ),
-                                        ),
-                                      ),
-                                      SizedBox(width: 1),
-                                      Visibility(
-                                        visible: constantUserAddressValuesList[
-                                                        index]
-                                                    .userPlaceForMassage !=
-                                                null &&
-                                            constantUserAddressValuesList[index]
-                                                .userPlaceForMassage
-                                                .contains('その他'),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              // BoxShape.circle or BoxShape.retangle
-                                              //color: const Color(0xFF66BB6A),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  offset: Offset.zero,
-                                                  color: HealingMatchConstants
-                                                                  .addressTypeValues ==
-                                                              4 &&
-                                                          HealingMatchConstants
-                                                                  .searchUserAddress !=
-                                                              null
-                                                      ? Colors.grey[200]
-                                                      : Colors.white,
-                                                  blurRadius: 7.0,
-                                                ),
-                                              ]),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              InkWell(
-                                                onTap: () {
-                                                  setState(() {
-                                                    HealingMatchConstants
-                                                        .addressTypeValues = 4;
-                                                    HealingMatchConstants
-                                                            .bookingAddressId =
-                                                        constantUserAddressValuesList[
-                                                                index]
-                                                            .id;
-                                                    HealingMatchConstants
-                                                            .searchUserAddress =
-                                                        constantUserAddressValuesList[
-                                                                index]
-                                                            .address;
-                                                  });
-                                                  print(
-                                                      'User address other : ${HealingMatchConstants.searchUserAddress}');
-                                                },
-                                                child: CircleAvatar(
-                                                  maxRadius: 32,
-                                                  backgroundColor:
-                                                      Colors.grey[100],
-                                                  child: SvgPicture.asset(
-                                                      'assets/images_gps/others.svg',
-                                                      placeholderBuilder:
-                                                          (context) {
-                                                    return SpinKitDoubleBounce(
-                                                        color: Colors
-                                                            .lightGreenAccent);
-                                                  },
-                                                      color: Color.fromRGBO(
-                                                          0, 0, 0, 1),
-                                                      height: 30,
-                                                      width: 30),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 5,
-                                              ),
-                                              Text(
-                                                HealingMatchConstants
-                                                    .searchOtherIconTxt,
-                                                style: TextStyle(
-                                                  color: Color.fromRGBO(
-                                                      0, 0, 0, 1),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                        )
+                                      ],
+                                    ),
                                   );
                                 }),
                           ),
@@ -819,14 +562,14 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                     ),
                                   ),
                                   /*  Text(
-                                      HealingMatchConstants.searchOsthepaticTxt,
-                                      style: TextStyle(
-                                        fontSize: 12.0,
-                                        color: _value == 1
-                                            ? Color.fromRGBO(0, 0, 0, 1)
-                                            : Color.fromRGBO(217, 217, 217, 1),
-                                      ),
-                                    ), */
+                                                                        HealingMatchConstants.searchOsthepaticTxt,
+                                                                        style: TextStyle(
+                                                                          fontSize: 12.0,
+                                                                          color: _value == 1
+                                                                              ? Color.fromRGBO(0, 0, 0, 1)
+                                                                              : Color.fromRGBO(217, 217, 217, 1),
+                                                                        ),
+                                                                      ), */
                                 ],
                               ),
                             ),
@@ -874,15 +617,15 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                       ),
                                     ),
                                   ),
-/*                                 Text(
-                                      HealingMatchConstants.searchRelaxationTxt,
-                                      style: TextStyle(
-                                        fontSize: 12.0,
-                                        color: _value == 2
-                                            ? Color.fromRGBO(0, 0, 0, 1)
-                                            : Color.fromRGBO(217, 217, 217, 1),
-                                      ),
-                                    ), */
+                                  /*                                 Text(
+                                                                        HealingMatchConstants.searchRelaxationTxt,
+                                                                        style: TextStyle(
+                                                                          fontSize: 12.0,
+                                                                          color: _value == 2
+                                                                              ? Color.fromRGBO(0, 0, 0, 1)
+                                                                              : Color.fromRGBO(217, 217, 217, 1),
+                                                                        ),
+                                                                      ), */
                                 ],
                               ),
                             ),
@@ -932,14 +675,14 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                     ),
                                   ),
                                   /*   Text(
-                                      HealingMatchConstants.searchFitnessTxt,
-                                      style: TextStyle(
-                                        fontSize: 12.0,
-                                        color: _value == 3
-                                            ? Color.fromRGBO(0, 0, 0, 1)
-                                            : Color.fromRGBO(217, 217, 217, 1),
-                                      ),
-                                    ), */
+                                                                        HealingMatchConstants.searchFitnessTxt,
+                                                                        style: TextStyle(
+                                                                          fontSize: 12.0,
+                                                                          color: _value == 3
+                                                                              ? Color.fromRGBO(0, 0, 0, 1)
+                                                                              : Color.fromRGBO(217, 217, 217, 1),
+                                                                        ),
+                                                                      ), */
                                 ],
                               ),
                             ),
@@ -1040,9 +783,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                       enableShape: true,
 
                       /*  customShape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            side: BorderSide(color: Colors.black38)),
-                        */
+                                                              borderRadius: BorderRadius.circular(10.0),
+                                                              side: BorderSide(color: Colors.black38)),
+                                                          */
                       buttonLables: ["店舗に行く", "来てもらう"],
                       fontSize: 12.0,
                       buttonValues: [
@@ -1622,8 +1365,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
             children: [
               CustomPaint(
                 size: Size(20.0, 12.0),
-                painter: TrianglePainter(
-                    isDownArrow: false, color: Colors.white),
+                painter:
+                    TrianglePainter(isDownArrow: false, color: Colors.white),
               ),
             ],
           ),
@@ -1680,7 +1423,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Flexible(
-            child: Text('有効な時間を選択してください。',
+            child: Text('予約の時間を現在の時間より30分後にする必要があります。',
                 overflow: TextOverflow.ellipsis,
                 maxLines: 3,
                 style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -1992,5 +1735,34 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
     } catch (e) {
       print('Search Exception before bloc : ${e.toString()}');
     }
+  }
+
+  int getAddressIconandName(String userPlaceForMassage) {
+    int addressType;
+    if (userPlaceForMassage != null) {
+      switch (userPlaceForMassage) {
+        case '自宅':
+          addressType = 1;
+          addressIcon = "assets/images_gps/house.svg";
+          addressName = HealingMatchConstants.searchHomeIconTxt;
+          break;
+        case 'オフィス':
+          addressType = 2;
+          addressIcon = "assets/images_gps/office.svg";
+          addressName = HealingMatchConstants.searchOfficeIconTxt;
+          break;
+        case '実家':
+          addressType = 3;
+          addressIcon = "assets/images_gps/parents_house.svg";
+          addressName = HealingMatchConstants.searchPHomeIconTxt;
+          break;
+        default:
+          addressType = 4;
+          addressIcon = "assets/images_gps/others.svg";
+          addressName = HealingMatchConstants.searchOtherIconTxt;
+          break;
+      }
+    }
+    return addressType;
   }
 }

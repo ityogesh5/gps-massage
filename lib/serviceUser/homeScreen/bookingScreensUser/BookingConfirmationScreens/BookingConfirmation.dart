@@ -118,7 +118,29 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        buildProfileImage(),
+                        Column(
+                          children: [
+                            buildProfileImage(),
+                            HealingMatchConstants.serviceDistanceRadius !=
+                                        null &&
+                                    HealingMatchConstants
+                                            .serviceDistanceRadius !=
+                                        0
+                                ? Text(
+                                    '${HealingMatchConstants.serviceDistanceRadius}Ｋｍ圏内',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        fontSize: 8.0,
+                                        color: Colors.grey[400],
+                                        fontFamily: 'NotoSansJP'),
+                                  )
+                                : Text(
+                                    '0.0ｋｍ圏内',
+                                    style: TextStyle(
+                                        fontSize: 14, color: Colors.grey),
+                                  ),
+                          ],
+                        ),
                         SizedBox(width: 5),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
