@@ -62,6 +62,7 @@ import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/ChatListSc
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/NoticeScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchResult.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchScreenUser.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/addAddress.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/detailPageSearch.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/detailPageSearchOne.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/searchScreenWithoutRegister.dart';
@@ -673,6 +674,27 @@ class NavigationRouter {
     Navigator.of(context).push(PageRouteBuilder(
         pageBuilder: (context, animation, anotherAnimation) {
           return AddAddress(arg);
+        },
+        transitionDuration: Duration(milliseconds: 2000),
+        transitionsBuilder: (context, animation, anotherAnimation, child) {
+          animation = CurvedAnimation(
+              curve: HealingMatchConstants.curveList[3], parent: animation);
+          return Align(
+            child: SizeTransition(
+              sizeFactor: animation,
+              child: child,
+              axisAlignment: 0.0,
+            ),
+          );
+        }));
+  }
+
+  // Serch Add Address Screen
+  static void switchToUserAddSearchAddressScreen(
+      BuildContext context, var arg, List<String> addressDropDownValues) {
+    Navigator.of(context).push(PageRouteBuilder(
+        pageBuilder: (context, animation, anotherAnimation) {
+          return SearchAddAddress(arg, addressDropDownValues);
         },
         transitionDuration: Duration(milliseconds: 2000),
         transitionsBuilder: (context, animation, anotherAnimation, child) {

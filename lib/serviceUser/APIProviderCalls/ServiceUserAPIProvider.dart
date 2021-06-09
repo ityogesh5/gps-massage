@@ -8,6 +8,7 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/event.dart';
 import 'package:gps_massageapp/models/customModels/calendarEventCreateReqModel.dart';
+import 'package:gps_massageapp/models/customModels/userAddressAdd.dart';
 import 'package:gps_massageapp/models/responseModels/guestUserModel/GuestUserResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/paymentModels/CustomerCreation.dart';
 import 'package:gps_massageapp/models/responseModels/paymentModels/PaymentCustomerCharge.dart';
@@ -973,6 +974,44 @@ class ServiceUserAPIProvider {
       }); */
     } catch (e) {
       print('Error creating event $e');
+    }
+  }
+
+  // add new address
+  static addUserAddress(
+      BuildContext context, AddUserSubAddress addUserSubAddress) async {
+    try {
+      final url = HealingMatchConstants.USER_ADD_ADDRESS;
+      final response = await http.post(url,
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": '${HealingMatchConstants.accessToken}'
+          },
+          body: json.encode({
+            "userId": addUserSubAddress.userId,
+            "address": addUserSubAddress.address,
+            "capitalAndPrefecture": addUserSubAddress.prefecture,
+            "cityName": addUserSubAddress.city,
+            "userRoomNumber": addUserSubAddress.roomNumber,
+            "buildingName": addUserSubAddress.buildingName,
+            "area": addUserSubAddress.area,
+            "addressTypeSelection": addUserSubAddress.addressCategory,
+            "otherAddressType": addUserSubAddress.addressType,
+            "lat": addUserSubAddress.lat,
+            "lon": addUserSubAddress.lon,
+            "capitalAndPrefectureId": addUserSubAddress.stateID,
+            "citiesId": addUserSubAddress.cityId,
+          }));
+      print('Address addition response : ${response.body}');
+      print('statusCode : ${response.statusCode}');
+      if (response.statusCode == 200) {
+        final getResponse = json.decode(response.body);
+        NavigationRouter.switchToServiceUserBottomBarSearch(context);
+      } else {
+        print('Address addition failed !!');
+      }
+    } catch (e) {
+      print('Exception Address addition  API : ${e.toString()}');
     }
   }
 }

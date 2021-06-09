@@ -12,6 +12,8 @@ class AddUserSubAddress {
   String _roomNumber;
   String _buildingName;
   String _area;
+  int cityID;
+  int prefectureID;
 
   AddUserSubAddress(
       this._userId,
@@ -24,7 +26,9 @@ class AddUserSubAddress {
       this._prefecture,
       this._roomNumber,
       this._buildingName,
-      this._area);
+      this._area,
+      {this.cityID,
+      this.prefectureID});
 
   //userAddressAdd.fromAddress(this._lat, this._lng, this._addressType);
 
@@ -47,6 +51,10 @@ class AddUserSubAddress {
   String get buildingName => _buildingName;
 
   String get area => _area;
+
+  int get cityId => cityID;
+
+  int get stateID => prefectureID;
 
   set subAddress(String subAddress) {
     this._address = subAddress;
