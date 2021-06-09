@@ -932,7 +932,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
       bookingAddressId = constantUserAddressValuesList[index].id;
     });
     print(
-        'User address $addressName : ${HealingMatchConstants.searchUserAddress}');
+        'User address $addressName : $userAddress');
   }
 
   _showLoadingIndicator(BuildContext context, String loadingText) {

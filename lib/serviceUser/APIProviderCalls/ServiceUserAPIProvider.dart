@@ -995,7 +995,7 @@ class ServiceUserAPIProvider {
             "userRoomNumber": addUserSubAddress.roomNumber,
             "buildingName": addUserSubAddress.buildingName,
             "area": addUserSubAddress.area,
-            "addressTypeSelection": addUserSubAddress.addressCategory,
+            "userPlaceForMassage": addUserSubAddress.addressCategory,
             "otherAddressType": addUserSubAddress.addressType,
             "lat": addUserSubAddress.lat,
             "lon": addUserSubAddress.lon,
