@@ -1827,6 +1827,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
     print('EndDateTime:${HealingMatchConstants.confEndDateTime.weekday}');
     print('EndDateTime:${HealingMatchConstants.confEndDateTime.hour}');
     print('subCategoryId:${subCategoryId}');
+    print('Corona:${HealingMatchConstants.confCoronaMeasures}');
     ProgressDialogBuilder.hideCommonProgressDialog(context);
     //  ProgressDialogBuilder.hideLoader(context);
     NavigationRouter.switchToServiceUserBookingConfirmationScreen(context);

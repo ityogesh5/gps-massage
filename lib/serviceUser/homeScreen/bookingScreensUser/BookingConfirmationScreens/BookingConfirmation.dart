@@ -195,34 +195,36 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                             ),
                             Row(
                               children: [
-                                HealingMatchConstants.confShop
-                                    ? Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 6.0),
-                                        child:
-                                            buildProileDetailCard("店舗", 12.0),
-                                      )
-                                    : Container(),
-                                SizedBox(width: 5.0),
-                                HealingMatchConstants.confBuisnessTrip
-                                    ? Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 6.0),
-                                        child:
-                                            buildProileDetailCard("出張", 12.0),
-                                      )
-                                    : Container(),
-                                SizedBox(
-                                  width: 5,
+                                Visibility(
+                                  visible: HealingMatchConstants.confShop,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 6.0),
+                                    child: buildProileDetailCard("店舗", 12.0),
+                                  ),
                                 ),
-                                HealingMatchConstants.confCoronaMeasures
-                                    ? Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 6.0),
-                                        child: buildProileDetailCard(
-                                            "コロナ対策実施", 14.0),
-                                      )
-                                    : Container(),
+                                HealingMatchConstants.confShop
+                                    ? SizedBox(width: 5.0)
+                                    : SizedBox(),
+                                Visibility(
+                                  visible:
+                                      HealingMatchConstants.confBuisnessTrip,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 6.0),
+                                    child: buildProileDetailCard("出張", 12.0),
+                                  ),
+                                ),
+                                HealingMatchConstants.confBuisnessTrip
+                                    ? SizedBox(width: 5.0)
+                                    : SizedBox(),
+                                Visibility(
+                                  visible:
+                                      HealingMatchConstants.confCoronaMeasures,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 6.0),
+                                    child:
+                                        buildProileDetailCard("コロナ対策実施", 14.0),
+                                  ),
+                                ),
                               ],
                             ),
                             SizedBox(
@@ -247,7 +249,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                                 ),
                                 buildRatingBar(),
                                 Text(
-                                  '(1518)',
+                                  '(${HealingMatchConstants.confNoOfReviewsMembers})',
                                   style: TextStyle(
                                       decorationColor:
                                           Color.fromRGBO(153, 153, 153, 1),
