@@ -151,6 +151,13 @@ class _DetailProfileDetailsState extends State<DetailProfileDetails> {
                         Container(
                           child: InkWell(
                             onTap: () {
+                              HealingMatchConstants.serviceProviderUserName =
+                                  widget.therapistDetails.data.storeName !=
+                                              null &&
+                                          widget.therapistDetails.data.storeName
+                                              .isNotEmpty
+                                      ? widget.therapistDetails.data.storeName
+                                      : widget.therapistDetails.data.userName;
                               NavigationRouter
                                   .switchToServiceUserDisplayReviewScreen(
                                       context, widget.therapistDetails.data.id);
@@ -189,7 +196,7 @@ class _DetailProfileDetailsState extends State<DetailProfileDetails> {
           childrenMeasure != null
               ? Container(
                   height: 30.0,
-                  width: MediaQuery.of(context).size.width,// - 130.0, //200.0,
+                  width: MediaQuery.of(context).size.width, // - 130.0, //200.0,
                   child: ListView.builder(
                       itemCount: childrenMeasure.length,
                       padding: EdgeInsets.all(0.0),
@@ -209,7 +216,7 @@ class _DetailProfileDetailsState extends State<DetailProfileDetails> {
           certificateImages != null
               ? Container(
                   height: 30.0,
-                  width: MediaQuery.of(context).size.width,// - 130.0, //200.0,
+                  width: MediaQuery.of(context).size.width, // - 130.0, //200.0,
                   child: ListView.builder(
                       itemCount: certificateImages.length,
                       padding: EdgeInsets.all(0.0),

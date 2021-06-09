@@ -868,6 +868,18 @@ class _PastReservationsState extends State<PastReservations> {
                                                                 )
                                                               : InkWell(
                                                                   onTap: () {
+                                                                    HealingMatchConstants.serviceProviderUserName = bookingDetailsList[index].bookingTherapistId.storeName !=
+                                                                                null &&
+                                                                            bookingDetailsList[index]
+                                                                                .bookingTherapistId
+                                                                                .storeName
+                                                                                .isNotEmpty
+                                                                        ? bookingDetailsList[index]
+                                                                            .bookingTherapistId
+                                                                            .storeName
+                                                                        : bookingDetailsList[index]
+                                                                            .bookingTherapistId
+                                                                            .userName;
                                                                     HealingMatchConstants
                                                                         .therapistRatingID = bookingDetailsList[
                                                                             index]
