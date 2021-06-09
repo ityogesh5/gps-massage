@@ -1900,7 +1900,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       return;
     }
 
-    if (userPhoneNumber.length > 10 ||
+    if (userPhoneNumber.length > 11 ||
         userPhoneNumber.length < 10 ||
         userPhoneNumber == null ||
         userPhoneNumber.isEmpty) {
@@ -1938,7 +1938,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
 
     if ((bussinessForm == "施術店舗あり 施術従業員あり" ||
             bussinessForm == "施術店舗あり 施術従業員なし（個人経営）") &&
-        (storenumber.length > 10 ||
+        (storenumber.length > 11 ||
             storenumber.length < 10 ||
             storenumber == null ||
             storenumber.isEmpty)) {

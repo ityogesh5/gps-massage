@@ -408,7 +408,7 @@ class _UserLoginState extends State<UserLogin> {
     }
 
     // user phone number validation
-    if (userPhoneNumber.length > 10 ||
+    if (userPhoneNumber.length > 11 ||
         userPhoneNumber.length < 10 ||
         userPhoneNumber == null ||
         userPhoneNumber.isEmpty) {

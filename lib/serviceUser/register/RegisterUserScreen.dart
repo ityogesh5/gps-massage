@@ -1468,7 +1468,7 @@ class _RegisterUserState extends State<RegisterUser> {
     var userName = userNameController.text.trim();
     var email = emailController.text.trim();
     var phnNum = phoneNumberController.text.trim();
-    var userPhoneNumber = phnNum.replaceFirst(RegExp(r'^0+'), "");
+    var userPhoneNumber = phnNum; //phnNum.replaceFirst(RegExp(r'^0+'), "");
     print('phnNumber: $userPhoneNumber');
     HealingMatchConstants.serviceUserPhoneNumber = userPhoneNumber;
     var password = passwordController.text.toString().trim();
@@ -1677,7 +1677,7 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     // user phone number validation
-    if (userPhoneNumber.length > 10 ||
+    if (userPhoneNumber.length > 11 ||
         userPhoneNumber == null ||
         userPhoneNumber.length < 10) {
       ProgressDialogBuilder.hideLoader(context);

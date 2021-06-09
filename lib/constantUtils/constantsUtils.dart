@@ -55,9 +55,9 @@ class HealingMatchConstants {
   static const String ON_PREMISE_USER_BASE_URL =
       // "http://103.92.19.158:9087/api"; //secondary backup IP
 
-      //  "http://106.51.49.160:9087/api"; // Development data URL
+      "http://106.51.49.160:9087/api"; // Development data URL
 
-      "http://106.51.49.160:9094/api"; // Testing data URL
+  //"http://106.51.49.160:9094/api"; // Testing data URL
 
 // get therapist list By ID
   static const String THERAPIST_USER_BY_ID_URL =
@@ -192,6 +192,7 @@ class HealingMatchConstants {
   // fetch therapist results
   static const String FETCH_SORTED_THERAPIST_SEARCH_RESULTS =
       ON_PREMISE_USER_BASE_URL + '/search/searchServiceUserByOrder';
+
   static const String BOOKING_THERAPIST =
       ON_PREMISE_USER_BASE_URL + '/booking/createBooking';
 
@@ -242,6 +243,10 @@ class HealingMatchConstants {
   // handle guest user
   static const String PAYMENT_SUCCESS_CALL_URL =
       ON_PREMISE_USER_BASE_URL + '/user/paymentConfirm';
+
+  // add user address
+  static const String USER_ADD_ADDRESS =
+      ON_PREMISE_USER_BASE_URL + '/user/userCreateAddress';
 
   // lINE id TOKEN url
 
@@ -629,6 +634,7 @@ class HealingMatchConstants {
   //User booking Screen
   static dynamic bookingAddressId;
   static dynamic userRegAddressId;
+  static List<String> addressDropDownValues = List<String>();
 
   //Therapist Detail Screen
   static String therapistDStoreName = '';
