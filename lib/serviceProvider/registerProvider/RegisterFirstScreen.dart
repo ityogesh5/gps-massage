@@ -1906,7 +1906,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
         userPhoneNumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('11文字の電話番号を入力してください。',
+        content: Text('10文字の電話番号を入力してください。',
             style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
@@ -1944,7 +1944,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
             storenumber.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('11文字の店舗の電話番号を入力してください。',
+        content: Text('10文字の店舗の電話番号を入力してください。',
             style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {

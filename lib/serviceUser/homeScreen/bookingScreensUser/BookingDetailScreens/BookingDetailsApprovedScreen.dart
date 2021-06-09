@@ -694,11 +694,7 @@ class _BookingDetailsApprovedScreenState
                         ),
                         Spacer(),
                         GestureDetector(
-                          onTap: () {
-                            NavigationRouter
-                                .switchToServiceUserBookingCancelScreen(
-                                    context);
-                          },
+                          onTap: () {},
                           child: Text(
                             'キャンセルする',
                             style: TextStyle(

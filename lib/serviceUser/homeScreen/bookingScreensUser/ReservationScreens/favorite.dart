@@ -355,10 +355,12 @@ class _FavoriteState extends State<Favorite> {
                                                           children: [
                                                             Row(
                                                               children: [
-                                                                favouriteUserList[index]
+                                                                favouriteUserList[index].favouriteTherapistId.storeName !=
+                                                                            null &&
+                                                                        favouriteUserList[index]
                                                                             .favouriteTherapistId
-                                                                            .storeName !=
-                                                                        null
+                                                                            .storeName
+                                                                            .isNotEmpty
                                                                     ? Text(
                                                                         '${favouriteUserList[index].favouriteTherapistId.storeName}',
                                                                         style: TextStyle(

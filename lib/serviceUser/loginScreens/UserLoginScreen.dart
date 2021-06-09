@@ -711,6 +711,7 @@ class _UserLoginState extends State<UserLogin> {
             value.setString('accessToken', guestUserResponse.accessToken);
             value.setBool('isGuest', true);
           });
+          // HealingMatchConstants.isUserRegistrationSkipped = false;
           ProgressDialogBuilder.hideLoader(context);
           NavigationRouter.switchToServiceUserBottomBar(context);
         } else {

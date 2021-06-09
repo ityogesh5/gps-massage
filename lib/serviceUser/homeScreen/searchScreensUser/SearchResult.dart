@@ -343,12 +343,6 @@ class _SearchResultState extends State<SearchResult> {
     );
   }
 
-  clearSearchContents() {
-    HealingMatchConstants.searchUserAddress = null;
-    HealingMatchConstants.serviceType = null;
-    HealingMatchConstants.addressTypeValues = 0;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -366,7 +360,6 @@ class _SearchResultState extends State<SearchResult> {
             setState(() {
               _selectedIndex = null;
             });
-            clearSearchContents();
           },
         ),
         title: Text(
@@ -1591,12 +1584,6 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
     );
   }
 
-  clearSearchContents() {
-    HealingMatchConstants.searchUserAddress = null;
-    HealingMatchConstants.serviceType = null;
-    HealingMatchConstants.addressTypeValues = 0;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1614,7 +1601,6 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
             setState(() {
               _selectedIndex = null;
             });
-            clearSearchContents();
           },
         ),
         title: Text(

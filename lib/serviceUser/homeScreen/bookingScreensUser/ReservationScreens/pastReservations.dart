@@ -372,10 +372,12 @@ class _PastReservationsState extends State<PastReservations> {
                                                           children: [
                                                             Row(
                                                               children: [
-                                                                bookingDetailsList[index]
+                                                                bookingDetailsList[index].bookingTherapistId.storeName !=
+                                                                            null &&
+                                                                        bookingDetailsList[index]
                                                                             .bookingTherapistId
-                                                                            .storeName !=
-                                                                        null
+                                                                            .storeName
+                                                                            .isNotEmpty
                                                                     ? Text(
                                                                         '${bookingDetailsList[index].bookingTherapistId.storeName}',
                                                                         style: TextStyle(

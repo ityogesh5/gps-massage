@@ -2230,13 +2230,28 @@ class _ReservationListState extends State<ReservationList> {
                             children: [
                               Row(
                                 children: [
-                                  Text(
-                                      '${bookingDetailsList[0].bookingTherapistId.storeName}',
-                                      style: TextStyle(
-                                          color: Color.fromRGBO(0, 0, 0, 1),
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily:
-                                              ColorConstants.fontFamily)),
+                                  bookingDetailsList[0]
+                                              .bookingTherapistId
+                                              .storeName
+                                              .isNotEmpty &&
+                                          bookingDetailsList[0]
+                                                  .bookingTherapistId
+                                                  .storeName !=
+                                              null
+                                      ? Text(
+                                          '${bookingDetailsList[0].bookingTherapistId.storeName}',
+                                          style: TextStyle(
+                                              color: Color.fromRGBO(0, 0, 0, 1),
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily:
+                                                  ColorConstants.fontFamily))
+                                      : Text(
+                                          '${bookingDetailsList[0].bookingTherapistId.userName}',
+                                          style: TextStyle(
+                                              color: Color.fromRGBO(0, 0, 0, 1),
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily:
+                                                  ColorConstants.fontFamily)),
                                   SizedBox(
                                     width: 5,
                                   ),

@@ -11,6 +11,8 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/Get
 import 'package:intl/intl.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 
 bool isOtherSelected = false;
 final _cancelReasonController = new TextEditingController();
@@ -22,6 +24,7 @@ Map<String, dynamic> _formData = {
 };
 var selectedBuildingType;
 bool isCancelSelected = false;
+GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
 class BookingApproveThirdScreen extends StatefulWidget {
   final int therapistId;
@@ -62,6 +65,7 @@ class _BookingApproveThirdScreenState extends State<BookingApproveThirdScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(255, 255, 255, 1),
@@ -820,7 +824,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                             )),
                       ),
                     ),
-                    Positioned(
+                    /*  Positioned(
                       top: 95,
                       left: 300,
                       right: 10,
@@ -838,7 +842,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                           ),
                         ),
                       ),
-                    )
+                    )*/
                   ],
                 ),
               ),
@@ -867,10 +871,47 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
   }
 
   cancelBooking() {
-    var cancelBooking = ServiceUserAPIProvider.updateBookingCompeted(
-        HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].id,
-        selectedBuildingType);
-    NavigationRouter.switchToServiceUserBottomBar(context);
+    String otherCategory = _cancelReasonController.text;
+    String cancelReason =
+        selectedBuildingType == "その他" ? otherCategory : selectedBuildingType;
+    if (cancelReason == null || cancelReason == '') {
+      ProgressDialogBuilder.hideLoader(context);
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('キャンセルの理由を選択してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+    try {
+      var cancelBooking = ServiceUserAPIProvider.updateBookingCompeted(
+          HealingMatchConstants
+              .therapistProfileDetails.bookingDataResponse[0].id,
+          selectedBuildingType);
+      DialogHelper.showUserBookingCancelDialog(context);
+    } catch (e) {
+      print('cancelException : ${e.toString()}');
+    }
   }
 
   void _handleCategoryChange(bool newVal, BuildingCategory category) {

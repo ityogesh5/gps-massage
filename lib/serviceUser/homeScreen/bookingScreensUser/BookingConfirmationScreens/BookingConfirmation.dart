@@ -68,8 +68,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           onPressed: () {
-            Navigator.pop(context);
-            /*  NavigationRouter.switchToServiceUserBottomBar(context); */
+            NavigationRouter.switchToServiceUserBottomBar(context);
           },
           color: Colors.black,
         ),
@@ -110,7 +109,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                   borderRadius: BorderRadius.circular(16.0),
                   color: Colors.grey[200]),
               width: MediaQuery.of(context).size.width * 0.90,
-              height: 210,
+              height: 200,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -194,39 +193,37 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                                 ),
                               ],
                             ),
-                            FittedBox(
-                              child: Row(
-                                children: [
-                                  HealingMatchConstants.confShop
-                                      ? Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 6.0),
-                                          child:
-                                              buildProileDetailCard("店舗", 12.0),
-                                        )
-                                      : Container(),
-                                  SizedBox(width: 5.0),
-                                  HealingMatchConstants.confBuisnessTrip
-                                      ? Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 6.0),
-                                          child:
-                                              buildProileDetailCard("出張", 12.0),
-                                        )
-                                      : Container(),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  HealingMatchConstants.confCoronaMeasures
-                                      ? Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 6.0),
-                                          child: buildProileDetailCard(
-                                              "コロナ対策実施", 14.0),
-                                        )
-                                      : Container(),
-                                ],
-                              ),
+                            Row(
+                              children: [
+                                HealingMatchConstants.confShop
+                                    ? Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 6.0),
+                                        child:
+                                            buildProileDetailCard("店舗", 12.0),
+                                      )
+                                    : Container(),
+                                SizedBox(width: 5.0),
+                                HealingMatchConstants.confBuisnessTrip
+                                    ? Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 6.0),
+                                        child:
+                                            buildProileDetailCard("出張", 12.0),
+                                      )
+                                    : Container(),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                HealingMatchConstants.confCoronaMeasures
+                                    ? Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 6.0),
+                                        child: buildProileDetailCard(
+                                            "コロナ対策実施", 14.0),
+                                      )
+                                    : Container(),
+                              ],
                             ),
                             SizedBox(
                               height: 5,
@@ -312,14 +309,9 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                             SvgPicture.asset('assets/images_gps/gps.svg',
                                 height: 25, width: 25),
                             SizedBox(width: 5),
-                            Flexible(
+                            FittedBox(
                               child: Text(
                                 '${HealingMatchConstants.confAddress}',
-                                maxLines:
-                                    HealingMatchConstants.confAddress.length >
-                                            10
-                                        ? 2
-                                        : 1,
                                 softWrap: true,
                                 style: TextStyle(
                                     fontSize: 14,
@@ -329,7 +321,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                               ),
                             ),
                           ]),
-                    ),
+                    )
                   ],
                 ),
               ),

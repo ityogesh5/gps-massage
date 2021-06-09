@@ -77,11 +77,6 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   List<String> addressDropDownValues = ["自宅", "オフィス", "実家", "その他（直接入力）"];
   TextEditingController yearController = new TextEditingController();
   TextEditingController monthController = TextEditingController();
-  clearSearchContents() {
-    HealingMatchConstants.searchUserAddress = null;
-    HealingMatchConstants.serviceType = null;
-    HealingMatchConstants.addressTypeValues = 0;
-  }
 
   void initState() {
     super.initState();
@@ -100,7 +95,6 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
     setState(() {
       print(daysToDisplay);
     });
-    clearSearchContents();
   }
 
   @override
