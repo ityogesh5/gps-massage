@@ -1778,6 +1778,9 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                             .userAddressesList[position].id;
                         print(
                             'Delete values :${_editAddressController.text} && $addressID');
+                        addedAddressType.remove(HealingMatchConstants
+                            .userAddressesList[position].userPlaceForMassage);
+
                         var deleteSubAddress =
                             ServiceUserAPIProvider.deleteUserSubAddress(
                                 context, addressID);
@@ -3811,6 +3814,8 @@ class _AddAddressState extends State<AddAddress> {
           addedUserAreaController.text.toString(),
         );
         print(_myAddedAddressInputType);
+        addedAddressType[_myCategoryPlaceForMassage] =
+            _myCategoryPlaceForMassage;
         widget.callBack();
         Navigator.pop(context);
       });
