@@ -314,7 +314,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                                 '${HealingMatchConstants.confAddress}',
                                 softWrap: true,
                                 style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: 12,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                     fontFamily: 'NotoSansJP'),
@@ -753,7 +753,6 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
           style: TextStyle(
               color: Color.fromRGBO(255, 255, 255, 1),
               fontFamily: 'NotoSansJP',
-              fontWeight: FontWeight.bold,
               fontSize: 16),
         ),
       ),

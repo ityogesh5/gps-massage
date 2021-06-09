@@ -1572,10 +1572,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                       padding: EdgeInsets.all(4),
                                                                       decoration: BoxDecoration(
                                                                           gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
-                                                                            Colors
-                                                                                .white,
-                                                                            Colors
-                                                                                .white,
+                                                                            Colors.white,
+                                                                            Colors.white,
                                                                           ]),
                                                                           shape: BoxShape.rectangle,
                                                                           border: Border.all(
@@ -2268,15 +2266,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                           SizedBox(
                                                             height: 10,
                                                           ),
-
                                                           FittedBox(
                                                             child: Row(
                                                               children: [
                                                                 Container(
                                                                     padding:
                                                                         EdgeInsets
-                                                                            .all(
-                                                                                4),
+                                                                            .all(4),
                                                                     decoration: BoxDecoration(
                                                                         gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
                                                                           Colors
@@ -2286,8 +2282,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         ]),
                                                                         shape: BoxShape.rectangle,
                                                                         border: Border.all(
-                                                                          color: Colors
-                                                                              .grey[300],
+                                                                          color:
+                                                                              Colors.grey[300],
                                                                         ),
                                                                         borderRadius: BorderRadius.circular(5.0),
                                                                         color: Colors.grey[200]),
@@ -2295,12 +2291,11 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                       '${approvedList[index].locationType}',
                                                                       style:
                                                                           TextStyle(
-                                                                        color: Color
-                                                                            .fromRGBO(
-                                                                                0,
-                                                                                0,
-                                                                                0,
-                                                                                1),
+                                                                        color: Color.fromRGBO(
+                                                                            0,
+                                                                            0,
+                                                                            0,
+                                                                            1),
                                                                       ),
                                                                     )),
                                                                 SizedBox(
@@ -3020,14 +3015,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                       SizedBox(
                                                         height: 10,
                                                       ),
-
                                                       FittedBox(
                                                         child: Row(
                                                           children: [
                                                             Container(
                                                                 padding:
-                                                                    EdgeInsets.all(
-                                                                        4),
+                                                                    EdgeInsets
+                                                                        .all(4),
                                                                 decoration:
                                                                     BoxDecoration(
                                                                         gradient: LinearGradient(
@@ -3041,18 +3035,16 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                             ]),
                                                                         shape: BoxShape
                                                                             .rectangle,
-                                                                        border:
-                                                                            Border
-                                                                                .all(
-                                                                          color: Colors
-                                                                              .grey[300],
+                                                                        border: Border
+                                                                            .all(
+                                                                          color:
+                                                                              Colors.grey[300],
                                                                         ),
                                                                         borderRadius:
                                                                             BorderRadius.circular(
                                                                                 5.0),
                                                                         color: Colors
-                                                                                .grey[
-                                                                            200]),
+                                                                            .grey[200]),
                                                                 child: Text(
                                                                   '${confirmedPaymentList[index].locationType}',
                                                                   style:
@@ -3196,7 +3188,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                         return InkWell(
                                           onTap: () {
                                             NavigationRouter
-                                                .switchToUserSearchDetailPageOne(
+                                                .switchToServiceUserBookingDetailsCompletedScreenOne(
                                                     context,
                                                     canceledReservationList[
                                                             index]
@@ -3688,14 +3680,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                       SizedBox(
                                                         height: 10,
                                                       ),
-
                                                       FittedBox(
                                                         child: Row(
                                                           children: [
                                                             Container(
                                                                 padding:
-                                                                    EdgeInsets.all(
-                                                                        4),
+                                                                    EdgeInsets
+                                                                        .all(4),
                                                                 decoration:
                                                                     BoxDecoration(
                                                                         gradient: LinearGradient(
@@ -3709,18 +3700,16 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                             ]),
                                                                         shape: BoxShape
                                                                             .rectangle,
-                                                                        border:
-                                                                            Border
-                                                                                .all(
-                                                                          color: Colors
-                                                                              .grey[300],
+                                                                        border: Border
+                                                                            .all(
+                                                                          color:
+                                                                              Colors.grey[300],
                                                                         ),
                                                                         borderRadius:
                                                                             BorderRadius.circular(
                                                                                 5.0),
                                                                         color: Colors
-                                                                                .grey[
-                                                                            200]),
+                                                                            .grey[200]),
                                                                 child: Text(
                                                                   '${canceledReservationList[index].locationType}',
                                                                   style:

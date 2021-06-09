@@ -720,22 +720,22 @@ class _RegisterUserState extends State<RegisterUser> {
                         autofocus: false,
                         keyboardType:
                             TextInputType.numberWithOptions(signed: true),
-                        onEditingComplete: () {
+                        /*      onEditingComplete: () {
                           var phnNum = phoneNumberController.text.toString();
                           var userPhoneNumber =
                               phnNum.replaceFirst(RegExp(r'^0+'), "");
                           print('Phone number after edit : $userPhoneNumber');
                           phoneNumberController.text = userPhoneNumber;
                           FocusScope.of(context).requestFocus(FocusNode());
-                        },
-                        onSubmitted: (userPhoneNumber) {
+                        },*/
+                        /*   onSubmitted: (userPhoneNumber) {
                           var phnNum = phoneNumberController.text.toString();
                           var userPhoneNumber =
                               phnNum.replaceFirst(RegExp(r'^0+'), "");
                           print('Phone number after submit : $userPhoneNumber');
                           phoneNumberController.text = userPhoneNumber;
                           FocusScope.of(context).requestFocus(FocusNode());
-                        },
+                        },*/
                         decoration: new InputDecoration(
                           counterText: '',
                           filled: true,

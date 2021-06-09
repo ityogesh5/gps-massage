@@ -144,7 +144,6 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                                         ],
                                       ),
                                     ),
-                                    SizedBox(height: 2),
                                     buildReviewContent(ratingListValues[index]),
                                     Padding(
                                       padding: const EdgeInsets.only(
@@ -319,7 +318,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
   Widget buildReviewContent(TherapistReviewList ratingListValues) {
     return new Column(
       children: [
-        SizedBox(height: 10.0),
+        SizedBox(height: 6.0),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,

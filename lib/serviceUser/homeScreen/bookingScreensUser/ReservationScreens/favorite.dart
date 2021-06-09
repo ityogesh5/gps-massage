@@ -199,7 +199,7 @@ class _FavoriteState extends State<Favorite> {
                                                     .therapistId;
 
                                             NavigationRouter
-                                                .switchToUserSearchDetailPageOne(
+                                                .switchToServiceUserBookingDetailsCompletedScreenOne(
                                                     context,
                                                     favouriteUserList[index]
                                                         .therapistId);

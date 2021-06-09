@@ -1696,6 +1696,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
         bottom: 4.0,
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             '施術を受ける日時',

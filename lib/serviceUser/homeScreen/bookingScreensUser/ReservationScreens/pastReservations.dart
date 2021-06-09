@@ -222,7 +222,7 @@ class _PastReservationsState extends State<PastReservations> {
                                         InkWell(
                                           onTap: () {
                                             NavigationRouter
-                                                .switchToUserSearchDetailPageOne(
+                                                .switchToServiceUserBookingDetailsCompletedScreenOne(
                                                     context,
                                                     bookingDetailsList[index]
                                                         .therapistId);
