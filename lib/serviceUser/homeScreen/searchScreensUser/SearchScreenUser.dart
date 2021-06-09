@@ -56,7 +56,6 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
       keyWordSearchValue,
       userAddress,
       addressTypeName,
-      addressName,
       addressIcon;
   String userID;
   String address;
@@ -72,6 +71,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   var gpsColor = 0;
   var searchAddressLatitude, searchAddressLongitude;
   List<UserAddresses> constantUserAddressValuesList = new List<UserAddresses>();
+  Map<int, String> addressName = Map<int, String>();
   List<String> yearDropDownValues = List<String>();
   List<String> monthDropDownValues = List<String>();
   List<String> addressDropDownValues = ["自宅", "オフィス", "実家", "その他（直接入力）"];
@@ -319,7 +319,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                 itemBuilder: (context, index) {
                                   int addressType = getAddressIconandName(
                                       constantUserAddressValuesList[index]
-                                          .userPlaceForMassage);
+                                          .userPlaceForMassage,
+                                      index);
                                   return buildUserRegisteredAddressCard(
                                       addressType, index);
                                 }),
@@ -907,7 +908,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
             height: 8,
           ),
           Text(
-            "$addressName",
+            "${addressName[index]}",
             style: TextStyle(
               color: Color.fromRGBO(0, 0, 0, 1),
             ),
@@ -925,14 +926,13 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
     setState(() {
       gpsColor = 0;
       addressTypeValues = addressType;
-      addressTypeName = addressName;
+      addressTypeName = addressName[index];
       searchAddressLatitude = constantUserAddressValuesList[index].lat;
       searchAddressLongitude = constantUserAddressValuesList[index].lon;
       userAddress = constantUserAddressValuesList[index].address;
       bookingAddressId = constantUserAddressValuesList[index].id;
     });
-    print(
-        'User address $addressName : $userAddress');
+    print('User address $addressType $addressTypeName : $userAddress');
   }
 
   _showLoadingIndicator(BuildContext context, String loadingText) {
@@ -1470,7 +1470,12 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
             '$searchAddressLatitude && '
             '$searchAddressLongitude');
         Navigator.pop(context);
-        timeDurationSinceDate(HealingMatchConstants.dateTime);
+        timeDurationSinceDate(DateTime(
+            _cyear,
+            _cmonth,
+            _currentDay,
+            HealingMatchConstants.dateTime.hour,
+            HealingMatchConstants.dateTime.minute));
         //proceedToSearchResults();
       } else {
         Navigator.pop(context);
@@ -1557,32 +1562,32 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
     }
   }
 
-  int getAddressIconandName(String userPlaceForMassage) {
+  int getAddressIconandName(String userPlaceForMassage, int index) {
     int addressType;
     if (userPlaceForMassage != null) {
       switch (userPlaceForMassage) {
         case '自宅':
           addressType = 1;
           addressIcon = "assets/images_gps/house.svg";
-          addressName = HealingMatchConstants.searchHomeIconTxt;
+          addressName[index] = HealingMatchConstants.searchHomeIconTxt;
           addressDropDownValues.remove("自宅");
           break;
         case 'オフィス':
           addressType = 2;
           addressIcon = "assets/images_gps/office.svg";
-          addressName = HealingMatchConstants.searchOfficeIconTxt;
+          addressName[index] = HealingMatchConstants.searchOfficeIconTxt;
           addressDropDownValues.remove("オフィス");
           break;
         case '実家':
           addressType = 3;
           addressIcon = "assets/images_gps/parents_house.svg";
-          addressName = HealingMatchConstants.searchPHomeIconTxt;
+          addressName[index] = HealingMatchConstants.searchPHomeIconTxt;
           addressDropDownValues.remove("実家");
           break;
         default:
           addressType = 4;
           addressIcon = "assets/images_gps/others.svg";
-          addressName = HealingMatchConstants.searchOtherIconTxt;
+          addressName[index] = HealingMatchConstants.searchOtherIconTxt;
           addressDropDownValues.remove("その他（直接入力）");
           break;
       }
