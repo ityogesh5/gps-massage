@@ -79,7 +79,7 @@ class _GivenRatingListState extends State<GivenRatingList> {
         ),
         centerTitle: true,
       ),
-      body: status == 0
+      body: currentOrderReviewResponseModel.bookingReviewData == null
           ? Container(
               color: Colors.white,
               child: Center(child: SpinKitThreeBounce(color: Colors.lime)),

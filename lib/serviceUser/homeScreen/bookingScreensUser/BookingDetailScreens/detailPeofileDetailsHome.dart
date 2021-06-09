@@ -167,6 +167,13 @@ class _DetailPeofileDetailsHomeState extends State<DetailPeofileDetailsHome> {
                         Container(
                           child: InkWell(
                             onTap: () {
+                              HealingMatchConstants.serviceProviderUserName =
+                                  widget.therapistDetails.data.storeName !=
+                                              null &&
+                                          widget.therapistDetails.data.storeName
+                                              .isNotEmpty
+                                      ? widget.therapistDetails.data.storeName
+                                      : widget.therapistDetails.data.userName;
                               NavigationRouter
                                   .switchToServiceUserDisplayReviewScreen(
                                       context, widget.therapistDetails.data.id);

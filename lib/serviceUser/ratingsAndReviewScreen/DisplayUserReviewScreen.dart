@@ -6,6 +6,8 @@ import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvid
 import 'package:intl/intl.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 
 class DisplayUserReview extends StatefulWidget {
   final int id;
@@ -83,7 +85,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        '店舗についてのレビュー',
+                        '${HealingMatchConstants.serviceProviderUserName}についてのレビュー',
                         style: TextStyle(
                             fontFamily: 'NotoSansJP',
                             fontSize: 14,
@@ -139,87 +141,11 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                                                     Color.fromRGBO(0, 0, 0, 1),
                                                 fontWeight: FontWeight.bold),
                                           ),
-                                          Text(
-                                            " ${DateFormat("MM月dd").format(ratingListValues[index].createdAt).toString()}",
-                                            style: TextStyle(
-                                                fontFamily: 'NotoSansJP',
-                                                fontSize: 12,
-                                                color:
-                                                    Color.fromRGBO(0, 0, 0, 1),
-                                                fontWeight: FontWeight.w300),
-                                          ),
                                         ],
                                       ),
                                     ),
                                     SizedBox(height: 2),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        RatingBar.builder(
-                                          unratedColor: Colors.grey[200],
-                                          glow: true,
-                                          glowColor: Colors.lime,
-                                          ignoreGestures: true,
-                                          glowRadius: 2,
-                                          initialRating: ratingListValues[index]
-                                              .ratingsCount
-                                              .toDouble(),
-                                          minRating: 1,
-                                          direction: Axis.horizontal,
-                                          allowHalfRating: true,
-                                          itemCount: 5,
-                                          itemSize: 20,
-                                          itemPadding: EdgeInsets.symmetric(
-                                              horizontal: 1.0),
-                                          itemBuilder: (context, _) => Icon(
-                                            Icons.star,
-                                            size: 5,
-                                            color:
-                                                Color.fromRGBO(255, 217, 0, 1),
-                                          ),
-                                          onRatingUpdate: (rating) {
-                                            // print(rating);
-                                            setState(() {
-                                              ratingsValue =
-                                                  ratingListValues[index]
-                                                      .ratingsCount
-                                                      .toDouble();
-                                            });
-                                            print(ratingsValue);
-                                          },
-                                        ),
-                                        SizedBox(width: 5),
-                                        Text(
-                                          '(${ratingListValues[index].ratingsCount.toDouble()})',
-                                          style: TextStyle(
-                                            color: Color.fromRGBO(
-                                                153, 153, 153, 1),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Row(
-                                        children: [
-                                          Flexible(
-                                            child: Text(
-                                              "${ratingListValues[index].reviewComment}",
-                                              style: TextStyle(
-                                                  fontFamily: 'NotoSansJP',
-                                                  fontSize: 14,
-                                                  color: Color.fromRGBO(
-                                                      51, 51, 51, 1),
-                                                  fontWeight: FontWeight.w300),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(height: 10),
+                                    buildReviewContent(ratingListValues[index]),
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           left: 20, right: 20),
@@ -388,5 +314,90 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
         isLoadingData = false;
       });
     }
+  }
+
+  Widget buildReviewContent(TherapistReviewList ratingListValues) {
+    return new Column(
+      children: [
+        SizedBox(height: 10.0),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            RatingBar.builder(
+              initialRating: ratingListValues.ratingsCount.toDouble(),
+              minRating: 1,
+              direction: Axis.horizontal,
+              allowHalfRating: true,
+              itemCount: 5,
+              itemSize: 24.0,
+              itemPadding: new EdgeInsets.only(bottom: 3.0),
+              itemBuilder: (context, index) => new SizedBox(
+                  height: 20.0,
+                  width: 18.0,
+                  child: new IconButton(
+                    onPressed: () {},
+                    padding: new EdgeInsets.all(0.0),
+                    color: Colors.black,
+                    icon: index > ratingListValues.ratingsCount.toDouble() - 1
+                        ? SvgPicture.asset(
+                            "assets/images_gps/star_2.svg",
+                            height: 13.0,
+                            width: 13.0,
+                            color: Colors.black,
+                          )
+                        : SvgPicture.asset(
+                            "assets/images_gps/star_colour.svg",
+                            height: 13.0,
+                            width: 13.0,
+                            //color: Colors.black,
+                          ),
+                  )),
+              onRatingUpdate: (rating) {
+                print(rating);
+              },
+            ),
+            SizedBox(width: 5),
+            Text(
+              "(${ratingListValues.ratingsCount.toStringAsFixed(2)})",
+              style: TextStyle(
+                shadows: [
+                  Shadow(
+                      color: Color.fromRGBO(153, 153, 153, 1),
+                      offset: Offset(0, 3))
+                ],
+                fontSize: 14.0,
+                color: Colors.transparent,
+                decoration: TextDecoration.underline,
+              ),
+            ),
+            Spacer(),
+            Text(
+              '${ratingListValues.createdAt.month}月${ratingListValues.createdAt.day}',
+              style: TextStyle(
+                fontSize: 10,
+                color: Color.fromRGBO(0, 0, 0, 1),
+              ),
+            ),
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Row(
+            children: [
+              Flexible(
+                child: Text(
+                  "${ratingListValues.reviewComment}",
+                  style: TextStyle(
+                      fontSize: 12,
+                      color: Color.fromRGBO(51, 51, 51, 1),
+                      fontWeight: FontWeight.w300),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }
