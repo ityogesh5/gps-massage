@@ -733,13 +733,13 @@ class _AddAddressState extends State<SearchAddAddress> {
         " " +
         addedRoomNumberController.text;
     String queryAddress = addedRoomNumberController.text.toString() +
-        '' +
+        ',' +
         addedBuildingNameController.text.toString() +
-        '' +
+        ',' +
         addedUserAreaController.text.toString() +
-        '' +
+        ',' +
         _myAddedCity +
-        '' +
+        ',' +
         _myAddedPrefecture;
     print('USER MANUAL ADDRESS : $manualAddedAddress');
     String address =

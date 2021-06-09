@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
@@ -33,6 +34,7 @@ Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 List<UpdateAddress> updateAddress = new List<UpdateAddress>();
 List<AddUserSubAddress> constantUserAddressValuesList =
     new List<AddUserSubAddress>();
+Map<String, String> addedAddressType = Map<String, String>();
 
 var deletePosition, editPosition;
 var addressID;
@@ -129,8 +131,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   File _profileImage;
   bool readonly = false;
   final picker = ImagePicker();
-  Placemark currentLocationPlaceMark;
-  Placemark userAddedAddressPlaceMark;
 
   bool visible = false;
   bool _showCurrentLocationInput = false;
@@ -1432,6 +1432,12 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                   itemCount: HealingMatchConstants
                                       .userAddressesList.length,
                                   itemBuilder: (BuildContext ctxt, int index) {
+                                    addedAddressType[HealingMatchConstants
+                                            .userAddressesList[index]
+                                            .userPlaceForMassage] =
+                                        HealingMatchConstants
+                                            .userAddressesList[index]
+                                            .userPlaceForMassage;
                                     return WidgetAnimator(
                                       Column(
                                         children: [
@@ -2404,7 +2410,16 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     }
 
     if (HealingMatchConstants.userEditAddress.isEmpty) {
-      String manualUserAddress = roomNumber +
+      String manualUserAddress = _myPrefecture +
+          " " +
+          _myCity +
+          " " +
+          userArea +
+          " " +
+          buildingName +
+          " " +
+          roomNumber;
+      String queryAddress = roomNumber +
           ',' +
           buildingName +
           ',' +
@@ -2415,19 +2430,17 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           _myPrefecture;
       String address =
           Platform.isIOS ? _myCity + ',' + _myPrefecture : manualUserAddress;
-      List<Placemark> userAddress =
-          await geoLocator.placemarkFromAddress(address);
-      userAddedAddressPlaceMark = userAddress[0];
-      Position addressPosition = userAddedAddressPlaceMark.position;
-      HealingMatchConstants.mEditCurrentLatitude = addressPosition.latitude;
-      HealingMatchConstants.mEditCurrentLongitude = addressPosition.longitude;
-      var serviceUserCity = userAddedAddressPlaceMark.locality;
-      var serviceUserPrefecture = userAddedAddressPlaceMark.administrativeArea;
+      List<Location> userAddress =
+          await locationFromAddress(address, localeIdentifier: "ja_JP");
+      HealingMatchConstants.mEditCurrentLatitude = userAddress[0].latitude;
+      HealingMatchConstants.mEditCurrentLongitude = userAddress[0].longitude;
+      var serviceUserCity = _myCity;
+      var serviceUserPrefecture = _myPrefecture;
       HealingMatchConstants.userEditAddress = manualUserAddress;
       print(
           'Manual Address lat lon : ${HealingMatchConstants.currentLatitude} && '
           '${HealingMatchConstants.currentLongitude}');
-      print('Manual Place Json : ${userAddedAddressPlaceMark.toJson()}');
+      //  print('Manual Place Json : ${userAddedAddressPlaceMark.toJson()}');
       print('Manual Address : ${HealingMatchConstants.userAddress}');
       print('Manual Modified Address : ${manualUserAddress.trim()}');
     }
@@ -2600,6 +2613,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
         _myCategoryPlaceForMassage =
             HealingMatchConstants.userEditPlaceForMassage;
+        addedAddressType[_myCategoryPlaceForMassage] =
+            _myCategoryPlaceForMassage;
         _myPrefecture = HealingMatchConstants.userEditPrefecture;
         rID = HealingMatchConstants.serviceUserById;
         userNameController.text = HealingMatchConstants.serviceUserName;
@@ -2738,14 +2753,11 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
   void _getLatLngFromAddress(String subAddress, var position) async {
     try {
-      List<Placemark> address =
-          await geoLocator.placemarkFromAddress(subAddress);
+      List<Location> address =
+          await locationFromAddress(subAddress, localeIdentifier: "ja_JP");
 
-      userAddedAddressPlaceMark = address[0];
-      Position addressPosition = userAddedAddressPlaceMark.position;
-
-      var searchAddressLatitude = addressPosition.latitude;
-      var searchAddressLongitude = addressPosition.longitude;
+      var searchAddressLatitude = address[0].latitude;
+      var searchAddressLongitude = address[0].longitude;
 
       print(
           'Address location points : $searchAddressLatitude && $searchAddressLongitude');
@@ -2796,8 +2808,6 @@ class _AddAddressState extends State<AddAddress> {
   String _myAddedPrefecture = '';
   String _myAddedCity = '';
   String _myCategoryPlaceForMassage = '';
-  Placemark userGPSAddressPlaceMark;
-  Placemark userManualAddressPlaceMark;
   final _addedAddressTypeKey = new GlobalKey<FormState>();
   final _addedPrefectureKey = new GlobalKey<FormState>();
   final _placeOfAddressKey = new GlobalKey<FormState>();
@@ -3602,7 +3612,46 @@ class _AddAddressState extends State<AddAddress> {
       ));
       return;
     }
-    if (_myCategoryPlaceForMassage ==
+
+    if (addedAddressType[_myCategoryPlaceForMassage] ==
+        _myCategoryPlaceForMassage) {
+      print('Address cat same');
+      setState(() {
+        _myCategoryPlaceForMassage = '';
+        visible = false;
+      });
+
+      ProgressDialogBuilder.hideLoader(context);
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 4),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('選択した登録する地点のカテゴリーがすでに追加されました。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return;
+    }
+
+    /* if (_myCategoryPlaceForMassage ==
         HealingMatchConstants.userEditPlaceForMassage) {
       print('Address cat same');
       setState(() {
@@ -3674,38 +3723,42 @@ class _AddAddressState extends State<AddAddress> {
         ),
       ));
       return;
-    }
+    } */
     ProgressDialogBuilder.showOverlayLoader(context);
-    String manualAddedAddress = addedRoomNumberController.text.toString() +
-        '' +
-        addedBuildingNameController.text.toString() +
-        '' +
-        addedUserAreaController.text.toString() +
-        '' +
+    String manualAddedAddress = _myAddedPrefecture +
+        " " +
         _myAddedCity +
-        '' +
+        " " +
+        addedUserAreaController.text +
+        " " +
+        addedBuildingNameController.text +
+        " " +
+        addedRoomNumberController.text;
+    String queryAddress = addedRoomNumberController.text.toString() +
+        ',' +
+        addedBuildingNameController.text.toString() +
+        ',' +
+        addedUserAreaController.text.toString() +
+        ',' +
+        _myAddedCity +
+        ',' +
         _myAddedPrefecture;
     print('USER MANUAL ADDRESS : $manualAddedAddress');
-    String address = Platform.isIOS
-        ? _myAddedCity + ',' + _myAddedPrefecture
-        : manualAddedAddress;
-    List<Placemark> userManualAddress =
-        await addAddressgeoLocator.placemarkFromAddress(address);
-    userManualAddressPlaceMark = userManualAddress[0];
-    Position addressPosition = userManualAddressPlaceMark.position;
+    String address =
+        Platform.isIOS ? _myAddedCity + ',' + _myAddedPrefecture : queryAddress;
+    List<Location> userManualAddress =
+        await locationFromAddress(address, localeIdentifier: "ja_JP");
     HealingMatchConstants.manualAddressCurrentLatitude =
-        addressPosition.latitude;
+        userManualAddress[0].latitude;
     HealingMatchConstants.manualAddressCurrentLongitude =
-        addressPosition.longitude;
-    HealingMatchConstants.serviceUserCity = userManualAddressPlaceMark.locality;
-    HealingMatchConstants.serviceUserPrefecture =
-        userManualAddressPlaceMark.administrativeArea;
+        userManualAddress[0].longitude;
+    HealingMatchConstants.serviceUserCity = _myAddedCity;
+    HealingMatchConstants.serviceUserPrefecture = _myAddedPrefecture;
     HealingMatchConstants.manualUserAddress = manualAddedAddress;
-
     print(
         'Manual Address lat lon : ${HealingMatchConstants.manualAddressCurrentLatitude} && '
         '${HealingMatchConstants.manualAddressCurrentLongitude}');
-    print('Manual Place Json : ${userManualAddressPlaceMark.toJson()}');
+    //print('Manual Place Json : ${userManualAddressPlaceMark.toJson()}');
     print('Manual Address : ${HealingMatchConstants.manualUserAddress}');
 
     /*  if (HealingMatchConstants.userAddressesList.length <= 2 &&
