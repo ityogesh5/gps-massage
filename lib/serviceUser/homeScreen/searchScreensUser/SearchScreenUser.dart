@@ -1575,11 +1575,10 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
 
   _getSearchResults() {
     try {
+      Navigator.pop(context);
       setState(() {
         _loading = false;
       });
-
-      Navigator.pop(context);
 
       NavigationRouter.switchToUserSearchResult(context);
     } catch (e) {

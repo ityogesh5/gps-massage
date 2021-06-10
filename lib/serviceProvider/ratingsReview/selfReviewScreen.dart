@@ -302,7 +302,8 @@ class _LoadProviderReviewPageState extends State<LoadProviderReviewPage> {
               initialRating: therapistReviewList.ratingsCount.toDouble(),
               minRating: 1,
               direction: Axis.horizontal,
-              allowHalfRating: true,
+              allowHalfRating: false,
+              ignoreGestures: true,
               itemCount: 5,
               itemSize: 24.0,
               itemPadding: new EdgeInsets.only(bottom: 3.0),
@@ -561,7 +562,7 @@ class _LoadProviderReviewRatingsByIdState
               initialRating: therapistReviewList.ratingsCount.toDouble(),
               minRating: 1,
               direction: Axis.horizontal,
-              allowHalfRating: true,
+              allowHalfRating: false,ignoreGestures: true,
               itemCount: 5,
               itemSize: 24.0,
               itemPadding: new EdgeInsets.only(bottom: 3.0),
@@ -584,7 +585,7 @@ class _LoadProviderReviewRatingsByIdState
                             height: 13.0,
                             width: 13.0,
                             //color: Colors.black,
-                          ), 
+                          ),
                   )),
               onRatingUpdate: (rating) {
                 print(rating);

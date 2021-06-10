@@ -79,6 +79,7 @@ class GetSearchResultsRepositoryImpl implements GetSearchResultsRepository {
                   "keyword": HealingMatchConstants.searchKeyWordValue,
                   "latitude": HealingMatchConstants.searchAddressLatitude,
                   "longitude": HealingMatchConstants.searchAddressLongitude,
+                  "type": searchType
                 })
               : json.encode({
                   "userAddress": HealingMatchConstants.searchUserAddress,
@@ -92,6 +93,7 @@ class GetSearchResultsRepositoryImpl implements GetSearchResultsRepository {
                       HealingMatchConstants.searchDistanceRadius,
                   "latitude": HealingMatchConstants.searchAddressLatitude,
                   "longitude": HealingMatchConstants.searchAddressLongitude,
+                  "type": searchType
                 }));
       print('Search results Type Body : ${response.body}');
       print('statusCode : ${response.statusCode}');
