@@ -256,7 +256,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                               labelStyle: TextStyle(
                                                   color: Colors.grey[400],
                                                   fontFamily: 'NotoSansJP',
-                                                  fontSize: 14),
+                                                  fontSize: 10),
                                               focusColor: Colors.grey[100],
                                               border: HealingMatchConstants
                                                   .textFormInputBorder,

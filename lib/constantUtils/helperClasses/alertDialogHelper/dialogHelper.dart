@@ -246,7 +246,7 @@ class DialogHelper {
           text: 'OK',
           pressEvent: () {
             dialog.dissmiss();
-            // NavigationRouter.switchToServiceUserBottomBar(context);
+            NavigationRouter.switchToServiceUserBottomBar(context);
             // Navigator.pop(context);
           }),
     )..show();

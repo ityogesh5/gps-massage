@@ -304,7 +304,7 @@ class _DetailPeofileDetailsHomeState extends State<DetailPeofileDetailsHome> {
                         colorClickableText: Colors.black,
                         trimMode: TrimMode.Line,
                         trimCollapsedText: 'もっとみる',
-                        trimExpandedText: 'Show less',
+                        trimExpandedText: '閉じる',
                         moreStyle: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,

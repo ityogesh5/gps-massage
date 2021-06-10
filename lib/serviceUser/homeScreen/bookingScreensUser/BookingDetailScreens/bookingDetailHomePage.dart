@@ -329,9 +329,21 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                         ? buildOldBookingDetails(context)
                         : Container(),
                     therapistDetails.bookingDataResponse.length != 0 &&
-                            therapistDetails
-                                    .bookingDataResponse[0].bookingStatus !=
-                                9
+                            !(therapistDetails
+                                        .bookingDataResponse[0].bookingStatus ==
+                                    9 ||
+                                therapistDetails
+                                        .bookingDataResponse[0].bookingStatus ==
+                                    4 ||
+                                therapistDetails
+                                        .bookingDataResponse[0].bookingStatus ==
+                                    5 ||
+                                therapistDetails
+                                        .bookingDataResponse[0].bookingStatus ==
+                                    7 ||
+                                therapistDetails
+                                        .bookingDataResponse[0].bookingStatus ==
+                                    8)
                         ? buildBookingDetails(context)
                         : buildServiceTypeDatas(context),
                     // : buildServiceTypeDatas
@@ -375,7 +387,9 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                             : therapistDetails
                                         .bookingDataResponse[0].bookingStatus ==
                                     6
-                                ? Container()
+                                ? Container(
+                                    height: 0.0,
+                                  )
                                 : bookAgain(),
           );
   }
@@ -1354,60 +1368,63 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
       showCloseIcon: true,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              'マッサージのためにセラピストの店舗に行きたいですか？',
-              style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'NotoSansJP'),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            ButtonTheme(
-              minWidth: MediaQuery.of(context).size.width * 0.33,
-              child: CustomToggleButton(
-                initialValue: 0,
-                elevation: 0,
-                height: 50.0,
-                width: MediaQuery.of(context).size.width * 0.33,
-                autoWidth: false,
-                buttonColor: Color.fromRGBO(217, 217, 217, 1),
-                enableShape: true,
-                customShape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    side: BorderSide(color: Colors.transparent)),
-                buttonLables: ["はい", "いいえ"],
-                fontSize: 16.0,
-                buttonValues: [
-                  "Y",
-                  "N",
-                ],
-                radioButtonValue: (value) {
-                  if (value == 'Y') {
-                    if (this.mounted) {
-                      setState(() {
-                        shopLocationSelected = true;
-                        HealingMatchConstants.bookingAddressId =
-                            therapistDetails.data.addresses[0].id;
-                        dialog.dissmiss();
-                      });
-                    }
-                  } else {
-                    dialog.dissmiss();
-                    getUserAddressValues();
-                  }
-                  print('Radio value : $value');
-                },
-                selectedColor: Color.fromRGBO(200, 217, 33, 1),
+        child: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                'マッサージのためにセラピストの店舗に行きたいですか？',
+                style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'NotoSansJP'),
               ),
-            ),
-          ],
+              SizedBox(
+                height: 10,
+              ),
+              ButtonTheme(
+                minWidth: MediaQuery.of(context).size.width * 0.33,
+                child: CustomToggleButton(
+                  initialValue: 0,
+                  elevation: 0,
+                  height: 50.0,
+                  width: MediaQuery.of(context).size.width * 0.33,
+                  autoWidth: false,
+                  buttonColor: Color.fromRGBO(217, 217, 217, 1),
+                  enableShape: true,
+                  customShape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      side: BorderSide(color: Colors.transparent)),
+                  buttonLables: ["はい", "いいえ"],
+                  fontSize: 16.0,
+                  buttonValues: [
+                    "Y",
+                    "N",
+                  ],
+                  radioButtonValue: (value) {
+                    if (value == 'Y') {
+                      if (this.mounted) {
+                        setState(() {
+                          shopLocationSelected = true;
+                          HealingMatchConstants.bookingAddressId =
+                              therapistDetails.data.addresses[0].id;
+                          // dialog.dissmiss();
+                        });
+                      }
+                    } else {
+                      // dialog.dissmiss();
+
+                      getUserAddressValues();
+                    }
+                    print('Radio value : $value');
+                  },
+                  selectedColor: Color.fromRGBO(200, 217, 33, 1),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     )..show();
@@ -1746,6 +1763,23 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
   Column buildServiceTypeDatas(BuildContext context) {
     return Column(
       children: [
+        Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 4.0,
+                left: 14.0,
+                bottom: 4.0,
+              ),
+              child: Text(
+                "受けたい施術を選んでください",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
