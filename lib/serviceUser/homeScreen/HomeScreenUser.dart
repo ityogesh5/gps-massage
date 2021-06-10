@@ -751,7 +751,7 @@ class _LoadHomePageState extends State<LoadHomePage> {
           ),
           BuildMassageTypeChips(),
           BuildProviderUsers(getTherapistProfiles: widget.getTherapistProfiles),
-          status == 0
+          bookingDetailsList.length == 0
               ? Center(child: CircularProgressIndicator())
               : ReservationList(),
           Padding(
@@ -2316,33 +2316,99 @@ class _ReservationListState extends State<ReservationList> {
                                 child: Row(
                                   children: [
                                     Text(
-                                        '${bookingDetailsList[0].reviewAvgData}',
+                                        bookingDetailsList[0].reviewAvgData ==
+                                                null
+                                            ? "0.00"
+                                            : '${bookingDetailsList[0].reviewAvgData}',
                                         style: TextStyle(
                                             color: Color.fromRGBO(0, 0, 0, 1),
                                             fontFamily:
                                                 ColorConstants.fontFamily)),
-                                    RatingBar.builder(
-                                      initialRating: double.parse(
-                                          bookingDetailsList[0].reviewAvgData),
-                                      minRating: 1,
-                                      direction: Axis.horizontal,
-                                      allowHalfRating: true,
-                                      ignoreGestures: true,
-                                      itemCount: 5,
-                                      itemSize: 22,
-                                      itemPadding:
-                                          EdgeInsets.symmetric(horizontal: 4.0),
-                                      itemBuilder: (context, _) => Icon(
-                                        Icons.star,
-                                        size: 5,
-                                        color: Color.fromRGBO(255, 217, 0, 1),
-                                      ),
-                                      onRatingUpdate: (rating) {
-                                        // print(rating);
-                                      },
-                                    ),
+                                    bookingDetailsList[0].reviewAvgData ==
+                                                null ||
+                                            bookingDetailsList[0]
+                                                    .reviewAvgData ==
+                                                "0.00"
+                                        ? RatingBar.builder(
+                                            initialRating: 0.00,
+                                            minRating: 1,
+                                            direction: Axis.horizontal,
+                                            allowHalfRating: false,
+                                            itemCount: 5,
+                                            itemSize: 24.0,
+                                            ignoreGestures: true,
+                                            itemPadding: new EdgeInsets.only(
+                                                bottom: 3.0),
+                                            itemBuilder: (context, rindex) {
+                                            return  new SizedBox(
+                                                  height: 20.0,
+                                                  width: 18.0,
+                                                  child: new IconButton(
+                                                      onPressed: () {},
+                                                      padding:
+                                                          new EdgeInsets.all(
+                                                              0.0),
+                                                      // color: Colors.white,
+                                                      icon: SvgPicture.asset(
+                                                        "assets/images_gps/star_2.svg",
+                                                        height: 13.0,
+                                                        width: 13.0,
+                                                      )));
+                                            },
+                                            onRatingUpdate: (rating) {
+                                              print(rating);
+                                            },
+                                          )
+                                        : RatingBar.builder(
+                                            initialRating: double.parse(
+                                                bookingDetailsList[0]
+                                                    .reviewAvgData),
+                                            minRating: 1,
+                                            direction: Axis.horizontal,
+                                            allowHalfRating: false,
+                                            itemCount: 5,
+                                            itemSize: 24.0,
+                                            ignoreGestures: true,
+                                            itemPadding: new EdgeInsets.only(
+                                                bottom: 3.0),
+                                            itemBuilder: (context, rindex) {
+                                              return new SizedBox(
+                                                  height: 20.0,
+                                                  width: 18.0,
+                                                  child: new IconButton(
+                                                    onPressed: () {},
+                                                    padding:
+                                                        new EdgeInsets.all(0.0),
+                                                    // color: Colors.white,
+                                                    icon: rindex >
+                                                            double.parse(bookingDetailsList[
+                                                                            0]
+                                                                        .reviewAvgData)
+                                                                    .ceilToDouble() -
+                                                                1
+                                                        ? SvgPicture.asset(
+                                                            "assets/images_gps/star_2.svg",
+                                                            height: 13.0,
+                                                            width: 13.0,
+                                                          )
+                                                        : SvgPicture.asset(
+                                                            "assets/images_gps/star_colour.svg",
+                                                            height: 13.0,
+                                                            width: 13.0,
+                                                            //color: Colors.black,
+                                                          ),
+                                                  ));
+                                            },
+                                            onRatingUpdate: (rating) {
+                                              print(rating);
+                                            },
+                                          ),
                                     Text(
-                                        '(${bookingDetailsList[0].noOfReviewsMembers})',
+                                        bookingDetailsList[0]
+                                                    .noOfReviewsMembers ==
+                                                null
+                                            ? "0.00"
+                                            : '(${bookingDetailsList[0].noOfReviewsMembers})',
                                         style: TextStyle(
                                             color: Color.fromRGBO(0, 0, 0, 1),
                                             fontFamily:
@@ -2477,7 +2543,7 @@ class _ReservationListState extends State<ReservationList> {
                           SizedBox(
                             width: 5,
                           ),
-                          Text(
+                          /*  Text(
                             '${bookingDetailsList[0].location}',
                             maxLines: bookingDetailsList[0].location.length > 25
                                 ? 2
@@ -2485,7 +2551,7 @@ class _ReservationListState extends State<ReservationList> {
                             style: TextStyle(
                               color: Color.fromRGBO(102, 102, 102, 1),
                             ),
-                          ),
+                          ), */
                         ],
                       ),
                     ),
