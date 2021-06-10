@@ -460,48 +460,60 @@ class _FavoriteState extends State<Favorite> {
                                                                     MainAxisAlignment
                                                                         .spaceBetween,
                                                                 children: [
-                                                                  favouriteUserList[
-                                                                              index]
-                                                                          .favouriteTherapistId
-                                                                          .isShop
-                                                                      ? Padding(
-                                                                          padding:
-                                                                              const EdgeInsets.only(top: 3.0),
-                                                                          child: buildProileDetailCard(
-                                                                              "店舗",
-                                                                              12.0),
-                                                                        )
-                                                                      : Container(),
+                                                                  Visibility(
+                                                                    visible: favouriteUserList[
+                                                                            index]
+                                                                        .favouriteTherapistId
+                                                                        .isShop,
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          top:
+                                                                              3.0),
+                                                                      child: buildProileDetailCard(
+                                                                          "店舗",
+                                                                          12.0),
+                                                                    ),
+                                                                  ),
                                                                   SizedBox(
                                                                     width: 5,
                                                                   ),
-                                                                  favouriteUserList[
-                                                                              index]
-                                                                          .favouriteTherapistId
-                                                                          .businessTrip
-                                                                      ? Padding(
-                                                                          padding:
-                                                                              const EdgeInsets.only(top: 3.0),
-                                                                          child: buildProileDetailCard(
-                                                                              "出張",
-                                                                              12.0),
-                                                                        )
-                                                                      : Container(),
+                                                                  Visibility(
+                                                                    visible: favouriteUserList[
+                                                                            index]
+                                                                        .favouriteTherapistId
+                                                                        .businessTrip,
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          top:
+                                                                              3.0),
+                                                                      child: buildProileDetailCard(
+                                                                          "出張",
+                                                                          12.0),
+                                                                    ),
+                                                                  ),
                                                                   SizedBox(
                                                                     width: 5,
                                                                   ),
-                                                                  favouriteUserList[
-                                                                              index]
-                                                                          .favouriteTherapistId
-                                                                          .coronaMeasure
-                                                                      ? Padding(
-                                                                          padding:
-                                                                              const EdgeInsets.only(top: 3.0),
-                                                                          child: buildProileDetailCard(
-                                                                              "コロナ対策実施",
-                                                                              12.0),
-                                                                        )
-                                                                      : Container(),
+                                                                  Visibility(
+                                                                    visible: favouriteUserList[
+                                                                            index]
+                                                                        .favouriteTherapistId
+                                                                        .coronaMeasure,
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          top:
+                                                                              3.0),
+                                                                      child: buildProileDetailCard(
+                                                                          "コロナ対策実施",
+                                                                          12.0),
+                                                                    ),
+                                                                  ),
                                                                 ],
                                                               ),
                                                             ),

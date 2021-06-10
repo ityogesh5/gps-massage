@@ -266,9 +266,11 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                               ],
                             ),
                             SizedBox(
-                              height: certificateImages != null ? 5.0 : 0.0,
+                              height: certificateImages.keys.length != null
+                                  ? 5.0
+                                  : 0.0,
                             ),
-                            certificateImages != null
+                            certificateImages.keys.length != null
                                 ? Container(
                                     height: 30.0,
                                     width: MediaQuery.of(context).size.width -
