@@ -258,6 +258,10 @@ class _RegistrationSuccessOtpScreenState
         sharedPreferences.setBool('isProviderRegister', true);
         final vrfyOtp = json.decode(response.body);
         UserVerifyOtp = VerifyOtpModel.fromJson(vrfyOtp);
+        HealingMatchConstants.estheticServicePriceModel.clear();
+        HealingMatchConstants.relaxationServicePriceModel.clear();
+        HealingMatchConstants.treatmentServicePriceModel.clear();
+        HealingMatchConstants.fitnessServicePriceModel.clear();
         ProgressDialogBuilder.hideVerifyOtpProgressDialog(context);
         DialogHelper.showProviderRegisterSuccessDialog(context);
         HealingMatchConstants.isUserVerified = true;

@@ -464,16 +464,18 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   },
                   onChanged: (value) {
                     setState(() {
-                      if (value == "施術店舗なし 施術従業員あり（出張のみ)") {
+                      if (value == "施術店舗なし 施術従業員あり（出張のみ)" ||
+                          value == "施術店舗なし 施術従業員なし（個人)") {
                         serviceBusinessTrips = "はい";
                         businessTripEnabled = false;
                       } else {
-                        businessTripEnabled = true;
-                      }
-                      if (bussinessForm == "施術店舗なし 施術従業員あり（出張のみ)") {
                         serviceBusinessTrips = "";
                         businessTripEnabled = true;
                       }
+                     /*  if (bussinessForm != "施術店舗なし 施術従業員あり（出張のみ)") {
+                        serviceBusinessTrips = "";
+                        businessTripEnabled = true;
+                      } */
                       bussinessForm = value;
 
                       FocusScope.of(context).requestFocus(new FocusNode());
