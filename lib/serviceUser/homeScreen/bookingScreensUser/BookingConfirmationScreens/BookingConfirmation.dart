@@ -313,15 +313,17 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                             SvgPicture.asset('assets/images_gps/gps.svg',
                                 height: 25, width: 25),
                             SizedBox(width: 5),
-                            FittedBox(
-                              child: Text(
-                                '${HealingMatchConstants.confAddress}',
-                                softWrap: true,
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'NotoSansJP'),
+                            Flexible(
+                              child: Container(
+                                child: Text(
+                                  '${HealingMatchConstants.confAddress}',
+                                  softWrap: true,
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'NotoSansJP'),
+                                ),
                               ),
                             ),
                           ]),

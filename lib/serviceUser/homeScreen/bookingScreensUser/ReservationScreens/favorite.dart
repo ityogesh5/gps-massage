@@ -668,16 +668,22 @@ class _FavoriteState extends State<Favorite> {
                                                         SizedBox(
                                                           width: 7,
                                                         ),
-                                                        Text(
-                                                          '${favouriteUserList[index].favouriteTherapistId.addresses[0].address}',
-                                                          style: TextStyle(
-                                                              color: Color
-                                                                  .fromRGBO(0,
-                                                                      0, 0, 1),
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
+
+                                                        Flexible(
+                                                          child: Text(
+                                                            '${favouriteUserList[index].favouriteTherapistId.addresses[0].address}',
+                                                            style: TextStyle(
+                                                                color: Color
+                                                                    .fromRGBO(
+                                                                        0,
+                                                                        0,
+                                                                        0,
+                                                                        1),
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
                                                         ),
                                                         // Spacer(),
                                                       ],

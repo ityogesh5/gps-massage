@@ -897,36 +897,34 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                           color: Colors.grey[
                                                                               200]),
                                                                   child:
-                                                                      FittedBox(
-                                                                    child:
-                                                                        Container(
-                                                                      child:
-                                                                          Text(
-                                                                        '${waitingForApprovalList[index].locationType}',
-                                                                        style:
-                                                                            TextStyle(
-                                                                          color: Color.fromRGBO(
-                                                                              0,
-                                                                              0,
-                                                                              0,
-                                                                              1),
-                                                                        ),
+                                                                      Container(
+                                                                    child: Text(
+                                                                      '${waitingForApprovalList[index].locationType}',
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: Color.fromRGBO(
+                                                                            0,
+                                                                            0,
+                                                                            0,
+                                                                            1),
                                                                       ),
                                                                     ),
                                                                   )),
                                                               SizedBox(
                                                                 width: 5,
                                                               ),
-                                                              Text(
-                                                                '${waitingForApprovalList[index].location}',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Color
-                                                                      .fromRGBO(
-                                                                          152,
-                                                                          152,
-                                                                          152,
-                                                                          1),
+                                                              Flexible(
+                                                                child: Text(
+                                                                  '${waitingForApprovalList[index].location}',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Color
+                                                                        .fromRGBO(
+                                                                            152,
+                                                                            152,
+                                                                            152,
+                                                                            1),
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ],
@@ -1588,40 +1586,44 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                           SizedBox(
                                                             height: 10,
                                                           ),
-                                                          FittedBox(
-                                                            child: Row(
-                                                              children: [
-                                                                FittedBox(
-                                                                  child: Container(
-                                                                      padding: EdgeInsets.all(4),
-                                                                      decoration: BoxDecoration(
-                                                                          gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
-                                                                            Colors.white,
-                                                                            Colors.white,
-                                                                          ]),
-                                                                          shape: BoxShape.rectangle,
-                                                                          border: Border.all(
-                                                                            color:
-                                                                                Colors.grey[300],
-                                                                          ),
-                                                                          borderRadius: BorderRadius.circular(5.0),
-                                                                          color: Colors.grey[200]),
-                                                                      child: Text(
-                                                                        '${approvedWithConditionsList[index].locationType}',
-                                                                        style:
-                                                                            TextStyle(
-                                                                          color: Color.fromRGBO(
+                                                          Row(
+                                                            children: [
+                                                              Container(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              4),
+                                                                  decoration: BoxDecoration(
+                                                                      gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                                                                        Colors
+                                                                            .white,
+                                                                        Colors
+                                                                            .white,
+                                                                      ]),
+                                                                      shape: BoxShape.rectangle,
+                                                                      border: Border.all(
+                                                                        color: Colors
+                                                                            .grey[300],
+                                                                      ),
+                                                                      borderRadius: BorderRadius.circular(5.0),
+                                                                      color: Colors.grey[200]),
+                                                                  child: Text(
+                                                                    '${approvedWithConditionsList[index].locationType}',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color: Color
+                                                                          .fromRGBO(
                                                                               0,
                                                                               0,
                                                                               0,
                                                                               1),
-                                                                        ),
-                                                                      )),
-                                                                ),
-                                                                SizedBox(
-                                                                  width: 5,
-                                                                ),
-                                                                Text(
+                                                                    ),
+                                                                  )),
+                                                              SizedBox(
+                                                                width: 5,
+                                                              ),
+                                                              Flexible(
+                                                                child: Text(
                                                                   '  ${approvedWithConditionsList[index].location}',
                                                                   style:
                                                                       TextStyle(
@@ -1633,8 +1635,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                             1),
                                                                   ),
                                                                 ),
-                                                              ],
-                                                            ),
+                                                              ),
+                                                            ],
                                                           ),
                                                           SizedBox(
                                                             height: 10,
@@ -2296,42 +2298,44 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                           SizedBox(
                                                             height: 10,
                                                           ),
-                                                          FittedBox(
-                                                            child: Row(
-                                                              children: [
-                                                                Container(
-                                                                    padding:
-                                                                        EdgeInsets
-                                                                            .all(4),
-                                                                    decoration: BoxDecoration(
-                                                                        gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
-                                                                          Colors
-                                                                              .white,
-                                                                          Colors
-                                                                              .white,
-                                                                        ]),
-                                                                        shape: BoxShape.rectangle,
-                                                                        border: Border.all(
-                                                                          color:
-                                                                              Colors.grey[300],
-                                                                        ),
-                                                                        borderRadius: BorderRadius.circular(5.0),
-                                                                        color: Colors.grey[200]),
-                                                                    child: Text(
-                                                                      '${approvedList[index].locationType}',
-                                                                      style:
-                                                                          TextStyle(
-                                                                        color: Color.fromRGBO(
-                                                                            0,
-                                                                            0,
-                                                                            0,
-                                                                            1),
+                                                          Row(
+                                                            children: [
+                                                              Container(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              4),
+                                                                  decoration: BoxDecoration(
+                                                                      gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                                                                        Colors
+                                                                            .white,
+                                                                        Colors
+                                                                            .white,
+                                                                      ]),
+                                                                      shape: BoxShape.rectangle,
+                                                                      border: Border.all(
+                                                                        color: Colors
+                                                                            .grey[300],
                                                                       ),
-                                                                    )),
-                                                                SizedBox(
-                                                                  width: 5,
-                                                                ),
-                                                                Text(
+                                                                      borderRadius: BorderRadius.circular(5.0),
+                                                                      color: Colors.grey[200]),
+                                                                  child: Text(
+                                                                    '${approvedList[index].locationType}',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color: Color
+                                                                          .fromRGBO(
+                                                                              0,
+                                                                              0,
+                                                                              0,
+                                                                              1),
+                                                                    ),
+                                                                  )),
+                                                              SizedBox(
+                                                                width: 5,
+                                                              ),
+                                                              Flexible(
+                                                                child: Text(
                                                                   '${approvedList[index].location}',
                                                                   style:
                                                                       TextStyle(
@@ -2343,8 +2347,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                             1),
                                                                   ),
                                                                 ),
-                                                              ],
-                                                            ),
+                                                              ),
+                                                            ],
                                                           ),
                                                           SizedBox(
                                                             height: 10,
@@ -3048,52 +3052,54 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                       SizedBox(
                                                         height: 10,
                                                       ),
-                                                      FittedBox(
-                                                        child: Row(
-                                                          children: [
-                                                            Container(
-                                                                padding:
-                                                                    EdgeInsets
-                                                                        .all(4),
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                        gradient: LinearGradient(
-                                                                            begin: Alignment
-                                                                                .topCenter,
-                                                                            end: Alignment
-                                                                                .bottomCenter,
-                                                                            colors: [
-                                                                              Colors.white,
-                                                                              Colors.white,
-                                                                            ]),
-                                                                        shape: BoxShape
-                                                                            .rectangle,
-                                                                        border: Border
-                                                                            .all(
-                                                                          color:
-                                                                              Colors.grey[300],
-                                                                        ),
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(
-                                                                                5.0),
+                                                      Row(
+                                                        children: [
+                                                          Container(
+                                                              padding:
+                                                                  EdgeInsets.all(
+                                                                      4),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                      gradient: LinearGradient(
+                                                                          begin: Alignment
+                                                                              .topCenter,
+                                                                          end: Alignment
+                                                                              .bottomCenter,
+                                                                          colors: [
+                                                                            Colors.white,
+                                                                            Colors.white,
+                                                                          ]),
+                                                                      shape: BoxShape
+                                                                          .rectangle,
+                                                                      border:
+                                                                          Border
+                                                                              .all(
                                                                         color: Colors
-                                                                            .grey[200]),
-                                                                child: Text(
-                                                                  '${confirmedPaymentList[index].locationType}',
-                                                                  style:
-                                                                      TextStyle(
-                                                                    color: Color
-                                                                        .fromRGBO(
-                                                                            0,
-                                                                            0,
-                                                                            0,
-                                                                            1),
-                                                                  ),
-                                                                )),
-                                                            SizedBox(
-                                                              width: 5,
-                                                            ),
-                                                            Text(
+                                                                            .grey[300],
+                                                                      ),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              5.0),
+                                                                      color: Colors
+                                                                              .grey[
+                                                                          200]),
+                                                              child: Text(
+                                                                '${confirmedPaymentList[index].locationType}',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          0,
+                                                                          0,
+                                                                          0,
+                                                                          1),
+                                                                ),
+                                                              )),
+                                                          SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          Flexible(
+                                                            child: Text(
                                                               '${confirmedPaymentList[index].location}',
                                                               style: TextStyle(
                                                                 color: Color
@@ -3104,8 +3110,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         1),
                                                               ),
                                                             ),
-                                                          ],
-                                                        ),
+                                                          ),
+                                                        ],
                                                       ),
                                                       SizedBox(
                                                         height: 10,
@@ -3716,52 +3722,54 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                       SizedBox(
                                                         height: 10,
                                                       ),
-                                                      FittedBox(
-                                                        child: Row(
-                                                          children: [
-                                                            Container(
-                                                                padding:
-                                                                    EdgeInsets
-                                                                        .all(4),
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                        gradient: LinearGradient(
-                                                                            begin: Alignment
-                                                                                .topCenter,
-                                                                            end: Alignment
-                                                                                .bottomCenter,
-                                                                            colors: [
-                                                                              Colors.white,
-                                                                              Colors.white,
-                                                                            ]),
-                                                                        shape: BoxShape
-                                                                            .rectangle,
-                                                                        border: Border
-                                                                            .all(
-                                                                          color:
-                                                                              Colors.grey[300],
-                                                                        ),
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(
-                                                                                5.0),
+                                                      Row(
+                                                        children: [
+                                                          Container(
+                                                              padding:
+                                                                  EdgeInsets.all(
+                                                                      4),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                      gradient: LinearGradient(
+                                                                          begin: Alignment
+                                                                              .topCenter,
+                                                                          end: Alignment
+                                                                              .bottomCenter,
+                                                                          colors: [
+                                                                            Colors.white,
+                                                                            Colors.white,
+                                                                          ]),
+                                                                      shape: BoxShape
+                                                                          .rectangle,
+                                                                      border:
+                                                                          Border
+                                                                              .all(
                                                                         color: Colors
-                                                                            .grey[200]),
-                                                                child: Text(
-                                                                  '${canceledReservationList[index].locationType}',
-                                                                  style:
-                                                                      TextStyle(
-                                                                    color: Color
-                                                                        .fromRGBO(
-                                                                            0,
-                                                                            0,
-                                                                            0,
-                                                                            1),
-                                                                  ),
-                                                                )),
-                                                            SizedBox(
-                                                              width: 5,
-                                                            ),
-                                                            Text(
+                                                                            .grey[300],
+                                                                      ),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              5.0),
+                                                                      color: Colors
+                                                                              .grey[
+                                                                          200]),
+                                                              child: Text(
+                                                                '${canceledReservationList[index].locationType}',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          0,
+                                                                          0,
+                                                                          0,
+                                                                          1),
+                                                                ),
+                                                              )),
+                                                          SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          Flexible(
+                                                            child: Text(
                                                               '${canceledReservationList[index].location}',
                                                               style: TextStyle(
                                                                 color: Color
@@ -3772,8 +3780,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         1),
                                                               ),
                                                             ),
-                                                          ],
-                                                        ),
+                                                          ),
+                                                        ],
                                                       ),
                                                       SizedBox(
                                                         height: 10,

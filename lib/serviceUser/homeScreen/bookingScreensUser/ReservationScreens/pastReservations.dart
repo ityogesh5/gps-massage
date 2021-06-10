@@ -1011,13 +1011,6 @@ class _PastReservationsState extends State<PastReservations> {
                                                       Flexible(
                                                         child: Text(
                                                           '${bookingDetailsList[index].location}',
-                                                          maxLines: bookingDetailsList[
-                                                                          index]
-                                                                      .location
-                                                                      .length >
-                                                                  10
-                                                              ? 2
-                                                              : 1,
                                                           style: TextStyle(
                                                             color:
                                                                 Color.fromRGBO(
