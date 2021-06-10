@@ -26,7 +26,7 @@ class GetSearchResultsRepositoryImpl implements GetSearchResultsRepository {
             "x-access-token": HealingMatchConstants.accessToken
           },
           body: json.encode({
-            "searchKeyword": HealingMatchConstants.searchKeyWordValue,
+            "keyword": HealingMatchConstants.searchKeyWordValue,
             "userAddress": HealingMatchConstants.searchUserAddress,
             "serviceType": HealingMatchConstants.serviceType,
             "serviceLocationCriteria": HealingMatchConstants.isLocationCriteria,
@@ -68,7 +68,7 @@ class GetSearchResultsRepositoryImpl implements GetSearchResultsRepository {
             "x-access-token": HealingMatchConstants.accessToken
           },
           body: json.encode({
-            "searchKeyword": HealingMatchConstants.searchKeyWordValue,
+            "keyword": HealingMatchConstants.searchKeyWordValue,
             "userAddress": HealingMatchConstants.searchUserAddress,
             "serviceType": HealingMatchConstants.serviceType,
             "serviceLocationCriteria": HealingMatchConstants.isLocationCriteria,

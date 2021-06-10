@@ -222,10 +222,13 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
     }
 
     try {
+      ProgressDialogBuilder.showOverlayLoader(context);
       var cancelBooking = ServiceUserAPIProvider.updateBookingCompeted(
           widget.bookingId, cancelReason);
+      ProgressDialogBuilder.hideLoader(context);
       DialogHelper.showUserBookingCancelDialog(context);
     } catch (e) {
+      ProgressDialogBuilder.hideLoader(context);
       print('cancelException : ${e.toString()}');
     }
   }
