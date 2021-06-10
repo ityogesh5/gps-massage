@@ -2985,7 +2985,9 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
               ? HealingMatchConstants.serviceProviderGenderService
               : '',
       'storeType': storeTypeDisplay,
-      'numberOfEmp': HealingMatchConstants.serviceProviderNumberOfEmpl != null
+      'numberOfEmp': bussinessForm == "施術店舗あり 施術従業員あり" ||
+              bussinessForm == "施術店舗あり 施術従業員なし（個人経営）" ||
+              bussinessForm == "施術店舗なし 施術従業員あり（出張のみ)"
           ? HealingMatchConstants.serviceProviderNumberOfEmpl
           : '0',
       'businessTrip':
@@ -3002,6 +3004,12 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       'bankDetails': json.encode(userData.bankDetails),
       'addressTypeSelection': "直接入力",
       'address': json.encode(userData.addresses), //address update in json
+      "isShop": HealingMatchConstants.serviceProviderBusinessForm ==
+                  "施術店舗あり 施術従業員あり" ||
+              HealingMatchConstants.serviceProviderBusinessForm ==
+                  "施術店舗あり 施術従業員なし（個人経営）"
+          ? "true"
+          : "false"
     });
     if (bussinessForm == "施術店舗あり 施術従業員あり" ||
         bussinessForm == "施術店舗あり 施術従業員なし（個人経営）") {
