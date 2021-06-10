@@ -762,6 +762,28 @@ class NavigationRouter {
         }));
   }
 
+  // Service User Edit Profile Screen Refresh
+  static void switchToServiceUserEditProfileRefreshScreen(
+      BuildContext context, String userProfileImage) {
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    Navigator.of(context).push(PageRouteBuilder(
+        pageBuilder: (context, animation, anotherAnimation) {
+          return UpdateServiceUserDetails(userProfileImage: userProfileImage);
+        },
+        transitionDuration: Duration(milliseconds: 3000),
+        transitionsBuilder: (context, animation, anotherAnimation, child) {
+          animation = CurvedAnimation(
+              curve: HealingMatchConstants.curveList[3], parent: animation);
+          return Align(
+            child: SizeTransition(
+              sizeFactor: animation,
+              child: child,
+              axisAlignment: 0.0,
+            ),
+          );
+        }));
+  }
+
   //User BookingDetailsConfirmedScreen
   static void switchToServiceUserBookingDetailsConfirmedScreen(
       BuildContext context) {

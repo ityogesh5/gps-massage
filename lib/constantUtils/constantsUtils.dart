@@ -313,6 +313,7 @@ class HealingMatchConstants {
   static String serviceUserAddress = '';
 
   static String searchKeyWordValue;
+  static int searchType;
   static var searchAddressLatitude;
   static var searchAddressLongitude;
 

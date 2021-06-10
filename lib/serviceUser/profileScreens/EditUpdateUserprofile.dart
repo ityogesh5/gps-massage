@@ -2756,8 +2756,10 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
   void _getLatLngFromAddress(String subAddress, var position) async {
     try {
-      List<Location> address =
-          await locationFromAddress(subAddress, localeIdentifier: "ja_JP");
+      var splitAddress = subAddress.split(' ');
+      List<Location> address = await locationFromAddress(
+          Platform.isIOS ? "${splitAddress[1]},${splitAddress[0]}" : subAddress,
+          localeIdentifier: "ja_JP");
 
       var searchAddressLatitude = address[0].latitude;
       var searchAddressLongitude = address[0].longitude;
@@ -2778,7 +2780,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           if (value != null && value.status == 'success') {
             print('Sub address edited!!');
             ProgressDialogBuilder.hideLoader(context);
-            NavigationRouter.switchToServiceUserEditProfileScreen(
+            NavigationRouter.switchToServiceUserEditProfileRefreshScreen(
                 context, widget.userProfileImage);
           }
         }).catchError((onError) {

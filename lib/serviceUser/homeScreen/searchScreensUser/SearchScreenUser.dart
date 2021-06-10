@@ -1468,7 +1468,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
         print('Current Search address : $userAddress : '
             '$searchAddressLatitude && '
             '$searchAddressLongitude');
-      //  Navigator.pop(context);
+        //  Navigator.pop(context);
         timeDurationSinceDate(DateTime(
             _cyear,
             _cmonth,
@@ -1540,23 +1540,29 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   }
 
   getAddressType() {
-    if (HealingMatchConstants.isLocationCriteria == true) {
-      HealingMatchConstants.addressTypeValues = 0;
-      HealingMatchConstants.searchUserAddressType = '店舗';
+    if (keywordController.text == "" || keywordController.text == null) {
+      if (HealingMatchConstants.isLocationCriteria == true) {
+        HealingMatchConstants.addressTypeValues = 0;
+        HealingMatchConstants.searchUserAddressType = '店舗';
+      } else {
+        HealingMatchConstants.addressTypeValues = addressTypeValues;
+        HealingMatchConstants.searchUserAddressType = addressTypeName;
+        HealingMatchConstants.bookingAddressId = bookingAddressId;
+        HealingMatchConstants.searchUserAddress = userAddress;
+      }
+      HealingMatchConstants.serviceType = _value;
+      HealingMatchConstants.searchType = 0;
     } else {
-      HealingMatchConstants.addressTypeValues = addressTypeValues;
-      HealingMatchConstants.searchUserAddressType = addressTypeName;
-      HealingMatchConstants.bookingAddressId = bookingAddressId;
-      HealingMatchConstants.searchUserAddress = userAddress;
+      HealingMatchConstants.searchKeyWordValue = keywordController.text;
+      HealingMatchConstants.searchType = 1;
     }
     HealingMatchConstants.searchAddressLatitude = searchAddressLatitude;
     HealingMatchConstants.searchAddressLongitude = searchAddressLongitude;
-    HealingMatchConstants.serviceType = _value;
-
     _getSearchResults();
   }
 
   _getKeywordResults() {
+    HealingMatchConstants.searchType = 1;
     NavigationRouter.switchToUserSearchResult(context);
   }
 

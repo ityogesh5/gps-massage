@@ -25,17 +25,25 @@ class GetSearchResultsRepositoryImpl implements GetSearchResultsRepository {
             "Content-Type": "application/json",
             "x-access-token": HealingMatchConstants.accessToken
           },
-          body: json.encode({
-            "keyword": HealingMatchConstants.searchKeyWordValue,
-            "userAddress": HealingMatchConstants.searchUserAddress,
-            "serviceType": HealingMatchConstants.serviceType,
-            "serviceLocationCriteria": HealingMatchConstants.isLocationCriteria,
-            "serviceTimeCriteria": HealingMatchConstants.isTimeCriteria,
-            "selectedTime": HealingMatchConstants.dateTime.toIso8601String(),
-            "searchDistanceRadius": HealingMatchConstants.searchDistanceRadius,
-            "latitude": HealingMatchConstants.searchAddressLatitude,
-            "longitude": HealingMatchConstants.searchAddressLongitude,
-          }));
+          body: HealingMatchConstants.searchType == 1
+              ? json.encode({
+                  "keyword": HealingMatchConstants.searchKeyWordValue,
+                  "latitude": HealingMatchConstants.searchAddressLatitude,
+                  "longitude": HealingMatchConstants.searchAddressLongitude,
+                })
+              : json.encode({
+                  "userAddress": HealingMatchConstants.searchUserAddress,
+                  "serviceType": HealingMatchConstants.serviceType,
+                  "serviceLocationCriteria":
+                      HealingMatchConstants.isLocationCriteria,
+                  "serviceTimeCriteria": HealingMatchConstants.isTimeCriteria,
+                  "selectedTime":
+                      HealingMatchConstants.dateTime.toIso8601String(),
+                  "searchDistanceRadius":
+                      HealingMatchConstants.searchDistanceRadius,
+                  "latitude": HealingMatchConstants.searchAddressLatitude,
+                  "longitude": HealingMatchConstants.searchAddressLongitude,
+                }));
       print('Search results Body : ${response.body}');
       print('statusCode : ${response.statusCode}');
       if (response.statusCode == 200) {
@@ -67,18 +75,25 @@ class GetSearchResultsRepositoryImpl implements GetSearchResultsRepository {
             "Content-Type": "application/json",
             "x-access-token": HealingMatchConstants.accessToken
           },
-          body: json.encode({
-            "keyword": HealingMatchConstants.searchKeyWordValue,
-            "userAddress": HealingMatchConstants.searchUserAddress,
-            "serviceType": HealingMatchConstants.serviceType,
-            "serviceLocationCriteria": HealingMatchConstants.isLocationCriteria,
-            "serviceTimeCriteria": HealingMatchConstants.isTimeCriteria,
-            "selectedTime": HealingMatchConstants.dateTime.toIso8601String(),
-            "searchDistanceRadius": HealingMatchConstants.searchDistanceRadius,
-            "latitude": HealingMatchConstants.searchAddressLatitude,
-            "longitude": HealingMatchConstants.searchAddressLongitude,
-            "type": searchType,
-          }));
+          body: HealingMatchConstants.searchType == 1
+              ? json.encode({
+                  "keyword": HealingMatchConstants.searchKeyWordValue,
+                  "latitude": HealingMatchConstants.searchAddressLatitude,
+                  "longitude": HealingMatchConstants.searchAddressLongitude,
+                })
+              : json.encode({
+                  "userAddress": HealingMatchConstants.searchUserAddress,
+                  "serviceType": HealingMatchConstants.serviceType,
+                  "serviceLocationCriteria":
+                      HealingMatchConstants.isLocationCriteria,
+                  "serviceTimeCriteria": HealingMatchConstants.isTimeCriteria,
+                  "selectedTime":
+                      HealingMatchConstants.dateTime.toIso8601String(),
+                  "searchDistanceRadius":
+                      HealingMatchConstants.searchDistanceRadius,
+                  "latitude": HealingMatchConstants.searchAddressLatitude,
+                  "longitude": HealingMatchConstants.searchAddressLongitude,
+                }));
       print('Search results Type Body : ${response.body}');
       print('statusCode : ${response.statusCode}');
       if (response.statusCode == 200) {
