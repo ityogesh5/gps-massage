@@ -582,7 +582,9 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                                   .getRecommendedTherapists[index].user.id;
                               NavigationRouter
                                   .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                      context, userID);
+                                      context,
+                                      widget.getRecommendedTherapists[index]
+                                          .user.id);
                             },
                             child: Card(
                               elevation: 0.0,
@@ -964,7 +966,12 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                                                           .id;
                                                       NavigationRouter
                                                           .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                                              context, userID);
+                                                              context,
+                                                              widget
+                                                                  .getRecommendedTherapists[
+                                                                      index]
+                                                                  .user
+                                                                  .id);
                                                     },
                                                     child: ListView.builder(
                                                         shrinkWrap: true,

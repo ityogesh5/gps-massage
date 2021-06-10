@@ -288,7 +288,7 @@ class _DetailProfileDetailsState extends State<DetailProfileDetails> {
                         colorClickableText: Colors.black,
                         trimMode: TrimMode.Line,
                         trimCollapsedText: 'もっとみる',
-                        trimExpandedText: 'Show less',
+                        trimExpandedText: '閉じる',
                         moreStyle: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,

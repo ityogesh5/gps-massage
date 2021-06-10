@@ -273,8 +273,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                               null &&
                                           HealingMatchConstants
                                               .isUserRegistrationSkipped) {
-                                        DialogHelper.showUserAddAddressDialog(
-                                            context);
+                                        DialogHelper
+                                            .showUserLoginOrRegisterDialog(
+                                                context);
                                       } else {
                                         /*  NavigationRouter
                                             .switchToServiceUserBottomBarViewProfile(
