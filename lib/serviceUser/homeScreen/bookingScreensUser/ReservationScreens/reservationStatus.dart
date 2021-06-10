@@ -735,40 +735,95 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         child:
                                                                             Row(
                                                                           children: [
-                                                                            Text(
-                                                                              '(${waitingForApprovalList[index].reviewAvgData})',
-                                                                              style: TextStyle(
-                                                                                color: Color.fromRGBO(153, 153, 153, 1),
-                                                                              ),
-                                                                            ),
-                                                                            RatingBar.builder(
-                                                                              initialRating: double.parse(waitingForApprovalList[index].reviewAvgData),
-                                                                              minRating: 1,
-                                                                              direction: Axis.horizontal,
-                                                                              allowHalfRating: true,
-                                                                              ignoreGestures: true,
-                                                                              itemCount: 5,
-                                                                              itemSize: 25,
-                                                                              itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                                                                              itemBuilder: (context, _) => Icon(
-                                                                                Icons.star,
-                                                                                size: 5,
-                                                                                color: Color.fromRGBO(255, 217, 0, 1),
-                                                                              ),
-                                                                              onRatingUpdate: (rating) {
-                                                                                // print(rating);
-                                                                                setState(() {
-                                                                                  ratingsValue = rating;
-                                                                                });
-                                                                                print(ratingsValue);
-                                                                              },
-                                                                            ),
-                                                                            Text(
-                                                                              '(${waitingForApprovalList[index].noOfReviewsMembers})',
-                                                                              style: TextStyle(
-                                                                                color: Color.fromRGBO(153, 153, 153, 1),
-                                                                              ),
-                                                                            ),
+                                                                            waitingForApprovalList[index].reviewAvgData == null || waitingForApprovalList[index].reviewAvgData == "0.00"
+                                                                                ? Text(
+                                                                                    '(0.00)',
+                                                                                    style: TextStyle(
+                                                                                      color: Color.fromRGBO(153, 153, 153, 1),
+                                                                                    ),
+                                                                                  )
+                                                                                : Text(
+                                                                                    '(${waitingForApprovalList[index].reviewAvgData})',
+                                                                                    style: TextStyle(
+                                                                                      color: Color.fromRGBO(153, 153, 153, 1),
+                                                                                    ),
+                                                                                  ),
+                                                                            waitingForApprovalList[index].reviewAvgData == null || waitingForApprovalList[index].reviewAvgData == "0.00"
+                                                                                ? RatingBar.builder(
+                                                                                    initialRating: 0.00,
+                                                                                    minRating: 1,
+                                                                                    direction: Axis.horizontal,
+                                                                                    allowHalfRating: false,
+                                                                                    itemCount: 5,
+                                                                                    itemSize: 24.0,
+                                                                                    ignoreGestures: true,
+                                                                                    itemPadding: new EdgeInsets.only(bottom: 3.0),
+                                                                                    itemBuilder: (context, rindex) {
+                                                                                      return new SizedBox(
+                                                                                          height: 20.0,
+                                                                                          width: 18.0,
+                                                                                          child: new IconButton(
+                                                                                              onPressed: () {},
+                                                                                              padding: new EdgeInsets.all(0.0),
+                                                                                              // color: Colors.white,
+                                                                                              icon: SvgPicture.asset(
+                                                                                                "assets/images_gps/star_2.svg",
+                                                                                                height: 13.0,
+                                                                                                width: 13.0,
+                                                                                              )));
+                                                                                    },
+                                                                                    onRatingUpdate: (rating) {
+                                                                                      print(rating);
+                                                                                    },
+                                                                                  )
+                                                                                : RatingBar.builder(
+                                                                                    initialRating: double.parse(waitingForApprovalList[index].reviewAvgData),
+                                                                                    minRating: 1,
+                                                                                    direction: Axis.horizontal,
+                                                                                    allowHalfRating: false,
+                                                                                    itemCount: 5,
+                                                                                    itemSize: 24.0,
+                                                                                    ignoreGestures: true,
+                                                                                    itemPadding: new EdgeInsets.only(bottom: 3.0),
+                                                                                    itemBuilder: (context, rindex) {
+                                                                                      return new SizedBox(
+                                                                                          height: 20.0,
+                                                                                          width: 18.0,
+                                                                                          child: new IconButton(
+                                                                                            onPressed: () {},
+                                                                                            padding: new EdgeInsets.all(0.0),
+                                                                                            // color: Colors.white,
+                                                                                            icon: rindex > double.parse(waitingForApprovalList[index].reviewAvgData).ceilToDouble() - 1
+                                                                                                ? SvgPicture.asset(
+                                                                                                    "assets/images_gps/star_2.svg",
+                                                                                                    height: 13.0,
+                                                                                                    width: 13.0,
+                                                                                                  )
+                                                                                                : SvgPicture.asset(
+                                                                                                    "assets/images_gps/star_colour.svg",
+                                                                                                    height: 13.0,
+                                                                                                    width: 13.0,
+                                                                                                    //color: Colors.black,
+                                                                                                  ),
+                                                                                          ));
+                                                                                    },
+                                                                                    onRatingUpdate: (rating) {
+                                                                                      print(rating);
+                                                                                    },
+                                                                                  ),
+                                                                            waitingForApprovalList[index].noOfReviewsMembers == null || waitingForApprovalList[index].noOfReviewsMembers == "0.00"
+                                                                                ? Text(
+                                                                                    '(0.00)',
+                                                                                    style: TextStyle(
+                                                                                      color: Color.fromRGBO(153, 153, 153, 1),
+                                                                                    ),
+                                                                                  )
+                                                                                : Text(
+                                                                                    '(${waitingForApprovalList[index].noOfReviewsMembers})',
+                                                                                    style: TextStyle(
+                                                                                      color: Color.fromRGBO(153, 153, 153, 1),
+                                                                                    ),
+                                                                                  ),
                                                                           ],
                                                                         ),
                                                                       ),
@@ -1359,66 +1414,98 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                     ),
                                                                     Row(
                                                                       children: [
-                                                                        Text(
-                                                                          '(${approvedWithConditionsList[index].reviewAvgData})',
-                                                                          style:
-                                                                              TextStyle(
-                                                                            color: Color.fromRGBO(
-                                                                                153,
-                                                                                153,
-                                                                                153,
-                                                                                1),
-                                                                          ),
-                                                                        ),
-                                                                        RatingBar
-                                                                            .builder(
-                                                                          initialRating:
-                                                                              double.parse(approvedWithConditionsList[index].reviewAvgData),
-                                                                          minRating:
-                                                                              1,
-                                                                          direction:
-                                                                              Axis.horizontal,
-                                                                          allowHalfRating:
-                                                                              true,
-                                                                          ignoreGestures:
-                                                                              true,
-                                                                          itemCount:
-                                                                              5,
-                                                                          itemSize:
-                                                                              25,
-                                                                          itemPadding:
-                                                                              EdgeInsets.symmetric(horizontal: 4.0),
-                                                                          itemBuilder: (context, _) =>
-                                                                              Icon(
-                                                                            Icons.star,
-                                                                            size:
-                                                                                5,
-                                                                            color: Color.fromRGBO(
-                                                                                255,
-                                                                                217,
-                                                                                0,
-                                                                                1),
-                                                                          ),
-                                                                          onRatingUpdate:
-                                                                              (rating) {
-                                                                            // print(rating);
-                                                                            setState(() {
-                                                                              ratingsValue = rating;
-                                                                            });
-                                                                            print(ratingsValue);
-                                                                          },
-                                                                        ),
-                                                                        Text(
-                                                                          '(${approvedWithConditionsList[index].noOfReviewsMembers})',
-                                                                          style:
-                                                                              TextStyle(
-                                                                            color: Color.fromRGBO(
-                                                                                153,
-                                                                                153,
-                                                                                153,
-                                                                                1),
-                                                                          ),
-                                                                        ),
+                                                                        approvedWithConditionsList[index].reviewAvgData == null ||
+                                                                                approvedWithConditionsList[index].reviewAvgData == "0.00"
+                                                                            ? Text(
+                                                                                '(0.00)',
+                                                                                style: TextStyle(
+                                                                                  color: Color.fromRGBO(153, 153, 153, 1),
+                                                                                ),
+                                                                              )
+                                                                            : Text(
+                                                                                '(${approvedWithConditionsList[index].reviewAvgData})',
+                                                                                style: TextStyle(
+                                                                                  color: Color.fromRGBO(153, 153, 153, 1),
+                                                                                ),
+                                                                              ),
+                                                                        approvedWithConditionsList[index].reviewAvgData == null ||
+                                                                                approvedWithConditionsList[index].reviewAvgData == "0.00"
+                                                                            ? RatingBar.builder(
+                                                                                initialRating: 0.00,
+                                                                                minRating: 1,
+                                                                                direction: Axis.horizontal,
+                                                                                allowHalfRating: false,
+                                                                                itemCount: 5,
+                                                                                itemSize: 24.0,
+                                                                                ignoreGestures: true,
+                                                                                itemPadding: new EdgeInsets.only(bottom: 3.0),
+                                                                                itemBuilder: (context, rindex) {
+                                                                                  return new SizedBox(
+                                                                                      height: 20.0,
+                                                                                      width: 18.0,
+                                                                                      child: new IconButton(
+                                                                                          onPressed: () {},
+                                                                                          padding: new EdgeInsets.all(0.0),
+                                                                                          // color: Colors.white,
+                                                                                          icon: SvgPicture.asset(
+                                                                                            "assets/images_gps/star_2.svg",
+                                                                                            height: 13.0,
+                                                                                            width: 13.0,
+                                                                                          )));
+                                                                                },
+                                                                                onRatingUpdate: (rating) {
+                                                                                  print(rating);
+                                                                                },
+                                                                              )
+                                                                            : RatingBar.builder(
+                                                                                initialRating: double.parse(approvedWithConditionsList[index].reviewAvgData),
+                                                                                minRating: 1,
+                                                                                direction: Axis.horizontal,
+                                                                                allowHalfRating: false,
+                                                                                itemCount: 5,
+                                                                                itemSize: 24.0,
+                                                                                ignoreGestures: true,
+                                                                                itemPadding: new EdgeInsets.only(bottom: 3.0),
+                                                                                itemBuilder: (context, rindex) {
+                                                                                  return new SizedBox(
+                                                                                      height: 20.0,
+                                                                                      width: 18.0,
+                                                                                      child: new IconButton(
+                                                                                        onPressed: () {},
+                                                                                        padding: new EdgeInsets.all(0.0),
+                                                                                        // color: Colors.white,
+                                                                                        icon: rindex > double.parse(approvedWithConditionsList[index].reviewAvgData).ceilToDouble() - 1
+                                                                                            ? SvgPicture.asset(
+                                                                                                "assets/images_gps/star_2.svg",
+                                                                                                height: 13.0,
+                                                                                                width: 13.0,
+                                                                                              )
+                                                                                            : SvgPicture.asset(
+                                                                                                "assets/images_gps/star_colour.svg",
+                                                                                                height: 13.0,
+                                                                                                width: 13.0,
+                                                                                                //color: Colors.black,
+                                                                                              ),
+                                                                                      ));
+                                                                                },
+                                                                                onRatingUpdate: (rating) {
+                                                                                  print(rating);
+                                                                                },
+                                                                              ),
+                                                                        approvedWithConditionsList[index].noOfReviewsMembers == null ||
+                                                                                approvedWithConditionsList[index].noOfReviewsMembers == "0.00"
+                                                                            ? Text(
+                                                                                '(0.0)',
+                                                                                style: TextStyle(
+                                                                                  color: Color.fromRGBO(153, 153, 153, 1),
+                                                                                ),
+                                                                              )
+                                                                            : Text(
+                                                                                '(${approvedWithConditionsList[index].noOfReviewsMembers})',
+                                                                                style: TextStyle(
+                                                                                  color: Color.fromRGBO(153, 153, 153, 1),
+                                                                                ),
+                                                                              ),
                                                                       ],
                                                                     ),
                                                                     SizedBox(
@@ -2038,66 +2125,98 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                     ),
                                                                     Row(
                                                                       children: [
-                                                                        Text(
-                                                                          '(${approvedList[index].reviewAvgData})',
-                                                                          style:
-                                                                              TextStyle(
-                                                                            color: Color.fromRGBO(
-                                                                                153,
-                                                                                153,
-                                                                                153,
-                                                                                1),
-                                                                          ),
-                                                                        ),
-                                                                        RatingBar
-                                                                            .builder(
-                                                                          initialRating:
-                                                                              double.parse(approvedList[index].reviewAvgData),
-                                                                          minRating:
-                                                                              1,
-                                                                          direction:
-                                                                              Axis.horizontal,
-                                                                          allowHalfRating:
-                                                                              true,
-                                                                          ignoreGestures:
-                                                                              true,
-                                                                          itemCount:
-                                                                              5,
-                                                                          itemSize:
-                                                                              25,
-                                                                          itemPadding:
-                                                                              EdgeInsets.symmetric(horizontal: 4.0),
-                                                                          itemBuilder: (context, _) =>
-                                                                              Icon(
-                                                                            Icons.star,
-                                                                            size:
-                                                                                5,
-                                                                            color: Color.fromRGBO(
-                                                                                255,
-                                                                                217,
-                                                                                0,
-                                                                                1),
-                                                                          ),
-                                                                          onRatingUpdate:
-                                                                              (rating) {
-                                                                            // print(rating);
-                                                                            setState(() {
-                                                                              ratingsValue = rating;
-                                                                            });
-                                                                            print(ratingsValue);
-                                                                          },
-                                                                        ),
-                                                                        Text(
-                                                                          '(${approvedList[index].noOfReviewsMembers})',
-                                                                          style:
-                                                                              TextStyle(
-                                                                            color: Color.fromRGBO(
-                                                                                153,
-                                                                                153,
-                                                                                153,
-                                                                                1),
-                                                                          ),
-                                                                        ),
+                                                                        approvedList[index].reviewAvgData == null ||
+                                                                                approvedList[index].reviewAvgData == "0.00"
+                                                                            ? Text(
+                                                                                '(0.0)',
+                                                                                style: TextStyle(
+                                                                                  color: Color.fromRGBO(153, 153, 153, 1),
+                                                                                ),
+                                                                              )
+                                                                            : Text(
+                                                                                '(${approvedList[index].reviewAvgData})',
+                                                                                style: TextStyle(
+                                                                                  color: Color.fromRGBO(153, 153, 153, 1),
+                                                                                ),
+                                                                              ),
+                                                                        approvedList[index].reviewAvgData == null ||
+                                                                                approvedList[index].reviewAvgData == "0.00"
+                                                                            ? RatingBar.builder(
+                                                                                initialRating: 0.00,
+                                                                                minRating: 1,
+                                                                                direction: Axis.horizontal,
+                                                                                allowHalfRating: false,
+                                                                                itemCount: 5,
+                                                                                itemSize: 24.0,
+                                                                                ignoreGestures: true,
+                                                                                itemPadding: new EdgeInsets.only(bottom: 3.0),
+                                                                                itemBuilder: (context, rindex) {
+                                                                                  return new SizedBox(
+                                                                                      height: 20.0,
+                                                                                      width: 18.0,
+                                                                                      child: new IconButton(
+                                                                                          onPressed: () {},
+                                                                                          padding: new EdgeInsets.all(0.0),
+                                                                                          // color: Colors.white,
+                                                                                          icon: SvgPicture.asset(
+                                                                                            "assets/images_gps/star_2.svg",
+                                                                                            height: 13.0,
+                                                                                            width: 13.0,
+                                                                                          )));
+                                                                                },
+                                                                                onRatingUpdate: (rating) {
+                                                                                  print(rating);
+                                                                                },
+                                                                              )
+                                                                            : RatingBar.builder(
+                                                                                initialRating: double.parse(approvedList[index].reviewAvgData),
+                                                                                minRating: 1,
+                                                                                direction: Axis.horizontal,
+                                                                                allowHalfRating: false,
+                                                                                itemCount: 5,
+                                                                                itemSize: 24.0,
+                                                                                ignoreGestures: true,
+                                                                                itemPadding: new EdgeInsets.only(bottom: 3.0),
+                                                                                itemBuilder: (context, rindex) {
+                                                                                  return new SizedBox(
+                                                                                      height: 20.0,
+                                                                                      width: 18.0,
+                                                                                      child: new IconButton(
+                                                                                        onPressed: () {},
+                                                                                        padding: new EdgeInsets.all(0.0),
+                                                                                        // color: Colors.white,
+                                                                                        icon: rindex > double.parse(approvedList[index].reviewAvgData).ceilToDouble() - 1
+                                                                                            ? SvgPicture.asset(
+                                                                                                "assets/images_gps/star_2.svg",
+                                                                                                height: 13.0,
+                                                                                                width: 13.0,
+                                                                                              )
+                                                                                            : SvgPicture.asset(
+                                                                                                "assets/images_gps/star_colour.svg",
+                                                                                                height: 13.0,
+                                                                                                width: 13.0,
+                                                                                                //color: Colors.black,
+                                                                                              ),
+                                                                                      ));
+                                                                                },
+                                                                                onRatingUpdate: (rating) {
+                                                                                  print(rating);
+                                                                                },
+                                                                              ),
+                                                                        approvedList[index].noOfReviewsMembers == null ||
+                                                                                approvedList[index].noOfReviewsMembers == "0.00"
+                                                                            ? Text(
+                                                                                '(0.0)',
+                                                                                style: TextStyle(
+                                                                                  color: Color.fromRGBO(153, 153, 153, 1),
+                                                                                ),
+                                                                              )
+                                                                            : Text(
+                                                                                '(${approvedList[index].noOfReviewsMembers})',
+                                                                                style: TextStyle(
+                                                                                  color: Color.fromRGBO(153, 153, 153, 1),
+                                                                                ),
+                                                                              ),
                                                                       ],
                                                                     ),
                                                                     SizedBox(
@@ -2812,7 +2931,9 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                 Row(
                                                                   children: [
                                                                     confirmedPaymentList[index].reviewAvgData !=
-                                                                            null
+                                                                                null ||
+                                                                            confirmedPaymentList[index].reviewAvgData !=
+                                                                                "0.00"
                                                                         ? Text(
                                                                             '(${confirmedPaymentList[index].reviewAvgData})',
                                                                             style:
@@ -2827,52 +2948,98 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                               color: Color.fromRGBO(153, 153, 153, 1),
                                                                             ),
                                                                           ),
-                                                                    RatingBar
-                                                                        .builder(
-                                                                      initialRating:
-                                                                          double.parse(
-                                                                              confirmedPaymentList[index].reviewAvgData),
-                                                                      minRating:
-                                                                          1,
-                                                                      direction:
-                                                                          Axis.horizontal,
-                                                                      ignoreGestures:
-                                                                          true,
-                                                                      allowHalfRating:
-                                                                          true,
-                                                                      itemCount:
-                                                                          5,
-                                                                      itemSize:
-                                                                          25,
-                                                                      itemPadding:
-                                                                          EdgeInsets.symmetric(
-                                                                              horizontal: 4.0),
-                                                                      itemBuilder:
-                                                                          (context, _) =>
-                                                                              Icon(
-                                                                        Icons
-                                                                            .star,
-                                                                        size: 5,
-                                                                        color: Color.fromRGBO(
-                                                                            255,
-                                                                            217,
-                                                                            0,
-                                                                            1),
-                                                                      ),
-                                                                      onRatingUpdate:
-                                                                          (rating) {
-                                                                        // print(rating);
-                                                                        setState(
-                                                                            () {
-                                                                          ratingsValue =
-                                                                              rating;
-                                                                        });
-                                                                        print(
-                                                                            ratingsValue);
-                                                                      },
-                                                                    ),
+                                                                    confirmedPaymentList[index].reviewAvgData ==
+                                                                                null ||
+                                                                            confirmedPaymentList[index].reviewAvgData ==
+                                                                                "0.00"
+                                                                        ? RatingBar
+                                                                            .builder(
+                                                                            initialRating:
+                                                                                0.00,
+                                                                            minRating:
+                                                                                1,
+                                                                            direction:
+                                                                                Axis.horizontal,
+                                                                            allowHalfRating:
+                                                                                false,
+                                                                            itemCount:
+                                                                                5,
+                                                                            itemSize:
+                                                                                24.0,
+                                                                            ignoreGestures:
+                                                                                true,
+                                                                            itemPadding:
+                                                                                new EdgeInsets.only(bottom: 3.0),
+                                                                            itemBuilder:
+                                                                                (context, rindex) {
+                                                                              return new SizedBox(
+                                                                                  height: 20.0,
+                                                                                  width: 18.0,
+                                                                                  child: new IconButton(
+                                                                                      onPressed: () {},
+                                                                                      padding: new EdgeInsets.all(0.0),
+                                                                                      // color: Colors.white,
+                                                                                      icon: SvgPicture.asset(
+                                                                                        "assets/images_gps/star_2.svg",
+                                                                                        height: 13.0,
+                                                                                        width: 13.0,
+                                                                                      )));
+                                                                            },
+                                                                            onRatingUpdate:
+                                                                                (rating) {
+                                                                              print(rating);
+                                                                            },
+                                                                          )
+                                                                        : RatingBar
+                                                                            .builder(
+                                                                            initialRating:
+                                                                                double.parse(confirmedPaymentList[index].reviewAvgData),
+                                                                            minRating:
+                                                                                1,
+                                                                            direction:
+                                                                                Axis.horizontal,
+                                                                            allowHalfRating:
+                                                                                false,
+                                                                            itemCount:
+                                                                                5,
+                                                                            itemSize:
+                                                                                24.0,
+                                                                            ignoreGestures:
+                                                                                true,
+                                                                            itemPadding:
+                                                                                new EdgeInsets.only(bottom: 3.0),
+                                                                            itemBuilder:
+                                                                                (context, rindex) {
+                                                                              return new SizedBox(
+                                                                                  height: 20.0,
+                                                                                  width: 18.0,
+                                                                                  child: new IconButton(
+                                                                                    onPressed: () {},
+                                                                                    padding: new EdgeInsets.all(0.0),
+                                                                                    // color: Colors.white,
+                                                                                    icon: rindex > double.parse(confirmedPaymentList[index].reviewAvgData).ceilToDouble() - 1
+                                                                                        ? SvgPicture.asset(
+                                                                                            "assets/images_gps/star_2.svg",
+                                                                                            height: 13.0,
+                                                                                            width: 13.0,
+                                                                                          )
+                                                                                        : SvgPicture.asset(
+                                                                                            "assets/images_gps/star_colour.svg",
+                                                                                            height: 13.0,
+                                                                                            width: 13.0,
+                                                                                            //color: Colors.black,
+                                                                                          ),
+                                                                                  ));
+                                                                            },
+                                                                            onRatingUpdate:
+                                                                                (rating) {
+                                                                              print(rating);
+                                                                            },
+                                                                          ),
                                                                     confirmedPaymentList[index].noOfReviewsMembers !=
-                                                                            null
+                                                                                null ||
+                                                                            confirmedPaymentList[index].noOfReviewsMembers ==
+                                                                                "0.00"
                                                                         ? Text(
                                                                             '(${confirmedPaymentList[index].noOfReviewsMembers})',
                                                                             style:
@@ -3580,61 +3747,112 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                               color: Color.fromRGBO(153, 153, 153, 1),
                                                                             ),
                                                                           ),
-                                                                    RatingBar
-                                                                        .builder(
-                                                                      initialRating:
-                                                                          double.parse(
-                                                                              canceledReservationList[index].reviewAvgData),
-                                                                      minRating:
-                                                                          1,
-                                                                      direction:
-                                                                          Axis.horizontal,
-                                                                      ignoreGestures:
-                                                                          true,
-                                                                      allowHalfRating:
-                                                                          true,
-                                                                      itemCount:
-                                                                          5,
-                                                                      itemSize:
-                                                                          20,
-                                                                      itemPadding:
-                                                                          EdgeInsets.symmetric(
-                                                                              horizontal: 4.0),
-                                                                      itemBuilder:
-                                                                          (context, _) =>
-                                                                              Icon(
-                                                                        Icons
-                                                                            .star,
-                                                                        size: 5,
-                                                                        color: Color.fromRGBO(
-                                                                            255,
-                                                                            217,
-                                                                            0,
-                                                                            1),
-                                                                      ),
-                                                                      onRatingUpdate:
-                                                                          (rating) {
-                                                                        // print(rating);
-                                                                        setState(
-                                                                            () {
-                                                                          ratingsValue =
-                                                                              rating;
-                                                                        });
-                                                                        print(
-                                                                            ratingsValue);
-                                                                      },
-                                                                    ),
-                                                                    Text(
-                                                                      '(${canceledReservationList[index].noOfReviewsMembers})',
-                                                                      style:
-                                                                          TextStyle(
-                                                                        color: Color.fromRGBO(
-                                                                            153,
-                                                                            153,
-                                                                            153,
-                                                                            1),
-                                                                      ),
-                                                                    ),
+                                                                    canceledReservationList[index].reviewAvgData ==
+                                                                                null ||
+                                                                            canceledReservationList[index].reviewAvgData ==
+                                                                                "0.00"
+                                                                        ? RatingBar
+                                                                            .builder(
+                                                                            initialRating:
+                                                                                0.00,
+                                                                            minRating:
+                                                                                1,
+                                                                            direction:
+                                                                                Axis.horizontal,
+                                                                            allowHalfRating:
+                                                                                false,
+                                                                            itemCount:
+                                                                                5,
+                                                                            itemSize:
+                                                                                24.0,
+                                                                            ignoreGestures:
+                                                                                true,
+                                                                            itemPadding:
+                                                                                new EdgeInsets.only(bottom: 3.0),
+                                                                            itemBuilder:
+                                                                                (context, rindex) {
+                                                                              return new SizedBox(
+                                                                                  height: 20.0,
+                                                                                  width: 18.0,
+                                                                                  child: new IconButton(
+                                                                                      onPressed: () {},
+                                                                                      padding: new EdgeInsets.all(0.0),
+                                                                                      // color: Colors.white,
+                                                                                      icon: SvgPicture.asset(
+                                                                                        "assets/images_gps/star_2.svg",
+                                                                                        height: 13.0,
+                                                                                        width: 13.0,
+                                                                                      )));
+                                                                            },
+                                                                            onRatingUpdate:
+                                                                                (rating) {
+                                                                              print(rating);
+                                                                            },
+                                                                          )
+                                                                        : RatingBar
+                                                                            .builder(
+                                                                            initialRating:
+                                                                                double.parse(canceledReservationList[index].reviewAvgData),
+                                                                            minRating:
+                                                                                1,
+                                                                            direction:
+                                                                                Axis.horizontal,
+                                                                            allowHalfRating:
+                                                                                false,
+                                                                            itemCount:
+                                                                                5,
+                                                                            itemSize:
+                                                                                24.0,
+                                                                            ignoreGestures:
+                                                                                true,
+                                                                            itemPadding:
+                                                                                new EdgeInsets.only(bottom: 3.0),
+                                                                            itemBuilder:
+                                                                                (context, rindex) {
+                                                                              return new SizedBox(
+                                                                                  height: 20.0,
+                                                                                  width: 18.0,
+                                                                                  child: new IconButton(
+                                                                                    onPressed: () {},
+                                                                                    padding: new EdgeInsets.all(0.0),
+                                                                                    // color: Colors.white,
+                                                                                    icon: rindex > double.parse(canceledReservationList[index].reviewAvgData).ceilToDouble() - 1
+                                                                                        ? SvgPicture.asset(
+                                                                                            "assets/images_gps/star_2.svg",
+                                                                                            height: 13.0,
+                                                                                            width: 13.0,
+                                                                                          )
+                                                                                        : SvgPicture.asset(
+                                                                                            "assets/images_gps/star_colour.svg",
+                                                                                            height: 13.0,
+                                                                                            width: 13.0,
+                                                                                            //color: Colors.black,
+                                                                                          ),
+                                                                                  ));
+                                                                            },
+                                                                            onRatingUpdate:
+                                                                                (rating) {
+                                                                              print(rating);
+                                                                            },
+                                                                          ),
+                                                                    canceledReservationList[index].noOfReviewsMembers ==
+                                                                                null ||
+                                                                            canceledReservationList[index].noOfReviewsMembers ==
+                                                                                "0.00"
+                                                                        ? Text(
+                                                                            '(0.00)',
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: Color.fromRGBO(153, 153, 153, 1),
+                                                                            ),
+                                                                          )
+                                                                        : Text(
+                                                                            '(${canceledReservationList[index].noOfReviewsMembers})',
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: Color.fromRGBO(153, 153, 153, 1),
+                                                                            ),
+                                                                          ),
                                                                   ],
                                                                 ),
                                                                 SizedBox(

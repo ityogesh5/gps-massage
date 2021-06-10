@@ -523,68 +523,148 @@ class _FavoriteState extends State<Favorite> {
                                                             FittedBox(
                                                               child: Row(
                                                                 children: [
-                                                                  Text(
-                                                                    "  (${favouriteUserList[index].reviewAvgData.toString()})",
-                                                                    style:
-                                                                        TextStyle(
-                                                                      color: Color.fromRGBO(
-                                                                          153,
-                                                                          153,
-                                                                          153,
-                                                                          1),
-                                                                      /* decoration: TextDecoration
+                                                                  favouriteUserList[index].reviewAvgData ==
+                                                                              null ||
+                                                                          favouriteUserList[index].reviewAvgData ==
+                                                                              "0.00"
+                                                                      ? Text(
+                                                                          '(0.0)',
+                                                                          style:
+                                                                              TextStyle(
+                                                                            color: Color.fromRGBO(
+                                                                                153,
+                                                                                153,
+                                                                                153,
+                                                                                1),
+                                                                          ),
+                                                                        )
+                                                                      : Text(
+                                                                          "  (${favouriteUserList[index].reviewAvgData.toString()})",
+                                                                          style:
+                                                                              TextStyle(
+                                                                            color: Color.fromRGBO(
+                                                                                153,
+                                                                                153,
+                                                                                153,
+                                                                                1),
+                                                                            /* decoration: TextDecoration
                                                               .underline,*/
-                                                                    ),
-                                                                  ),
-                                                                  RatingBar
-                                                                      .builder(
-                                                                    ignoreGestures:
-                                                                        true,
-                                                                    initialRating:
-                                                                        double.parse(
-                                                                            favouriteUserList[index].reviewAvgData),
-                                                                    minRating:
-                                                                        0.25,
-                                                                    direction: Axis
-                                                                        .horizontal,
-                                                                    allowHalfRating:
-                                                                        true,
-                                                                    itemCount:
-                                                                        5,
-                                                                    itemSize:
-                                                                        25,
-                                                                    itemPadding:
-                                                                        EdgeInsets.symmetric(
-                                                                            horizontal:
-                                                                                4.0),
-                                                                    itemBuilder:
-                                                                        (context,
-                                                                                _) =>
-                                                                            Icon(
-                                                                      Icons
-                                                                          .star,
-                                                                      size: 5,
-                                                                      color: Color
-                                                                          .fromRGBO(
-                                                                              255,
-                                                                              217,
-                                                                              0,
-                                                                              1),
-                                                                    ),
-                                                                    onRatingUpdate:
-                                                                        (rating) {},
-                                                                  ),
-                                                                  Text(
-                                                                    '(${favouriteUserList[index].noOfReviewsMembers})',
-                                                                    style:
-                                                                        TextStyle(
-                                                                      color: Color.fromRGBO(
-                                                                          153,
-                                                                          153,
-                                                                          153,
-                                                                          1),
-                                                                    ),
-                                                                  ),
+                                                                          ),
+                                                                        ),
+                                                                  favouriteUserList[index].reviewAvgData ==
+                                                                              null ||
+                                                                          favouriteUserList[index].reviewAvgData ==
+                                                                              "0.00"
+                                                                      ? RatingBar
+                                                                          .builder(
+                                                                          initialRating:
+                                                                              0.00,
+                                                                          minRating:
+                                                                              1,
+                                                                          direction:
+                                                                              Axis.horizontal,
+                                                                          allowHalfRating:
+                                                                              false,
+                                                                          itemCount:
+                                                                              5,
+                                                                          itemSize:
+                                                                              24.0,
+                                                                          ignoreGestures:
+                                                                              true,
+                                                                          itemPadding:
+                                                                              new EdgeInsets.only(bottom: 3.0),
+                                                                          itemBuilder:
+                                                                              (context, rindex) {
+                                                                            return new SizedBox(
+                                                                                height: 20.0,
+                                                                                width: 18.0,
+                                                                                child: new IconButton(
+                                                                                    onPressed: () {},
+                                                                                    padding: new EdgeInsets.all(0.0),
+                                                                                    // color: Colors.white,
+                                                                                    icon: SvgPicture.asset(
+                                                                                      "assets/images_gps/star_2.svg",
+                                                                                      height: 13.0,
+                                                                                      width: 13.0,
+                                                                                    )));
+                                                                          },
+                                                                          onRatingUpdate:
+                                                                              (rating) {
+                                                                            print(rating);
+                                                                          },
+                                                                        )
+                                                                      : RatingBar
+                                                                          .builder(
+                                                                          initialRating:
+                                                                              double.parse(favouriteUserList[index].reviewAvgData),
+                                                                          minRating:
+                                                                              1,
+                                                                          direction:
+                                                                              Axis.horizontal,
+                                                                          allowHalfRating:
+                                                                              false,
+                                                                          itemCount:
+                                                                              5,
+                                                                          itemSize:
+                                                                              24.0,
+                                                                          ignoreGestures:
+                                                                              true,
+                                                                          itemPadding:
+                                                                              new EdgeInsets.only(bottom: 3.0),
+                                                                          itemBuilder:
+                                                                              (context, rindex) {
+                                                                            return new SizedBox(
+                                                                                height: 20.0,
+                                                                                width: 18.0,
+                                                                                child: new IconButton(
+                                                                                  onPressed: () {},
+                                                                                  padding: new EdgeInsets.all(0.0),
+                                                                                  // color: Colors.white,
+                                                                                  icon: rindex > double.parse(favouriteUserList[index].reviewAvgData).ceilToDouble() - 1
+                                                                                      ? SvgPicture.asset(
+                                                                                          "assets/images_gps/star_2.svg",
+                                                                                          height: 13.0,
+                                                                                          width: 13.0,
+                                                                                        )
+                                                                                      : SvgPicture.asset(
+                                                                                          "assets/images_gps/star_colour.svg",
+                                                                                          height: 13.0,
+                                                                                          width: 13.0,
+                                                                                          //color: Colors.black,
+                                                                                        ),
+                                                                                ));
+                                                                          },
+                                                                          onRatingUpdate:
+                                                                              (rating) {
+                                                                            print(rating);
+                                                                          },
+                                                                        ),
+                                                                  favouriteUserList[index].noOfReviewsMembers ==
+                                                                              null ||
+                                                                          favouriteUserList[index].noOfReviewsMembers ==
+                                                                              "0.00"
+                                                                      ? Text(
+                                                                          '(0.00)',
+                                                                          style:
+                                                                              TextStyle(
+                                                                            color: Color.fromRGBO(
+                                                                                153,
+                                                                                153,
+                                                                                153,
+                                                                                1),
+                                                                          ),
+                                                                        )
+                                                                      : Text(
+                                                                          '(${favouriteUserList[index].noOfReviewsMembers})',
+                                                                          style:
+                                                                              TextStyle(
+                                                                            color: Color.fromRGBO(
+                                                                                153,
+                                                                                153,
+                                                                                153,
+                                                                                1),
+                                                                          ),
+                                                                        ),
                                                                 ],
                                                               ),
                                                             ),
