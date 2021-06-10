@@ -751,7 +751,7 @@ class _LoadHomePageState extends State<LoadHomePage> {
           ),
           BuildMassageTypeChips(),
           BuildProviderUsers(getTherapistProfiles: widget.getTherapistProfiles),
-          bookingDetailsList.length == 0
+          status == 0
               ? Center(child: CircularProgressIndicator())
               : ReservationList(),
           Padding(
@@ -2340,7 +2340,7 @@ class _ReservationListState extends State<ReservationList> {
                                             itemPadding: new EdgeInsets.only(
                                                 bottom: 3.0),
                                             itemBuilder: (context, rindex) {
-                                            return  new SizedBox(
+                                              return new SizedBox(
                                                   height: 20.0,
                                                   width: 18.0,
                                                   child: new IconButton(
