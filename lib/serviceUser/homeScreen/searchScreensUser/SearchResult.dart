@@ -1119,7 +1119,9 @@ class _SearchResultState extends State<SearchResult> {
                       Flexible(
                         child: Container(
                           child: Text(
-                            '  ${widget.getTherapistsSearchResults[index].user.addresses[0].address}',
+                            widget.getTherapistsSearchResults[index].user.isShop
+                                ? '  ${widget.getTherapistsSearchResults[index].user.addresses[0].address}'
+                                : '${widget.getTherapistsSearchResults[index].user.addresses[0].capitalAndPrefecture} ${widget.getTherapistsSearchResults[index].user.addresses[0].cityName} ${widget.getTherapistsSearchResults[index].user.addresses[0].area}',
                             style: TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.normal),
                           ),
@@ -2163,7 +2165,9 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                       Flexible(
                         child: Container(
                           child: Text(
-                            '  ${widget.getTherapistsSearchResults[index].user.addresses[0].address}',
+                            widget.getTherapistsSearchResults[index].user.isShop
+                                ? '  ${widget.getTherapistsSearchResults[index].user.addresses[0].address}'
+                                : '${widget.getTherapistsSearchResults[index].user.addresses[0].capitalAndPrefecture} ${widget.getTherapistsSearchResults[index].user.addresses[0].cityName} ${widget.getTherapistsSearchResults[index].user.addresses[0].area}',
                             style: TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.normal),
                           ),

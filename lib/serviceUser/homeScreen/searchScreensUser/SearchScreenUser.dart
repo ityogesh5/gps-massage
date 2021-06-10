@@ -49,6 +49,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   int bookingAddressId;
   bool _isVisible = true;
   bool readonly = false;
+  bool _loading = false;
   bool _addAddressVisible = false;
   bool isAllAddressCategoryAvailable = false;
   String _currentAddress = '';
@@ -352,7 +353,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                               onTap: () {
                                 setState(() {
                                   _value = 1;
-                                  HealingMatchConstants.serviceType = 1;
+                                  /*   HealingMatchConstants.serviceType = 1; */
                                 });
                               },
                               child: Column(
@@ -399,7 +400,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                               onTap: () {
                                 setState(() {
                                   _value = 2;
-                                  HealingMatchConstants.serviceType = 2;
+                                  /*   HealingMatchConstants.serviceType = 2; */
                                 });
                               },
                               child: Column(
@@ -446,7 +447,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                               onTap: () {
                                 setState(() {
                                   _value = 3;
-                                  HealingMatchConstants.serviceType = 3;
+                                  /*  HealingMatchConstants.serviceType = 3; */
                                 });
                               },
                               child: Column(
@@ -493,7 +494,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                               onTap: () {
                                 setState(() {
                                   _value = 4;
-                                  HealingMatchConstants.serviceType = 4;
+                                  /*  HealingMatchConstants.serviceType = 4; */
                                 });
                               },
                               child: Column(
@@ -834,14 +835,18 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                     backgroundColor: Color.fromRGBO(200, 217, 33, 1),
                     child: IconButton(
                       onPressed: () {
-                        //  _showLoadingIndicator(context, "現在地の取得");
-                        timeDurationSinceDate(DateTime(
-                            _cyear,
-                            _cmonth,
-                            _currentDay,
-                            HealingMatchConstants.dateTime.hour,
-                            HealingMatchConstants.dateTime.minute));
-                        //proceedToSearchResults();
+                        setState(() {
+                          _loading = true;
+                        });
+                        _showLoadingIndicator(context, "現在地の取得");
+                        if (_loading) {
+                          timeDurationSinceDate(DateTime(
+                              _cyear,
+                              _cmonth,
+                              _currentDay,
+                              HealingMatchConstants.dateTime.hour,
+                              HealingMatchConstants.dateTime.minute));
+                        }
                       },
                       icon: Image.asset(
                         "assets/images_gps/search.png",
@@ -1488,11 +1493,12 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
       if (userAddress == null || userAddress.isEmpty) {
         displaySnackBar("有効なさがすすエリアを選択してください。");
         return;
-      } else if (HealingMatchConstants.serviceType == 0) {
+      }
+      /* else if (_value == 0) {
         displaySnackBar("有効なマッサージサービスの種類を選択してください。");
 
         return;
-      }
+      } */
       getAddressType();
     } catch (e) {
       print('Exception in search criteria : ${e.toString()}');
@@ -1526,6 +1532,11 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
         ],
       ),
     ));
+
+    setState(() {
+      _loading = false;
+    });
+    Navigator.pop(context);
   }
 
   getAddressType() {
@@ -1540,6 +1551,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
     }
     HealingMatchConstants.searchAddressLatitude = searchAddressLatitude;
     HealingMatchConstants.searchAddressLongitude = searchAddressLongitude;
+    HealingMatchConstants.serviceType = _value;
 
     _getSearchResults();
   }
@@ -1550,6 +1562,10 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
 
   _getSearchResults() {
     try {
+      setState(() {
+        _loading = false;
+      });
+      Navigator.pop(context);
       NavigationRouter.switchToUserSearchResult(context);
     } catch (e) {
       print('Search Exception before bloc : ${e.toString()}');
