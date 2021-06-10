@@ -27,6 +27,11 @@ class ReservationStatus extends StatefulWidget {
 class _ReservationStatusState extends State<ReservationStatus> {
   double ratingsValue = 3.0;
   List<GlobalObjectKey<FormState>> formKeyList;
+  List<GlobalKey> waitingForApprovalKey = new List<GlobalKey>();
+  List<GlobalKey> approvedWithConditionsKey = new List<GlobalKey>();
+  List<GlobalKey> approvedKey = new List<GlobalKey>();
+  List<GlobalKey> confirmedPaymentKey = new List<GlobalKey>();
+  List<GlobalKey> canceledReservationKey = new List<GlobalKey>();
   List<BookingDetailsList> bookingDetailsList = List(); //mainList
   List<BookingDetailsList> waitingForApprovalList = List(); //bookingStatus =0
   List<Map<String, String>> certificateUploadWfaList =
@@ -82,15 +87,20 @@ class _ReservationStatusState extends State<ReservationStatus> {
       int bookingStatusVal = bookingDetailsList[i].bookingStatus;
       if (bookingStatusVal == 0) {
         waitingForApprovalList.add(bookingDetailsList[i]);
+        waitingForApprovalKey.add(GlobalKey());
         print('status1:${waitingForApprovalList}');
       } else if (bookingStatusVal == 2) {
         approvedWithConditionsList.add(bookingDetailsList[i]);
+        approvedWithConditionsKey.add(GlobalKey());
       } else if (bookingStatusVal == 1 || bookingStatusVal == 3) {
         approvedList.add(bookingDetailsList[i]);
+        approvedKey.add(GlobalKey());
       } else if (bookingStatusVal == 6) {
         confirmedPaymentList.add(bookingDetailsList[i]);
+        confirmedPaymentKey.add(GlobalKey());
       } else {
         canceledReservationList.add(bookingDetailsList[i]);
+        canceledReservationKey.add(GlobalKey());
       }
     }
     getWaitgFrAprv(waitingForApprovalList);
@@ -591,7 +601,9 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                           ),
                                                                           InkWell(
                                                                             onTap:
-                                                                                () {},
+                                                                                () {
+                                                                              showToolTip(waitingForApprovalList[index].bookingTherapistId.storeType, waitingForApprovalKey[index]);
+                                                                            },
                                                                             child:
                                                                                 Container(
                                                                               decoration: BoxDecoration(
@@ -610,7 +622,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                                   "assets/images_gps/info.svg",
                                                                                   height: 10.0,
                                                                                   width: 10.0,
-                                                                                  // key: key,
+                                                                                  key: waitingForApprovalKey[index],
                                                                                   color: Colors.black,
                                                                                 ), /* Icon(
                                                               Icons
@@ -1269,7 +1281,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         ),
                                                                         InkWell(
                                                                           onTap:
-                                                                              () {},
+                                                                              () {
+                                                                            showToolTip(approvedWithConditionsList[index].bookingTherapistId.storeType,
+                                                                                approvedWithConditionsKey[index]);
+                                                                          },
                                                                           child:
                                                                               Container(
                                                                             decoration:
@@ -1290,7 +1305,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                                 "assets/images_gps/info.svg",
                                                                                 height: 10.0,
                                                                                 width: 10.0,
-                                                                                // key: key,
+                                                                                key: approvedWithConditionsKey[index],
                                                                                 color: Colors.black,
                                                                               ), /* Icon(
                                                               Icons
@@ -1977,7 +1992,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         ),
                                                                         InkWell(
                                                                           onTap:
-                                                                              () {},
+                                                                              () {
+                                                                            showToolTip(approvedList[index].bookingTherapistId.storeType,
+                                                                                approvedKey[index]);
+                                                                          },
                                                                           child:
                                                                               Container(
                                                                             decoration:
@@ -1998,7 +2016,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                                 "assets/images_gps/info.svg",
                                                                                 height: 10.0,
                                                                                 width: 10.0,
-                                                                                // key: key,
+                                                                                key: approvedKey[index],
                                                                                 color: Colors.black,
                                                                               ), /* Icon(
                                                               Icons
@@ -2756,7 +2774,11 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                     ),
                                                                     InkWell(
                                                                       onTap:
-                                                                          () {},
+                                                                          () {
+                                                                        showToolTip(
+                                                                            confirmedPaymentList[index].bookingTherapistId.storeType,
+                                                                            confirmedPaymentKey[index]);
+                                                                      },
                                                                       child:
                                                                           Container(
                                                                         decoration:
@@ -2787,7 +2809,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                                 10.0,
                                                                             width:
                                                                                 10.0,
-                                                                            // key: key,
+                                                                            key:
+                                                                                confirmedPaymentKey[index],
                                                                             color:
                                                                                 Colors.black,
                                                                           ), /* Icon(
@@ -3556,7 +3579,11 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                     ),
                                                                     InkWell(
                                                                       onTap:
-                                                                          () {},
+                                                                          () {
+                                                                        showToolTip(
+                                                                            canceledReservationList[index].bookingTherapistId.storeType,
+                                                                            canceledReservationKey[index]);
+                                                                      },
                                                                       child:
                                                                           Container(
                                                                         decoration:
@@ -3587,14 +3614,15 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                                 10.0,
                                                                             width:
                                                                                 10.0,
-                                                                            // key: key,
+                                                                            key:
+                                                                                canceledReservationKey[index],
                                                                             color:
                                                                                 Colors.black,
                                                                           ), /* Icon(
-                                                          Icons
-                                                              .shopping_bag_rounded,
-                                                          key: key,
-                                                          color: Colors.black ), */
+                                                                                                                                  Icons
+                                                                                                                                      .shopping_bag_rounded,
+                                                                                                                                  key: key,
+                                                                                                                                  color: Colors.black ), */
                                                                         ),
                                                                       ),
                                                                     ),
@@ -4154,19 +4182,19 @@ class _ReservationStatusState extends State<ReservationStatus> {
     });
   }
 
-  void showToolTipForType(String text) {
+  void showToolTip(String storeType, GlobalKey<State<StatefulWidget>> key) {
     ShowToolTip popup = ShowToolTip(context,
-        text: text,
+        text: storeType,
         textStyle: TextStyle(color: Colors.black),
-        height: MediaQuery.of(context).size.height / 7,
-        width: MediaQuery.of(context).size.width / 2,
+        height: 150,
+        width: 190,
         backgroundColor: Colors.white,
         padding: EdgeInsets.all(8.0),
         borderRadius: BorderRadius.circular(10.0));
 
     /// show the popup for specific widget
     popup.show(
-      widgetKey: _formKeyUsersByType,
+      widgetKey: key,
     );
   }
 }
