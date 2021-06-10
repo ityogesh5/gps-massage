@@ -1220,6 +1220,12 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
         if (HealingMatchConstants.serviceType != 0 &&
             HealingMatchConstants.serviceType == 4) {
           allTherapistList.addAll(therapistDetails.therapistFitnessListList);
+        } else if (HealingMatchConstants.serviceType == 0 ||
+            HealingMatchConstants.serviceType == null) {
+          allTherapistList.addAll(therapistDetails.therapistEstheticList);
+          allTherapistList.addAll(therapistDetails.therapistRelaxationList);
+          allTherapistList.addAll(therapistDetails.therapistOrteopathicList);
+          allTherapistList.addAll(therapistDetails.therapistFitnessListList);
         }
       });
 

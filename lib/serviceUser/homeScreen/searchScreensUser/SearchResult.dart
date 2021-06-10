@@ -693,117 +693,127 @@ class _SearchResultState extends State<SearchResult> {
                             ],
                           ),
                           SizedBox(
-                            height: 5,
+                            height: widget.getTherapistsSearchResults[index]
+                                        .user.isShop ||
+                                    widget.getTherapistsSearchResults[index]
+                                            .user.businesstrip !=
+                                        0 ||
+                                    widget.getTherapistsSearchResults[index]
+                                            .user.coronameasure !=
+                                        0
+                                ? 5
+                                : 0,
                           ),
-                          FittedBox(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                widget.getTherapistsSearchResults[index].user
-                                                .businessForm ==
-                                            ('施術店舗あり 施術従業員あり') ||
-                                        widget.getTherapistsSearchResults[index]
-                                                .user.businessForm ==
-                                            ('施術店舗あり 施術従業員なし（個人経営）') ||
-                                        widget.getTherapistsSearchResults[index]
-                                                .user.businessForm ==
-                                            ('施術店舗なし 施術従業員なし（個人)')
-                                    ? Container(
-                                        decoration: BoxDecoration(
-                                            gradient: LinearGradient(
-                                                begin: Alignment.topCenter,
-                                                end: Alignment.bottomCenter,
-                                                colors: [
-                                                  Colors.white,
-                                                  Colors.white,
-                                                ]),
-                                            shape: BoxShape.rectangle,
-                                            border: Border.all(
-                                              color: Colors.grey[300],
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(5.0),
-                                            color: Colors.grey[200]),
-                                        padding: EdgeInsets.all(4),
-                                        child: Text(
-                                          '店舗',
-                                          style: TextStyle(
-                                            fontSize: 12.0,
-                                            color: Color.fromRGBO(0, 0, 0, 1),
-                                          ),
-                                        ))
-                                    : SizedBox.shrink(),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Visibility(
-                                  visible: widget
-                                          .getTherapistsSearchResults[index]
-                                          .user
+                          widget.getTherapistsSearchResults[index].user
+                                      .isShop ||
+                                  widget.getTherapistsSearchResults[index].user
                                           .businesstrip !=
-                                      0,
-                                  child: Container(
-                                      padding: EdgeInsets.all(4),
-                                      decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                              begin: Alignment.topCenter,
-                                              end: Alignment.bottomCenter,
-                                              colors: [
-                                                Colors.white,
-                                                Colors.white,
-                                              ]),
-                                          shape: BoxShape.rectangle,
-                                          border: Border.all(
-                                            color: Colors.grey[300],
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(5.0),
-                                          color: Colors.grey[200]),
-                                      child: Text(
-                                        '出張',
-                                        style: TextStyle(
-                                          fontSize: 12.0,
-                                          color: Color.fromRGBO(0, 0, 0, 1),
-                                        ),
-                                      )),
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Visibility(
-                                  visible: widget
-                                          .getTherapistsSearchResults[index]
-                                          .user
+                                      0 ||
+                                  widget.getTherapistsSearchResults[index].user
                                           .coronameasure !=
-                                      0,
-                                  child: Container(
-                                      padding: EdgeInsets.all(4),
-                                      decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                              begin: Alignment.topCenter,
-                                              end: Alignment.bottomCenter,
-                                              colors: [
-                                                Colors.white,
-                                                Colors.white,
-                                              ]),
-                                          shape: BoxShape.rectangle,
-                                          border: Border.all(
-                                            color: Colors.grey[300],
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(5.0),
-                                          color: Colors.grey[200]),
-                                      child: Text(
-                                        'コロナ対策実施',
-                                        style: TextStyle(
-                                          fontSize: 12.0,
-                                          color: Color.fromRGBO(0, 0, 0, 1),
-                                        ),
-                                      )),
-                                ),
-                              ],
-                            ),
-                          ),
+                                      0
+                              ? Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    widget.getTherapistsSearchResults[index]
+                                            .user.isShop
+                                        ? Container(
+                                            decoration: BoxDecoration(
+                                                gradient: LinearGradient(
+                                                    begin: Alignment.topCenter,
+                                                    end: Alignment.bottomCenter,
+                                                    colors: [
+                                                      Colors.white,
+                                                      Colors.white,
+                                                    ]),
+                                                shape: BoxShape.rectangle,
+                                                border: Border.all(
+                                                  color: Colors.grey[300],
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(5.0),
+                                                color: Colors.grey[200]),
+                                            padding: EdgeInsets.all(4),
+                                            child: Text(
+                                              '店舗',
+                                              style: TextStyle(
+                                                fontSize: 12.0,
+                                                color:
+                                                    Color.fromRGBO(0, 0, 0, 1),
+                                              ),
+                                            ))
+                                        : Container(),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Visibility(
+                                      visible: widget
+                                              .getTherapistsSearchResults[index]
+                                              .user
+                                              .businesstrip !=
+                                          0,
+                                      child: Container(
+                                          padding: EdgeInsets.all(4),
+                                          decoration: BoxDecoration(
+                                              gradient: LinearGradient(
+                                                  begin: Alignment.topCenter,
+                                                  end: Alignment.bottomCenter,
+                                                  colors: [
+                                                    Colors.white,
+                                                    Colors.white,
+                                                  ]),
+                                              shape: BoxShape.rectangle,
+                                              border: Border.all(
+                                                color: Colors.grey[300],
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(5.0),
+                                              color: Colors.grey[200]),
+                                          child: Text(
+                                            '出張',
+                                            style: TextStyle(
+                                              fontSize: 12.0,
+                                              color: Color.fromRGBO(0, 0, 0, 1),
+                                            ),
+                                          )),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Visibility(
+                                      visible: widget
+                                              .getTherapistsSearchResults[index]
+                                              .user
+                                              .coronameasure !=
+                                          0,
+                                      child: Container(
+                                          padding: EdgeInsets.all(4),
+                                          decoration: BoxDecoration(
+                                              gradient: LinearGradient(
+                                                  begin: Alignment.topCenter,
+                                                  end: Alignment.bottomCenter,
+                                                  colors: [
+                                                    Colors.white,
+                                                    Colors.white,
+                                                  ]),
+                                              shape: BoxShape.rectangle,
+                                              border: Border.all(
+                                                color: Colors.grey[300],
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(5.0),
+                                              color: Colors.grey[200]),
+                                          child: Text(
+                                            'コロナ対策実施',
+                                            style: TextStyle(
+                                              fontSize: 12.0,
+                                              color: Color.fromRGBO(0, 0, 0, 1),
+                                            ),
+                                          )),
+                                    ),
+                                  ],
+                                )
+                              : Container(),
                           SizedBox(
                             height: widget.getTherapistsSearchResults[index]
                                             .user.genderOfService !=
@@ -1102,7 +1112,9 @@ class _SearchResultState extends State<SearchResult> {
                       Flexible(
                         child: Container(
                           child: Text(
-                            '  ${widget.getTherapistsSearchResults[index].user.addresses[0].address}',
+                            widget.getTherapistsSearchResults[index].user.isShop
+                                ? '  ${widget.getTherapistsSearchResults[index].user.addresses[0].address}'
+                                : '${widget.getTherapistsSearchResults[index].user.addresses[0].capitalAndPrefecture} ${widget.getTherapistsSearchResults[index].user.addresses[0].cityName} ${widget.getTherapistsSearchResults[index].user.addresses[0].area}',
                             style: TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.normal),
                           ),
@@ -1720,117 +1732,127 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                             ],
                           ),
                           SizedBox(
-                            height: 5,
+                            height: widget.getTherapistsSearchResults[index]
+                                        .user.isShop ||
+                                    widget.getTherapistsSearchResults[index]
+                                            .user.businesstrip !=
+                                        0 ||
+                                    widget.getTherapistsSearchResults[index]
+                                            .user.coronameasure !=
+                                        0
+                                ? 5
+                                : 0,
                           ),
-                          FittedBox(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                widget.getTherapistsSearchResults[index].user
-                                                .businessForm ==
-                                            ('施術店舗あり 施術従業員あり') ||
-                                        widget.getTherapistsSearchResults[index]
-                                                .user.businessForm ==
-                                            ('施術店舗あり 施術従業員なし（個人経営）') ||
-                                        widget.getTherapistsSearchResults[index]
-                                                .user.businessForm ==
-                                            ('施術店舗なし 施術従業員なし（個人)')
-                                    ? Container(
-                                        decoration: BoxDecoration(
-                                            gradient: LinearGradient(
-                                                begin: Alignment.topCenter,
-                                                end: Alignment.bottomCenter,
-                                                colors: [
-                                                  Colors.white,
-                                                  Colors.white,
-                                                ]),
-                                            shape: BoxShape.rectangle,
-                                            border: Border.all(
-                                              color: Colors.grey[300],
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(5.0),
-                                            color: Colors.grey[200]),
-                                        padding: EdgeInsets.all(4),
-                                        child: Text(
-                                          '店舗',
-                                          style: TextStyle(
-                                            fontSize: 12.0,
-                                            color: Color.fromRGBO(0, 0, 0, 1),
-                                          ),
-                                        ))
-                                    : SizedBox.shrink(),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Visibility(
-                                  visible: widget
-                                          .getTherapistsSearchResults[index]
-                                          .user
+                          widget.getTherapistsSearchResults[index].user
+                                      .isShop ||
+                                  widget.getTherapistsSearchResults[index].user
                                           .businesstrip !=
-                                      0,
-                                  child: Container(
-                                      padding: EdgeInsets.all(4),
-                                      decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                              begin: Alignment.topCenter,
-                                              end: Alignment.bottomCenter,
-                                              colors: [
-                                                Colors.white,
-                                                Colors.white,
-                                              ]),
-                                          shape: BoxShape.rectangle,
-                                          border: Border.all(
-                                            color: Colors.grey[300],
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(5.0),
-                                          color: Colors.grey[200]),
-                                      child: Text(
-                                        '出張',
-                                        style: TextStyle(
-                                          fontSize: 12.0,
-                                          color: Color.fromRGBO(0, 0, 0, 1),
-                                        ),
-                                      )),
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Visibility(
-                                  visible: widget
-                                          .getTherapistsSearchResults[index]
-                                          .user
+                                      0 ||
+                                  widget.getTherapistsSearchResults[index].user
                                           .coronameasure !=
-                                      0,
-                                  child: Container(
-                                      padding: EdgeInsets.all(4),
-                                      decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                              begin: Alignment.topCenter,
-                                              end: Alignment.bottomCenter,
-                                              colors: [
-                                                Colors.white,
-                                                Colors.white,
-                                              ]),
-                                          shape: BoxShape.rectangle,
-                                          border: Border.all(
-                                            color: Colors.grey[300],
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(5.0),
-                                          color: Colors.grey[200]),
-                                      child: Text(
-                                        'コロナ対策実施',
-                                        style: TextStyle(
-                                          fontSize: 12.0,
-                                          color: Color.fromRGBO(0, 0, 0, 1),
-                                        ),
-                                      )),
-                                ),
-                              ],
-                            ),
-                          ),
+                                      0
+                              ? Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    widget.getTherapistsSearchResults[index]
+                                            .user.isShop
+                                        ? Container(
+                                            decoration: BoxDecoration(
+                                                gradient: LinearGradient(
+                                                    begin: Alignment.topCenter,
+                                                    end: Alignment.bottomCenter,
+                                                    colors: [
+                                                      Colors.white,
+                                                      Colors.white,
+                                                    ]),
+                                                shape: BoxShape.rectangle,
+                                                border: Border.all(
+                                                  color: Colors.grey[300],
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(5.0),
+                                                color: Colors.grey[200]),
+                                            padding: EdgeInsets.all(4),
+                                            child: Text(
+                                              '店舗',
+                                              style: TextStyle(
+                                                fontSize: 12.0,
+                                                color:
+                                                    Color.fromRGBO(0, 0, 0, 1),
+                                              ),
+                                            ))
+                                        : Container(),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Visibility(
+                                      visible: widget
+                                              .getTherapistsSearchResults[index]
+                                              .user
+                                              .businesstrip !=
+                                          0,
+                                      child: Container(
+                                          padding: EdgeInsets.all(4),
+                                          decoration: BoxDecoration(
+                                              gradient: LinearGradient(
+                                                  begin: Alignment.topCenter,
+                                                  end: Alignment.bottomCenter,
+                                                  colors: [
+                                                    Colors.white,
+                                                    Colors.white,
+                                                  ]),
+                                              shape: BoxShape.rectangle,
+                                              border: Border.all(
+                                                color: Colors.grey[300],
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(5.0),
+                                              color: Colors.grey[200]),
+                                          child: Text(
+                                            '出張',
+                                            style: TextStyle(
+                                              fontSize: 12.0,
+                                              color: Color.fromRGBO(0, 0, 0, 1),
+                                            ),
+                                          )),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Visibility(
+                                      visible: widget
+                                              .getTherapistsSearchResults[index]
+                                              .user
+                                              .coronameasure !=
+                                          0,
+                                      child: Container(
+                                          padding: EdgeInsets.all(4),
+                                          decoration: BoxDecoration(
+                                              gradient: LinearGradient(
+                                                  begin: Alignment.topCenter,
+                                                  end: Alignment.bottomCenter,
+                                                  colors: [
+                                                    Colors.white,
+                                                    Colors.white,
+                                                  ]),
+                                              shape: BoxShape.rectangle,
+                                              border: Border.all(
+                                                color: Colors.grey[300],
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(5.0),
+                                              color: Colors.grey[200]),
+                                          child: Text(
+                                            'コロナ対策実施',
+                                            style: TextStyle(
+                                              fontSize: 12.0,
+                                              color: Color.fromRGBO(0, 0, 0, 1),
+                                            ),
+                                          )),
+                                    ),
+                                  ],
+                                )
+                              : Container(),
                           SizedBox(
                             height: widget.getTherapistsSearchResults[index]
                                             .user.genderOfService !=
@@ -2129,7 +2151,9 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                       Flexible(
                         child: Container(
                           child: Text(
-                            '  ${widget.getTherapistsSearchResults[index].user.addresses[0].address}',
+                            widget.getTherapistsSearchResults[index].user.isShop
+                                ? '  ${widget.getTherapistsSearchResults[index].user.addresses[0].address}'
+                                : '${widget.getTherapistsSearchResults[index].user.addresses[0].capitalAndPrefecture} ${widget.getTherapistsSearchResults[index].user.addresses[0].cityName} ${widget.getTherapistsSearchResults[index].user.addresses[0].area}',
                             style: TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.normal),
                           ),
