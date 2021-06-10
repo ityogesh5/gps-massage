@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistResultsModel.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistByTypeModel.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/searchBlocCalls/Repository/SearchResultsRepository.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/searchBlocCalls/search_event.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/searchBlocCalls/search_state.dart';
@@ -30,7 +29,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     } else if (event is CallSearchByTypeEvent) {
       yield SearchLoadingState();
       try {
-        List<SearchTherapistTypeList> getTherapistsSearchResults =
+        List<SearchList> getTherapistsSearchResults =
             await getSearchResultsRepository.getSearchResultsBySortType(
                 event.pageNumber, event.pageSize, event.searchType);
         yield SearchSortByDataLoadedState(

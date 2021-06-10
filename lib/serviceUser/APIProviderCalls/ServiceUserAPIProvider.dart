@@ -32,7 +32,6 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/profile/DeleteS
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/EditUserSubAddressModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/ratings/ratingList.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/ratings/viewGivenRatings.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistResultsModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
@@ -54,8 +53,8 @@ class ServiceUserAPIProvider {
   static SearchTherapistResultsModel _searchTherapistResultsModel =
       new SearchTherapistResultsModel();
 
-  static SearchTherapistByTypeModel _searchTherapistByTypeModel =
-      new SearchTherapistByTypeModel();
+  static SearchTherapistResultsModel _searchTherapistByTypeModel =
+      new SearchTherapistResultsModel();
 
   // DeleteSubAddressModel
   static DeleteSubAddressModel _deleteSubAddressModel =
@@ -565,7 +564,7 @@ class ServiceUserAPIProvider {
   }
 
   // get search screen user therapist results
-  static Future<SearchTherapistByTypeModel> getTherapistSearchResultsByType(
+  static Future<SearchTherapistResultsModel> getTherapistSearchResultsByType(
       BuildContext context, int pageNumber, int pageSize) async {
     try {
       final url =
@@ -584,7 +583,7 @@ class ServiceUserAPIProvider {
         final getSearchResultsResponse = json.decode(response.body);
         if (getSearchResultsResponse != null) {
           _searchTherapistByTypeModel =
-              SearchTherapistByTypeModel.fromJson(getSearchResultsResponse);
+              SearchTherapistResultsModel.fromJson(getSearchResultsResponse);
         } else {
           return null;
         }

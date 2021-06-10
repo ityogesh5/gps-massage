@@ -14,7 +14,6 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
 import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistResultsModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
@@ -158,7 +157,7 @@ class _SearchResultState extends State<SearchResult> {
   var _pageSize = 10;
   var therapistId;
   SearchBloc _searchBloc;
-  List<SearchTherapistCertificates> certificateUpload = [];
+  List<CertificationUpload> certificateUpload = [];
   var certificateUploadKeys;
   List<Map<String, String>> certificateUploadList = List<Map<String, String>>();
   Map<int, Map<int, String>> childrenMeasureList = Map<int, Map<int, String>>();
@@ -696,8 +695,8 @@ class _SearchResultState extends State<SearchResult> {
                             height: widget.getTherapistsSearchResults[index]
                                         .user.isShop ||
                                     widget.getTherapistsSearchResults[index]
-                                            .user.businesstrip !=
-                                        0 ||
+                                            .user.businessTrip !=
+                                        false ||
                                     widget.getTherapistsSearchResults[index]
                                             .user.coronameasure !=
                                         0
@@ -707,8 +706,8 @@ class _SearchResultState extends State<SearchResult> {
                           widget.getTherapistsSearchResults[index].user
                                       .isShop ||
                                   widget.getTherapistsSearchResults[index].user
-                                          .businesstrip !=
-                                      0 ||
+                                          .businessTrip !=
+                                      false ||
                                   widget.getTherapistsSearchResults[index].user
                                           .coronameasure !=
                                       0
@@ -750,8 +749,8 @@ class _SearchResultState extends State<SearchResult> {
                                       visible: widget
                                               .getTherapistsSearchResults[index]
                                               .user
-                                              .businesstrip !=
-                                          0,
+                                              .businessTrip !=
+                                          false,
                                       child: Container(
                                           padding: EdgeInsets.all(4),
                                           decoration: BoxDecoration(
@@ -1185,7 +1184,7 @@ class _SearchResultState extends State<SearchResult> {
 
 // Search results by type
 class SearchResultByType extends StatefulWidget {
-  List<SearchTherapistTypeList> getTherapistsSearchResults;
+  final List<SearchList> getTherapistsSearchResults;
 
   SearchResultByType({Key key, @required this.getTherapistsSearchResults})
       : super(key: key);
@@ -1201,7 +1200,7 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
   var _pageSize = 10;
   var therapistId;
   SearchBloc _searchBloc;
-  List<CertificationSearchTypeUploads> certificateUpload = [];
+  List<CertificationUpload> certificateUpload = [];
   var certificateUploadKeys;
   List<Map<String, String>> certificateUploadList = List<Map<String, String>>();
   Map<int, Map<int, String>> childrenMeasureList = Map<int, Map<int, String>>();
@@ -1222,8 +1221,7 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
     getSearchResultsByType(widget.getTherapistsSearchResults);
   }
 
-  getSearchResultsByType(
-      List<SearchTherapistTypeList> getTherapistsSearchResults) async {
+  getSearchResultsByType(List<SearchList> getTherapistsSearchResults) async {
     try {
       if (this.mounted) {
         setState(() {
@@ -1735,8 +1733,8 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                             height: widget.getTherapistsSearchResults[index]
                                         .user.isShop ||
                                     widget.getTherapistsSearchResults[index]
-                                            .user.businesstrip !=
-                                        0 ||
+                                            .user.businessTrip !=
+                                        false ||
                                     widget.getTherapistsSearchResults[index]
                                             .user.coronameasure !=
                                         0
@@ -1746,8 +1744,8 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                           widget.getTherapistsSearchResults[index].user
                                       .isShop ||
                                   widget.getTherapistsSearchResults[index].user
-                                          .businesstrip !=
-                                      0 ||
+                                          .businessTrip !=
+                                      false ||
                                   widget.getTherapistsSearchResults[index].user
                                           .coronameasure !=
                                       0
@@ -1789,8 +1787,8 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                                       visible: widget
                                               .getTherapistsSearchResults[index]
                                               .user
-                                              .businesstrip !=
-                                          0,
+                                              .businessTrip !=
+                                          false,
                                       child: Container(
                                           padding: EdgeInsets.all(4),
                                           decoration: BoxDecoration(

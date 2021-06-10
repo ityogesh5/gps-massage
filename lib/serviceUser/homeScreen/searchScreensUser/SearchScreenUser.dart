@@ -50,6 +50,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   bool _isVisible = true;
   bool readonly = false;
   bool _loading = false;
+  bool isLocationCriteria = false;
   bool _addAddressVisible = false;
   bool isAllAddressCategoryAvailable = false;
   String _currentAddress = '';
@@ -81,7 +82,6 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
 
   void initState() {
     super.initState();
-
     dateString = '';
     displayDay = today;
     _cyear = DateTime.now().year;
@@ -644,7 +644,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                         false,
                       ],
                       radioButtonValue: (value) {
-                        HealingMatchConstants.isLocationCriteria = value;
+                        isLocationCriteria = value;
+                        HealingMatchConstants.isLocationCriteria =
+                            isLocationCriteria;
                         print(
                             'Location coming/not value : ${HealingMatchConstants.isLocationCriteria}');
                       },
@@ -1394,6 +1396,10 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
               context, HealingMatchConstants.serviceUserID);
           userDetails.then((value) {
             setState(() {
+              HealingMatchConstants.searchDistanceRadius =
+                  value.data.userSearchRadiusDistance != null
+                      ? value.data.userSearchRadiusDistance
+                      : 10.0;
               constantUserAddressValuesList = value.data.addresses;
               for (var category in constantUserAddressValuesList) {
                 print(
@@ -1468,13 +1474,13 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
         print('Current Search address : $userAddress : '
             '$searchAddressLatitude && '
             '$searchAddressLongitude');
-        //  Navigator.pop(context);
-        timeDurationSinceDate(DateTime(
+        Navigator.pop(context);
+        /*  timeDurationSinceDate(DateTime(
             _cyear,
             _cmonth,
             _currentDay,
             HealingMatchConstants.dateTime.hour,
-            HealingMatchConstants.dateTime.minute));
+            HealingMatchConstants.dateTime.minute)); */
         //proceedToSearchResults();
       } else {
         Navigator.pop(context);
