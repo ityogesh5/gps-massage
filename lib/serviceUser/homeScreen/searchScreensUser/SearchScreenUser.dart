@@ -1468,7 +1468,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
         print('Current Search address : $userAddress : '
             '$searchAddressLatitude && '
             '$searchAddressLongitude');
-        Navigator.pop(context);
+      //  Navigator.pop(context);
         timeDurationSinceDate(DateTime(
             _cyear,
             _cmonth,
@@ -1565,7 +1565,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
       setState(() {
         _loading = false;
       });
+
       Navigator.pop(context);
+
       NavigationRouter.switchToUserSearchResult(context);
     } catch (e) {
       print('Search Exception before bloc : ${e.toString()}');

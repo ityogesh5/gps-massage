@@ -168,7 +168,7 @@ class User {
     storeName = json['storeName'];
     storeType = json['storeType'];
     coronameasure = json['coronameasure'];
-    businesstrip = json['businesstrip '];
+    businesstrip = json['businessTrip '];
     childrenMeasure = json['childrenMeasure'];
     genderOfService = json['genderOfService'];
     isShop = json['isShop'];
