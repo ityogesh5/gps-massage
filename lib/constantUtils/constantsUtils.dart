@@ -622,6 +622,7 @@ class HealingMatchConstants {
   static bool isLocationCriteria = true;
   static bool isTimeCriteria = true;
   static int serviceType = 0;
+  static bool showAddress = true;
   static int addressTypeValues = 0;
   static DateTime dateTime = DateTime.now().add(Duration(minutes: 45));
   static List<UserAddresses> userAddressesList = new List<UserAddresses>();

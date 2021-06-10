@@ -2931,7 +2931,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                 Row(
                                                                   children: [
                                                                     confirmedPaymentList[index].reviewAvgData !=
-                                                                                null ||
+                                                                                null &&
                                                                             confirmedPaymentList[index].reviewAvgData !=
                                                                                 "0.00"
                                                                         ? Text(
