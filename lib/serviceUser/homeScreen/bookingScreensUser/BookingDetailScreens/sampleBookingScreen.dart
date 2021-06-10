@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
@@ -50,7 +51,10 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
   @override
   Widget build(BuildContext context) {
     return status == 0
-        ? Container()
+        ? Container(
+            color: Colors.white,
+            child: Center(child: SpinKitThreeBounce(color: Colors.lime)),
+          )
         : Scaffold(
             key: _scaffoldKey,
             body: SafeArea(
@@ -140,7 +144,9 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                             : therapistDetails
                                         .bookingDataResponse[0].bookingStatus ==
                                     6
-                                ? Container()
+                                ? Container(
+                                    height: 0.0,
+                                  )
                                 : bookAgain(),
           );
   }
@@ -1234,6 +1240,15 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
           allTherapistList.addAll(therapistDetails.therapistFitnessListList);
         }
       });
+      HealingMatchConstants
+          .showAddress = therapistDetails.bookingDataResponse.length == 0 ||
+              (therapistDetails.bookingDataResponse[0].bookingStatus == 9 ||
+                  therapistDetails.bookingDataResponse[0].bookingStatus == 4 ||
+                  therapistDetails.bookingDataResponse[0].bookingStatus == 5 ||
+                  therapistDetails.bookingDataResponse[0].bookingStatus == 7 ||
+                  therapistDetails.bookingDataResponse[0].bookingStatus == 8)
+          ? true
+          : false;
 
       for (int i = 0; i < allTherapistList.length; i++) {
         visibility.add(false);

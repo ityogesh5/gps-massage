@@ -114,6 +114,7 @@ class DialogHelper {
                     HealingMatchConstants.lineUserProfileURL = null;
                     HealingMatchConstants.lineUsername = null;
                     HealingMatchConstants.lineUserEmail = null;
+                    HealingMatchConstants.isUserRegistrationSkipped = false;
                     dialog.dissmiss();
                     NavigationRouter.switchToUserLogin(context);
                   },

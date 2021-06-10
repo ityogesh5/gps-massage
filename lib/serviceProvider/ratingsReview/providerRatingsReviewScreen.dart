@@ -256,7 +256,7 @@ class _ProviderRatingsAndReviewUserState
                             fillColor: ColorConstants.formFieldFillColor,
                             hintText: '良かった点、気づいた点などをご記入ください',
                             hintStyle: TextStyle(
-                              fontSize: 14.0,
+                              fontSize: 12.0,
                               color: Color.fromRGBO(217, 217, 217, 1),
                             ),
                             labelStyle: TextStyle(
@@ -412,7 +412,8 @@ class _ProviderRatingsAndReviewUserState
               initialRating: userReviewList.ratingsCount.toDouble(),
               minRating: 1,
               direction: Axis.horizontal,
-              allowHalfRating: true,
+              allowHalfRating: false,
+              ignoreGestures: true,
               itemCount: 5,
               itemSize: 24.0,
               itemPadding: new EdgeInsets.only(bottom: 3.0),

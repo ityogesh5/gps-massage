@@ -83,484 +83,472 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
         ),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListView(
-          shrinkWrap: true,
-          physics: BouncingScrollPhysics(),
-          children: [
-            Text(
-              '予約の詳細',
-              style: TextStyle(
-                  fontFamily: 'NotoSansJP',
-                  fontSize: 16,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 15),
-            Container(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Colors.grey[200], Colors.grey[200]]),
-                  shape: BoxShape.rectangle,
-                  border: Border.all(
-                    color: Color.fromRGBO(242, 242, 242, 1),
-                  ),
-                  borderRadius: BorderRadius.circular(16.0),
-                  color: Colors.grey[200]),
-              width: MediaQuery.of(context).size.width * 0.90,
-              height: 200,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Column(
-                          children: [
-                            buildProfileImage(),
-                            HealingMatchConstants.serviceDistanceRadius !=
-                                        null &&
-                                    HealingMatchConstants
-                                            .serviceDistanceRadius !=
-                                        0
-                                ? Text(
-                                    '${distance.toStringAsFixed(2)}Ｋｍ圏内',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                        fontSize: 10.0,
-                                        color: Colors.grey[400],
-                                        fontFamily: 'NotoSansJP'),
-                                  )
-                                : Text(
-                                    '0.0ｋｍ圏内',
-                                    style: TextStyle(
-                                        fontSize: 10, color: Colors.grey),
-                                  ),
-                          ],
-                        ),
-                        SizedBox(width: 5),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                HealingMatchConstants.confShopName.isNotEmpty &&
-                                        HealingMatchConstants.confShopName !=
-                                            null
-                                    ? Text(
-                                        '${HealingMatchConstants.confShopName}',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    : Text(
-                                        '${HealingMatchConstants.confUserName}',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                SizedBox(width: 5),
-                                InkWell(
-                                  onTap: () {
-                                    showToolTip(
-                                        HealingMatchConstants.confServiceType);
-                                  },
-                                  child: Container(
-                                    key: key,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.white,
-                                      border: Border.all(
-                                        color: Colors.grey[400],
-                                      ),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: SvgPicture.asset(
-                                        "assets/images_gps/info.svg",
-                                        height: 10.0,
-                                        width: 10.0,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Visibility(
-                                  visible: HealingMatchConstants.confShop,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: 6.0),
-                                    child: buildProileDetailCard("店舗", 12.0),
-                                  ),
-                                ),
-                                HealingMatchConstants.confShop
-                                    ? SizedBox(width: 5.0)
-                                    : SizedBox(),
-                                Visibility(
-                                  visible:
-                                      HealingMatchConstants.confBuisnessTrip,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: 6.0),
-                                    child: buildProileDetailCard("出張", 12.0),
-                                  ),
-                                ),
-                                HealingMatchConstants.confBuisnessTrip
-                                    ? SizedBox(width: 5.0)
-                                    : SizedBox(),
-                                Visibility(
-                                  visible:
-                                      HealingMatchConstants.confCoronaMeasures,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: 6.0),
-                                    child:
-                                        buildProileDetailCard("コロナ対策実施", 14.0),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  '(${HealingMatchConstants.confRatingAvg})',
+      body: buildScreenContent(context),
+      bottomNavigationBar: reservation(),
+    );
+  }
+
+  Padding buildScreenContent(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ListView(
+        shrinkWrap: true,
+        physics: BouncingScrollPhysics(),
+        children: [
+          Text(
+            '予約の詳細',
+            style: TextStyle(
+                fontFamily: 'NotoSansJP',
+                fontSize: 16,
+                color: Colors.black,
+                fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 15),
+          Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.grey[200], Colors.grey[200]]),
+                shape: BoxShape.rectangle,
+                border: Border.all(
+                  color: Color.fromRGBO(242, 242, 242, 1),
+                ),
+                borderRadius: BorderRadius.circular(16.0),
+                color: Colors.grey[200]),
+            width: MediaQuery.of(context).size.width * 0.90,
+            // height: 200,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Column(
+                        children: [
+                          buildProfileImage(),
+                          HealingMatchConstants.serviceDistanceRadius != null &&
+                                  HealingMatchConstants.serviceDistanceRadius !=
+                                      0
+                              ? Text(
+                                  '${distance.toStringAsFixed(2)}Ｋｍ圏内',
+                                  textAlign: TextAlign.left,
                                   style: TextStyle(
-                                      decorationColor:
-                                          Color.fromRGBO(153, 153, 153, 1),
-                                      shadows: [
-                                        Shadow(
-                                            color: Color.fromRGBO(
-                                                153, 153, 153, 1),
-                                            offset: Offset(0, -3))
-                                      ],
-                                      fontSize: 14,
-                                      color: Colors.transparent,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                buildRatingBar(),
-                                Text(
-                                  '(${HealingMatchConstants.confNoOfReviewsMembers})',
-                                  style: TextStyle(
-                                      decorationColor:
-                                          Color.fromRGBO(153, 153, 153, 1),
-                                      shadows: [
-                                        Shadow(
-                                            color: Color.fromRGBO(
-                                                153, 153, 153, 1),
-                                            offset: Offset(0, -3))
-                                      ],
-                                      fontSize: 14,
-                                      color: Colors.transparent,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: certificateImages.keys.length != null
-                                  ? 5.0
-                                  : 0.0,
-                            ),
-                            certificateImages.keys.length != null
-                                ? Container(
-                                    height: 30.0,
-                                    width: MediaQuery.of(context).size.width -
-                                        130.0, //200.0,
-                                    child: ListView.builder(
-                                        itemCount: certificateImages.length,
-                                        padding: EdgeInsets.all(0.0),
-                                        scrollDirection: Axis.horizontal,
-                                        shrinkWrap: true,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          String key = certificateImages.keys
-                                              .elementAt(index);
-                                          return buildProileDetailCard(
-                                              key, 12.0);
-                                        }),
-                                  )
-                                : Container(),
-                            SizedBox(
-                              height: 6,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Divider(
-                          color: Color.fromRGBO(217, 217, 217, 1),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 6),
-                    Expanded(
-                      child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            SvgPicture.asset('assets/images_gps/gps.svg',
-                                height: 25, width: 25),
-                            SizedBox(width: 5),
-                            Flexible(
-                              child: Container(
-                                child: Text(
-                                  '${HealingMatchConstants.confAddress}',
-                                  softWrap: true,
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
+                                      fontSize: 10.0,
+                                      color: Colors.grey[400],
                                       fontFamily: 'NotoSansJP'),
+                                )
+                              : Text(
+                                  '0.0ｋｍ圏内',
+                                  style: TextStyle(
+                                      fontSize: 10, color: Colors.grey),
+                                ),
+                        ],
+                      ),
+                      SizedBox(width: 5),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              HealingMatchConstants.confShopName.isNotEmpty &&
+                                      HealingMatchConstants.confShopName != null
+                                  ? Text(
+                                      '${HealingMatchConstants.confShopName}',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  : Text(
+                                      '${HealingMatchConstants.confUserName}',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                              SizedBox(width: 5),
+                              InkWell(
+                                onTap: () {
+                                  showToolTip(
+                                      HealingMatchConstants.confServiceType);
+                                },
+                                child: Container(
+                                  key: key,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.white,
+                                    border: Border.all(
+                                      color: Colors.grey[400],
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SvgPicture.asset(
+                                      "assets/images_gps/info.svg",
+                                      height: 10.0,
+                                      width: 10.0,
+                                      color: Colors.black,
+                                    ),
+                                  ),
                                 ),
                               ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Visibility(
+                                visible: HealingMatchConstants.confShop,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 6.0),
+                                  child: buildProileDetailCard("店舗", 12.0),
+                                ),
+                              ),
+                              HealingMatchConstants.confShop
+                                  ? SizedBox(width: 5.0)
+                                  : SizedBox(),
+                              Visibility(
+                                visible: HealingMatchConstants.confBuisnessTrip,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 6.0),
+                                  child: buildProileDetailCard("出張", 12.0),
+                                ),
+                              ),
+                              HealingMatchConstants.confBuisnessTrip
+                                  ? SizedBox(width: 5.0)
+                                  : SizedBox(),
+                              Visibility(
+                                visible:
+                                    HealingMatchConstants.confCoronaMeasures,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 6.0),
+                                  child: buildProileDetailCard("コロナ対策実施", 14.0),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                '(${HealingMatchConstants.confRatingAvg})',
+                                style: TextStyle(
+                                    decorationColor:
+                                        Color.fromRGBO(153, 153, 153, 1),
+                                    shadows: [
+                                      Shadow(
+                                          color:
+                                              Color.fromRGBO(153, 153, 153, 1),
+                                          offset: Offset(0, -3))
+                                    ],
+                                    fontSize: 14,
+                                    color: Colors.transparent,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              buildRatingBar(),
+                              Text(
+                                '(${HealingMatchConstants.confNoOfReviewsMembers})',
+                                style: TextStyle(
+                                    decorationColor:
+                                        Color.fromRGBO(153, 153, 153, 1),
+                                    shadows: [
+                                      Shadow(
+                                          color:
+                                              Color.fromRGBO(153, 153, 153, 1),
+                                          offset: Offset(0, -3))
+                                    ],
+                                    fontSize: 14,
+                                    color: Colors.transparent,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: certificateImages.keys.length != null
+                                ? 5.0
+                                : 0.0,
+                          ),
+                          certificateImages.keys.length != null
+                              ? Container(
+                                  height: 30.0,
+                                  width: MediaQuery.of(context).size.width -
+                                      130.0, //200.0,
+                                  child: ListView.builder(
+                                      itemCount: certificateImages.length,
+                                      padding: EdgeInsets.all(0.0),
+                                      scrollDirection: Axis.horizontal,
+                                      shrinkWrap: true,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        String key = certificateImages.keys
+                                            .elementAt(index);
+                                        return buildProileDetailCard(key, 12.0);
+                                      }),
+                                )
+                              : Container(),
+                          SizedBox(
+                            height: 6,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                    child: Divider(
+                      color: Color.fromRGBO(217, 217, 217, 1),
+                    ),
+                  ),
+                  SizedBox(height: 6),
+                  Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        SvgPicture.asset('assets/images_gps/gps.svg',
+                            height: 25, width: 25),
+                        SizedBox(width: 5),
+                        Flexible(
+                          child: Container(
+                            child: Text(
+                              '${HealingMatchConstants.confAddress}',
+                              softWrap: true,
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'NotoSansJP'),
                             ),
-                          ]),
-                    )
-                  ],
-                ),
+                          ),
+                        ),
+                      ])
+                ],
               ),
             ),
-            SizedBox(height: 20),
-            Container(
-              decoration: BoxDecoration(
+          ),
+          SizedBox(height: 20),
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color.fromRGBO(255, 255, 255, 1),
+                    Color.fromRGBO(255, 255, 255, 1),
+                  ]),
+              shape: BoxShape.rectangle,
+              border: Border.all(
+                color: Colors.grey[400],
+              ),
+              borderRadius: BorderRadius.circular(16.0),
+              color: Color.fromRGBO(255, 255, 255, 1),
+            ),
+            width: MediaQuery.of(context).size.width * 0.90,
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      SvgPicture.asset('assets/images_gps/calendar.svg',
+                          height: 25, width: 25),
+                      Text(
+                        ' ${HealingMatchConstants.confSelectedDateTime.month}月${HealingMatchConstants.confSelectedDateTime.day}',
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'NotoSansJP'),
+                      ),
+                      Text(
+                        ' $weekDays',
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey[400],
+                            fontFamily: 'NotoSansJP'),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 7),
+                  Row(
+                    children: [
+                      SvgPicture.asset('assets/images_gps/clock.svg',
+                          height: 25, width: 25),
+                      Text(
+                        '${HealingMatchConstants.confSelectedDateTime.hour}:${HealingMatchConstants.confSelectedDateTime.minute}～${HealingMatchConstants.confEndDateTime.hour}:${HealingMatchConstants.confEndDateTime.minute}',
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'NotoSansJP'),
+                      ),
+                      SizedBox(
+                        width: 4,
+                      ),
+                      Text(
+                        '${HealingMatchConstants.confNoOfServiceDuration}分',
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey[400],
+                            fontFamily: 'NotoSansJP'),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SvgPicture.asset('assets/images_gps/cost.svg',
+                          height: 25, width: 25),
+                      SizedBox(width: 3),
+                      Chip(
+                        label: Text('${HealingMatchConstants.confServiceName}'),
+                        backgroundColor: Colors.grey[300],
+                      ),
+                      Text(
+                        "¥${HealingMatchConstants.confServiceCost}",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.left,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(height: 15),
+          Text(
+            "\t\t施術を受ける場所",
+            style: TextStyle(
+                color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.left,
+          ),
+          SizedBox(height: 15),
+          Container(
+            decoration: BoxDecoration(
                 gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Color.fromRGBO(255, 255, 255, 1),
-                      Color.fromRGBO(255, 255, 255, 1),
+                      Color.fromRGBO(242, 242, 242, 1),
+                      Color.fromRGBO(242, 242, 242, 1),
                     ]),
                 shape: BoxShape.rectangle,
                 border: Border.all(
-                  color: Colors.grey[400],
+                  color: Colors.grey[200],
                 ),
-                borderRadius: BorderRadius.circular(16.0),
-                color: Color.fromRGBO(255, 255, 255, 1),
-              ),
-              width: MediaQuery.of(context).size.width * 0.90,
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        SvgPicture.asset('assets/images_gps/calendar.svg',
-                            height: 25, width: 25),
-                        Text(
-                          ' ${HealingMatchConstants.confSelectedDateTime.month}月${HealingMatchConstants.confSelectedDateTime.day}',
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'NotoSansJP'),
-                        ),
-                        Text(
-                          ' $weekDays',
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey[400],
-                              fontFamily: 'NotoSansJP'),
-                        ),
-                      ],
+                borderRadius: BorderRadius.circular(10.0),
+                color: Colors.grey[200]),
+            width: MediaQuery.of(context).size.width * 0.90,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  buildProileDetailCard(
+                      "${HealingMatchConstants.confServiceAddressType}", 12),
+                  SizedBox(width: 10),
+                  Flexible(
+                    child: new Text(
+                      "${HealingMatchConstants.confServiceAddress}",
+                      style: TextStyle(
+                          color: Colors.grey[400],
+                          fontSize: 14,
+                          fontFamily: 'NotoSansJP'),
                     ),
-                    SizedBox(height: 7),
-                    Row(
-                      children: [
-                        SvgPicture.asset('assets/images_gps/clock.svg',
-                            height: 25, width: 25),
-                        Text(
-                          '${HealingMatchConstants.confSelectedDateTime.hour}:${HealingMatchConstants.confSelectedDateTime.minute}～${HealingMatchConstants.confEndDateTime.hour}:${HealingMatchConstants.confEndDateTime.minute}',
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'NotoSansJP'),
-                        ),
-                        SizedBox(
-                          width: 4,
-                        ),
-                        Text(
-                          '${HealingMatchConstants.confNoOfServiceDuration}分',
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey[400],
-                              fontFamily: 'NotoSansJP'),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SvgPicture.asset('assets/images_gps/cost.svg',
-                            height: 25, width: 25),
-                        SizedBox(width: 3),
-                        Chip(
-                          label:
-                              Text('${HealingMatchConstants.confServiceName}'),
-                          backgroundColor: Colors.grey[300],
-                        ),
-                        Text(
-                          "¥${HealingMatchConstants.confServiceCost}",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.left,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 15),
-            Text(
-              "\t\t施術を受ける場所",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold),
-              textAlign: TextAlign.left,
-            ),
-            SizedBox(height: 15),
-            Container(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Color.fromRGBO(242, 242, 242, 1),
-                        Color.fromRGBO(242, 242, 242, 1),
-                      ]),
-                  shape: BoxShape.rectangle,
-                  border: Border.all(
-                    color: Colors.grey[200],
-                  ),
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: Colors.grey[200]),
-              width: MediaQuery.of(context).size.width * 0.90,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    buildProileDetailCard(
-                        "${HealingMatchConstants.confServiceAddressType}", 12),
-                    SizedBox(width: 10),
-                    Flexible(
-                      child: new Text(
-                        "${HealingMatchConstants.confServiceAddress}",
-                        style: TextStyle(
-                            color: Colors.grey[400],
-                            fontSize: 14,
-                            fontFamily: 'NotoSansJP'),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            HealingMatchConstants.confServiceAddressType.contains('店舗')
-                ? SizedBox.shrink()
-                : SizedBox(height: 20),
-            HealingMatchConstants.confServiceAddressType.contains('店舗')
-                ? SizedBox.shrink()
-                : Column(
-                    children: [
-                      Container(
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SvgPicture.asset('assets/images_gps/diamond.svg',
-                                height: 12, width: 12),
-                            Text(
-                              "\t\t施術を受ける建物を選んでください。",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.left,
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      massageBuildTypeDisplayContent(),
-                    ],
-                  ),
-            SizedBox(height: 10),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.82,
-              child: TextField(
-                controller: _queriesAskController,
-                autofocus: false,
-                textInputAction: TextInputAction.done,
-                maxLines: 5,
-                decoration: new InputDecoration(
-                    filled: false,
-                    fillColor: Colors.white,
-                    hintText: '質問、要望などメッセージがあれば入力してください。',
-                    hintStyle: TextStyle(color: Colors.grey[300]),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Colors.grey[300], width: 1.0),
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Colors.grey[300], width: 1.0),
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    border: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Colors.grey[300], width: 1.0),
-                      borderRadius: BorderRadius.circular(10.0),
-                    )),
-              ),
-            ),
-            SizedBox(height: 10),
-            RichText(
-              textAlign: TextAlign.start,
-              text: new TextSpan(
-                text: '*\t\t',
-                style: TextStyle(
-                    fontSize: 16.0,
-                    color: Colors.red,
-                    fontFamily: 'NotoSansJP',
-                    fontWeight: FontWeight.bold),
-                children: <TextSpan>[
-                  new TextSpan(
-                      text: '${HealingMatchConstants.additionalDistanceCost}',
-                      style: new TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey[500],
-                          fontFamily: 'NotoSansJP',
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.w100)),
+                  )
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+          HealingMatchConstants.confServiceAddressType.contains('店舗')
+              ? SizedBox.shrink()
+              : SizedBox(height: 20),
+          HealingMatchConstants.confServiceAddressType.contains('店舗')
+              ? SizedBox.shrink()
+              : Column(
+                  children: [
+                    Container(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SvgPicture.asset('assets/images_gps/diamond.svg',
+                              height: 12, width: 12),
+                          Text(
+                            "\t\t施術を受ける建物を選んでください。",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.left,
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    massageBuildTypeDisplayContent(),
+                  ],
+                ),
+          SizedBox(height: 10),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.82,
+            child: TextField(
+              controller: _queriesAskController,
+              autofocus: false,
+              textInputAction: TextInputAction.done,
+              maxLines: 5,
+              decoration: new InputDecoration(
+                  filled: false,
+                  fillColor: Colors.white,
+                  hintText: '質問、要望などメッセージがあれば入力してください。',
+                  hintStyle: TextStyle(color: Colors.grey[300]),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey[300], width: 1.0),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey[300], width: 1.0),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey[300], width: 1.0),
+                    borderRadius: BorderRadius.circular(10.0),
+                  )),
+            ),
+          ),
+          SizedBox(height: 10),
+          RichText(
+            textAlign: TextAlign.start,
+            text: new TextSpan(
+              text: '*\t\t',
+              style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.red,
+                  fontFamily: 'NotoSansJP',
+                  fontWeight: FontWeight.bold),
+              children: <TextSpan>[
+                new TextSpan(
+                    text: '${HealingMatchConstants.additionalDistanceCost}',
+                    style: new TextStyle(
+                        fontSize: 16,
+                        color: Colors.grey[500],
+                        fontFamily: 'NotoSansJP',
+                        fontStyle: FontStyle.normal,
+                        fontWeight: FontWeight.w100)),
+              ],
+            ),
+          ),
+        ],
       ),
-      bottomNavigationBar: reservation(),
     );
   }
 

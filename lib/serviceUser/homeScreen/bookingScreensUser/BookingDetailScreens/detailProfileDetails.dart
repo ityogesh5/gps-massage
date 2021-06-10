@@ -309,40 +309,44 @@ class _DetailProfileDetailsState extends State<DetailProfileDetails> {
                 )
               : Container(),
           SizedBox(
-            height: 7,
+            height: HealingMatchConstants.showAddress ? 7 : 0.0,
           ),
-          Text(
-            "施術を受ける場所",
-            style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),
-          ),
+          HealingMatchConstants.showAddress
+              ? Text(
+                  "施術を受ける場所",
+                  style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),
+                )
+              : Container(),
           SizedBox(
-            height: 7,
+            height: HealingMatchConstants.showAddress ? 7 : 0.0,
           ),
-          Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color.fromRGBO(255, 255, 255, 1),
-                      Color.fromRGBO(255, 255, 255, 1),
-                    ]),
-                shape: BoxShape.rectangle,
-                border: Border.all(
-                  color: Colors.grey[300],
-                ),
-                borderRadius: BorderRadius.circular(5.0),
-                color: Colors.grey[200]),
-            width: MediaQuery.of(context).size.width * 0.90,
-            height: 50.0,
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  top: 8.0, left: 12.0, bottom: 8.0, right: 8.0),
-              child: Container(
-                child: getUserAddress(),
-              ),
-            ),
-          ),
+          HealingMatchConstants.showAddress
+              ? Container(
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Color.fromRGBO(255, 255, 255, 1),
+                            Color.fromRGBO(255, 255, 255, 1),
+                          ]),
+                      shape: BoxShape.rectangle,
+                      border: Border.all(
+                        color: Colors.grey[300],
+                      ),
+                      borderRadius: BorderRadius.circular(5.0),
+                      color: Colors.grey[200]),
+                  width: MediaQuery.of(context).size.width * 0.90,
+                  height: 50.0,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: 8.0, left: 12.0, bottom: 8.0, right: 8.0),
+                    child: Container(
+                      child: getUserAddress(),
+                    ),
+                  ),
+                )
+              : Container(),
         ],
       ),
     );
