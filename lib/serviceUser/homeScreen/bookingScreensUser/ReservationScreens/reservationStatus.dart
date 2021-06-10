@@ -867,38 +867,39 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                           FittedBox(
                                                             child: Row(
                                                               children: [
-                                                                FittedBox(
-                                                                  child: Container(
-                                                                      padding: EdgeInsets.all(4),
-                                                                      decoration: BoxDecoration(
-                                                                          gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
-                                                                            Colors.white,
-                                                                            Colors.white,
-                                                                          ]),
-                                                                          shape: BoxShape.rectangle,
-                                                                          border: Border.all(
-                                                                            color:
-                                                                                Colors.grey[300],
-                                                                          ),
-                                                                          borderRadius: BorderRadius.circular(5.0),
-                                                                          color: Colors.grey[200]),
-                                                                      child: Text(
-                                                                        '${waitingForApprovalList[index].locationType}',
-                                                                        style:
-                                                                            TextStyle(
-                                                                          color: Color.fromRGBO(
-                                                                              0,
-                                                                              0,
-                                                                              0,
-                                                                              1),
+                                                                Container(
+                                                                    padding:
+                                                                        EdgeInsets
+                                                                            .all(4),
+                                                                    decoration: BoxDecoration(
+                                                                        gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                                                                          Colors
+                                                                              .white,
+                                                                          Colors
+                                                                              .white,
+                                                                        ]),
+                                                                        shape: BoxShape.rectangle,
+                                                                        border: Border.all(
+                                                                          color:
+                                                                              Colors.grey[300],
                                                                         ),
-                                                                      )),
-                                                                ),
+                                                                        borderRadius: BorderRadius.circular(5.0),
+                                                                        color: Colors.grey[200]),
+                                                                    child: Text(
+                                                                      '${waitingForApprovalList[index].locationType}',
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: Color.fromRGBO(
+                                                                            0,
+                                                                            0,
+                                                                            0,
+                                                                            1),
+                                                                      ),
+                                                                    )),
                                                                 SizedBox(
                                                                   width: 5,
                                                                 ),
-                                                                FittedBox(
-                                                                    child: Text(
+                                                                Text(
                                                                   '${waitingForApprovalList[index].location}',
                                                                   style:
                                                                       TextStyle(
@@ -909,7 +910,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                             152,
                                                                             1),
                                                                   ),
-                                                                )),
+                                                                ),
                                                               ],
                                                             ),
                                                           ),
