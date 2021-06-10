@@ -2309,9 +2309,9 @@ class _ReservationListState extends State<ReservationList> {
                                       : SizedBox.shrink(),
                                 ],
                               ),
-                              SizedBox(
+                             /*  SizedBox(
                                 height: 5,
-                              ),
+                              ), */
                               FittedBox(
                                 child: Row(
                                   children: [
@@ -2415,6 +2415,8 @@ class _ReservationListState extends State<ReservationList> {
                                                 ColorConstants.fontFamily)),
                                   ],
                                 ),
+                              ),SizedBox(
+                                height: 7,
                               ),
                               FittedBox(
                                 child: Row(
@@ -2446,7 +2448,7 @@ class _ReservationListState extends State<ReservationList> {
                                 ),
                               ),
                               SizedBox(
-                                height: 7,
+                                height: 9,
                               ),
                               Row(
                                 children: [

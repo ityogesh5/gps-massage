@@ -191,7 +191,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                       ? userData.storeName
                                                                   .length >
                                                               10
-                                                          ? userData.storeName[0]
+                                                          ? userData.storeName
                                                                   .substring(
                                                                       0, 10) +
                                                               "..."
@@ -199,7 +199,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                       : userData.userName
                                                                   .length >
                                                               10
-                                                          ? userData.userName[0]
+                                                          ? userData.userName
                                                                   .substring(
                                                                       0, 10) +
                                                               "..."
