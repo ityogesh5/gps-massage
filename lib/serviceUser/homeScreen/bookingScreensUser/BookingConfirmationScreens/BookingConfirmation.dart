@@ -195,34 +195,36 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                             ),
                             Row(
                               children: [
-                                HealingMatchConstants.confShop
-                                    ? Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 6.0),
-                                        child:
-                                            buildProileDetailCard("店舗", 12.0),
-                                      )
-                                    : Container(),
-                                SizedBox(width: 5.0),
-                                HealingMatchConstants.confBuisnessTrip
-                                    ? Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 6.0),
-                                        child:
-                                            buildProileDetailCard("出張", 12.0),
-                                      )
-                                    : Container(),
-                                SizedBox(
-                                  width: 5,
+                                Visibility(
+                                  visible: HealingMatchConstants.confShop,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 6.0),
+                                    child: buildProileDetailCard("店舗", 12.0),
+                                  ),
                                 ),
-                                HealingMatchConstants.confCoronaMeasures
-                                    ? Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 6.0),
-                                        child: buildProileDetailCard(
-                                            "コロナ対策実施", 14.0),
-                                      )
-                                    : Container(),
+                                HealingMatchConstants.confShop
+                                    ? SizedBox(width: 5.0)
+                                    : SizedBox(),
+                                Visibility(
+                                  visible:
+                                      HealingMatchConstants.confBuisnessTrip,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 6.0),
+                                    child: buildProileDetailCard("出張", 12.0),
+                                  ),
+                                ),
+                                HealingMatchConstants.confBuisnessTrip
+                                    ? SizedBox(width: 5.0)
+                                    : SizedBox(),
+                                Visibility(
+                                  visible:
+                                      HealingMatchConstants.confCoronaMeasures,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 6.0),
+                                    child:
+                                        buildProileDetailCard("コロナ対策実施", 14.0),
+                                  ),
+                                ),
                               ],
                             ),
                             SizedBox(
@@ -247,7 +249,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                                 ),
                                 buildRatingBar(),
                                 Text(
-                                  '(1518)',
+                                  '(${HealingMatchConstants.confNoOfReviewsMembers})',
                                   style: TextStyle(
                                       decorationColor:
                                           Color.fromRGBO(153, 153, 153, 1),
@@ -264,9 +266,11 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                               ],
                             ),
                             SizedBox(
-                              height: certificateImages != null ? 5.0 : 0.0,
+                              height: certificateImages.keys.length != null
+                                  ? 5.0
+                                  : 0.0,
                             ),
-                            certificateImages != null
+                            certificateImages.keys.length != null
                                 ? Container(
                                     height: 30.0,
                                     width: MediaQuery.of(context).size.width -
@@ -309,15 +313,17 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                             SvgPicture.asset('assets/images_gps/gps.svg',
                                 height: 25, width: 25),
                             SizedBox(width: 5),
-                            FittedBox(
-                              child: Text(
-                                '${HealingMatchConstants.confAddress}',
-                                softWrap: true,
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'NotoSansJP'),
+                            Flexible(
+                              child: Container(
+                                child: Text(
+                                  '${HealingMatchConstants.confAddress}',
+                                  softWrap: true,
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'NotoSansJP'),
+                                ),
                               ),
                             ),
                           ]),
@@ -753,7 +759,6 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
           style: TextStyle(
               color: Color.fromRGBO(255, 255, 255, 1),
               fontFamily: 'NotoSansJP',
-              fontWeight: FontWeight.bold,
               fontSize: 16),
         ),
       ),

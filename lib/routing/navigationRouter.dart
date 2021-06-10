@@ -1059,11 +1059,11 @@ class NavigationRouter {
 
   //CancelPopupScreen
   static void switchToServiceUserBookingCancelScreenPopup(
-      BuildContext context) {
+      BuildContext context, int bookingId) {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (BuildContext context) => CancelDetailsScreen()));
+            builder: (BuildContext context) => CancelDetailsScreen(bookingId)));
   }
 
   //Waiting for approval

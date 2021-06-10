@@ -2351,7 +2351,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                     .addAll(value.homeTherapistData.typeTherapistData);
                 getProvidersCertifications(widget.getTherapistByType);
               }
-            }).catchError((){
+            }).catchError(() {
               setState(() {
                 isLoading = false;
               });

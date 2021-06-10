@@ -2,18 +2,25 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
+import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 
 bool isOtherSelected = false;
 final _cancelReasonController = new TextEditingController();
+
+GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 Map<String, dynamic> _formData = {
   'text': null,
   'category': null,
   'date': null,
   'time': null,
 };
-var selectedBuildingType;
+String selectedBuildingType;
 
 class CancelDetailsScreen extends StatefulWidget {
+  final int bookingId;
+  CancelDetailsScreen(this.bookingId);
   @override
   State<StatefulWidget> createState() {
     return _CancelDetailsScreenState();
@@ -24,17 +31,20 @@ class _CancelDetailsScreenState extends State<CancelDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.grey[200],
       body: ListView(
         physics: BouncingScrollPhysics(),
         shrinkWrap: true,
-        children: [ConfirmCancelScreen()],
+        children: [ConfirmCancelScreen(widget.bookingId)],
       ),
     );
   }
 }
 
 class ConfirmCancelScreen extends StatefulWidget {
+  final int bookingId;
+  ConfirmCancelScreen(this.bookingId);
   @override
   State<StatefulWidget> createState() {
     return _ConfirmCancelScreenState();
@@ -168,8 +178,7 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
                               ],
                               radioButtonValue: (value) {
                                 if (value == 'Y') {
-                                  DialogHelper.showUserBookingCancelDialog(
-                                      context);
+                                  cancelBooking();
                                 } else if (value == 'N') {
                                   Navigator.of(context, rootNavigator: true)
                                       .pop(context);
@@ -190,5 +199,49 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
         ),
       ),
     );
+  }
+
+  cancelBooking() {
+    String cancelReason = _cancelReasonController.text;
+    if (cancelReason == null || cancelReason == '') {
+      ProgressDialogBuilder.hideLoader(context);
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('キャンセルの理由を選択してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+
+    try {
+      ProgressDialogBuilder.showOverlayLoader(context);
+      var cancelBooking = ServiceUserAPIProvider.updateBookingCompeted(
+          widget.bookingId, cancelReason);
+      ProgressDialogBuilder.hideLoader(context);
+      DialogHelper.showUserBookingCancelDialog(context);
+    } catch (e) {
+      ProgressDialogBuilder.hideLoader(context);
+      print('cancelException : ${e.toString()}');
+    }
   }
 }

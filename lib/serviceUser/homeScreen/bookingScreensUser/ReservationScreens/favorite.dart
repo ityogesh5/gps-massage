@@ -199,7 +199,7 @@ class _FavoriteState extends State<Favorite> {
                                                     .therapistId;
 
                                             NavigationRouter
-                                                .switchToUserSearchDetailPageOne(
+                                                .switchToServiceUserBookingDetailsCompletedScreenOne(
                                                     context,
                                                     favouriteUserList[index]
                                                         .therapistId);
@@ -460,48 +460,60 @@ class _FavoriteState extends State<Favorite> {
                                                                     MainAxisAlignment
                                                                         .spaceBetween,
                                                                 children: [
-                                                                  favouriteUserList[
-                                                                              index]
-                                                                          .favouriteTherapistId
-                                                                          .isShop
-                                                                      ? Padding(
-                                                                          padding:
-                                                                              const EdgeInsets.only(top: 3.0),
-                                                                          child: buildProileDetailCard(
-                                                                              "店舗",
-                                                                              12.0),
-                                                                        )
-                                                                      : Container(),
+                                                                  Visibility(
+                                                                    visible: favouriteUserList[
+                                                                            index]
+                                                                        .favouriteTherapistId
+                                                                        .isShop,
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          top:
+                                                                              3.0),
+                                                                      child: buildProileDetailCard(
+                                                                          "店舗",
+                                                                          12.0),
+                                                                    ),
+                                                                  ),
                                                                   SizedBox(
                                                                     width: 5,
                                                                   ),
-                                                                  favouriteUserList[
-                                                                              index]
-                                                                          .favouriteTherapistId
-                                                                          .businessTrip
-                                                                      ? Padding(
-                                                                          padding:
-                                                                              const EdgeInsets.only(top: 3.0),
-                                                                          child: buildProileDetailCard(
-                                                                              "出張",
-                                                                              12.0),
-                                                                        )
-                                                                      : Container(),
+                                                                  Visibility(
+                                                                    visible: favouriteUserList[
+                                                                            index]
+                                                                        .favouriteTherapistId
+                                                                        .businessTrip,
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          top:
+                                                                              3.0),
+                                                                      child: buildProileDetailCard(
+                                                                          "出張",
+                                                                          12.0),
+                                                                    ),
+                                                                  ),
                                                                   SizedBox(
                                                                     width: 5,
                                                                   ),
-                                                                  favouriteUserList[
-                                                                              index]
-                                                                          .favouriteTherapistId
-                                                                          .coronaMeasure
-                                                                      ? Padding(
-                                                                          padding:
-                                                                              const EdgeInsets.only(top: 3.0),
-                                                                          child: buildProileDetailCard(
-                                                                              "コロナ対策実施",
-                                                                              12.0),
-                                                                        )
-                                                                      : Container(),
+                                                                  Visibility(
+                                                                    visible: favouriteUserList[
+                                                                            index]
+                                                                        .favouriteTherapistId
+                                                                        .coronaMeasure,
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          top:
+                                                                              3.0),
+                                                                      child: buildProileDetailCard(
+                                                                          "コロナ対策実施",
+                                                                          12.0),
+                                                                    ),
+                                                                  ),
                                                                 ],
                                                               ),
                                                             ),
@@ -656,16 +668,22 @@ class _FavoriteState extends State<Favorite> {
                                                         SizedBox(
                                                           width: 7,
                                                         ),
-                                                        Text(
-                                                          '${favouriteUserList[index].favouriteTherapistId.addresses[0].address}',
-                                                          style: TextStyle(
-                                                              color: Color
-                                                                  .fromRGBO(0,
-                                                                      0, 0, 1),
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
+
+                                                        Flexible(
+                                                          child: Text(
+                                                            '${favouriteUserList[index].favouriteTherapistId.addresses[0].address}',
+                                                            style: TextStyle(
+                                                                color: Color
+                                                                    .fromRGBO(
+                                                                        0,
+                                                                        0,
+                                                                        0,
+                                                                        1),
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
                                                         ),
                                                         // Spacer(),
                                                       ],

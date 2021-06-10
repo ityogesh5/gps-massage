@@ -502,9 +502,15 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                     Spacer(),
                     InkWell(
                       onTap: () {
-                        NavigationRouter.switchToServiceUserBookingCancelScreen(
-                            context,
-                            therapistDetails.bookingDataResponse[0].id);
+                        therapistDetails.bookingDataResponse[0].bookingStatus ==
+                                0
+                            ? NavigationRouter
+                                .switchToServiceUserBookingCancelScreenPopup(
+                                    context,
+                                    therapistDetails.bookingDataResponse[0].id)
+                            : NavigationRouter
+                                .switchToServiceUserBookingCancelScreen(context,
+                                    therapistDetails.bookingDataResponse[0].id);
                       },
                       child: Text(
                         "キャンセルする",
@@ -1833,6 +1839,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
     print('EndDateTime:${HealingMatchConstants.confEndDateTime.weekday}');
     print('EndDateTime:${HealingMatchConstants.confEndDateTime.hour}');
     print('subCategoryId:${subCategoryId}');
+    print('Corona:${HealingMatchConstants.confCoronaMeasures}');
     ProgressDialogBuilder.hideCommonProgressDialog(context);
     //  ProgressDialogBuilder.hideLoader(context);
     NavigationRouter.switchToServiceUserBookingConfirmationScreen(context);

@@ -859,9 +859,15 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                     Spacer(),
                     InkWell(
                       onTap: () {
-                        NavigationRouter.switchToServiceUserBookingCancelScreen(
-                            context,
-                            therapistDetails.bookingDataResponse[0].id);
+                        therapistDetails.bookingDataResponse[0].bookingStatus ==
+                                0
+                            ? NavigationRouter
+                                .switchToServiceUserBookingCancelScreenPopup(
+                                    context,
+                                    therapistDetails.bookingDataResponse[0].id)
+                            : NavigationRouter
+                                .switchToServiceUserBookingCancelScreen(context,
+                                    therapistDetails.bookingDataResponse[0].id);
                       },
                       child: Text(
                         "キャンセルする",
@@ -1696,6 +1702,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
         bottom: 4.0,
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             '施術を受ける日時',

@@ -115,7 +115,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              "(${totalElements})",
+                              "(${totalElements} レビュー)",
                               style: TextStyle(
                                   fontFamily: 'NotoSansJP',
                                   fontSize: 12,
@@ -239,6 +239,8 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                                 BouncingScrollPhysics(),
                                             keyboardType:
                                                 TextInputType.multiline,
+                                            textInputAction:
+                                                TextInputAction.done,
                                             maxLines: 8,
                                             autofocus: false,
                                             focusNode: _focus,
@@ -407,7 +409,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('評価を入力してください。',
+              child: Text('セラピストを5段階で評価してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -437,7 +439,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('セラピストを5段階で評価してください。',
+              child: Text('評価を入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -465,7 +467,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('店舗についての評価をご記入ください。',
+              child: Text('50文字の店舗についての評価をご記入ください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
