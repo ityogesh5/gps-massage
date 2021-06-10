@@ -1760,7 +1760,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('続行するには、すべての値を選択してください。',
+              child: Text('受けたいマッサージと日時を選択してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 3,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
