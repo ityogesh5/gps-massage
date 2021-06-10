@@ -49,6 +49,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
   String weekDays;
   GlobalKey key = new GlobalKey();
   CreateBookingModel createBooking;
+  double distance = HealingMatchConstants.serviceDistanceRadius / 1000.0;
 
   @override
   void initState() {
@@ -68,7 +69,8 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           onPressed: () {
-            NavigationRouter.switchToServiceUserBottomBar(context);
+            /*   NavigationRouter.switchToServiceUserBottomBar(context); */
+            Navigator.pop(context);
           },
           color: Colors.black,
         ),
@@ -127,17 +129,17 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                                             .serviceDistanceRadius !=
                                         0
                                 ? Text(
-                                    '${HealingMatchConstants.serviceDistanceRadius}Ｋｍ圏内',
+                                    '${distance.toStringAsFixed(2)}Ｋｍ圏内',
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
-                                        fontSize: 8.0,
+                                        fontSize: 10.0,
                                         color: Colors.grey[400],
                                         fontFamily: 'NotoSansJP'),
                                   )
                                 : Text(
                                     '0.0ｋｍ圏内',
                                     style: TextStyle(
-                                        fontSize: 14, color: Colors.grey),
+                                        fontSize: 10, color: Colors.grey),
                                   ),
                           ],
                         ),
@@ -384,7 +386,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                         SvgPicture.asset('assets/images_gps/clock.svg',
                             height: 25, width: 25),
                         Text(
-                          '${HealingMatchConstants.confSelectedDateTime.hour}:00～${HealingMatchConstants.confEndDateTime.hour}:00',
+                          '${HealingMatchConstants.confSelectedDateTime.hour}:${HealingMatchConstants.confSelectedDateTime.minute}～${HealingMatchConstants.confEndDateTime.hour}:${HealingMatchConstants.confEndDateTime.minute}',
                           style: TextStyle(
                               fontSize: 14,
                               color: Colors.black,

@@ -594,13 +594,17 @@ class _ChooseDateState extends State<ChooseDate> {
   bool checkTimeAvailable(int i, int j) {
     // bookEvents[timeRow[i]] = [j];
     int iterationLength = selectedMin ~/ 15;
-    for (int k = 1; k < iterationLength; k++) {
-      if (events.containsKey(timeRow[i + k]) &&
-          events[timeRow[i + k]].contains(j)) {
-        return false;
+    try {
+      for (int k = 1; k < iterationLength; k++) {
+        if (events.containsKey(timeRow[i + k]) &&
+            events[timeRow[i + k]].contains(j)) {
+          return false;
+        }
       }
+      return true;
+    }  catch (e) {
+          return false;
     }
-    return true;
   }
 
   bool timeDurationSinceDate(var dateString, {bool numericDates = true}) {
