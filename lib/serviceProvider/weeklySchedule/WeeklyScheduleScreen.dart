@@ -51,57 +51,127 @@ class _WeeklyScheduleState extends State<WeeklySchedule> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          brightness: Brightness.light,
-          elevation: 0.0,
-          leading: IconButton(
-            padding:
-                EdgeInsets.only(left: 4.0, top: 8.0, bottom: 8.0, right: 0.0),
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: Colors.black,
-            ),
-            onPressed: () => Navigator.pop(context),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        brightness: Brightness.light,
+        elevation: 0.0,
+        leading: IconButton(
+          padding:
+              EdgeInsets.only(left: 4.0, top: 8.0, bottom: 8.0, right: 0.0),
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
           ),
-          title: Text(
-            '一週間のスケジュール',
-            style: TextStyle(
-                fontSize: 18.0,
-                fontFamily: 'NotoSansJP',
-                color: Colors.black,
-                fontWeight: FontWeight.bold),
-          ),
-          centerTitle: true,
+          onPressed: () => Navigator.pop(context),
         ),
-        body: status == 0
-            ? Center(child: CircularProgressIndicator())
-            : LazyLoadScrollView(
-                isLoading: isLoading,
-                onEndOfPage: () => _getMoreData(),
-                child: SingleChildScrollView(
-                  primary: true,
-                  child: Container(
-                    padding: EdgeInsets.all(8.0),
-                    //  margin: EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        ListView.separated(
-                            separatorBuilder: (context, index) => SizedBox(
-                                  height: 15,
-                                ),
-                            shrinkWrap: true,
-                            physics: BouncingScrollPhysics(),
-                            itemCount: requestBookingDetailsList.length,
-                            itemBuilder: (context, index) {
-                              return buildBookingCard(index);
-                            }),
-                      ],
+        title: Text(
+          '一週間のスケジュール',
+          style: TextStyle(
+              fontSize: 18.0,
+              fontFamily: 'NotoSansJP',
+              color: Colors.black,
+              fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
+      ),
+      body: status == 0
+          ? Center(child: CircularProgressIndicator())
+          : requestBookingDetailsList != null &&
+                  requestBookingDetailsList.isNotEmpty
+              ? LazyLoadScrollView(
+                  isLoading: isLoading,
+                  onEndOfPage: () => _getMoreData(),
+                  child: SingleChildScrollView(
+                    primary: true,
+                    child: Container(
+                      padding: EdgeInsets.all(8.0),
+                      //  margin: EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          ListView.separated(
+                              separatorBuilder: (context, index) => SizedBox(
+                                    height: 15,
+                                  ),
+                              shrinkWrap: true,
+                              physics: BouncingScrollPhysics(),
+                              itemCount: requestBookingDetailsList.length,
+                              itemBuilder: (context, index) {
+                                return buildBookingCard(index);
+                              }),
+                        ],
+                      ),
                     ),
                   ),
+                )
+              : Stack(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Center(
+                            child: Container(
+                              padding: EdgeInsets.all(8.0),
+                              height: MediaQuery.of(context).size.height * 0.22,
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                color: Color.fromRGBO(255, 255, 255, 1),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(16.0)),
+                                border: Border.all(
+                                    color: Color.fromRGBO(217, 217, 217, 1)),
+                              ),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      InkWell(
+                                        onTap: () {},
+                                        child: new Container(
+                                            width: 80.0,
+                                            height: 80.0,
+                                            decoration: new BoxDecoration(
+                                              border: Border.all(
+                                                  color: Colors.black12),
+                                              shape: BoxShape.circle,
+                                              image: new DecorationImage(
+                                                  fit: BoxFit.fill,
+                                                  image: new AssetImage(
+                                                      'assets/images_gps/appIcon.png')),
+                                            )),
+                                      ),
+                                      Expanded(
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              '今週の予約はありません。',
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontFamily: 'NotoSansJP',
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ));
+    );
   }
 
   Widget buildBookingCard(int index) {

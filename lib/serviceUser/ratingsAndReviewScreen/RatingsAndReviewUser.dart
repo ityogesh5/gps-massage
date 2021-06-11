@@ -281,6 +281,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                     padding: const EdgeInsets.only(top: 60),
                                     child: GestureDetector(
                                       onTap: () {
+                                        _showLoadingIndicator(context);
                                         _ratingAndReview();
                                       },
                                       child: Align(
@@ -707,5 +708,28 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
         isLoadingData = false;
       });
     }
+  }
+
+  _showLoadingIndicator(BuildContext context) {
+    AlertDialog alert = AlertDialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8.0))),
+      content: new Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SpinKitFadingCircle(
+            color: ColorConstants.buttonColor,
+            size: 50.0,
+          ),
+        ],
+      ),
+    );
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }

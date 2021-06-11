@@ -78,6 +78,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                 // Allows the user to reveal the app bar if they begin scrolling
                 // back up the list of items.
                 floating: true,
+                automaticallyImplyLeading: false,
                 flexibleSpace: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
