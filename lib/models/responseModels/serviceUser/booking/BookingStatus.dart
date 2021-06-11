@@ -272,7 +272,7 @@ class BookingTherapistId {
   bool businessTrip;
   bool coronaMeasure;
   String storeName;
-  dynamic storeType;
+  String storeType;
   bool isShop;
   String qulaificationCertImgUrl;
   dynamic firebaseUdid;
@@ -289,7 +289,7 @@ class BookingTherapistId {
         businessTrip: json["businessTrip"],
         coronaMeasure: json["coronaMeasure"],
         storeName: json["storeName"],
-        storeType: storeTypeValues.map[json["storeType"]],
+        storeType: json["storeType"],
         isShop: json["isShop"],
         qulaificationCertImgUrl: json["qulaificationCertImgUrl"],
         firebaseUdid: json["firebaseUDID"],
