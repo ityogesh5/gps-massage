@@ -411,16 +411,17 @@ class _PastReservationsState extends State<PastReservations> {
                                                                   child:
                                                                       InkWell(
                                                                     onTap: () {
-                                                                      /*   showToolTipForFav(
+                                                                      showToolTipForFav(
                                                                           bookingDetailsList[index]
                                                                               .bookingTherapistId
                                                                               .storeType,
                                                                           formKeyList[
-                                                                              index]);*/
+                                                                              index]);
                                                                     },
                                                                     child:
                                                                         Container(
-                                                                      // key: formKeyList[index],
+                                                                      key: formKeyList[
+                                                                          index],
                                                                       decoration:
                                                                           BoxDecoration(
                                                                         gradient: LinearGradient(
