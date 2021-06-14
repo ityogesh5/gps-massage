@@ -989,6 +989,11 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                           onTap: () {
                             HealingMatchConstants.therapistId =
                                 widget.getTherapistByType[index].user.id;
+                            HealingMatchConstants.serviceDistanceRadius = widget
+                                .getTherapistByType[index]
+                                .user
+                                .addresses[index]
+                                .distance;
 
                             NavigationRouter
                                 .switchToServiceUserBookingDetailsCompletedScreenOne(
@@ -2854,6 +2859,11 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                             HealingMatchConstants.therapistId =
                                 therapistUsers[index].user.id;
                             print('Position value home screen : $userID');
+                            HealingMatchConstants.serviceDistanceRadius =
+                                therapistUsers[index]
+                                    .user
+                                    .addresses[0]
+                                    .distance;
                             NavigationRouter
                                 .switchToServiceUserBookingDetailsCompletedScreenOne(
                                     context, HealingMatchConstants.therapistId);
@@ -3670,6 +3680,11 @@ class _RecommendListsState extends State<RecommendLists> {
                       onTap: () {
                         HealingMatchConstants.therapistId =
                             widget.getRecommendedTherapists[index].user.id;
+                        HealingMatchConstants.serviceDistanceRadius = widget
+                            .getRecommendedTherapists[index]
+                            .user
+                            .addresses[index]
+                            .distance;
                         NavigationRouter
                             .switchToServiceUserBookingDetailsCompletedScreenOne(
                                 context, HealingMatchConstants.therapistId);

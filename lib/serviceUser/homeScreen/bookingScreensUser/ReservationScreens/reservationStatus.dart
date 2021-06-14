@@ -458,7 +458,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             waitingForApprovalList[index]
                                                 .endTime
                                                 .toLocal();
-                                        String date = DateFormat('MM月d')
+                                        String date = DateFormat('MM月dd')
                                             .format(startTime);
                                         String sTime = DateFormat('kk:mm')
                                             .format(startTime);
