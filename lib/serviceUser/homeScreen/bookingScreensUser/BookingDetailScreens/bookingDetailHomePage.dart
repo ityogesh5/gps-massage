@@ -19,6 +19,11 @@ import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/Booking
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:toast/toast.dart';
 import 'package:intl/intl.dart';
+import 'package:gps_massageapp/commonScreens/chat/chat_item_screen.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/chat.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/db.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/chatData.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/user.dart';
 
 class BookingDetailHomePage extends StatefulWidget {
   final int id;
@@ -148,6 +153,32 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
         ? Container()
         : Scaffold(
             key: _scaffoldKey,
+            floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
+            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+            floatingActionButton: therapistDetails.bookingDataResponse.length !=
+                        0 &&
+                    (therapistDetails.bookingDataResponse[0].bookingStatus ==
+                            1 ||
+                        therapistDetails.bookingDataResponse[0].bookingStatus ==
+                            2)
+                ? InkWell(
+                    onTap: () {
+                      ProgressDialogBuilder.showCommonProgressDialog(context);
+                      getChatDetails(therapistDetails.data.firebaseUdid);
+                    },
+                    child: Card(
+                      elevation: 3,
+                      shape: CircleBorder(),
+                      child: CircleAvatar(
+                          maxRadius: 20,
+                          backgroundColor: Colors.white,
+                          child: SvgPicture.asset('assets/images_gps/chat.svg',
+                              height: 15, width: 15)),
+                    ),
+                  )
+                : Container(
+                    height: 0.0,
+                  ),
             body: SafeArea(
               child: SingleChildScrollView(
                 child: Column(
@@ -223,26 +254,28 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                                         'assets/images_gps/gps.svg'),
                                     SizedBox(width: 10),
                                     Container(
-                                        padding: EdgeInsets.all(8.0),
+                                        padding: EdgeInsets.only(
+                                            left: 8.0,
+                                            top: 4.0,
+                                            bottom: 4.0,
+                                            right: 8.0),
                                         decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                              begin: Alignment.topCenter,
-                                              end: Alignment.bottomCenter,
-                                              colors: [
-                                                Color.fromRGBO(
-                                                    255, 255, 255, 1),
-                                                Color.fromRGBO(
-                                                    255, 255, 255, 1),
-                                              ]),
-                                          //shape: BoxShape.rectangle,
-                                          /*border: Border.all(
-                                            color: Colors.grey[200],
-                                          ),*/
-                                          /*borderRadius:
-                                              BorderRadius.circular(6.0),
-                                          color:
-                                              Color.fromRGBO(255, 255, 255, 1),*/
-                                        ),
+                                            gradient: LinearGradient(
+                                                begin: Alignment.topCenter,
+                                                end: Alignment.bottomCenter,
+                                                colors: [
+                                                  Color.fromRGBO(
+                                                      255, 255, 255, 1),
+                                                  Color.fromRGBO(
+                                                      255, 255, 255, 1),
+                                                ]),
+                                            shape: BoxShape.rectangle,
+                                            border: Border.all(
+                                              color: Colors.grey[300],
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(5.0),
+                                            color: Colors.grey[200]),
                                         child: shopLocationSelected
                                             ? Text(
                                                 '店舗',
@@ -533,6 +566,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                 .toLocal()
             : therapistDetails.bookingDataResponse[0].endTime.toLocal();
     String jaName = DateFormat('EEEE', 'ja_JP').format(startTime);
+    String date = DateFormat('MM月dd').format(startTime);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -573,7 +607,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                       width: 8,
                     ),
                     Text(
-                      '${startTime.day}月${startTime.month}',
+                      '$date',
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.black,
@@ -607,7 +641,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                             ),
                           )
                         : Text(
-                            'キャンセルしました',
+                            'キャンセル済み',
                             style: TextStyle(
                               fontSize: 12.0,
                               color: Colors.red,
@@ -694,7 +728,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Color.fromRGBO(217, 217, 217, 1),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                       child: Padding(
@@ -754,38 +788,38 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                 SizedBox(
                   height: 8,
                 ),
-                FittedBox(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            '${therapistDetails.bookingDataResponse[0].locationType} ',
-                            style: TextStyle(
-                              fontSize: 12.0,
-                              color: Colors.black,
-                            ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Color.fromRGBO(217, 217, 217, 1),
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          '${therapistDetails.bookingDataResponse[0].locationType} ',
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            color: Colors.black,
                           ),
                         ),
                       ),
-                      SizedBox(
-                        width: 2,
-                      ),
-                      Text(
+                    ),
+                    SizedBox(
+                      width: 2,
+                    ),
+                    Flexible(
+                      child: Text(
                         '${therapistDetails.bookingDataResponse[0].location} ',
                         style: TextStyle(
                           fontSize: 12.0,
                           color: Color.fromRGBO(102, 102, 102, 1),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -807,6 +841,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                 .toLocal()
             : therapistDetails.bookingDataResponse[0].endTime.toLocal();
     String jaName = DateFormat('EEEE', 'ja_JP').format(startTime);
+    String date = DateFormat('MM月dd').format(startTime);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -846,7 +881,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                       width: 8,
                     ),
                     Text(
-                      '${startTime.day}月${startTime.month}',
+                      '$date',
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.black,
@@ -972,7 +1007,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Color.fromRGBO(217, 217, 217, 1),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                       child: Padding(
@@ -1139,10 +1174,12 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
-                Text(
-                  "${therapistDetails.bookingDataResponse[0].addedPrice}",
-                  style: TextStyle(fontSize: 14.0, color: Colors.black),
-                ),
+                therapistDetails.bookingDataResponse[0].addedPrice != null
+                    ? Text(
+                        "${therapistDetails.bookingDataResponse[0].addedPrice}",
+                        style: TextStyle(fontSize: 14.0, color: Colors.black),
+                      )
+                    : SizedBox.shrink(),
               ],
             ),
           ),
@@ -2013,16 +2050,14 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
               ),
             ),
             Expanded(
-              child: FittedBox(
-                child: Text(
-                  HealingMatchConstants.searchRelaxationTxt,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 12.0,
-                    color: _value == 3
-                        ? Color.fromRGBO(0, 0, 0, 1)
-                        : Color.fromRGBO(217, 217, 217, 1),
-                  ),
+              child: Text(
+                HealingMatchConstants.searchRelaxationTxt,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 12.0,
+                  color: _value == 3
+                      ? Color.fromRGBO(0, 0, 0, 1)
+                      : Color.fromRGBO(217, 217, 217, 1),
                 ),
               ),
             ),
@@ -2259,7 +2294,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                             height: 16, width: 16),
                         SizedBox(width: 10),
                         new Text(
-                          '${selectedTime.day}月${selectedTime.month}:',
+                          '${DateFormat('MM月dd').format(selectedTime)}',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 12,
@@ -2541,6 +2576,23 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
       }
     }
     return "";
+  }
+
+  getChatDetails(String peerId) {
+    DB db = DB();
+    List<ChatData> chatData = List<ChatData>();
+    List<UserDetail> contactList = List<UserDetail>();
+    db.getUserDetilsOfContacts(['$peerId']).then((value) {
+      contactList.addAll(value);
+      Chat().fetchChats(contactList).then((value) {
+        chatData.addAll(value);
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ChatItemScreen(chatData[0])));
+      });
+    });
   }
 
   bookingConfirmField() async {
