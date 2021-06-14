@@ -748,7 +748,7 @@ class ServiceUserAPIProvider {
           },
           body: json.encode({
             "fcmToken": HealingMatchConstants.userDeviceToken,
-            "isTherapist": isTherapistValue,
+          /*   "isTherapist": isTherapistValue, */
             "lat": HealingMatchConstants.currentLatitude,
             "lon": HealingMatchConstants.currentLongitude,
           }));

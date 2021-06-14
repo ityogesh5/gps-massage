@@ -12,6 +12,7 @@ import 'package:gps_massageapp/models/customModels/calendarEventCreateReqModel.d
 import 'package:gps_massageapp/models/responseModels/serviceUser/booking/createBooking.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
+import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 
 double ratingsValue = 4.0;
 bool checkValue = false;
@@ -99,7 +100,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
             '予約の詳細',
             style: TextStyle(
                 fontFamily: 'NotoSansJP',
-                fontSize: 16,
+                fontSize: 14,
                 color: Colors.black,
                 fontWeight: FontWeight.bold),
           ),
@@ -357,8 +358,12 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                 children: [
                   Row(
                     children: [
-                      SvgPicture.asset('assets/images_gps/calendar.svg',
-                          height: 25, width: 25),
+                      SvgPicture.asset(
+                        'assets/images_gps/calendar.svg',
+                        height: 14.77,
+                        width: 16.0,
+                      ),
+                      SizedBox(width: 2),
                       Text(
                         ' ${HealingMatchConstants.confSelectedDateTime.month}月${HealingMatchConstants.confSelectedDateTime.day}',
                         style: TextStyle(
@@ -367,22 +372,27 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                             fontWeight: FontWeight.bold,
                             fontFamily: 'NotoSansJP'),
                       ),
+                      SizedBox(width: 2),
                       Text(
                         ' $weekDays',
                         style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 12,
                             color: Colors.grey[400],
                             fontFamily: 'NotoSansJP'),
                       ),
                     ],
                   ),
-                  SizedBox(height: 7),
+                  SizedBox(height: 10.0),
                   Row(
                     children: [
-                      SvgPicture.asset('assets/images_gps/clock.svg',
-                          height: 25, width: 25),
+                      SvgPicture.asset(
+                        'assets/images_gps/clock.svg',
+                        height: 14.77,
+                        width: 16.0,
+                      ),
+                      SizedBox(width: 2),
                       Text(
-                        '${HealingMatchConstants.confSelectedDateTime.hour}:${HealingMatchConstants.confSelectedDateTime.minute}～${HealingMatchConstants.confEndDateTime.hour}:${HealingMatchConstants.confEndDateTime.minute}',
+                        ' ${HealingMatchConstants.confSelectedDateTime.hour}:${HealingMatchConstants.confSelectedDateTime.minute}～${HealingMatchConstants.confEndDateTime.hour}:${HealingMatchConstants.confEndDateTime.minute}',
                         style: TextStyle(
                             fontSize: 14,
                             color: Colors.black,
@@ -395,27 +405,45 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                       Text(
                         '${HealingMatchConstants.confNoOfServiceDuration}分',
                         style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 12,
                             color: Colors.grey[400],
                             fontFamily: 'NotoSansJP'),
                       ),
                     ],
                   ),
+                  SizedBox(height: 10.0),
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      SvgPicture.asset('assets/images_gps/cost.svg',
-                          height: 25, width: 25),
-                      SizedBox(width: 3),
-                      Chip(
-                        label: Text('${HealingMatchConstants.confServiceName}'),
-                        backgroundColor: Colors.grey[300],
+                      SvgPicture.asset(
+                        'assets/images_gps/cost.svg',
+                        height: 14.77,
+                        width: 16.0,
                       ),
+                      SizedBox(width: 4),
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Color.fromRGBO(242, 242, 242, 1),
+                            border: Border.all(
+                              color: Colors.transparent,
+                            ),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                        padding: EdgeInsets.all(4),
+                        child: Text(
+                          '${HealingMatchConstants.confServiceName}',
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 4),
                       Text(
                         "¥${HealingMatchConstants.confServiceCost}",
                         style: TextStyle(
                             color: Colors.black,
-                            fontSize: 16,
+                            fontSize: 14,
                             fontWeight: FontWeight.bold),
                         textAlign: TextAlign.left,
                       ),
@@ -429,7 +457,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
           Text(
             "\t\t施術を受ける場所",
             style: TextStyle(
-                color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                color: Colors.black, fontSize: 14, fontWeight: FontWeight.bold),
             textAlign: TextAlign.left,
           ),
           SizedBox(height: 15),
@@ -462,7 +490,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                       "${HealingMatchConstants.confServiceAddress}",
                       style: TextStyle(
                           color: Colors.grey[400],
-                          fontSize: 14,
+                          fontSize: 12,
                           fontFamily: 'NotoSansJP'),
                     ),
                   )
@@ -476,18 +504,21 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
           HealingMatchConstants.confServiceAddressType.contains('店舗')
               ? SizedBox.shrink()
               : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
+                          SizedBox(width: 5.0),
                           SvgPicture.asset('assets/images_gps/diamond.svg',
                               height: 12, width: 12),
                           Text(
                             "\t\t施術を受ける建物を選んでください。",
                             style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 16,
+                                fontSize: 14,
                                 fontWeight: FontWeight.bold),
                             textAlign: TextAlign.left,
                           ),
@@ -510,7 +541,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                   filled: false,
                   fillColor: Colors.white,
                   hintText: '質問、要望などメッセージがあれば入力してください。',
-                  hintStyle: TextStyle(color: Colors.grey[300]),
+                  hintStyle: TextStyle(color: Colors.grey[300], fontSize: 12.0),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey[300], width: 1.0),
                     borderRadius: BorderRadius.circular(10.0),
@@ -539,7 +570,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                 new TextSpan(
                     text: '${HealingMatchConstants.additionalDistanceCost}',
                     style: new TextStyle(
-                        fontSize: 16,
+                        fontSize: 12,
                         color: Colors.grey[500],
                         fontFamily: 'NotoSansJP',
                         fontStyle: FontStyle.normal,
@@ -735,15 +766,11 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
   Widget reservation() {
     return Container(
       margin: EdgeInsets.all(12),
-      child: new RaisedButton(
-        shape: RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(6.0),
-          //side: BorderSide(color: Colors.black),
-        ),
+      child: ArgonButton(
+        height: 45,
+        width: MediaQuery.of(context).size.width - 20.0, //350,
+        borderRadius: 5.0,
         color: Color.fromRGBO(255, 0, 0, 1),
-        onPressed: () {
-          _updateUserBookingDetails();
-        },
         child: new Text(
           '予約する',
           style: TextStyle(
@@ -751,6 +778,19 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
               fontFamily: 'NotoSansJP',
               fontSize: 16),
         ),
+        loader: Container(
+          padding: EdgeInsets.all(10),
+          child: SpinKitRotatingCircle(
+            color: Colors.white,
+            // size: loaderWidth ,
+          ),
+        ),
+        onTap: (startLoading, stopLoading, btnState) {
+          if (btnState == ButtonState.Idle) {
+            startLoading();
+            _updateUserBookingDetails();
+          }
+        },
       ),
     );
   }
@@ -758,72 +798,82 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
   Widget massageBuildTypeDisplayContent() {
     bool newChoosenVal = false;
     return Padding(
-      padding: const EdgeInsets.all(3.0),
+      padding: const EdgeInsets.only(left: 20.0),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: BuildingCategories.initial()
                 .categories
                 .map((BuildingCategory category) {
               final bool selected =
                   _formData['category']?.name == category.name;
-              return ListTile(
-                title: Padding(
-                  padding: const EdgeInsets.all(3.0),
-                  child: Align(
-                    alignment: Alignment(-1.2, 1.1),
-                    child: new Text('${category.name}',
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'NotoSansJP')),
+              return Container(
+                height: 40.0,
+                alignment: Alignment.topCenter,
+                margin: EdgeInsets.all(2.0),
+                padding: EdgeInsets.all(0.0),
+                child: ListTile(
+                  tileColor: Colors.transparent,
+                  contentPadding: EdgeInsets.all(0.0),
+                  title: Padding(
+                    padding: const EdgeInsets.only(left: 0.0, bottom: 8.0),
+                    child: Align(
+                      alignment: Alignment(-1.2, 0),
+                      child: new Text('${category.name}',
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black,
+                              /*    fontWeight: FontWeight.w500, */
+                              fontFamily: 'NotoSansJP')),
+                    ),
                   ),
-                ),
-                leading: CustomRadioButton(
-                    color: Colors.black,
-                    selected: selected,
-                    onChange: (newVal) {
-                      newChoosenVal = newVal;
-                      _handleCategoryChange(newChoosenVal, category);
-                      if (category.name.contains('その他')) {
-                        print('SELECTED VALUE IF ON CHANGE : ${category.name}');
+                  leading: CustomRadioButton(
+                      color: Colors.black,
+                      selected: selected,
+                      onChange: (newVal) {
+                        newChoosenVal = newVal;
+                        _handleCategoryChange(newChoosenVal, category);
+                        if (category.name.contains('その他')) {
+                          print(
+                              'SELECTED VALUE IF ON CHANGE : ${category.name}');
 
-                        setState(() {
-                          isOtherSelected = true;
-                        });
-                      } else {
-                        _handleCategoryChange(true, category);
-                        print(
-                            'SELECTED VALUE ELSE ON CHANGE : ${category.name}');
-                        setState(() {
-                          isOtherSelected = false;
-                        });
-                      }
-                    }),
-                onTap: () {
-                  _handleCategoryChange(true, category);
-                  if (category.name.contains('その他')) {
-                    print('SELECTED VALUE IF ON TAP : ${category.name}');
-                    setState(() {
-                      isOtherSelected = true;
-                    });
-                  } else {
+                          setState(() {
+                            isOtherSelected = true;
+                          });
+                        } else {
+                          _handleCategoryChange(true, category);
+                          print(
+                              'SELECTED VALUE ELSE ON CHANGE : ${category.name}');
+                          setState(() {
+                            isOtherSelected = false;
+                          });
+                        }
+                      }),
+                  onTap: () {
                     _handleCategoryChange(true, category);
-                    print('SELECTED VALUE ELSE ON TAP : ${category.name}');
-                    setState(() {
-                      isOtherSelected = false;
-                    });
-                  }
-                },
+                    if (category.name.contains('その他')) {
+                      print('SELECTED VALUE IF ON TAP : ${category.name}');
+                      setState(() {
+                        isOtherSelected = true;
+                      });
+                    } else {
+                      _handleCategoryChange(true, category);
+                      print('SELECTED VALUE ELSE ON TAP : ${category.name}');
+                      setState(() {
+                        isOtherSelected = false;
+                      });
+                    }
+                  },
+                ),
               );
             }).toList(),
           ),
           Visibility(
             visible: isOtherSelected,
             child: Padding(
-              padding: const EdgeInsets.only(left: 30, right: 10),
+              padding: const EdgeInsets.only(top: 10.0, left: 30, right: 10),
               child: Container(
                 height: 51,
                 width: MediaQuery.of(context).size.width * 0.82,

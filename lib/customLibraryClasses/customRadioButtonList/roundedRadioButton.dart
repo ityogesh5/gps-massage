@@ -23,8 +23,8 @@ class CustomRadioButton extends StatelessWidget {
       onChange: onChange,
       builder: (BuildContext context, Animation animation) {
         return Container(
-          width: 12,
-          height: 12,
+          width: 10,
+          height: 10,
           child: CustomPaint(
             painter: CustomRadioButtonPainter(
                 animation: animation, checked: true, color: Colors.black),

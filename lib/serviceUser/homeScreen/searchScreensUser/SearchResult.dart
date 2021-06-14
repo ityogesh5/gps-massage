@@ -157,7 +157,6 @@ class _SearchResultState extends State<SearchResult> {
   var _pageSize = 10;
   var therapistId;
   SearchBloc _searchBloc;
-  List<CertificationUpload> certificateUpload = [];
   var certificateUploadKeys;
   List<Map<String, String>> certificateUploadList = List<Map<String, String>>();
   Map<int, Map<int, String>> childrenMeasureList = Map<int, Map<int, String>>();
@@ -192,40 +191,30 @@ class _SearchResultState extends State<SearchResult> {
           for (int i = 0; i < getTherapistsSearchResults.length; i++) {
             Map<String, String> certificateUploaded = Map<String, String>();
 
-            if (getTherapistsSearchResults[i].user.certificationUploads !=
-                null) {
-              certificateUpload =
-                  getTherapistsSearchResults[i].user.certificationUploads;
+            if (getTherapistsSearchResults[i].qulaificationCertImgUrl != null &&
+                getTherapistsSearchResults[i].qulaificationCertImgUrl != '') {
+              var split = getTherapistsSearchResults[i]
+                  .qulaificationCertImgUrl
+                  .split(',');
 
-              for (int j = 0; j < certificateUpload.length; j++) {
-                print('Certificate upload : ${certificateUpload[j].toJson()}');
-                certificateUploadKeys = certificateUpload[j].toJson();
-                certificateUploadKeys.remove('id');
-                certificateUploadKeys.remove('userId');
-                certificateUploadKeys.remove('createdAt');
-                certificateUploadKeys.remove('updatedAt');
-                print('Keys certificate : $certificateUploadKeys');
+              for (int i = 0; i < split.length; i++) {
+                String jKey = split[i];
+                if (jKey == "はり師" ||
+                    jKey == "きゅう師" ||
+                    jKey == "鍼灸師" ||
+                    jKey == "あん摩マッサージ指圧師" ||
+                    jKey == "柔道整復師" ||
+                    jKey == "理学療法士") {
+                  certificateUploaded["国家資格保有"] = "国家資格保有";
+                } else if (jKey == "国家資格取得予定（学生）") {
+                  certificateUploaded["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
+                } else if (jKey == "民間資格") {
+                  certificateUploaded["民間資格"] = "民間資格";
+                } else if (jKey == "無資格") {
+                  certificateUploaded["無資格"] = "無資格";
+                }
               }
 
-              certificateUploadKeys.forEach((key, value) async {
-                if (certificateUploadKeys[key] != null) {
-                  String jKey = getQualificationJPWords(key);
-                  if (jKey == "はり師" ||
-                      jKey == "きゅう師" ||
-                      jKey == "鍼灸師" ||
-                      jKey == "あん摩マッサージ指圧師" ||
-                      jKey == "柔道整復師" ||
-                      jKey == "理学療法士") {
-                    certificateUploaded["国家資格保有"] = "国家資格保有";
-                  } else if (jKey == "国家資格取得予定（学生）") {
-                    certificateUploaded["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
-                  } else if (jKey == "民間資格") {
-                    certificateUploaded["民間資格"] = "民間資格";
-                  } else if (jKey == "無資格") {
-                    certificateUploaded["無資格"] = "無資格";
-                  }
-                }
-              });
               if (certificateUploaded.length > 0) {
                 certificateUploadList.add(certificateUploaded);
               }
@@ -236,10 +225,10 @@ class _SearchResultState extends State<SearchResult> {
               certificateUploadList.add(certificateUploaded);
             }
             Map<int, String> childrenMeasure = Map<int, String>();
-            if (getTherapistsSearchResults[i].user.childrenMeasure != null &&
-                getTherapistsSearchResults[i].user.childrenMeasure != '') {
+            if (getTherapistsSearchResults[i].childrenMeasure != null &&
+                getTherapistsSearchResults[i].childrenMeasure != '') {
               var split =
-                  getTherapistsSearchResults[i].user.childrenMeasure.split(',');
+                  getTherapistsSearchResults[i].childrenMeasure.split(',');
               childrenMeasure = {
                 for (int i = 0; i < split.length; i++) i: split[i]
               };
@@ -476,14 +465,13 @@ class _SearchResultState extends State<SearchResult> {
 
   Widget buildTherapistDetailCard(int index, BuildContext context) {
     double distance =
-        widget.getTherapistsSearchResults[index].user.addresses[0].distance /
-            1000.0;
+        widget.getTherapistsSearchResults[index].distance / 1000.0;
     return GestureDetector(
       onTap: () {
         HealingMatchConstants.therapistId =
-            widget.getTherapistsSearchResults[index].user.id;
+            widget.getTherapistsSearchResults[index].id;
         HealingMatchConstants.serviceDistanceRadius =
-            widget.getTherapistsSearchResults[index].user.addresses[0].distance;
+            widget.getTherapistsSearchResults[index].distance;
         print("Distance:${HealingMatchConstants.serviceDistanceRadius}");
         NavigationRouter.switchToUserSearchDetailPageOne(
             context, HealingMatchConstants.therapistId);
@@ -510,13 +498,12 @@ class _SearchResultState extends State<SearchResult> {
                       flex: 1,
                       child: Column(
                         children: [
-                          widget.getTherapistsSearchResults[index].user
+                          widget.getTherapistsSearchResults[index]
                                       .uploadProfileImgUrl !=
                                   null
                               ? CachedNetworkImage(
                                   imageUrl: widget
                                       .getTherapistsSearchResults[index]
-                                      .user
                                       .uploadProfileImgUrl,
                                   filterQuality: FilterQuality.high,
                                   fadeInCurve: Curves.easeInSine,
@@ -560,11 +547,10 @@ class _SearchResultState extends State<SearchResult> {
                                             'assets/images_gps/placeholder_image.png')),
                                   ),
                                 ),
-                          widget.getTherapistsSearchResults[index].user
-                                          .addresses[0].distance !=
+                          widget.getTherapistsSearchResults[index].distance !=
                                       null &&
-                                  widget.getTherapistsSearchResults[index].user
-                                          .addresses[0].distance !=
+                                  widget.getTherapistsSearchResults[index]
+                                          .distance !=
                                       0
                               ? Text(
                                   '${distance.toStringAsFixed(2)}ｋｍ圏内',
@@ -588,20 +574,20 @@ class _SearchResultState extends State<SearchResult> {
                         children: [
                           Row(
                             children: [
-                              widget.getTherapistsSearchResults[index].user
+                              widget.getTherapistsSearchResults[index]
                                               .storeName !=
                                           null &&
                                       widget.getTherapistsSearchResults[index]
-                                          .user.storeName.isNotEmpty
+                                          .storeName.isNotEmpty
                                   ? Text(
-                                      '${widget.getTherapistsSearchResults[index].user.storeName}',
+                                      '${widget.getTherapistsSearchResults[index].storeName}',
                                       style: TextStyle(
                                           fontSize: 14,
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold),
                                     )
                                   : Text(
-                                      '${widget.getTherapistsSearchResults[index].user.userName}',
+                                      '${widget.getTherapistsSearchResults[index].userName}',
                                       style: TextStyle(
                                           fontSize: 14,
                                           color: Colors.black,
@@ -613,10 +599,10 @@ class _SearchResultState extends State<SearchResult> {
                               InkWell(
                                 onTap: () {
                                   print(
-                                      'Tooltip..Search && ${widget.getTherapistsSearchResults[index].user.storeType.length}');
+                                      'Tooltip..Search && ${widget.getTherapistsSearchResults[index].storeType.length}');
                                   showToolTipForResults(
                                       widget.getTherapistsSearchResults[index]
-                                          .user.storeType,
+                                          .storeType,
                                       formKeyList[index]);
                                 },
                                 child: Container(
@@ -676,7 +662,6 @@ class _SearchResultState extends State<SearchResult> {
                                                 .favouriteTherapist(widget
                                                     .getTherapistsSearchResults[
                                                         index]
-                                                    .user
                                                     .id);
                                           } else {
                                             // call un-favorite therapist API
@@ -684,7 +669,6 @@ class _SearchResultState extends State<SearchResult> {
                                                 .unFavouriteTherapist(widget
                                                     .getTherapistsSearchResults[
                                                         index]
-                                                    .user
                                                     .id);
                                           }
                                         }),
@@ -693,29 +677,31 @@ class _SearchResultState extends State<SearchResult> {
                           ),
                           SizedBox(
                             height: widget.getTherapistsSearchResults[index]
-                                        .user.isShop ||
+                                            .isShop !=
+                                        0 ||
                                     widget.getTherapistsSearchResults[index]
-                                            .user.businessTrip !=
-                                        false ||
+                                            .businesstrip !=
+                                        0 ||
                                     widget.getTherapistsSearchResults[index]
-                                            .user.coronameasure !=
+                                            .coronameasure !=
                                         0
                                 ? 5
                                 : 0,
                           ),
-                          widget.getTherapistsSearchResults[index].user
-                                      .isShop ||
-                                  widget.getTherapistsSearchResults[index].user
-                                          .businessTrip !=
-                                      false ||
-                                  widget.getTherapistsSearchResults[index].user
+                          widget.getTherapistsSearchResults[index].isShop !=
+                                      0 ||
+                                  widget.getTherapistsSearchResults[index]
+                                          .businesstrip !=
+                                      0 ||
+                                  widget.getTherapistsSearchResults[index]
                                           .coronameasure !=
                                       0
                               ? Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     widget.getTherapistsSearchResults[index]
-                                            .user.isShop
+                                                .isShop !=
+                                            0
                                         ? Container(
                                             decoration: BoxDecoration(
                                                 gradient: LinearGradient(
@@ -748,9 +734,8 @@ class _SearchResultState extends State<SearchResult> {
                                     Visibility(
                                       visible: widget
                                               .getTherapistsSearchResults[index]
-                                              .user
-                                              .businessTrip !=
-                                          false,
+                                              .businesstrip !=
+                                          0,
                                       child: Container(
                                           padding: EdgeInsets.all(4),
                                           decoration: BoxDecoration(
@@ -782,7 +767,6 @@ class _SearchResultState extends State<SearchResult> {
                                     Visibility(
                                       visible: widget
                                               .getTherapistsSearchResults[index]
-                                              .user
                                               .coronameasure !=
                                           0,
                                       child: Container(
@@ -815,18 +799,18 @@ class _SearchResultState extends State<SearchResult> {
                               : Container(),
                           SizedBox(
                             height: widget.getTherapistsSearchResults[index]
-                                            .user.genderOfService !=
+                                            .genderOfService !=
                                         null &&
                                     widget.getTherapistsSearchResults[index]
-                                            .user.genderOfService !=
+                                            .genderOfService !=
                                         ""
                                 ? 5
                                 : 0,
                           ),
-                          widget.getTherapistsSearchResults[index].user
+                          widget.getTherapistsSearchResults[index]
                                           .genderOfService !=
                                       null &&
-                                  widget.getTherapistsSearchResults[index].user
+                                  widget.getTherapistsSearchResults[index]
                                           .genderOfService !=
                                       ""
                               ? FittedBox(
@@ -835,19 +819,17 @@ class _SearchResultState extends State<SearchResult> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       widget.getTherapistsSearchResults[index]
-                                                      .user.genderOfService !=
+                                                      .genderOfService !=
                                                   null &&
                                               widget
                                                       .getTherapistsSearchResults[
                                                           index]
-                                                      .user
                                                       .genderOfService !=
                                                   ""
                                           ? Container(
                                               padding: widget
                                                           .getTherapistsSearchResults[
                                                               index]
-                                                          .user
                                                           .genderOfService !=
                                                       null
                                                   ? EdgeInsets.all(4)
@@ -871,7 +853,7 @@ class _SearchResultState extends State<SearchResult> {
                                                           5.0),
                                                   color: Colors.grey[200]),
                                               child: Text(
-                                                '${widget.getTherapistsSearchResults[index].user.genderOfService}',
+                                                '${widget.getTherapistsSearchResults[index].genderOfService}',
                                                 style: TextStyle(
                                                   fontSize: 12.0,
                                                   color: Color.fromRGBO(
@@ -934,11 +916,10 @@ class _SearchResultState extends State<SearchResult> {
                           ),
                           Row(
                             children: [
-                              widget.getTherapistsSearchResults[index]
-                                          .ratingAvg !=
+                              widget.getTherapistsSearchResults[index].rating !=
                                       null
                                   ? Text(
-                                      "  (${double.parse(widget.getTherapistsSearchResults[index].ratingAvg).toString()})",
+                                      "  (${double.parse(widget.getTherapistsSearchResults[index].rating).toString()})",
                                       style: TextStyle(
                                         fontSize: 12.0,
                                         color: Color.fromRGBO(153, 153, 153, 1),
@@ -953,47 +934,83 @@ class _SearchResultState extends State<SearchResult> {
                                                       .underline,*/
                                       ),
                                     ),
-                              RatingBar.builder(
-                                initialRating: double.parse(widget
-                                    .getTherapistsSearchResults[index]
-                                    .ratingAvg),
-                                minRating: 1,
-                                direction: Axis.horizontal,
-                                allowHalfRating: false,
-                                itemCount: 5,
-                                itemSize: 24.0,
-                                ignoreGestures: true,
-                                itemPadding: new EdgeInsets.only(bottom: 3.0),
-                                itemBuilder: (context, rindex) => new SizedBox(
-                                    height: 20.0,
-                                    width: 18.0,
-                                    child: new IconButton(
-                                      onPressed: () {},
-                                      padding: new EdgeInsets.all(0.0),
-                                      // color: Colors.white,
-                                      icon: rindex >
-                                              (double.parse(widget
-                                                          .getTherapistsSearchResults[
-                                                              index]
-                                                          .ratingAvg))
-                                                      .ceilToDouble() -
-                                                  1
-                                          ? SvgPicture.asset(
-                                              "assets/images_gps/star_2.svg",
-                                              height: 13.0,
-                                              width: 13.0,
-                                            )
-                                          : SvgPicture.asset(
-                                              "assets/images_gps/star_colour.svg",
-                                              height: 13.0,
-                                              width: 13.0,
-                                              //color: Colors.black,
-                                            ),
-                                    )),
-                                onRatingUpdate: (rating) {
-                                  print(rating);
-                                },
-                              ),
+                              widget.getTherapistsSearchResults[index].rating !=
+                                          null &&
+                                      widget.getTherapistsSearchResults[index]
+                                              .rating !=
+                                          "0.00"
+                                  ? RatingBar.builder(
+                                      initialRating: double.parse(widget
+                                          .getTherapistsSearchResults[index]
+                                          .rating),
+                                      minRating: 1,
+                                      direction: Axis.horizontal,
+                                      allowHalfRating: false,
+                                      itemCount: 5,
+                                      itemSize: 24.0,
+                                      ignoreGestures: true,
+                                      itemPadding:
+                                          new EdgeInsets.only(bottom: 3.0),
+                                      itemBuilder: (context, rindex) =>
+                                          new SizedBox(
+                                              height: 20.0,
+                                              width: 18.0,
+                                              child: new IconButton(
+                                                onPressed: () {},
+                                                padding:
+                                                    new EdgeInsets.all(0.0),
+                                                // color: Colors.white,
+                                                icon: rindex >
+                                                        (double.parse(widget
+                                                                    .getTherapistsSearchResults[
+                                                                        index]
+                                                                    .rating))
+                                                                .ceilToDouble() -
+                                                            1
+                                                    ? SvgPicture.asset(
+                                                        "assets/images_gps/star_2.svg",
+                                                        height: 13.0,
+                                                        width: 13.0,
+                                                      )
+                                                    : SvgPicture.asset(
+                                                        "assets/images_gps/star_colour.svg",
+                                                        height: 13.0,
+                                                        width: 13.0,
+                                                        //color: Colors.black,
+                                                      ),
+                                              )),
+                                      onRatingUpdate: (rating) {
+                                        print(rating);
+                                      },
+                                    )
+                                  : RatingBar.builder(
+                                      initialRating: 0.0,
+                                      minRating: 1,
+                                      direction: Axis.horizontal,
+                                      allowHalfRating: false,
+                                      itemCount: 5,
+                                      itemSize: 24.0,
+                                      ignoreGestures: true,
+                                      itemPadding:
+                                          new EdgeInsets.only(bottom: 3.0),
+                                      itemBuilder: (context, rindex) =>
+                                          new SizedBox(
+                                              height: 20.0,
+                                              width: 18.0,
+                                              child: new IconButton(
+                                                  onPressed: () {},
+                                                  padding:
+                                                      new EdgeInsets.all(0.0),
+                                                  // color: Colors.white,
+                                                  icon: SvgPicture.asset(
+                                                    "assets/images_gps/star_2.svg",
+                                                    height: 13.0,
+                                                    width: 13.0,
+                                                  ))),
+                                      onRatingUpdate: (rating) {
+                                        print(rating);
+                                      },
+                                    ),
                               widget.getTherapistsSearchResults[index]
                                               .noOfReviewsMembers !=
                                           null &&
@@ -1111,9 +1128,9 @@ class _SearchResultState extends State<SearchResult> {
                       Flexible(
                         child: Container(
                           child: Text(
-                            widget.getTherapistsSearchResults[index].user.isShop
-                                ? '  ${widget.getTherapistsSearchResults[index].user.addresses[0].address}'
-                                : '${widget.getTherapistsSearchResults[index].user.addresses[0].capitalAndPrefecture} ${widget.getTherapistsSearchResults[index].user.addresses[0].cityName} ${widget.getTherapistsSearchResults[index].user.addresses[0].area}',
+                            widget.getTherapistsSearchResults[index].isShop != 0
+                                ? '  ${widget.getTherapistsSearchResults[index].address}'
+                                : '  ${widget.getTherapistsSearchResults[index].capitalAndPrefecture} ${widget.getTherapistsSearchResults[index].cityName} ${widget.getTherapistsSearchResults[index].area}',
                             style: TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.normal),
                           ),
@@ -1200,7 +1217,6 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
   var _pageSize = 10;
   var therapistId;
   SearchBloc _searchBloc;
-  List<CertificationUpload> certificateUpload = [];
   var certificateUploadKeys;
   List<Map<String, String>> certificateUploadList = List<Map<String, String>>();
   Map<int, Map<int, String>> childrenMeasureList = Map<int, Map<int, String>>();
@@ -1230,40 +1246,30 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
           for (int i = 0; i < getTherapistsSearchResults.length; i++) {
             Map<String, String> certificateUploaded = Map<String, String>();
 
-            if (getTherapistsSearchResults[i].user.certificationUploads !=
-                null) {
-              certificateUpload =
-                  getTherapistsSearchResults[i].user.certificationUploads;
+            if (getTherapistsSearchResults[i].qulaificationCertImgUrl != null &&
+                getTherapistsSearchResults[i].qulaificationCertImgUrl != '') {
+              var split = getTherapistsSearchResults[i]
+                  .qulaificationCertImgUrl
+                  .split(',');
 
-              for (int j = 0; j < certificateUpload.length; j++) {
-                print('Certificate upload : ${certificateUpload[j].toJson()}');
-                certificateUploadKeys = certificateUpload[j].toJson();
-                certificateUploadKeys.remove('id');
-                certificateUploadKeys.remove('userId');
-                certificateUploadKeys.remove('createdAt');
-                certificateUploadKeys.remove('updatedAt');
-                print('Keys certificate : $certificateUploadKeys');
+              for (int i = 0; i < split.length; i++) {
+                String jKey = split[i];
+                if (jKey == "はり師" ||
+                    jKey == "きゅう師" ||
+                    jKey == "鍼灸師" ||
+                    jKey == "あん摩マッサージ指圧師" ||
+                    jKey == "柔道整復師" ||
+                    jKey == "理学療法士") {
+                  certificateUploaded["国家資格保有"] = "国家資格保有";
+                } else if (jKey == "国家資格取得予定（学生）") {
+                  certificateUploaded["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
+                } else if (jKey == "民間資格") {
+                  certificateUploaded["民間資格"] = "民間資格";
+                } else if (jKey == "無資格") {
+                  certificateUploaded["無資格"] = "無資格";
+                }
               }
 
-              certificateUploadKeys.forEach((key, value) async {
-                if (certificateUploadKeys[key] != null) {
-                  String jKey = getQualificationJPWords(key);
-                  if (jKey == "はり師" ||
-                      jKey == "きゅう師" ||
-                      jKey == "鍼灸師" ||
-                      jKey == "あん摩マッサージ指圧師" ||
-                      jKey == "柔道整復師" ||
-                      jKey == "理学療法士") {
-                    certificateUploaded["国家資格保有"] = "国家資格保有";
-                  } else if (jKey == "国家資格取得予定（学生）") {
-                    certificateUploaded["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
-                  } else if (jKey == "民間資格") {
-                    certificateUploaded["民間資格"] = "民間資格";
-                  } else if (jKey == "無資格") {
-                    certificateUploaded["無資格"] = "無資格";
-                  }
-                }
-              });
               if (certificateUploaded.length > 0) {
                 certificateUploadList.add(certificateUploaded);
               }
@@ -1274,10 +1280,10 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
               certificateUploadList.add(certificateUploaded);
             }
             Map<int, String> childrenMeasure = Map<int, String>();
-            if (getTherapistsSearchResults[i].user.childrenMeasure != null &&
-                getTherapistsSearchResults[i].user.childrenMeasure != '') {
+            if (getTherapistsSearchResults[i].childrenMeasure != null &&
+                getTherapistsSearchResults[i].childrenMeasure != '') {
               var split =
-                  getTherapistsSearchResults[i].user.childrenMeasure.split(',');
+                  getTherapistsSearchResults[i].childrenMeasure.split(',');
               childrenMeasure = {
                 for (int i = 0; i < split.length; i++) i: split[i]
               };
@@ -1514,14 +1520,13 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
 
   Widget buildTherapistDetailCard(int index, BuildContext context) {
     double distance =
-        widget.getTherapistsSearchResults[index].user.addresses[0].distance /
-            1000.0;
+        widget.getTherapistsSearchResults[index].distance / 1000.0;
     return GestureDetector(
       onTap: () {
         HealingMatchConstants.therapistId =
-            widget.getTherapistsSearchResults[index].user.id;
+            widget.getTherapistsSearchResults[index].id;
         HealingMatchConstants.serviceDistanceRadius =
-            widget.getTherapistsSearchResults[index].user.addresses[0].distance;
+            widget.getTherapistsSearchResults[index].distance;
         print("Distance:${HealingMatchConstants.serviceDistanceRadius}");
         NavigationRouter.switchToUserSearchDetailPageOne(
             context, HealingMatchConstants.therapistId);
@@ -1548,13 +1553,12 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                       flex: 1,
                       child: Column(
                         children: [
-                          widget.getTherapistsSearchResults[index].user
+                          widget.getTherapistsSearchResults[index]
                                       .uploadProfileImgUrl !=
                                   null
                               ? CachedNetworkImage(
                                   imageUrl: widget
                                       .getTherapistsSearchResults[index]
-                                      .user
                                       .uploadProfileImgUrl,
                                   filterQuality: FilterQuality.high,
                                   fadeInCurve: Curves.easeInSine,
@@ -1598,11 +1602,10 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                                             'assets/images_gps/placeholder_image.png')),
                                   ),
                                 ),
-                          widget.getTherapistsSearchResults[index].user
-                                          .addresses[0].distance !=
+                          widget.getTherapistsSearchResults[index].distance !=
                                       null &&
-                                  widget.getTherapistsSearchResults[index].user
-                                          .addresses[0].distance !=
+                                  widget.getTherapistsSearchResults[index]
+                                          .distance !=
                                       0
                               ? Text(
                                   '${distance.toStringAsFixed(2)}ｋｍ圏内',
@@ -1626,20 +1629,20 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                         children: [
                           Row(
                             children: [
-                              widget.getTherapistsSearchResults[index].user
+                              widget.getTherapistsSearchResults[index]
                                               .storeName !=
                                           null &&
                                       widget.getTherapistsSearchResults[index]
-                                          .user.storeName.isNotEmpty
+                                          .storeName.isNotEmpty
                                   ? Text(
-                                      '${widget.getTherapistsSearchResults[index].user.storeName}',
+                                      '${widget.getTherapistsSearchResults[index].storeName}',
                                       style: TextStyle(
                                           fontSize: 14,
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold),
                                     )
                                   : Text(
-                                      '${widget.getTherapistsSearchResults[index].user.userName}',
+                                      '${widget.getTherapistsSearchResults[index].userName}',
                                       style: TextStyle(
                                           fontSize: 14,
                                           color: Colors.black,
@@ -1651,10 +1654,10 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                               InkWell(
                                 onTap: () {
                                   print(
-                                      'Tooltip..Search && ${widget.getTherapistsSearchResults[index].user.storeType.length}');
+                                      'Tooltip..Search && ${widget.getTherapistsSearchResults[index].storeType.length}');
                                   showToolTipForResults(
                                       widget.getTherapistsSearchResults[index]
-                                          .user.storeType,
+                                          .storeType,
                                       formKeyList[index]);
                                 },
                                 child: Container(
@@ -1714,7 +1717,6 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                                                 .favouriteTherapist(widget
                                                     .getTherapistsSearchResults[
                                                         index]
-                                                    .user
                                                     .id);
                                           } else {
                                             // call un-favorite therapist API
@@ -1722,7 +1724,6 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                                                 .unFavouriteTherapist(widget
                                                     .getTherapistsSearchResults[
                                                         index]
-                                                    .user
                                                     .id);
                                           }
                                         }),
@@ -1731,29 +1732,31 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                           ),
                           SizedBox(
                             height: widget.getTherapistsSearchResults[index]
-                                        .user.isShop ||
+                                            .isShop !=
+                                        0 ||
                                     widget.getTherapistsSearchResults[index]
-                                            .user.businessTrip !=
-                                        false ||
+                                            .businesstrip !=
+                                        0 ||
                                     widget.getTherapistsSearchResults[index]
-                                            .user.coronameasure !=
+                                            .coronameasure !=
                                         0
                                 ? 5
                                 : 0,
                           ),
-                          widget.getTherapistsSearchResults[index].user
-                                      .isShop ||
-                                  widget.getTherapistsSearchResults[index].user
-                                          .businessTrip !=
-                                      false ||
-                                  widget.getTherapistsSearchResults[index].user
+                          widget.getTherapistsSearchResults[index].isShop !=
+                                      0 ||
+                                  widget.getTherapistsSearchResults[index]
+                                          .businesstrip !=
+                                      0 ||
+                                  widget.getTherapistsSearchResults[index]
                                           .coronameasure !=
                                       0
                               ? Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     widget.getTherapistsSearchResults[index]
-                                            .user.isShop
+                                                .isShop !=
+                                            0
                                         ? Container(
                                             decoration: BoxDecoration(
                                                 gradient: LinearGradient(
@@ -1786,9 +1789,8 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                                     Visibility(
                                       visible: widget
                                               .getTherapistsSearchResults[index]
-                                              .user
-                                              .businessTrip !=
-                                          false,
+                                              .businesstrip !=
+                                          0,
                                       child: Container(
                                           padding: EdgeInsets.all(4),
                                           decoration: BoxDecoration(
@@ -1820,7 +1822,6 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                                     Visibility(
                                       visible: widget
                                               .getTherapistsSearchResults[index]
-                                              .user
                                               .coronameasure !=
                                           0,
                                       child: Container(
@@ -1853,18 +1854,18 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                               : Container(),
                           SizedBox(
                             height: widget.getTherapistsSearchResults[index]
-                                            .user.genderOfService !=
+                                            .genderOfService !=
                                         null &&
                                     widget.getTherapistsSearchResults[index]
-                                            .user.genderOfService !=
+                                            .genderOfService !=
                                         ""
                                 ? 5
                                 : 0,
                           ),
-                          widget.getTherapistsSearchResults[index].user
+                          widget.getTherapistsSearchResults[index]
                                           .genderOfService !=
                                       null &&
-                                  widget.getTherapistsSearchResults[index].user
+                                  widget.getTherapistsSearchResults[index]
                                           .genderOfService !=
                                       ""
                               ? FittedBox(
@@ -1873,19 +1874,17 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       widget.getTherapistsSearchResults[index]
-                                                      .user.genderOfService !=
+                                                      .genderOfService !=
                                                   null &&
                                               widget
                                                       .getTherapistsSearchResults[
                                                           index]
-                                                      .user
                                                       .genderOfService !=
                                                   ""
                                           ? Container(
                                               padding: widget
                                                           .getTherapistsSearchResults[
                                                               index]
-                                                          .user
                                                           .genderOfService !=
                                                       null
                                                   ? EdgeInsets.all(4)
@@ -1909,7 +1908,7 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                                                           5.0),
                                                   color: Colors.grey[200]),
                                               child: Text(
-                                                '${widget.getTherapistsSearchResults[index].user.genderOfService}',
+                                                '${widget.getTherapistsSearchResults[index].genderOfService}',
                                                 style: TextStyle(
                                                   fontSize: 12.0,
                                                   color: Color.fromRGBO(
@@ -1972,11 +1971,10 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                           ),
                           Row(
                             children: [
-                              widget.getTherapistsSearchResults[index]
-                                          .ratingAvg !=
+                              widget.getTherapistsSearchResults[index].rating !=
                                       null
                                   ? Text(
-                                      "  (${double.parse(widget.getTherapistsSearchResults[index].ratingAvg).toString()})",
+                                      "  (${double.parse(widget.getTherapistsSearchResults[index].rating).toString()})",
                                       style: TextStyle(
                                         fontSize: 12.0,
                                         color: Color.fromRGBO(153, 153, 153, 1),
@@ -1991,47 +1989,83 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                                                       .underline,*/
                                       ),
                                     ),
-                              RatingBar.builder(
-                                initialRating: double.parse(widget
-                                    .getTherapistsSearchResults[index]
-                                    .ratingAvg),
-                                minRating: 1,
-                                direction: Axis.horizontal,
-                                allowHalfRating: false,
-                                itemCount: 5,
-                                itemSize: 24.0,
-                                ignoreGestures: true,
-                                itemPadding: new EdgeInsets.only(bottom: 3.0),
-                                itemBuilder: (context, rindex) => new SizedBox(
-                                    height: 20.0,
-                                    width: 18.0,
-                                    child: new IconButton(
-                                      onPressed: () {},
-                                      padding: new EdgeInsets.all(0.0),
-                                      // color: Colors.white,
-                                      icon: rindex >
-                                              (double.parse(widget
-                                                          .getTherapistsSearchResults[
-                                                              index]
-                                                          .ratingAvg))
-                                                      .ceilToDouble() -
-                                                  1
-                                          ? SvgPicture.asset(
-                                              "assets/images_gps/star_2.svg",
-                                              height: 13.0,
-                                              width: 13.0,
-                                            )
-                                          : SvgPicture.asset(
-                                              "assets/images_gps/star_colour.svg",
-                                              height: 13.0,
-                                              width: 13.0,
-                                              //color: Colors.black,
-                                            ),
-                                    )),
-                                onRatingUpdate: (rating) {
-                                  print(rating);
-                                },
-                              ),
+                              widget.getTherapistsSearchResults[index].rating !=
+                                          null &&
+                                      widget.getTherapistsSearchResults[index]
+                                              .rating !=
+                                          "0.00"
+                                  ? RatingBar.builder(
+                                      initialRating: double.parse(widget
+                                          .getTherapistsSearchResults[index]
+                                          .rating),
+                                      minRating: 1,
+                                      direction: Axis.horizontal,
+                                      allowHalfRating: false,
+                                      itemCount: 5,
+                                      itemSize: 24.0,
+                                      ignoreGestures: true,
+                                      itemPadding:
+                                          new EdgeInsets.only(bottom: 3.0),
+                                      itemBuilder: (context, rindex) =>
+                                          new SizedBox(
+                                              height: 20.0,
+                                              width: 18.0,
+                                              child: new IconButton(
+                                                onPressed: () {},
+                                                padding:
+                                                    new EdgeInsets.all(0.0),
+                                                // color: Colors.white,
+                                                icon: rindex >
+                                                        (double.parse(widget
+                                                                    .getTherapistsSearchResults[
+                                                                        index]
+                                                                    .rating))
+                                                                .ceilToDouble() -
+                                                            1
+                                                    ? SvgPicture.asset(
+                                                        "assets/images_gps/star_2.svg",
+                                                        height: 13.0,
+                                                        width: 13.0,
+                                                      )
+                                                    : SvgPicture.asset(
+                                                        "assets/images_gps/star_colour.svg",
+                                                        height: 13.0,
+                                                        width: 13.0,
+                                                        //color: Colors.black,
+                                                      ),
+                                              )),
+                                      onRatingUpdate: (rating) {
+                                        print(rating);
+                                      },
+                                    )
+                                  : RatingBar.builder(
+                                      initialRating: 0.0,
+                                      minRating: 1,
+                                      direction: Axis.horizontal,
+                                      allowHalfRating: false,
+                                      itemCount: 5,
+                                      itemSize: 24.0,
+                                      ignoreGestures: true,
+                                      itemPadding:
+                                          new EdgeInsets.only(bottom: 3.0),
+                                      itemBuilder: (context, rindex) =>
+                                          new SizedBox(
+                                              height: 20.0,
+                                              width: 18.0,
+                                              child: new IconButton(
+                                                  onPressed: () {},
+                                                  padding:
+                                                      new EdgeInsets.all(0.0),
+                                                  // color: Colors.white,
+                                                  icon: SvgPicture.asset(
+                                                    "assets/images_gps/star_2.svg",
+                                                    height: 13.0,
+                                                    width: 13.0,
+                                                  ))),
+                                      onRatingUpdate: (rating) {
+                                        print(rating);
+                                      },
+                                    ),
                               widget.getTherapistsSearchResults[index]
                                               .noOfReviewsMembers !=
                                           null &&
@@ -2149,9 +2183,9 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                       Flexible(
                         child: Container(
                           child: Text(
-                            widget.getTherapistsSearchResults[index].user.isShop
-                                ? '  ${widget.getTherapistsSearchResults[index].user.addresses[0].address}'
-                                : '${widget.getTherapistsSearchResults[index].user.addresses[0].capitalAndPrefecture} ${widget.getTherapistsSearchResults[index].user.addresses[0].cityName} ${widget.getTherapistsSearchResults[index].user.addresses[0].area}',
+                            widget.getTherapistsSearchResults[index].isShop != 0
+                                ? '  ${widget.getTherapistsSearchResults[index].address}'
+                                : '  ${widget.getTherapistsSearchResults[index].capitalAndPrefecture} ${widget.getTherapistsSearchResults[index].cityName} ${widget.getTherapistsSearchResults[index].area}',
                             style: TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.normal),
                           ),
