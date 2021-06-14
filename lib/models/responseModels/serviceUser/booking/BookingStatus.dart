@@ -84,10 +84,10 @@ class BookingDetailsList {
     this.favouriteToTherapist,
   });
 
-  int id;
-  int userId;
-  int therapistId;
-  int addressId;
+  dynamic id;
+  dynamic userId;
+  dynamic therapistId;
+  dynamic addressId;
   String eventId;
   DateTime startTime;
   DateTime endTime;
@@ -95,26 +95,26 @@ class BookingDetailsList {
   String yearOfBooking;
   DateTime newStartTime;
   DateTime newEndTime;
-  int paymentId;
-  int paymentStatus;
+  dynamic paymentId;
+  dynamic paymentStatus;
   dynamic paymentRefId;
-  int subCategoryId;
-  int categoryId;
+  dynamic subCategoryId;
+  dynamic categoryId;
   String nameOfService;
-  int totalMinOfService;
-  int priceOfService;
+  dynamic totalMinOfService;
+  dynamic priceOfService;
   String addedPrice;
-  int bookingStatus;
+  dynamic bookingStatus;
   DateTime statusUpdatedAt;
-  int travelAmount;
+  dynamic travelAmount;
   String locationType;
   String location;
   dynamic locationDistance;
-  int lat;
-  int lon;
+  dynamic lat;
+  dynamic lon;
   Geomet geomet;
-  int totalCost;
-  int userReviewStatus;
+  dynamic totalCost;
+  dynamic userReviewStatus;
   dynamic therapistReviewStatus;
   String therapistComments;
   dynamic userComments;
@@ -128,8 +128,8 @@ class BookingDetailsList {
   DateTime updatedAt;
   BookingTherapistId bookingTherapistId;
   String reviewAvgData;
-  int noOfReviewsMembers;
-  int favouriteToTherapist;
+  dynamic noOfReviewsMembers;
+  dynamic favouriteToTherapist;
 
   factory BookingDetailsList.fromJson(Map<String, dynamic> json) =>
       BookingDetailsList(
@@ -263,7 +263,7 @@ class BookingTherapistId {
     this.certificationUploads,
   });
 
-  int id;
+  dynamic id;
   String userId;
   String userName;
   Gender gender;
@@ -344,8 +344,8 @@ class CertificationUpload {
     this.updatedAt,
   });
 
-  int id;
-  int userId;
+  dynamic id;
+  dynamic userId;
   dynamic acupuncturist;
   String moxibutionist;
   String acupuncturistAndMoxibustion;
@@ -452,11 +452,11 @@ class Geomet {
   });
 
   String type;
-  List<int> coordinates;
+  List<dynamic> coordinates;
 
   factory Geomet.fromJson(Map<String, dynamic> json) => Geomet(
         type: json["type"],
-        coordinates: List<int>.from(json["coordinates"].map((x) => x)),
+        coordinates: List<dynamic>.from(json["coordinates"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {

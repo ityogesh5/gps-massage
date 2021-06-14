@@ -52,6 +52,7 @@ class Data {
     this.travelAmount,
     this.locationType,
     this.location,
+    this.locationDistance,
     this.totalCost,
     this.userReviewStatus,
     this.therapistReviewStatus,
@@ -85,6 +86,7 @@ class Data {
   int travelAmount;
   String locationType;
   String location;
+  String locationDistance;
   int totalCost;
   int userReviewStatus;
   int therapistReviewStatus;
@@ -118,6 +120,7 @@ class Data {
         travelAmount: json["travelAmount"],
         locationType: json["locationType"],
         location: json["location"],
+        locationDistance: json["locationDistance"],
         totalCost: json["totalCost"],
         userReviewStatus: json["userReviewStatus"],
         therapistReviewStatus: json["therapistReviewStatus"],
@@ -152,6 +155,7 @@ class Data {
         "travelAmount": travelAmount,
         "locationType": locationType,
         "location": location,
+        "locationDistance": locationDistance,
         "totalCost": totalCost,
         "userReviewStatus": userReviewStatus,
         "therapistReviewStatus": therapistReviewStatus,

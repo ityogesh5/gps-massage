@@ -954,6 +954,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
     int bookingStatus = 0;
     String locationType = selectedBuildingType;
     String location = HealingMatchConstants.confServiceAddress;
+    String locationDistance = distance.toString();
     var totalCost = HealingMatchConstants.confServiceCost;
     int userReviewStatus = 0;
     int therapistReviewStatus = 0;
@@ -993,6 +994,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
             bookingStatus,
             locationType,
             location,
+            locationDistance,
             totalCost,
             userReviewStatus,
             therapistReviewStatus,

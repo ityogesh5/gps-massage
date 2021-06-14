@@ -104,7 +104,7 @@ class _ReservationAndFavouriteState extends State<ReservationAndFavourite>
 
         bottom: TabBar(
           controller: _tabController,
-          physics: BouncingScrollPhysics(),
+          physics: NeverScrollableScrollPhysics(),
           isScrollable: true,
           labelColor: Colors.white,
           labelPadding:
@@ -163,7 +163,7 @@ class _ReservationAndFavouriteState extends State<ReservationAndFavourite>
         ),
       ),
       body: TabBarView(
-        physics: BouncingScrollPhysics(), //Disable Horizontal Swipe
+        physics: NeverScrollableScrollPhysics(), //Disable Horizontal Swipe
         controller: _tabController,
         children: [
           ReservationStatus(),

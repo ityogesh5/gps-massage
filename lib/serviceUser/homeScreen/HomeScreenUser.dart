@@ -992,7 +992,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                             HealingMatchConstants.serviceDistanceRadius = widget
                                 .getTherapistByType[index]
                                 .user
-                                .addresses[index]
+                                .addresses[0]
                                 .distance;
 
                             NavigationRouter
@@ -3683,7 +3683,7 @@ class _RecommendListsState extends State<RecommendLists> {
                         HealingMatchConstants.serviceDistanceRadius = widget
                             .getRecommendedTherapists[index]
                             .user
-                            .addresses[index]
+                            .addresses[0]
                             .distance;
                         NavigationRouter
                             .switchToServiceUserBookingDetailsCompletedScreenOne(
