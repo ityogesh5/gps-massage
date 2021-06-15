@@ -283,6 +283,7 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
             "isTherapist": "0"
           }));
       print('Status code : ${response.statusCode}');
+      print('responseResend : ${response.body}');
       if (StatusCodeHelper.isSendVerify(
           response.statusCode, context, response.body)) {
         final sendVerify = json.decode(response.body);

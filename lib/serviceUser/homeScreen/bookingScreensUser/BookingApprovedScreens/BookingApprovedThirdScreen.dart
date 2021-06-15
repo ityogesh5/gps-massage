@@ -13,6 +13,11 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
+import 'package:gps_massageapp/commonScreens/chat/chat_item_screen.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/chat.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/db.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/chatData.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/user.dart';
 
 bool isOtherSelected = false;
 final _cancelReasonController = new TextEditingController();
@@ -24,7 +29,9 @@ Map<String, dynamic> _formData = {
 };
 var selectedBuildingType;
 bool isCancelSelected = false;
+ScrollController scrollController = ScrollController();
 GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+int _state = 0;
 
 class BookingApproveThirdScreen extends StatefulWidget {
   final int therapistId;
@@ -64,6 +71,13 @@ class _BookingApproveThirdScreenState extends State<BookingApproveThirdScreen> {
 
   @override
   Widget build(BuildContext context) {
+    /*  if (_state == 0 && isCancelSelected) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        _state = 1;
+        scrollController.animateTo(scrollController.position.maxScrollExtent,
+            duration: Duration(milliseconds: 500), curve: Curves.ease);
+      });
+    }*/
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Color.fromRGBO(255, 255, 255, 1),
@@ -136,6 +150,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ListView(
+        // controller: scrollController,
         shrinkWrap: true,
         physics: BouncingScrollPhysics(),
         children: [
@@ -183,7 +198,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                       borderRadius: BorderRadius.circular(16.0),
                       color: Colors.grey[100]),
                   width: MediaQuery.of(context).size.width * 0.90,
-                  height: 275,
+                  height: 290,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -388,17 +403,24 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                               padding: const EdgeInsets.all(5.0),
                               child: InkWell(
                                 onTap: () {
-                                  NavigationRouter
-                                      .switchToServiceUserChatScreen(context);
+                                  ProgressDialogBuilder
+                                      .showCommonProgressDialog(context);
+                                  getChatDetails(HealingMatchConstants
+                                      .therapistProfileDetails
+                                      .data
+                                      .firebaseUdid);
                                 },
-                                child: CircleAvatar(
-                                    maxRadius: 20,
-                                    backgroundColor:
-                                        Color.fromRGBO(255, 255, 255, 1),
-                                    child: SvgPicture.asset(
-                                        'assets/images_gps/chat.svg',
-                                        height: 30,
-                                        width: 30)),
+                                child: Card(
+                                  elevation: 3,
+                                  shape: CircleBorder(),
+                                  child: CircleAvatar(
+                                      maxRadius: 20,
+                                      backgroundColor: Colors.white,
+                                      child: SvgPicture.asset(
+                                          'assets/images_gps/chat.svg',
+                                          height: 15,
+                                          width: 15)),
+                                ),
                               ),
                             ),
                           ]),
@@ -447,16 +469,13 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                                     ),
                                     borderRadius: BorderRadius.circular(8.0),
                                     color: Colors.grey[200]),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(2),
-                                  child: Text(
-                                    '${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].locationType}',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: 'NotoSansJP'),
-                                  ),
+                                child: Text(
+                                  '${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].locationType}',
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: 'NotoSansJP'),
                                 )),
                             SizedBox(
                                 width:
@@ -704,6 +723,23 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
         ],
       ),
     );
+  }
+
+  getChatDetails(String peerId) {
+    DB db = DB();
+    List<ChatData> chatData = List<ChatData>();
+    List<UserDetail> contactList = List<UserDetail>();
+    db.getUserDetilsOfContacts(['$peerId']).then((value) {
+      contactList.addAll(value);
+      Chat().fetchChats(contactList).then((value) {
+        chatData.addAll(value);
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ChatItemScreen(chatData[0])));
+      });
+    });
   }
 
   Widget massageBuildTypeDisplayContent() {

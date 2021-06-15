@@ -1443,6 +1443,7 @@ class _RegisterUserState extends State<RegisterUser> {
                     SizedBox(height: 15),
                     InkWell(
                       onTap: () {
+                        HealingMatchConstants.isUserRegistrationSkipped = false;
                         NavigationRouter.switchToUserLogin(context);
                       },
                       child: Text('すでにアカウントをお持ちの方',
