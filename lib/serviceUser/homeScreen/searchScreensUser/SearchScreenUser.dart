@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:date_util/date_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -400,7 +401,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                               //onTap: () => setState(() => _value = 1),
                               onTap: () {
                                 setState(() {
-                                  _value = 2;
+                                  _value = 3;
                                   /*   HealingMatchConstants.serviceType = 2; */
                                 });
                               },
@@ -447,7 +448,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                               //onTap: () => setState(() => _value = 2),
                               onTap: () {
                                 setState(() {
-                                  _value = 3;
+                                  _value = 2;
                                   /*  HealingMatchConstants.serviceType = 3; */
                                 });
                               },
@@ -833,31 +834,46 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
               children: [
                 Spacer(),
                 Container(
-                  child: CircleAvatar(
-                    maxRadius: 25,
-                    backgroundColor: Color.fromRGBO(200, 217, 33, 1),
-                    child: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _loading = true;
-                        });
-                        _showLoadingIndicator(context, "現在地の取得");
-                        if (_loading) {
-                          timeDurationSinceDate(DateTime(
-                              _cyear,
-                              _cmonth,
-                              _currentDay,
-                              HealingMatchConstants.dateTime.hour,
-                              HealingMatchConstants.dateTime.minute));
-                        }
-                      },
-                      icon: Image.asset(
+                  child: ArgonButton(
+                    roundLoadingShape: true,
+                    height: 40,
+                    width: 40,
+                    borderRadius: 5.0,
+                    elevation: 0.0,
+                    color: Colors.transparent,
+                    child: CircleAvatar(
+                      maxRadius: 25,
+                      backgroundColor: Color.fromRGBO(200, 217, 33, 1),
+                      child: Image.asset(
                         "assets/images_gps/search.png",
                         height: 25,
                         width: 25,
                         color: Colors.white,
                       ),
                     ),
+                    loader: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color.fromRGBO(200, 217, 33, 1),
+                        // borderRadius: BorderRadius.circular(25.0),
+                      ),
+                      padding: EdgeInsets.all(10),
+                      child: SpinKitRotatingCircle(
+                        color: Colors.white,
+                        // size: loaderWidth ,
+                      ),
+                    ),
+                    onTap: (startLoading, stopLoading, btnState) {
+                      if (btnState == ButtonState.Idle) {
+                        startLoading();
+                        timeDurationSinceDate(DateTime(
+                            _cyear,
+                            _cmonth,
+                            _currentDay,
+                            HealingMatchConstants.dateTime.hour,
+                            HealingMatchConstants.dateTime.minute));
+                      }
+                    },
                   ),
                 ),
               ],
@@ -1543,7 +1559,6 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
     setState(() {
       _loading = false;
     });
-    Navigator.pop(context);
   }
 
   getAddressType() {
@@ -1575,12 +1590,11 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
 
   _getSearchResults() {
     try {
-      Navigator.pop(context);
       setState(() {
         _loading = false;
       });
 
-      NavigationRouter.switchToUserSearchResult(context);
+     // NavigationRouter.switchToUserSearchResult(context);
     } catch (e) {
       print('Search Exception before bloc : ${e.toString()}');
     }

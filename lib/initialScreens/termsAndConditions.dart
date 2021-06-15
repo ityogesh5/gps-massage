@@ -1,4 +1,5 @@
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,11 +21,12 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
   int _state = 0;
   TabController _tabController;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  FirebaseMessaging fcm = FirebaseMessaging();
 
   @override
   void initState() {
     super.initState();
-
+    fcm.requestNotificationPermissions(IosNotificationSettings());
     _tabController = TabController(vsync: this, length: 2);
     _tabController.addListener(_handleTabSelection);
   }
