@@ -536,7 +536,6 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
   bool isLoading = false;
   var _pageNumber = 0;
   var _pageSize = 10;
-  var distanceRadius;
   Map<String, String> certificateImages = Map<String, String>();
   List<Map<String, String>> certificateUploadList = List<Map<String, String>>();
   BoxDecoration boxDecoration = BoxDecoration(
@@ -896,6 +895,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                       image: new AssetImage(
                                           'assets/images_gps/placeholder_image.png')),
                                 )),
+                        SizedBox(height: 5),
                         Text(
                           '${distance.toStringAsFixed(2)} ｋｍ圏内',
                           style:
@@ -1107,9 +1107,10 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                       direction: Axis.horizontal,
                                       allowHalfRating: true,
                                       itemCount: 5,
-                                      itemSize: 25,
-                                      itemPadding:
+                                      itemSize: 24,
+                                      /*  itemPadding:
                                           EdgeInsets.symmetric(horizontal: 4.0),
+                                      */
                                       itemBuilder: (context, _) => new SizedBox(
                                           height: 20.0,
                                           width: 18.0,
@@ -1591,6 +1592,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                       image: new AssetImage(
                                           'assets/images_gps/placeholder_image.png')),
                                 )),
+                        SizedBox(height: 5),
                         Text(
                           '${distance.toStringAsFixed(2)} ｋｍ圏内',
                           style:
@@ -1823,9 +1825,9 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                       direction: Axis.horizontal,
                                       allowHalfRating: true,
                                       itemCount: 5,
-                                      itemSize: 25,
-                                      itemPadding:
-                                          EdgeInsets.symmetric(horizontal: 4.0),
+                                      itemSize: 24,
+                                      /* itemPadding:
+                                          EdgeInsets.symmetric(horizontal: 4.0), */
                                       itemBuilder: (context, _) => new SizedBox(
                                           height: 20.0,
                                           width: 18.0,

@@ -402,8 +402,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                               //onTap: () => setState(() => _value = 1),
                               onTap: () {
                                 setState(() {
-                                  _value = 3;
-                                  /*   HealingMatchConstants.serviceType = 2; */
+                                  _value = 2;
                                 });
                               },
                               child: Column(
@@ -449,7 +448,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                               //onTap: () => setState(() => _value = 2),
                               onTap: () {
                                 setState(() {
-                                  _value = 2;
+                                  _value = 3;
                                   /*  HealingMatchConstants.serviceType = 3; */
                                 });
                               },
@@ -1515,9 +1514,11 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
     try {
       print(
           'User address proceed : ${HealingMatchConstants.searchUserAddress}');
-      if (userAddress == null || userAddress.isEmpty) {
-        displaySnackBar("有効なさがすすエリアを選択してください。");
-        return;
+      if (keywordController.text == "" || keywordController.text == null) {
+        if (userAddress == null || userAddress.isEmpty) {
+          displaySnackBar("有効なさがすすエリアを選択してください。");
+          return;
+        }
       }
       /* else if (_value == 0) {
         displaySnackBar("有効なマッサージサービスの種類を選択してください。");
@@ -1572,7 +1573,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
         HealingMatchConstants.bookingAddressId = bookingAddressId;
         HealingMatchConstants.searchUserAddress = userAddress;
       }
-      HealingMatchConstants.serviceType = _value;
+      HealingMatchConstants.serviceType = _getCategoryId(_value);
       HealingMatchConstants.searchType = 0;
     } else {
       HealingMatchConstants.searchKeyWordValue = keywordController.text;
@@ -1586,6 +1587,34 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   _getKeywordResults() {
     HealingMatchConstants.searchType = 1;
     NavigationRouter.switchToUserSearchResult(context);
+  }
+
+  /*  1	エステ
+2	フィットネス
+3	接骨・整体
+4	リラクゼーション */
+
+//assigned based on cID on Db
+  int _getCategoryId(int val) {
+    int cId;
+    switch (val) {
+      case 0:
+        cId = 0;
+        break;
+      case 1:
+        cId = 1;
+        break;
+      case 2:
+        cId = 3;
+        break;
+      case 3:
+        cId = 4;
+        break;
+      case 4:
+        cId = 2;
+        break;
+    }
+    return cId;
   }
 
   _getSearchResults() {

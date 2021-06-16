@@ -1140,6 +1140,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                       image: new AssetImage(
                                           'assets/images_gps/placeholder_image.png')),
                                 )),
+                        SizedBox(height: 5),
                         Text(
                           '${distance.toStringAsFixed(2)} ｋｍ圏内',
                           style:
@@ -1401,9 +1402,9 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                       direction: Axis.horizontal,
                                       allowHalfRating: true,
                                       itemCount: 5,
-                                      itemSize: 25,
-                                      itemPadding:
-                                          EdgeInsets.symmetric(horizontal: 4.0),
+                                      itemSize: 24,
+                                      /*  itemPadding:
+                                          EdgeInsets.symmetric(horizontal: 4.0), */
                                       itemBuilder: (context, _) => new SizedBox(
                                           height: 20.0,
                                           width: 18.0,
@@ -2857,6 +2858,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                       image: new AssetImage(
                                           'assets/images_gps/placeholder_image.png')),
                                 )),
+                        SizedBox(height: 5),
                         Text(
                           '${distance.toStringAsFixed(2)} ｋｍ圏内',
                           style:
@@ -3097,9 +3099,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                       direction: Axis.horizontal,
                                       allowHalfRating: true,
                                       itemCount: 5,
-                                      itemSize: 25,
-                                      itemPadding:
-                                          EdgeInsets.symmetric(horizontal: 4.0),
+                                      itemSize: 24,
                                       itemBuilder: (context, _) => new SizedBox(
                                           height: 20.0,
                                           width: 18.0,
