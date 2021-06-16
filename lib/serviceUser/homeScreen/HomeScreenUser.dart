@@ -2417,6 +2417,7 @@ class _ReservationListState extends State<ReservationList> {
                             child: Text(
                               '${bookingDetailsList[0].locationType}',
                               style: TextStyle(
+                                fontSize: 12.0,
                                 color: Color.fromRGBO(0, 0, 0, 1),
                               ),
                             )),
