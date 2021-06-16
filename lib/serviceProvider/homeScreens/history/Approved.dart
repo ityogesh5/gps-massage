@@ -323,11 +323,13 @@ class _ProviderApprovedScreenState extends State<ProviderApprovedScreen> {
                     SizedBox(
                       width: 8,
                     ),
-                    Text(
-                      '${requestBookingDetailsList[index].location}',
-                      style: TextStyle(
-                        color: Color.fromRGBO(102, 102, 102, 1),
-                        fontSize: 12,
+                    Flexible(
+                                          child: Text(
+                        '${requestBookingDetailsList[index].location}',
+                        style: TextStyle(
+                          color: Color.fromRGBO(102, 102, 102, 1),
+                          fontSize: 12,
+                        ),
                       ),
                     )
                   ],

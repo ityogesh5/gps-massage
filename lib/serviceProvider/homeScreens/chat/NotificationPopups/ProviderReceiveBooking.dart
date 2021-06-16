@@ -35,6 +35,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
   ScrollController scrollController = ScrollController();
   GlobalKey startKey = new GlobalKey();
   GlobalKey endKey = new GlobalKey();
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   DateTime newStartTime;
   DateTime newEndTime;
   DateTime startTime;
@@ -62,6 +63,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
     }
 
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         backgroundColor: Colors.white,
         brightness: Brightness.light,
@@ -242,44 +244,40 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                                       "value": "500",
                                     },
                                     {
-                                      "display": "¥600",
-                                      "value": "600",
-                                    },
-                                    {
-                                      "display": "¥700",
-                                      "value": "700",
-                                    },
-                                    {
-                                      "display": "¥800",
-                                      "value": "800",
-                                    },
-                                    {
-                                      "display": "¥900",
-                                      "value": "900",
-                                    },
-                                    {
                                       "display": "¥1000",
                                       "value": "1000",
                                     },
                                     {
-                                      "display": "¥1100",
-                                      "value": "1100",
-                                    },
-                                    {
-                                      "display": "¥1200",
-                                      "value": "1200",
-                                    },
-                                    {
-                                      "display": "¥1300",
-                                      "value": "1300",
-                                    },
-                                    {
-                                      "display": "¥1400",
-                                      "value": "1400",
-                                    },
-                                    {
                                       "display": "¥1500",
                                       "value": "1500",
+                                    },
+                                    {
+                                      "display": "¥2000",
+                                      "value": "2000",
+                                    },
+                                    {
+                                      "display": "¥2500",
+                                      "value": "2500",
+                                    },
+                                    {
+                                      "display": "¥3000",
+                                      "value": "3000",
+                                    },
+                                    {
+                                      "display": "¥3500",
+                                      "value": "3500",
+                                    },
+                                    {
+                                      "display": "¥4000",
+                                      "value": "4000",
+                                    },
+                                    {
+                                      "display": "¥4500",
+                                      "value": "4500",
+                                    },
+                                    {
+                                      "display": "¥5000",
+                                      "value": "5000",
                                     },
                                   ],
                                   textField: 'display',
@@ -370,6 +368,11 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
+                                            newStartTime.hour < 10
+                                                ? "0${newStartTime.hour}"
+                                                : "${newStartTime.hour}",
+                                          ),
+                                          Text(
                                             newStartTime.minute < 10
                                                 ? ":0${newStartTime.minute}"
                                                 : ":${newStartTime.minute}",
@@ -428,7 +431,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                           expands: false,
                           maxLines: 4,
                           decoration: InputDecoration(
-                            hintText: "距離が遠い為",
+                            hintText: "別の時間を選択した理由",
                             hintStyle: HealingMatchConstants.formHintTextStyle,
                             border:
                                 HealingMatchConstants.multiTextFormInputBorder,
@@ -504,30 +507,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                                 onTap: () {
                                   ProgressDialogBuilder
                                       .showCommonProgressDialog(context);
-                                  ServiceProviderApi.updateEvent(
-                                          widget.bookingDetail.eventId,
-                                          onCancel,
-                                          false,
-                                          false,
-                                          widget.bookingDetail)
-                                      .then((value) {
-                                    //    if (value) {
-                                    ServiceProviderApi.updateStatusUpdate(
-                                            widget.bookingDetail,
-                                            false,
-                                            false,
-                                            onCancel)
-                                        .then((value) {
-                                      ProgressDialogBuilder
-                                          .hideCommonProgressDialog(context);
-                                      if (value) {
-                                        NavigationRouter
-                                            .switchToServiceProviderBottomBar(
-                                                context);
-                                      }
-                                    });
-                                    //  }
-                                  });
+                                  validateCancel();
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -584,23 +564,26 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                   children: [
                     widget.bookingDetail.bookingUserId.uploadProfileImgUrl !=
                             null
-                        ? CachedNetworkImage(
-                            width: 18.0,
-                            height: 18.0,
-                            fit: BoxFit.cover,
-                            imageUrl: widget.bookingDetail.bookingUserId
-                                .uploadProfileImgUrl,
-                            placeholder: (context, url) => SpinKitWave(
-                                size: 20.0, color: ColorConstants.buttonColor),
-                            errorWidget: (context, url, error) => Column(
-                                  children: [
-                                    SvgPicture.asset(
-                                        'assets/images_gps/profile_pic_user.svg',
-                                        height: 18,
-                                        width: 18,
-                                        color: Colors.black),
-                                  ],
-                                ))
+                        ? ClipOval(
+                            child: CachedNetworkImage(
+                                width: 25.0,
+                                height: 25.0,
+                                fit: BoxFit.cover,
+                                imageUrl: widget.bookingDetail.bookingUserId
+                                    .uploadProfileImgUrl,
+                                placeholder: (context, url) => SpinKitWave(
+                                    size: 20.0,
+                                    color: ColorConstants.buttonColor),
+                                errorWidget: (context, url, error) => Column(
+                                      children: [
+                                        SvgPicture.asset(
+                                            'assets/images_gps/profile_pic_user.svg',
+                                            height: 18,
+                                            width: 18,
+                                            color: Colors.black),
+                                      ],
+                                    )),
+                          )
                         : SvgPicture.asset(
                             'assets/images_gps/profile_pic_user.svg',
                             height: 18,
@@ -924,7 +907,10 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
             ),
             onPressed: () {
               setState(() {
-                onCancel = true;
+                onCancel = !onCancel;
+                if (!onCancel) {
+                  _state = 0;
+                }
               });
             },
             //  minWidth: MediaQuery.of(context).size.width * 0.38,
@@ -952,33 +938,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
             ),
             onPressed: () {
               ProgressDialogBuilder.showCommonProgressDialog(context);
-              if (suggestAnotherTime) {
-                widget.bookingDetail.newStartTime = newStartTime;
-                widget.bookingDetail.newEndTime = newEndTime;
-              }
-              if (proposeAdditionalCosts) {
-                widget.bookingDetail.addedPrice = addedpriceReason;
-                widget.bookingDetail.travelAmount = int.parse(price);
-              }
-              ServiceProviderApi.updateEvent(
-                      widget.bookingDetail.eventId,
-                      onCancel,
-                      proposeAdditionalCosts,
-                      suggestAnotherTime,
-                      widget.bookingDetail)
-                  .then((value) {
-                /*   if (value) { */
-                ServiceProviderApi.updateStatusUpdate(widget.bookingDetail,
-                        proposeAdditionalCosts, suggestAnotherTime, onCancel)
-                    .then((value) {
-                  if (value) {
-                    addFirebaseContacts();
-                  } else {
-                    ProgressDialogBuilder.hideCommonProgressDialog(context);
-                  }
-                });
-                /* } */
-              });
+              validateFields();
             },
             //   minWidth: MediaQuery.of(context).size.width * 0.38,
             splashColor: Colors.pinkAccent[600],
@@ -997,6 +957,87 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
         ),
       ],
     );
+  }
+
+  void validateCancel() {
+    if (cancellationReasonController.text == null ||
+        cancellationReasonController.text == "") {
+      displaySnackBar("キャンセルする理由を入力してください。");
+    }
+    cancelBooking(context);
+  }
+
+  void cancelBooking(BuildContext context) {
+    ServiceProviderApi.updateEvent(widget.bookingDetail.eventId, onCancel,
+            false, false, widget.bookingDetail)
+        .then((value) {
+      //    if (value) {
+      ServiceProviderApi.updateStatusUpdate(
+              widget.bookingDetail, false, false, onCancel)
+          .then((value) {
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
+        if (value) {
+          NavigationRouter.switchToServiceProviderBottomBar(context);
+        }
+      });
+      //  }
+    });
+  }
+
+  void validateFields() {
+    if (proposeAdditionalCosts) {
+      if (price != null && addedpriceReason == null) {
+        displaySnackBar("費用の追加の理由をご選択ください。");
+      }
+      if (price == null && addedpriceReason != null) {
+        displaySnackBar("追加料金を選択してください。");
+      }
+    }
+    if (suggestAnotherTime) {
+      if (newStartTime != null &&
+          (providerCommentsController.text == null ||
+              providerCommentsController.text == "")) {
+        displaySnackBar("別の時間を提案した理由をご記入ください。");
+      }
+      if (newStartTime == null) {
+        displaySnackBar("新しい時間を選択してください。");
+      }
+      if (newStartTime != null) {
+        if (newStartTime.day != widget.bookingDetail.startTime.day ||
+            newEndTime.day != widget.bookingDetail.endTime.day) {
+          displaySnackBar("同じ日の有効な時間を選択してください。");
+        }
+      }
+    }
+    acceptBooking();
+  }
+
+  void acceptBooking() {
+    if (suggestAnotherTime) {
+      widget.bookingDetail.newStartTime = newStartTime;
+      widget.bookingDetail.newEndTime = newEndTime;
+      widget.bookingDetail.therapistComments = providerCommentsController.text;
+    }
+    if (proposeAdditionalCosts) {
+      widget.bookingDetail.addedPrice = addedpriceReason;
+      widget.bookingDetail.travelAmount = int.parse(price);
+    }
+    ServiceProviderApi.updateEvent(widget.bookingDetail.eventId, false,
+            proposeAdditionalCosts, suggestAnotherTime, widget.bookingDetail)
+        .then((value) {
+      print("a");
+      /*   if (value) { */
+      ServiceProviderApi.updateStatusUpdate(widget.bookingDetail,
+              proposeAdditionalCosts, suggestAnotherTime, onCancel)
+          .then((value) {
+        if (value) {
+          addFirebaseContacts();
+        } else {
+          ProgressDialogBuilder.hideCommonProgressDialog(context);
+        }
+      });
+      /* } */
+    });
   }
 
   //Method called from ShowtoolTip to refresh the page after TimePicker is Selected
@@ -1066,5 +1107,35 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
         NavigationRouter.switchToServiceProviderBottomBar(context);
       }
     });
+  }
+
+  void displaySnackBar(String errorText) {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      backgroundColor: ColorConstants.snackBarColor,
+      duration: Duration(seconds: 3),
+      content: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Flexible(
+            child: Text('$errorText',
+                overflow: TextOverflow.ellipsis,
+                maxLines: 3,
+                style: TextStyle(fontFamily: 'NotoSansJP')),
+          ),
+          InkWell(
+            onTap: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            child: Text('はい',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'NotoSansJP',
+                    fontWeight: FontWeight.w500,
+                    decoration: TextDecoration.underline)),
+          ),
+        ],
+      ),
+    ));
+    ProgressDialogBuilder.hideCommonProgressDialog(context);
   }
 }

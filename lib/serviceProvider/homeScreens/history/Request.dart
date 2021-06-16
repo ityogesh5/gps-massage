@@ -292,7 +292,7 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
                   children: [
                     Container(
                       padding: EdgeInsets.only(
-                          left: 18.0, right: 18.0, top: 4.0, bottom: 4.0),
+                          left: 14.0, right: 14.0, top: 4.0, bottom: 4.0),
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(
@@ -312,11 +312,13 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
                     SizedBox(
                       width: 8,
                     ),
-                    Text(
-                      '${requestBookingDetailsList[index].location}',
-                      style: TextStyle(
-                        color: Color.fromRGBO(102, 102, 102, 1),
-                        fontSize: 12,
+                    Flexible(
+                      child: Text(
+                        '${requestBookingDetailsList[index].location}',
+                        style: TextStyle(
+                          color: Color.fromRGBO(102, 102, 102, 1),
+                          fontSize: 12,
+                        ),
                       ),
                     )
                   ],
@@ -422,7 +424,7 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
     );
   }
 
-  _getMoreData() async{
+  _getMoreData() async {
     try {
       if (!isLoading) {
         isLoading = true;
@@ -430,8 +432,7 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
         print('Page number : $_pageNumber Page Size : $_pageSize');
         TherapistBookingHistoryResponseModel
             therapistBookingHistoryResponseModel =
-            await ServiceProviderApi.getBookingRequests(
-                _pageNumber, _pageSize);
+            await ServiceProviderApi.getBookingRequests(_pageNumber, _pageSize);
 
         if (therapistBookingHistoryResponseModel
             .data.bookingDetailsList.isEmpty) {

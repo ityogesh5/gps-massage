@@ -319,10 +319,18 @@ class ServiceProviderApi {
     }
 
     try {
-      calendar.events.update(event, calendarId, eventID).then((value) {
+      var eventValue = await calendar.events.update(event, calendarId, eventID);
+      if (eventValue != null) {
         print("Updated event");
         return true;
-      });
+      } else {
+        return false;
+      }
+
+      /*  calendar.events.update(event, calendarId, eventID).then((value) {
+        print("Updated event");
+        return true;
+      }); */
     } catch (e) {
       log('Error creating event $e');
       return false;
@@ -606,7 +614,7 @@ class ServiceProviderApi {
           "travelAmount": bookingDetail.travelAmount.toString(),
           "therapistComments": bookingDetail.therapistComments,
         };
-      } else if (isAddedPrice) {
+      } else if (isTimeChange) {
         body = {
           "bookingId": bookingDetail.id.toString(),
           "bookingStatus": "2",
