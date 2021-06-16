@@ -57,6 +57,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
   int serviceCId;
   int serviceSubId;
   var finalAmount;
+  bool isLoading = false;
 
   String defaultBannerUrl =
       "https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80";
@@ -438,9 +439,16 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
         ),
         color: Colors.red,
         onPressed: () {
-          HealingMatchConstants.isUserRegistrationSkipped
-              ? DialogHelper.showUserLoginOrRegisterDialog(context)
-              : bookingConfirmField();
+          if (HealingMatchConstants.isUserRegistrationSkipped) {
+            DialogHelper.showUserLoginOrRegisterDialog(context);
+          } else {
+            if (!isLoading) {
+              setState(() {
+                isLoading = true;
+                validateFields();
+              });
+            }
+          }
         },
         child: new Text(
           '予約に進む',
@@ -2576,6 +2584,46 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
       }
     }
     return "";
+  }
+
+  void validateFields() {
+    ProgressDialogBuilder.showCommonProgressDialog(context);
+    if (serviceSelection.keys.isEmpty ||
+        selectedTime == null ||
+        endTime == null) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('受けたいマッサージと日時を選択してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 3,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      fontWeight: FontWeight.w500,
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      setState(() {
+        isLoading = false;
+      });
+      ProgressDialogBuilder.hideCommonProgressDialog(context);
+      return;
+    }
+    bookingConfirmField();
   }
 
   getChatDetails(String peerId) {

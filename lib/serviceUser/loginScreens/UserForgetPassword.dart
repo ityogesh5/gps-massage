@@ -88,7 +88,7 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
                       height: 16,
                     ),
                     TextFormField(
-                      maxLength: 10,
+                      maxLength: 11,
                       textInputAction: TextInputAction.done,
                       style: HealingMatchConstants.formTextStyle,
                       focusNode: phoneNumberFocus,
@@ -180,7 +180,7 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
     }
 
     // user phone number validation
-    if (userPhoneNumber.length > 10 ||
+    if (userPhoneNumber.length > 11 ||
         userPhoneNumber.length < 10 ||
         userPhoneNumber == null ||
         userPhoneNumber.isEmpty) {
