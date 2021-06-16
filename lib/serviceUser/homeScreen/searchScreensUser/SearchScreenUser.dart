@@ -51,7 +51,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   bool _isVisible = true;
   bool readonly = false;
   bool _loading = false;
-  bool isLocationCriteria = false;
+  bool isLocationCriteria = true;
   bool _addAddressVisible = false;
   bool isAllAddressCategoryAvailable = false;
   String _currentAddress = '';
@@ -1564,7 +1564,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
 
   getAddressType() {
     if (keywordController.text == "" || keywordController.text == null) {
-      if (HealingMatchConstants.isLocationCriteria == true) {
+      if (isLocationCriteria == true) {
         HealingMatchConstants.addressTypeValues = 0;
         HealingMatchConstants.searchUserAddressType = '店舗';
       } else {
@@ -1573,6 +1573,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
         HealingMatchConstants.bookingAddressId = bookingAddressId;
         HealingMatchConstants.searchUserAddress = userAddress;
       }
+      HealingMatchConstants.isLocationCriteria = isLocationCriteria;
       HealingMatchConstants.serviceType = _getCategoryId(_value);
       HealingMatchConstants.searchType = 0;
     } else {
