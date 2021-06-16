@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -12,7 +13,8 @@ import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/RecommendTherapistModel.dart';
+import 'package:gps_massageapp/customLibraryClasses/customPainterHeart/CustomHeartPainter.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/Repository/therapist_type_repository.dart';
@@ -69,7 +71,7 @@ class InitialProvidersScreen extends StatefulWidget {
 }
 
 class _InitialProvidersScreenState extends State<InitialProvidersScreen> {
-  var _pageNumber = 1;
+  var _pageNumber = 0;
   var _pageSize = 10;
 
   @override
@@ -498,7 +500,7 @@ class _LoadInitialRecommendPageState extends State<LoadInitialRecommendPage> {
 }
 
 class RecommendTherapists extends StatefulWidget {
-  List<RecommendTherapistList> getRecommendedTherapists;
+  List<UserList> getRecommendedTherapists;
 
   RecommendTherapists({Key key, @required this.getRecommendedTherapists})
       : super(key: key);
@@ -510,13 +512,10 @@ class RecommendTherapists extends StatefulWidget {
 class _RecommendTherapistsState extends State<RecommendTherapists> {
   double ratingsValue = 3.0;
   bool isLoading = false;
-  var _pageNumber = 1;
+  var _pageNumber = 0;
   var _pageSize = 10;
-  var distanceRadius;
-  Map<String, String> certificateImages = Map<String, String>();
-  Map<int, String> storeTypeValues;
-  List<RecommendedTherapistCertification> certificateUpload = [];
-  var certificateUploadKeys;
+  List<Map<String, String>> certificateUploadList = List<Map<String, String>>();
+
   BoxDecoration boxDecoration = BoxDecoration(
     borderRadius: BorderRadius.circular(8.0),
     color: Colors.white,
@@ -539,7 +538,7 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
         elevation: 0.0,
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context);
+            //Navigator.pop(context);
             NavigationRouter.switchToServiceUserBottomBar(context);
           },
           icon: Icon(
@@ -572,504 +571,11 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                       return _buildProgressIndicator();
                     } else {
                       return Container(
+                        margin: EdgeInsets.all(5.0),
+                        height: 200.0,
                         // height: MediaQuery.of(context).size.height * 0.22,
                         width: MediaQuery.of(context).size.width * 0.85,
-                        child: WidgetAnimator(
-                          InkWell(
-                            splashColor: Colors.lime,
-                            onTap: () {
-                              var userID = widget
-                                  .getRecommendedTherapists[index].user.id;
-                              NavigationRouter
-                                  .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                      context,
-                                      widget.getRecommendedTherapists[index]
-                                          .user.id);
-                            },
-                            child: Card(
-                              elevation: 0.0,
-                              color: Colors.grey[100],
-                              semanticContainer: true,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.0),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Column(
-                                        children: [
-                                          widget
-                                                      .getRecommendedTherapists[
-                                                          index]
-                                                      .user
-                                                      .uploadProfileImgUrl !=
-                                                  null
-                                              ? CachedNetworkImage(
-                                                  imageUrl: widget
-                                                      .getRecommendedTherapists[
-                                                          index]
-                                                      .user
-                                                      .uploadProfileImgUrl,
-                                                  filterQuality:
-                                                      FilterQuality.high,
-                                                  fadeInCurve:
-                                                      Curves.easeInSine,
-                                                  imageBuilder: (context,
-                                                          imageProvider) =>
-                                                      Container(
-                                                    width: 80.0,
-                                                    height: 80.0,
-                                                    decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      image: DecorationImage(
-                                                          image: imageProvider,
-                                                          fit: BoxFit.cover),
-                                                    ),
-                                                  ),
-                                                  placeholder: (context, url) =>
-                                                      SpinKitDoubleBounce(
-                                                          color: Colors
-                                                              .lightGreenAccent),
-                                                  errorWidget: (context, url,
-                                                          error) =>
-                                                      new Container(
-                                                          width: 80.0,
-                                                          height: 80.0,
-                                                          decoration:
-                                                              new BoxDecoration(
-                                                            border: Border.all(
-                                                                color: Colors
-                                                                    .black12),
-                                                            shape:
-                                                                BoxShape.circle,
-                                                            image: new DecorationImage(
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                                image: new AssetImage(
-                                                                    'assets/images_gps/placeholder_image.png')),
-                                                          )),
-                                                )
-                                              : new Container(
-                                                  width: 80.0,
-                                                  height: 80.0,
-                                                  decoration: new BoxDecoration(
-                                                    border: Border.all(
-                                                        color: Colors.black12),
-                                                    shape: BoxShape.circle,
-                                                    image: new DecorationImage(
-                                                        fit: BoxFit.cover,
-                                                        image: new AssetImage(
-                                                            'assets/images_gps/placeholder_image.png')),
-                                                  )),
-                                          SizedBox(height: 5),
-                                          distanceRadius != null &&
-                                                  distanceRadius != 0
-                                              ? FittedBox(
-                                                  child: Text(
-                                                    '${distanceRadius[index]}ｋｍ圏内',
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        color: Colors.grey),
-                                                  ),
-                                                )
-                                              : FittedBox(
-                                                  child: Text(
-                                                    '0.0ｋｍ圏内',
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        color: Colors.grey),
-                                                  ),
-                                                )
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(height: 10),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              widget.getRecommendedTherapists[index]
-                                                          .user.storeName !=
-                                                      null
-                                                  ? Expanded(
-                                                      child: Row(
-                                                        children: [
-                                                          Flexible(
-                                                            child: Text(
-                                                              '${widget.getRecommendedTherapists[index].user.storeName}',
-                                                              maxLines: widget
-                                                                          .getRecommendedTherapists[
-                                                                              index]
-                                                                          .user
-                                                                          .storeName
-                                                                          .length >
-                                                                      15
-                                                                  ? 2
-                                                                  : 1,
-                                                              style: TextStyle(
-                                                                  fontSize: 14,
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    )
-                                                  : Expanded(
-                                                      child: Row(
-                                                        children: [
-                                                          Flexible(
-                                                            child: Text(
-                                                              '${widget.getRecommendedTherapists[index].user.userName}',
-                                                              maxLines: widget
-                                                                          .getRecommendedTherapists[
-                                                                              index]
-                                                                          .user
-                                                                          .userName
-                                                                          .length >
-                                                                      15
-                                                                  ? 2
-                                                                  : 1,
-                                                              style: TextStyle(
-                                                                  fontSize: 14,
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                              Spacer(),
-                                              SvgPicture.asset(
-                                                  'assets/images_gps/recommendedHeart.svg',
-                                                  width: 25,
-                                                  height: 25),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          FittedBox(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                widget
-                                                            .getRecommendedTherapists[
-                                                                index]
-                                                            .user
-                                                            .businessForm
-                                                            .contains(
-                                                                '施術店舗あり 施術従業員あり') ||
-                                                        widget
-                                                            .getRecommendedTherapists[
-                                                                index]
-                                                            .user
-                                                            .businessForm
-                                                            .contains(
-                                                                '施術店舗あり 施術従業員なし（個人経営）') ||
-                                                        widget
-                                                            .getRecommendedTherapists[
-                                                                index]
-                                                            .user
-                                                            .businessForm
-                                                            .contains(
-                                                                '施術店舗なし 施術従業員なし（個人)')
-                                                    ? Visibility(
-                                                        visible: true,
-                                                        child: Container(
-                                                            padding:
-                                                                EdgeInsets.all(
-                                                                    4),
-                                                            color: Colors.white,
-                                                            child: Text('店舗')),
-                                                      )
-                                                    : Container(),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                Visibility(
-                                                  visible: widget
-                                                      .getRecommendedTherapists[
-                                                          index]
-                                                      .user
-                                                      .businessTrip,
-                                                  child: Container(
-                                                      padding:
-                                                          EdgeInsets.all(4),
-                                                      color: Colors.white,
-                                                      child: Text('出張')),
-                                                ),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                Visibility(
-                                                  visible: widget
-                                                      .getRecommendedTherapists[
-                                                          index]
-                                                      .user
-                                                      .coronaMeasure,
-                                                  child: Container(
-                                                      padding:
-                                                          EdgeInsets.all(4),
-                                                      color: Colors.white,
-                                                      child: Text('コロナ対策実施有無')),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          Row(
-                                            children: [
-                                              widget.getRecommendedTherapists[index]
-                                                          .reviewAvgData !=
-                                                      null
-                                                  ? Text(
-                                                      '(${widget.getRecommendedTherapists[index].reviewAvgData.toString()})',
-                                                      style: TextStyle(
-                                                        fontFamily:
-                                                            ColorConstants
-                                                                .fontFamily,
-                                                        color: Color.fromRGBO(
-                                                            153, 153, 153, 1),
-                                                        decoration:
-                                                            TextDecoration
-                                                                .underline,
-                                                      ),
-                                                    )
-                                                  : Text(
-                                                      '(0.0)',
-                                                      style: TextStyle(
-                                                        fontFamily:
-                                                            ColorConstants
-                                                                .fontFamily,
-                                                        color: Color.fromRGBO(
-                                                            153, 153, 153, 1),
-                                                        decoration:
-                                                            TextDecoration
-                                                                .underline,
-                                                      ),
-                                                    ),
-                                              widget.getRecommendedTherapists[index]
-                                                          .reviewAvgData !=
-                                                      null
-                                                  ? RatingBar.builder(
-                                                      ignoreGestures: true,
-                                                      initialRating:
-                                                          double.parse(widget
-                                                              .getRecommendedTherapists[
-                                                                  index]
-                                                              .reviewAvgData),
-                                                      minRating: 0.25,
-                                                      direction:
-                                                          Axis.horizontal,
-                                                      allowHalfRating: true,
-                                                      itemCount: 5,
-                                                      itemSize: 22,
-                                                      itemPadding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 4.0),
-                                                      itemBuilder:
-                                                          (context, _) => Icon(
-                                                        Icons.star,
-                                                        size: 5,
-                                                        color: Color.fromRGBO(
-                                                            255, 217, 0, 1),
-                                                      ),
-                                                      onRatingUpdate:
-                                                          (rating) {},
-                                                    )
-                                                  : RatingBar.builder(
-                                                      ignoreGestures: true,
-                                                      initialRating: 0.0,
-                                                      minRating: 0.25,
-                                                      direction:
-                                                          Axis.horizontal,
-                                                      allowHalfRating: true,
-                                                      itemCount: 5,
-                                                      itemSize: 22,
-                                                      itemPadding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 4.0),
-                                                      itemBuilder:
-                                                          (context, _) => Icon(
-                                                        Icons.star,
-                                                        size: 5,
-                                                        color: Color.fromRGBO(
-                                                            255, 217, 0, 1),
-                                                      ),
-                                                      onRatingUpdate:
-                                                          (rating) {},
-                                                    ),
-                                              widget
-                                                              .getRecommendedTherapists[
-                                                                  index]
-                                                              .noOfReviewsMembers !=
-                                                          null &&
-                                                      widget
-                                                              .getRecommendedTherapists[
-                                                                  index]
-                                                              .noOfReviewsMembers !=
-                                                          0
-                                                  ? Text(
-                                                      '(${widget.getRecommendedTherapists[index].noOfReviewsMembers})',
-                                                      style: TextStyle(
-                                                          color: Color.fromRGBO(
-                                                              153, 153, 153, 1),
-                                                          fontFamily:
-                                                              ColorConstants
-                                                                  .fontFamily),
-                                                    )
-                                                  : Text(
-                                                      '(0)',
-                                                      style: TextStyle(
-                                                          color: Color.fromRGBO(
-                                                              153, 153, 153, 1),
-                                                          fontFamily:
-                                                              ColorConstants
-                                                                  .fontFamily),
-                                                    ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          certificateImages.length != 0
-                                              ? Container(
-                                                  height: 38.0,
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width -
-                                                      130.0, //200.0,
-                                                  child: GestureDetector(
-                                                    onTap: () {
-                                                      var userID = widget
-                                                          .getRecommendedTherapists[
-                                                              index]
-                                                          .user
-                                                          .id;
-                                                      NavigationRouter
-                                                          .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                                              context,
-                                                              widget
-                                                                  .getRecommendedTherapists[
-                                                                      index]
-                                                                  .user
-                                                                  .id);
-                                                    },
-                                                    child: ListView.builder(
-                                                        shrinkWrap: true,
-                                                        scrollDirection:
-                                                            Axis.horizontal,
-                                                        itemCount:
-                                                            certificateImages
-                                                                .length,
-                                                        itemBuilder:
-                                                            (context, index) {
-                                                          String key =
-                                                              certificateImages
-                                                                  .keys
-                                                                  .elementAt(
-                                                                      index);
-                                                          return WidgetAnimator(
-                                                            Wrap(
-                                                              children: [
-                                                                Padding(
-                                                                  padding: index == 0
-                                                                      ? const EdgeInsets
-                                                                              .only(
-                                                                          left:
-                                                                              0.0,
-                                                                          top:
-                                                                              4.0,
-                                                                          right:
-                                                                              4.0,
-                                                                          bottom:
-                                                                              4.0)
-                                                                      : const EdgeInsets
-                                                                              .all(
-                                                                          4.0),
-                                                                  child:
-                                                                      Container(
-                                                                    padding:
-                                                                        EdgeInsets
-                                                                            .all(5),
-                                                                    decoration:
-                                                                        boxDecoration,
-                                                                    child: Text(
-                                                                      key,
-                                                                      //Qualififcation
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontSize:
-                                                                            14,
-                                                                        color: Colors
-                                                                            .black,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          );
-                                                        }),
-                                                  ),
-                                                )
-                                              : Container(),
-                                          widget.getRecommendedTherapists[index]
-                                                          .lowestPrice !=
-                                                      null &&
-                                                  widget
-                                                          .getRecommendedTherapists[
-                                                              index]
-                                                          .lowestPrice !=
-                                                      0
-                                              ? Row(
-                                                  children: [
-                                                    Text(
-                                                      '¥${widget.getRecommendedTherapists[index].lowestPrice}',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 18),
-                                                    ),
-                                                    Text(
-                                                      '/${widget.getRecommendedTherapists[index].priceForMinute}',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          color:
-                                                              Colors.grey[400],
-                                                          fontSize: 14),
-                                                    )
-                                                  ],
-                                                )
-                                              : SizedBox.shrink()
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                        child: buildRecommendedTherapists(index, context),
                       );
                     }
                   }),
@@ -1150,6 +656,458 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
     );
   }
 
+  WidgetAnimator buildRecommendedTherapists(int index, BuildContext context) {
+    double distance = widget.getRecommendedTherapists[index].distance != 0.0 &&
+            widget.getRecommendedTherapists[index].distance != null
+        ? widget.getRecommendedTherapists[index].distance / 1000.0
+        : 0.0;
+    return WidgetAnimator(
+      InkWell(
+        splashColor: Colors.lime,
+        hoverColor: Colors.lime,
+        onTap: () {
+          HealingMatchConstants.therapistId =
+              widget.getRecommendedTherapists[index].id;
+          HealingMatchConstants.serviceDistanceRadius =
+              widget.getRecommendedTherapists[index].distance;
+
+          NavigationRouter.switchToServiceUserBookingDetailsCompletedScreenOne(
+              context, HealingMatchConstants.therapistId);
+        },
+        child: new Card(
+          color: Color.fromRGBO(242, 242, 242, 1),
+          semanticContainer: true,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Container(
+              height: 125.0,
+              width: MediaQuery.of(context).size.width * 0.78,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      children: [
+                        widget.getRecommendedTherapists[index]
+                                    .uploadProfileImgUrl !=
+                                null
+                            ? CachedNetworkImage(
+                                width: 110.0,
+                                height: 110.0,
+                                imageUrl: widget.getRecommendedTherapists[index]
+                                    .uploadProfileImgUrl,
+                                filterQuality: FilterQuality.high,
+                                fadeInCurve: Curves.easeInSine,
+                                imageBuilder: (context, imageProvider) =>
+                                    Container(
+                                  width: 80.0,
+                                  height: 80.0,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover),
+                                  ),
+                                ),
+                                placeholder: (context, url) =>
+                                    SpinKitDoubleBounce(
+                                        color: Colors.lightGreenAccent),
+                                errorWidget: (context, url, error) => Container(
+                                  width: 80.0,
+                                  height: 80.0,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: Colors.black12),
+                                    image: DecorationImage(
+                                        image: new AssetImage(
+                                            'assets/images_gps/placeholder_image.png'),
+                                        fit: BoxFit.cover),
+                                  ),
+                                ),
+                              )
+                            : new Container(
+                                width: 80.0,
+                                height: 80.0,
+                                decoration: new BoxDecoration(
+                                  border: Border.all(color: Colors.black12),
+                                  shape: BoxShape.circle,
+                                  image: new DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: new AssetImage(
+                                          'assets/images_gps/placeholder_image.png')),
+                                )),
+                        SizedBox(height: 5),
+                        Text(
+                          '${distance.toStringAsFixed(2)} ｋｍ圏内',
+                          style:
+                              TextStyle(fontSize: 10, color: Colors.grey[400]),
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(width: 5),
+                  Expanded(
+                    flex: 3,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Row(
+                          children: [
+                            SizedBox(width: 5),
+                            widget.getRecommendedTherapists[index].isShop != 0
+                                ? Text(
+                                    widget.getRecommendedTherapists[index]
+                                                .storeName.length >
+                                            10
+                                        ? widget.getRecommendedTherapists[index]
+                                                .storeName
+                                                .substring(0, 10) +
+                                            "..."
+                                        : widget.getRecommendedTherapists[index]
+                                            .storeName,
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                : Text(
+                                    widget.getRecommendedTherapists[index]
+                                                .userName.length >
+                                            10
+                                        ? widget.getRecommendedTherapists[index]
+                                                .userName
+                                                .substring(0, 10) +
+                                            "..."
+                                        : widget.getRecommendedTherapists[index]
+                                            .userName,
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                            Spacer(flex: 2),
+                            HealingMatchConstants.isUserRegistrationSkipped
+                                ? GestureDetector(
+                                    onTap: () {
+                                      return;
+                                    },
+                                    child: Container(
+                                      child: CustomPaint(
+                                        size: Size(30, 30),
+                                        painter: HeartPainter(),
+                                      ),
+                                    ), /*  SvgPicture.asset(
+                                      'assets/images_gps/heart_wo_color.svg',
+                                      width: 25,
+                                      height: 25,
+                                      color: Colors.grey[400],
+                                    ), */
+                                  )
+                                : FavoriteButton(
+                                    iconSize: 40,
+                                    iconColor: Colors.red,
+                                    isFavorite: widget
+                                                .getRecommendedTherapists[index]
+                                                .favouriteToTherapist !=
+                                            null &&
+                                        widget.getRecommendedTherapists[index]
+                                                .favouriteToTherapist ==
+                                            1,
+                                    valueChanged: (_isFavorite) {
+                                      print('Is Favorite : $_isFavorite');
+                                      if (_isFavorite != null && _isFavorite) {
+                                        // call favorite therapist API
+                                        ServiceUserAPIProvider
+                                            .favouriteTherapist(widget
+                                                .getRecommendedTherapists[index]
+                                                .id);
+                                      } else {
+                                        // call un-favorite therapist API
+                                        ServiceUserAPIProvider
+                                            .unFavouriteTherapist(widget
+                                                .getRecommendedTherapists[index]
+                                                .id);
+                                      }
+                                    }),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        FittedBox(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(width: 5),
+                              widget.getRecommendedTherapists[index]
+                                          .businessForm
+                                          .contains('施術店舗あり 施術従業員あり') ||
+                                      widget.getRecommendedTherapists[index]
+                                          .businessForm
+                                          .contains('施術店舗あり 施術従業員なし（個人経営）') ||
+                                      widget.getRecommendedTherapists[index]
+                                          .businessForm
+                                          .contains('施術店舗なし 施術従業員なし（個人)')
+                                  ? Visibility(
+                                      visible: true,
+                                      child: Container(
+                                          padding: EdgeInsets.all(4),
+                                          color: Colors.white,
+                                          child: Text(
+                                            '店舗',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                            ),
+                                          )),
+                                    )
+                                  : Container(),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Visibility(
+                                visible: widget.getRecommendedTherapists[index]
+                                        .businesstrip !=
+                                    0,
+                                child: Container(
+                                    padding: EdgeInsets.all(4),
+                                    color: Colors.white,
+                                    child: Text(
+                                      '出張',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                      ),
+                                    )),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Visibility(
+                                visible: widget.getRecommendedTherapists[index]
+                                        .coronameasure !=
+                                    0,
+                                child: Container(
+                                    padding: EdgeInsets.all(4),
+                                    color: Colors.white,
+                                    child: Text(
+                                      'コロナ対策実施有無',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                      ),
+                                    )),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 3,
+                        ),
+                        FittedBox(
+                          child: Row(
+                            children: [
+                              widget.getRecommendedTherapists[index].rating !=
+                                      null
+                                  ? Text(
+                                      '(${widget.getRecommendedTherapists[index].rating.toString()})',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontFamily: ColorConstants.fontFamily,
+                                        color: Color.fromRGBO(153, 153, 153, 1),
+                                      ),
+                                    )
+                                  : Text(
+                                      '(0.0)',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontFamily: ColorConstants.fontFamily,
+                                        color: Color.fromRGBO(153, 153, 153, 1),
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                              widget.getRecommendedTherapists[index].rating !=
+                                          null &&
+                                      widget.getRecommendedTherapists[index]
+                                              .rating !=
+                                          "0.00"
+                                  ? RatingBar.builder(
+                                      ignoreGestures: true,
+                                      initialRating: double.parse(widget
+                                          .getRecommendedTherapists[index]
+                                          .rating),
+                                      minRating: 0.25,
+                                      direction: Axis.horizontal,
+                                      allowHalfRating: true,
+                                      itemCount: 5,
+                                      itemSize: 24,
+                                      itemBuilder: (context, rindex) =>
+                                          new SizedBox(
+                                              height: 20.0,
+                                              width: 18.0,
+                                              child: new IconButton(
+                                                onPressed: () {},
+                                                padding:
+                                                    new EdgeInsets.all(0.0),
+                                                // color: Colors.white,
+                                                icon: rindex >
+                                                        (double.parse(widget
+                                                                    .getRecommendedTherapists[
+                                                                        index]
+                                                                    .rating))
+                                                                .ceilToDouble() -
+                                                            1
+                                                    ? SvgPicture.asset(
+                                                        "assets/images_gps/star_2.svg",
+                                                        height: 13.0,
+                                                        width: 13.0,
+                                                      )
+                                                    : SvgPicture.asset(
+                                                        "assets/images_gps/star_colour.svg",
+                                                        height: 13.0,
+                                                        width: 13.0,
+                                                        //color: Colors.black,
+                                                      ),
+                                              )),
+                                      onRatingUpdate: (rating) {},
+                                    )
+                                  : RatingBar.builder(
+                                      ignoreGestures: true,
+                                      initialRating: 0.0,
+                                      minRating: 0.25,
+                                      direction: Axis.horizontal,
+                                      allowHalfRating: true,
+                                      itemCount: 5,
+                                      itemSize: 24,
+                                      /*  itemPadding:
+                                          EdgeInsets.symmetric(horizontal: 4.0), */
+                                      itemBuilder: (context, _) => new SizedBox(
+                                          height: 20.0,
+                                          width: 18.0,
+                                          child: new IconButton(
+                                              onPressed: () {},
+                                              padding: new EdgeInsets.all(0.0),
+                                              // color: Colors.white,
+                                              icon: SvgPicture.asset(
+                                                "assets/images_gps/star_2.svg",
+                                                height: 13.0,
+                                                width: 13.0,
+                                              ))),
+                                      onRatingUpdate: (rating) {},
+                                    ),
+                              widget.getRecommendedTherapists[index]
+                                              .noOfReviewsMembers !=
+                                          null &&
+                                      widget.getRecommendedTherapists[index]
+                                              .noOfReviewsMembers !=
+                                          0
+                                  ? Text(
+                                      '(${widget.getRecommendedTherapists[index].noOfReviewsMembers})',
+                                      style: TextStyle(
+                                          fontSize: 12.0,
+                                          color:
+                                              Color.fromRGBO(153, 153, 153, 1),
+                                          fontFamily:
+                                              ColorConstants.fontFamily),
+                                    )
+                                  : Text(
+                                      '(0)',
+                                      style: TextStyle(
+                                          fontSize: 12.0,
+                                          color:
+                                              Color.fromRGBO(153, 153, 153, 1),
+                                          fontFamily:
+                                              ColorConstants.fontFamily),
+                                    ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                            height:
+                                certificateUploadList[index].keys.length != 0
+                                    ? 10.0
+                                    : 0.0),
+                        certificateUploadList[index].keys.length != 0
+                            ? Container(
+                                height: 38.0,
+                                width: MediaQuery.of(context).size.width -
+                                    130.0, //200.0,
+                                child: ListView.builder(
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: certificateUploadList[index]
+                                        .keys
+                                        .length,
+                                    itemBuilder: (context, keyIndex) {
+                                      String key = certificateUploadList[index]
+                                          .keys
+                                          .elementAt(keyIndex);
+                                      return WidgetAnimator(
+                                        Wrap(
+                                          children: [
+                                            Padding(
+                                              padding: index == 0
+                                                  ? const EdgeInsets.only(
+                                                      left: 0.0,
+                                                      top: 4.0,
+                                                      right: 4.0,
+                                                      bottom: 4.0)
+                                                  : const EdgeInsets.all(4.0),
+                                              child: Container(
+                                                padding: EdgeInsets.all(5),
+                                                decoration: boxDecoration,
+                                                child: Text(
+                                                  key, //Qualififcation
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    }),
+                              )
+                            : Container(),
+                        widget.getRecommendedTherapists[index].lowestPrice !=
+                                    null &&
+                                widget.getRecommendedTherapists[index]
+                                        .lowestPrice !=
+                                    0
+                            ? Expanded(
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      '¥${widget.getRecommendedTherapists[index].lowestPrice}',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14),
+                                    ),
+                                    Text(
+                                      '/${widget.getRecommendedTherapists[index].leastPriceMin}',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.normal,
+                                          color: Colors.grey[400],
+                                          fontSize: 12),
+                                    )
+                                  ],
+                                ),
+                              )
+                            : SizedBox.shrink()
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildProgressIndicator() {
     return new Padding(
       padding: const EdgeInsets.all(8.0),
@@ -1162,75 +1120,47 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
     );
   }
 
-  getCertificateValues(
-      List<RecommendTherapistList> getRecommendedTherapists) async {
+  getCertificateValues(List<UserList> getRecommendedTherapists) async {
     try {
       if (this.mounted) {
         setState(() {
-          if (widget.getRecommendedTherapists != null &&
-              widget.getRecommendedTherapists.isNotEmpty) {
-            for (int i = 0; i < widget.getRecommendedTherapists.length; i++) {
-              if (widget.getRecommendedTherapists[i].user.storeType != null &&
-                  widget.getRecommendedTherapists[i].user.storeType != '') {
-                var split = widget.getRecommendedTherapists[i].user.storeType
-                    .split(',');
-                final jsonList = split.map((item) => jsonEncode(item)).toList();
-                final uniqueJsonList = jsonList.toSet().toList();
-                final result =
-                    uniqueJsonList.map((item) => jsonDecode(item)).toList();
-                print('Map Duplicate type : $result');
-                storeTypeValues = {
-                  for (int i = 0; i < result.length; i++) i: result[i]
-                };
-                print('Store type map values type : $storeTypeValues');
-              }
-              certificateUpload =
-                  widget.getRecommendedTherapists[i].user.certificationUploads;
-              for (int j = 0; j < certificateUpload.length; j++) {
-                print(
-                    'Certificate upload type : ${certificateUpload[j].toJson()}');
-                certificateUploadKeys = certificateUpload[j].toJson();
-                certificateUploadKeys.remove('id');
-                certificateUploadKeys.remove('userId');
-                certificateUploadKeys.remove('createdAt');
-                certificateUploadKeys.remove('updatedAt');
-                print('Keys certificate type : $certificateUploadKeys');
-              }
+          if (getRecommendedTherapists != null &&
+              getRecommendedTherapists.isNotEmpty) {
+            for (int i = 0; i < getRecommendedTherapists.length; i++) {
+              Map<String, String> certificateUploaded = Map<String, String>();
 
-              certificateUploadKeys.forEach((key, value) async {
-                if (certificateUploadKeys[key] != null) {
-                  String jKey = getQualificationJPWordsForType(key);
+              if (getRecommendedTherapists[i].qulaificationCertImgUrl != null &&
+                  getRecommendedTherapists[i].qulaificationCertImgUrl != '') {
+                var split = getRecommendedTherapists[i]
+                    .qulaificationCertImgUrl
+                    .split(',');
+
+                for (int i = 0; i < split.length; i++) {
+                  String jKey = split[i];
                   if (jKey == "はり師" ||
                       jKey == "きゅう師" ||
                       jKey == "鍼灸師" ||
                       jKey == "あん摩マッサージ指圧師" ||
                       jKey == "柔道整復師" ||
                       jKey == "理学療法士") {
-                    certificateImages["国家資格保有"] = "国家資格保有";
+                    certificateUploaded["国家資格保有"] = "国家資格保有";
                   } else if (jKey == "国家資格取得予定（学生）") {
-                    certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
+                    certificateUploaded["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
                   } else if (jKey == "民間資格") {
-                    certificateImages["民間資格"] = "民間資格";
+                    certificateUploaded["民間資格"] = "民間資格";
                   } else if (jKey == "無資格") {
-                    certificateImages["無資格"] = "無資格";
+                    certificateUploaded["無資格"] = "無資格";
                   }
                 }
-              });
-              if (certificateImages.length == 0) {
-                certificateImages["無資格"] = "無資格";
-              }
-              print('certificateImages data type : $certificateImages');
 
-              for (int k = 0;
-                  k < widget.getRecommendedTherapists[i].user.addresses.length;
-                  k++) {
-                recommendedTherapistAddress.add(widget
-                    .getRecommendedTherapists[i].user.addresses[k].distance
-                    .truncateToDouble()
-                    .toStringAsFixed(2));
-                distanceRadius = recommendedTherapistAddress;
-                print(
-                    'Recommned Position values : ${distanceRadius[0]} && ${recommendedTherapistAddress.length}');
+                if (certificateUploaded.length > 0) {
+                  certificateUploadList.add(certificateUploaded);
+                }
+              }
+
+              if (certificateUploaded.length == 0) {
+                certificateUploaded["無資格"] = "無資格";
+                certificateUploadList.add(certificateUploaded);
               }
             }
           } else {
@@ -1239,7 +1169,7 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
         });
       }
     } catch (e) {
-      print('Exception :${e.toString()}');
+      print('Exception : ${e.toString()}');
     }
   }
 
@@ -1294,14 +1224,13 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                 ServiceUserAPIProvider.getRecommendedTherapists(
                     context, _pageNumber, _pageSize);
             recommendedProviderListApiProvider.then((value) {
-              if (value.homeTherapistData.recommendedTherapistData.isEmpty) {
+              if (value.data.userList.isEmpty) {
                 setState(() {
                   isLoading = false;
                 });
               } else {
                 isLoading = false;
-                widget.getRecommendedTherapists
-                    .addAll(value.homeTherapistData.recommendedTherapistData);
+                widget.getRecommendedTherapists.addAll(value.data.userList);
                 getCertificateValues(widget.getRecommendedTherapists);
               }
             }).catchError(() {
@@ -1330,7 +1259,7 @@ class HomePageError extends StatefulWidget {
 }
 
 class _HomePageErrorState extends State<HomePageError> {
-  var _pageNumber = 1;
+  var _pageNumber = 0;
   var _pageSize = 10;
 
   @override

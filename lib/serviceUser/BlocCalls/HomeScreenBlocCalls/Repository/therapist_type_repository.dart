@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/RecommendTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:http/http.dart' as http;
@@ -20,7 +19,7 @@ abstract class GetTherapistTypeRepository {
 
   Future<TherapistByIdModel> getTherapistById(String accessToken, int userId);
 
-  Future<List<RecommendTherapistList>> getRecommendedTherapists(
+  Future<List<UserList>> getRecommendedTherapists(
       String accessToken, int pageNumber, int pageSize);
 }
 
@@ -117,7 +116,7 @@ class GetTherapistTypeRepositoryImpl implements GetTherapistTypeRepository {
   }
 
   @override
-  Future<List<RecommendTherapistList>> getRecommendedTherapists(
+  Future<List<UserList>> getRecommendedTherapists(
       String accessToken, int pageNumber, int pageSize) async {
     try {
       final url =
@@ -129,10 +128,10 @@ class GetTherapistTypeRepositoryImpl implements GetTherapistTypeRepository {
       final response = await http.get(url, headers: headers);
       if (response.statusCode == 200) {
         final recommendedTherapists = json.decode(response.body);
-        List<RecommendTherapistList> getRecommendedTherapists =
-            RecommendedTherapistModel.fromJson(recommendedTherapists)
-                .homeTherapistData
-                .recommendedTherapistData;
+        List<UserList> getRecommendedTherapists =
+            TherapistUsersModel.fromJson(recommendedTherapists)
+                .data
+                .userList;
         print('RecommendedTherapistData : ${response.body}');
         return getRecommendedTherapists;
       }

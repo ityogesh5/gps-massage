@@ -24,7 +24,6 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/booking/createB
 import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/FavouriteList.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/FavouriteTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/UnFavouriteTherapistModel.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/RecommendTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UserBannerImagesModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/DeleteSubAddressModel.dart';
@@ -64,8 +63,8 @@ class ServiceUserAPIProvider {
   static EditUserSubAddressModel _editUserSubAddressModel =
       new EditUserSubAddressModel();
 
-  static RecommendedTherapistModel _recommendedTherapistModel =
-      new RecommendedTherapistModel();
+  static TherapistUsersModel _recommendedTherapistModel =
+      new TherapistUsersModel();
 
   static UserReviewListById _userReviewListById = new UserReviewListById();
 
@@ -595,7 +594,7 @@ class ServiceUserAPIProvider {
   }
 
   // get recommended therapist results
-  static Future<RecommendedTherapistModel> getRecommendedTherapists(
+  static Future<TherapistUsersModel> getRecommendedTherapists(
       BuildContext context, int pageNumber, int pageSize) async {
     try {
       final url =
@@ -609,7 +608,7 @@ class ServiceUserAPIProvider {
       if (response.statusCode == 200) {
         final getRecommendedTherapistResponse = json.decode(response.body);
         _recommendedTherapistModel =
-            RecommendedTherapistModel.fromJson(getRecommendedTherapistResponse);
+            TherapistUsersModel.fromJson(getRecommendedTherapistResponse);
       }
     } catch (e) {
       print('Exception Search API : ${e.toString()}');

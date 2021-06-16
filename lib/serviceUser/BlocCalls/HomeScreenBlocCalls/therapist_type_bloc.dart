@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/RecommendTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/Repository/therapist_type_repository.dart';
@@ -27,7 +26,7 @@ class TherapistTypeBloc extends Bloc<TherapistTypeEvent, TherapistTypeState> {
             event.massageTypeValue,
             event.pageNumber,
             event.pageSize);
-        List<RecommendTherapistList> getRecommendedTherapists =
+        List<UserList> getRecommendedTherapists =
         await getTherapistTypeRepository.getRecommendedTherapists(
             event.accessToken, event.pageNumber, event.pageSize);
         yield GetTherapistTypeLoadedState(
@@ -42,7 +41,7 @@ class TherapistTypeBloc extends Bloc<TherapistTypeEvent, TherapistTypeState> {
         List<UserList> getTherapistsUsers =
         await getTherapistTypeRepository.getTherapistProfiles(
             event.accessToken, event.pageNumber, event.pageSize);
-        List<RecommendTherapistList> getRecommendedTherapists =
+        List<UserList> getRecommendedTherapists =
         await getTherapistTypeRepository.getRecommendedTherapists(
             event.accessToken, event.pageNumber, event.pageSize);
         yield GetTherapistLoadedState(
@@ -64,7 +63,7 @@ class TherapistTypeBloc extends Bloc<TherapistTypeEvent, TherapistTypeState> {
     } else if (event is RecommendEvent) {
       yield GetTherapistTypeLoaderState();
       try {
-        List<RecommendTherapistList> getRecommendedTherapists =
+        List<UserList> getRecommendedTherapists =
         await getTherapistTypeRepository.getRecommendedTherapists(
             event.accessToken, event.pageNumber, event.pageSize);
         yield GetRecommendTherapistLoadedState(

@@ -11,7 +11,7 @@ import 'package:gps_massageapp/models/responseModels/serviceProvider/ProviderDet
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart'
     as providerLogin;
 import 'package:gps_massageapp/models/responseModels/serviceProvider/messageServicePriceModel.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/RecommendTherapistModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/profileUpdateResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistResultsModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
@@ -652,7 +652,7 @@ class HealingMatchConstants {
   static var serviceDistanceRadius;
   static List<String> userBannerImages = [];
   static int therapistId = 0;
-  static List<RecommendTherapistList> getRecommendedTherapists = [];
+  static List<TherapistUsersModel> getRecommendedTherapists = [];
 
   //User details
   static String userRegisteredAddressDetail = '';
