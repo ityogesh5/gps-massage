@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>659864886049-vjejn53c7ibkecknnif3ftsrb4hsonlp.apps.googleusercontent.com</string>
+	<string>659864886049-at93mol27se3gq90civjqbtiu9d8s593.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.659864886049-vjejn53c7ibkecknnif3ftsrb4hsonlp</string>
+	<string>com.googleusercontent.apps.659864886049-at93mol27se3gq90civjqbtiu9d8s593</string>
 	<key>API_KEY</key>
 	<string>AIzaSyDvc0p6NX_hyPsrVgwrRcfP3-yGEmXA7EQ</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.nexware.gpsMassageapp</string>
+	<string>com.healingmatch.gpsmassageapplication</string>
 	<key>PROJECT_ID</key>
 	<string>healing-match</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:659864886049:ios:fd3b3db22971e42985bc60</string>
+	<string>1:659864886049:ios:aa901d26f8f71e6185bc60</string>
 </dict>
 </plist>

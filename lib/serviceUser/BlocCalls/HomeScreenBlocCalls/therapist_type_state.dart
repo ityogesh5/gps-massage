@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/RecommendTherapistModel.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:meta/meta.dart';
@@ -19,7 +18,7 @@ class GetTherapistTypeLoaderState extends TherapistTypeState {
 
 // ignore: must_be_immutable
 class GetTherapistLoadedState extends TherapistTypeState {
-  List<InitialTherapistData> getTherapistsUsers;
+  List<UserList> getTherapistsUsers;
   List<RecommendTherapistList> getRecommendedTherapists;
 
   GetTherapistLoadedState(
@@ -42,7 +41,7 @@ class GetRecommendTherapistLoadedState extends TherapistTypeState {
 
 // ignore: must_be_immutable
 class GetTherapistTypeLoadedState extends TherapistTypeState {
-  List<TypeTherapistData> getTherapistsUsers;
+  List<UserList> getTherapistsUsers;
   List<RecommendTherapistList> getRecommendedTherapists;
 
   GetTherapistTypeLoadedState(

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:date_util/date_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -66,6 +67,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   DateTime today = DateTime.now();
   DateTime displayDay;
   final keywordController = new TextEditingController();
+  var stopLoading;
 
   var dateString;
   var constantUserAddressSize = new List();
@@ -401,7 +403,6 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                               onTap: () {
                                 setState(() {
                                   _value = 2;
-                                  /*   HealingMatchConstants.serviceType = 2; */
                                 });
                               },
                               child: Column(
@@ -833,31 +834,47 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
               children: [
                 Spacer(),
                 Container(
-                  child: CircleAvatar(
-                    maxRadius: 25,
-                    backgroundColor: Color.fromRGBO(200, 217, 33, 1),
-                    child: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _loading = true;
-                        });
-                        _showLoadingIndicator(context, "現在地の取得");
-                        if (_loading) {
-                          timeDurationSinceDate(DateTime(
-                              _cyear,
-                              _cmonth,
-                              _currentDay,
-                              HealingMatchConstants.dateTime.hour,
-                              HealingMatchConstants.dateTime.minute));
-                        }
-                      },
-                      icon: Image.asset(
+                  child: ArgonButton(
+                    roundLoadingShape: true,
+                    height: 40,
+                    width: 40,
+                    borderRadius: 5.0,
+                    elevation: 0.0,
+                    color: Colors.transparent,
+                    child: CircleAvatar(
+                      maxRadius: 25,
+                      backgroundColor: Color.fromRGBO(200, 217, 33, 1),
+                      child: Image.asset(
                         "assets/images_gps/search.png",
                         height: 25,
                         width: 25,
                         color: Colors.white,
                       ),
                     ),
+                    loader: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color.fromRGBO(200, 217, 33, 1),
+                        // borderRadius: BorderRadius.circular(25.0),
+                      ),
+                      padding: EdgeInsets.all(10),
+                      child: SpinKitRotatingCircle(
+                        color: Colors.white,
+                        // size: loaderWidth ,
+                      ),
+                    ),
+                    onTap: (startLoading, stopLoading, btnState) {
+                      if (btnState == ButtonState.Idle) {
+                        this.stopLoading = stopLoading;
+                        startLoading();
+                        timeDurationSinceDate(DateTime(
+                            _cyear,
+                            _cmonth,
+                            _currentDay,
+                            HealingMatchConstants.dateTime.hour,
+                            HealingMatchConstants.dateTime.minute));
+                      }
+                    },
                   ),
                 ),
               ],
@@ -1497,9 +1514,11 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
     try {
       print(
           'User address proceed : ${HealingMatchConstants.searchUserAddress}');
-      if (userAddress == null || userAddress.isEmpty) {
-        displaySnackBar("有効なさがすすエリアを選択してください。");
-        return;
+      if (keywordController.text == "" || keywordController.text == null) {
+        if (userAddress == null || userAddress.isEmpty) {
+          displaySnackBar("有効なさがすすエリアを選択してください。");
+          return;
+        }
       }
       /* else if (_value == 0) {
         displaySnackBar("有効なマッサージサービスの種類を選択してください。");
@@ -1540,10 +1559,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
       ),
     ));
 
-    setState(() {
-      _loading = false;
-    });
-    Navigator.pop(context);
+    stopLoading();
   }
 
   getAddressType() {
@@ -1557,7 +1573,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
         HealingMatchConstants.bookingAddressId = bookingAddressId;
         HealingMatchConstants.searchUserAddress = userAddress;
       }
-      HealingMatchConstants.serviceType = _value;
+      HealingMatchConstants.serviceType = _getCategoryId(_value);
       HealingMatchConstants.searchType = 0;
     } else {
       HealingMatchConstants.searchKeyWordValue = keywordController.text;
@@ -1573,12 +1589,37 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
     NavigationRouter.switchToUserSearchResult(context);
   }
 
+  /*  1	エステ
+2	フィットネス
+3	接骨・整体
+4	リラクゼーション */
+
+//assigned based on cID on Db
+  int _getCategoryId(int val) {
+    int cId;
+    switch (val) {
+      case 0:
+        cId = 0;
+        break;
+      case 1:
+        cId = 1;
+        break;
+      case 2:
+        cId = 3;
+        break;
+      case 3:
+        cId = 4;
+        break;
+      case 4:
+        cId = 2;
+        break;
+    }
+    return cId;
+  }
+
   _getSearchResults() {
     try {
-      Navigator.pop(context);
-      setState(() {
-        _loading = false;
-      });
+      stopLoading();
 
       NavigationRouter.switchToUserSearchResult(context);
     } catch (e) {

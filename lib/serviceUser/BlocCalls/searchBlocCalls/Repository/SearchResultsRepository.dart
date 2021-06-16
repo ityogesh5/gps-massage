@@ -30,19 +30,34 @@ class GetSearchResultsRepositoryImpl implements GetSearchResultsRepository {
                   "latitude": HealingMatchConstants.searchAddressLatitude,
                   "longitude": HealingMatchConstants.searchAddressLongitude,
                 })
-              : json.encode({
-                  "userAddress": HealingMatchConstants.searchUserAddress,
-                  "serviceType": HealingMatchConstants.serviceType,
-                  "serviceLocationCriteria":
-                      HealingMatchConstants.isLocationCriteria,
-                  "serviceTimeCriteria": HealingMatchConstants.isTimeCriteria,
-                  "selectedTime":
-                      HealingMatchConstants.dateTime.toIso8601String(),
-                  "searchDistanceRadius":
-                      HealingMatchConstants.searchDistanceRadius,
-                  "latitude": HealingMatchConstants.searchAddressLatitude,
-                  "longitude": HealingMatchConstants.searchAddressLongitude,
-                }));
+              : HealingMatchConstants.serviceType != 0
+                  ? json.encode({
+                      "userAddress": HealingMatchConstants.searchUserAddress,
+                      "serviceType": HealingMatchConstants.serviceType,
+                      "serviceLocationCriteria":
+                          HealingMatchConstants.isLocationCriteria,
+                      "serviceTimeCriteria":
+                          HealingMatchConstants.isTimeCriteria,
+                      "selectedTime":
+                          HealingMatchConstants.dateTime.toIso8601String(),
+                      "searchDistanceRadius":
+                          HealingMatchConstants.searchDistanceRadius,
+                      "latitude": HealingMatchConstants.searchAddressLatitude,
+                      "longitude": HealingMatchConstants.searchAddressLongitude,
+                    })
+                  : json.encode({
+                      "userAddress": HealingMatchConstants.searchUserAddress,
+                      "serviceLocationCriteria":
+                          HealingMatchConstants.isLocationCriteria,
+                      "serviceTimeCriteria":
+                          HealingMatchConstants.isTimeCriteria,
+                      "selectedTime":
+                          HealingMatchConstants.dateTime.toIso8601String(),
+                      "searchDistanceRadius":
+                          HealingMatchConstants.searchDistanceRadius,
+                      "latitude": HealingMatchConstants.searchAddressLatitude,
+                      "longitude": HealingMatchConstants.searchAddressLongitude,
+                    }));
       print('Search results Body : ${response.body}');
       print('statusCode : ${response.statusCode}');
       if (response.statusCode == 200) {
@@ -81,20 +96,36 @@ class GetSearchResultsRepositoryImpl implements GetSearchResultsRepository {
                   "longitude": HealingMatchConstants.searchAddressLongitude,
                   "type": searchType
                 })
-              : json.encode({
-                  "userAddress": HealingMatchConstants.searchUserAddress,
-                  "serviceType": HealingMatchConstants.serviceType,
-                  "serviceLocationCriteria":
-                      HealingMatchConstants.isLocationCriteria,
-                  "serviceTimeCriteria": HealingMatchConstants.isTimeCriteria,
-                  "selectedTime":
-                      HealingMatchConstants.dateTime.toIso8601String(),
-                  "searchDistanceRadius":
-                      HealingMatchConstants.searchDistanceRadius,
-                  "latitude": HealingMatchConstants.searchAddressLatitude,
-                  "longitude": HealingMatchConstants.searchAddressLongitude,
-                  "type": searchType
-                }));
+              : HealingMatchConstants.serviceType != 0
+                  ? json.encode({
+                      "userAddress": HealingMatchConstants.searchUserAddress,
+                      "serviceType": HealingMatchConstants.serviceType,
+                      "serviceLocationCriteria":
+                          HealingMatchConstants.isLocationCriteria,
+                      "serviceTimeCriteria":
+                          HealingMatchConstants.isTimeCriteria,
+                      "selectedTime":
+                          HealingMatchConstants.dateTime.toIso8601String(),
+                      "searchDistanceRadius":
+                          HealingMatchConstants.searchDistanceRadius,
+                      "latitude": HealingMatchConstants.searchAddressLatitude,
+                      "longitude": HealingMatchConstants.searchAddressLongitude,
+                      "type": searchType
+                    })
+                  : json.encode({
+                      "userAddress": HealingMatchConstants.searchUserAddress,
+                      "serviceLocationCriteria":
+                          HealingMatchConstants.isLocationCriteria,
+                      "serviceTimeCriteria":
+                          HealingMatchConstants.isTimeCriteria,
+                      "selectedTime":
+                          HealingMatchConstants.dateTime.toIso8601String(),
+                      "searchDistanceRadius":
+                          HealingMatchConstants.searchDistanceRadius,
+                      "latitude": HealingMatchConstants.searchAddressLatitude,
+                      "longitude": HealingMatchConstants.searchAddressLongitude,
+                      "type": searchType
+                    }));
       print('Search results Type Body : ${response.body}');
       print('statusCode : ${response.statusCode}');
       if (response.statusCode == 200) {
