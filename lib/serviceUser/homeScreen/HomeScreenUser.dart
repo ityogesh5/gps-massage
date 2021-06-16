@@ -1999,7 +1999,9 @@ class _ReservationListState extends State<ReservationList> {
       );
     }
 
-    return bookingDetailsList != null && bookingDetailsList.isNotEmpty
+    return bookingDetailsList != null &&
+            bookingDetailsList.isNotEmpty &&
+            bookingDetailsList[0].bookingStatus != 5
         ? Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -2397,45 +2399,43 @@ class _ReservationListState extends State<ReservationList> {
                     SizedBox(
                       height: 7,
                     ),
-                    FittedBox(
-                      child: Row(
-                        children: [
-                          Container(
-                              decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                      colors: [
-                                        Color.fromRGBO(255, 255, 255, 1),
-                                        Color.fromRGBO(255, 255, 255, 1),
-                                      ]),
-                                  shape: BoxShape.rectangle,
-                                  border: Border.all(
-                                    color: Colors.grey[300],
-                                  ),
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  color: Colors.grey[200]),
-                              padding: EdgeInsets.all(4),
-                              child: Text(
-                                '${bookingDetailsList[0].locationType}',
-                                style: TextStyle(
-                                  color: Color.fromRGBO(0, 0, 0, 1),
+                    Row(
+                      children: [
+                        Container(
+                            decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      Color.fromRGBO(255, 255, 255, 1),
+                                      Color.fromRGBO(255, 255, 255, 1),
+                                    ]),
+                                shape: BoxShape.rectangle,
+                                border: Border.all(
+                                  color: Colors.grey[300],
                                 ),
-                              )),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          /*  Text(
+                                borderRadius: BorderRadius.circular(5.0),
+                                color: Colors.grey[200]),
+                            padding: EdgeInsets.all(4),
+                            child: Text(
+                              '${bookingDetailsList[0].locationType}',
+                              style: TextStyle(
+                                color: Color.fromRGBO(0, 0, 0, 1),
+                              ),
+                            )),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Flexible(
+                          child: Text(
                             '${bookingDetailsList[0].location}',
-                            maxLines: bookingDetailsList[0].location.length > 25
-                                ? 2
-                                : 1,
                             style: TextStyle(
+                              fontSize: 10.0,
                               color: Color.fromRGBO(102, 102, 102, 1),
                             ),
-                          ), */
-                        ],
-                      ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 )),
