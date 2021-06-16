@@ -2583,8 +2583,10 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
   @override
   void initState() {
     super.initState();
-    formKeyList = List.generate(widget.getTherapistProfiles.length,
-        (index) => GlobalObjectKey<FormState>(index));
+    if (widget.getTherapistProfiles != null) {
+      formKeyList = List.generate(widget.getTherapistProfiles.length,
+          (index) => GlobalObjectKey<FormState>(index));
+    }
     getTherapists();
   }
 
