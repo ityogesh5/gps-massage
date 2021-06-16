@@ -1998,9 +1998,7 @@ class _ReservationListState extends State<ReservationList> {
       );
     }
 
-    return bookingDetailsList != null &&
-            bookingDetailsList.isNotEmpty &&
-            bookingDetailsList[0].bookingStatus != 5
+    return bookingDetailsList != null && bookingDetailsList.isNotEmpty
         ? Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -3274,19 +3272,20 @@ class _RecommendListsState extends State<RecommendLists> {
     getCertificateValues(widget.getRecommendedTherapists);
   }
 
-  getCertificateValues(
-      List<UserList> getRecommendedTherapists) async {
+  getCertificateValues(List<UserList> getRecommendedTherapists) async {
     try {
       if (this.mounted) {
         setState(() {
-          if (getRecommendedTherapists != null && getRecommendedTherapists.isNotEmpty) {
+          if (getRecommendedTherapists != null &&
+              getRecommendedTherapists.isNotEmpty) {
             for (int i = 0; i < getRecommendedTherapists.length; i++) {
               Map<String, String> certificateUploaded = Map<String, String>();
 
               if (getRecommendedTherapists[i].qulaificationCertImgUrl != null &&
                   getRecommendedTherapists[i].qulaificationCertImgUrl != '') {
-                var split =
-                    getRecommendedTherapists[i].qulaificationCertImgUrl.split(',');
+                var split = getRecommendedTherapists[i]
+                    .qulaificationCertImgUrl
+                    .split(',');
 
                 for (int i = 0; i < split.length; i++) {
                   String jKey = split[i];
@@ -3451,7 +3450,7 @@ class _RecommendListsState extends State<RecommendLists> {
           );
   }
 
- WidgetAnimator buildRecommendedTherapists(int index, BuildContext context) {
+  WidgetAnimator buildRecommendedTherapists(int index, BuildContext context) {
     double distance = widget.getRecommendedTherapists[index].distance != 0.0 &&
             widget.getRecommendedTherapists[index].distance != null
         ? widget.getRecommendedTherapists[index].distance / 1000.0
@@ -3485,7 +3484,8 @@ class _RecommendListsState extends State<RecommendLists> {
                   Expanded(
                     child: Column(
                       children: [
-                        widget.getRecommendedTherapists[index].uploadProfileImgUrl !=
+                        widget.getRecommendedTherapists[index]
+                                    .uploadProfileImgUrl !=
                                 null
                             ? CachedNetworkImage(
                                 width: 110.0,
@@ -3553,8 +3553,8 @@ class _RecommendListsState extends State<RecommendLists> {
                             SizedBox(width: 5),
                             widget.getRecommendedTherapists[index].isShop != 0
                                 ? Text(
-                                    widget.getRecommendedTherapists[index].storeName
-                                                .length >
+                                    widget.getRecommendedTherapists[index]
+                                                .storeName.length >
                                             10
                                         ? widget.getRecommendedTherapists[index]
                                                 .storeName
@@ -3568,21 +3568,20 @@ class _RecommendListsState extends State<RecommendLists> {
                                         fontWeight: FontWeight.bold),
                                   )
                                 : Text(
-                                    widget.getRecommendedTherapists[index].userName
-                                                .length >
+                                    widget.getRecommendedTherapists[index]
+                                                .userName.length >
                                             10
                                         ? widget.getRecommendedTherapists[index]
                                                 .userName
                                                 .substring(0, 10) +
                                             "..."
-                                        : widget
-                                            .getRecommendedTherapists[index].userName,
+                                        : widget.getRecommendedTherapists[index]
+                                            .userName,
                                     style: TextStyle(
                                         fontSize: 14,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                   ),
-                           
                             Spacer(flex: 2),
                             HealingMatchConstants.isUserRegistrationSkipped
                                 ? GestureDetector(
@@ -3604,7 +3603,8 @@ class _RecommendListsState extends State<RecommendLists> {
                                 : FavoriteButton(
                                     iconSize: 40,
                                     iconColor: Colors.red,
-                                    isFavorite: widget.getRecommendedTherapists[index]
+                                    isFavorite: widget
+                                                .getRecommendedTherapists[index]
                                                 .favouriteToTherapist !=
                                             null &&
                                         widget.getRecommendedTherapists[index]
@@ -3616,12 +3616,14 @@ class _RecommendListsState extends State<RecommendLists> {
                                         // call favorite therapist API
                                         ServiceUserAPIProvider
                                             .favouriteTherapist(widget
-                                                .getRecommendedTherapists[index].id);
+                                                .getRecommendedTherapists[index]
+                                                .id);
                                       } else {
                                         // call un-favorite therapist API
                                         ServiceUserAPIProvider
                                             .unFavouriteTherapist(widget
-                                                .getRecommendedTherapists[index].id);
+                                                .getRecommendedTherapists[index]
+                                                .id);
                                       }
                                     }),
                           ],
@@ -3634,7 +3636,8 @@ class _RecommendListsState extends State<RecommendLists> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               SizedBox(width: 5),
-                              widget.getRecommendedTherapists[index].businessForm
+                              widget.getRecommendedTherapists[index]
+                                          .businessForm
                                           .contains('施術店舗あり 施術従業員あり') ||
                                       widget.getRecommendedTherapists[index]
                                           .businessForm
@@ -3698,7 +3701,8 @@ class _RecommendListsState extends State<RecommendLists> {
                         FittedBox(
                           child: Row(
                             children: [
-                              widget.getRecommendedTherapists[index].rating != null
+                              widget.getRecommendedTherapists[index].rating !=
+                                      null
                                   ? Text(
                                       '(${widget.getRecommendedTherapists[index].rating.toString()})',
                                       style: TextStyle(
@@ -3716,13 +3720,16 @@ class _RecommendListsState extends State<RecommendLists> {
                                         decoration: TextDecoration.underline,
                                       ),
                                     ),
-                              widget.getRecommendedTherapists[index].rating != null &&
-                                      widget.getRecommendedTherapists[index].rating !=
+                              widget.getRecommendedTherapists[index].rating !=
+                                          null &&
+                                      widget.getRecommendedTherapists[index]
+                                              .rating !=
                                           "0.00"
                                   ? RatingBar.builder(
                                       ignoreGestures: true,
                                       initialRating: double.parse(widget
-                                          .getRecommendedTherapists[index].rating),
+                                          .getRecommendedTherapists[index]
+                                          .rating),
                                       minRating: 0.25,
                                       direction: Axis.horizontal,
                                       allowHalfRating: true,
@@ -3780,9 +3787,7 @@ class _RecommendListsState extends State<RecommendLists> {
                                                 height: 13.0,
                                                 width: 13.0,
                                               ))),
-                                      onRatingUpdate: (rating) {
-                                       
-                                      },
+                                      onRatingUpdate: (rating) {},
                                     ),
                               widget.getRecommendedTherapists[index]
                                               .noOfReviewsMembers !=
@@ -3860,8 +3865,10 @@ class _RecommendListsState extends State<RecommendLists> {
                                     }),
                               )
                             : Container(),
-                        widget.getRecommendedTherapists[index].lowestPrice != null &&
-                                widget.getRecommendedTherapists[index].lowestPrice !=
+                        widget.getRecommendedTherapists[index].lowestPrice !=
+                                    null &&
+                                widget.getRecommendedTherapists[index]
+                                        .lowestPrice !=
                                     0
                             ? Expanded(
                                 child: Row(
@@ -3895,7 +3902,6 @@ class _RecommendListsState extends State<RecommendLists> {
     );
   }
 }
-
 
 class HomePageError extends StatefulWidget {
   @override
