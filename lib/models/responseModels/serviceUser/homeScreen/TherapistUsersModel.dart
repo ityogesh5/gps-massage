@@ -1,399 +1,378 @@
+// To parse this JSON data, do
+//
+//     final therapistUsersModel = therapistUsersModelFromJson(jsonString);
+
+import 'dart:convert';
+
+TherapistUsersModel therapistUsersModelFromJson(String str) =>
+    TherapistUsersModel.fromJson(json.decode(str));
+
+String therapistUsersModelToJson(TherapistUsersModel data) =>
+    json.encode(data.toJson());
+
 class TherapistUsersModel {
+  TherapistUsersModel({
+    this.status,
+    this.data,
+  });
+
   String status;
-  HomeTherapistData homeTherapistData;
+  Data data;
 
-  TherapistUsersModel({this.status, this.homeTherapistData});
+  factory TherapistUsersModel.fromJson(Map<String, dynamic> json) =>
+      TherapistUsersModel(
+        status: json["status"],
+        data: Data.fromJson(json["data"]),
+      );
 
-  TherapistUsersModel.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
-    homeTherapistData = json['homeTherapistData'] != null
-        ? new HomeTherapistData.fromJson(json['homeTherapistData'])
-        : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    if (this.homeTherapistData != null) {
-      data['homeTherapistData'] = this.homeTherapistData.toJson();
-    }
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "status": status,
+        "data": data.toJson(),
+      };
 }
 
-class HomeTherapistData {
+class Data {
+  Data({
+    this.count,
+    this.userList,
+    this.totalPages,
+    this.pageNumber,
+  });
+
   int count;
-  List<InitialTherapistData> therapistData;
+  List<UserList> userList;
+  int totalPages;
+  int pageNumber;
 
-  HomeTherapistData({this.count, this.therapistData});
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
+        count: json["count"],
+        userList: List<UserList>.from(
+            json["userList"].map((x) => UserList.fromJson(x))),
+        totalPages: json["totalPages"],
+        pageNumber: json["pageNumber"],
+      );
 
-  HomeTherapistData.fromJson(Map<String, dynamic> json) {
-    count = json['count'];
-    if (json['rows'] != null) {
-      therapistData = new List<InitialTherapistData>();
-      json['rows'].forEach((v) {
-        therapistData.add(new InitialTherapistData.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['count'] = this.count;
-    if (this.therapistData != null) {
-      data['rows'] = this.therapistData.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "count": count,
+        "userList": List<dynamic>.from(userList.map((x) => x.toJson())),
+        "totalPages": totalPages,
+        "pageNumber": pageNumber,
+      };
 }
 
-class InitialTherapistData {
-  int id;
-  int userId;
-  int categoryId;
-  int subCategoryId;
-  String name;
-  User user;
-  String reviewAvgData;
-  int noOfReviewsMembers;
+class UserList {
+  UserList({
+    this.favouriteToTherapist,
+    this.id,
+    this.userId,
+    this.userName,
+    this.uploadProfileImgUrl,
+    this.businessForm,
+    this.storeName,
+    this.storeType,
+    this.coronameasure,
+    this.businesstrip,
+    this.childrenMeasure,
+    this.genderOfService,
+    this.qulaificationCertImgUrl,
+    this.isShop,
+    this.isTherapist,
+    this.isActive,
+    this.isAccepted,
+    this.therapistSubCatId,
+    this.categoryId,
+    this.subCategoryId,
+    this.name,
+    this.sixtyMin,
+    this.nintyMin,
+    this.oneTwentyMin,
+    this.oneFifityMin,
+    this.oneEightyMin,
+    this.lowestPrice,
+    this.leastPriceMin,
+    this.addressId,
+    this.addressTypeSelection,
+    this.address,
+    this.lat,
+    this.lon,
+    this.geomet,
+    this.capitalAndPrefecture,
+    this.citiesId,
+    this.cityName,
+    this.area,
+    this.distance,
+    this.numberOfTreatement,
+    this.certificateId,
+    this.acquireNationalQualifications,
+    this.acupuncturist,
+    this.moxibutionist,
+    this.anmaMassageShiatsushi,
+    this.judoRehabilitationTeacher,
+    this.physicalTherapist,
+    this.acupuncturistAndMoxibustion,
+    this.privateQualification1,
+    this.privateQualification2,
+    this.privateQualification3,
+    this.privateQualification4,
+    this.privateQualification5,
+    this.rating,
+    this.noOfReviewsMembers,
+  });
+
   int favouriteToTherapist;
-  int lowestPrice;
-  String priceForMinute;
-
-  InitialTherapistData(
-      {this.id,
-      this.userId,
-      this.categoryId,
-      this.subCategoryId,
-      this.name,
-      this.user,
-      this.reviewAvgData,
-      this.noOfReviewsMembers,
-      this.favouriteToTherapist,
-      this.lowestPrice,
-      this.priceForMinute});
-
-  InitialTherapistData.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    userId = json['userId'];
-    categoryId = json['categoryId'];
-    subCategoryId = json['subCategoryId'];
-    name = json['name'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
-    reviewAvgData = json['reviewAvgData'];
-    noOfReviewsMembers = json['NoOfReviewsMembers'];
-    favouriteToTherapist = json['favouriteToTherapist'];
-    lowestPrice = json['lowestPrice'];
-    priceForMinute = json['priceForMinute'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['userId'] = this.userId;
-    data['categoryId'] = this.categoryId;
-    data['subCategoryId'] = this.subCategoryId;
-    data['name'] = this.name;
-    if (this.user != null) {
-      data['user'] = this.user.toJson();
-    }
-    data['reviewAvgData'] = this.reviewAvgData;
-    data['NoOfReviewsMembers'] = this.noOfReviewsMembers;
-    data['favouriteToTherapist'] = this.favouriteToTherapist;
-    data['lowestPrice'] = this.lowestPrice;
-    data['priceForMinute'] = this.priceForMinute;
-    return data;
-  }
-}
-
-class User {
   int id;
   String userId;
   String userName;
   String uploadProfileImgUrl;
+  String businessForm;
   String storeName;
   String storeType;
+  int coronameasure;
+  int businesstrip;
+  ChildrenMeasure childrenMeasure;
+  GenderOfService genderOfService;
   String qulaificationCertImgUrl;
-  String businessForm;
-  String childrenMeasure;
-  bool coronaMeasure;
-  bool businessTrip;
-  bool isShop;
-  List<TherapistAddress> addresses;
-  List<CertificationUploads> certificationUploads;
-  List<Banners> banners;
-
-  User(
-      {this.id,
-      this.userId,
-      this.userName,
-      this.uploadProfileImgUrl,
-      this.storeName,
-      this.storeType,
-      this.qulaificationCertImgUrl,
-      this.businessForm,
-      this.childrenMeasure,
-      this.coronaMeasure,
-      this.businessTrip,
-      this.isShop,
-      this.addresses,
-      this.certificationUploads,
-      this.banners});
-
-  User.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    userId = json['userId'];
-    userName = json['userName'];
-    uploadProfileImgUrl = json['uploadProfileImgUrl'];
-    storeName = json['storeName'];
-    storeType = json['storeType'];
-    qulaificationCertImgUrl = json['qulaificationCertImgUrl'];
-    businessForm = json['businessForm'];
-    childrenMeasure = json['childrenMeasure'];
-    coronaMeasure = json['coronaMeasure'];
-    businessTrip = json['businessTrip'];
-    isShop = json['isShop'];
-    if (json['addresses'] != null) {
-      addresses = new List<TherapistAddress>();
-      json['addresses'].forEach((v) {
-        addresses.add(new TherapistAddress.fromJson(v));
-      });
-    }
-    if (json['certification_uploads'] != null) {
-      certificationUploads = new List<CertificationUploads>();
-      json['certification_uploads'].forEach((v) {
-        certificationUploads.add(new CertificationUploads.fromJson(v));
-      });
-    }
-    if (json['banners'] != null) {
-      banners = new List<Banners>();
-      json['banners'].forEach((v) {
-        banners.add(new Banners.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['userId'] = this.userId;
-    data['userName'] = this.userName;
-    data['uploadProfileImgUrl'] = this.uploadProfileImgUrl;
-    data['storeName'] = this.storeName;
-    data['storeType'] = this.storeType;
-    data['qulaificationCertImgUrl'] = this.qulaificationCertImgUrl;
-    data['businessForm'] = this.businessForm;
-    data['childrenMeasure'] = this.childrenMeasure;
-    data['coronaMeasure'] = this.coronaMeasure;
-    data['businessTrip'] = this.businessTrip;
-    data['isShop'] = this.isShop;
-    if (this.addresses != null) {
-      data['addresses'] = this.addresses.map((v) => v.toJson()).toList();
-    }
-    if (this.certificationUploads != null) {
-      data['certification_uploads'] =
-          this.certificationUploads.map((v) => v.toJson()).toList();
-    }
-    if (this.banners != null) {
-      data['banners'] = this.banners.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
-
-class TherapistAddress {
-  int id;
-  dynamic lat;
-  dynamic lon;
-  Geomet geomet;
+  int isShop;
+  int isTherapist;
+  int isActive;
+  int isAccepted;
+  int therapistSubCatId;
+  int categoryId;
+  int subCategoryId;
+  String name;
+  int sixtyMin;
+  int nintyMin;
+  int oneTwentyMin;
+  int oneFifityMin;
+  int oneEightyMin;
+  int lowestPrice;
+  String leastPriceMin;
+  int addressId;
+  AddressTypeSelection addressTypeSelection;
   String address;
-  String capitalAndPrefecture;
+  double lat;
+  double lon;
+  Geomet geomet;
+  CapitalAndPrefecture capitalAndPrefecture;
+  int citiesId;
   String cityName;
   String area;
-  dynamic distance;
-
-  TherapistAddress(
-      {this.id,
-      this.lat,
-      this.lon,
-      this.geomet,
-      this.address,
-      this.capitalAndPrefecture,
-      this.cityName,
-      this.area,
-      this.distance});
-
-  TherapistAddress.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    lat = json['lat'];
-    lon = json['lon'];
-    geomet =
-        json['geomet'] != null ? new Geomet.fromJson(json['geomet']) : null;
-    address = json['address'];
-    capitalAndPrefecture = json['capitalAndPrefecture'];
-    cityName = json['cityName'];
-    area = json['area'];
-    distance = json['distance'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['lat'] = this.lat;
-    data['lon'] = this.lon;
-    if (this.geomet != null) {
-      data['geomet'] = this.geomet.toJson();
-    }
-    data['address'] = this.address;
-    data['capitalAndPrefecture'] = this.capitalAndPrefecture;
-    data['cityName'] = this.cityName;
-    data['area'] = this.area;
-    data['distance'] = this.distance;
-    return data;
-  }
-}
-
-class Geomet {
-  String type;
-  List<double> coordinates;
-
-  Geomet({this.type, this.coordinates});
-
-  Geomet.fromJson(Map<String, dynamic> json) {
-    type = json['type'];
-    coordinates = json['coordinates'].cast<double>();
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['type'] = this.type;
-    data['coordinates'] = this.coordinates;
-    return data;
-  }
-}
-
-class CertificationUploads {
-  int id;
-  int userId;
+  double distance;
+  int numberOfTreatement;
+  int certificateId;
+  String acquireNationalQualifications;
   String acupuncturist;
-  String moxibutionist;
-  String acupuncturistAndMoxibustion;
-  String anmaMassageShiatsushi;
+  dynamic moxibutionist;
+  dynamic anmaMassageShiatsushi;
   String judoRehabilitationTeacher;
   String physicalTherapist;
-  String acquireNationalQualifications;
+  dynamic acupuncturistAndMoxibustion;
   String privateQualification1;
-  String privateQualification2;
-  String privateQualification3;
-  String privateQualification4;
-  String privateQualification5;
-  String createdAt;
-  String updatedAt;
+  dynamic privateQualification2;
+  dynamic privateQualification3;
+  dynamic privateQualification4;
+  dynamic privateQualification5;
+  String rating;
+  int noOfReviewsMembers;
 
-  CertificationUploads(
-      {this.id,
-      this.userId,
-      this.acupuncturist,
-      this.moxibutionist,
-      this.acupuncturistAndMoxibustion,
-      this.anmaMassageShiatsushi,
-      this.judoRehabilitationTeacher,
-      this.physicalTherapist,
-      this.acquireNationalQualifications,
-      this.privateQualification1,
-      this.privateQualification2,
-      this.privateQualification3,
-      this.privateQualification4,
-      this.privateQualification5,
-      this.createdAt,
-      this.updatedAt});
+  factory UserList.fromJson(Map<String, dynamic> json) => UserList(
+        favouriteToTherapist: json["favouriteToTherapist"],
+        id: json["id"],
+        userId: json["userId"],
+        userName: json["userName"],
+        uploadProfileImgUrl: json["uploadProfileImgUrl"],
+        businessForm: json["businessForm"],
+        storeName: json["storeName"],
+        storeType: json["storeType"],
+        coronameasure: json["coronameasure"],
+        businesstrip: json["businesstrip"],
+        childrenMeasure: childrenMeasureValues.map[json["childrenMeasure"]],
+        genderOfService: genderOfServiceValues.map[json["genderOfService"]],
+        qulaificationCertImgUrl: json["qulaificationCertImgUrl"],
+        isShop: json["isShop"],
+        isTherapist: json["isTherapist"],
+        isActive: json["isActive"],
+        isAccepted: json["isAccepted"],
+        therapistSubCatId: json["therapistSubCatId"],
+        categoryId: json["categoryId"],
+        subCategoryId: json["subCategoryId"],
+        name: json["name"],
+        sixtyMin: json["sixtyMin"],
+        nintyMin: json["nintyMin"],
+        oneTwentyMin: json["oneTwentyMin"],
+        oneFifityMin: json["oneFifityMin"],
+        oneEightyMin: json["oneEightyMin"],
+        lowestPrice: json["lowestPrice"],
+        leastPriceMin: json["leastPriceMin"],
+        addressId: json["addressId"],
+        addressTypeSelection:
+            addressTypeSelectionValues.map[json["addressTypeSelection"]],
+        address: json["address"],
+        lat: json["lat"].toDouble(),
+        lon: json["lon"].toDouble(),
+        geomet: Geomet.fromJson(json["geomet"]),
+        capitalAndPrefecture:
+            capitalAndPrefectureValues.map[json["capitalAndPrefecture"]],
+        citiesId: json["citiesId"],
+        cityName: json["cityName"],
+        area: json["area"],
+        distance: json["distance"].toDouble(),
+        numberOfTreatement: json["numberOfTreatement"],
+        certificateId: json["certificateId"],
+        acquireNationalQualifications:
+            json["acquireNationalQualifications"] == null
+                ? null
+                : json["acquireNationalQualifications"],
+        acupuncturist:
+            json["acupuncturist"] == null ? null : json["acupuncturist"],
+        moxibutionist: json["moxibutionist"],
+        anmaMassageShiatsushi: json["anmaMassageShiatsushi"],
+        judoRehabilitationTeacher: json["judoRehabilitationTeacher"] == null
+            ? null
+            : json["judoRehabilitationTeacher"],
+        physicalTherapist: json["physicalTherapist"] == null
+            ? null
+            : json["physicalTherapist"],
+        acupuncturistAndMoxibustion: json["acupuncturistAndMoxibustion"],
+        privateQualification1: json["privateQualification1"] == null
+            ? null
+            : json["privateQualification1"],
+        privateQualification2: json["privateQualification2"],
+        privateQualification3: json["privateQualification3"],
+        privateQualification4: json["privateQualification4"],
+        privateQualification5: json["privateQualification5"],
+        rating: json["rating"],
+        noOfReviewsMembers: json["NoOfReviewsMembers"],
+      );
 
-  CertificationUploads.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    userId = json['userId'];
-    acupuncturist = json['acupuncturist'];
-    moxibutionist = json['moxibutionist'];
-    acupuncturistAndMoxibustion = json['acupuncturistAndMoxibustion'];
-    anmaMassageShiatsushi = json['anmaMassageShiatsushi'];
-    judoRehabilitationTeacher = json['judoRehabilitationTeacher'];
-    physicalTherapist = json['physicalTherapist'];
-    acquireNationalQualifications = json['acquireNationalQualifications'];
-    privateQualification1 = json['privateQualification1'];
-    privateQualification2 = json['privateQualification2'];
-    privateQualification3 = json['privateQualification3'];
-    privateQualification4 = json['privateQualification4'];
-    privateQualification5 = json['privateQualification5'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['userId'] = this.userId;
-    data['acupuncturist'] = this.acupuncturist;
-    data['moxibutionist'] = this.moxibutionist;
-    data['acupuncturistAndMoxibustion'] = this.acupuncturistAndMoxibustion;
-    data['anmaMassageShiatsushi'] = this.anmaMassageShiatsushi;
-    data['judoRehabilitationTeacher'] = this.judoRehabilitationTeacher;
-    data['physicalTherapist'] = this.physicalTherapist;
-    data['acquireNationalQualifications'] = this.acquireNationalQualifications;
-    data['privateQualification1'] = this.privateQualification1;
-    data['privateQualification2'] = this.privateQualification2;
-    data['privateQualification3'] = this.privateQualification3;
-    data['privateQualification4'] = this.privateQualification4;
-    data['privateQualification5'] = this.privateQualification5;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "favouriteToTherapist": favouriteToTherapist,
+        "id": id,
+        "userId": userId,
+        "userName": userName,
+        "uploadProfileImgUrl": uploadProfileImgUrl,
+        "businessForm": businessForm,
+        "storeName": storeName,
+        "storeType": storeType,
+        "coronameasure": coronameasure,
+        "businesstrip": businesstrip,
+        "childrenMeasure": childrenMeasureValues.reverse[childrenMeasure],
+        "genderOfService": genderOfServiceValues.reverse[genderOfService],
+        "qulaificationCertImgUrl": qulaificationCertImgUrl,
+        "isShop": isShop,
+        "isTherapist": isTherapist,
+        "isActive": isActive,
+        "isAccepted": isAccepted,
+        "therapistSubCatId": therapistSubCatId,
+        "categoryId": categoryId,
+        "subCategoryId": subCategoryId,
+        "name": name,
+        "sixtyMin": sixtyMin,
+        "nintyMin": nintyMin,
+        "oneTwentyMin": oneTwentyMin,
+        "oneFifityMin": oneFifityMin,
+        "oneEightyMin": oneEightyMin,
+        "lowestPrice": lowestPrice,
+        "leastPriceMin": leastPriceMin,
+        "addressId": addressId,
+        "addressTypeSelection":
+            addressTypeSelectionValues.reverse[addressTypeSelection],
+        "address": address,
+        "lat": lat,
+        "lon": lon,
+        "geomet": geomet.toJson(),
+        "capitalAndPrefecture":
+            capitalAndPrefectureValues.reverse[capitalAndPrefecture],
+        "citiesId": citiesId,
+        "cityName": cityName,
+        "area": area,
+        "distance": distance,
+        "numberOfTreatement": numberOfTreatement,
+        "certificateId": certificateId,
+        "acquireNationalQualifications": acquireNationalQualifications == null
+            ? null
+            : acquireNationalQualifications,
+        "acupuncturist": acupuncturist == null ? null : acupuncturist,
+        "moxibutionist": moxibutionist,
+        "anmaMassageShiatsushi": anmaMassageShiatsushi,
+        "judoRehabilitationTeacher": judoRehabilitationTeacher == null
+            ? null
+            : judoRehabilitationTeacher,
+        "physicalTherapist":
+            physicalTherapist == null ? null : physicalTherapist,
+        "acupuncturistAndMoxibustion": acupuncturistAndMoxibustion,
+        "privateQualification1":
+            privateQualification1 == null ? null : privateQualification1,
+        "privateQualification2": privateQualification2,
+        "privateQualification3": privateQualification3,
+        "privateQualification4": privateQualification4,
+        "privateQualification5": privateQualification5,
+        "rating": rating,
+        "NoOfReviewsMembers": noOfReviewsMembers,
+      };
 }
 
-class Banners {
-  int id;
-  int userId;
-  String bannerImageUrl1;
-  dynamic bannerImageUrl2;
-  String bannerImageUrl3;
-  dynamic bannerImageUrl4;
-  String bannerImageUrl5;
-  String createdAt;
-  String updatedAt;
+enum AddressTypeSelection { EMPTY }
 
-  Banners(
-      {this.id,
-      this.userId,
-      this.bannerImageUrl1,
-      this.bannerImageUrl2,
-      this.bannerImageUrl3,
-      this.bannerImageUrl4,
-      this.bannerImageUrl5,
-      this.createdAt,
-      this.updatedAt});
+final addressTypeSelectionValues =
+    EnumValues({"直接入力": AddressTypeSelection.EMPTY});
 
-  Banners.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    userId = json['userId'];
-    bannerImageUrl1 = json['bannerImageUrl1'];
-    bannerImageUrl2 = json['bannerImageUrl2'];
-    bannerImageUrl3 = json['bannerImageUrl3'];
-    bannerImageUrl4 = json['bannerImageUrl4'];
-    bannerImageUrl5 = json['bannerImageUrl5'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-  }
+enum CapitalAndPrefecture { EMPTY }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['userId'] = this.userId;
-    data['bannerImageUrl1'] = this.bannerImageUrl1;
-    data['bannerImageUrl2'] = this.bannerImageUrl2;
-    data['bannerImageUrl3'] = this.bannerImageUrl3;
-    data['bannerImageUrl4'] = this.bannerImageUrl4;
-    data['bannerImageUrl5'] = this.bannerImageUrl5;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    return data;
+final capitalAndPrefectureValues =
+    EnumValues({"北海道": CapitalAndPrefecture.EMPTY});
+
+enum ChildrenMeasure { EMPTY, CHILDREN_MEASURE, OK }
+
+final childrenMeasureValues = EnumValues({
+  "キッズスペースの完備": ChildrenMeasure.CHILDREN_MEASURE,
+  "": ChildrenMeasure.EMPTY,
+  "キッズスペースの完備,子供同伴OK": ChildrenMeasure.OK
+});
+
+enum GenderOfService { EMPTY, GENDER_OF_SERVICE, PURPLE }
+
+final genderOfServiceValues = EnumValues({
+  "": GenderOfService.EMPTY,
+  "男性女性両方": GenderOfService.GENDER_OF_SERVICE,
+  "女性のみ": GenderOfService.PURPLE
+});
+
+class Geomet {
+  Geomet({
+    this.type,
+    this.coordinates,
+  });
+
+  Type type;
+  List<double> coordinates;
+
+  factory Geomet.fromJson(Map<String, dynamic> json) => Geomet(
+        type: typeValues.map[json["type"]],
+        coordinates:
+            List<double>.from(json["coordinates"].map((x) => x.toDouble())),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "type": typeValues.reverse[type],
+        "coordinates": List<dynamic>.from(coordinates.map((x) => x)),
+      };
+}
+
+enum Type { POINT }
+
+final typeValues = EnumValues({"Point": Type.POINT});
+
+class EnumValues<T> {
+  Map<String, T> map;
+  Map<T, String> reverseMap;
+
+  EnumValues(this.map);
+
+  Map<T, String> get reverse {
+    if (reverseMap == null) {
+      reverseMap = map.map((k, v) => new MapEntry(v, k));
+    }
+    return reverseMap;
   }
 }

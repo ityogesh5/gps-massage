@@ -25,7 +25,6 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherap
 import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/FavouriteTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/UnFavouriteTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/RecommendTherapistModel.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UserBannerImagesModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/DeleteSubAddressModel.dart';
@@ -43,8 +42,8 @@ class ServiceUserAPIProvider {
 
   static TherapistUsersModel listOfTherapistModel = new TherapistUsersModel();
   static UserBannerImagesModel _bannerModel = new UserBannerImagesModel();
-  static TherapistsByTypeModel _therapistsByTypeModel =
-      new TherapistsByTypeModel();
+  static TherapistUsersModel _therapistsByTypeModel =
+      new TherapistUsersModel();
 
   static TherapistByIdModel _therapisyByIdModel = new TherapistByIdModel();
   static GetUserDetailsByIdModel _getUserDetailsByIdModel =
@@ -135,7 +134,7 @@ class ServiceUserAPIProvider {
   }
 
   // get more of therapist users
-  static Future<TherapistsByTypeModel> getTherapistsByTypeLimit(
+  static Future<TherapistUsersModel> getTherapistsByTypeLimit(
       BuildContext context, int pageNumber, int pageSize) async {
     try {
       final url =
@@ -147,11 +146,11 @@ class ServiceUserAPIProvider {
       final response = await http.post(url,
           headers: headers,
           body: json.encode({
-            "type": HealingMatchConstants.serviceTypeValue,
+            "serviceType": HealingMatchConstants.serviceTypeValue,
           }));
       final getTherapistByType = json.decode(response.body);
       _therapistsByTypeModel =
-          TherapistsByTypeModel.fromJson(getTherapistByType);
+          TherapistUsersModel.fromJson(getTherapistByType);
       print('Therapist Type Response body : ${response.body}');
     } catch (e) {
       print(e.toString());

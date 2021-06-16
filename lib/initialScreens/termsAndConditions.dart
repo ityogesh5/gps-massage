@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/gestures.dart';
@@ -26,7 +28,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
   @override
   void initState() {
     super.initState();
-    fcm.requestNotificationPermissions(IosNotificationSettings());
+
     _tabController = TabController(vsync: this, length: 2);
     _tabController.addListener(_handleTabSelection);
   }
@@ -84,7 +86,9 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
     if (_state == 0) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         _state = 1;
-        DialogHelper.showNotificationDialog(context);
+        Platform.isIOS
+            ? fcm.requestNotificationPermissions(IosNotificationSettings())
+            : DialogHelper.showNotificationDialog(context);
       });
     }
 
