@@ -6,6 +6,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
@@ -62,6 +63,7 @@ class _UserLoginState extends State<UserLogin> {
   @override
   void initState() {
     super.initState();
+    FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
     _getFCMToken();
   }
 
@@ -80,6 +82,7 @@ class _UserLoginState extends State<UserLogin> {
       bottomNavigationBar: buildBottomBar(),
       appBar: AppBar(
         elevation: 0,
+         brightness: Brightness.light,
         backgroundColor: Colors.transparent,
         actions: [
           Padding(

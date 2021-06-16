@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
@@ -37,6 +38,7 @@ class _BottomBarUserState extends State<BottomBarUser> {
 
   @override
   void initState() {
+    FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
     selectedpage = widget.page; //initial Page
     skippedPage = widget.page;
     super.initState();
@@ -56,7 +58,11 @@ class _BottomBarUserState extends State<BottomBarUser> {
     return Scaffold(
       extendBody: true,
       body: _pageOptions[selectedpage],
-
+      appBar: AppBar(
+        brightness: Brightness.light,
+        elevation: 0.0,
+        toolbarHeight: 0.0,
+      ),
       // initial value is 0 so HomePage will be shown
       bottomNavigationBar: CurvedNavigationBar(
         index: selectedpage,

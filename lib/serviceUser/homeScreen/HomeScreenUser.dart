@@ -82,6 +82,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenUserState extends State<HomeScreen> {
   @override
   void initState() {
+    _selectedIndex = null;
     super.initState();
   }
 
@@ -270,6 +271,7 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
           setState(() {
             bannerImages = value.data.bannersList;
             if (bannerImages != null && bannerImages.isNotEmpty) {
+              bannerImages.sort((a, b) => a.bannerDisplayOrder.compareTo(b.bannerDisplayOrder));
               for (var item in bannerImages) {
                 userBannerImages.add(item.bannerImageUrl);
                 print('Therapist banner images : ${item.bannerImageUrl}');

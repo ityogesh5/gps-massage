@@ -1764,8 +1764,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                         ProgressDialogBuilder.showOverlayLoader(context);
                         if (_editAddressController.text != null &&
                             _editAddressController.text.isNotEmpty) {
-                          HealingMatchConstants.userAddressesList[position]
-                              .address = _editAddressController.text.toString();
                           editPosition = position;
 
                           _getLatLngFromAddress(
@@ -2771,6 +2769,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           'Address location points : $searchAddressLatitude && $searchAddressLongitude');
       addressID = HealingMatchConstants.userAddressesList[position].id;
       print('Edit values :${_editAddressController.text} && $addressID');
+      HealingMatchConstants.userAddressesList[position].address = subAddress;
 
       if (searchAddressLatitude != null && searchAddressLongitude != null) {
         var editSubAddress = ServiceUserAPIProvider.editUserSubAddress(
@@ -2793,8 +2792,36 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         });
       }
     } catch (e) {
-      print(e.toString());
       ProgressDialogBuilder.hideLoader(context);
+      print(e.toString());
+      Navigator.pop(context);
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('有効な住所を入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return;
     }
   }
 }

@@ -1376,7 +1376,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                     // back up the list of items.
                     floating: true,
                     flexibleSpace: Padding(
-                      padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
                       child: Container(
                         height: MediaQuery.of(context).size.height * 0.08,
                         decoration: BoxDecoration(
@@ -2110,6 +2110,7 @@ class _MassageTypeChipsState extends State<MassageTypeChips>
   TherapistTypeBloc therapistTypeBloc;
   var _pageNumber = 0;
   var _pageSize = 10;
+  ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
@@ -2123,14 +2124,16 @@ class _MassageTypeChipsState extends State<MassageTypeChips>
     for (int i = 0; i < _options.length; i++) {
       ChoiceChip choiceChip = ChoiceChip(
         selected: _selectedIndex == i,
+        labelPadding: EdgeInsets.all(2.0),
         label: Text(_options[i],
             style: TextStyle(
               color: _selectedIndex == i
                   ? Color.fromRGBO(251, 251, 251, 1)
                   : Color.fromRGBO(0, 0, 0, 1),
+                  fontSize: 12.0
             )),
         backgroundColor: Colors.white70,
-        selectedColor: Colors.lime,
+        selectedColor: ColorConstants.buttonColor,
         onSelected: (bool selected) {
           setState(() {
             if (selected) {
@@ -2165,6 +2168,7 @@ class _MassageTypeChipsState extends State<MassageTypeChips>
     }
 
     return ListView(
+      controller: scrollController,
       physics: BouncingScrollPhysics(),
       // This next line does the trick.
 
@@ -2176,6 +2180,12 @@ class _MassageTypeChipsState extends State<MassageTypeChips>
 
   @override
   Widget build(BuildContext context) {
+    if (_selectedIndex == 3) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        scrollController.animateTo(scrollController.position.maxScrollExtent,
+            duration: Duration(milliseconds: 500), curve: Curves.ease);
+      });
+    }
     return Container(
       child: Padding(
           padding: const EdgeInsets.all(8.0),
