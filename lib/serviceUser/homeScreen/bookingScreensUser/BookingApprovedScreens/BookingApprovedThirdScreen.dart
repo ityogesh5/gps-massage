@@ -611,7 +611,13 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                             Row(
                               children: [
                                 Text(
-                                  "¥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].priceOfService}  ",
+                                  HealingMatchConstants
+                                              .therapistProfileDetails
+                                              .bookingDataResponse[0]
+                                              .addedPrice !=
+                                          null
+                                      ? "¥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].addedPrice}  "
+                                      : '交通費',
                                   style: TextStyle(
                                       fontSize: 10.0,
                                       color: !isPriceAdded
