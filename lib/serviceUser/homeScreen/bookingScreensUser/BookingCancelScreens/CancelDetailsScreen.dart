@@ -153,7 +153,7 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(right: 5, left: 15),
+                      padding: const EdgeInsets.only(right: 5, left: 11),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -163,7 +163,7 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
                             child: CustomToggleButton(
                               elevation: 0,
                               height: 55.0,
-                              width: 145.0,
+                              width: 125.0,
                               autoWidth: false,
                               buttonColor: Colors.grey[300],
                               enableShape: true,
@@ -212,7 +212,7 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('キャンセルの理由を選択してください。',
+              child: Text('キャンセルの理由を入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -234,13 +234,13 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
     }
 
     try {
-      ProgressDialogBuilder.showOverlayLoader(context);
+      // ProgressDialogBuilder.showOverlayLoader(context);
       var cancelBooking = ServiceUserAPIProvider.updateBookingCompeted(
           widget.bookingId, cancelReason);
       ProgressDialogBuilder.hideLoader(context);
       DialogHelper.showUserBookingCancelDialog(context);
     } catch (e) {
-      ProgressDialogBuilder.hideLoader(context);
+      // ProgressDialogBuilder.hideLoader(context);
       print('cancelException : ${e.toString()}');
     }
   }

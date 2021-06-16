@@ -1554,12 +1554,13 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                                   print(
                                                                       'Position of sub edit list addressType : ${position.addressTypeSelection}');
                                                                   openAddressEditDialog(
-                                                                      position
-                                                                          .address,
-                                                                      HealingMatchConstants
-                                                                          .userAddressesList
-                                                                          .indexOf(
-                                                                              position));
+                                                                    position
+                                                                        .address,
+                                                                    HealingMatchConstants
+                                                                        .userAddressesList
+                                                                        .indexOf(
+                                                                            position),
+                                                                  );
                                                                 },
                                                               )),
                                                       style: TextStyle(
@@ -1766,6 +1767,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                           HealingMatchConstants.userAddressesList[position]
                               .address = _editAddressController.text.toString();
                           editPosition = position;
+
                           _getLatLngFromAddress(
                               _editAddressController.text.toString(), position);
                         } else {
@@ -1789,6 +1791,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                             print('Delete Success');
                             ProgressDialogBuilder.hideLoader(context);
                             dialog.dissmiss();
+                            setState(() {});
                             NavigationRouter
                                 .switchToServiceUserEditProfileScreen(
                                     context, widget.userProfileImage);
@@ -2780,6 +2783,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           if (value != null && value.status == 'success') {
             print('Sub address edited!!');
             ProgressDialogBuilder.hideLoader(context);
+            setState(() {});
             NavigationRouter.switchToServiceUserEditProfileRefreshScreen(
                 context, widget.userProfileImage);
           }

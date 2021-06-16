@@ -990,10 +990,11 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                             HealingMatchConstants.therapistId =
                                 widget.getTherapistByType[index].user.id;
                             HealingMatchConstants.serviceDistanceRadius = widget
-                                .getTherapistByType[index]
-                                .user
-                                .addresses[0]
-                                .distance;
+                                    .getTherapistByType[index]
+                                    .user
+                                    .addresses[0]
+                                    .distance /
+                                1000.0;
 
                             NavigationRouter
                                 .switchToServiceUserBookingDetailsCompletedScreenOne(
@@ -2125,7 +2126,9 @@ class _ReservationListState extends State<ReservationList> {
       );
     }
 
-    return bookingDetailsList != null && bookingDetailsList.isNotEmpty
+    return bookingDetailsList != null &&
+            bookingDetailsList.isNotEmpty &&
+            bookingDetailsList[0].bookingStatus != 5
         ? Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -2554,7 +2557,7 @@ class _ReservationListState extends State<ReservationList> {
                           child: Text(
                             '${bookingDetailsList[0].location}',
                             style: TextStyle(
-                              fontSize: 11.0,
+                              fontSize: 10.0,
                               color: Color.fromRGBO(102, 102, 102, 1),
                             ),
                           ),
@@ -2859,9 +2862,10 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                             print('Position value home screen : $userID');
                             HealingMatchConstants.serviceDistanceRadius =
                                 therapistUsers[index]
-                                    .user
-                                    .addresses[0]
-                                    .distance;
+                                        .user
+                                        .addresses[0]
+                                        .distance /
+                                    1000.0;
                             NavigationRouter
                                 .switchToServiceUserBookingDetailsCompletedScreenOne(
                                     context, HealingMatchConstants.therapistId);
@@ -3679,10 +3683,11 @@ class _RecommendListsState extends State<RecommendLists> {
                         HealingMatchConstants.therapistId =
                             widget.getRecommendedTherapists[index].user.id;
                         HealingMatchConstants.serviceDistanceRadius = widget
-                            .getRecommendedTherapists[index]
-                            .user
-                            .addresses[0]
-                            .distance;
+                                .getRecommendedTherapists[index]
+                                .user
+                                .addresses[0]
+                                .distance /
+                            1000.0;
                         NavigationRouter
                             .switchToServiceUserBookingDetailsCompletedScreenOne(
                                 context, HealingMatchConstants.therapistId);

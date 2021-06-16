@@ -2104,7 +2104,15 @@ class _RegisterUserState extends State<RegisterUser> {
       ));
       return null;
     }
-
+    String manualAddedAddress = _myPrefecture +
+        " " +
+        _myCity +
+        " " +
+        userArea +
+        " " +
+        buildingName +
+        " " +
+        roomNumber;
     String address = roomNumber +
         ',' +
         buildingName +
@@ -2122,7 +2130,7 @@ class _RegisterUserState extends State<RegisterUser> {
       print("Lat: ${HealingMatchConstants.currentLatitude}");
       HealingMatchConstants.currentLongitude = locations[0].longitude;
       print("Long : ${HealingMatchConstants.currentLongitude}");
-      HealingMatchConstants.userAddress = address;
+      HealingMatchConstants.userAddress = manualAddedAddress;
     } catch (e) {
       ProgressDialogBuilder.hideLoader(context);
       Toast.show("有効な住所を入力してください ", context,

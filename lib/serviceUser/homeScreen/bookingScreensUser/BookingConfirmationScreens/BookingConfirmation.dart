@@ -50,7 +50,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
   String weekDays;
   GlobalKey key = new GlobalKey();
   CreateBookingModel createBooking;
-  double distance = HealingMatchConstants.serviceDistanceRadius / 1000.0;
+  var distance = HealingMatchConstants.serviceDistanceRadius;
 
   @override
   void initState() {
@@ -134,7 +134,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                                   HealingMatchConstants.serviceDistanceRadius !=
                                       0
                               ? Text(
-                                  '${distance.toStringAsFixed(2)}Ｋｍ圏内',
+                                  '${distance}Ｋｍ圏内',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                       fontSize: 10.0,
