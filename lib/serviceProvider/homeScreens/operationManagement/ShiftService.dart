@@ -967,7 +967,7 @@ class _ShiftServiceState extends State<ShiftService> {
                               children: [
                                 Expanded(
                                     child: TextFormField(
-                                        enableInteractiveSelection: false,
+                                        enableInteractiveSelection: true,
                                         textAlign: TextAlign.center,
                                         controller: sixtyMinutesController,
                                         keyboardType: TextInputType.number,
@@ -1030,7 +1030,7 @@ class _ShiftServiceState extends State<ShiftService> {
                               children: [
                                 Expanded(
                                     child: TextFormField(
-                                        enableInteractiveSelection: false,
+                                        enableInteractiveSelection: true,
                                         textAlign: TextAlign.center,
                                         controller: nintyMinuteController,
                                         keyboardType: TextInputType.number,
@@ -1093,7 +1093,7 @@ class _ShiftServiceState extends State<ShiftService> {
                               children: [
                                 Expanded(
                                     child: TextFormField(
-                                        enableInteractiveSelection: false,
+                                        enableInteractiveSelection: true,
                                         controller: oneTwentyMinuteController,
                                         keyboardType: TextInputType.number,
                                         textAlign: TextAlign.center,
@@ -1156,7 +1156,7 @@ class _ShiftServiceState extends State<ShiftService> {
                               children: [
                                 Expanded(
                                     child: TextFormField(
-                                        enableInteractiveSelection: false,
+                                        enableInteractiveSelection: true,
                                         textAlign: TextAlign.center,
                                         controller: oneFiftyController,
                                         keyboardType: TextInputType.number,
@@ -1219,7 +1219,7 @@ class _ShiftServiceState extends State<ShiftService> {
                               children: [
                                 Expanded(
                                     child: TextFormField(
-                                        enableInteractiveSelection: false,
+                                        enableInteractiveSelection: true,
                                         textAlign: TextAlign.center,
                                         controller: oneEightyMinuteController,
                                         keyboardType: TextInputType.number,

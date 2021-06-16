@@ -2231,6 +2231,8 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
   }
 
   validateFields() async {
+    ProgressDialogBuilder.showUserDetailsUpdateProgressDialog(context);
+
     var userPhoneNumber = phoneNumberController.text.toString();
     var email = mailAddressController.text.toString();
     var userName = providerNameController.text.toString();
@@ -2245,196 +2247,81 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
 
     //Profile image validation
     if ((_profileImage == null) && userData.uploadProfileImgUrl == null) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('プロフィール画像を選択してください。',
-            style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("プロフィール画像を選択してください。");
       return null;
     }
 
     //Store Type validation
     if (selectedStoreTypeDisplayValues.isEmpty) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('お店の種類は必須項目なので選択してください。',
-            style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("お店の種類は必須項目なので選択してください。");
+
       return null;
     }
 
     //name Validation
     if (userName.length == 0 || userName.isEmpty || userName == null) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content:
-            Text('お名前を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("お名前を入力してください。");
+
       return;
     }
 
     if (userName.length > 20) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('お名前は20文字以内で入力してください。',
-            style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("お名前は20文字以内で入力してください。");
+
       return;
     }
-
-    /*if (dob.length == 0 || dob.isEmpty || dob == null) {
-              _scaffoldKey.currentState.showSnackBar(SnackBar(
-                backgroundColor: ColorConstants.snackBarColor,
-                content:
-                    Text('生年月日を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
-                action: SnackBarAction(
-                    onPressed: () {
-                      _scaffoldKey.currentState.hideCurrentSnackBar();
-                    },
-                    label: 'はい',
-                    textColor: Colors.white),
-              ));
-              return;
-            }*/
 
     //storename Validation
     if ((bussinessForm == "施術店舗あり 施術従業員あり" ||
             bussinessForm == "施術店舗あり 施術従業員なし（個人経営）") &&
         (storename.length == 0 || storename.isEmpty || storename == null)) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content:
-            Text('店舗名を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("店舗名を入力してください。");
+
       return;
     }
 
     if ((bussinessForm == "施術店舗あり 施術従業員あり" ||
             bussinessForm == "施術店舗あり 施術従業員なし（個人経営）") &&
         (storename.length > 20)) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('店舗名は20文字以内で入力してください。',
-            style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("店舗名は20文字以内で入力してください。");
+
       return;
     }
 
     // user DOB validation
     if (userDOB == null || userDOB.isEmpty) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('有効な生年月日を選択してください。',
-            style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("有効な生年月日を選択してください。");
+
       return null;
     }
 
     // age validation
     if (int.parse(age) < 18) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('有効な生年月日を入力してください。',
-            style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("有効な生年月日を入力してください。");
+
       return null;
     }
 
     // gender validation
     if (genderSelecetedValue == null || genderSelecetedValue.isEmpty) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('性別フィールドを選択してください。',
-            style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("性別フィールドを選択してください。");
+
       return null;
     }
 
     // user phone number validation
     if ((userPhoneNumber == null || userPhoneNumber.isEmpty)) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content:
-            Text('電話番号を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("電話番号を入力してください。");
+
       return;
     }
 
-    if (userPhoneNumber.length > 10 ||
+    if (userPhoneNumber.length > 11 ||
         userPhoneNumber.length < 10 ||
         userPhoneNumber == null ||
         userPhoneNumber.isEmpty) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('10文字の電話番号を入力してください。',
-            style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("10文字の電話番号を入力してください。");
+
       return;
     }
 
@@ -2442,362 +2329,141 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     if ((bussinessForm == "施術店舗あり 施術従業員あり" ||
             bussinessForm == "施術店舗あり 施術従業員なし（個人経営）") &&
         (storenumber == null || storenumber.isEmpty)) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('お店の電話番号を入力してください。',
-            style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("お店の電話番号を入力してください。");
+
       return;
     }
 
     if ((bussinessForm == "施術店舗あり 施術従業員あり" ||
             bussinessForm == "施術店舗あり 施術従業員なし（個人経営）") &&
-        (storenumber.length > 10 ||
+        (storenumber.length > 11 ||
             storenumber.length < 10 ||
             storenumber == null ||
             storenumber.isEmpty)) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('10文字の店舗の電話番号を入力してください。',
-            style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("10文字の店舗の電話番号を入力してください。");
+
       return;
     }
 
     //email validation
     if ((email == null || email.isEmpty)) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('メールアドレスを入力してください。',
-            style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("メールアドレスを入力してください。");
+
       return;
     }
 
     if (!(email.contains(regexMail))) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('正しいメールアドレスを入力してください。',
-            style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("正しいメールアドレスを入力してください。");
+
       return;
     }
     if (email.length > 50) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('メールアドレスは50文字以内で入力してください。',
-            style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("メールアドレスは50文字以内で入力してください。");
+
       return;
     }
     if ((email.contains(regexEmojis))) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text("有効なメールアドレスを入力してください。",
-            style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("有効なメールアドレスを入力してください。");
+
       return;
     }
 
     //manual address Validation
     if ((manualAddresss == null || manualAddresss.isEmpty)) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content:
-            Text('住所を入力してください。。', style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("住所を入力してください。。");
+
       return;
     }
 
     //prefecture Validation
     if ((myState == null || myState.isEmpty)) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content:
-            Text('有効な府県を選択してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("有効な府県を選択してください。");
+
       return null;
     }
 
     //city validation
     if ((myCity == null || myCity.isEmpty)) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content:
-            Text('有効な市を選択してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("有効な市を選択してください。");
+
       return null;
     }
 
     //building Validation
-    /* if (buildingname == null || buildingname.isEmpty) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content:
-            Text('ビル名を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
-      return;
-    } */
-
-    //building Validation
     if (buildingname.length > 20) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('建物名は20文字以内で入力してください。',
-            style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("建物名は20文字以内で入力してください。");
+
       return;
     }
 
-    //roomno Validation
-    /*  if (roomnumber == null || roomnumber.isEmpty) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content:
-            Text('部屋番号を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
-      return;
-    } */
-
     //roomno length Validation
     if (roomnumber.length > 4) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('4文字の部屋番号を入力してください。',
-            style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("4文字の部屋番号を入力してください。");
+
       return;
     }
 
     if (bankname == null || bankname == '') {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('銀行名は必須項目なので選択してください。',
-            style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("銀行名は必須項目なので選択してください。");
+
       return;
     }
 
     if (bankname == 'その他' &&
         (bankOtherFieldController.text == '' ||
             bankOtherFieldController.text == null)) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('銀行名は必須項目なので入力してください。',
-            style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("銀行名は必須項目なので入力してください。");
+
       return;
     }
 
     if (bankname == 'その他' && bankOtherFieldController.text.length > 25) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('有効な銀行名を入力してください。',
-            style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("有効な銀行名を入力してください。");
+
       return;
     }
 
     if (accountType == null || accountType == '') {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('口座種類は必須項目なので選択してください。',
-            style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("口座種類は必須項目なので選択してください。");
+
       return;
     }
 
     if (branchCodeController.text == null || branchCodeController.text == '') {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('支店名は必須項目なので選択してください。',
-            style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("支店名は必須項目なので選択してください。");
+
       return;
     }
 
     if (branchCodeController.text.length > 20) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('支店名は20文字以内で入力してください。',
-            style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("支店名は20文字以内で入力してください。");
+
       return;
     }
 
     if (branchNumberController.text == null ||
         branchNumberController.text == '') {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('支店番号は必須項目なので選択してください。',
-            style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("支店番号は必須項目なので選択してください。");
+
       return;
     }
 
     if (branchNumberController.text.length > 5) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('支店番号は5文字以内で入力してください。',
-            style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("支店番号は5文字以内で入力してください。");
+
       return;
     }
 
     if (accountnumberController.text == null ||
         accountnumberController.text == '') {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('口座番号は必須項目なので選択してください。',
-            style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("口座番号は必須項目なので選択してください。");
+
       return;
     }
 
     if (accountnumberController.text.length > 10) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('アカウント番号は10文字以内で入力してください。',
-            style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("アカウント番号は10文字以内で入力してください。");
+
       return;
     }
 
@@ -2883,24 +2549,29 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       HealingMatchConstants.serviceProviderArea = manualAddresss;
       updateProfile();
     } catch (e) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('アドレスを確認して、もう一度お試しください。',
-            style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
+      displaySnackBarError("アドレスを確認して、もう一度お試しください。");
+
       return;
     }
   }
 
+  void displaySnackBarError(String text) {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      backgroundColor: ColorConstants.snackBarColor,
+      content: Text('$text', style: TextStyle(fontFamily: 'NotoSansJP')),
+      action: SnackBarAction(
+          onPressed: () {
+            _scaffoldKey.currentState.hideCurrentSnackBar();
+          },
+          label: 'はい',
+          textColor: Colors.white),
+    ));
+    ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+  }
+
   void updateProfile() async {
     String qualification = '';
-    ProgressDialogBuilder.showUserDetailsUpdateProgressDialog(context);
+
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     int i = 0;
     List<MultipartFile> multipartList = new List<MultipartFile>();

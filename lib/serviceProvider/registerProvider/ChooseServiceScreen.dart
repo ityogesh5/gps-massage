@@ -1008,9 +1008,11 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                               children: [
                                 Expanded(
                                     child: TextFormField(
-                                        enableInteractiveSelection: false,
+                                        enableInteractiveSelection: true,
                                         textAlign: TextAlign.center,
                                         controller: sixtyMinutesController,
+                                        showCursor: true,
+
                                         keyboardType: TextInputType.number,
                                         decoration: InputDecoration(
                                           hintText: "¥0",
@@ -1069,7 +1071,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                               children: [
                                 Expanded(
                                     child: TextFormField(
-                                        enableInteractiveSelection: false,
+                                        enableInteractiveSelection: true,
                                         textAlign: TextAlign.center,
                                         controller: nintyMinuteController,
                                         keyboardType: TextInputType.number,
@@ -1130,7 +1132,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                               children: [
                                 Expanded(
                                     child: TextFormField(
-                                        enableInteractiveSelection: false,
+                                        enableInteractiveSelection: true,
                                         controller: oneTwentyMinuteController,
                                         keyboardType: TextInputType.number,
                                         textAlign: TextAlign.center,
@@ -1191,7 +1193,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                               children: [
                                 Expanded(
                                     child: TextFormField(
-                                        enableInteractiveSelection: false,
+                                        enableInteractiveSelection: true,
                                         textAlign: TextAlign.center,
                                         controller: oneFiftyController,
                                         keyboardType: TextInputType.number,
@@ -1252,7 +1254,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                               children: [
                                 Expanded(
                                     child: TextFormField(
-                                        enableInteractiveSelection: false,
+                                        enableInteractiveSelection: true,
                                         textAlign: TextAlign.center,
                                         controller: oneEightyMinuteController,
                                         keyboardType: TextInputType.number,
