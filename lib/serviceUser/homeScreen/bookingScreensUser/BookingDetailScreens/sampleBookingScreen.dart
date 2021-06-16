@@ -265,14 +265,14 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                             '完了済み',
                             style: TextStyle(
                               fontSize: 12.0,
-                              color: Colors.black,
+                              color: Colors.grey[400],
                             ),
                           )
                         : Text(
                             'キャンセル済み',
                             style: TextStyle(
                               fontSize: 12.0,
-                              color: Colors.black,
+                              color: Colors.grey[400],
                             ),
                           ),
                   ],
@@ -1734,7 +1734,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
         return "assets/images_gps/subCategory/relaxation/firLoosening.svg";
       } else if (name.contains("リンパ")) {
         return "assets/images_gps/subCategory/relaxation/lymph.svg";
-      } else if (name.contains("カイロプラクティック")) {
+      } else if (name.contains("カイロ")) {
         return "assets/images_gps/subCategory/relaxation/chiropractic.svg";
       } else if (name.contains("コルギ")) {
         return "assets/images_gps/subCategory/relaxation/Corgi.svg";

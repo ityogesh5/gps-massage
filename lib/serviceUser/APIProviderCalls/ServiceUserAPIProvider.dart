@@ -631,6 +631,7 @@ class ServiceUserAPIProvider {
       int bookingStatus,
       String locationType,
       String location,
+      String locationDistance,
       var totalCost,
       int userReviewStatus,
       int therapistReviewStatus,
@@ -657,6 +658,7 @@ class ServiceUserAPIProvider {
             "bookingStatus": bookingStatus,
             "locationType": locationType,
             "location": location,
+            "locationDistance": locationDistance,
             "totalCost": totalCost,
             "userReviewStatus": userReviewStatus,
             "userCommands": userCommands,
@@ -746,7 +748,7 @@ class ServiceUserAPIProvider {
           },
           body: json.encode({
             "fcmToken": HealingMatchConstants.userDeviceToken,
-          /*   "isTherapist": isTherapistValue, */
+            /*   "isTherapist": isTherapistValue, */
             "lat": HealingMatchConstants.currentLatitude,
             "lon": HealingMatchConstants.currentLongitude,
           }));

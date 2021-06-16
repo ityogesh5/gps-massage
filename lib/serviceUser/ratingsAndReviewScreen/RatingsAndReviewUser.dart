@@ -250,6 +250,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                                   .formFieldFillColor,
                                               hintText: '良かった点、気づいた点などをご記入ください',
                                               hintStyle: TextStyle(
+                                                fontSize: 13.0,
                                                 color: Color.fromRGBO(
                                                     217, 217, 217, 1),
                                               ),
@@ -281,7 +282,6 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                     padding: const EdgeInsets.only(top: 60),
                                     child: GestureDetector(
                                       onTap: () {
-                                        _showLoadingIndicator(context);
                                         _ratingAndReview();
                                       },
                                       child: Align(
@@ -489,6 +489,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
       return null;
     }
     try {
+      // _showLoadingIndicator(context);
       // ProgressDialogBuilder.showRatingsAndReviewProgressDialog(context);
       final url = HealingMatchConstants.RATING_USER_URL;
       final response = await http.post(url,

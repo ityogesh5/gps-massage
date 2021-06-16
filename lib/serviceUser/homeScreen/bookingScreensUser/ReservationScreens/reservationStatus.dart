@@ -469,6 +469,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 .format(startTime);
                                         return InkWell(
                                           onTap: () {
+                                            HealingMatchConstants
+                                                    .serviceDistanceRadius =
+                                                waitingForApprovalList[index]
+                                                    .locationDistance;
                                             NavigationRouter
                                                 .switchToUserSearchDetailPageOne(
                                                     context,
@@ -1147,6 +1151,11 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                     .priceOfService;
                                             print(
                                                 'bookingId: ${HealingMatchConstants.bookingIdPay}');
+                                            HealingMatchConstants
+                                                    .serviceDistanceRadius =
+                                                approvedWithConditionsList[
+                                                        index]
+                                                    .locationDistance;
 
                                             NavigationRouter
                                                 .switchToUserSearchDetailPageOne(
@@ -1862,6 +1871,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                           onTap: () {
                                             HealingMatchConstants.bookingIdPay =
                                                 approvedList[index].id;
+                                            HealingMatchConstants
+                                                    .serviceDistanceRadius =
+                                                approvedList[index]
+                                                    .locationDistance;
                                             NavigationRouter
                                                 .switchToUserSearchDetailPageOne(
                                                     context,
@@ -2611,6 +2624,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                           onTap: () {
                                             HealingMatchConstants.bookingIdPay =
                                                 confirmedPaymentList[index].id;
+                                            HealingMatchConstants
+                                                    .serviceDistanceRadius =
+                                                confirmedPaymentList[index]
+                                                    .locationDistance;
                                             NavigationRouter
                                                 .switchToUserSearchDetailPageOne(
                                                     context,
@@ -3416,6 +3433,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 .format(startTime);
                                         return InkWell(
                                           onTap: () {
+                                            HealingMatchConstants
+                                                    .serviceDistanceRadius =
+                                                canceledReservationList[index]
+                                                    .locationDistance;
                                             NavigationRouter
                                                 .switchToServiceUserBookingDetailsCompletedScreenOne(
                                                     context,

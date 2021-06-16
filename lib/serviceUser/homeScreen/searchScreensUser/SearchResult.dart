@@ -471,7 +471,7 @@ class _SearchResultState extends State<SearchResult> {
         HealingMatchConstants.therapistId =
             widget.getTherapistsSearchResults[index].id;
         HealingMatchConstants.serviceDistanceRadius =
-            widget.getTherapistsSearchResults[index].distance;
+            widget.getTherapistsSearchResults[index].distance / 1000.0;
         print("Distance:${HealingMatchConstants.serviceDistanceRadius}");
         NavigationRouter.switchToUserSearchDetailPageOne(
             context, HealingMatchConstants.therapistId);
@@ -1526,7 +1526,7 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
         HealingMatchConstants.therapistId =
             widget.getTherapistsSearchResults[index].id;
         HealingMatchConstants.serviceDistanceRadius =
-            widget.getTherapistsSearchResults[index].distance;
+            widget.getTherapistsSearchResults[index].distance / 1000.0;
         print("Distance:${HealingMatchConstants.serviceDistanceRadius}");
         NavigationRouter.switchToUserSearchDetailPageOne(
             context, HealingMatchConstants.therapistId);
