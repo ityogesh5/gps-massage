@@ -6,9 +6,11 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
+import 'package:gps_massageapp/customLibraryClasses/keyboardDoneButton/keyboardActionConfig.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/login/sendVerifyResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/verifyOtp.dart';
 import 'package:http/http.dart' as http;
+import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -27,6 +29,7 @@ class _RegistrationSuccessOtpScreenState
   bool autoValidate = false;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   var UserVerifyOtp = VerifyOtpModel();
+  FocusNode pinCodeFoucs = FocusNode();
 
   void initState() {
     super.initState();
@@ -52,128 +55,132 @@ class _RegistrationSuccessOtpScreenState
         ),
       ),
       backgroundColor: Colors.white,
-      body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).requestFocus(new FocusNode());
-        },
-        child: Form(
-          key: formKey,
-          autovalidate: autoValidate,
-          child: Center(
-            child: SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.only(left: 20, right: 20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    FittedBox(
-                      child: Text(
-                        "+81 ${HealingMatchConstants.serviceProviderPhoneNumber} " +
-                            HealingMatchConstants.serviceProviderOtpTxt,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontFamily: 'NotoSansJP'),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    Container(
-                      height: 50,
-                      width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 8.0,
-                        vertical: 5.0,
-                      ),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            stops: [
-                              0.3,
-                              1
-                            ],
-                            colors: [
-                              ColorConstants.formFieldFillColor,
-                              ColorConstants.formFieldFillColor,
-                            ]),
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 1.0),
-                        child: PinCodeTextField(
-                          backgroundColor: ColorConstants.formFieldFillColor,
-                          //controller: pin,
-                          textInputAction: TextInputAction.next,
-                          //focusNode: pinCodeFoucs,
-                          keyboardType: TextInputType.number,
-                          appContext: context,
-                          length: 4,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          onSubmitted: (pin) {
-                            print("Completed: " + pin);
-                            userOTP = pin;
-                          },
-                          onChanged: (val) {},
-                          onCompleted: (pin) {
-                            print("Completed: " + pin);
-                            userOTP = pin;
-                          },
-                          textStyle: TextStyle(
-                            fontSize: 21,
-                            color: Colors.black,
-                            fontFamily: 'NotoSansJP',
-                          ),
-                          enableActiveFill: true,
-                          pinTheme: PinTheme(
-                              fieldHeight: 40.0,
-                              borderRadius: BorderRadius.circular(10.0),
-                              selectedFillColor: Colors.transparent,
-                              selectedColor: Colors.black,
-                              inactiveFillColor: Colors.transparent,
-                              inactiveColor: Colors.black,
-                              activeColor: Colors.black,
-                              fieldWidth: 50.0,
-                              activeFillColor: Colors.transparent,
-                              shape: PinCodeFieldShape.underline),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      width: double.infinity,
-                      height: 40,
-                      child: RaisedButton(
+      body: KeyboardActions(
+        config: KeyboardCustomActions().buildConfig(context, pinCodeFoucs),
+        child: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(new FocusNode());
+          },
+          child: Form(
+            key: formKey,
+            autovalidate: autoValidate,
+            child: Center(
+              child: SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.only(left: 20, right: 20),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FittedBox(
                         child: Text(
-                          HealingMatchConstants.serviceProviderOtpBtn,
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
-                        color: Colors.lime,
-                        onPressed: () {
-                          verifyOtp();
-                        },
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
+                          "+81 ${HealingMatchConstants.serviceProviderPhoneNumber} " +
+                              HealingMatchConstants.serviceProviderOtpTxt,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontFamily: 'NotoSansJP'),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 20),
-                    InkWell(
-                      child: InkWell(
-                        onTap: () {
-                          resendOtp();
-                        },
-                        child: Text(
-                          HealingMatchConstants.serviceProviderResendOtpTxt,
-                          style: TextStyle(
-                            decoration: TextDecoration.underline,
+                      SizedBox(
+                        height: 25,
+                      ),
+                      Container(
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 8.0,
+                          vertical: 5.0,
+                        ),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              stops: [
+                                0.3,
+                                1
+                              ],
+                              colors: [
+                                ColorConstants.formFieldFillColor,
+                                ColorConstants.formFieldFillColor,
+                              ]),
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 1.0),
+                          child: PinCodeTextField(
+                            focusNode: pinCodeFoucs,
+                            backgroundColor: ColorConstants.formFieldFillColor,
+                            //controller: pin,
+                            textInputAction: TextInputAction.next,
+                            //focusNode: pinCodeFoucs,
+                            keyboardType: TextInputType.number,
+                            appContext: context,
+                            length: 4,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            onSubmitted: (pin) {
+                              print("Completed: " + pin);
+                              userOTP = pin;
+                            },
+                            onChanged: (val) {},
+                            onCompleted: (pin) {
+                              print("Completed: " + pin);
+                              userOTP = pin;
+                            },
+                            textStyle: TextStyle(
+                              fontSize: 21,
+                              color: Colors.black,
+                              fontFamily: 'NotoSansJP',
+                            ),
+                            enableActiveFill: true,
+                            pinTheme: PinTheme(
+                                fieldHeight: 40.0,
+                                borderRadius: BorderRadius.circular(10.0),
+                                selectedFillColor: Colors.transparent,
+                                selectedColor: Colors.black,
+                                inactiveFillColor: Colors.transparent,
+                                inactiveColor: Colors.black,
+                                activeColor: Colors.black,
+                                fieldWidth: 50.0,
+                                activeFillColor: Colors.transparent,
+                                shape: PinCodeFieldShape.underline),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        width: double.infinity,
+                        height: 40,
+                        child: RaisedButton(
+                          child: Text(
+                            HealingMatchConstants.serviceProviderOtpBtn,
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ),
+                          color: Colors.lime,
+                          onPressed: () {
+                            verifyOtp();
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      InkWell(
+                        child: InkWell(
+                          onTap: () {
+                            resendOtp();
+                          },
+                          child: Text(
+                            HealingMatchConstants.serviceProviderResendOtpTxt,
+                            style: TextStyle(
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

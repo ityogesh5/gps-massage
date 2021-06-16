@@ -17,7 +17,7 @@ class KeyboardCustomActions {
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
-                    "Done",
+                    "完了",
                     style: TextStyle(fontWeight: FontWeight.w500),
                   ),
                 ),

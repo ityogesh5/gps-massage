@@ -5,9 +5,11 @@ import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
+import 'package:gps_massageapp/customLibraryClasses/keyboardDoneButton/keyboardActionConfig.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/sendProviderVerifyResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
+import 'package:keyboard_actions/keyboard_actions.dart';
 
 import 'LoginScreen.dart';
 
@@ -48,73 +50,76 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           },
         ),
       ),
-      body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).requestFocus(new FocusNode());
-        },
-        child: Form(
-          key: formKey,
-          child: Center(
-            child: SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.only(left: 20, right: 20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    FittedBox(
-                      child: Text(HealingMatchConstants.forgetPasswordTxt,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 12.0,
-                              color: Color.fromRGBO(102, 102, 102, 1))),
-                    ),
-                    SizedBox(
-                      height: 18,
-                    ),
-                    TextFormField(
-                      textInputAction: TextInputAction.done,
-                      focusNode: phoneNumberFocus,
-                      controller: phoneNumberController,
-                      keyboardType: TextInputType.phone,
-                      style: HealingMatchConstants.formTextStyle,
-                      decoration: new InputDecoration(
-                        contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
-                        border: HealingMatchConstants.textFormInputBorder,
-                        focusedBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                        disabledBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                        enabledBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                        filled: true,
-                        labelText: HealingMatchConstants.forgetPasswordPhn,
-                        labelStyle: HealingMatchConstants.formLabelTextStyle,
-                        // hintStyle: TextStyle(color: Colors.grey, fontSize: 13),
-                        // hintText: HealingMatchConstants.forgetPasswordPhn,
-                        fillColor: ColorConstants.formFieldFillColor,
+      body: KeyboardActions(
+        config: KeyboardCustomActions().buildConfig(context, phoneNumberFocus),
+        child: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(new FocusNode());
+          },
+          child: Form(
+            key: formKey,
+            child: Center(
+              child: SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.only(left: 20, right: 20),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FittedBox(
+                        child: Text(HealingMatchConstants.forgetPasswordTxt,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 12.0,
+                                color: Color.fromRGBO(102, 102, 102, 1))),
                       ),
-                    ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    Container(
-                      width: double.infinity,
-                      height: 50,
-                      child: RaisedButton(
-                        child: Text(
-                          '送信',
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
-                        color: ColorConstants.buttonColor,
-                        onPressed: () {
-                          _providerForgetPasswordDetails();
-                        },
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
+                      SizedBox(
+                        height: 18,
+                      ),
+                      TextFormField(
+                        textInputAction: TextInputAction.done,
+                        focusNode: phoneNumberFocus,
+                        controller: phoneNumberController,
+                        keyboardType: TextInputType.phone,
+                        style: HealingMatchConstants.formTextStyle,
+                        decoration: new InputDecoration(
+                          contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
+                          border: HealingMatchConstants.textFormInputBorder,
+                          focusedBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          disabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          enabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          filled: true,
+                          labelText: HealingMatchConstants.forgetPasswordPhn,
+                          labelStyle: HealingMatchConstants.formLabelTextStyle,
+                          // hintStyle: TextStyle(color: Colors.grey, fontSize: 13),
+                          // hintText: HealingMatchConstants.forgetPasswordPhn,
+                          fillColor: ColorConstants.formFieldFillColor,
                         ),
                       ),
-                    ),
-                  ],
+                      SizedBox(
+                        height: 25,
+                      ),
+                      Container(
+                        width: double.infinity,
+                        height: 50,
+                        child: RaisedButton(
+                          child: Text(
+                            '送信',
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ),
+                          color: ColorConstants.buttonColor,
+                          onPressed: () {
+                            _providerForgetPasswordDetails();
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
