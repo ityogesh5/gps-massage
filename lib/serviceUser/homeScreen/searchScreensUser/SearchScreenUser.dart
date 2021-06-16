@@ -67,6 +67,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   DateTime today = DateTime.now();
   DateTime displayDay;
   final keywordController = new TextEditingController();
+  var stopLoading;
 
   var dateString;
   var constantUserAddressSize = new List();
@@ -865,6 +866,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                     ),
                     onTap: (startLoading, stopLoading, btnState) {
                       if (btnState == ButtonState.Idle) {
+                        this.stopLoading = stopLoading;
                         startLoading();
                         timeDurationSinceDate(DateTime(
                             _cyear,
@@ -1556,9 +1558,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
       ),
     ));
 
-    setState(() {
-      _loading = false;
-    });
+    stopLoading();
   }
 
   getAddressType() {
@@ -1590,11 +1590,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
 
   _getSearchResults() {
     try {
-      setState(() {
-        _loading = false;
-      });
+      stopLoading();
 
-     // NavigationRouter.switchToUserSearchResult(context);
+      NavigationRouter.switchToUserSearchResult(context);
     } catch (e) {
       print('Search Exception before bloc : ${e.toString()}');
     }

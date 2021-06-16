@@ -37,7 +37,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
 List<String> userBannerImages = [];
-List<String> _options = ['エステ', 'リラクゼーション', '整骨・整体', 'フィットネス'];
+List<String> _options = ['エステ', 'フィットネス', '整骨・整体', 'リラクゼーション'];
 final List<String> dummyBannerImages = [
   'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
   'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
@@ -53,7 +53,7 @@ String imgBase64TherapistImage;
 Uint8List therapistImageInBytes;
 String therapistImage = '';
 
-int _selectedIndex;
+var _selectedIndex;
 List<UserList> therapistListByType = [];
 List<UserList> therapistUsers = [];
 List<BookingDetailsList> bookingDetailsList = List();
@@ -942,7 +942,7 @@ class BuildProviderListByType extends StatefulWidget {
 }
 
 class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
-  GlobalKey<FormState> _formKeyUsersByType;
+  List<GlobalObjectKey<FormState>> formKeyList;
   Map<int, String> storeTypeValues;
   List<Map<String, String>> certificateUploadList = List<Map<String, String>>();
   BoxDecoration boxDecoration = BoxDecoration(
@@ -956,7 +956,8 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
   @override
   void initState() {
     super.initState();
-    _formKeyUsersByType = GlobalKey<FormState>();
+    formKeyList = List.generate(widget.getTherapistByType.length,
+        (index) => GlobalObjectKey<FormState>(index));
     getCertificateValues(widget.getTherapistByType);
   }
 
@@ -969,7 +970,6 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
         ? Padding(
             padding: const EdgeInsets.all(8.0),
             child: Form(
-              key: _formKeyUsersByType,
               child: Container(
                 height: 200.0,
                 width: MediaQuery.of(context).size.width * 0.95,
@@ -1060,6 +1060,10 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
   }
 
   WidgetAnimator buildTherapistDetails(int index, BuildContext context) {
+    double distance = widget.getTherapistByType[index].distance != 0.0 &&
+            widget.getTherapistByType[index].distance != null
+        ? widget.getTherapistByType[index].distance / 1000.0
+        : 0.0;
     return WidgetAnimator(
       InkWell(
         splashColor: Colors.lime,
@@ -1080,9 +1084,9 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
             borderRadius: BorderRadius.circular(12.0),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(5.0),
+            padding: const EdgeInsets.all(10.0),
             child: Container(
-              height: 200.0,
+              height: 125.0,
               width: MediaQuery.of(context).size.width * 0.78,
               child: Row(
                 children: [
@@ -1092,6 +1096,8 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                         widget.getTherapistByType[index].uploadProfileImgUrl !=
                                 null
                             ? CachedNetworkImage(
+                                width: 110.0,
+                                height: 110.0,
                                 imageUrl: widget.getTherapistByType[index]
                                     .uploadProfileImgUrl,
                                 filterQuality: FilterQuality.high,
@@ -1134,29 +1140,17 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                       image: new AssetImage(
                                           'assets/images_gps/placeholder_image.png')),
                                 )),
-                        distanceRadius != null && distanceRadius != 0
-                            ? Text(
-                                '${distanceRadius[index]}ｋｍ圏内',
-                                style: TextStyle(
-                                  fontFamily: ColorConstants.fontFamily,
-                                  fontSize: 12,
-                                  color: Color.fromRGBO(153, 153, 153, 1),
-                                ),
-                              )
-                            : Text(
-                                '0.0ｋｍ圏内',
-                                style: TextStyle(
-                                  fontFamily: ColorConstants.fontFamily,
-                                  fontSize: 12,
-                                  color: Color.fromRGBO(153, 153, 153, 1),
-                                ),
-                              )
+                        Text(
+                          '${distance.toStringAsFixed(2)} ｋｍ圏内',
+                          style:
+                              TextStyle(fontSize: 10, color: Colors.grey[400]),
+                        )
                       ],
                     ),
                   ),
-                  SizedBox(height: 3),
+                  SizedBox(width: 5),
                   Expanded(
-                    flex: 4,
+                    flex: 3,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -1164,54 +1158,43 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                         Row(
                           children: [
                             SizedBox(width: 5),
-                            widget.getTherapistByType[index].storeName != null
-                                ? Expanded(
-                                    child: Row(
-                                      children: [
-                                        Flexible(
-                                          child: Text(
-                                            '${widget.getTherapistByType[index].storeName}',
-                                            maxLines:
-                                                widget.getTherapistByType[index]
-                                                            .storeName.length >
-                                                        10
-                                                    ? 2
-                                                    : 1,
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                            widget.getTherapistByType[index].isShop != 0
+                                ? Text(
+                                    widget.getTherapistByType[index].storeName
+                                                .length >
+                                            10
+                                        ? widget.getTherapistByType[index]
+                                                .storeName
+                                                .substring(0, 10) +
+                                            "..."
+                                        : widget.getTherapistByType[index]
+                                            .storeName,
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
                                   )
-                                : Expanded(
-                                    child: Row(
-                                      children: [
-                                        Flexible(
-                                          child: Text(
-                                            '${widget.getTherapistByType[index].userName}',
-                                            maxLines:
-                                                widget.getTherapistByType[index]
-                                                            .userName.length >
-                                                        10
-                                                    ? 2
-                                                    : 1,
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                : Text(
+                                    widget.getTherapistByType[index].userName
+                                                .length >
+                                            10
+                                        ? widget.getTherapistByType[index]
+                                                .userName
+                                                .substring(0, 10) +
+                                            "..."
+                                        : widget
+                                            .getTherapistByType[index].userName,
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
                                   ),
                             SizedBox(width: 4),
                             InkWell(
                               onTap: () {
                                 showToolTipForType(
-                                    widget.getTherapistByType[index].storeType);
+                                    widget.getTherapistByType[index].storeType,
+                                    formKeyList[index]);
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -1226,6 +1209,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                     "assets/images_gps/info.svg",
                                     height: 15.0,
                                     width: 15.0,
+                                    key: formKeyList[index],
                                     color: Colors.black,
                                   ), /* Icon(
                                                           Icons
@@ -1241,12 +1225,17 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                     onTap: () {
                                       return;
                                     },
-                                    child: SvgPicture.asset(
+                                    child: Container(
+                                      child: CustomPaint(
+                                        size: Size(30, 30),
+                                        painter: HeartPainter(),
+                                      ),
+                                    ), /*  SvgPicture.asset(
                                       'assets/images_gps/heart_wo_color.svg',
                                       width: 25,
                                       height: 25,
                                       color: Colors.grey[400],
-                                    ),
+                                    ), */
                                   )
                                 : FavoriteButton(
                                     iconSize: 40,
@@ -1274,7 +1263,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                           ],
                         ),
                         SizedBox(
-                          height: 3,
+                          height: 10,
                         ),
                         FittedBox(
                           child: Row(
@@ -1294,7 +1283,12 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                       child: Container(
                                           padding: EdgeInsets.all(4),
                                           color: Colors.white,
-                                          child: Text('店舗')),
+                                          child: Text(
+                                            '店舗',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                            ),
+                                          )),
                                     )
                                   : Container(),
                               SizedBox(
@@ -1307,7 +1301,12 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                 child: Container(
                                     padding: EdgeInsets.all(4),
                                     color: Colors.white,
-                                    child: Text('出張')),
+                                    child: Text(
+                                      '出張',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                      ),
+                                    )),
                               ),
                               SizedBox(
                                 width: 5,
@@ -1319,7 +1318,12 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                 child: Container(
                                     padding: EdgeInsets.all(4),
                                     color: Colors.white,
-                                    child: Text('コロナ対策実施有無')),
+                                    child: Text(
+                                      'コロナ対策実施有無',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                      ),
+                                    )),
                               ),
                             ],
                           ),
@@ -1334,6 +1338,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                   ? Text(
                                       '(${widget.getTherapistByType[index].rating.toString()})',
                                       style: TextStyle(
+                                        fontSize: 12,
                                         fontFamily: ColorConstants.fontFamily,
                                         color: Color.fromRGBO(153, 153, 153, 1),
                                       ),
@@ -1341,12 +1346,15 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                   : Text(
                                       '(0.0)',
                                       style: TextStyle(
+                                        fontSize: 12,
                                         fontFamily: ColorConstants.fontFamily,
                                         color: Color.fromRGBO(153, 153, 153, 1),
                                         decoration: TextDecoration.underline,
                                       ),
                                     ),
-                              widget.getTherapistByType[index].rating != null
+                              widget.getTherapistByType[index].rating != null &&
+                                      widget.getTherapistByType[index].rating !=
+                                          "0.00"
                                   ? RatingBar.builder(
                                       ignoreGestures: true,
                                       initialRating: double.parse(widget
@@ -1355,14 +1363,35 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                       direction: Axis.horizontal,
                                       allowHalfRating: true,
                                       itemCount: 5,
-                                      itemSize: 22,
-                                      itemPadding:
-                                          EdgeInsets.symmetric(horizontal: 4.0),
-                                      itemBuilder: (context, _) => Icon(
-                                        Icons.star,
-                                        size: 5,
-                                        color: Color.fromRGBO(255, 217, 0, 1),
-                                      ),
+                                      itemSize: 24,
+                                      itemBuilder: (context, rindex) =>
+                                          new SizedBox(
+                                              height: 20.0,
+                                              width: 18.0,
+                                              child: new IconButton(
+                                                onPressed: () {},
+                                                padding:
+                                                    new EdgeInsets.all(0.0),
+                                                // color: Colors.white,
+                                                icon: rindex >
+                                                        (double.parse(widget
+                                                                    .getTherapistByType[
+                                                                        index]
+                                                                    .rating))
+                                                                .ceilToDouble() -
+                                                            1
+                                                    ? SvgPicture.asset(
+                                                        "assets/images_gps/star_2.svg",
+                                                        height: 13.0,
+                                                        width: 13.0,
+                                                      )
+                                                    : SvgPicture.asset(
+                                                        "assets/images_gps/star_colour.svg",
+                                                        height: 13.0,
+                                                        width: 13.0,
+                                                        //color: Colors.black,
+                                                      ),
+                                              )),
                                       onRatingUpdate: (rating) {},
                                     )
                                   : RatingBar.builder(
@@ -1375,12 +1404,24 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                       itemSize: 25,
                                       itemPadding:
                                           EdgeInsets.symmetric(horizontal: 4.0),
-                                      itemBuilder: (context, _) => Icon(
-                                        Icons.star,
-                                        size: 5,
-                                        color: Color.fromRGBO(255, 217, 0, 1),
-                                      ),
-                                      onRatingUpdate: (rating) {},
+                                      itemBuilder: (context, _) => new SizedBox(
+                                          height: 20.0,
+                                          width: 18.0,
+                                          child: new IconButton(
+                                              onPressed: () {},
+                                              padding: new EdgeInsets.all(0.0),
+                                              // color: Colors.white,
+                                              icon: SvgPicture.asset(
+                                                "assets/images_gps/star_2.svg",
+                                                height: 13.0,
+                                                width: 13.0,
+                                              ))),
+                                      onRatingUpdate: (rating) {
+                                        setState(() {
+                                          ratingsValue = rating;
+                                        });
+                                        print(ratingsValue);
+                                      },
                                     ),
                               widget.getTherapistByType[index]
                                               .noOfReviewsMembers !=
@@ -1391,6 +1432,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                   ? Text(
                                       '(${widget.getTherapistByType[index].noOfReviewsMembers})',
                                       style: TextStyle(
+                                          fontSize: 12.0,
                                           color:
                                               Color.fromRGBO(153, 153, 153, 1),
                                           fontFamily:
@@ -1399,6 +1441,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                   : Text(
                                       '(0)',
                                       style: TextStyle(
+                                          fontSize: 12.0,
                                           color:
                                               Color.fromRGBO(153, 153, 153, 1),
                                           fontFamily:
@@ -1408,8 +1451,10 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                           ),
                         ),
                         SizedBox(
-                          height: 3,
-                        ),
+                            height:
+                                certificateUploadList[index].keys.length != 0
+                                    ? 10.0
+                                    : 0.0),
                         certificateUploadList[index].keys.length != 0
                             ? Container(
                                 height: 38.0,
@@ -1442,7 +1487,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                                 child: Text(
                                                   key, //Qualififcation
                                                   style: TextStyle(
-                                                    fontSize: 14,
+                                                    fontSize: 12,
                                                     color: Colors.black,
                                                   ),
                                                 ),
@@ -1464,14 +1509,14 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                       '¥${widget.getTherapistByType[index].lowestPrice}',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 18),
+                                          fontSize: 14),
                                     ),
                                     Text(
                                       '/${widget.getTherapistByType[index].leastPriceMin}',
                                       style: TextStyle(
                                           fontWeight: FontWeight.normal,
                                           color: Colors.grey[400],
-                                          fontSize: 14),
+                                          fontSize: 12),
                                     )
                                   ],
                                 ),
@@ -1489,7 +1534,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
     );
   }
 
-  void showToolTipForType(String text) {
+  void showToolTipForType(String text, var key) {
     ShowToolTip popup = ShowToolTip(context,
         text: text,
         textStyle: TextStyle(color: Colors.black),
@@ -1501,7 +1546,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
 
     /// show the popup for specific widget
     popup.show(
-      widgetKey: _formKeyUsersByType,
+      widgetKey: key,
     );
   }
 
@@ -2751,7 +2796,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
               context, HealingMatchConstants.therapistId);
         },
         child: Card(
-          color: Colors.grey[200],
+          color: Color.fromRGBO(242, 242, 242, 1),
           semanticContainer: true,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.0),
@@ -2873,7 +2918,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                   child: SvgPicture.asset(
                                     "assets/images_gps/info.svg",
                                     height: 15.0,
-                                     key: formKeyList[index],
+                                    key: formKeyList[index],
                                     width: 15.0,
                                     color: Colors.black,
                                   ), /* Icon(
@@ -3154,7 +3199,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                 therapistUsers[index].lowestPrice != 0
                             ? Expanded(
                                 child: Row(
-                              //    crossAxisAlignment: CrossAxisAlignment.end,
+                                  //    crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Text(
                                       '¥${therapistUsers[index].lowestPrice}',
