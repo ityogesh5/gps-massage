@@ -618,7 +618,7 @@ class _UserLoginState extends State<UserLogin> {
       if (value) {
         Toast.show("正常にログインしました。", context,
             duration: Toast.LENGTH_LONG,
-            gravity: Toast.BOTTOM,
+            gravity: Toast.CENTER,
             backgroundColor: Colors.lime,
             textColor: Colors.white);
         NavigationRouter.switchToServiceUserBottomBar(context);

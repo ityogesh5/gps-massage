@@ -103,7 +103,7 @@ class StatusCodeHelper {
       //ユーザーが見つかりません。
       Toast.show("ユーザーが見つかりません。", context,
           duration: 4,
-          gravity: Toast.BOTTOM,
+          gravity: Toast.CENTER,
           backgroundColor: Colors.redAccent,
           textColor: Colors.white);
       print('User Not Found!!');
