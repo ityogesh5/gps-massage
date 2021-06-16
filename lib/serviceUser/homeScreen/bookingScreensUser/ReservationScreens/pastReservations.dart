@@ -27,7 +27,7 @@ class _PastReservationsState extends State<PastReservations> {
   var _pageSize = 10;
   int count = 0;
   List<BookingDetailsList> bookingDetailsList;
-  List<GlobalObjectKey<FormState>> formKeyList;
+  List<GlobalKey> _formKeyList;
   List<Map<String, String>> certificateUploadList = List<Map<String, String>>();
   Future<SharedPreferences> _sharedPreferences =
       SharedPreferences.getInstance();
@@ -42,13 +42,13 @@ class _PastReservationsState extends State<PastReservations> {
     super.initState();
     Loader.show(context,
         progressIndicator: SpinKitThreeBounce(color: Colors.lime));
-    getFavoriteList();
+    getRecommendedList();
     Future.delayed(Duration(seconds: 2), () {
       Loader.hide();
     });
   }
 
-  getFavoriteList() async {
+  getRecommendedList() async {
     var getFavourite =
         ServiceUserAPIProvider.getBookingCompletedList(_pageNumber, _pageSize);
     getFavourite.then((value) {
@@ -67,7 +67,7 @@ class _PastReservationsState extends State<PastReservations> {
     try {
       if (this.mounted) {
         setState(() {
-          formKeyList = List.generate(favouriteUserList.length,
+          _formKeyList = List.generate(favouriteUserList.length,
               (index) => GlobalObjectKey<FormState>(index));
           for (int i = 0; i < favouriteUserList.length; i++) {
             Map<String, String> certificateUploaded = Map<String, String>();
@@ -415,13 +415,13 @@ class _PastReservationsState extends State<PastReservations> {
                                                                           bookingDetailsList[index]
                                                                               .bookingTherapistId
                                                                               .storeType,
-                                                                          formKeyList[
+                                                                          _formKeyList[
                                                                               index]);
                                                                     },
                                                                     child:
                                                                         Container(
-                                                                      key: formKeyList[
-                                                                          index],
+                                                                      /*    key: _formKeyList[
+                                                                          index], */
                                                                       decoration:
                                                                           BoxDecoration(
                                                                         gradient: LinearGradient(
@@ -451,7 +451,8 @@ class _PastReservationsState extends State<PastReservations> {
                                                                               10.0,
                                                                           width:
                                                                               10.0,
-                                                                          // key: key,
+                                                                          key: _formKeyList[
+                                                                              index],
                                                                           color:
                                                                               Colors.black,
                                                                         ), /* Icon(
@@ -1113,7 +1114,7 @@ class _PastReservationsState extends State<PastReservations> {
           );
   }
 
-  void showToolTipForFav(String text, GlobalObjectKey<FormState> formKeyList) {
+  void showToolTipForFav(String text, GlobalObjectKey<FormState> _formKeyList) {
     ShowToolTip popup = ShowToolTip(context,
         text: text,
         textStyle: TextStyle(color: Colors.black),
@@ -1125,7 +1126,7 @@ class _PastReservationsState extends State<PastReservations> {
 
     /// show the popup for specific widget
     popup.show(
-      widgetKey: formKeyList,
+      widgetKey: _formKeyList,
     );
   }
 

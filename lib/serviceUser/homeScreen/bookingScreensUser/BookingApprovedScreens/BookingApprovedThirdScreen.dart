@@ -19,20 +19,6 @@ import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/db
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/chatData.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/user.dart';
 
-bool isOtherSelected = false;
-final _cancelReasonController = new TextEditingController();
-Map<String, dynamic> _formData = {
-  'text': null,
-  'category': null,
-  'date': null,
-  'time': null,
-};
-var selectedBuildingType;
-bool isCancelSelected = false;
-ScrollController scrollController = ScrollController();
-GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-int _state = 0;
-
 class BookingApproveThirdScreen extends StatefulWidget {
   final int therapistId;
   BookingApproveThirdScreen(this.therapistId);
@@ -45,6 +31,21 @@ class BookingApproveThirdScreen extends StatefulWidget {
 class _BookingApproveThirdScreenState extends State<BookingApproveThirdScreen> {
   TherapistByIdModel therapistDetails;
   int status = 0;
+  bool isPriceAdded = false;
+  bool isDateChanged = false;
+  bool isOtherSelected = false;
+  final _cancelReasonController = new TextEditingController();
+  Map<String, dynamic> _formData = {
+    'text': null,
+    'category': null,
+    'date': null,
+    'time': null,
+  };
+  var selectedBuildingType;
+  bool isCancelSelected = false;
+  ScrollController scrollController = ScrollController();
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  int _state = 0;
 
   @override
   void initState() {
@@ -71,13 +72,13 @@ class _BookingApproveThirdScreenState extends State<BookingApproveThirdScreen> {
 
   @override
   Widget build(BuildContext context) {
-    /*  if (_state == 0 && isCancelSelected) {
+    if (_state == 0 && isCancelSelected) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         _state = 1;
         scrollController.animateTo(scrollController.position.maxScrollExtent,
             duration: Duration(milliseconds: 500), curve: Curves.ease);
       });
-    }*/
+    }
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Color.fromRGBO(255, 255, 255, 1),
@@ -86,7 +87,8 @@ class _BookingApproveThirdScreenState extends State<BookingApproveThirdScreen> {
         elevation: 0.0,
         leading: IconButton(
           onPressed: () {
-            NavigationRouter.switchToServiceUserBottomBar(context);
+            Navigator.pop(context);
+            // NavigationRouter.switchToServiceUserBottomBar(context);
           },
           icon: Icon(Icons.arrow_back_ios, color: Colors.black),
         ),
@@ -102,23 +104,11 @@ class _BookingApproveThirdScreenState extends State<BookingApproveThirdScreen> {
       ),
       body: status == 0
           ? SpinKitThreeBounce(color: Colors.lime)
-          : ApprovalSecondScreen(),
+          : buildBodyCard(),
     );
   }
-}
 
-class ApprovalSecondScreen extends StatefulWidget {
-  @override
-  State createState() {
-    return _ApprovalSecondScreenState();
-  }
-}
-
-class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
-  bool isPriceAdded = false;
-  bool isDateChanged = false;
-  @override
-  Widget build(BuildContext context) {
+  buildBodyCard() {
     DateTime startTime = HealingMatchConstants
         .therapistProfileDetails.bookingDataResponse[0].startTime
         .toLocal();
@@ -149,584 +139,588 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
     }
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: ListView(
-        // controller: scrollController,
-        shrinkWrap: true,
-        physics: BouncingScrollPhysics(),
-        children: [
-          Container(
-            padding: EdgeInsets.only(top: 20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                DottedBorder(
-                    dashPattern: [2, 2],
-                    strokeWidth: 1,
-                    color: Color.fromRGBO(232, 232, 232, 1),
-                    strokeCap: StrokeCap.round,
-                    borderType: BorderType.Circle,
-                    radius: Radius.circular(5),
-                    child: CircleAvatar(
-                      maxRadius: 55,
-                      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-                      child: SvgPicture.asset('assets/images_gps/calendar.svg',
-                          height: 45, width: 45, color: Colors.lime),
-                    )),
-                SizedBox(height: 10),
-                Text(
-                  'セラピストからリクエストがありました。',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16.0,
-                      fontFamily: 'NotoSansJP'),
-                ),
-                SizedBox(height: 10),
-                Container(
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Color.fromRGBO(242, 242, 242, 1),
-                            Color.fromRGBO(242, 242, 242, 1)
-                          ]),
-                      shape: BoxShape.rectangle,
-                      border: Border.all(
-                        color: Colors.grey[100],
-                      ),
-                      borderRadius: BorderRadius.circular(16.0),
-                      color: Colors.grey[100]),
-                  width: MediaQuery.of(context).size.width * 0.90,
-                  height: 290,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.02),
-                      Expanded(
-                        child: new Row(
-                          children: [
-                            HealingMatchConstants.therapistProfileDetails.data
-                                        .uploadProfileImgUrl !=
-                                    null
-                                ? CachedNetworkImage(
-                                    imageUrl: HealingMatchConstants
-                                        .therapistProfileDetails
-                                        .data
-                                        .uploadProfileImgUrl,
-                                    filterQuality: FilterQuality.high,
-                                    fadeInCurve: Curves.easeInSine,
-                                    imageBuilder: (context, imageProvider) =>
-                                        Container(
-                                      width: 65.0,
-                                      height: 65.0,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                            image: imageProvider,
-                                            fit: BoxFit.cover),
+      child: SingleChildScrollView(
+        controller: scrollController,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: EdgeInsets.only(top: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  DottedBorder(
+                      dashPattern: [2, 2],
+                      strokeWidth: 1,
+                      color: Color.fromRGBO(232, 232, 232, 1),
+                      strokeCap: StrokeCap.round,
+                      borderType: BorderType.Circle,
+                      radius: Radius.circular(5),
+                      child: CircleAvatar(
+                        maxRadius: 55,
+                        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+                        child: SvgPicture.asset(
+                            'assets/images_gps/calendar.svg',
+                            height: 45,
+                            width: 45,
+                            color: Colors.lime),
+                      )),
+                  SizedBox(height: 10),
+                  Text(
+                    'セラピストからリクエストがありました。',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16.0,
+                        fontFamily: 'NotoSansJP'),
+                  ),
+                  SizedBox(height: 10),
+                  Container(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Color.fromRGBO(242, 242, 242, 1),
+                              Color.fromRGBO(242, 242, 242, 1)
+                            ]),
+                        shape: BoxShape.rectangle,
+                        border: Border.all(
+                          color: Colors.grey[100],
+                        ),
+                        borderRadius: BorderRadius.circular(16.0),
+                        color: Colors.grey[100]),
+                    width: MediaQuery.of(context).size.width * 0.90,
+                    height: 290,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02),
+                        Expanded(
+                          child: new Row(
+                            children: [
+                              HealingMatchConstants.therapistProfileDetails.data
+                                          .uploadProfileImgUrl !=
+                                      null
+                                  ? CachedNetworkImage(
+                                      imageUrl: HealingMatchConstants
+                                          .therapistProfileDetails
+                                          .data
+                                          .uploadProfileImgUrl,
+                                      filterQuality: FilterQuality.high,
+                                      fadeInCurve: Curves.easeInSine,
+                                      imageBuilder: (context, imageProvider) =>
+                                          Container(
+                                        width: 65.0,
+                                        height: 65.0,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                              image: imageProvider,
+                                              fit: BoxFit.cover),
+                                        ),
                                       ),
-                                    ),
-                                    placeholder: (context, url) =>
-                                        SpinKitDoubleBounce(
-                                            color: Colors.lightGreenAccent),
-                                    errorWidget: (context, url, error) =>
-                                        Container(
-                                      width: 56.0,
-                                      height: 56.0,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border:
-                                            Border.all(color: Colors.black12),
-                                        image: DecorationImage(
-                                            image: new AssetImage(
-                                                'assets/images_gps/placeholder_image.png'),
-                                            fit: BoxFit.cover),
+                                      placeholder: (context, url) =>
+                                          SpinKitDoubleBounce(
+                                              color: Colors.lightGreenAccent),
+                                      errorWidget: (context, url, error) =>
+                                          Container(
+                                        width: 56.0,
+                                        height: 56.0,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border:
+                                              Border.all(color: Colors.black12),
+                                          image: DecorationImage(
+                                              image: new AssetImage(
+                                                  'assets/images_gps/placeholder_image.png'),
+                                              fit: BoxFit.cover),
+                                        ),
                                       ),
-                                    ),
-                                  )
-                                : CircleAvatar(
-                                    child: Image.asset(
-                                      'assets/images_gps/placeholder_image.png',
-                                      height: 65,
-                                      color: Colors.black,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    radius: 35,
-                                    backgroundColor: Colors.white,
-                                  ),
-                            /*  SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.02),*/
-                            HealingMatchConstants.therapistProfileDetails.data
-                                        .storeName.isNotEmpty &&
-                                    HealingMatchConstants
-                                            .therapistProfileDetails
-                                            .data
-                                            .storeName !=
-                                        null
-                                ? Text(
-                                    '${HealingMatchConstants.therapistProfileDetails.data.storeName}',
-                                    style: TextStyle(
-                                        fontSize: 14,
+                                    )
+                                  : CircleAvatar(
+                                      child: Image.asset(
+                                        'assets/images_gps/placeholder_image.png',
+                                        height: 65,
                                         color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'NotoSansJP'),
-                                  )
-                                : Text(
-                                    '${HealingMatchConstants.therapistProfileDetails.data.userName}',
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'NotoSansJP'),
-                                  ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 12),
-                      Expanded(
-                        child: Row(
-                          children: [
-                            SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.03),
-                            Image.asset('assets/images_gps/calendar.png',
-                                height: 25, width: 25),
-                            SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.02),
-                            Text(
-                              '$date',
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'NotoSansJP'),
-                            ),
-                            SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.03),
-                            Text(
-                              '$jaName',
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.grey[400],
-                                  fontFamily: 'NotoSansJP'),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 12),
-                      Expanded(
-                        child: Row(
-                          children: [
-                            SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.03),
-                            SvgPicture.asset('assets/images_gps/clock.svg',
-                                height: 25, width: 25),
-                            SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.02),
-                            new Text(
-                              '$sTime～$eTime',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                  fontFamily: 'NotoSansJP'),
-                            ),
-                            SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.02),
-                            new Text(
-                              '${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].totalMinOfService}分',
-                              style: TextStyle(
-                                  color: Colors.grey[400],
-                                  fontSize: 14,
-                                  fontFamily: 'NotoSansJP'),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      Expanded(
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.03),
-                            SvgPicture.asset('assets/images_gps/cost.svg',
-                                height: 25, width: 25),
-                            SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.02),
-                            Chip(
-                              label: Text(
-                                  '${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].nameOfService}'),
-                              backgroundColor: Colors.white,
-                            ),
-                            Text(
-                              "¥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].priceOfService}",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.left,
-                            ),
-                            SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.01),
-                            /* Text(
-                              '(交通費込み-1,000)',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.grey[400],
-                                  fontFamily: 'NotoSansJP'),
-                            ),*/
-                          ],
-                        ),
-                      ),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Expanded(
-                                child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Divider(),
-                            )),
-                            Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: InkWell(
-                                onTap: () {
-                                  ProgressDialogBuilder
-                                      .showCommonProgressDialog(context);
-                                  getChatDetails(HealingMatchConstants
-                                      .therapistProfileDetails
-                                      .data
-                                      .firebaseUdid);
-                                },
-                                child: Card(
-                                  elevation: 3,
-                                  shape: CircleBorder(),
-                                  child: CircleAvatar(
-                                      maxRadius: 20,
+                                        fit: BoxFit.cover,
+                                      ),
+                                      radius: 35,
                                       backgroundColor: Colors.white,
-                                      child: SvgPicture.asset(
-                                          'assets/images_gps/chat.svg',
-                                          height: 15,
-                                          width: 15)),
-                                ),
-                              ),
-                            ),
-                          ]),
-                      Expanded(
-                        child: Row(
-                          children: [
-                            SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.03),
-                            SvgPicture.asset('assets/images_gps/gps.svg',
-                                height: 25, width: 25),
-                            SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.02),
-                            Text(
-                              '施術を受ける場所',
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'NotoSansJP'),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 12),
-                      Expanded(
-                        child: Row(
-                          children: [
-                            SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.03),
-                            Container(
-                                padding: EdgeInsets.only(left: 15, right: 15),
-                                decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                        colors: [
-                                          Color.fromRGBO(255, 255, 255, 1),
-                                          Color.fromRGBO(255, 255, 255, 1)
-                                        ]),
-                                    shape: BoxShape.rectangle,
-                                    border: Border.all(
-                                      color: Colors.grey[300],
                                     ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    color: Colors.grey[200]),
-                                child: Text(
-                                  '${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].locationType}',
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: 'NotoSansJP'),
-                                )),
-                            SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.02),
-                            Flexible(
-                              child: Text(
-                                '${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].location}',
+                              /*  SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.02),*/
+                              HealingMatchConstants.therapistProfileDetails.data
+                                          .storeName.isNotEmpty &&
+                                      HealingMatchConstants
+                                              .therapistProfileDetails
+                                              .data
+                                              .storeName !=
+                                          null
+                                  ? Text(
+                                      '${HealingMatchConstants.therapistProfileDetails.data.storeName}',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'NotoSansJP'),
+                                    )
+                                  : Text(
+                                      '${HealingMatchConstants.therapistProfileDetails.data.userName}',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'NotoSansJP'),
+                                    ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 12),
+                        Expanded(
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.03),
+                              Image.asset('assets/images_gps/calendar.png',
+                                  height: 25, width: 25),
+                              SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.02),
+                              Text(
+                                '$date',
                                 style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.grey[500],
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
                                     fontFamily: 'NotoSansJP'),
                               ),
-                            ),
-                          ],
+                              SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.03),
+                              Text(
+                                '$jaName',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.grey[400],
+                                    fontFamily: 'NotoSansJP'),
+                              ),
+                            ],
+                          ),
                         ),
+                        SizedBox(height: 12),
+                        Expanded(
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.03),
+                              SvgPicture.asset('assets/images_gps/clock.svg',
+                                  height: 25, width: 25),
+                              SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.02),
+                              new Text(
+                                '$sTime～$eTime',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    fontFamily: 'NotoSansJP'),
+                              ),
+                              SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.02),
+                              new Text(
+                                '${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].totalMinOfService}分',
+                                style: TextStyle(
+                                    color: Colors.grey[400],
+                                    fontSize: 14,
+                                    fontFamily: 'NotoSansJP'),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Expanded(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.03),
+                              SvgPicture.asset('assets/images_gps/cost.svg',
+                                  height: 25, width: 25),
+                              SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.02),
+                              Chip(
+                                label: Text(
+                                    '${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].nameOfService}'),
+                                backgroundColor: Colors.white,
+                              ),
+                              Text(
+                                "¥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].priceOfService}",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.left,
+                              ),
+                              SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.01),
+                              /* Text(
+                                '(交通費込み-1,000)',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey[400],
+                                    fontFamily: 'NotoSansJP'),
+                              ),*/
+                            ],
+                          ),
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Expanded(
+                                  child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Divider(),
+                              )),
+                              Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: InkWell(
+                                  onTap: () {
+                                    ProgressDialogBuilder
+                                        .showCommonProgressDialog(context);
+                                    getChatDetails(HealingMatchConstants
+                                        .therapistProfileDetails
+                                        .data
+                                        .firebaseUdid);
+                                  },
+                                  child: Card(
+                                    elevation: 3,
+                                    shape: CircleBorder(),
+                                    child: CircleAvatar(
+                                        maxRadius: 20,
+                                        backgroundColor: Colors.white,
+                                        child: SvgPicture.asset(
+                                            'assets/images_gps/chat.svg',
+                                            height: 15,
+                                            width: 15)),
+                                  ),
+                                ),
+                              ),
+                            ]),
+                        Expanded(
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.03),
+                              SvgPicture.asset('assets/images_gps/gps.svg',
+                                  height: 25, width: 25),
+                              SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.02),
+                              Text(
+                                '施術を受ける場所',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'NotoSansJP'),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 12),
+                        Expanded(
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.03),
+                              Container(
+                                  padding: EdgeInsets.only(left: 15, right: 15),
+                                  decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                          colors: [
+                                            Color.fromRGBO(255, 255, 255, 1),
+                                            Color.fromRGBO(255, 255, 255, 1)
+                                          ]),
+                                      shape: BoxShape.rectangle,
+                                      border: Border.all(
+                                        color: Colors.grey[300],
+                                      ),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      color: Colors.grey[200]),
+                                  child: Text(
+                                    '${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].locationType}',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: 'NotoSansJP'),
+                                  )),
+                              SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.02),
+                              Flexible(
+                                child: Text(
+                                  '${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].location}',
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.grey[500],
+                                      fontFamily: 'NotoSansJP'),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 15, left: 15),
+              child: Text(
+                'リクエストの詳細',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16.0,
+                    fontFamily: 'NotoSansJP',
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            SizedBox(height: 7),
+            Container(
+              margin: const EdgeInsets.all(12.0),
+              decoration: BoxDecoration(
+                color: Color.fromRGBO(242, 242, 242, 1),
+                borderRadius: BorderRadius.circular(12.0),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Stack(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      // crossAxisAlignment: CrossAxisAlignment.sp,
+                      children: [
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                children: [
+                                  Text(
+                                    "提案時間",
+                                    style: TextStyle(
+                                        fontSize: 14.0, color: Colors.black),
+                                  ),
+                                  SizedBox(height: 10),
+                                ],
+                              ),
+                              Text(
+                                "サービス料金",
+                                style: TextStyle(
+                                    fontSize: 14.0, color: Colors.black),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                "交通費",
+                                style: TextStyle(
+                                    fontSize: 14.0, color: Colors.black),
+                              ),
+                              SizedBox(height: 20),
+                              Text(
+                                "合計",
+                                style: TextStyle(
+                                    fontSize: 14.0, color: Colors.black),
+                              ),
+                            ]),
+                        Column(
+                            //     mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    "$sTime ~ $eTime  ",
+                                    style: TextStyle(
+                                        fontSize: 10.0,
+                                        color: !isDateChanged
+                                            ? Color.fromRGBO(242, 242, 242, 1)
+                                            : Color.fromRGBO(153, 153, 153, 1),
+                                        decoration: TextDecoration.lineThrough),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_forward,
+                                    size: 10.0,
+                                    color: !isDateChanged
+                                        ? Color.fromRGBO(242, 242, 242, 1)
+                                        : Color.fromRGBO(153, 153, 153, 1),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 14),
+                              Text(
+                                "",
+                                style: TextStyle(
+                                    fontSize: 15.0, color: Colors.white),
+                              ),
+                              SizedBox(height: 14),
+                              Row(
+                                children: [
+                                  Text(
+                                    "¥0",
+                                    style: TextStyle(
+                                        fontSize: 10.0,
+                                        color: !isPriceAdded
+                                            ? Color.fromRGBO(242, 242, 242, 1)
+                                            : Color.fromRGBO(153, 153, 153, 1),
+                                        decoration: TextDecoration.lineThrough),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_forward,
+                                    size: 10.0,
+                                    color: !isPriceAdded
+                                        ? Color.fromRGBO(242, 242, 242, 1)
+                                        : Color.fromRGBO(153, 153, 153, 1),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 24),
+                              Row(
+                                children: [
+                                  Text(
+                                    HealingMatchConstants
+                                                .therapistProfileDetails
+                                                .bookingDataResponse[0]
+                                                .addedPrice !=
+                                            null
+                                        ? "¥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].addedPrice}  "
+                                        : '交通費',
+                                    style: TextStyle(
+                                        fontSize: 10.0,
+                                        color: !isPriceAdded
+                                            ? Color.fromRGBO(242, 242, 242, 1)
+                                            : Color.fromRGBO(153, 153, 153, 1),
+                                        decoration: TextDecoration.lineThrough),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_forward,
+                                    size: 10.0,
+                                    color: !isPriceAdded
+                                        ? Color.fromRGBO(242, 242, 242, 1)
+                                        : Color.fromRGBO(153, 153, 153, 1),
+                                  ),
+                                ],
+                              ),
+                            ]),
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                isDateChanged
+                                    ? "$nSTime ~ $nEndTime"
+                                    : "$sTime ~ $eTime",
+                                style: TextStyle(
+                                    fontSize: 14.0, color: Colors.black),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                "¥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].priceOfService}",
+                                style: TextStyle(
+                                    fontSize: 14.0, color: Colors.black),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                "¥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].travelAmount}",
+                                style: TextStyle(
+                                    fontSize: 14.0, color: Colors.black),
+                              ),
+                              SizedBox(height: 20),
+                              Text(
+                                "¥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].priceOfService + HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].travelAmount}",
+                                style: TextStyle(
+                                    fontSize: 14.0, color: Colors.black),
+                              ),
+                            ]),
+                      ],
+                    ),
+                    Positioned(
+                      bottom: 20.0,
+                      height: 10.0,
+                      width: MediaQuery.of(context).size.width,
+                      child: new Divider(
+                        color: Color.fromRGBO(102, 102, 102, 1),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                SizedBox(height: 10),
-              ],
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 15, left: 15),
-            child: Text(
-              'リクエストの詳細',
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16.0,
-                  fontFamily: 'NotoSansJP',
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-          SizedBox(height: 7),
-          Container(
-            margin: const EdgeInsets.all(12.0),
-            decoration: BoxDecoration(
-              color: Color.fromRGBO(242, 242, 242, 1),
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Stack(
+            SizedBox(height: 15),
+            Padding(
+              padding: const EdgeInsets.only(right: 15, left: 15),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    // crossAxisAlignment: CrossAxisAlignment.sp,
-                    children: [
-                      Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Column(
-                              children: [
-                                Text(
-                                  "提案時間",
-                                  style: TextStyle(
-                                      fontSize: 14.0, color: Colors.black),
-                                ),
-                                SizedBox(height: 10),
-                              ],
-                            ),
-                            Text(
-                              "サービス料金",
-                              style: TextStyle(
-                                  fontSize: 14.0, color: Colors.black),
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              "交通費",
-                              style: TextStyle(
-                                  fontSize: 14.0, color: Colors.black),
-                            ),
-                            SizedBox(height: 20),
-                            Text(
-                              "合計",
-                              style: TextStyle(
-                                  fontSize: 14.0, color: Colors.black),
-                            ),
-                          ]),
-                      Column(
-                          //     mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  "$sTime ~ $eTime  ",
-                                  style: TextStyle(
-                                      fontSize: 10.0,
-                                      color: !isDateChanged
-                                          ? Color.fromRGBO(242, 242, 242, 1)
-                                          : Color.fromRGBO(153, 153, 153, 1),
-                                      decoration: TextDecoration.lineThrough),
-                                ),
-                                Icon(
-                                  Icons.arrow_forward,
-                                  size: 10.0,
-                                  color: !isDateChanged
-                                      ? Color.fromRGBO(242, 242, 242, 1)
-                                      : Color.fromRGBO(153, 153, 153, 1),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 14),
-                            Text(
-                              "",
-                              style: TextStyle(
-                                  fontSize: 15.0, color: Colors.white),
-                            ),
-                            SizedBox(height: 14),
-                            Row(
-                              children: [
-                                Text(
-                                  "¥0",
-                                  style: TextStyle(
-                                      fontSize: 10.0,
-                                      color: !isPriceAdded
-                                          ? Color.fromRGBO(242, 242, 242, 1)
-                                          : Color.fromRGBO(153, 153, 153, 1),
-                                      decoration: TextDecoration.lineThrough),
-                                ),
-                                Icon(
-                                  Icons.arrow_forward,
-                                  size: 10.0,
-                                  color: !isPriceAdded
-                                      ? Color.fromRGBO(242, 242, 242, 1)
-                                      : Color.fromRGBO(153, 153, 153, 1),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 24),
-                            Row(
-                              children: [
-                                Text(
-                                  HealingMatchConstants
-                                              .therapistProfileDetails
-                                              .bookingDataResponse[0]
-                                              .addedPrice !=
-                                          null
-                                      ? "¥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].addedPrice}  "
-                                      : '交通費',
-                                  style: TextStyle(
-                                      fontSize: 10.0,
-                                      color: !isPriceAdded
-                                          ? Color.fromRGBO(242, 242, 242, 1)
-                                          : Color.fromRGBO(153, 153, 153, 1),
-                                      decoration: TextDecoration.lineThrough),
-                                ),
-                                Icon(
-                                  Icons.arrow_forward,
-                                  size: 10.0,
-                                  color: !isPriceAdded
-                                      ? Color.fromRGBO(242, 242, 242, 1)
-                                      : Color.fromRGBO(153, 153, 153, 1),
-                                ),
-                              ],
-                            ),
-                          ]),
-                      Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              isDateChanged
-                                  ? "$nSTime ~ $nEndTime"
-                                  : "$sTime ~ $eTime",
-                              style: TextStyle(
-                                  fontSize: 14.0, color: Colors.black),
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              "¥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].priceOfService}",
-                              style: TextStyle(
-                                  fontSize: 14.0, color: Colors.black),
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              "¥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].travelAmount}",
-                              style: TextStyle(
-                                  fontSize: 14.0, color: Colors.black),
-                            ),
-                            SizedBox(height: 20),
-                            Text(
-                              "¥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].priceOfService + HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].travelAmount}",
-                              style: TextStyle(
-                                  fontSize: 14.0, color: Colors.black),
-                            ),
-                          ]),
-                    ],
-                  ),
-                  Positioned(
-                    bottom: 20.0,
-                    height: 10.0,
-                    width: MediaQuery.of(context).size.width,
-                    child: new Divider(
-                      color: Color.fromRGBO(102, 102, 102, 1),
+                  ButtonTheme(
+                    minWidth: MediaQuery.of(context).size.width * 0.35,
+                    child: CustomToggleButton(
+                      elevation: 0,
+                      height: 55.0,
+                      width: MediaQuery.of(context).size.width * 0.40,
+                      autoWidth: false,
+                      buttonColor: Color.fromRGBO(217, 217, 217, 1),
+                      enableShape: true,
+                      customShape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          side: BorderSide(color: Colors.transparent)),
+                      buttonLables: ["キャンセルする", "支払に進む"],
+                      fontSize: 16.0,
+                      buttonValues: [
+                        "Y",
+                        "N",
+                      ],
+                      radioButtonValue: (value) {
+                        if (value == 'Y') {
+                          setState(() {
+                            isCancelSelected = true;
+                          });
+                        } else {
+                          setState(() {
+                            isCancelSelected = !isCancelSelected;
+                          });
+                          HealingMatchConstants.initiatePayment(context);
+                        }
+                        print('Radio value : $isCancelSelected');
+                      },
+                      selectedColor: Color.fromRGBO(200, 217, 33, 1),
                     ),
                   ),
                 ],
               ),
             ),
-          ),
-          SizedBox(height: 15),
-          Padding(
-            padding: const EdgeInsets.only(right: 15, left: 15),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ButtonTheme(
-                  minWidth: MediaQuery.of(context).size.width * 0.35,
-                  child: CustomToggleButton(
-                    elevation: 0,
-                    height: 55.0,
-                    width: MediaQuery.of(context).size.width * 0.40,
-                    autoWidth: false,
-                    buttonColor: Color.fromRGBO(217, 217, 217, 1),
-                    enableShape: true,
-                    customShape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        side: BorderSide(color: Colors.transparent)),
-                    buttonLables: ["キャンセルする", "支払に進む"],
-                    fontSize: 16.0,
-                    buttonValues: [
-                      "Y",
-                      "N",
-                    ],
-                    radioButtonValue: (value) {
-                      if (value == 'Y') {
-                        setState(() {
-                          isCancelSelected = true;
-                        });
-                      } else {
-                        setState(() {
-                          isCancelSelected = !isCancelSelected;
-                        });
-                        HealingMatchConstants.initiatePayment(context);
-                      }
-                      print('Radio value : $isCancelSelected');
-                    },
-                    selectedColor: Color.fromRGBO(200, 217, 33, 1),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 15),
-          Visibility(
-              visible: isCancelSelected,
-              child: massageBuildTypeDisplayContent())
-        ],
+            SizedBox(height: 15),
+            Visibility(
+                visible: isCancelSelected,
+                child: massageBuildTypeDisplayContent())
+          ],
+        ),
       ),
     );
   }

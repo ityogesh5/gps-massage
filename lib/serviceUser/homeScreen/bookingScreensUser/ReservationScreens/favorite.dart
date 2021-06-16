@@ -21,7 +21,6 @@ class LoadInitialPage extends StatefulWidget {
 }
 
 class _LoadInitialPageState extends State<LoadInitialPage> {
-  GlobalKey<FormState> _formKeyUsersByType;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,8 +54,7 @@ class _FavoriteState extends State<Favorite> {
   List<Map<String, String>> certificateUploadList = List<Map<String, String>>();
   var addressOfTherapists, distanceRadius;
   List<dynamic> distanceOfTherapist = new List();
-  List<GlobalObjectKey<FormState>> formKeyList;
-  GlobalKey<FormState> _formKeyUsersByType;
+  List<GlobalKey<FormState>> _favformKeyList;
   BoxDecoration boxDecoration = BoxDecoration(
     borderRadius: BorderRadius.circular(8.0),
     color: Colors.white,
@@ -73,6 +71,12 @@ class _FavoriteState extends State<Favorite> {
       Loader.hide();
     });
   }
+
+ /*  @override
+  void dispose(){
+    super.dispose();
+
+  } */
 
   getFavoriteList() async {
     var getFavourite =
@@ -93,8 +97,8 @@ class _FavoriteState extends State<Favorite> {
     try {
       if (this.mounted) {
         setState(() {
-          formKeyList = List.generate(favouriteUserList.length,
-              (index) => GlobalObjectKey<FormState>(index));
+          _favformKeyList = List.generate(favouriteUserList.length,
+              (index) => GlobalKey<FormState>(debugLabel:'Fav$index'));
           for (int i = 0; i < favouriteUserList.length; i++) {
             Map<String, String> certificateUploaded = Map<String, String>();
             if (favouriteUserList[i]
@@ -395,13 +399,11 @@ class _FavoriteState extends State<Favorite> {
                                                                         favouriteUserList[index]
                                                                             .favouriteTherapistId
                                                                             .storeType,
-                                                                        formKeyList[
+                                                                        _favformKeyList[
                                                                             index]);
                                                                   },
                                                                   child:
                                                                       Container(
-                                                                    key: formKeyList[
-                                                                        index],
                                                                     decoration:
                                                                         BoxDecoration(
                                                                       gradient: LinearGradient(
@@ -433,6 +435,8 @@ class _FavoriteState extends State<Favorite> {
                                                                             10.0,
                                                                         width:
                                                                             10.0,
+                                                                        key: _favformKeyList[
+                                                                            index],
                                                                         // key: key,
                                                                         color: Colors
                                                                             .black,
@@ -933,7 +937,8 @@ class _FavoriteState extends State<Favorite> {
     }
   }
 
-  void showToolTipForFav(String text, GlobalObjectKey<FormState> formKeyList) {
+  void showToolTipForFav(
+      String text, GlobalObjectKey<FormState> _favformKeyList) {
     ShowToolTip popup = ShowToolTip(context,
         text: text,
         textStyle: TextStyle(color: Colors.black),
@@ -945,7 +950,7 @@ class _FavoriteState extends State<Favorite> {
 
     /// show the popup for specific widget
     popup.show(
-      widgetKey: formKeyList,
+      widgetKey: _favformKeyList,
     );
   }
 }

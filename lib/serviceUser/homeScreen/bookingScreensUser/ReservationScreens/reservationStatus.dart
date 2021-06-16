@@ -54,7 +54,6 @@ class _ReservationStatusState extends State<ReservationStatus> {
     borderRadius: BorderRadius.circular(8.0),
     color: Colors.white,
   );
-  GlobalKey<FormState> _formKeyUsersByType;
   int status = 0;
 
   @override
