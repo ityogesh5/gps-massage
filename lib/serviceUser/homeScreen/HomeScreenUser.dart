@@ -275,7 +275,12 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
               bannerImages.sort((a, b) =>
                   a.bannerDisplayOrder.compareTo(b.bannerDisplayOrder));
               for (var item in bannerImages) {
-                userBannerImages.add(item.bannerImageUrl);
+                if (item.isBannerImage) {
+                  userBannerImages.add(item.bannerUrl);
+                } else {
+                  userBannerImages.add(item.bannerImageUrl);
+                }
+
                 print('Therapist banner images : ${item.bannerImageUrl}');
               }
               HealingMatchConstants.userBannerImages.addAll(userBannerImages);
