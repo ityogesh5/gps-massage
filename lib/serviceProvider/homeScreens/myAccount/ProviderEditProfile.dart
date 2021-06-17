@@ -2669,10 +2669,10 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       'id': userData.id.toString(),
       'isTherapist': '1',
       'email': HealingMatchConstants.serviceProviderEmailAddress,
-      'storeName': bussinessForm == "施術店舗あり 施術従業員あり" ||
+      /* 'storeName': bussinessForm == "施術店舗あり 施術従業員あり" ||
               bussinessForm == "施術店舗あり 施術従業員なし（個人経営）"
           ? HealingMatchConstants.serviceProviderStoreName
-          : '',
+          : '', */
       /*  'storePhone': bussinessForm == "施術店舗あり 施術従業員あり" ||
               bussinessForm == "施術店舗なし 施術従業員あり（出張のみ)"
           ? HealingMatchConstants.serviceProviderStorePhoneNumber
@@ -2711,7 +2711,12 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     if (bussinessForm == "施術店舗あり 施術従業員あり" ||
         bussinessForm == "施術店舗あり 施術従業員なし（個人経営）") {
       request.fields.addAll({
-        "storePhone": HealingMatchConstants.serviceProviderStorePhoneNumber
+        "storePhone": HealingMatchConstants.serviceProviderStorePhoneNumber,
+        'storeName': HealingMatchConstants.serviceProviderStoreName,
+      });
+    } else {
+      request.fields.addAll({
+        'storeName': "",
       });
     }
     if (deletedStoreTypeDisplayValues.isNotEmpty) {
@@ -3382,7 +3387,9 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     var certificateUpload;
     userData = HealingMatchConstants.userData;
     bussinessForm = userData.businessForm;
-    numberOfEmployees = userData.numberOfEmp.toString();
+    if (userData.numberOfEmp != 0) {
+      numberOfEmployees = userData.numberOfEmp.toString();
+    }
     selectedStoreTypeDisplayValues = userData.storeType.split(',');
     serviceBusinessTrips = userData.businessTrip ? 'はい' : 'いいえ';
     coronaMeasures = userData.coronaMeasure ? 'はい' : 'いいえ';

@@ -988,9 +988,11 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
     if (proposeAdditionalCosts) {
       if (price != null && addedpriceReason == null) {
         displaySnackBar("費用の追加の理由をご選択ください。");
+        return null;
       }
       if (price == null && addedpriceReason != null) {
         displaySnackBar("追加料金を選択してください。");
+        return null;
       }
     }
     if (suggestAnotherTime) {
@@ -998,14 +1000,17 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
           (providerCommentsController.text == null ||
               providerCommentsController.text == "")) {
         displaySnackBar("別の時間を提案した理由をご記入ください。");
+        return null;
       }
       if (newStartTime == null) {
         displaySnackBar("新しい時間を選択してください。");
+        return null;
       }
       if (newStartTime != null) {
         if (newStartTime.day != widget.bookingDetail.startTime.day ||
             newEndTime.day != widget.bookingDetail.endTime.day) {
           displaySnackBar("同じ日の有効な時間を選択してください。");
+          return null;
         }
       }
     }

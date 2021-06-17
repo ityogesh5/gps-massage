@@ -41,8 +41,7 @@ class ServiceUserAPIProvider {
 
   static TherapistUsersModel listOfTherapistModel = new TherapistUsersModel();
   static UserBannerImagesModel _bannerModel = new UserBannerImagesModel();
-  static TherapistUsersModel _therapistsByTypeModel =
-      new TherapistUsersModel();
+  static TherapistUsersModel _therapistsByTypeModel = new TherapistUsersModel();
 
   static TherapistByIdModel _therapisyByIdModel = new TherapistByIdModel();
   static GetUserDetailsByIdModel _getUserDetailsByIdModel =
@@ -148,8 +147,7 @@ class ServiceUserAPIProvider {
             "serviceType": HealingMatchConstants.serviceTypeValue,
           }));
       final getTherapistByType = json.decode(response.body);
-      _therapistsByTypeModel =
-          TherapistUsersModel.fromJson(getTherapistByType);
+      _therapistsByTypeModel = TherapistUsersModel.fromJson(getTherapistByType);
       print('Therapist Type Response body : ${response.body}');
     } catch (e) {
       print(e.toString());
@@ -408,10 +406,9 @@ class ServiceUserAPIProvider {
       print('Therapist Details Response : ${response.body}');
       TherapistByIdModel _therapisyByIdModel =
           TherapistByIdModel.fromJson(getTherapistDetails);
-      HealingMatchConstants.providerName =
-          _therapisyByIdModel.data.isShop
-              ? _therapisyByIdModel.data.storeName
-              : _therapisyByIdModel.data.userName;
+      HealingMatchConstants.providerName = _therapisyByIdModel.data.isShop
+          ? _therapisyByIdModel.data.storeName
+          : _therapisyByIdModel.data.userName;
       ProgressDialogBuilder.hideLoader(context);
       return _therapisyByIdModel;
     } on SocketException catch (_) {
@@ -636,6 +633,7 @@ class ServiceUserAPIProvider {
       int therapistReviewStatus,
       String userCommands,
       String eventId,
+      String currentPrefecture,
       dynamic bookingAddressId) async {
     try {
       final url = '${HealingMatchConstants.BOOKING_THERAPIST}';
@@ -664,6 +662,7 @@ class ServiceUserAPIProvider {
             "travelAmount": 0,
             "eventId": eventId,
             "addressId": bookingAddressId,
+            "currentPrefecture": currentPrefecture,
             "lat": bookingAddressId == 0
                 ? HealingMatchConstants.currentLatitude
                 : 0,

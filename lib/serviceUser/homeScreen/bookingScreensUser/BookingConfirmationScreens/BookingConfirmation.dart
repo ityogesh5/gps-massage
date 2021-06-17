@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart' as GeoLocater;
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
@@ -51,6 +55,8 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
   GlobalKey key = new GlobalKey();
   CreateBookingModel createBooking;
   var distance = HealingMatchConstants.serviceDistanceRadius;
+  final GeoLocater.Geolocator geoLocator = GeoLocater.Geolocator()
+    ..forceAndroidLocationManager;
 
   @override
   void initState() {
@@ -788,7 +794,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
         onTap: (startLoading, stopLoading, btnState) {
           if (btnState == ButtonState.Idle) {
             startLoading();
-            _updateUserBookingDetails();
+            _getLatAndLongFromAddress();
           }
         },
       ),
@@ -939,6 +945,33 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
     );
   }
 
+  _getLatAndLongFromAddress() async {
+    var splitAddress = HealingMatchConstants.confServiceAddress.split(' ');
+    List<Location> address = await locationFromAddress(
+        Platform.isIOS
+            ? "${splitAddress[1]},${splitAddress[0]}"
+            : HealingMatchConstants.confServiceAddress,
+        localeIdentifier: "ja_JP");
+
+    var searchAddressLatitude = address[0].latitude;
+    var searchAddressLongitude = address[0].longitude;
+    _getAddressFromLatLng(searchAddressLatitude, searchAddressLongitude);
+  }
+
+  _getAddressFromLatLng(double lat, double long) async {
+    try {
+      List<GeoLocater.Placemark> p =
+          await geoLocator.placemarkFromCoordinates(lat, long);
+
+      GeoLocater.Placemark currentLocationPlaceMark = p[0];
+      HealingMatchConstants.locality = currentLocationPlaceMark.locality;
+      _updateUserBookingDetails();
+    } catch (e) {
+      Navigator.pop(context);
+      print(e);
+    }
+  }
+
   _updateUserBookingDetails() async {
     //   ProgressDialogBuilder.showOverlayLoader(context);
     int therapistId = HealingMatchConstants.confTherapistId;
@@ -959,6 +992,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
     int userReviewStatus = 0;
     int therapistReviewStatus = 0;
     String userCommands = _otherBuildingController.text;
+    String currentPrefecture = HealingMatchConstants.locality;
 
     print('Entering on press');
     print('StartTime: ${HealingMatchConstants.confSelectedDateTime.toLocal()}');
@@ -1000,6 +1034,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
             therapistReviewStatus,
             userCommands,
             value.id,
+            currentPrefecture,
             HealingMatchConstants.bookingAddressId);
         NavigationRouter.switchToServiceUserReservationAndFavourite(context);
       });
