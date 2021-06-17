@@ -2119,20 +2119,50 @@ class _ReservationListState extends State<ReservationList> {
                                                   .bookingTherapistId
                                                   .storeName !=
                                               null
-                                      ? Text(
-                                          '${bookingDetailsList[0].bookingTherapistId.storeName}',
-                                          style: TextStyle(
-                                              color: Color.fromRGBO(0, 0, 0, 1),
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily:
-                                                  ColorConstants.fontFamily))
-                                      : Text(
-                                          '${bookingDetailsList[0].bookingTherapistId.userName}',
-                                          style: TextStyle(
-                                              color: Color.fromRGBO(0, 0, 0, 1),
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily:
-                                                  ColorConstants.fontFamily)),
+                                      ? Flexible(
+                                          child: Text(
+                                              bookingDetailsList[0]
+                                                          .bookingTherapistId
+                                                          .storeName
+                                                          .length >
+                                                      10
+                                                  ? bookingDetailsList[0]
+                                                          .bookingTherapistId
+                                                          .storeName
+                                                          .substring(0, 10) +
+                                                      "..."
+                                                  : bookingDetailsList[0]
+                                                      .bookingTherapistId
+                                                      .storeName,
+                                              style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      0, 0, 0, 1),
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: ColorConstants
+                                                      .fontFamily)),
+                                        )
+                                      : Flexible(
+                                          child: Text(
+                                              bookingDetailsList[0]
+                                                          .bookingTherapistId
+                                                          .userName
+                                                          .length >
+                                                      10
+                                                  ? bookingDetailsList[0]
+                                                          .bookingTherapistId
+                                                          .userName
+                                                          .substring(0, 10) +
+                                                      "..."
+                                                  : bookingDetailsList[0]
+                                                      .bookingTherapistId
+                                                      .userName,
+                                              style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      0, 0, 0, 1),
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: ColorConstants
+                                                      .fontFamily)),
+                                        ),
                                   SizedBox(
                                     width: 5,
                                   ),
@@ -2420,7 +2450,7 @@ class _ReservationListState extends State<ReservationList> {
                             child: Text(
                               '${bookingDetailsList[0].locationType}',
                               style: TextStyle(
-                                fontSize: 12.0,
+                                fontSize: 11.0,
                                 color: Color.fromRGBO(0, 0, 0, 1),
                               ),
                             )),
@@ -2431,7 +2461,7 @@ class _ReservationListState extends State<ReservationList> {
                           child: Text(
                             '${bookingDetailsList[0].location}',
                             style: TextStyle(
-                              fontSize: 10.0,
+                              fontSize: 12.0,
                               color: Color.fromRGBO(102, 102, 102, 1),
                             ),
                           ),

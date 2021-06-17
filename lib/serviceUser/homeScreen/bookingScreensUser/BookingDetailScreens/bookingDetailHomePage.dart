@@ -192,7 +192,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                       padding: const EdgeInsets.only(
                           top: 8.0, left: 12.0, bottom: 8.0, right: 8.0),
                       child: Container(
-                        decoration: BoxDecoration(
+                        /* decoration: BoxDecoration(
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
@@ -205,7 +205,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                               color: Colors.grey[300],
                             ),
                             borderRadius: BorderRadius.circular(5.0),
-                            color: Colors.grey[200]),
+                            color: Colors.grey[200]),*/
                         width: MediaQuery.of(context).size.width * 0.90,
                         height: 50.0,
                         child: WidgetAnimator(
@@ -226,25 +226,25 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                                 borderSide: BorderSide(
-                                  color: Colors.grey[200],
+                                  color: Colors.grey[400],
                                 ),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                                 borderSide: BorderSide(
-                                  color: Colors.grey[200],
+                                  color: Colors.grey[400],
                                 ),
                               ),
                               disabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                                 borderSide: BorderSide(
-                                  color: Colors.grey[200],
+                                  color: Colors.grey[400],
                                 ),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                                 borderSide: BorderSide(
-                                  color: Colors.grey[200],
+                                  color: Colors.grey[400],
                                 ),
                               ),
                               prefixIcon: Padding(
@@ -496,7 +496,16 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
         ),
         color: Colors.green,
         onPressed: () {
-          bookingConfirmField();
+          if (HealingMatchConstants.isUserRegistrationSkipped) {
+            DialogHelper.showUserLoginOrRegisterDialog(context);
+          } else {
+            if (!isLoading) {
+              setState(() {
+                isLoading = true;
+                validateFields();
+              });
+            }
+          }
         },
         child: new Text(
           'もう一度予約する',
@@ -596,7 +605,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12.0),
-            border: Border.all(color: Colors.black),
+            border: Border.all(color: Colors.grey[400]),
           ),
           child: Padding(
             padding: const EdgeInsets.all(12.0),
@@ -2291,6 +2300,13 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
   }
 
   Widget buildDateTimeDetails() {
+    String dateFormat;
+    String jaName;
+
+    if (selectedTime != null) {
+      dateFormat = DateFormat('MM月dd').format(selectedTime);
+      jaName = DateFormat('EEEE', 'ja_JP').format(selectedTime);
+    }
     return Row(
       children: [
         selectedTime != null
@@ -2306,7 +2322,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                             height: 16, width: 16),
                         SizedBox(width: 10),
                         new Text(
-                          '${DateFormat('MM月dd').format(selectedTime)}',
+                          '$dateFormat :',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 12,
@@ -2314,7 +2330,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                         ),
                         SizedBox(width: 5),
                         new Text(
-                          "月曜日",
+                          "$jaName",
                           style: TextStyle(
                               color: Colors.grey[400],
                               fontSize: 12,

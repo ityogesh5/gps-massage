@@ -896,7 +896,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                             HealingMatchConstants.therapistProfileDetails
                                         .bookingDataResponse[0].addedPrice !=
                                     null
-                                ? "¥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].addedPrice}  "
+                                ? "${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].addedPrice}  "
                                 : '交通費',
                             style:
                                 TextStyle(fontSize: 14.0, color: Colors.black),

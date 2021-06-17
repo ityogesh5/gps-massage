@@ -2122,7 +2122,7 @@ class _MassageTypeChipsState extends State<MassageTypeChips>
     for (int i = 0; i < _options.length; i++) {
       ChoiceChip choiceChip = ChoiceChip(
         selected: _selectedIndex == i,
-        labelPadding: EdgeInsets.all(2.0),
+        // labelPadding: EdgeInsets.all(2.0),
         label: Text(_options[i],
             style: TextStyle(
                 color: _selectedIndex == i

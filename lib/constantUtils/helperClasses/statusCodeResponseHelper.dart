@@ -111,7 +111,7 @@ class StatusCodeHelper {
     } else if (statusCode == 401) {
       Toast.show("許可されていないユーザー。", context,
           duration: 4,
-          gravity: Toast.BOTTOM,
+          gravity: Toast.CENTER,
           backgroundColor: Colors.redAccent,
           textColor: Colors.white);
       print('Unauthorized User!!');

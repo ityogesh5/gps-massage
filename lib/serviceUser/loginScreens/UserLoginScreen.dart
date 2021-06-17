@@ -82,7 +82,7 @@ class _UserLoginState extends State<UserLogin> {
       bottomNavigationBar: buildBottomBar(),
       appBar: AppBar(
         elevation: 0,
-         brightness: Brightness.light,
+        brightness: Brightness.light,
         backgroundColor: Colors.transparent,
         actions: [
           Padding(
@@ -394,6 +394,7 @@ class _UserLoginState extends State<UserLogin> {
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
+            Spacer(),
             InkWell(
               onTap: () {
                 _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -424,8 +425,9 @@ class _UserLoginState extends State<UserLogin> {
               child: Text('正しい電話番号とパスワードを入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'NotoSansJP')),
+                  style: TextStyle(fontFamily: 'NotoSansJP', fontSize: 10.0)),
             ),
+            Spacer(),
             InkWell(
               onTap: () {
                 _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -454,6 +456,7 @@ class _UserLoginState extends State<UserLogin> {
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
+            Spacer(),
             InkWell(
               onTap: () {
                 _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -482,6 +485,7 @@ class _UserLoginState extends State<UserLogin> {
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
+            Spacer(),
             InkWell(
               onTap: () {
                 _scaffoldKey.currentState.hideCurrentSnackBar();

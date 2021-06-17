@@ -560,7 +560,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                       child: waitingForApprovalList[index].locationDistance !=
                                                                               null
                                                                           ? Text(
-                                                                              '${waitingForApprovalList[index].locationDistance}',
+                                                                              '${waitingForApprovalList[index].locationDistance}km圏内',
                                                                               style: TextStyle(
                                                                                 color: Color.fromRGBO(153, 153, 153, 1),
                                                                               ),
@@ -591,11 +591,11 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         children: [
                                                                           waitingForApprovalList[index].bookingTherapistId.storeName != null && waitingForApprovalList[index].bookingTherapistId.storeName.isNotEmpty
                                                                               ? Text(
-                                                                                  '${waitingForApprovalList[index].bookingTherapistId.storeName}',
+                                                                                  waitingForApprovalList[index].bookingTherapistId.storeName.length > 10 ? waitingForApprovalList[index].bookingTherapistId.storeName.substring(0, 10) + "..." : waitingForApprovalList[index].bookingTherapistId.storeName,
                                                                                   style: TextStyle(fontSize: 14, color: Color.fromRGBO(0, 0, 0, 1), fontWeight: FontWeight.bold),
                                                                                 )
                                                                               : Text(
-                                                                                  '${waitingForApprovalList[index].bookingTherapistId.userName}',
+                                                                                  waitingForApprovalList[index].bookingTherapistId.userName.length > 10 ? waitingForApprovalList[index].bookingTherapistId.userName.substring(0, 10) + "..." : waitingForApprovalList[index].bookingTherapistId.userName,
                                                                                   style: TextStyle(fontSize: 14, color: Color.fromRGBO(0, 0, 0, 1), fontWeight: FontWeight.bold),
                                                                                 ),
                                                                           SizedBox(
@@ -972,6 +972,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                       '${waitingForApprovalList[index].locationType}',
                                                                       style:
                                                                           TextStyle(
+                                                                        fontSize:
+                                                                            12.0,
                                                                         color: Color.fromRGBO(
                                                                             0,
                                                                             0,
@@ -988,6 +990,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                   '${waitingForApprovalList[index].location}',
                                                                   style:
                                                                       TextStyle(
+                                                                    fontSize:
+                                                                        11.0,
                                                                     color: Color
                                                                         .fromRGBO(
                                                                             152,
@@ -1276,11 +1280,11 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         approvedWithConditionsList[index].bookingTherapistId.storeName != null &&
                                                                                 approvedWithConditionsList[index].bookingTherapistId.storeName.isNotEmpty
                                                                             ? Text(
-                                                                                '${approvedWithConditionsList[index].bookingTherapistId.storeName}',
+                                                                                approvedWithConditionsList[index].bookingTherapistId.storeName.length > 10 ? approvedWithConditionsList[index].bookingTherapistId.storeName.substring(0, 10) + "..." : approvedWithConditionsList[index].bookingTherapistId.storeName,
                                                                                 style: TextStyle(fontSize: 14, color: Color.fromRGBO(0, 0, 0, 1), fontWeight: FontWeight.bold),
                                                                               )
                                                                             : Text(
-                                                                                '${approvedWithConditionsList[index].bookingTherapistId.userName}',
+                                                                                approvedWithConditionsList[index].bookingTherapistId.userName.length > 10 ? approvedWithConditionsList[index].bookingTherapistId.userName.substring(0, 10) + "..." : approvedWithConditionsList[index].bookingTherapistId.userName,
                                                                                 style: TextStyle(fontSize: 14, color: Color.fromRGBO(0, 0, 0, 1), fontWeight: FontWeight.bold),
                                                                               ),
                                                                         SizedBox(
@@ -1727,6 +1731,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                               0,
                                                                               0,
                                                                               1),
+                                                                      fontSize:
+                                                                          12.0,
                                                                     ),
                                                                   )),
                                                               SizedBox(
@@ -1743,6 +1749,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                             102,
                                                                             102,
                                                                             1),
+                                                                    fontSize:
+                                                                        11.0,
                                                                   ),
                                                                 ),
                                                               ),
@@ -1991,11 +1999,11 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         approvedList[index].bookingTherapistId.storeName != null &&
                                                                                 approvedList[index].bookingTherapistId.storeName.isNotEmpty
                                                                             ? Text(
-                                                                                '${approvedList[index].bookingTherapistId.storeName}',
+                                                                                approvedList[index].bookingTherapistId.storeName.length > 10 ? approvedList[index].bookingTherapistId.storeName.substring(0, 10) + "..." : approvedList[index].bookingTherapistId.storeName,
                                                                                 style: TextStyle(fontSize: 14, color: Color.fromRGBO(0, 0, 0, 1), fontWeight: FontWeight.bold),
                                                                               )
                                                                             : Text(
-                                                                                '${approvedList[index].bookingTherapistId.userName}',
+                                                                                approvedList[index].bookingTherapistId.userName.length > 10 ? approvedList[index].bookingTherapistId.userName.substring(0, 10) + "..." : approvedList[index].bookingTherapistId.userName,
                                                                                 style: TextStyle(fontSize: 14, color: Color.fromRGBO(0, 0, 0, 1), fontWeight: FontWeight.bold),
                                                                               ),
                                                                         SizedBox(
@@ -2472,6 +2480,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                     '${approvedList[index].locationType}',
                                                                     style:
                                                                         TextStyle(
+                                                                      fontSize:
+                                                                          12.0,
                                                                       color: Color
                                                                           .fromRGBO(
                                                                               0,
@@ -2488,6 +2498,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                   '${approvedList[index].location}',
                                                                   style:
                                                                       TextStyle(
+                                                                    fontSize:
+                                                                        11.0,
                                                                     color: Color
                                                                         .fromRGBO(
                                                                             102,
@@ -2772,14 +2784,18 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                                 null &&
                                                                             confirmedPaymentList[index].bookingTherapistId.storeName.isNotEmpty
                                                                         ? Text(
-                                                                            '${confirmedPaymentList[index].bookingTherapistId.storeName}',
+                                                                            confirmedPaymentList[index].bookingTherapistId.storeName.length > 10
+                                                                                ? confirmedPaymentList[index].bookingTherapistId.storeName.substring(0, 10) + "..."
+                                                                                : confirmedPaymentList[index].bookingTherapistId.storeName,
                                                                             style: TextStyle(
                                                                                 fontSize: 14,
                                                                                 color: Color.fromRGBO(0, 0, 0, 1),
                                                                                 fontWeight: FontWeight.bold),
                                                                           )
                                                                         : Text(
-                                                                            '${confirmedPaymentList[index].bookingTherapistId.userName}',
+                                                                            confirmedPaymentList[index].bookingTherapistId.userName.length > 10
+                                                                                ? confirmedPaymentList[index].bookingTherapistId.userName.substring(0, 10) + "..."
+                                                                                : confirmedPaymentList[index].bookingTherapistId.userName,
                                                                             style: TextStyle(
                                                                                 fontSize: 14,
                                                                                 color: Color.fromRGBO(0, 0, 0, 1),
@@ -3293,6 +3309,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                 '${confirmedPaymentList[index].locationType}',
                                                                 style:
                                                                     TextStyle(
+                                                                  fontSize:
+                                                                      12.0,
                                                                   color: Color
                                                                       .fromRGBO(
                                                                           0,
@@ -3308,6 +3326,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                             child: Text(
                                                               '${confirmedPaymentList[index].location}',
                                                               style: TextStyle(
+                                                                fontSize: 11.0,
                                                                 color: Color
                                                                     .fromRGBO(
                                                                         102,
@@ -3581,14 +3600,18 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                                 null &&
                                                                             canceledReservationList[index].bookingTherapistId.storeName.isNotEmpty
                                                                         ? Text(
-                                                                            '${canceledReservationList[index].bookingTherapistId.storeName}',
+                                                                            canceledReservationList[index].bookingTherapistId.storeName.length > 10
+                                                                                ? canceledReservationList[index].bookingTherapistId.storeName.substring(0, 10) + "..."
+                                                                                : canceledReservationList[index].bookingTherapistId.storeName,
                                                                             style: TextStyle(
                                                                                 fontSize: 14,
                                                                                 color: Color.fromRGBO(0, 0, 0, 1),
                                                                                 fontWeight: FontWeight.bold),
                                                                           )
                                                                         : Text(
-                                                                            '${canceledReservationList[index].bookingTherapistId.userName}',
+                                                                            canceledReservationList[index].bookingTherapistId.userName.length > 10
+                                                                                ? canceledReservationList[index].bookingTherapistId.userName.substring(0, 10) + "..."
+                                                                                : canceledReservationList[index].bookingTherapistId.userName,
                                                                             style: TextStyle(
                                                                                 fontSize: 14,
                                                                                 color: Color.fromRGBO(0, 0, 0, 1),
@@ -4023,6 +4046,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                 '${canceledReservationList[index].locationType}',
                                                                 style:
                                                                     TextStyle(
+                                                                  fontSize:
+                                                                      12.0,
                                                                   color: Color
                                                                       .fromRGBO(
                                                                           0,
@@ -4038,6 +4063,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                             child: Text(
                                                               '${canceledReservationList[index].location}',
                                                               style: TextStyle(
+                                                                fontSize: 11.0,
                                                                 color: Color
                                                                     .fromRGBO(
                                                                         102,
