@@ -1266,7 +1266,11 @@ class _RegistrationSecondPageState
               ? HealingMatchConstants.serviceProviderGenderService
               : '',
       'storeType': storeTypeDisplay,
-      'numberOfEmp': HealingMatchConstants.serviceProviderNumberOfEmpl != null
+      'numberOfEmp': HealingMatchConstants.serviceProviderBusinessForm ==
+                  "施術店舗あり 施術従業員あり" &&
+              HealingMatchConstants.serviceProviderBusinessForm ==
+                  "施術店舗なし 施術従業員あり（出張のみ)" &&
+              HealingMatchConstants.serviceProviderNumberOfEmpl != null
           ? HealingMatchConstants.serviceProviderNumberOfEmpl
           : '0',
       'businessTrip':

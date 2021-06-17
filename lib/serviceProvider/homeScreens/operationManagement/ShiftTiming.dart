@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/cardToolTips/timeSpinnerToolTip.dart';
@@ -41,6 +42,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
   Map<DateTime, String> scheduleEventId = Map<DateTime, String>();
   bool status = false;
   var refreshState;
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   GlobalKey sundayStartKey = new GlobalKey();
   GlobalKey sundayEndKey = new GlobalKey();
   GlobalKey mondayStartkey = new GlobalKey();
@@ -164,6 +166,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: loadingStatus == 0
           ? Container(
               color: Colors.white,
@@ -473,28 +476,61 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                       events[timeRow[i]].contains(j)) {
                                     return InkWell(
                                         onTap: () {
-                                          var eventId = scheduleEventId[
-                                              DateTime(
-                                                  timeRow[i].year,
-                                                  timeRow[i].month,
-                                                  j + 1,
-                                                  timeRow[i].hour,
-                                                  timeRow[i].minute,
-                                                  timeRow[i].second)];
-                                          setState(() {
-                                            if (events[timeRow[i]].length ==
-                                                1) {
-                                              events.remove(timeRow[i]);
-                                            } else {
-                                              events[timeRow[i]].remove(j);
-                                            }
-                                          });
+                                          DateTime scheduleTime = DateTime(
+                                              timeRow[i].year,
+                                              timeRow[i].month,
+                                              j,
+                                              timeRow[i].hour,
+                                              timeRow[i].minute,
+                                              timeRow[i].second);
+                                          var eventId =
+                                              scheduleEventId[scheduleTime];
+
                                           if (eventId != null) {
-                                            ProgressDialogBuilder
-                                                .showCommonProgressDialog(
-                                                    context);
-                                            ServiceProviderApi.removeEvent(
-                                                eventId, context);
+                                            if (eventId ==
+                                                    scheduleEventId[DateTime(
+                                                      timeRow[i].year,
+                                                      timeRow[i].month,
+                                                      j,
+                                                      timeRow[i].hour,
+                                                      timeRow[i].minute + 15,
+                                                      timeRow[i].second,
+                                                    )] ||
+                                                eventId ==
+                                                    scheduleEventId[DateTime(
+                                                      timeRow[i].year,
+                                                      timeRow[i].month,
+                                                      j,
+                                                      timeRow[i].hour,
+                                                      timeRow[i].minute - 15,
+                                                      timeRow[i].second,
+                                                    )]) {
+                                              displaySnackBarError(
+                                                  "予約スケジュールを無料でマークすることはできません");
+                                            } else {
+                                              ProgressDialogBuilder
+                                                  .showCommonProgressDialog(
+                                                      context);
+                                              ServiceProviderApi.removeEvent(
+                                                  eventId, context);
+                                              setState(() {
+                                                if (events[timeRow[i]].length ==
+                                                    1) {
+                                                  events.remove(timeRow[i]);
+                                                } else {
+                                                  events[timeRow[i]].remove(j);
+                                                }
+                                              });
+                                            }
+                                          } else {
+                                            setState(() {
+                                              if (events[timeRow[i]].length ==
+                                                  1) {
+                                                events.remove(timeRow[i]);
+                                              } else {
+                                                events[timeRow[i]].remove(j);
+                                              }
+                                            });
                                           }
                                         },
                                         child: Center(
@@ -575,6 +611,19 @@ class _ShiftTimingState extends State<ShiftTiming> {
               ),
             ),
     );
+  }
+
+  void displaySnackBarError(String text) {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      backgroundColor: ColorConstants.snackBarColor,
+      content: Text('$text', style: TextStyle(fontFamily: 'NotoSansJP')),
+      action: SnackBarAction(
+          onPressed: () {
+            _scaffoldKey.currentState.hideCurrentSnackBar();
+          },
+          label: 'はい',
+          textColor: Colors.white),
+    ));
   }
 
   int totalDays(int month, int year) {

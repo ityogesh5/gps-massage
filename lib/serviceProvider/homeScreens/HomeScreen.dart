@@ -196,8 +196,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                                       0, 10) +
                                                               "..."
                                                           : userData.storeName
-                                                      : userData.userName
-                                                                  .length >
+                                                      : userData.userName.length >
                                                               10
                                                           ? userData.userName
                                                                   .substring(
@@ -1550,6 +1549,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
         userData.storeName != null && userData.storeName != ''
             ? userData.storeName
             : userData.userName;
+    HealingMatchConstants.numberOfEmployeeRegistered = userData.numberOfEmp;
 
     if (userData.childrenMeasure != null && userData.childrenMeasure != '') {
       var split = userData.childrenMeasure.split(',');

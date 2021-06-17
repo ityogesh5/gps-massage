@@ -524,6 +524,7 @@ class HealingMatchConstants {
 
   static String accessToken;
   static String providerName;
+  static int numberOfEmployeeRegistered;
 
   static int serviceUserId;
   static int userId;

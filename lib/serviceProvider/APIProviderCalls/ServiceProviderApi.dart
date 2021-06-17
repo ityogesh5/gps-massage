@@ -206,6 +206,9 @@ class ServiceProviderApi {
         );
       }
     }
+    if (HealingMatchConstants.numberOfEmployeeRegistered > 1) {
+      flutterEvents.clear();
+    }
     if (unavailableCalendarEvents.length != 0) {
       flutterEvents.addAll(unavailableCalendarEvents);
     }
