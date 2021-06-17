@@ -409,8 +409,7 @@ class ServiceUserAPIProvider {
       TherapistByIdModel _therapisyByIdModel =
           TherapistByIdModel.fromJson(getTherapistDetails);
       HealingMatchConstants.providerName =
-          _therapisyByIdModel.data.storeName != null &&
-                  _therapisyByIdModel.data.storeName != ''
+          _therapisyByIdModel.data.isShop
               ? _therapisyByIdModel.data.storeName
               : _therapisyByIdModel.data.userName;
       ProgressDialogBuilder.hideLoader(context);

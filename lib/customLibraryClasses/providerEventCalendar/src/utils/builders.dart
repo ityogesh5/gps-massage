@@ -10,6 +10,7 @@ import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/ut
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/utils/utils.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/widgets/day_view.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/widgets/zoomable_header_widget.dart';
+import 'package:intl/intl.dart';
 
 /// Contains default builders and formatters.
 class DefaultBuilders {
@@ -70,6 +71,9 @@ class DefaultBuilders {
     } */
     Calendar.Event googleApiEvent = event.events;
     var split = googleApiEvent.summary.split(',');
+    var difference = event.end.difference(event.start).inMinutes;
+    String sTime = DateFormat('kk:mm').format(event.start);
+    String eTime = DateFormat('kk:mm').format(event.end);
 
     return googleApiEvent.description == "unavailable"
         ? Container(
@@ -89,45 +93,45 @@ class DefaultBuilders {
             width: MediaQuery.of(context).size.width - 120.0,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        HealingMatchConstants.isProvider ? split[3] : split[1],
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16.0),
-                      ),
-                      googleApiEvent.status == 'tentative'
-                          ? Row(
-                              children: [
-                                SvgPicture.asset(
-                                  "assets/images_gps/processing.svg",
-                                  height: 20.0,
-                                  width: 20.0,
-                                ),
-                                /*  Icon(
-                  Icons.hourglass_top_outlined,
-                  color: Color.fromRGBO(255, 193, 7, 1),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      HealingMatchConstants.isProvider ? split[3] : split[1],
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16.0),
+                    ),
+                    googleApiEvent.status == 'tentative'
+                        ? Row(
+                            children: [
+                              SvgPicture.asset(
+                                "assets/images_gps/processing.svg",
+                                height: 20.0,
+                                width: 20.0,
+                              ),
+                              /*  Icon(
+                Icons.hourglass_top_outlined,
+                color: Color.fromRGBO(255, 193, 7, 1),
               ), */
-                                Text("承認待ち",
-                                    style: TextStyle(
-                                      color: Color.fromRGBO(255, 193, 7, 1),
-                                    ))
-                              ],
-                            )
-                          : Row(
-                              children: [
-                                Text("承認済み",
-                                    style: TextStyle(color: Colors.black))
-                              ],
-                            )
-                    ],
-                  ),
+                              Text("承認待ち",
+                                  style: TextStyle(
+                                    color: Color.fromRGBO(255, 193, 7, 1),
+                                  ))
+                            ],
+                          )
+                        : Row(
+                            children: [
+                              Text("承認済み",
+                                  style: TextStyle(color: Colors.black))
+                            ],
+                          )
+                  ],
                 ),
                 SizedBox(
-                  height: 4,
+                  height: 10,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -141,15 +145,18 @@ class DefaultBuilders {
                       width: 8,
                     ),
                     Text(
-                      '${event.start.hour}:${event.start.minute} ~ ${event.end.hour}: ${event.end.minute}',
+                      '$sTime ~ $eTime',
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    SizedBox(
+                      width: 4,
+                    ),
                     Text(
-                      ' 60分 ',
+                      ' $difference分 ',
                       style: TextStyle(
                         fontSize: 12.0,
                         color: Color.fromRGBO(102, 102, 102, 1),

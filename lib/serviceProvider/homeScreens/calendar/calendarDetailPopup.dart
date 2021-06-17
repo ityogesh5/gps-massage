@@ -3,10 +3,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:googleapis/calendar/v3.dart' as Calendar;
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:intl/intl.dart';
 
 class ProviderCalendarDetailPopup {
   static void showBookingDetail(BuildContext context, Calendar.Event event,
       DateTime start, DateTime end) {
+    var japaneseCurrency =
+        new NumberFormat.currency(locale: "ja_JP", symbol: "");
+
     Calendar.Event googleApiEvent = event;
     var split = googleApiEvent.summary.split(',');
     /* int idx = s.indexOf(":");
@@ -14,13 +18,20 @@ class ProviderCalendarDetailPopup {
     int desIndex = googleApiEvent.description.indexOf(',');
     var desSplit = [
       googleApiEvent.description.substring(0, desIndex).trim(),
-      googleApiEvent.description.substring(desIndex + 1).trim()
+      googleApiEvent.description.substring(desIndex + 2).trim()
     ];
     int locIndex = googleApiEvent.location.indexOf(',');
     var locSplit = [
-      googleApiEvent.location.substring(0, desIndex).trim(),
-      googleApiEvent.location.substring(desIndex + 1).trim()
+      googleApiEvent.location.substring(0, locIndex).trim(),
+      googleApiEvent.location.substring(locIndex + 1).trim()
     ];
+    var price = japaneseCurrency.format(int.parse(desSplit[1]));
+    String jaName = DateFormat('EEEE', 'ja_JP').format(start);
+    String sTime = DateFormat('kk:mm').format(start);
+    String eTime = DateFormat('kk:mm').format(end);
+    String day = DateFormat('MM/dd').format(end);
+    var difference = end.difference(start).inMinutes;
+
     showDialog(
         context: context,
         builder: (context) {
@@ -40,7 +51,7 @@ class ProviderCalendarDetailPopup {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
                           HealingMatchConstants.isProvider
@@ -49,6 +60,30 @@ class ProviderCalendarDetailPopup {
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16.0),
                         ),
+                        SizedBox(
+                          width: 5.0,
+                        ),
+                        HealingMatchConstants.isProvider
+                            ? Container()
+                            : Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(12.0),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    locSplit[0] == "店舗"
+                                        ? '${locSplit[0]} '
+                                        : "出張",
+                                    style: TextStyle(
+                                      fontSize: 12.0,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                        Spacer(),
                         googleApiEvent.status == 'tentative'
                             ? Row(
                                 children: [
@@ -86,7 +121,7 @@ class ProviderCalendarDetailPopup {
                           width: 8,
                         ),
                         Text(
-                          '${start.day}月${start.month}',
+                          '$day',
                           style: TextStyle(
                             fontSize: 14.0,
                             color: Colors.black,
@@ -94,7 +129,7 @@ class ProviderCalendarDetailPopup {
                           ),
                         ),
                         Text(
-                          ' 月曜日 ',
+                          ' $jaName ',
                           style: TextStyle(
                             fontSize: 12.0,
                             color: Color.fromRGBO(102, 102, 102, 1),
@@ -117,7 +152,7 @@ class ProviderCalendarDetailPopup {
                           width: 8,
                         ),
                         Text(
-                          '${start.hour}:${start.minute} ~ ${end.hour}: ${end.minute}',
+                          '$sTime ~ $eTime',
                           style: TextStyle(
                             fontSize: 14.0,
                             color: Colors.black,
@@ -125,7 +160,7 @@ class ProviderCalendarDetailPopup {
                           ),
                         ),
                         Text(
-                          ' 60分 ',
+                          ' $difference分 ',
                           style: TextStyle(
                             fontSize: 12.0,
                             color: Color.fromRGBO(102, 102, 102, 1),
@@ -167,7 +202,7 @@ class ProviderCalendarDetailPopup {
                           width: 2,
                         ),
                         Text(
-                          ' ${desSplit[1]}',
+                          ' $price',
                           style: TextStyle(
                             fontSize: 14.0,
                             color: Colors.black,
@@ -229,9 +264,7 @@ class ProviderCalendarDetailPopup {
                               ),
                             ),
                           ),
-                          SizedBox(
-                            width: 2,
-                          ),
+                          SizedBox(width: 2),
                           Text(
                             '${locSplit[1]} ',
                             style: TextStyle(
