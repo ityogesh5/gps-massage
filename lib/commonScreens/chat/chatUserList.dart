@@ -360,13 +360,23 @@ class _ChatUserListState extends State<ChatUserList> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    "${contactList[index].username}",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.left,
+                  Row(
+                    children: [
+                      Text(
+                        "${contactList[index].username}",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.left,
+                      ),
+                      Spacer(),
+                      lastMessageDate != null
+                          ? Text(formatTime(lastMessage),
+                              style: TextStyle(
+                                  color: Colors.grey[300], fontSize: 12))
+                          : Container()
+                    ],
                   ),
                   SizedBox(height: 4),
                   _stream != null
@@ -383,6 +393,8 @@ class _ChatUserListState extends State<ChatUserList> {
                                     Message.fromMap(snapshot.data());
                                 _addNewMessages(newMsg, chatData[index]);
                                 return Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     newMsg.type == MessageType.Media
                                         ? Container(
@@ -419,6 +431,32 @@ class _ChatUserListState extends State<ChatUserList> {
                                                     fontSize: 10),
                                                 textAlign: TextAlign.left),
                                           ),
+                                    Spacer(),
+                                    Expanded(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          lastMessageDate != null
+                                              ? chatData[index].unreadCount != 0
+                                                  ? CircleAvatar(
+                                                      radius: 12,
+                                                      backgroundColor:
+                                                          Colors.lime,
+                                                      child: Text(
+                                                        '${chatData[index].unreadCount}',
+                                                        style: TextStyle(
+                                                            fontSize: 12,
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ))
+                                                  : Container()
+                                              : Container(),
+                                        ],
+                                      ),
+                                    )
                                   ],
                                 );
                               } else
@@ -437,7 +475,7 @@ class _ChatUserListState extends State<ChatUserList> {
                 ],
               ),
             ),
-            lastMessageDate != null
+            /*  lastMessageDate != null
                 ? Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -462,7 +500,7 @@ class _ChatUserListState extends State<ChatUserList> {
                       SizedBox(height: 20),
                     ],
                   )
-                : Container()
+                : Container() */
           ],
         ),
       ),
