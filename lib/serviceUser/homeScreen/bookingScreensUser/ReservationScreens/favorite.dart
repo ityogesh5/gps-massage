@@ -72,7 +72,7 @@ class _FavoriteState extends State<Favorite> {
     });
   }
 
- /*  @override
+  /*  @override
   void dispose(){
     super.dispose();
 
@@ -98,7 +98,7 @@ class _FavoriteState extends State<Favorite> {
       if (this.mounted) {
         setState(() {
           _favformKeyList = List.generate(favouriteUserList.length,
-              (index) => GlobalKey<FormState>(debugLabel:'Fav$index'));
+              (index) => GlobalKey<FormState>(debugLabel: 'Fav$index'));
           for (int i = 0; i < favouriteUserList.length; i++) {
             Map<String, String> certificateUploaded = Map<String, String>();
             if (favouriteUserList[i]
@@ -180,6 +180,22 @@ class _FavoriteState extends State<Favorite> {
                                   physics: BouncingScrollPhysics(),
                                   itemCount: favouriteUserList.length,
                                   itemBuilder: (context, index) {
+                                    double distance = favouriteUserList[index]
+                                                    .favouriteTherapistId
+                                                    .addresses[0]
+                                                    .distance !=
+                                                0.0 &&
+                                            favouriteUserList[index]
+                                                    .favouriteTherapistId
+                                                    .addresses[0]
+                                                    .distance !=
+                                                null
+                                        ? favouriteUserList[index]
+                                                .favouriteTherapistId
+                                                .addresses[0]
+                                                .distance /
+                                            1000.0
+                                        : 0.0;
                                     return Container(
                                       // height: MediaQuery.of(context).size.height * 0.30,
                                       height:
@@ -320,7 +336,7 @@ class _FavoriteState extends State<Favorite> {
                                                                         .distance !=
                                                                     null
                                                                 ? Text(
-                                                                    '${favouriteUserList[index].favouriteTherapistId.addresses[0].distance.toStringAsFixed(2)} ｋｍ圏内',
+                                                                    '${distance.toStringAsFixed(2)}ｋｍ圏内',
                                                                     style:
                                                                         TextStyle(
                                                                       fontSize:

@@ -668,8 +668,7 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
         onTap: () {
           HealingMatchConstants.therapistId =
               widget.getRecommendedTherapists[index].id;
-          HealingMatchConstants.serviceDistanceRadius =
-              widget.getRecommendedTherapists[index].distance;
+          HealingMatchConstants.serviceDistanceRadius = distance;
 
           NavigationRouter.switchToServiceUserBookingDetailsCompletedScreenOne(
               context, HealingMatchConstants.therapistId);

@@ -538,7 +538,13 @@ class _BookingApproveThirdScreenState extends State<BookingApproveThirdScreen> {
                               ),
                               SizedBox(height: 10),
                               Text(
-                                "交通費",
+                                HealingMatchConstants
+                                            .therapistProfileDetails
+                                            .bookingDataResponse[0]
+                                            .addedPrice !=
+                                        null
+                                    ? "¥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].addedPrice}  "
+                                    : '交通費',
                                 style: TextStyle(
                                     fontSize: 14.0, color: Colors.black),
                               ),
@@ -604,13 +610,7 @@ class _BookingApproveThirdScreenState extends State<BookingApproveThirdScreen> {
                               Row(
                                 children: [
                                   Text(
-                                    HealingMatchConstants
-                                                .therapistProfileDetails
-                                                .bookingDataResponse[0]
-                                                .addedPrice !=
-                                            null
-                                        ? "¥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].addedPrice}  "
-                                        : '交通費',
+                                    '¥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].priceOfService} ',
                                     style: TextStyle(
                                         fontSize: 10.0,
                                         color: !isPriceAdded

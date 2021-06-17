@@ -1074,8 +1074,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
         onTap: () {
           HealingMatchConstants.therapistId =
               widget.getTherapistByType[index].id;
-          HealingMatchConstants.serviceDistanceRadius =
-              widget.getTherapistByType[index].distance;
+          HealingMatchConstants.serviceDistanceRadius = distance;
 
           NavigationRouter.switchToServiceUserBookingDetailsCompletedScreenOne(
               context, HealingMatchConstants.therapistId);
@@ -2795,8 +2794,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
         hoverColor: Colors.lime,
         onTap: () {
           HealingMatchConstants.therapistId = therapistUsers[index].id;
-          HealingMatchConstants.serviceDistanceRadius =
-              therapistUsers[index].distance;
+          HealingMatchConstants.serviceDistanceRadius = distance;
           NavigationRouter.switchToServiceUserBookingDetailsCompletedScreenOne(
               context, HealingMatchConstants.therapistId);
         },
@@ -3469,8 +3467,7 @@ class _RecommendListsState extends State<RecommendLists> {
         onTap: () {
           HealingMatchConstants.therapistId =
               widget.getRecommendedTherapists[index].id;
-          HealingMatchConstants.serviceDistanceRadius =
-              widget.getRecommendedTherapists[index].distance;
+          HealingMatchConstants.serviceDistanceRadius = distance;
 
           NavigationRouter.switchToServiceUserBookingDetailsCompletedScreenOne(
               context, HealingMatchConstants.therapistId);

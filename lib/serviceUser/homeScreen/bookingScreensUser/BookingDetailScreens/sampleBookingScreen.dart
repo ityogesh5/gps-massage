@@ -893,7 +893,11 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                           ),
                           SizedBox(height: 10),
                           Text(
-                            "交通費",
+                            HealingMatchConstants.therapistProfileDetails
+                                        .bookingDataResponse[0].addedPrice !=
+                                    null
+                                ? "¥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].addedPrice}  "
+                                : '交通費',
                             style:
                                 TextStyle(fontSize: 14.0, color: Colors.black),
                           ),

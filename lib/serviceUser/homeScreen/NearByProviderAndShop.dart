@@ -827,8 +827,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
         hoverColor: Colors.lime,
         onTap: () {
           HealingMatchConstants.therapistId = therapistUsers[index].id;
-          HealingMatchConstants.serviceDistanceRadius =
-              therapistUsers[index].distance;
+          HealingMatchConstants.serviceDistanceRadius = distance;
           NavigationRouter.switchToServiceUserBookingDetailsCompletedScreenOne(
               context, HealingMatchConstants.therapistId);
         },
@@ -1522,8 +1521,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
         onTap: () {
           HealingMatchConstants.therapistId =
               widget.getTherapistByType[index].id;
-          HealingMatchConstants.serviceDistanceRadius =
-              widget.getTherapistByType[index].distance;
+          HealingMatchConstants.serviceDistanceRadius = distance;
 
           NavigationRouter.switchToServiceUserBookingDetailsCompletedScreenOne(
               context, HealingMatchConstants.therapistId);
@@ -2127,11 +2125,10 @@ class _MassageTypeChipsState extends State<MassageTypeChips>
         labelPadding: EdgeInsets.all(2.0),
         label: Text(_options[i],
             style: TextStyle(
-              color: _selectedIndex == i
-                  ? Color.fromRGBO(251, 251, 251, 1)
-                  : Color.fromRGBO(0, 0, 0, 1),
-                  fontSize: 12.0
-            )),
+                color: _selectedIndex == i
+                    ? Color.fromRGBO(251, 251, 251, 1)
+                    : Color.fromRGBO(0, 0, 0, 1),
+                fontSize: 12.0)),
         backgroundColor: Colors.white70,
         selectedColor: ColorConstants.buttonColor,
         onSelected: (bool selected) {
