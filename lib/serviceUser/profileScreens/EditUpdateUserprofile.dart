@@ -2871,6 +2871,7 @@ class _AddAddressState extends State<AddAddress> {
     // TODO: implement initState
     super.initState();
     _getAddedAddressStates();
+    _myCategoryPlaceForMassage = '';
   }
 
   showOverlayLoader() {
@@ -3651,11 +3652,12 @@ class _AddAddressState extends State<AddAddress> {
 
     if (addedAddressType[_myCategoryPlaceForMassage] ==
         _myCategoryPlaceForMassage) {
-      print('Address cat same');
       setState(() {
         _myCategoryPlaceForMassage = '';
+        otherController.text = '';
         visible = false;
       });
+      print('Address cat same');
 
       ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -3684,6 +3686,7 @@ class _AddAddressState extends State<AddAddress> {
           ],
         ),
       ));
+
       return;
     }
 

@@ -479,38 +479,35 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                             index]
                                                         .therapistId);
                                           },
-                                          child: WidgetAnimator(
-                                            new Card(
-                                              color: Color.fromRGBO(
-                                                  242, 242, 242, 1),
-                                              semanticContainer: true,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(12.0),
-                                              ),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Container(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.90,
-                                                  child: Stack(
-                                                    children: [
-                                                      Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
+                                          child: Container(
+                                            // height: MediaQuery.of(context).size.height * 0.32,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.90,
+                                            child: WidgetAnimator(
+                                              new Card(
+                                                color: Color.fromRGBO(
+                                                    242, 242, 242, 1),
+                                                semanticContainer: true,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          12.0),
+                                                ),
+                                                child: Stack(
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Column(
                                                         children: [
                                                           Row(
                                                             children: [
                                                               Expanded(
                                                                 flex: 1,
                                                                 child: Column(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .start,
                                                                   children: [
                                                                     waitingForApprovalList[index].bookingTherapistId.uploadProfileImgUrl !=
                                                                             null
@@ -527,8 +524,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                                 Curves.easeInSine,
                                                                             imageBuilder: (context, imageProvider) =>
                                                                                 Container(
-                                                                              width: 80.0,
-                                                                              height: 80.0,
+                                                                              width: 65.0,
+                                                                              height: 65.0,
                                                                               decoration: BoxDecoration(
                                                                                 shape: BoxShape.circle,
                                                                                 image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
@@ -538,8 +535,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                                 SpinKitDoubleBounce(color: Colors.lightGreenAccent),
                                                                             errorWidget: (context, url, error) =>
                                                                                 Container(
-                                                                              width: 80.0,
-                                                                              height: 80.0,
+                                                                              width: 56.0,
+                                                                              height: 56.0,
                                                                               decoration: BoxDecoration(
                                                                                 shape: BoxShape.circle,
                                                                                 border: Border.all(color: Colors.black12),
@@ -1067,8 +1064,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                           )
                                                         ],
                                                       ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
                                             ),
@@ -1207,10 +1204,6 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                     approvedWithConditionsList[index].bookingTherapistId.uploadProfileImgUrl !=
                                                                             null
                                                                         ? CachedNetworkImage(
-                                                                            width:
-                                                                                110.0,
-                                                                            height:
-                                                                                110.0,
                                                                             imageUrl:
                                                                                 approvedWithConditionsList[index].bookingTherapistId.uploadProfileImgUrl,
                                                                             filterQuality:
@@ -1219,8 +1212,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                                 Curves.easeInSine,
                                                                             imageBuilder: (context, imageProvider) =>
                                                                                 Container(
-                                                                              width: 80.0,
-                                                                              height: 80.0,
+                                                                              width: 65.0,
+                                                                              height: 65.0,
                                                                               decoration: BoxDecoration(
                                                                                 shape: BoxShape.circle,
                                                                                 image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
@@ -1230,8 +1223,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                                 SpinKitDoubleBounce(color: Colors.lightGreenAccent),
                                                                             errorWidget: (context, url, error) =>
                                                                                 Container(
-                                                                              width: 100.0,
-                                                                              height: 100.0,
+                                                                              width: 56.0,
+                                                                              height: 56.0,
                                                                               decoration: BoxDecoration(
                                                                                 shape: BoxShape.circle,
                                                                                 border: Border.all(color: Colors.black12),
@@ -1259,7 +1252,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                       child: approvedWithConditionsList[index].locationDistance !=
                                                                               null
                                                                           ? Text(
-                                                                              '${approvedWithConditionsList[index].locationDistance}km圏内',
+                                                                              '${approvedWithConditionsList[index].locationDistance}',
                                                                               style: TextStyle(
                                                                                 color: Color.fromRGBO(153, 153, 153, 1),
                                                                               ),
