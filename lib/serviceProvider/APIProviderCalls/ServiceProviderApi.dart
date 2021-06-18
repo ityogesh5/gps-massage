@@ -4,6 +4,7 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/event.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/currentBookingRatingResponseModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/firebaseNotificationTherapistListModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/shiftTimeUpdateResponse.dart'
     as shiftTimeUpdate;
 import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
@@ -707,6 +708,61 @@ class ServiceProviderApi {
     } catch (e) {
       print('Exception : ${e.toString()}');
       return therapistBookingHistoryResponseModel;
+    }
+  }
+
+  static Future<FirebaseNotificationTherapistListModel>
+      getProviderNotifications(int pageNumber, int pageSize) async {
+    FirebaseNotificationTherapistListModel therapistBookingHistoryResponseModel;
+    try {
+      final url = HealingMatchConstants.PROVIDER_FIREBASE_NOTIFICATION_HISTORY +
+          "?page=$pageNumber&size=$pageSize";
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '${HealingMatchConstants.accessToken}'
+      };
+      final response = await http.get(
+        url,
+        headers: headers,
+      );
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        therapistBookingHistoryResponseModel =
+            FirebaseNotificationTherapistListModel.fromJson(data);
+        return therapistBookingHistoryResponseModel;
+      } else {
+        return therapistBookingHistoryResponseModel;
+      }
+    } catch (e) {
+      print('Exception : ${e.toString()}');
+      return therapistBookingHistoryResponseModel;
+    }
+  }
+
+  static updateNotificationStatus(int notificationID) async {
+    try {
+      final url = HealingMatchConstants.UPDATE_FIREBASE_NOTIFICATION_READSTATUS;
+
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '${HealingMatchConstants.accessToken}'
+      };
+      final response = await http.post(url,
+          headers: headers,
+          body: json.encode({
+            "notificationId": notificationID,
+          }));
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        /*  therapistBookingHistoryResponseModel =
+            FirebaseNotificationTherapistListModel.fromJson(data);
+        return therapistBookingHistoryResponseModel; */
+      } else {
+        /*  return therapistBookingHistoryResponseModel; */
+      }
+    } catch (e) {
+      print('Exception : ${e.toString()}');
+      /* return therapistBookingHistoryResponseModel; */
     }
   }
 }

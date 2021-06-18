@@ -68,9 +68,71 @@ class NotificationList {
   NotificationList({
     this.id,
     this.userId,
+    this.bookingId,
+    this.adminInfoId,
+    this.isTherapistStatus,
+    this.firebaseNotiticationId,
+    this.isReadStatus,
+    this.createdAt,
+    this.updatedAt,
+    this.bookingDetail,
+    this.reviewAvgData,
+    this.noOfReviewsMembers,
+  });
+
+  int id;
+  int userId;
+  int bookingId;
+  dynamic adminInfoId;
+  bool isTherapistStatus;
+  int firebaseNotiticationId;
+  bool isReadStatus;
+  DateTime createdAt;
+  DateTime updatedAt;
+  BookingDetail bookingDetail;
+  String reviewAvgData;
+  int noOfReviewsMembers;
+
+  factory NotificationList.fromJson(Map<String, dynamic> json) =>
+      NotificationList(
+        id: json["id"],
+        userId: json["userId"],
+        bookingId: json["bookingId"],
+        adminInfoId: json["adminInfoId"],
+        isTherapistStatus: json["isTherapistStatus"],
+        firebaseNotiticationId: json["firebaseNotiticationId"],
+        isReadStatus: json["isReadStatus"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+        bookingDetail: BookingDetail.fromJson(json["bookingDetail"]),
+        reviewAvgData: json["reviewAvgData"],
+        noOfReviewsMembers: json["NoOfReviewsMembers"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "userId": userId,
+        "bookingId": bookingId,
+        "adminInfoId": adminInfoId,
+        "isTherapistStatus": isTherapistStatus,
+        "firebaseNotiticationId": firebaseNotiticationId,
+        "isReadStatus": isReadStatus,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
+        "bookingDetail": bookingDetail.toJson(),
+        "reviewAvgData": reviewAvgData,
+        "NoOfReviewsMembers": noOfReviewsMembers,
+      };
+}
+
+class BookingDetail {
+  BookingDetail({
+    this.id,
+    this.userId,
     this.therapistId,
     this.addressId,
     this.eventId,
+    this.currentPrefecture,
     this.startTime,
     this.endTime,
     this.monthOfBooking,
@@ -94,7 +156,6 @@ class NotificationList {
     this.locationDistance,
     this.lat,
     this.lon,
-    this.geomet,
     this.totalCost,
     this.userReviewStatus,
     this.therapistReviewStatus,
@@ -109,8 +170,6 @@ class NotificationList {
     this.createdAt,
     this.updatedAt,
     this.bookingUserId,
-    this.reviewAvgData,
-    this.noOfReviewsMembers,
   });
 
   int id;
@@ -118,6 +177,7 @@ class NotificationList {
   int therapistId;
   int addressId;
   String eventId;
+  dynamic currentPrefecture;
   DateTime startTime;
   DateTime endTime;
   String monthOfBooking;
@@ -141,7 +201,6 @@ class NotificationList {
   dynamic locationDistance;
   int lat;
   int lon;
-  Geomet geomet;
   int totalCost;
   int userReviewStatus;
   int therapistReviewStatus;
@@ -156,16 +215,14 @@ class NotificationList {
   DateTime createdAt;
   DateTime updatedAt;
   BookingUserId bookingUserId;
-  String reviewAvgData;
-  int noOfReviewsMembers;
 
-  factory NotificationList.fromJson(Map<String, dynamic> json) =>
-      NotificationList(
+  factory BookingDetail.fromJson(Map<String, dynamic> json) => BookingDetail(
         id: json["id"],
         userId: json["userId"],
         therapistId: json["therapistId"],
         addressId: json["addressId"] == null ? null : json["addressId"],
         eventId: json["eventId"],
+        currentPrefecture: json["currentPrefecture"],
         startTime: DateTime.parse(json["startTime"]),
         endTime: DateTime.parse(json["endTime"]),
         monthOfBooking: json["monthOfBooking"],
@@ -193,7 +250,6 @@ class NotificationList {
         locationDistance: json["locationDistance"],
         lat: json["lat"],
         lon: json["lon"],
-        geomet: Geomet.fromJson(json["geomet"]),
         totalCost: json["totalCost"],
         userReviewStatus: json["userReviewStatus"],
         therapistReviewStatus: json["therapistReviewStatus"] == null
@@ -214,8 +270,6 @@ class NotificationList {
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
         bookingUserId: BookingUserId.fromJson(json["bookingUserId"]),
-        reviewAvgData: json["reviewAvgData"],
-        noOfReviewsMembers: json["NoOfReviewsMembers"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -224,6 +278,7 @@ class NotificationList {
         "therapistId": therapistId,
         "addressId": addressId == null ? null : addressId,
         "eventId": eventId,
+        "currentPrefecture": currentPrefecture,
         "startTime": startTime.toIso8601String(),
         "endTime": endTime.toIso8601String(),
         "monthOfBooking": monthOfBooking,
@@ -248,7 +303,6 @@ class NotificationList {
         "locationDistance": locationDistance,
         "lat": lat,
         "lon": lon,
-        "geomet": geomet.toJson(),
         "totalCost": totalCost,
         "userReviewStatus": userReviewStatus,
         "therapistReviewStatus":
@@ -266,8 +320,6 @@ class NotificationList {
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
         "bookingUserId": bookingUserId.toJson(),
-        "reviewAvgData": reviewAvgData,
-        "NoOfReviewsMembers": noOfReviewsMembers,
       };
 }
 
@@ -307,25 +359,5 @@ class BookingUserId {
         "uploadProfileImgUrl":
             uploadProfileImgUrl == null ? null : uploadProfileImgUrl,
         "firebaseUDID": firebaseUdid,
-      };
-}
-
-class Geomet {
-  Geomet({
-    this.type,
-    this.coordinates,
-  });
-
-  String type;
-  List<int> coordinates;
-
-  factory Geomet.fromJson(Map<String, dynamic> json) => Geomet(
-        type: json["type"],
-        coordinates: List<int>.from(json["coordinates"].map((x) => x)),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "type": type,
-        "coordinates": List<dynamic>.from(coordinates.map((x) => x)),
       };
 }

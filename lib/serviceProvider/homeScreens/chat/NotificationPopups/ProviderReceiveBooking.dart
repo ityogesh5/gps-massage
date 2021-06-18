@@ -665,6 +665,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                         minRating: 1,
                         direction: Axis.horizontal,
                         allowHalfRating: true,
+                        ignoreGestures: true,
                         itemCount: 5,
                         itemSize: 24.0,
                         itemPadding: new EdgeInsets.only(bottom: 3.0),

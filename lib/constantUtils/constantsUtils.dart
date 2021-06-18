@@ -248,6 +248,21 @@ class HealingMatchConstants {
   static const String USER_ADD_ADDRESS =
       ON_PREMISE_USER_BASE_URL + '/user/userCreateAddress';
 
+  // USER fcm History
+  static const String USER_FIREBASE_NOTIFICATION_HISTORY =
+      ON_PREMISE_USER_BASE_URL +
+          '/firebaseNotification/firebaseNotificationUserList';
+
+  // provider fcm History
+  static const String PROVIDER_FIREBASE_NOTIFICATION_HISTORY =
+      ON_PREMISE_USER_BASE_URL +
+          '/firebaseNotification/firebaseNotificationTherapistList';
+
+  // provider fcm History
+  static const String UPDATE_FIREBASE_NOTIFICATION_READSTATUS =
+      ON_PREMISE_USER_BASE_URL +
+          '/firebaseNotification/firebaseNotificationReadApi';
+
   // lINE id TOKEN url
 
   //VERIFY_LINE_ID_TOKEN_URL

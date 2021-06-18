@@ -9,6 +9,7 @@ import 'package:gps_massageapp/initialScreens/providerTutorial.dart';
 import 'package:gps_massageapp/initialScreens/termsAndConditions.dart';
 import 'package:gps_massageapp/initialScreens/userDefineScreen.dart';
 import 'package:gps_massageapp/initialScreens/userTutorial.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/firebaseNotificationTherapistListModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/ProviderBottomBar.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/calendar/providerCalendar.dart';
@@ -483,9 +484,9 @@ class NavigationRouter {
 
   //Provider Offer Cancel Screen
 
-  static void switchToOfferCancelScreen(BuildContext context) {
+  static void switchToOfferCancelScreen(BuildContext context,NotificationList requestBookingDetailsList) {
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => ProviderOfferCancel()));
+        MaterialPageRoute(builder: (context) => ProviderOfferCancel(requestBookingDetailsList)));
   }
 
   //Provider Offer Confirmed Screen

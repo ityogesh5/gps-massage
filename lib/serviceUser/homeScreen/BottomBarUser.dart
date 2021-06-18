@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter_svg/svg.dart';
@@ -27,6 +28,7 @@ class BottomBarUser extends StatefulWidget {
 class _BottomBarUserState extends State<BottomBarUser> {
   int selectedpage;
   int skippedPage;
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   final _pageOptions = [
     HomeScreen(),
@@ -39,6 +41,7 @@ class _BottomBarUserState extends State<BottomBarUser> {
   @override
   void initState() {
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
+   // _getNotificationStatus();
     selectedpage = widget.page; //initial Page
     skippedPage = widget.page;
     super.initState();
@@ -144,6 +147,30 @@ class _BottomBarUserState extends State<BottomBarUser> {
           });
         },
       ),
+    );
+  }
+
+  _getNotificationStatus() async {
+    var userId = userID.toString();
+    //print('id && token update : $userID : token : $userAccessToken');
+    //print('fcm msg 1');
+    _firebaseMessaging.configure(
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+        setState(() {
+          selectedpage = 3;
+          skippedPage = 3;
+        });
+        DialogHelper.showUserLoginOrRegisterDialog(context);
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+        DialogHelper.showUserLoginOrRegisterDialog(context);
+      },
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+        DialogHelper.showUserLoginOrRegisterDialog(context);
+      },
     );
   }
 }
