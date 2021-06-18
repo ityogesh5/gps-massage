@@ -1463,13 +1463,21 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                   ],
                   radioButtonValue: (value) {
                     if (value == 'Y') {
-                      if (this.mounted) {
+                      if (therapistDetails.data.isShop == true) {
                         setState(() {
                           shopLocationSelected = true;
                           HealingMatchConstants.bookingAddressId =
                               therapistDetails.data.addresses[0].id;
                           // dialog.dissmiss();
                         });
+                      } else if (therapistDetails.data.isShop == false) {
+                        Toast.show("このセラピストの方には店舗がありません。。", context,
+                            duration: 3,
+                            gravity: Toast.CENTER,
+                            backgroundColor: Colors.redAccent,
+                            textColor: Colors.white);
+
+                        return;
                       }
                     } else {
                       // dialog.dissmiss();

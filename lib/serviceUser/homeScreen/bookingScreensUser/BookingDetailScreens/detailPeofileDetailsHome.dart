@@ -670,7 +670,9 @@ class _DetailPeofileDetailsHomeState extends State<DetailPeofileDetailsHome> {
               SizedBox(width: 5),
               Flexible(
                 child: new Text(
-                  widget.therapistDetails.data.addresses[0].address,
+                  widget.therapistDetails.data.isShop == true
+                      ? '  ${widget.therapistDetails.data.addresses[0].address}'
+                      : '  ${widget.therapistDetails.data.addresses[0].capitalAndPrefecture} ${widget.therapistDetails.data.addresses[0].cityName} ${widget.therapistDetails.data.addresses[0].area}',
                   style: TextStyle(
                       color: Colors.grey[400],
                       fontSize: 12,
