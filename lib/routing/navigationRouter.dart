@@ -58,7 +58,6 @@ import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/Reserva
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/ReservationScreens/reservationAndFavourites.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/bookingCancelScreens/CancelDetailsScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/calendar.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/ChatListScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/NoticeScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchResult.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchScreenUser.dart';
@@ -956,25 +955,6 @@ class NavigationRouter {
         }));
   }
 
-  //ChatList User Screen
-  static void switchToServiceUserChatScreen(BuildContext context) {
-    Navigator.of(context).push(PageRouteBuilder(
-        pageBuilder: (context, animation, anotherAnimation) {
-          return ChatUserScreen();
-        },
-        transitionDuration: Duration(milliseconds: 2000),
-        transitionsBuilder: (context, animation, anotherAnimation, child) {
-          animation = CurvedAnimation(
-              curve: HealingMatchConstants.curveList[2], parent: animation);
-          return Align(
-            child: SizeTransition(
-              sizeFactor: animation,
-              child: child,
-              axisAlignment: 0.0,
-            ),
-          );
-        }));
-  }
 
   // search detailScreen
   static void switchToServiceUserDetailScreen(BuildContext context) {

@@ -70,6 +70,7 @@ class NotificationList {
     this.userId,
     this.bookingId,
     this.adminInfoId,
+    this.bookingStatus,
     this.isTherapistStatus,
     this.firebaseNotiticationId,
     this.isReadStatus,
@@ -82,6 +83,7 @@ class NotificationList {
   int userId;
   int bookingId;
   dynamic adminInfoId;
+  int bookingStatus;
   bool isTherapistStatus;
   int firebaseNotiticationId;
   bool isReadStatus;
@@ -95,6 +97,7 @@ class NotificationList {
         userId: json["userId"],
         bookingId: json["bookingId"],
         adminInfoId: json["adminInfoId"],
+        bookingStatus: json["bookingStatus"],
         isTherapistStatus: json["isTherapistStatus"],
         firebaseNotiticationId: json["firebaseNotiticationId"],
         isReadStatus: json["isReadStatus"],
@@ -108,6 +111,7 @@ class NotificationList {
         "userId": userId,
         "bookingId": bookingId,
         "adminInfoId": adminInfoId,
+        "bookingStatus": bookingStatus,
         "isTherapistStatus": isTherapistStatus,
         "firebaseNotiticationId": firebaseNotiticationId,
         "isReadStatus": isReadStatus,
@@ -124,6 +128,7 @@ class BookingDetail {
     this.therapistId,
     this.addressId,
     this.eventId,
+    this.currentPrefecture,
     this.startTime,
     this.endTime,
     this.monthOfBooking,
@@ -169,12 +174,13 @@ class BookingDetail {
   int therapistId;
   int addressId;
   String eventId;
+  String currentPrefecture;
   DateTime startTime;
   DateTime endTime;
   String monthOfBooking;
   String yearOfBooking;
-  DateTime newStartTime;
-  DateTime newEndTime;
+  dynamic newStartTime;
+  dynamic newEndTime;
   int paymentId;
   int paymentStatus;
   dynamic paymentRefId;
@@ -183,19 +189,19 @@ class BookingDetail {
   String nameOfService;
   int totalMinOfService;
   int priceOfService;
-  String addedPrice;
+  dynamic addedPrice;
   int bookingStatus;
   DateTime statusUpdatedAt;
   int travelAmount;
   String locationType;
   String location;
-  dynamic locationDistance;
+  String locationDistance;
   int lat;
   int lon;
   Geomet geomet;
   int totalCost;
   int userReviewStatus;
-  int therapistReviewStatus;
+  dynamic therapistReviewStatus;
   String therapistComments;
   dynamic userComments;
   String cancellationReason;
@@ -212,19 +218,16 @@ class BookingDetail {
         id: json["id"],
         userId: json["userId"],
         therapistId: json["therapistId"],
-        addressId: json["addressId"] == null ? null : json["addressId"],
+        addressId: json["addressId"],
         eventId: json["eventId"],
+        currentPrefecture: json["currentPrefecture"],
         startTime: DateTime.parse(json["startTime"]),
         endTime: DateTime.parse(json["endTime"]),
         monthOfBooking: json["monthOfBooking"],
         yearOfBooking: json["yearOfBooking"],
-        newStartTime: json["newStartTime"] == null
-            ? null
-            : DateTime.parse(json["newStartTime"]),
-        newEndTime: json["newEndTime"] == null
-            ? null
-            : DateTime.parse(json["newEndTime"]),
-        paymentId: json["paymentId"] == null ? null : json["paymentId"],
+        newStartTime: json["newStartTime"],
+        newEndTime: json["newEndTime"],
+        paymentId: json["paymentId"],
         paymentStatus: json["paymentStatus"],
         paymentRefId: json["paymentRefId"],
         subCategoryId: json["subCategoryId"],
@@ -232,7 +235,7 @@ class BookingDetail {
         nameOfService: json["nameOfService"],
         totalMinOfService: json["totalMinOfService"],
         priceOfService: json["priceOfService"],
-        addedPrice: json["addedPrice"] == null ? null : json["addedPrice"],
+        addedPrice: json["addedPrice"],
         bookingStatus: json["bookingStatus"],
         statusUpdatedAt: DateTime.parse(json["statusUpdatedAt"]),
         travelAmount: json["travelAmount"],
@@ -244,16 +247,10 @@ class BookingDetail {
         geomet: Geomet.fromJson(json["geomet"]),
         totalCost: json["totalCost"],
         userReviewStatus: json["userReviewStatus"],
-        therapistReviewStatus: json["therapistReviewStatus"] == null
-            ? null
-            : json["therapistReviewStatus"],
-        therapistComments: json["therapistComments"] == null
-            ? null
-            : json["therapistComments"],
+        therapistReviewStatus: json["therapistReviewStatus"],
+        therapistComments: json["therapistComments"],
         userComments: json["userComments"],
-        cancellationReason: json["cancellationReason"] == null
-            ? null
-            : json["cancellationReason"],
+        cancellationReason: json["cancellationReason"],
         cancellationFee: json["cancellationFee"],
         cancelledUserId: json["cancelledUserId"],
         orderCompletion: json["orderCompletion"],
@@ -269,16 +266,16 @@ class BookingDetail {
         "id": id,
         "userId": userId,
         "therapistId": therapistId,
-        "addressId": addressId == null ? null : addressId,
+        "addressId": addressId,
         "eventId": eventId,
+        "currentPrefecture": currentPrefecture,
         "startTime": startTime.toIso8601String(),
         "endTime": endTime.toIso8601String(),
         "monthOfBooking": monthOfBooking,
         "yearOfBooking": yearOfBooking,
-        "newStartTime":
-            newStartTime == null ? null : newStartTime.toIso8601String(),
-        "newEndTime": newEndTime == null ? null : newEndTime.toIso8601String(),
-        "paymentId": paymentId == null ? null : paymentId,
+        "newStartTime": newStartTime,
+        "newEndTime": newEndTime,
+        "paymentId": paymentId,
         "paymentStatus": paymentStatus,
         "paymentRefId": paymentRefId,
         "subCategoryId": subCategoryId,
@@ -286,7 +283,7 @@ class BookingDetail {
         "nameOfService": nameOfService,
         "totalMinOfService": totalMinOfService,
         "priceOfService": priceOfService,
-        "addedPrice": addedPrice == null ? null : addedPrice,
+        "addedPrice": addedPrice,
         "bookingStatus": bookingStatus,
         "statusUpdatedAt": statusUpdatedAt.toIso8601String(),
         "travelAmount": travelAmount,
@@ -298,13 +295,10 @@ class BookingDetail {
         "geomet": geomet.toJson(),
         "totalCost": totalCost,
         "userReviewStatus": userReviewStatus,
-        "therapistReviewStatus":
-            therapistReviewStatus == null ? null : therapistReviewStatus,
-        "therapistComments":
-            therapistComments == null ? null : therapistComments,
+        "therapistReviewStatus": therapistReviewStatus,
+        "therapistComments": therapistComments,
         "userComments": userComments,
-        "cancellationReason":
-            cancellationReason == null ? null : cancellationReason,
+        "cancellationReason": cancellationReason,
         "cancellationFee": cancellationFee,
         "cancelledUserId": cancelledUserId,
         "orderCompletion": orderCompletion,
@@ -323,12 +317,15 @@ class BookingTherapistId {
     this.userName,
     this.gender,
     this.uploadProfileImgUrl,
-    this.numberOfEmp,
     this.businessForm,
     this.businessTrip,
-    this.firebaseUdid,
+    this.coronaMeasure,
     this.storeName,
+    this.storeType,
     this.isShop,
+    this.qulaificationCertImgUrl,
+    this.firebaseUdid,
+    this.certificationUploads,
   });
 
   int id;
@@ -336,12 +333,15 @@ class BookingTherapistId {
   String userName;
   String gender;
   String uploadProfileImgUrl;
-  int numberOfEmp;
   String businessForm;
   bool businessTrip;
-  String firebaseUdid;
+  bool coronaMeasure;
   String storeName;
+  String storeType;
   bool isShop;
+  String qulaificationCertImgUrl;
+  String firebaseUdid;
+  List<CertificationUpload> certificationUploads;
 
   factory BookingTherapistId.fromJson(Map<String, dynamic> json) =>
       BookingTherapistId(
@@ -350,12 +350,17 @@ class BookingTherapistId {
         userName: json["userName"],
         gender: json["gender"],
         uploadProfileImgUrl: json["uploadProfileImgUrl"],
-        numberOfEmp: json["numberOfEmp"],
         businessForm: json["businessForm"],
         businessTrip: json["businessTrip"],
-        firebaseUdid: json["firebaseUDID"],
+        coronaMeasure: json["coronaMeasure"],
         storeName: json["storeName"],
+        storeType: json["storeType"],
         isShop: json["isShop"],
+        qulaificationCertImgUrl: json["qulaificationCertImgUrl"],
+        firebaseUdid: json["firebaseUDID"],
+        certificationUploads: List<CertificationUpload>.from(
+            json["certification_uploads"]
+                .map((x) => CertificationUpload.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -364,12 +369,93 @@ class BookingTherapistId {
         "userName": userName,
         "gender": gender,
         "uploadProfileImgUrl": uploadProfileImgUrl,
-        "numberOfEmp": numberOfEmp,
         "businessForm": businessForm,
         "businessTrip": businessTrip,
-        "firebaseUDID": firebaseUdid,
+        "coronaMeasure": coronaMeasure,
         "storeName": storeName,
+        "storeType": storeType,
         "isShop": isShop,
+        "qulaificationCertImgUrl": qulaificationCertImgUrl,
+        "firebaseUDID": firebaseUdid,
+        "certification_uploads":
+            List<dynamic>.from(certificationUploads.map((x) => x.toJson())),
+      };
+}
+
+class CertificationUpload {
+  CertificationUpload({
+    this.id,
+    this.userId,
+    this.acupuncturist,
+    this.moxibutionist,
+    this.acupuncturistAndMoxibustion,
+    this.anmaMassageShiatsushi,
+    this.judoRehabilitationTeacher,
+    this.physicalTherapist,
+    this.acquireNationalQualifications,
+    this.privateQualification1,
+    this.privateQualification2,
+    this.privateQualification3,
+    this.privateQualification4,
+    this.privateQualification5,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  int id;
+  int userId;
+  dynamic acupuncturist;
+  dynamic moxibutionist;
+  dynamic acupuncturistAndMoxibustion;
+  dynamic anmaMassageShiatsushi;
+  dynamic judoRehabilitationTeacher;
+  String physicalTherapist;
+  dynamic acquireNationalQualifications;
+  dynamic privateQualification1;
+  dynamic privateQualification2;
+  dynamic privateQualification3;
+  dynamic privateQualification4;
+  dynamic privateQualification5;
+  DateTime createdAt;
+  DateTime updatedAt;
+
+  factory CertificationUpload.fromJson(Map<String, dynamic> json) =>
+      CertificationUpload(
+        id: json["id"],
+        userId: json["userId"],
+        acupuncturist: json["acupuncturist"],
+        moxibutionist: json["moxibutionist"],
+        acupuncturistAndMoxibustion: json["acupuncturistAndMoxibustion"],
+        anmaMassageShiatsushi: json["anmaMassageShiatsushi"],
+        judoRehabilitationTeacher: json["judoRehabilitationTeacher"],
+        physicalTherapist: json["physicalTherapist"],
+        acquireNationalQualifications: json["acquireNationalQualifications"],
+        privateQualification1: json["privateQualification1"],
+        privateQualification2: json["privateQualification2"],
+        privateQualification3: json["privateQualification3"],
+        privateQualification4: json["privateQualification4"],
+        privateQualification5: json["privateQualification5"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "userId": userId,
+        "acupuncturist": acupuncturist,
+        "moxibutionist": moxibutionist,
+        "acupuncturistAndMoxibustion": acupuncturistAndMoxibustion,
+        "anmaMassageShiatsushi": anmaMassageShiatsushi,
+        "judoRehabilitationTeacher": judoRehabilitationTeacher,
+        "physicalTherapist": physicalTherapist,
+        "acquireNationalQualifications": acquireNationalQualifications,
+        "privateQualification1": privateQualification1,
+        "privateQualification2": privateQualification2,
+        "privateQualification3": privateQualification3,
+        "privateQualification4": privateQualification4,
+        "privateQualification5": privateQualification5,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
       };
 }
 

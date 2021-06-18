@@ -26,6 +26,7 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherap
 import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/UnFavouriteTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UserBannerImagesModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/notification/firebaseNotificationUserListModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/DeleteSubAddressModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/EditUserSubAddressModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/ratings/ratingList.dart';
@@ -1009,6 +1010,60 @@ class ServiceUserAPIProvider {
       }
     } catch (e) {
       print('Exception Address addition  API : ${e.toString()}');
+    }
+  }
+
+  static Future<FirebaseNotificationUserListModel> getUserNotifications(
+      int pageNumber, int pageSize) async {
+    FirebaseNotificationUserListModel userListModel;
+    try {
+      final url = HealingMatchConstants.USER_FIREBASE_NOTIFICATION_HISTORY +
+          "?page=$pageNumber&size=$pageSize";
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '${HealingMatchConstants.accessToken}'
+      };
+      final response = await http.get(
+        url,
+        headers: headers,
+      );
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        userListModel = FirebaseNotificationUserListModel.fromJson(data);
+        return userListModel;
+      } else {
+        return userListModel;
+      }
+    } catch (e) {
+      print('Exception : ${e.toString()}');
+      return userListModel;
+    }
+  }
+
+  static updateNotificationStatus(int notificationID) async {
+    try {
+      final url = HealingMatchConstants.UPDATE_FIREBASE_NOTIFICATION_READSTATUS;
+
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '${HealingMatchConstants.accessToken}'
+      };
+      final response = await http.post(url,
+          headers: headers,
+          body: json.encode({
+            "notificationId": notificationID,
+          }));
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        /*  therapistBookingHistoryResponseModel =
+            FirebaseNotificationTherapistListModel.fromJson(data);
+        return therapistBookingHistoryResponseModel; */
+      } else {
+        /*  return therapistBookingHistoryResponseModel; */
+      }
+    } catch (e) {
+      print('Exception : ${e.toString()}');
+      /* return therapistBookingHistoryResponseModel; */
     }
   }
 }

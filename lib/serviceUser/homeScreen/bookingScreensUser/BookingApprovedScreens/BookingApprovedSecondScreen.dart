@@ -258,8 +258,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                               )),
                               InkWell(
                                 onTap: () {
-                                  NavigationRouter
-                                      .switchToServiceUserChatScreen(context);
+                                 
                                 },
                                 child: CircleAvatar(
                                     maxRadius: 25,
