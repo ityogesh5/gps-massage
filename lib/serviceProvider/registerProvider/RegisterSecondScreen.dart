@@ -1246,9 +1246,6 @@ class _RegistrationSecondPageState
       'password': HealingMatchConstants.serviceProviderPassword,
       'password_confirmation':
           HealingMatchConstants.serviceProviderConfirmPassword,
-      'storeName': HealingMatchConstants.serviceProviderStoreName != null
-          ? HealingMatchConstants.serviceProviderStoreName
-          : '',
       'isTherapist': '1',
       'buildingName': HealingMatchConstants.serviceProviderBuildingName,
       'addressTypeSelection': "直接入力",
@@ -1315,9 +1312,12 @@ class _RegistrationSecondPageState
           : "false"
     });
 
-    if (HealingMatchConstants.serviceProviderStorePhoneNumber != '') {
+    if (HealingMatchConstants.serviceProviderBusinessForm == "施術店舗あり 施術従業員あり" ||
+        HealingMatchConstants.serviceProviderBusinessForm ==
+            "施術店舗あり 施術従業員なし（個人経営）") {
       request.fields.addAll({
-        'storePhone': HealingMatchConstants.serviceProviderStorePhoneNumber
+        'storePhone': HealingMatchConstants.serviceProviderStorePhoneNumber,
+        'storeName': HealingMatchConstants.serviceProviderStoreName
       });
     }
 

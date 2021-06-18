@@ -202,7 +202,7 @@ class ProviderCalendarDetailPopup {
                           width: 2,
                         ),
                         Text(
-                          ' $price',
+                          ' ¥$price',
                           style: TextStyle(
                             fontSize: 14.0,
                             color: Colors.black,
@@ -244,36 +244,36 @@ class ProviderCalendarDetailPopup {
                     SizedBox(
                       height: 8,
                     ),
-                    FittedBox(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                '${locSplit[0]} ',
-                                style: TextStyle(
-                                  fontSize: 12.0,
-                                  color: Colors.black,
-                                ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              '${locSplit[0]} ',
+                              style: TextStyle(
+                                fontSize: 12.0,
+                                color: Colors.black,
                               ),
                             ),
                           ),
-                          SizedBox(width: 2),
-                          Text(
+                        ),
+                        SizedBox(width: 2),
+                        Flexible(
+                          child: Text(
                             '${locSplit[1]} ',
                             style: TextStyle(
                               fontSize: 12.0,
                               color: Color.fromRGBO(102, 102, 102, 1),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: 8,
