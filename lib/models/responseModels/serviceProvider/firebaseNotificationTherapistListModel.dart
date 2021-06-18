@@ -70,6 +70,7 @@ class NotificationList {
     this.userId,
     this.bookingId,
     this.adminInfoId,
+    this.bookingStatus,
     this.isTherapistStatus,
     this.firebaseNotiticationId,
     this.isReadStatus,
@@ -84,6 +85,7 @@ class NotificationList {
   int userId;
   int bookingId;
   dynamic adminInfoId;
+  int bookingStatus;
   bool isTherapistStatus;
   int firebaseNotiticationId;
   bool isReadStatus;
@@ -99,6 +101,7 @@ class NotificationList {
         userId: json["userId"],
         bookingId: json["bookingId"],
         adminInfoId: json["adminInfoId"],
+        bookingStatus: json["bookingStatus"],
         isTherapistStatus: json["isTherapistStatus"],
         firebaseNotiticationId: json["firebaseNotiticationId"],
         isReadStatus: json["isReadStatus"],
@@ -114,6 +117,7 @@ class NotificationList {
         "userId": userId,
         "bookingId": bookingId,
         "adminInfoId": adminInfoId,
+        "bookingStatus": bookingStatus,
         "isTherapistStatus": isTherapistStatus,
         "firebaseNotiticationId": firebaseNotiticationId,
         "isReadStatus": isReadStatus,
@@ -177,13 +181,13 @@ class BookingDetail {
   int therapistId;
   int addressId;
   String eventId;
-  dynamic currentPrefecture;
+  String currentPrefecture;
   DateTime startTime;
   DateTime endTime;
   String monthOfBooking;
   String yearOfBooking;
-  DateTime newStartTime;
-  DateTime newEndTime;
+  dynamic newStartTime;
+  dynamic newEndTime;
   int paymentId;
   int paymentStatus;
   dynamic paymentRefId;
@@ -192,21 +196,21 @@ class BookingDetail {
   String nameOfService;
   int totalMinOfService;
   int priceOfService;
-  String addedPrice;
+  dynamic addedPrice;
   int bookingStatus;
   DateTime statusUpdatedAt;
   int travelAmount;
   String locationType;
   String location;
-  dynamic locationDistance;
+  String locationDistance;
   int lat;
   int lon;
   int totalCost;
   int userReviewStatus;
-  int therapistReviewStatus;
+  dynamic therapistReviewStatus;
   String therapistComments;
   dynamic userComments;
-  String cancellationReason;
+  dynamic cancellationReason;
   dynamic cancellationFee;
   dynamic cancelledUserId;
   dynamic orderCompletion;
@@ -276,17 +280,16 @@ class BookingDetail {
         "id": id,
         "userId": userId,
         "therapistId": therapistId,
-        "addressId": addressId == null ? null : addressId,
+        "addressId": addressId,
         "eventId": eventId,
         "currentPrefecture": currentPrefecture,
         "startTime": startTime.toIso8601String(),
         "endTime": endTime.toIso8601String(),
         "monthOfBooking": monthOfBooking,
         "yearOfBooking": yearOfBooking,
-        "newStartTime":
-            newStartTime == null ? null : newStartTime.toIso8601String(),
-        "newEndTime": newEndTime == null ? null : newEndTime.toIso8601String(),
-        "paymentId": paymentId == null ? null : paymentId,
+        "newStartTime": newStartTime,
+        "newEndTime": newEndTime,
+        "paymentId": paymentId,
         "paymentStatus": paymentStatus,
         "paymentRefId": paymentRefId,
         "subCategoryId": subCategoryId,
@@ -294,7 +297,7 @@ class BookingDetail {
         "nameOfService": nameOfService,
         "totalMinOfService": totalMinOfService,
         "priceOfService": priceOfService,
-        "addedPrice": addedPrice == null ? null : addedPrice,
+        "addedPrice": addedPrice,
         "bookingStatus": bookingStatus,
         "statusUpdatedAt": statusUpdatedAt.toIso8601String(),
         "travelAmount": travelAmount,
@@ -305,13 +308,10 @@ class BookingDetail {
         "lon": lon,
         "totalCost": totalCost,
         "userReviewStatus": userReviewStatus,
-        "therapistReviewStatus":
-            therapistReviewStatus == null ? null : therapistReviewStatus,
-        "therapistComments":
-            therapistComments == null ? null : therapistComments,
+        "therapistReviewStatus": therapistReviewStatus,
+        "therapistComments": therapistComments,
         "userComments": userComments,
-        "cancellationReason":
-            cancellationReason == null ? null : cancellationReason,
+        "cancellationReason": cancellationReason,
         "cancellationFee": cancellationFee,
         "cancelledUserId": cancelledUserId,
         "orderCompletion": orderCompletion,
@@ -356,8 +356,7 @@ class BookingUserId {
         "userId": userId,
         "userName": userName,
         "gender": gender,
-        "uploadProfileImgUrl":
-            uploadProfileImgUrl == null ? null : uploadProfileImgUrl,
+        "uploadProfileImgUrl": uploadProfileImgUrl,
         "firebaseUDID": firebaseUdid,
       };
 }

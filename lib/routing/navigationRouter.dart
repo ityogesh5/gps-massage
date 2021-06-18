@@ -491,9 +491,9 @@ class NavigationRouter {
 
   //Provider Offer Confirmed Screen
 
-  static void switchToOfferConfirmedScreen(BuildContext context) {
+  static void switchToOfferConfirmedScreen(BuildContext context,NotificationList requestBookingDetailsList) {
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => ProviderOfferConfirmed()));
+        MaterialPageRoute(builder: (context) => ProviderOfferConfirmed(requestBookingDetailsList)));
   }
 
   //Provider Offer Cancel Timer User Screen

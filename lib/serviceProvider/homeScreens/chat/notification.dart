@@ -112,26 +112,18 @@ class _NotificationScreenState extends State<NotificationScreen> {
         child: InkWell(
           onTap: () {
             if (requestBookingDetailsList.adminInfoId == null) {
-              if (requestBookingDetailsList.bookingDetail.bookingStatus == 0) {
+              if (requestBookingDetailsList.bookingStatus == 0) {
                 // requestBookingDetailsList.isReadStatus = true;
                 //  NavigationRouter.switchToReceiveBookingScreen(context,BookingDetailsList());
-              } else if (requestBookingDetailsList
-                      .bookingDetail.bookingStatus ==
-                  5) {
+              } else if (requestBookingDetailsList.bookingStatus == 5 || requestBookingDetailsList.bookingStatus == 7 ||
+                  requestBookingDetailsList.bookingStatus == 8) {
                 requestBookingDetailsList.isReadStatus = true;
                 NavigationRouter.switchToOfferCancelScreen(
                     context, requestBookingDetailsList);
-              } else if (requestBookingDetailsList
-                      .bookingDetail.bookingStatus ==
-                  6) {
+              } else if (requestBookingDetailsList.bookingStatus == 6) {
                 requestBookingDetailsList.isReadStatus = true;
-                NavigationRouter.switchToOfferConfirmedScreen(context);
-              } else if (requestBookingDetailsList
-                          .bookingDetail.bookingStatus ==
-                      7 ||
-                  requestBookingDetailsList.bookingDetail.bookingStatus == 8) {
-                requestBookingDetailsList.isReadStatus = true;
-                NavigationRouter.switchToOfferCancelScreenTimerUser(context);
+                NavigationRouter.switchToOfferConfirmedScreen(
+                    context, requestBookingDetailsList);
               }
             } else {
               requestBookingDetailsList.isReadStatus = true;
@@ -221,11 +213,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        requestBookingDetailsList.bookingDetail.bookingStatus ==
-                                    7 ||
-                                requestBookingDetailsList
-                                        .bookingDetail.bookingStatus ==
-                                    8
+                        requestBookingDetailsList.bookingStatus == 7 ||
+                                requestBookingDetailsList.bookingStatus == 8
                             ? Text(
                                 '設定した希望時間が締め切れましたので、$nameさんのご\n予約は自動的にキャンセルされました。',
                                 style: TextStyle(
@@ -247,9 +236,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                   SizedBox(
                                     width: 6.0,
                                   ),
-                                  requestBookingDetailsList
-                                              .bookingDetail.bookingStatus ==
-                                          0
+                                  requestBookingDetailsList.bookingStatus == 0
                                       ? Text(
                                           'からご予約依頼がありました。',
                                           style: TextStyle(
@@ -258,7 +245,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                                 153, 153, 153, 1),
                                           ),
                                         )
-                                      : requestBookingDetailsList.bookingDetail
+                                      : requestBookingDetailsList
                                                   .bookingStatus ==
                                               5
                                           ? Text(

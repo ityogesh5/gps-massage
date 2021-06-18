@@ -1,7 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/firebaseNotificationTherapistListModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
@@ -74,7 +77,11 @@ class _ProviderOfferCancelState extends State<ProviderOfferCancel> {
                 height: 18.0,
               ),
               Text(
-                '利用者が予約をキャンセルしました。',
+                widget.requestBookingDetailsList.bookingStatus == 5
+                    ? '利用者が予約をキャンセルしました。'
+                    : widget.requestBookingDetailsList.bookingStatus == 8
+                        ? "利用者の支払いが期限内に完了しなかった為、\n 予約がキャンセルされました。"
+                        : "利用者の承認・支払いが期限内に完了しなかった為、\n 予約がキャンセルされました。",
                 style: TextStyle(
                   fontSize: 14.0,
                 ),
@@ -139,8 +146,36 @@ class _ProviderOfferCancelState extends State<ProviderOfferCancel> {
               children: [
                 Row(
                   children: [
-                    SvgPicture.asset('assets/images_gps/female.svg',
-                        height: 18, width: 18, color: Colors.black),
+                    requestBookingDetailsList.bookingDetail.bookingUserId
+                                .uploadProfileImgUrl !=
+                            null
+                        ? ClipOval(
+                            child: CachedNetworkImage(
+                                width: 25.0,
+                                height: 25.0,
+                                fit: BoxFit.cover,
+                                imageUrl: requestBookingDetailsList
+                                    .bookingDetail
+                                    .bookingUserId
+                                    .uploadProfileImgUrl,
+                                placeholder: (context, url) => SpinKitWave(
+                                    size: 20.0,
+                                    color: ColorConstants.buttonColor),
+                                errorWidget: (context, url, error) => Column(
+                                      children: [
+                                        SvgPicture.asset(
+                                            'assets/images_gps/profile_pic_user.svg',
+                                            height: 18,
+                                            width: 18,
+                                            color: Colors.black),
+                                      ],
+                                    )),
+                          )
+                        : SvgPicture.asset(
+                            'assets/images_gps/profile_pic_user.svg',
+                            height: 18,
+                            width: 18,
+                            color: Colors.black),
                     SizedBox(
                       width: 5.0,
                     ),
@@ -197,7 +232,7 @@ class _ProviderOfferCancelState extends State<ProviderOfferCancel> {
                 InkWell(
                   onTap: () {
                     NavigationRouter.switchToProviderSideUserReviewScreen(
-                        context, 20);
+                        context, requestBookingDetailsList.bookingDetail.id);
                   },
                   child: Row(
                     children: [
@@ -409,11 +444,13 @@ class _ProviderOfferCancelState extends State<ProviderOfferCancel> {
                     SizedBox(
                       width: 8,
                     ),
-                    Text(
-                      '${requestBookingDetailsList.bookingDetail.location}',
-                      style: TextStyle(
-                        color: Color.fromRGBO(102, 102, 102, 1),
-                        fontSize: 17,
+                    Flexible(
+                      child: Text(
+                        '${requestBookingDetailsList.bookingDetail.location}',
+                        style: TextStyle(
+                          color: Color.fromRGBO(102, 102, 102, 1),
+                          fontSize: 14,
+                        ),
                       ),
                     )
                   ],
