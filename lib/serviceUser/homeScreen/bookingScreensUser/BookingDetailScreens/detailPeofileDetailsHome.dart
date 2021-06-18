@@ -336,12 +336,6 @@ class _DetailPeofileDetailsHomeState extends State<DetailPeofileDetailsHome> {
                 )
               : Container(),
 
-          Text(
-            "施術を受ける場所",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
           // buildServiceTypeDatas(context),
         ],
       ),
