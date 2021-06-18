@@ -13,10 +13,9 @@ import 'package:gps_massageapp/models/responseModels/serviceProvider/firebaseNot
 import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/ProviderBottomBar.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/calendar/providerCalendar.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/AcceptBookingNotification.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/AdminNotification.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/ProviderOfferCancel.dart';
-import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/ProviderOfferCancelTimerProvider.dart';
-import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/ProviderOfferCancelTimerUser.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/ProviderOfferConfirmed.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/ProviderReceiveBooking.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/ProviderEditProfile.dart';
@@ -482,36 +481,37 @@ class NavigationRouter {
             builder: (context) => ProviderReceiveBooking(bookingDetailsList)));
   }
 
+  //Provider Accept Booking Screen
+
+  static void switchToAcceptBookingScreen(
+      BuildContext context, NotificationList bookingDetailsList) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                AcceptBookingNotification(bookingDetailsList)));
+  }
+
   //Provider Offer Cancel Screen
 
-  static void switchToOfferCancelScreen(BuildContext context,NotificationList requestBookingDetailsList) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => ProviderOfferCancel(requestBookingDetailsList)));
+  static void switchToOfferCancelScreen(
+      BuildContext context, NotificationList requestBookingDetailsList) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                ProviderOfferCancel(requestBookingDetailsList)));
   }
 
   //Provider Offer Confirmed Screen
 
-  static void switchToOfferConfirmedScreen(BuildContext context,NotificationList requestBookingDetailsList) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => ProviderOfferConfirmed(requestBookingDetailsList)));
-  }
-
-  //Provider Offer Cancel Timer User Screen
-
-  static void switchToOfferCancelScreenTimerUser(BuildContext context) {
+  static void switchToOfferConfirmedScreen(
+      BuildContext context, NotificationList requestBookingDetailsList) {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => ProviderOfferCancelTimerUser()));
-  }
-
-  //Provider Offer Cancel Timer Provider Screen
-
-  static void switchToOfferCancelScreenTimerProvider(BuildContext context) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => ProviderOfferCancelTimerProvider()));
+            builder: (context) =>
+                ProviderOfferConfirmed(requestBookingDetailsList)));
   }
 
   //Provider Admin Notification Provider Screen

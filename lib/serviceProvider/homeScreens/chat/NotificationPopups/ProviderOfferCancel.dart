@@ -90,12 +90,14 @@ class _ProviderOfferCancelState extends State<ProviderOfferCancel> {
                 height: 18.0,
               ),
               buildBookingCard(widget.requestBookingDetailsList),
-              Text(
-                '"${widget.requestBookingDetailsList.bookingDetail.cancellationReason}"',
-                style: TextStyle(
-                  fontSize: 14.0,
-                ),
-              ),
+              widget.requestBookingDetailsList.bookingStatus == 5
+                  ? Text(
+                      '"${widget.requestBookingDetailsList.bookingDetail.cancellationReason}"',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                      ),
+                    )
+                  : Container()
             ],
           ),
         ),

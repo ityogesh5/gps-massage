@@ -113,9 +113,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
           onTap: () {
             if (requestBookingDetailsList.adminInfoId == null) {
               if (requestBookingDetailsList.bookingStatus == 0) {
-                // requestBookingDetailsList.isReadStatus = true;
-                //  NavigationRouter.switchToReceiveBookingScreen(context,BookingDetailsList());
-              } else if (requestBookingDetailsList.bookingStatus == 5 || requestBookingDetailsList.bookingStatus == 7 ||
+                requestBookingDetailsList.isReadStatus = true;
+                NavigationRouter.switchToAcceptBookingScreen(
+                    context, requestBookingDetailsList);
+              } else if (requestBookingDetailsList.bookingStatus == 5 ||
+                  requestBookingDetailsList.bookingStatus == 7 ||
                   requestBookingDetailsList.bookingStatus == 8) {
                 requestBookingDetailsList.isReadStatus = true;
                 NavigationRouter.switchToOfferCancelScreen(
