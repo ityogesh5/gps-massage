@@ -7,6 +7,7 @@ import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dia
 import 'package:gps_massageapp/customLibraryClasses/bottomNavigationBar/curved_Naviagtion_Bar.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/ReservationScreens/reservationAndFavourites.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/NoticeScreenUser.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/notificatioHistory.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/ViewProfileScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -41,7 +42,7 @@ class _BottomBarUserState extends State<BottomBarUser> {
   @override
   void initState() {
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
-   // _getNotificationStatus();
+    _getNotificationStatus();
     selectedpage = widget.page; //initial Page
     skippedPage = widget.page;
     super.initState();
@@ -151,25 +152,23 @@ class _BottomBarUserState extends State<BottomBarUser> {
   }
 
   _getNotificationStatus() async {
-    var userId = userID.toString();
-    //print('id && token update : $userID : token : $userAccessToken');
-    //print('fcm msg 1');
     _firebaseMessaging.configure(
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
-        setState(() {
-          selectedpage = 3;
-          skippedPage = 3;
-        });
-        DialogHelper.showUserLoginOrRegisterDialog(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => NotificationHistoryScreen()));
       },
       onResume: (Map<String, dynamic> message) async {
         print("onResume: $message");
-        DialogHelper.showUserLoginOrRegisterDialog(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => NotificationHistoryScreen()));
       },
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
-        DialogHelper.showUserLoginOrRegisterDialog(context);
       },
     );
   }

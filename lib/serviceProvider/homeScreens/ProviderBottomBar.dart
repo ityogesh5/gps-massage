@@ -1,8 +1,10 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/customLibraryClasses/bottomNavigationBar/curved_Naviagtion_Bar.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/ChatTabBar.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/chat/notification.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/history/History.dart';
 
 import 'HomeScreen.dart';
@@ -24,6 +26,7 @@ class _BottomBarProviderPageState extends State<BottomBarProvider> {
   int selectedpage; //initial value
 
   var _pageOptions; // listing of all 3 pages index wise
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   /*final bgcolor = [
     Colors.orange,
@@ -33,6 +36,7 @@ class _BottomBarProviderPageState extends State<BottomBarProvider> {
 
   @override
   void initState() {
+    _getNotificationStatus();
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
     selectedpage = widget.page; //initial Page
     _pageOptions = [
@@ -107,6 +111,24 @@ class _BottomBarProviderPageState extends State<BottomBarProvider> {
           });
         },
       ),
+    );
+  }
+
+  _getNotificationStatus() async {
+    _firebaseMessaging.configure(
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => NotificationScreen()));
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => NotificationScreen()));
+      },
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+      },
     );
   }
 }
