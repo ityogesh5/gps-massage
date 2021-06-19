@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/notification/firebaseNotificationUserListModel.dart';
+import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
 import 'package:intl/intl.dart';
 
 class BookingCancelPopup extends StatefulWidget {
@@ -16,6 +17,13 @@ class BookingCancelPopup extends StatefulWidget {
 }
 
 class _BookingCancelPopupState extends State<BookingCancelPopup> {
+  @override
+  void initState() {
+    super.initState();
+    ServiceProviderApi.updateNotificationStatus(
+        widget.requestBookingDetailsList.id);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

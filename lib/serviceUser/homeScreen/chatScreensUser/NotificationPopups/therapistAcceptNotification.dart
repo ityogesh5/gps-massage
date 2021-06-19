@@ -221,7 +221,7 @@ class _TherapistAcceptNotificationState
     );
   }
 
-  Card buildBookingCard(NotificationList requestBookingDetailsList) {
+  Widget buildBookingCard(NotificationList requestBookingDetailsList) {
     String jaName = DateFormat('EEEE', 'ja_JP')
         .format(requestBookingDetailsList.bookingDetail.startTime.toLocal());
     String sTime = requestBookingDetailsList.bookingDetail.newStartTime == null
@@ -263,269 +263,301 @@ class _TherapistAcceptNotificationState
                 : requestBookingDetailsList
                     .bookingDetail.bookingTherapistId.userName;
 
-    return Card(
-      // margin: EdgeInsets.all(8.0),
-      elevation: 0.0,
-      color: Color.fromRGBO(242, 242, 242, 1),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12.0),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Stack(
-          children: [
-            Column(
+    return Stack(
+      children: [
+        Card(
+          // margin: EdgeInsets.all(8.0),
+          elevation: 0.0,
+          color: Color.fromRGBO(242, 242, 242, 1),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Stack(
               children: [
-                Row(
+                Column(
                   children: [
-                    requestBookingDetailsList.bookingDetail.bookingTherapistId
-                                .uploadProfileImgUrl !=
-                            null
-                        ? ClipOval(
-                            child: CachedNetworkImage(
-                                width: 25.0,
-                                height: 25.0,
-                                fit: BoxFit.cover,
-                                imageUrl: requestBookingDetailsList
-                                    .bookingDetail
-                                    .bookingTherapistId
-                                    .uploadProfileImgUrl,
-                                placeholder: (context, url) => SpinKitWave(
-                                    size: 20.0,
-                                    color: ColorConstants.buttonColor),
-                                errorWidget: (context, url, error) => Column(
-                                      children: [
-                                        SvgPicture.asset(
-                                            'assets/images_gps/profile_pic_user.svg',
-                                            height: 18,
-                                            width: 18,
-                                            color: Colors.black),
-                                      ],
-                                    )),
-                          )
-                        : SvgPicture.asset(
-                            'assets/images_gps/profile_pic_user.svg',
-                            height: 18,
-                            width: 18,
-                            color: Colors.black),
-                    SizedBox(
-                      width: 5.0,
-                    ),
-                    Text(
-                      '$name',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Spacer(),
-                    Text(
-                      '$nTime 時',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  children: [
-                    SvgPicture.asset(
-                      "assets/images_gps/calendar.svg",
-                      height: 14.77,
-                      width: 16.0,
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Text(
-                      '$dateFormat',
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Text(
-                      ' $jaName ',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        color: Color.fromRGBO(102, 102, 102, 1),
-                      ),
-                    ),
-                    Text(
-                      requestBookingDetailsList.bookingDetail.locationType ==
-                              "店舗"
-                          ? '店舗'
-                          : "出張",
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        color: Color.fromRGBO(102, 102, 102, 1),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  children: [
-                    SvgPicture.asset(
-                      "assets/images_gps/clock.svg",
-                      height: 14.77,
-                      width: 16.0,
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Text(
-                      '$sTime ~ $eTime',
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      ' $serviceDifference分 ',
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        color: Color.fromRGBO(102, 102, 102, 1),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  children: [
-                    SvgPicture.asset(
-                      "assets/images_gps/cost.svg",
-                      height: 14.77,
-                      width: 16.0,
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                            color: Colors.transparent,
-                          ),
-                          borderRadius: BorderRadius.all(Radius.circular(5))),
-                      padding: EdgeInsets.all(4),
-                      child: Text(
-                        '${requestBookingDetailsList.bookingDetail.nameOfService}',
-                        style: TextStyle(
-                          fontSize: 12.0,
-                          color: Colors.black,
+                    Row(
+                      children: [
+                        requestBookingDetailsList.bookingDetail
+                                    .bookingTherapistId.uploadProfileImgUrl !=
+                                null
+                            ? ClipOval(
+                                child: CachedNetworkImage(
+                                    width: 25.0,
+                                    height: 25.0,
+                                    fit: BoxFit.cover,
+                                    imageUrl: requestBookingDetailsList
+                                        .bookingDetail
+                                        .bookingTherapistId
+                                        .uploadProfileImgUrl,
+                                    placeholder: (context, url) => SpinKitWave(
+                                        size: 20.0,
+                                        color: ColorConstants.buttonColor),
+                                    errorWidget: (context, url, error) =>
+                                        Column(
+                                          children: [
+                                            SvgPicture.asset(
+                                                'assets/images_gps/profile_pic_user.svg',
+                                                height: 18,
+                                                width: 18,
+                                                color: Colors.black),
+                                          ],
+                                        )),
+                              )
+                            : SvgPicture.asset(
+                                'assets/images_gps/profile_pic_user.svg',
+                                height: 18,
+                                width: 18,
+                                color: Colors.black),
+                        SizedBox(
+                          width: 5.0,
                         ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Text(
-                      '¥${requestBookingDetailsList.bookingDetail.totalCost}',
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    requestBookingDetailsList.bookingDetail.travelAmount > 0
-                        ? Text(
-                            ' (${requestBookingDetailsList.bookingDetail.addedPrice} - ${requestBookingDetailsList.bookingDetail.travelAmount}) ',
-                            style: TextStyle(
-                              fontSize: 10.0,
-                              color: Color.fromRGBO(102, 102, 102, 1),
-                            ),
-                          )
-                        : Container(),
-                  ],
-                ),
-                SizedBox(
-                  height: 2,
-                ),
-                Divider(
-                  // height: 50,
-                  color: Color.fromRGBO(217, 217, 217, 1),
-                ),
-                SizedBox(
-                  height: 2,
-                ),
-                Row(
-                  children: [
-                    SvgPicture.asset(
-                      "assets/images_gps/gps.svg",
-                      height: 14.77,
-                      width: 16.0,
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Text(
-                      '施術を受ける場所',
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.only(
-                          left: 18.0, right: 18.0, top: 4.0, bottom: 4.0),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                            color: Colors.transparent,
-                          ),
-                          borderRadius: BorderRadius.all(Radius.circular(5))),
-                      child: Center(
-                        child: Text(
-                          '${requestBookingDetailsList.bookingDetail.locationType}',
+                        Text(
+                          '$name',
                           style: TextStyle(
+                            fontSize: 16.0,
                             color: Colors.black,
-                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                      ),
+                        Spacer(),
+                        Text(
+                          '$nTime 時',
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(
-                      width: 8,
+                      height: 15,
                     ),
-                    Flexible(
-                      child: Text(
-                        '${requestBookingDetailsList.bookingDetail.location}',
-                        style: TextStyle(
-                          color: Color.fromRGBO(102, 102, 102, 1),
-                          fontSize: 14,
+                    Row(
+                      children: [
+                        SvgPicture.asset(
+                          "assets/images_gps/calendar.svg",
+                          height: 14.77,
+                          width: 16.0,
                         ),
-                      ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          '$dateFormat',
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          ' $jaName ',
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            color: Color.fromRGBO(102, 102, 102, 1),
+                          ),
+                        ),
+                        Text(
+                          requestBookingDetailsList
+                                      .bookingDetail.locationType ==
+                                  "店舗"
+                              ? '店舗'
+                              : "出張",
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            color: Color.fromRGBO(102, 102, 102, 1),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      children: [
+                        SvgPicture.asset(
+                          "assets/images_gps/clock.svg",
+                          height: 14.77,
+                          width: 16.0,
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          '$sTime ~ $eTime',
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          ' $serviceDifference分 ',
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            color: Color.fromRGBO(102, 102, 102, 1),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      children: [
+                        SvgPicture.asset(
+                          "assets/images_gps/cost.svg",
+                          height: 14.77,
+                          width: 16.0,
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                color: Colors.transparent,
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5))),
+                          padding: EdgeInsets.all(4),
+                          child: Text(
+                            '${requestBookingDetailsList.bookingDetail.nameOfService}',
+                            style: TextStyle(
+                              fontSize: 12.0,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          '¥${requestBookingDetailsList.bookingDetail.totalCost}',
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        requestBookingDetailsList.bookingDetail.travelAmount > 0
+                            ? Text(
+                                ' (${requestBookingDetailsList.bookingDetail.addedPrice} - ${requestBookingDetailsList.bookingDetail.travelAmount}) ',
+                                style: TextStyle(
+                                  fontSize: 10.0,
+                                  color: Color.fromRGBO(102, 102, 102, 1),
+                                ),
+                              )
+                            : Container(),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 2,
+                    ),
+                    Divider(
+                      // height: 50,
+                      color: Color.fromRGBO(217, 217, 217, 1),
+                    ),
+                    SizedBox(
+                      height: 2,
+                    ),
+                    Row(
+                      children: [
+                        SvgPicture.asset(
+                          "assets/images_gps/gps.svg",
+                          height: 14.77,
+                          width: 16.0,
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          '施術を受ける場所',
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(
+                              left: 18.0, right: 18.0, top: 4.0, bottom: 4.0),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                color: Colors.transparent,
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5))),
+                          child: Center(
+                            child: Text(
+                              '${requestBookingDetailsList.bookingDetail.locationType}',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Flexible(
+                          child: Text(
+                            '${requestBookingDetailsList.bookingDetail.location}',
+                            style: TextStyle(
+                              color: Color.fromRGBO(102, 102, 102, 1),
+                              fontSize: 14,
+                            ),
+                          ),
+                        )
+                      ],
                     )
                   ],
-                )
+                ),
               ],
             ),
-          ],
+          ),
         ),
-      ),
+        Positioned(
+          top: 140.0,
+          right: 10.0,
+          child: InkWell(
+            onTap: () {
+              ProgressDialogBuilder.showCommonProgressDialog(context);
+              getChatDetails(requestBookingDetailsList
+                  .bookingDetail.bookingTherapistId.firebaseUdid);
+            },
+            child: Card(
+              elevation: 4.0,
+              shape: CircleBorder(),
+              margin: EdgeInsets.all(0.0),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: SvgPicture.asset(
+                  "assets/images_gps/providerChat.svg",
+                  height: 15.0,
+                  width: 15.0,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
