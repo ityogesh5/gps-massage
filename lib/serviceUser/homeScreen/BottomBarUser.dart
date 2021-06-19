@@ -155,17 +155,25 @@ class _BottomBarUserState extends State<BottomBarUser> {
     _firebaseMessaging.configure(
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
-        Navigator.push(
+        setState(() {
+          selectedpage = 4;
+          skippedPage = 4;
+        });
+        /*   Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => NotificationHistoryScreen()));
+                builder: (context) => NotificationHistoryScreen())); */
       },
       onResume: (Map<String, dynamic> message) async {
         print("onResume: $message");
-        Navigator.push(
+        setState(() {
+          selectedpage = 4;
+          skippedPage = 4;
+        });
+        /*   Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => NotificationHistoryScreen()));
+                builder: (context) => NotificationHistoryScreen())); */
       },
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");

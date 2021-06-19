@@ -740,13 +740,13 @@ class ServiceProviderApi {
       };
       if (isCancel) {
         body = {
-          "bookingId": bookingDetail.id.toString(),
+          "bookingId": bookingDetail.bookingDetail.id.toString(),
           "cancellationReason": bookingDetail.bookingDetail.cancellationReason,
           "bookingStatus": "4",
         };
       } else if (isAddedPrice && isTimeChange) {
         body = {
-          "bookingId": bookingDetail.id.toString(),
+          "bookingId": bookingDetail.bookingDetail.id.toString(),
           "bookingStatus": "2",
           "newStartTime": bookingDetail.bookingDetail.newStartTime.toString(),
           "newEndTime": bookingDetail.bookingDetail.newEndTime.toString(),
@@ -758,7 +758,7 @@ class ServiceProviderApi {
         };
       } else if (isAddedPrice) {
         body = {
-          "bookingId": bookingDetail.id.toString(),
+          "bookingId": bookingDetail.bookingDetail.id.toString(),
           "bookingStatus": "2",
           "addedPrice": bookingDetail.bookingDetail.addedPrice,
           "travelAmount": bookingDetail.bookingDetail.travelAmount.toString(),
@@ -768,7 +768,7 @@ class ServiceProviderApi {
         };
       } else if (isTimeChange) {
         body = {
-          "bookingId": bookingDetail.id.toString(),
+          "bookingId": bookingDetail.bookingDetail.id.toString(),
           "bookingStatus": "2",
           "newStartTime": bookingDetail.bookingDetail.newStartTime.toString(),
           "newEndTime": bookingDetail.bookingDetail.newEndTime.toString(),
@@ -776,7 +776,7 @@ class ServiceProviderApi {
         };
       } else {
         body = {
-          "bookingId": bookingDetail.id.toString(),
+          "bookingId": bookingDetail.bookingDetail.id.toString(),
           "bookingStatus": "1",
           "therapistComments":
               bookingDetail.bookingDetail.therapistComments != null

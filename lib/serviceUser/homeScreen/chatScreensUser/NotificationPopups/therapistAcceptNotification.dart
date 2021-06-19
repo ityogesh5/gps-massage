@@ -960,8 +960,7 @@ class _TherapistAcceptNotificationState
     }
     try {
       var cancelBooking = ServiceUserAPIProvider.updateBookingCompeted(
-          HealingMatchConstants
-              .therapistProfileDetails.bookingDataResponse[0].id,
+          widget.requestBookingDetailsList.bookingDetail.id,
           selectedBuildingType);
       DialogHelper.showUserBookingCancelDialog(context);
     } catch (e) {
