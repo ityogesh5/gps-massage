@@ -9,13 +9,13 @@ import 'package:gps_massageapp/initialScreens/providerTutorial.dart';
 import 'package:gps_massageapp/initialScreens/termsAndConditions.dart';
 import 'package:gps_massageapp/initialScreens/userDefineScreen.dart';
 import 'package:gps_massageapp/initialScreens/userTutorial.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/firebaseNotificationTherapistListModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/ProviderBottomBar.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/calendar/providerCalendar.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/AcceptBookingNotification.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/AdminNotification.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/ProviderOfferCancel.dart';
-import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/ProviderOfferCancelTimerProvider.dart';
-import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/ProviderOfferCancelTimerUser.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/ProviderOfferConfirmed.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/ProviderReceiveBooking.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/ProviderEditProfile.dart';
@@ -58,8 +58,9 @@ import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/Reserva
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/ReservationScreens/reservationAndFavourites.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/bookingCancelScreens/CancelDetailsScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/calendar.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/ChatListScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/NoticeScreenUser.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/NotificationPopups/bookingCancelPopup.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/NotificationPopups/therapistAcceptNotification.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchResult.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/addAddress.dart';
@@ -80,6 +81,9 @@ import 'package:gps_massageapp/serviceUser/register/RegisterOTPScreen.dart';
 import 'package:gps_massageapp/serviceUser/register/RegisterUserScreen.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingCompletedList.dart'
     as userBooking;
+
+import 'package:gps_massageapp/models/responseModels/serviceUser/notification/firebaseNotificationUserListModel.dart'
+    as userNotification;
 
 class NavigationRouter {
   // Network dis connect handler class
@@ -481,36 +485,37 @@ class NavigationRouter {
             builder: (context) => ProviderReceiveBooking(bookingDetailsList)));
   }
 
+  //Provider Accept Booking Screen
+
+  static void switchToAcceptBookingScreen(
+      BuildContext context, NotificationList bookingDetailsList) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                AcceptBookingNotification(bookingDetailsList)));
+  }
+
   //Provider Offer Cancel Screen
 
-  static void switchToOfferCancelScreen(BuildContext context) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => ProviderOfferCancel()));
+  static void switchToOfferCancelScreen(
+      BuildContext context, NotificationList requestBookingDetailsList) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                ProviderOfferCancel(requestBookingDetailsList)));
   }
 
   //Provider Offer Confirmed Screen
 
-  static void switchToOfferConfirmedScreen(BuildContext context) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => ProviderOfferConfirmed()));
-  }
-
-  //Provider Offer Cancel Timer User Screen
-
-  static void switchToOfferCancelScreenTimerUser(BuildContext context) {
+  static void switchToOfferConfirmedScreen(
+      BuildContext context, NotificationList requestBookingDetailsList) {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => ProviderOfferCancelTimerUser()));
-  }
-
-  //Provider Offer Cancel Timer Provider Screen
-
-  static void switchToOfferCancelScreenTimerProvider(BuildContext context) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => ProviderOfferCancelTimerProvider()));
+            builder: (context) =>
+                ProviderOfferConfirmed(requestBookingDetailsList)));
   }
 
   //Provider Admin Notification Provider Screen
@@ -955,26 +960,6 @@ class NavigationRouter {
         }));
   }
 
-  //ChatList User Screen
-  static void switchToServiceUserChatScreen(BuildContext context) {
-    Navigator.of(context).push(PageRouteBuilder(
-        pageBuilder: (context, animation, anotherAnimation) {
-          return ChatUserScreen();
-        },
-        transitionDuration: Duration(milliseconds: 2000),
-        transitionsBuilder: (context, animation, anotherAnimation, child) {
-          animation = CurvedAnimation(
-              curve: HealingMatchConstants.curveList[2], parent: animation);
-          return Align(
-            child: SizeTransition(
-              sizeFactor: animation,
-              child: child,
-              axisAlignment: 0.0,
-            ),
-          );
-        }));
-  }
-
   // search detailScreen
   static void switchToServiceUserDetailScreen(BuildContext context) {
     Navigator.of(context).push(PageRouteBuilder(
@@ -1176,6 +1161,48 @@ class NavigationRouter {
     Navigator.of(context).push(PageRouteBuilder(
         pageBuilder: (context, animation, anotherAnimation) {
           return BookingApproveThirdScreen(id);
+        },
+        transitionDuration: Duration(milliseconds: 2000),
+        transitionsBuilder: (context, animation, anotherAnimation, child) {
+          animation = CurvedAnimation(
+              curve: HealingMatchConstants.curveList[2], parent: animation);
+          return Align(
+            child: SizeTransition(
+              sizeFactor: animation,
+              child: child,
+              axisAlignment: 0.0,
+            ),
+          );
+        }));
+  }
+
+  //Booking approved screen three
+  static void switchToUserTherapistAcceptNotification(BuildContext context,
+      userNotification.NotificationList notificationList) {
+    Navigator.of(context).push(PageRouteBuilder(
+        pageBuilder: (context, animation, anotherAnimation) {
+          return TherapistAcceptNotification(notificationList);
+        },
+        transitionDuration: Duration(milliseconds: 2000),
+        transitionsBuilder: (context, animation, anotherAnimation, child) {
+          animation = CurvedAnimation(
+              curve: HealingMatchConstants.curveList[2], parent: animation);
+          return Align(
+            child: SizeTransition(
+              sizeFactor: animation,
+              child: child,
+              axisAlignment: 0.0,
+            ),
+          );
+        }));
+  }
+
+  //Booking cancel screen three
+  static void switchToUserTherapistCancelNotification(BuildContext context,
+      userNotification.NotificationList notificationList) {
+    Navigator.of(context).push(PageRouteBuilder(
+        pageBuilder: (context, animation, anotherAnimation) {
+          return BookingCancelPopup(notificationList);
         },
         transitionDuration: Duration(milliseconds: 2000),
         transitionsBuilder: (context, animation, anotherAnimation, child) {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/auth.dart';
 import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProviderLogout extends StatefulWidget {
@@ -76,14 +77,18 @@ class _ProviderLogoutState extends State<ProviderLogout> {
                   ],
                   radioButtonValue: (value) {
                     if (value == 'Y') {
-                      Auth().signOut();
-                      sharedPreferences.then((value) {
-                        value.setBool('isProviderLoggedOut', true);
-                        value.setBool('isProviderLoggedIn', false);
-                        value.setBool('isUserLoggedOut', false);
-                        value.setBool('isProviderRegister', false);
+                      ServiceProviderApi.logOutApi().then((value) {
+                        if (value) {
+                          Auth().signOut();
+                          sharedPreferences.then((value) {
+                            value.setBool('isProviderLoggedOut', true);
+                            value.setBool('isProviderLoggedIn', false);
+                            value.setBool('isUserLoggedOut', false);
+                            value.setBool('isProviderRegister', false);
+                          });
+                          NavigationRouter.switchToProviderLogin(context);
+                        }
                       });
-                      NavigationRouter.switchToProviderLogin(context);
                     } else {
                       Navigator.pop(context);
                     }

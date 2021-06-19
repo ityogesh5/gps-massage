@@ -1303,7 +1303,10 @@ class _RegistrationSecondPageState
       'fitnessList': json.encode(
         HealingMatchConstants.fitnessServicePriceModel,
       ),
-      "fcmToken": fcmToken,
+      "fcmToken":
+          sharedPreferences.getString("notificationStatus") == "accepted"
+              ? fcmToken
+              : '',
       "isShop": HealingMatchConstants.serviceProviderBusinessForm ==
                   "施術店舗あり 施術従業員あり" ||
               HealingMatchConstants.serviceProviderBusinessForm ==

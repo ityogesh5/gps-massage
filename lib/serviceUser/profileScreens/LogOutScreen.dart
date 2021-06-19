@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/auth.dart';
 import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LogOutServiceUser extends StatefulWidget {
@@ -79,21 +80,27 @@ class _LogOutServiceUserState extends State<LogOutServiceUser> {
                   radioButtonValue: (value) {
                     if (value == 'Y') {
                       print('User Logged out!!');
-                      Auth().signOut();
-                      _sharedPreferences.then((value) {
-                        value.remove('addressData');
-                        value.setBool('isUserLoggedOut', true);
-                        value.setBool('isUserLoggedIn', false);
-                        value.setBool('isProviderLoggedOut', false);
-                        value.setBool('isUserRegister', false);
-                        bool loggedOut = value.getBool('isUserLoggedOut');
-                        print('userLogout is false : $loggedOut');
+                      // Auth().signOut();
+                      ServiceUserAPIProvider.logOutApi().then((value) => {
+                            if (value)
+                              {
+                                _sharedPreferences.then((value) {
+                                  value.remove('addressData');
+                                  value.setBool('isUserLoggedOut', true);
+                                  value.setBool('isUserLoggedIn', false);
+                                  value.setBool('isProviderLoggedOut', false);
+                                  value.setBool('isUserRegister', false);
+                                  bool loggedOut =
+                                      value.getBool('isUserLoggedOut');
+                                  print('userLogout is false : $loggedOut');
 
-                        Auth().signOut();
-                        //_logOutFirebaseUser();
+                                  Auth().signOut();
+                                  //_logOutFirebaseUser();
 
-                        NavigationRouter.switchToUserLogin(context);
-                      });
+                                  NavigationRouter.switchToUserLogin(context);
+                                })
+                              }
+                          });
                     } else {
                       Navigator.pop(context);
                       _sharedPreferences.then((value) {

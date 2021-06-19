@@ -10,6 +10,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class IntroTermsAndPolicy extends StatefulWidget {
   @override
@@ -86,9 +87,15 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
     if (_state == 0) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         _state = 1;
-        Platform.isIOS
-            ? fcm.requestNotificationPermissions(IosNotificationSettings())
-            : DialogHelper.showNotificationDialog(context);
+        if (Platform.isIOS) {
+          fcm.requestNotificationPermissions(IosNotificationSettings());
+          fcm.setAutoInitEnabled(true);
+          SharedPreferences sharedPreferences =
+              await SharedPreferences.getInstance();
+          sharedPreferences.setString('notificationStatus', 'accepted');
+        } else {
+          DialogHelper.showNotificationDialog(context);
+        }
       });
     }
 

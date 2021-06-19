@@ -3,20 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
-import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/models/responseModels/serviceProvider/firebaseNotificationTherapistListModel.dart';
-import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/notification/firebaseNotificationUserListModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
+import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:intl/intl.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
-class NotificationScreen extends StatefulWidget {
+class NotificationHistoryScreen extends StatefulWidget {
   @override
-  _NotificationScreenState createState() => _NotificationScreenState();
+  _NotificationHistoryScreenState createState() =>
+      _NotificationHistoryScreenState();
 }
 
-class _NotificationScreenState extends State<NotificationScreen> {
+class _NotificationHistoryScreenState extends State<NotificationHistoryScreen> {
   List<NotificationList> requestBookingDetailsList = List<NotificationList>();
   int status = 0;
   bool isLoading = false;
@@ -26,7 +25,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   void initState() {
     super.initState();
-    ServiceProviderApi.getProviderNotifications(_pageNumber, _pageSize)
+    ServiceUserAPIProvider.getUserNotifications(_pageNumber, _pageSize)
         .then((value) {
       setState(() {
         requestBookingDetailsList.addAll(value.data.notificationList);
@@ -82,12 +81,25 @@ class _NotificationScreenState extends State<NotificationScreen> {
         .difference(requestBookingDetailsList.createdAt.toLocal())
         .inHours;
     String name =
-        requestBookingDetailsList.bookingDetail.bookingUserId.userName.length >
-                10
-            ? requestBookingDetailsList.bookingDetail.bookingUserId.userName
-                    .substring(0, 10) +
-                "..."
-            : requestBookingDetailsList.bookingDetail.bookingUserId.userName;
+        requestBookingDetailsList.bookingDetail.bookingTherapistId.isShop
+            ? requestBookingDetailsList
+                        .bookingDetail.bookingTherapistId.storeName.length >
+                    10
+                ? requestBookingDetailsList
+                        .bookingDetail.bookingTherapistId.storeName
+                        .substring(0, 10) +
+                    "..."
+                : requestBookingDetailsList
+                    .bookingDetail.bookingTherapistId.storeName
+            : requestBookingDetailsList
+                        .bookingDetail.bookingTherapistId.userName.length >
+                    10
+                ? requestBookingDetailsList
+                        .bookingDetail.bookingTherapistId.userName
+                        .substring(0, 10) +
+                    "..."
+                : requestBookingDetailsList
+                    .bookingDetail.bookingTherapistId.userName;
 
     return Container(
       padding:
@@ -112,24 +124,21 @@ class _NotificationScreenState extends State<NotificationScreen> {
         child: InkWell(
           onTap: () {
             if (requestBookingDetailsList.adminInfoId == null) {
-              if (requestBookingDetailsList.bookingStatus == 0) {
+              if (requestBookingDetailsList.bookingStatus == 1 ||
+                  requestBookingDetailsList.bookingStatus == 2) {
                 requestBookingDetailsList.isReadStatus = true;
-                NavigationRouter.switchToAcceptBookingScreen(
+                NavigationRouter.switchToUserTherapistAcceptNotification(
                     context, requestBookingDetailsList);
-              } else if (requestBookingDetailsList.bookingStatus == 5 ||
+              } else if (requestBookingDetailsList.bookingStatus == 4 ||
                   requestBookingDetailsList.bookingStatus == 7 ||
                   requestBookingDetailsList.bookingStatus == 8) {
                 requestBookingDetailsList.isReadStatus = true;
-                NavigationRouter.switchToOfferCancelScreen(
-                    context, requestBookingDetailsList);
-              } else if (requestBookingDetailsList.bookingStatus == 6) {
-                requestBookingDetailsList.isReadStatus = true;
-                NavigationRouter.switchToOfferConfirmedScreen(
+                NavigationRouter.switchToUserTherapistCancelNotification(
                     context, requestBookingDetailsList);
               }
             } else {
               requestBookingDetailsList.isReadStatus = true;
-              NavigationRouter.switchToAdminNotificationScreen(context);
+              /*   NavigationRouter.switchToAdminNotificationScreen(context); */
             }
           },
           child: Row(
@@ -142,14 +151,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     padding: const EdgeInsets.only(top: 8.0),
                     child: ClipOval(
                       child: requestBookingDetailsList.bookingDetail
-                                  .bookingUserId.uploadProfileImgUrl !=
+                                  .bookingTherapistId.uploadProfileImgUrl !=
                               null
                           ? CachedNetworkImage(
                               width: 35.0,
                               height: 35.0,
                               fit: BoxFit.cover,
                               imageUrl: requestBookingDetailsList.bookingDetail
-                                  .bookingUserId.uploadProfileImgUrl,
+                                  .bookingTherapistId.uploadProfileImgUrl,
                               placeholder: (context, url) => SpinKitWave(
                                   size: 20.0,
                                   color: ColorConstants.buttonColor),
@@ -215,62 +224,65 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        requestBookingDetailsList.bookingStatus == 7 ||
-                                requestBookingDetailsList.bookingStatus == 8
-                            ? Text(
-                                '設定した希望時間が締め切れましたので、$nameさんのご\n予約は自動的にキャンセルされました。',
-                                style: TextStyle(
-                                  fontSize: 10.0,
-                                  color: Color.fromRGBO(153, 153, 153, 1),
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              )
-                            : Row(
-                                children: [
-                                  Text(
-                                    '$name さん',
+                        Row(
+                          children: [
+                            Text(
+                              '$name',
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 6.0,
+                            ),
+                            requestBookingDetailsList.bookingStatus == 7 ||
+                                    requestBookingDetailsList.bookingStatus == 8
+                                ? Text(
+                                    '承認が期限内にされなかったため \n 予約はキャンセルされました',
                                     style: TextStyle(
-                                      fontSize: 14.0,
-                                      color: Colors.black,
+                                      fontSize: 10.0,
+                                      color: Color.fromRGBO(153, 153, 153, 1),
                                       fontWeight: FontWeight.bold,
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: 6.0,
-                                  ),
-                                  requestBookingDetailsList.bookingStatus == 0
-                                      ? Text(
-                                          'からご予約依頼がありました。',
-                                          style: TextStyle(
-                                            fontSize: 10.0,
-                                            color: Color.fromRGBO(
-                                                153, 153, 153, 1),
-                                          ),
-                                        )
-                                      : requestBookingDetailsList
-                                                  .bookingStatus ==
-                                              5
-                                          ? Text(
-                                              'がご予約をキャンセルしました。',
-                                              style: TextStyle(
-                                                fontSize: 10.0,
-                                                color: Color.fromRGBO(
-                                                    153, 153, 153, 1),
-                                              ),
-                                            )
-                                          : Text(
-                                              'はご予約を確定しました。',
-                                              style: TextStyle(
-                                                fontSize: 10.0,
-                                                color: Color.fromRGBO(
-                                                    153, 153, 153, 1),
-                                              ),
+                                  )
+                                : requestBookingDetailsList.bookingStatus == 8
+                                    ? Text(
+                                        '支払いが時間通りに行われなかった \n 予約はキャンセルされました',
+                                        style: TextStyle(
+                                          fontSize: 10.0,
+                                          color:
+                                              Color.fromRGBO(153, 153, 153, 1),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      )
+                                    : requestBookingDetailsList.bookingStatus ==
+                                                2 ||
+                                            requestBookingDetailsList
+                                                    .bookingStatus ==
+                                                1
+                                        ? Text(
+                                            'セラピストが予約を承認しました',
+                                            style: TextStyle(
+                                              fontSize: 10.0,
+                                              color: Color.fromRGBO(
+                                                  153, 153, 153, 1),
                                             ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                ],
-                              ),
+                                          )
+                                        : Text(
+                                            'セラピストが予約をキャンセルしました',
+                                            style: TextStyle(
+                                              fontSize: 10.0,
+                                              color: Color.fromRGBO(
+                                                  153, 153, 153, 1),
+                                            ),
+                                          ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                          ],
+                        ),
                         SizedBox(
                           height: 8,
                         ),
@@ -378,8 +390,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
         isLoading = true;
         _pageNumber++;
         print('Page number : $_pageNumber Page Size : $_pageSize');
-        FirebaseNotificationTherapistListModel therapistDetailsModel =
-            await ServiceProviderApi.getProviderNotifications(
+        FirebaseNotificationUserListModel therapistDetailsModel =
+            await ServiceUserAPIProvider.getUserNotifications(
                 _pageNumber, _pageSize);
 
         if (therapistDetailsModel.data.notificationList.isEmpty) {

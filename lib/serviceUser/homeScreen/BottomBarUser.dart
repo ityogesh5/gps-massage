@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter_svg/svg.dart';
@@ -6,6 +7,7 @@ import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dia
 import 'package:gps_massageapp/customLibraryClasses/bottomNavigationBar/curved_Naviagtion_Bar.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/ReservationScreens/reservationAndFavourites.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/NoticeScreenUser.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/notificatioHistory.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/ViewProfileScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,6 +29,7 @@ class BottomBarUser extends StatefulWidget {
 class _BottomBarUserState extends State<BottomBarUser> {
   int selectedpage;
   int skippedPage;
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   final _pageOptions = [
     HomeScreen(),
@@ -39,6 +42,7 @@ class _BottomBarUserState extends State<BottomBarUser> {
   @override
   void initState() {
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
+    _getNotificationStatus();
     selectedpage = widget.page; //initial Page
     skippedPage = widget.page;
     super.initState();
@@ -144,6 +148,28 @@ class _BottomBarUserState extends State<BottomBarUser> {
           });
         },
       ),
+    );
+  }
+
+  _getNotificationStatus() async {
+    _firebaseMessaging.configure(
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => NotificationHistoryScreen()));
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => NotificationHistoryScreen()));
+      },
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+      },
     );
   }
 }

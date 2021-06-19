@@ -248,6 +248,21 @@ class HealingMatchConstants {
   static const String USER_ADD_ADDRESS =
       ON_PREMISE_USER_BASE_URL + '/user/userCreateAddress';
 
+  // USER fcm History
+  static const String USER_FIREBASE_NOTIFICATION_HISTORY =
+      ON_PREMISE_USER_BASE_URL +
+          '/firebaseNotification/firebaseNotificationUserList';
+
+  // provider fcm History
+  static const String PROVIDER_FIREBASE_NOTIFICATION_HISTORY =
+      ON_PREMISE_USER_BASE_URL +
+          '/firebaseNotification/firebaseNotificationTherapistList';
+
+  // provider fcm History
+  static const String UPDATE_FIREBASE_NOTIFICATION_READSTATUS =
+      ON_PREMISE_USER_BASE_URL +
+          '/firebaseNotification/firebaseNotificationReadApi';
+
   // lINE id TOKEN url
 
   //VERIFY_LINE_ID_TOKEN_URL
@@ -261,6 +276,9 @@ class HealingMatchConstants {
   //booking Completed List
   static const String BOOKING_COMPLETED_LIST =
       ON_PREMISE_USER_BASE_URL + '/booking/bookingCompleteStatusList';
+
+  // provider fcm History
+  static const String LOGOUT_API = ON_PREMISE_USER_BASE_URL + '/user/logoutUser';
 
   //Common string
   static bool isInternetAvailable = false;

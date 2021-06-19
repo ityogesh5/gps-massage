@@ -4,6 +4,7 @@ import 'dart:io';
 
 // import 'package:apple_sign_in/apple_sign_in.dart';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -38,6 +39,8 @@ class _ProviderLoginState extends State<ProviderLogin> {
   final passwordController = new TextEditingController();
   Future<SharedPreferences> _sharedPreferences =
       SharedPreferences.getInstance();
+  final fireBaseMessaging = new FirebaseMessaging();
+  var fcmToken;
 
   FocusNode phoneNumberFocus = FocusNode();
   FocusNode createPasswordFocus = FocusNode();
@@ -55,13 +58,33 @@ class _ProviderLoginState extends State<ProviderLogin> {
   void initState() {
     super.initState();
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
-
+    _getFCMLoginToken();
     if (Platform.isIOS) {
       //check for ios if developing for both android & ios
       /*  AppleSignIn.onCredentialRevoked.listen((_) {
         print("Credentials revoked");
       }); */
     }
+  }
+
+  _getFCMLoginToken() async {
+    fireBaseMessaging.getToken().then((fcmTokenValue) {
+      if (fcmTokenValue != null) {
+        fcmToken = fcmTokenValue;
+        print('FCM Login Token : $fcmToken');
+      } else {
+        fireBaseMessaging.onTokenRefresh.listen((refreshToken) {
+          if (refreshToken != null) {
+            fcmToken = refreshToken;
+            print('FCM Login Refresh Tokens : $fcmToken');
+          }
+        }).onError((handleError) {
+          print('On FCM Login Token Refresh error : ${handleError.toString()}');
+        });
+      }
+    }).catchError((onError) {
+      print('FCM Login Token Exception : ${onError.toString()}');
+    });
   }
 
   showOverlayLoader() {
@@ -467,7 +490,10 @@ class _ProviderLoginState extends State<ProviderLogin> {
           body: json.encode({
             "phoneNumber": userPhoneNumber,
             "password": password,
-            "isTherapist": "1"
+            "isTherapist": "1",
+            "fcmToken": instances.getString("notificationStatus") == "accepted"
+                ? fcmToken
+                : ''
           }));
       print('Status code : ${response.statusCode}');
 
@@ -511,7 +537,10 @@ class _ProviderLoginState extends State<ProviderLogin> {
   void firebaseChatLogin(Data userData, String password) {
     Auth()
         .signIn(
-            userData.phoneNumber.toString() + userData.id.toString() + "@nexware.global.com", password)
+            userData.phoneNumber.toString() +
+                userData.id.toString() +
+                "@nexware.global.com",
+            password)
         .then((value) {
       hideLoader();
       if (value) {
