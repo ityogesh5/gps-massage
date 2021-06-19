@@ -136,6 +136,13 @@ class _BottomBarProviderPageState extends State<BottomBarProvider> {
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
       },
+    /*   onBackgroundMessage: (Map<String, dynamic> message) async {
+        print("onBackgroundMessage: $message \n ${message["gcm.message_id"]}");
+        if (fcmMessageid != message["gcm.message_id"]) {
+          fcmMessageid = message["gcm.message_id"];
+          navigateToProviderNotifications(context);
+        }
+      }, */
     );
   }
 
