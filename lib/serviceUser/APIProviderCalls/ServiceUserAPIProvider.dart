@@ -1066,4 +1066,27 @@ class ServiceUserAPIProvider {
       /* return therapistBookingHistoryResponseModel; */
     }
   }
+
+  static Future<bool> logOutApi() async {
+    try {
+      final url = HealingMatchConstants.LOGOUT_API;
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '${HealingMatchConstants.accessToken}'
+      };
+      final response = await http.get(
+        url,
+        headers: headers,
+      );
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print('Exception : ${e.toString()}');
+      return false;
+    }
+  }
 }

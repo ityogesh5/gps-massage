@@ -277,6 +277,9 @@ class HealingMatchConstants {
   static const String BOOKING_COMPLETED_LIST =
       ON_PREMISE_USER_BASE_URL + '/booking/bookingCompleteStatusList';
 
+  // provider fcm History
+  static const String LOGOUT_API = ON_PREMISE_USER_BASE_URL + '/user/logoutUser';
+
   //Common string
   static bool isInternetAvailable = false;
   static String registerProgressText = '登録中...';
