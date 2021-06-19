@@ -2,10 +2,12 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/bottomNavigationBar/curved_Naviagtion_Bar.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/ChatTabBar.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/notification.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/history/History.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/notificationOnResume.dart';
 
 import 'HomeScreen.dart';
 import 'myAccount/MyAccount.dart';
@@ -27,7 +29,7 @@ class _BottomBarProviderPageState extends State<BottomBarProvider> {
 
   var _pageOptions; // listing of all 3 pages index wise
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-
+  static var fcmMessageid;
   /*final bgcolor = [
     Colors.orange,
     Colors.pink,
@@ -36,7 +38,8 @@ class _BottomBarProviderPageState extends State<BottomBarProvider> {
 
   @override
   void initState() {
-    _getNotificationStatus();
+    _getNotificationStatus(context);
+
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
     selectedpage = widget.page; //initial Page
     _pageOptions = [
@@ -114,21 +117,30 @@ class _BottomBarProviderPageState extends State<BottomBarProvider> {
     );
   }
 
-  _getNotificationStatus() async {
+  void _getNotificationStatus(BuildContext context) async {
     _firebaseMessaging.configure(
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => NotificationScreen()));
+        if (fcmMessageid != message["gcm.message_id"]) {
+          fcmMessageid = message["gcm.message_id"];
+          navigateToProviderNotifications(context);
+        }
       },
       onResume: (Map<String, dynamic> message) async {
-        print("onResume: $message");
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => NotificationScreen()));
+        print("onResume: $message \n ${message["gcm.message_id"]}");
+        if (fcmMessageid != message["gcm.message_id"]) {
+          fcmMessageid = message["gcm.message_id"];
+          navigateToProviderNotifications(context);
+        }
       },
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
       },
     );
+  }
+
+  void navigateToProviderNotifications(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => NotificationHistoryProvider()));
   }
 }
