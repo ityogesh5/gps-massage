@@ -179,8 +179,8 @@ class BookingDetail {
   DateTime endTime;
   String monthOfBooking;
   String yearOfBooking;
-  dynamic newStartTime;
-  dynamic newEndTime;
+  DateTime newStartTime;
+  DateTime newEndTime;
   int paymentId;
   int paymentStatus;
   dynamic paymentRefId;
@@ -225,8 +225,12 @@ class BookingDetail {
         endTime: DateTime.parse(json["endTime"]),
         monthOfBooking: json["monthOfBooking"],
         yearOfBooking: json["yearOfBooking"],
-        newStartTime: json["newStartTime"],
-        newEndTime: json["newEndTime"],
+        newStartTime: json["newStartTime"] == null
+            ? null
+            : DateTime.parse(json["newStartTime"]),
+        newEndTime: json["newEndTime"] == null
+            ? null
+            : DateTime.parse(json["newEndTime"]),
         paymentId: json["paymentId"],
         paymentStatus: json["paymentStatus"],
         paymentRefId: json["paymentRefId"],

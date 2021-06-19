@@ -542,10 +542,10 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
 
   Card buildBookingCard() {
     String jaName = DateFormat('EEEE', 'ja_JP').format(startTime);
-    sTime = DateFormat('KK:mm').format(startTime);
-    eTime = DateFormat('KK:mm').format(endTime);
+    sTime = DateFormat('kk:mm').format(startTime);
+    eTime = DateFormat('kk:mm').format(endTime);
     DateTime updatedTime = widget.bookingDetail.updatedAt.toLocal();
-    String updateTimeFormat = DateFormat('KK:mm').format(updatedTime);
+    String updateTimeFormat = DateFormat('kk:mm').format(updatedTime);
     String dateFormat = DateFormat('MM月dd').format(startTime);
 
     return Card(

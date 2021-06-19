@@ -4,6 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/notification/firebaseNotificationUserListModel.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:intl/intl.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
@@ -62,14 +63,14 @@ class _NotificationHistoryScreenState extends State<NotificationHistoryScreen> {
     String jaName = DateFormat('EEEE', 'ja_JP')
         .format(requestBookingDetailsList.bookingDetail.startTime.toLocal());
     String sTime = requestBookingDetailsList.bookingDetail.newStartTime == null
-        ? DateFormat('KK:mm')
+        ? DateFormat('kk:mm')
             .format(requestBookingDetailsList.bookingDetail.startTime.toLocal())
-        : DateFormat('KK:mm').format(
+        : DateFormat('kk:mm').format(
             requestBookingDetailsList.bookingDetail.newStartTime.toLocal());
     String eTime = requestBookingDetailsList.bookingDetail.newEndTime == null
-        ? DateFormat('KK:mm')
+        ? DateFormat('kk:mm')
             .format(requestBookingDetailsList.bookingDetail.endTime.toLocal())
-        : DateFormat('KK:mm').format(
+        : DateFormat('kk:mm').format(
             requestBookingDetailsList.bookingDetail.newEndTime.toLocal());
     String dateFormat = DateFormat('MM月dd')
         .format(requestBookingDetailsList.bookingDetail.startTime.toLocal());
@@ -123,20 +124,17 @@ class _NotificationHistoryScreenState extends State<NotificationHistoryScreen> {
         child: InkWell(
           onTap: () {
             if (requestBookingDetailsList.adminInfoId == null) {
-              if (requestBookingDetailsList.bookingStatus == 0) {
+              if (requestBookingDetailsList.bookingStatus == 1 ||
+                  requestBookingDetailsList.bookingStatus == 2) {
                 requestBookingDetailsList.isReadStatus = true;
-                /*  NavigationRouter.switchToAcceptBookingScreen(
-                    context, requestBookingDetailsList); */
-              } else if (requestBookingDetailsList.bookingStatus == 5 ||
+                NavigationRouter.switchToUserTherapistAcceptNotification(
+                    context, requestBookingDetailsList);
+              } else if (requestBookingDetailsList.bookingStatus == 4 ||
                   requestBookingDetailsList.bookingStatus == 7 ||
                   requestBookingDetailsList.bookingStatus == 8) {
                 requestBookingDetailsList.isReadStatus = true;
-                /* NavigationRouter.switchToOfferCancelScreen(
-                    context, requestBookingDetailsList); */
-              } else if (requestBookingDetailsList.bookingStatus == 6) {
-                requestBookingDetailsList.isReadStatus = true;
-                /*  NavigationRouter.switchToOfferConfirmedScreen(
-                    context, requestBookingDetailsList); */
+                NavigationRouter.switchToUserTherapistCancelNotification(
+                    context, requestBookingDetailsList);
               }
             } else {
               requestBookingDetailsList.isReadStatus = true;

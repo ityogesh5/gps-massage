@@ -117,17 +117,17 @@ class _ProviderOfferConfirmedState extends State<ProviderOfferConfirmed> {
     String jaName = DateFormat('EEEE', 'ja_JP')
         .format(requestBookingDetailsList.bookingDetail.startTime.toLocal());
     String sTime = requestBookingDetailsList.bookingDetail.newStartTime == null
-        ? DateFormat('KK:mm')
+        ? DateFormat('kk:mm')
             .format(requestBookingDetailsList.bookingDetail.startTime.toLocal())
-        : DateFormat('KK:mm').format(
+        : DateFormat('kk:mm').format(
             requestBookingDetailsList.bookingDetail.newStartTime.toLocal());
     String eTime = requestBookingDetailsList.bookingDetail.newEndTime == null
-        ? DateFormat('KK:mm')
+        ? DateFormat('kk:mm')
             .format(requestBookingDetailsList.bookingDetail.endTime.toLocal())
-        : DateFormat('KK:mm').format(
+        : DateFormat('kk:mm').format(
             requestBookingDetailsList.bookingDetail.newEndTime.toLocal());
     DateTime createdAtTime = requestBookingDetailsList.createdAt.toLocal();
-    String nTime = DateFormat('KK:mm').format(createdAtTime);
+    String nTime = DateFormat('kk:mm').format(createdAtTime);
     String dateFormat = DateFormat('MM月dd')
         .format(requestBookingDetailsList.bookingDetail.startTime.toLocal());
     var serviceDifference = requestBookingDetailsList.bookingDetail.endTime

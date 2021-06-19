@@ -59,6 +59,8 @@ import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/Reserva
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/bookingCancelScreens/CancelDetailsScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/calendar.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/NoticeScreenUser.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/NotificationPopups/bookingCancelPopup.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/NotificationPopups/therapistAcceptNotification.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchResult.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/addAddress.dart';
@@ -79,6 +81,9 @@ import 'package:gps_massageapp/serviceUser/register/RegisterOTPScreen.dart';
 import 'package:gps_massageapp/serviceUser/register/RegisterUserScreen.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingCompletedList.dart'
     as userBooking;
+
+import 'package:gps_massageapp/models/responseModels/serviceUser/notification/firebaseNotificationUserListModel.dart'
+    as userNotification;
 
 class NavigationRouter {
   // Network dis connect handler class
@@ -955,7 +960,6 @@ class NavigationRouter {
         }));
   }
 
-
   // search detailScreen
   static void switchToServiceUserDetailScreen(BuildContext context) {
     Navigator.of(context).push(PageRouteBuilder(
@@ -1157,6 +1161,48 @@ class NavigationRouter {
     Navigator.of(context).push(PageRouteBuilder(
         pageBuilder: (context, animation, anotherAnimation) {
           return BookingApproveThirdScreen(id);
+        },
+        transitionDuration: Duration(milliseconds: 2000),
+        transitionsBuilder: (context, animation, anotherAnimation, child) {
+          animation = CurvedAnimation(
+              curve: HealingMatchConstants.curveList[2], parent: animation);
+          return Align(
+            child: SizeTransition(
+              sizeFactor: animation,
+              child: child,
+              axisAlignment: 0.0,
+            ),
+          );
+        }));
+  }
+
+  //Booking approved screen three
+  static void switchToUserTherapistAcceptNotification(BuildContext context,
+      userNotification.NotificationList notificationList) {
+    Navigator.of(context).push(PageRouteBuilder(
+        pageBuilder: (context, animation, anotherAnimation) {
+          return TherapistAcceptNotification(notificationList);
+        },
+        transitionDuration: Duration(milliseconds: 2000),
+        transitionsBuilder: (context, animation, anotherAnimation, child) {
+          animation = CurvedAnimation(
+              curve: HealingMatchConstants.curveList[2], parent: animation);
+          return Align(
+            child: SizeTransition(
+              sizeFactor: animation,
+              child: child,
+              axisAlignment: 0.0,
+            ),
+          );
+        }));
+  }
+
+  //Booking cancel screen three
+  static void switchToUserTherapistCancelNotification(BuildContext context,
+      userNotification.NotificationList notificationList) {
+    Navigator.of(context).push(PageRouteBuilder(
+        pageBuilder: (context, animation, anotherAnimation) {
+          return BookingCancelPopup(notificationList);
         },
         transitionDuration: Duration(milliseconds: 2000),
         transitionsBuilder: (context, animation, anotherAnimation, child) {

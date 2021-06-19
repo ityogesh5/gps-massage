@@ -64,14 +64,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
     String jaName = DateFormat('EEEE', 'ja_JP')
         .format(requestBookingDetailsList.bookingDetail.startTime.toLocal());
     String sTime = requestBookingDetailsList.bookingDetail.newStartTime == null
-        ? DateFormat('KK:mm')
+        ? DateFormat('kk:mm')
             .format(requestBookingDetailsList.bookingDetail.startTime.toLocal())
-        : DateFormat('KK:mm').format(
+        : DateFormat('kk:mm').format(
             requestBookingDetailsList.bookingDetail.newStartTime.toLocal());
     String eTime = requestBookingDetailsList.bookingDetail.newEndTime == null
-        ? DateFormat('KK:mm')
+        ? DateFormat('kk:mm')
             .format(requestBookingDetailsList.bookingDetail.endTime.toLocal())
-        : DateFormat('KK:mm').format(
+        : DateFormat('kk:mm').format(
             requestBookingDetailsList.bookingDetail.newEndTime.toLocal());
     String dateFormat = DateFormat('MM月dd')
         .format(requestBookingDetailsList.bookingDetail.startTime.toLocal());
