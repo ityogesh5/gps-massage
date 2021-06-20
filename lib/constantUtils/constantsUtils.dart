@@ -278,7 +278,8 @@ class HealingMatchConstants {
       ON_PREMISE_USER_BASE_URL + '/booking/bookingCompleteStatusList';
 
   // provider fcm History
-  static const String LOGOUT_API = ON_PREMISE_USER_BASE_URL + '/user/logoutUser';
+  static const String LOGOUT_API =
+      ON_PREMISE_USER_BASE_URL + '/user/logoutUser';
 
   //Common string
   static bool isInternetAvailable = false;

@@ -8,6 +8,7 @@ import 'package:gps_massageapp/customLibraryClasses/bottomNavigationBar/curved_N
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/ReservationScreens/reservationAndFavourites.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/NoticeScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/notificatioHistory.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/notificationScreenOnTap.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/ViewProfileScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,6 +31,7 @@ class _BottomBarUserState extends State<BottomBarUser> {
   int selectedpage;
   int skippedPage;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  static var fcmMessageid;
 
   final _pageOptions = [
     HomeScreen(),
@@ -42,7 +44,7 @@ class _BottomBarUserState extends State<BottomBarUser> {
   @override
   void initState() {
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
-    _getNotificationStatus();
+    _getNotificationStatus(context);
     selectedpage = widget.page; //initial Page
     skippedPage = widget.page;
     super.initState();
@@ -151,25 +153,30 @@ class _BottomBarUserState extends State<BottomBarUser> {
     );
   }
 
-  _getNotificationStatus() async {
+  void _getNotificationStatus(BuildContext context) async {
     _firebaseMessaging.configure(
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => NotificationHistoryScreen()));
+        if (fcmMessageid != message["gcm.message_id"]) {
+          fcmMessageid = message["gcm.message_id"];
+          navigateToProviderNotifications(context);
+        }
       },
       onResume: (Map<String, dynamic> message) async {
-        print("onResume: $message");
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => NotificationHistoryScreen()));
+        print("onResume: $message \n ${message["gcm.message_id"]}");
+        if (fcmMessageid != message["gcm.message_id"]) {
+          fcmMessageid = message["gcm.message_id"];
+          navigateToProviderNotifications(context);
+        }
       },
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
       },
     );
+  }
+
+  void navigateToProviderNotifications(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => NotificationHistoryUser()));
   }
 }
