@@ -17,6 +17,7 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/booking/createB
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
+import 'package:intl/intl.dart';
 
 double ratingsValue = 4.0;
 bool checkValue = false;
@@ -57,12 +58,16 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
   var distance = HealingMatchConstants.serviceDistanceRadius;
   final GeoLocater.Geolocator geoLocator = GeoLocater.Geolocator()
     ..forceAndroidLocationManager;
+  String sTime, eTime;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getProfileDetails();
+    sTime =
+        DateFormat('kk:mm').format(HealingMatchConstants.confSelectedDateTime);
+    eTime = DateFormat('kk:mm').format(HealingMatchConstants.confEndDateTime);
   }
 
   @override
@@ -398,7 +403,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                       ),
                       SizedBox(width: 2),
                       Text(
-                        ' ${HealingMatchConstants.confSelectedDateTime.hour}:${HealingMatchConstants.confSelectedDateTime.minute}～${HealingMatchConstants.confEndDateTime.hour}:${HealingMatchConstants.confEndDateTime.minute}',
+                        ' $sTime～$eTime',
                         style: TextStyle(
                             fontSize: 14,
                             color: Colors.black,

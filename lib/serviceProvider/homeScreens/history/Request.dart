@@ -330,7 +330,7 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
               right: 10.0,
               child: InkWell(
                 onTap: () {
-                  print('abc');
+                  NavigationRouter.switchToProviderCalendarScreen(context);
                 },
                 child: Card(
                   elevation: 4.0,

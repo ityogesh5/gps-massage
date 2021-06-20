@@ -1878,9 +1878,12 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
               onTap: () {
                 if (this.mounted) {
                   setState(() {
-                    allTherapistList != null
-                        ? allTherapistList.clear()
-                        : Container();
+                    if (allTherapistList != null &&
+                        allTherapistList.isNotEmpty) {
+                      allTherapistList.clear();
+                      scrollController.jumpTo(index: 0);
+                    }
+
                     _value = 1;
                     getSubType();
                   });
@@ -1928,9 +1931,11 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
               onTap: () {
                 if (this.mounted) {
                   setState(() {
-                    allTherapistList != null
-                        ? allTherapistList.clear()
-                        : Container();
+                    if (allTherapistList != null &&
+                        allTherapistList.isNotEmpty) {
+                      allTherapistList.clear();
+                      scrollController.jumpTo(index: 0);
+                    }
                     _value = 2;
                     getSubType();
                   });
@@ -1978,9 +1983,11 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
               onTap: () {
                 if (this.mounted) {
                   setState(() {
-                    allTherapistList != null
-                        ? allTherapistList.clear()
-                        : Container();
+                    if (allTherapistList != null &&
+                        allTherapistList.isNotEmpty) {
+                      allTherapistList.clear();
+                      scrollController.jumpTo(index: 0);
+                    }
                     _value = 3;
                     getSubType();
                   });
@@ -2028,9 +2035,11 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
               onTap: () {
                 if (this.mounted) {
                   setState(() {
-                    allTherapistList != null
-                        ? allTherapistList.clear()
-                        : Container();
+                    if (allTherapistList != null &&
+                        allTherapistList.isNotEmpty) {
+                      allTherapistList.clear();
+                      scrollController.jumpTo(index: 0);
+                    }
                     _value = 4;
                     getSubType();
                   });
@@ -2147,6 +2156,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
             child: Center(
               child: ScrollablePositionedList.builder(
                 scrollDirection: Axis.horizontal,
+                initialScrollIndex: 0,
                 itemScrollController: scrollController,
                 itemCount: allTherapistList.length,
                 itemBuilder: (BuildContext context, int index) {

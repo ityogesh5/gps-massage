@@ -290,7 +290,7 @@ class ServiceUserAPIProvider {
             "x-access-token": HealingMatchConstants.accessToken
           },
           body: json.encode({
-            "therapistId": "${HealingMatchConstants.therapistRatingID}",
+            "therapistId": "$id",
           }));
       print(response.body);
       if (response.statusCode == 200) {
