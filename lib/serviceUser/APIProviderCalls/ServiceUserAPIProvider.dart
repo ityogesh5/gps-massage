@@ -392,6 +392,7 @@ class ServiceUserAPIProvider {
   static Future<TherapistByIdModel> getTherapistDetails(
       BuildContext context, var userID) async {
     try {
+      HealingMatchConstants.therapistId = userID;
       final url = HealingMatchConstants.GET_THERAPIST_DETAILS;
       Map<String, String> headers = {
         'Content-Type': 'application/json',
@@ -877,7 +878,7 @@ class ServiceUserAPIProvider {
     DateTime firstMonth = DateTime(2020, 09, 30);
     var calEvents = calendar.events.list(
       "sugyo.sumihiko@gmail.com",
-      q: "SU${HealingMatchConstants.serviceUserID}",
+      q: "SP${HealingMatchConstants.therapistId}",
       /*  timeMax: lastMonth.toUtc(), timeMin: firstMonth.toUtc() */
     );
     Events events = await calEvents;
