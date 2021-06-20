@@ -121,11 +121,13 @@ class _BottomBarProviderPageState extends State<BottomBarProvider> {
     _firebaseMessaging.configure(
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
+
         if (fcmMessageid != message["gcm.message_id"]) {
           fcmMessageid = message["gcm.message_id"];
           navigateToProviderNotifications(context);
         }
       },
+      // onBackgroundMessage: myBackgroundMessageHandler,
       onResume: (Map<String, dynamic> message) async {
         print("onResume: $message \n ${message["gcm.message_id"]}");
         if (fcmMessageid != message["gcm.message_id"]) {
@@ -136,15 +138,23 @@ class _BottomBarProviderPageState extends State<BottomBarProvider> {
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
       },
-    /*   onBackgroundMessage: (Map<String, dynamic> message) async {
-        print("onBackgroundMessage: $message \n ${message["gcm.message_id"]}");
-        if (fcmMessageid != message["gcm.message_id"]) {
-          fcmMessageid = message["gcm.message_id"];
-          navigateToProviderNotifications(context);
-        }
-      }, */
     );
   }
+
+  /*  static Future<dynamic> myBackgroundMessageHandler(
+      Map<String, dynamic> message) async {
+    if (message.containsKey('data')) {
+      // Handle data message
+      final dynamic data = message['data'];
+    }
+
+    if (message.containsKey('notification')) {
+      // Handle notification message
+      final dynamic notification = message['notification'];
+    }
+
+    // Or do other work.
+  } */
 
   void navigateToProviderNotifications(BuildContext context) {
     Navigator.push(context,

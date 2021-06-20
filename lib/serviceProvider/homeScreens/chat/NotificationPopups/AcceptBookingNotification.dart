@@ -668,7 +668,8 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
                   onTap: () {
                     NavigationRouter.switchToProviderSideUserReviewScreen(
                         context,
-                        widget.requestBookingDetailsList.bookingDetail.userId);
+                        widget.requestBookingDetailsList.bookingDetail
+                            .bookingUserId.id);
                   },
                   child: Row(
                     children: [

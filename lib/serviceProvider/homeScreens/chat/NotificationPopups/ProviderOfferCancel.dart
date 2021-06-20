@@ -234,7 +234,9 @@ class _ProviderOfferCancelState extends State<ProviderOfferCancel> {
                 InkWell(
                   onTap: () {
                     NavigationRouter.switchToProviderSideUserReviewScreen(
-                        context, requestBookingDetailsList.bookingDetail.id);
+                        context,
+                        requestBookingDetailsList
+                            .bookingDetail.bookingUserId.id);
                   },
                   child: Row(
                     children: [
