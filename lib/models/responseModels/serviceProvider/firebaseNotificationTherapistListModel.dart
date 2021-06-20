@@ -79,6 +79,7 @@ class NotificationList {
     this.bookingDetail,
     this.reviewAvgData,
     this.noOfReviewsMembers,
+    this.information,
   });
 
   int id;
@@ -94,6 +95,7 @@ class NotificationList {
   BookingDetail bookingDetail;
   String reviewAvgData;
   int noOfReviewsMembers;
+  Information information;
 
   factory NotificationList.fromJson(Map<String, dynamic> json) =>
       NotificationList(
@@ -110,6 +112,9 @@ class NotificationList {
         bookingDetail: BookingDetail.fromJson(json["bookingDetail"]),
         reviewAvgData: json["reviewAvgData"],
         noOfReviewsMembers: json["NoOfReviewsMembers"],
+        information: json["information"] == null
+            ? null
+            : Information.fromJson(json["information"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -126,6 +131,7 @@ class NotificationList {
         "bookingDetail": bookingDetail.toJson(),
         "reviewAvgData": reviewAvgData,
         "NoOfReviewsMembers": noOfReviewsMembers,
+        "information": information == null ? null : information.toJson(),
       };
 }
 
@@ -358,5 +364,45 @@ class BookingUserId {
         "gender": gender,
         "uploadProfileImgUrl": uploadProfileImgUrl,
         "firebaseUDID": firebaseUdid,
+      };
+}
+
+class Information {
+  Information({
+    this.id,
+    this.userId,
+    this.infoStatus,
+    this.infoMessage,
+    this.createdUser,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  int id;
+  int userId;
+  int infoStatus;
+  String infoMessage;
+  String createdUser;
+  DateTime createdAt;
+  DateTime updatedAt;
+
+  factory Information.fromJson(Map<String, dynamic> json) => Information(
+        id: json["id"],
+        userId: json["userId"],
+        infoStatus: json["infoStatus"],
+        infoMessage: json["infoMessage"],
+        createdUser: json["createdUser"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "userId": userId,
+        "infoStatus": infoStatus,
+        "infoMessage": infoMessage,
+        "createdUser": createdUser,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
       };
 }

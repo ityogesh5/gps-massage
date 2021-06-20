@@ -77,6 +77,7 @@ class NotificationList {
     this.createdAt,
     this.updatedAt,
     this.bookingDetail,
+    this.information,
   });
 
   int id;
@@ -90,6 +91,7 @@ class NotificationList {
   DateTime createdAt;
   DateTime updatedAt;
   BookingDetail bookingDetail;
+  Information information;
 
   factory NotificationList.fromJson(Map<String, dynamic> json) =>
       NotificationList(
@@ -104,6 +106,9 @@ class NotificationList {
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
         bookingDetail: BookingDetail.fromJson(json["bookingDetail"]),
+        information: json["information"] == null
+            ? null
+            : Information.fromJson(json["information"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -118,6 +123,7 @@ class NotificationList {
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
         "bookingDetail": bookingDetail.toJson(),
+        "information": information == null ? null : information.toJson(),
       };
 }
 
@@ -480,5 +486,45 @@ class Geomet {
   Map<String, dynamic> toJson() => {
         "type": type,
         "coordinates": List<dynamic>.from(coordinates.map((x) => x)),
+      };
+}
+
+class Information {
+  Information({
+    this.id,
+    this.userId,
+    this.infoStatus,
+    this.infoMessage,
+    this.createdUser,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  int id;
+  int userId;
+  int infoStatus;
+  String infoMessage;
+  String createdUser;
+  DateTime createdAt;
+  DateTime updatedAt;
+
+  factory Information.fromJson(Map<String, dynamic> json) => Information(
+        id: json["id"],
+        userId: json["userId"],
+        infoStatus: json["infoStatus"],
+        infoMessage: json["infoMessage"],
+        createdUser: json["createdUser"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "userId": userId,
+        "infoStatus": infoStatus,
+        "infoMessage": infoMessage,
+        "createdUser": createdUser,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
       };
 }

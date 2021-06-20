@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/notification/firebaseNotificationUserListModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
@@ -137,8 +138,12 @@ class _NotificationHistoryScreenState extends State<NotificationHistoryScreen> {
                     context, requestBookingDetailsList);
               }
             } else {
+              HealingMatchConstants.adminMessage =
+                  requestBookingDetailsList.information.infoMessage;
+              HealingMatchConstants.notificationId =
+                  requestBookingDetailsList.id;
               requestBookingDetailsList.isReadStatus = true;
-              /*   NavigationRouter.switchToAdminNotificationScreen(context); */
+              NavigationRouter.switchToAdminNotificationScreen(context);
             }
           },
           child: Row(
@@ -212,7 +217,15 @@ class _NotificationHistoryScreenState extends State<NotificationHistoryScreen> {
                           height: 8,
                         ),
                         Text(
-                          'Lorem ipsumidolor sit amet, consetetur ',
+                          requestBookingDetailsList
+                                      .information.infoMessage.length >
+                                  15
+                              ? requestBookingDetailsList
+                                      .information.infoMessage
+                                      .substring(0, 15) +
+                                  "..."
+                              : requestBookingDetailsList
+                                  .information.infoMessage,
                           style: TextStyle(
                             fontSize: 12.0,
                             color: Colors.black,

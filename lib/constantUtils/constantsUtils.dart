@@ -713,6 +713,9 @@ class HealingMatchConstants {
   static int therapistIdPay;
   static int priceOfServicePay;
 
+  static String adminMessage;
+  static int notificationId;
+
   //Booking confirm screen
   //出張での施術は距離、場所によって別途交通費等がかかる場合があります。
   static String additionalDistanceCost = '出張での施術は距離、場所によって別途交通費等がかかる場合があります。\n'

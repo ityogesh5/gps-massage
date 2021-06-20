@@ -128,6 +128,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     context, requestBookingDetailsList);
               }
             } else {
+              HealingMatchConstants.adminMessage =
+                  requestBookingDetailsList.information.infoMessage;
+              HealingMatchConstants.notificationId =
+                  requestBookingDetailsList.id;
               requestBookingDetailsList.isReadStatus = true;
               NavigationRouter.switchToAdminNotificationScreen(context);
             }
@@ -203,7 +207,15 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           height: 8,
                         ),
                         Text(
-                          'Lorem ipsumidolor sit amet, consetetur ',
+                          requestBookingDetailsList
+                                      .information.infoMessage.length >
+                                  15
+                              ? requestBookingDetailsList
+                                      .information.infoMessage
+                                      .substring(0, 15) +
+                                  "..."
+                              : requestBookingDetailsList
+                                  .information.infoMessage,
                           style: TextStyle(
                             fontSize: 12.0,
                             color: Colors.black,

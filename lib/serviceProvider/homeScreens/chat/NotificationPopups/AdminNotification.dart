@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
 
 class AdminNotification extends StatefulWidget {
   @override
@@ -7,6 +8,13 @@ class AdminNotification extends StatefulWidget {
 }
 
 class _AdminNotificationState extends State<AdminNotification> {
+  @override
+  void initState() {
+    ServiceProviderApi.updateNotificationStatus(
+        HealingMatchConstants.notificationId);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +66,7 @@ class _AdminNotificationState extends State<AdminNotification> {
                     width: 5.0,
                   ),
                   Text(
-                    '"管理者"',
+                    '"${HealingMatchConstants.adminMessage}"',
                     style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
