@@ -998,6 +998,10 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
     int therapistReviewStatus = 0;
     String userCommands = _queriesAskController.text;
     String currentPrefecture = HealingMatchConstants.locality;
+    String userAppendedName = HealingMatchConstants.serviceUserName +
+        "(" +
+        HealingMatchConstants.serviceUserGender +
+        ")";
 
     print('Entering on press');
     print('StartTime: ${HealingMatchConstants.confSelectedDateTime.toLocal()}');
@@ -1006,7 +1010,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
         CalendarEventCreateReqModel(
       HealingMatchConstants.serviceUserID,
       therapistId,
-      HealingMatchConstants.serviceUserName,
+      userAppendedName,
       HealingMatchConstants.providerName,
       locationType,
       location,

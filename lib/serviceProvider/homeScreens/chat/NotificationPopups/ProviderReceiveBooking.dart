@@ -964,6 +964,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
     if (cancellationReasonController.text == null ||
         cancellationReasonController.text == "") {
       displaySnackBar("キャンセルする理由を入力してください。");
+      return null;
     }
     cancelBooking(context);
   }
@@ -987,6 +988,10 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
 
   void validateFields() {
     if (proposeAdditionalCosts) {
+      if (price == null && addedpriceReason == null) {
+        displaySnackBar("追加の費用と理由を選択してください。");
+        return null;
+      }
       if (price != null && addedpriceReason == null) {
         displaySnackBar("費用の追加の理由をご選択ください。");
         return null;

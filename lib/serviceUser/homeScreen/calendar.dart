@@ -551,7 +551,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                                   158, 158, 158, 1)),
                                         ),
                                         style: DayViewStyle(
-                                            hourRowHeight: 80.0,
+                                            hourRowHeight: 85.0,
                                             backgroundColor: Color.fromRGBO(
                                                 255, 255, 255, 1),
                                             currentTimeCircleColor:
