@@ -621,10 +621,10 @@ class _TherapistAcceptNotificationState
                           ),
                           SizedBox(height: 10),
                           Text(
-                            HealingMatchConstants.therapistProfileDetails
-                                        .bookingDataResponse[0].addedPrice !=
+                            requestBookingDetailsList
+                                        .bookingDetail.addedPrice !=
                                     null
-                                ? "¥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].addedPrice}  "
+                                ? "¥${requestBookingDetailsList.bookingDetail.addedPrice}  "
                                 : '交通費',
                             style:
                                 TextStyle(fontSize: 14.0, color: Colors.black),

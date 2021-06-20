@@ -83,7 +83,7 @@ class NotificationList {
   int id;
   int userId;
   int bookingId;
-  dynamic adminInfoId;
+  int adminInfoId;
   int bookingStatus;
   bool isTherapistStatus;
   int firebaseNotiticationId;
@@ -97,15 +97,18 @@ class NotificationList {
       NotificationList(
         id: json["id"],
         userId: json["userId"],
-        bookingId: json["bookingId"],
-        adminInfoId: json["adminInfoId"],
-        bookingStatus: json["bookingStatus"],
+        bookingId: json["bookingId"] == null ? null : json["bookingId"],
+        adminInfoId: json["adminInfoId"] == null ? null : json["adminInfoId"],
+        bookingStatus:
+            json["bookingStatus"] == null ? null : json["bookingStatus"],
         isTherapistStatus: json["isTherapistStatus"],
         firebaseNotiticationId: json["firebaseNotiticationId"],
         isReadStatus: json["isReadStatus"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
-        bookingDetail: BookingDetail.fromJson(json["bookingDetail"]),
+        bookingDetail: json["bookingDetail"] == null
+            ? null
+            : BookingDetail.fromJson(json["bookingDetail"]),
         information: json["information"] == null
             ? null
             : Information.fromJson(json["information"]),
@@ -114,15 +117,15 @@ class NotificationList {
   Map<String, dynamic> toJson() => {
         "id": id,
         "userId": userId,
-        "bookingId": bookingId,
-        "adminInfoId": adminInfoId,
-        "bookingStatus": bookingStatus,
+        "bookingId": bookingId == null ? null : bookingId,
+        "adminInfoId": adminInfoId == null ? null : adminInfoId,
+        "bookingStatus": bookingStatus == null ? null : bookingStatus,
         "isTherapistStatus": isTherapistStatus,
         "firebaseNotiticationId": firebaseNotiticationId,
         "isReadStatus": isReadStatus,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
-        "bookingDetail": bookingDetail.toJson(),
+        "bookingDetail": bookingDetail == null ? null : bookingDetail.toJson(),
         "information": information == null ? null : information.toJson(),
       };
 }
@@ -237,7 +240,7 @@ class BookingDetail {
         newEndTime: json["newEndTime"] == null
             ? null
             : DateTime.parse(json["newEndTime"]),
-        paymentId: json["paymentId"],
+        paymentId: json["paymentId"] == null ? null : json["paymentId"],
         paymentStatus: json["paymentStatus"],
         paymentRefId: json["paymentRefId"],
         subCategoryId: json["subCategoryId"],
@@ -258,7 +261,9 @@ class BookingDetail {
         totalCost: json["totalCost"],
         userReviewStatus: json["userReviewStatus"],
         therapistReviewStatus: json["therapistReviewStatus"],
-        therapistComments: json["therapistComments"],
+        therapistComments: json["therapistComments"] == null
+            ? null
+            : json["therapistComments"],
         userComments: json["userComments"],
         cancellationReason: json["cancellationReason"],
         cancellationFee: json["cancellationFee"],
@@ -283,9 +288,10 @@ class BookingDetail {
         "endTime": endTime.toIso8601String(),
         "monthOfBooking": monthOfBooking,
         "yearOfBooking": yearOfBooking,
-        "newStartTime": newStartTime,
-        "newEndTime": newEndTime,
-        "paymentId": paymentId,
+        "newStartTime":
+            newStartTime == null ? null : newStartTime.toIso8601String(),
+        "newEndTime": newEndTime == null ? null : newEndTime.toIso8601String(),
+        "paymentId": paymentId == null ? null : paymentId,
         "paymentStatus": paymentStatus,
         "paymentRefId": paymentRefId,
         "subCategoryId": subCategoryId,
@@ -306,7 +312,8 @@ class BookingDetail {
         "totalCost": totalCost,
         "userReviewStatus": userReviewStatus,
         "therapistReviewStatus": therapistReviewStatus,
-        "therapistComments": therapistComments,
+        "therapistComments":
+            therapistComments == null ? null : therapistComments,
         "userComments": userComments,
         "cancellationReason": cancellationReason,
         "cancellationFee": cancellationFee,

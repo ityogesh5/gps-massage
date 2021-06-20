@@ -52,11 +52,121 @@ class _NotificationHistoryScreenState extends State<NotificationHistoryScreen> {
                     physics: BouncingScrollPhysics(),
                     itemCount: requestBookingDetailsList.length,
                     itemBuilder: (context, index) {
-                      return buildNotificationCard(
-                          index, requestBookingDetailsList[index]);
+                      return requestBookingDetailsList[index].adminInfoId ==
+                              null
+                          ? buildNotificationCard(
+                              index, requestBookingDetailsList[index])
+                          : buildAdminCard(
+                              index, requestBookingDetailsList[index]);
                     }),
               ),
             ),
+    );
+  }
+
+  buildAdminCard(int index, NotificationList requestBookingDetailsList) {
+    var notifiationDifference = DateTime.now()
+        .difference(requestBookingDetailsList.createdAt.toLocal())
+        .inHours;
+    return Container(
+      padding:
+          const EdgeInsets.only(top: 8.0, left: 4.0, right: 4.0, bottom: 8.0),
+      decoration: BoxDecoration(
+        color: !requestBookingDetailsList.isReadStatus
+            ? Color.fromRGBO(251, 251, 251, 1)
+            : Colors.white,
+        border: Border(
+          left: BorderSide(
+            color: !requestBookingDetailsList.isReadStatus
+                ? Color.fromRGBO(200, 217, 33, 1)
+                : Colors.white,
+            width: 6,
+          ),
+          bottom: BorderSide(color: Colors.grey[200]),
+        ),
+        //  borderRadius: BorderRadius.all(Radius.circular(5))
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+        child: InkWell(
+          onTap: () {
+            HealingMatchConstants.adminMessage =
+                requestBookingDetailsList.information.infoMessage;
+            HealingMatchConstants.notificationId = requestBookingDetailsList.id;
+            requestBookingDetailsList.isReadStatus = true;
+            NavigationRouter.switchToAdminNotificationScreen(context);
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: ClipOval(
+                      child: SvgPicture.asset(
+                          'assets/images_gps/profile_pic_user.svg',
+                          height: 35,
+                          width: 35,
+                          color: Colors.black),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 4.0,
+                  ),
+                  Center(
+                    child: Text(
+                      '$notifiationDifference時',
+                      style: TextStyle(
+                        color: Color.fromRGBO(153, 153, 153, 1),
+                        fontSize: 10.0,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(
+                width: 10.0,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '管理者',
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    requestBookingDetailsList.information.infoMessage.length >
+                            15
+                        ? requestBookingDetailsList.information.infoMessage
+                                .substring(0, 15) +
+                            "..."
+                        : requestBookingDetailsList.information.infoMessage,
+                    style: TextStyle(
+                      fontSize: 12.0,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+              Spacer(),
+              Icon(
+                Icons.arrow_forward_ios,
+                color: Color.fromRGBO(242, 242, 242, 1),
+                size: 20.0,
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 

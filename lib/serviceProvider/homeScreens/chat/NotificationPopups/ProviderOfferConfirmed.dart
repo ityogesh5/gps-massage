@@ -156,14 +156,18 @@ class _ProviderOfferConfirmedState extends State<ProviderOfferConfirmed> {
               children: [
                 Row(
                   children: [
-                  requestBookingDetailsList.bookingDetail.bookingUserId.uploadProfileImgUrl !=
+                    requestBookingDetailsList.bookingDetail.bookingUserId
+                                .uploadProfileImgUrl !=
                             null
                         ? ClipOval(
                             child: CachedNetworkImage(
                                 width: 25.0,
                                 height: 25.0,
                                 fit: BoxFit.cover,
-                                imageUrl:requestBookingDetailsList.bookingDetail.bookingUserId.uploadProfileImgUrl,
+                                imageUrl: requestBookingDetailsList
+                                    .bookingDetail
+                                    .bookingUserId
+                                    .uploadProfileImgUrl,
                                 placeholder: (context, url) => SpinKitWave(
                                     size: 20.0,
                                     color: ColorConstants.buttonColor),
@@ -238,7 +242,9 @@ class _ProviderOfferConfirmedState extends State<ProviderOfferConfirmed> {
                 InkWell(
                   onTap: () {
                     NavigationRouter.switchToProviderSideUserReviewScreen(
-                        context, requestBookingDetailsList.bookingDetail.bookingUserId.id);
+                        context,
+                        requestBookingDetailsList
+                            .bookingDetail.bookingUserId.id);
                   },
                   child: Row(
                     children: [

@@ -77,15 +77,15 @@ class NotificationList {
     this.createdAt,
     this.updatedAt,
     this.bookingDetail,
+    this.information,
     this.reviewAvgData,
     this.noOfReviewsMembers,
-    this.information,
   });
 
   int id;
   int userId;
   int bookingId;
-  dynamic adminInfoId;
+  int adminInfoId;
   int bookingStatus;
   bool isTherapistStatus;
   int firebaseNotiticationId;
@@ -93,45 +93,52 @@ class NotificationList {
   DateTime createdAt;
   DateTime updatedAt;
   BookingDetail bookingDetail;
+  Information information;
   String reviewAvgData;
   int noOfReviewsMembers;
-  Information information;
 
   factory NotificationList.fromJson(Map<String, dynamic> json) =>
       NotificationList(
         id: json["id"],
         userId: json["userId"],
-        bookingId: json["bookingId"],
-        adminInfoId: json["adminInfoId"],
-        bookingStatus: json["bookingStatus"],
+        bookingId: json["bookingId"] == null ? null : json["bookingId"],
+        adminInfoId: json["adminInfoId"] == null ? null : json["adminInfoId"],
+        bookingStatus:
+            json["bookingStatus"] == null ? null : json["bookingStatus"],
         isTherapistStatus: json["isTherapistStatus"],
         firebaseNotiticationId: json["firebaseNotiticationId"],
         isReadStatus: json["isReadStatus"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
-        bookingDetail: BookingDetail.fromJson(json["bookingDetail"]),
-        reviewAvgData: json["reviewAvgData"],
-        noOfReviewsMembers: json["NoOfReviewsMembers"],
+        bookingDetail: json["bookingDetail"] == null
+            ? null
+            : BookingDetail.fromJson(json["bookingDetail"]),
         information: json["information"] == null
             ? null
             : Information.fromJson(json["information"]),
+        reviewAvgData:
+            json["reviewAvgData"] == null ? null : json["reviewAvgData"],
+        noOfReviewsMembers: json["NoOfReviewsMembers"] == null
+            ? null
+            : json["NoOfReviewsMembers"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "userId": userId,
-        "bookingId": bookingId,
-        "adminInfoId": adminInfoId,
-        "bookingStatus": bookingStatus,
+        "bookingId": bookingId == null ? null : bookingId,
+        "adminInfoId": adminInfoId == null ? null : adminInfoId,
+        "bookingStatus": bookingStatus == null ? null : bookingStatus,
         "isTherapistStatus": isTherapistStatus,
         "firebaseNotiticationId": firebaseNotiticationId,
         "isReadStatus": isReadStatus,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
-        "bookingDetail": bookingDetail.toJson(),
-        "reviewAvgData": reviewAvgData,
-        "NoOfReviewsMembers": noOfReviewsMembers,
+        "bookingDetail": bookingDetail == null ? null : bookingDetail.toJson(),
         "information": information == null ? null : information.toJson(),
+        "reviewAvgData": reviewAvgData == null ? null : reviewAvgData,
+        "NoOfReviewsMembers":
+            noOfReviewsMembers == null ? null : noOfReviewsMembers,
       };
 }
 
@@ -192,8 +199,8 @@ class BookingDetail {
   DateTime endTime;
   String monthOfBooking;
   String yearOfBooking;
-  dynamic newStartTime;
-  dynamic newEndTime;
+  DateTime newStartTime;
+  DateTime newEndTime;
   int paymentId;
   int paymentStatus;
   dynamic paymentRefId;
@@ -216,7 +223,7 @@ class BookingDetail {
   dynamic therapistReviewStatus;
   String therapistComments;
   dynamic userComments;
-  dynamic cancellationReason;
+  String cancellationReason;
   dynamic cancellationFee;
   dynamic cancelledUserId;
   dynamic orderCompletion;
@@ -230,7 +237,7 @@ class BookingDetail {
         id: json["id"],
         userId: json["userId"],
         therapistId: json["therapistId"],
-        addressId: json["addressId"] == null ? null : json["addressId"],
+        addressId: json["addressId"],
         eventId: json["eventId"],
         currentPrefecture: json["currentPrefecture"],
         startTime: DateTime.parse(json["startTime"]),
@@ -251,7 +258,7 @@ class BookingDetail {
         nameOfService: json["nameOfService"],
         totalMinOfService: json["totalMinOfService"],
         priceOfService: json["priceOfService"],
-        addedPrice: json["addedPrice"] == null ? null : json["addedPrice"],
+        addedPrice: json["addedPrice"],
         bookingStatus: json["bookingStatus"],
         statusUpdatedAt: DateTime.parse(json["statusUpdatedAt"]),
         travelAmount: json["travelAmount"],
@@ -262,16 +269,12 @@ class BookingDetail {
         lon: json["lon"],
         totalCost: json["totalCost"],
         userReviewStatus: json["userReviewStatus"],
-        therapistReviewStatus: json["therapistReviewStatus"] == null
-            ? null
-            : json["therapistReviewStatus"],
+        therapistReviewStatus: json["therapistReviewStatus"],
         therapistComments: json["therapistComments"] == null
             ? null
             : json["therapistComments"],
         userComments: json["userComments"],
-        cancellationReason: json["cancellationReason"] == null
-            ? null
-            : json["cancellationReason"],
+        cancellationReason: json["cancellationReason"],
         cancellationFee: json["cancellationFee"],
         cancelledUserId: json["cancelledUserId"],
         orderCompletion: json["orderCompletion"],
@@ -293,9 +296,10 @@ class BookingDetail {
         "endTime": endTime.toIso8601String(),
         "monthOfBooking": monthOfBooking,
         "yearOfBooking": yearOfBooking,
-        "newStartTime": newStartTime,
-        "newEndTime": newEndTime,
-        "paymentId": paymentId,
+        "newStartTime":
+            newStartTime == null ? null : newStartTime.toIso8601String(),
+        "newEndTime": newEndTime == null ? null : newEndTime.toIso8601String(),
+        "paymentId": paymentId == null ? null : paymentId,
         "paymentStatus": paymentStatus,
         "paymentRefId": paymentRefId,
         "subCategoryId": subCategoryId,
@@ -315,7 +319,8 @@ class BookingDetail {
         "totalCost": totalCost,
         "userReviewStatus": userReviewStatus,
         "therapistReviewStatus": therapistReviewStatus,
-        "therapistComments": therapistComments,
+        "therapistComments":
+            therapistComments == null ? null : therapistComments,
         "userComments": userComments,
         "cancellationReason": cancellationReason,
         "cancellationFee": cancellationFee,
@@ -351,9 +356,7 @@ class BookingUserId {
         userId: json["userId"],
         userName: json["userName"],
         gender: json["gender"],
-        uploadProfileImgUrl: json["uploadProfileImgUrl"] == null
-            ? null
-            : json["uploadProfileImgUrl"],
+        uploadProfileImgUrl: json["uploadProfileImgUrl"],
         firebaseUdid: json["firebaseUDID"],
       );
 
