@@ -1173,8 +1173,9 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
           ),
         ),
         therapistDetails.bookingDataResponse[0].bookingStatus == 2 &&
-                therapistDetails.bookingDataResponse[0].addedPrice != null &&
-                therapistDetails.bookingDataResponse[0].addedPrice != ''
+                therapistDetails.bookingDataResponse[0].therapistComments !=
+                    null &&
+                therapistDetails.bookingDataResponse[0].therapistComments != ''
             ? buildConditionReason(context)
             : Container(),
         therapistDetails.bookingDataResponse[0].bookingStatus == 2
@@ -1216,9 +1217,10 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
-                therapistDetails.bookingDataResponse[0].addedPrice != null
+                therapistDetails.bookingDataResponse[0].therapistComments !=
+                        null
                     ? Text(
-                        "${therapistDetails.bookingDataResponse[0].addedPrice}",
+                        "${therapistDetails.bookingDataResponse[0].therapistComments}",
                         style: TextStyle(fontSize: 14.0, color: Colors.black),
                       )
                     : SizedBox.shrink(),
@@ -2548,7 +2550,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
     if (cid == 1) {
       if (name.contains("ブライダル")) {
         return "assets/images_gps/subCategory/esthetic/bridal.svg";
-      } else if (name == ("ボディ")) {
+      } else if (name.contains("ボディ")) {
         return "assets/images_gps/subCategory/esthetic/body.svg";
       } else if (name.contains("太もも・ヒップ")) {
         return "assets/images_gps/subCategory/esthetic/thighsHips.svg";
@@ -2599,8 +2601,6 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
         return "assets/images_gps/subCategory/osteopathic/beautyAcupunctureFace.svg";
       } else if (name.contains("きゅう")) {
         return "assets/images_gps/subCategory/osteopathic/Kyu.svg";
-      } else if (name == ("ベビーマッサージ")) {
-        return "assets/images_gps/subCategory/osteopathic/babyMassage.svg";
       } else if (name.contains("マッサージ")) {
         return "assets/images_gps/subCategory/osteopathic/Massage.svg";
       } else if (name.contains("ストレッチ")) {
@@ -2611,6 +2611,8 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
         return "assets/images_gps/subCategory/osteopathic/cupping.svg";
       } else if (name.contains("マタニティ")) {
         return "assets/images_gps/subCategory/osteopathic/maternity1.svg";
+      } else if (name.contains("ベビーマッサージ")) {
+        return "assets/images_gps/subCategory/osteopathic/babyMassage.svg";
       }
       //other fields
       else {
@@ -2619,7 +2621,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
     }
     //fitness
     else if (cid == 2) {
-      if (name == "ヨガ") {
+      if (name.contains("ヨガ")) {
         return "assets/images_gps/subCategory/fitness/yoga.svg";
       } else if (name.contains("ホットヨガ")) {
         return "assets/images_gps/subCategory/fitness/hotYoga.svg";

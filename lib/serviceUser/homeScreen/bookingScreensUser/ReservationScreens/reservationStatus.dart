@@ -991,11 +991,21 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                               ),
                                                               Flexible(
                                                                 child: Text(
-                                                                  '${waitingForApprovalList[index].location}',
+                                                                  waitingForApprovalList[index]
+                                                                              .location
+                                                                              .length >
+                                                                          20
+                                                                      ? waitingForApprovalList[index].location.substring(
+                                                                              0,
+                                                                              20) +
+                                                                          "..."
+                                                                      : waitingForApprovalList[
+                                                                              index]
+                                                                          .location,
                                                                   style:
                                                                       TextStyle(
                                                                     fontSize:
-                                                                        11.0,
+                                                                        12.0,
                                                                     color: Color
                                                                         .fromRGBO(
                                                                             152,
@@ -1744,7 +1754,17 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                               ),
                                                               Flexible(
                                                                 child: Text(
-                                                                  '  ${approvedWithConditionsList[index].location}',
+                                                                  approvedWithConditionsList[index]
+                                                                              .location
+                                                                              .length >
+                                                                          20
+                                                                      ? approvedWithConditionsList[index].location.substring(
+                                                                              0,
+                                                                              20) +
+                                                                          "..."
+                                                                      : approvedWithConditionsList[
+                                                                              index]
+                                                                          .location,
                                                                   style:
                                                                       TextStyle(
                                                                     color: Color
@@ -1754,7 +1774,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                             102,
                                                                             1),
                                                                     fontSize:
-                                                                        11.0,
+                                                                        12.0,
                                                                   ),
                                                                 ),
                                                               ),
@@ -2499,11 +2519,21 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                               ),
                                                               Flexible(
                                                                 child: Text(
-                                                                  '${approvedList[index].location}',
+                                                                  approvedList[index]
+                                                                              .location
+                                                                              .length >
+                                                                          20
+                                                                      ? approvedList[index].location.substring(
+                                                                              0,
+                                                                              20) +
+                                                                          "..."
+                                                                      : approvedList[
+                                                                              index]
+                                                                          .location,
                                                                   style:
                                                                       TextStyle(
                                                                     fontSize:
-                                                                        11.0,
+                                                                        12.0,
                                                                     color: Color
                                                                         .fromRGBO(
                                                                             102,
@@ -3328,9 +3358,22 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                           ),
                                                           Flexible(
                                                             child: Text(
-                                                              '${confirmedPaymentList[index].location}',
+                                                              confirmedPaymentList[index]
+                                                                          .location
+                                                                          .length >
+                                                                      20
+                                                                  ? confirmedPaymentList[
+                                                                              index]
+                                                                          .location
+                                                                          .substring(
+                                                                              0,
+                                                                              20) +
+                                                                      "..."
+                                                                  : confirmedPaymentList[
+                                                                          index]
+                                                                      .location,
                                                               style: TextStyle(
-                                                                fontSize: 11.0,
+                                                                fontSize: 12.0,
                                                                 color: Color
                                                                     .fromRGBO(
                                                                         102,
@@ -4065,9 +4108,22 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                           ),
                                                           Flexible(
                                                             child: Text(
-                                                              '${canceledReservationList[index].location}',
+                                                              canceledReservationList[index]
+                                                                          .location
+                                                                          .length >
+                                                                      20
+                                                                  ? canceledReservationList[
+                                                                              index]
+                                                                          .location
+                                                                          .substring(
+                                                                              0,
+                                                                              20) +
+                                                                      "..."
+                                                                  : canceledReservationList[
+                                                                          index]
+                                                                      .location,
                                                               style: TextStyle(
-                                                                fontSize: 11.0,
+                                                                fontSize: 12.0,
                                                                 color: Color
                                                                     .fromRGBO(
                                                                         102,

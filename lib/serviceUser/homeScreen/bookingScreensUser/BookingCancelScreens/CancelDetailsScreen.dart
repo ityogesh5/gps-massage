@@ -148,49 +148,43 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
                   ),
                 ),
                 SizedBox(height: 5),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 5, left: 11),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          ButtonTheme(
-                            minWidth: MediaQuery.of(context).size.width * 0.35,
-                            child: CustomToggleButton(
-                              elevation: 0,
-                              height: 55.0,
-                              width: 125.0,
-                              autoWidth: false,
-                              buttonColor: Colors.grey[300],
-                              enableShape: true,
-                              customShape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  side: BorderSide(color: Colors.transparent)),
-                              buttonLables: ["はい", "いいえ"],
-                              fontSize: 16.0,
-                              buttonValues: [
-                                "Y",
-                                "N",
-                              ],
-                              radioButtonValue: (value) {
-                                if (value == 'Y') {
-                                  cancelBooking();
-                                } else if (value == 'N') {
-                                  Navigator.pop(context);
-                                }
-                              },
-                              selectedColor: Colors.lime,
-                            ),
-                          ),
-                          SizedBox(height: 20)
-                        ],
+                Padding(
+                  padding: const EdgeInsets.only(right: 15, left: 15),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ButtonTheme(
+                        minWidth: MediaQuery.of(context).size.width * 0.25,
+                        child: CustomToggleButton(
+                          elevation: 0,
+                          height: 55.0,
+                          width: MediaQuery.of(context).size.width * 0.30,
+                          autoWidth: false,
+                          buttonColor: Colors.grey[300],
+                          enableShape: true,
+                          customShape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              side: BorderSide(color: Colors.transparent)),
+                          buttonLables: ["はい", "いいえ"],
+                          fontSize: 16.0,
+                          buttonValues: [
+                            "Y",
+                            "N",
+                          ],
+                          radioButtonValue: (value) {
+                            if (value == 'Y') {
+                              cancelBooking();
+                            } else if (value == 'N') {
+                              Navigator.pop(context);
+                            }
+                          },
+                          selectedColor: Colors.lime,
+                        ),
                       ),
-                    )
-                  ],
+                      SizedBox(height: 20)
+                    ],
+                  ),
                 ),
               ],
             ),
