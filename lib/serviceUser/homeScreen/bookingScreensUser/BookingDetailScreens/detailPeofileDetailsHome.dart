@@ -55,7 +55,7 @@ class _DetailPeofileDetailsHomeState extends State<DetailPeofileDetailsHome> {
           //Display the Service types Available
           Container(
             height: 30.0,
-            width: MediaQuery.of(context).size.width - 130.0, //200.0,
+            width: MediaQuery.of(context).size.width - 10.0, //200.0,
             child: ListView.builder(
                 itemCount: serviceType.length,
                 padding: EdgeInsets.all(0.0),
@@ -87,8 +87,18 @@ class _DetailPeofileDetailsHomeState extends State<DetailPeofileDetailsHome> {
                         //name
                         Text(
                           widget.therapistDetails.data.isShop
-                              ? "${widget.therapistDetails.data.storeName}"
-                              : "${widget.therapistDetails.data.userName}",
+                              ? widget.therapistDetails.data.storeName.length >
+                                      10
+                                  ? widget.therapistDetails.data.storeName
+                                          .substring(0, 10) +
+                                      "..."
+                                  : widget.therapistDetails.data.storeName
+                              : widget.therapistDetails.data.userName.length >
+                                      10
+                                  ? widget.therapistDetails.data.userName
+                                          .substring(0, 10) +
+                                      "..."
+                                  : widget.therapistDetails.data.userName,
                           style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.bold,
@@ -212,7 +222,7 @@ class _DetailPeofileDetailsHomeState extends State<DetailPeofileDetailsHome> {
           childrenMeasure != null
               ? Container(
                   height: 30.0,
-                  width: MediaQuery.of(context).size.width - 130.0, //200.0,
+                  width: MediaQuery.of(context).size.width - 10.0, //200.0,
                   child: ListView.builder(
                       itemCount: childrenMeasure.length,
                       padding: EdgeInsets.all(0.0),
@@ -232,7 +242,7 @@ class _DetailPeofileDetailsHomeState extends State<DetailPeofileDetailsHome> {
           certificateImages != null
               ? Container(
                   height: 30.0,
-                  width: MediaQuery.of(context).size.width - 130.0, //200.0,
+                  width: MediaQuery.of(context).size.width - 50.0, //200.0,
                   child: ListView.builder(
                       itemCount: certificateImages.length,
                       padding: EdgeInsets.all(0.0),
@@ -305,6 +315,7 @@ class _DetailPeofileDetailsHomeState extends State<DetailPeofileDetailsHome> {
                         trimMode: TrimMode.Line,
                         trimCollapsedText: 'もっとみる',
                         trimExpandedText: '閉じる',
+                        delimiter: '.',
                         moreStyle: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
@@ -325,12 +336,6 @@ class _DetailPeofileDetailsHomeState extends State<DetailPeofileDetailsHome> {
                 )
               : Container(),
 
-          Text(
-            "施術を受ける場所",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
           // buildServiceTypeDatas(context),
         ],
       ),
@@ -659,7 +664,9 @@ class _DetailPeofileDetailsHomeState extends State<DetailPeofileDetailsHome> {
               SizedBox(width: 5),
               Flexible(
                 child: new Text(
-                  widget.therapistDetails.data.addresses[0].address,
+                  widget.therapistDetails.data.isShop == true
+                      ? '  ${widget.therapistDetails.data.addresses[0].address}'
+                      : '  ${widget.therapistDetails.data.addresses[0].capitalAndPrefecture} ${widget.therapistDetails.data.addresses[0].cityName} ${widget.therapistDetails.data.addresses[0].area}',
                   style: TextStyle(
                       color: Colors.grey[400],
                       fontSize: 12,

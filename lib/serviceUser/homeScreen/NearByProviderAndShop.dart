@@ -684,7 +684,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                     flexibleSpace: Padding(
                       padding: const EdgeInsets.only(left: 25.0, right: 25.0),
                       child: Container(
-                        height: MediaQuery.of(context).size.height * 0.082,
+                        height: MediaQuery.of(context).size.height * 0.10,
                         decoration: BoxDecoration(
                             color: Colors.white,
                             border: Border.all(
@@ -800,7 +800,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                   right: 20,
                   left: 20,
                   child: Container(
-                    height: MediaQuery.of(context).size.height * 0.082,
+                    height: MediaQuery.of(context).size.height * 0.10,
                     width: MediaQuery.of(context).size.width * 0.15,
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -1377,7 +1377,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                     flexibleSpace: Padding(
                       padding: const EdgeInsets.only(left: 15.0, right: 15.0),
                       child: Container(
-                        height: MediaQuery.of(context).size.height * 0.08,
+                        height: MediaQuery.of(context).size.height * 0.09,
                         decoration: BoxDecoration(
                             color: Colors.white,
                             border: Border.all(
@@ -1493,7 +1493,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                   right: 20,
                   left: 20,
                   child: Container(
-                    height: MediaQuery.of(context).size.height * 0.082,
+                    height: MediaQuery.of(context).size.height * 0.09,
                     width: MediaQuery.of(context).size.width * 0.15,
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -2122,7 +2122,7 @@ class _MassageTypeChipsState extends State<MassageTypeChips>
     for (int i = 0; i < _options.length; i++) {
       ChoiceChip choiceChip = ChoiceChip(
         selected: _selectedIndex == i,
-        labelPadding: EdgeInsets.all(2.0),
+        // labelPadding: EdgeInsets.all(2.0),
         label: Text(_options[i],
             style: TextStyle(
                 color: _selectedIndex == i

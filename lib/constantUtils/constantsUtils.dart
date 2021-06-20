@@ -801,17 +801,16 @@ class HealingMatchConstants {
       StripePayment.setOptions(StripeOptions(
           publishableKey:
               "${HealingMatchConstants.CLIENT_PUBLISHABLE_KEY_STRIPE}"));
-
       StripePayment.paymentRequestWithCardForm(CardFormPaymentRequest())
           .then((paymentMethod) {
         _paymentMethod = paymentMethod;
         var cardJSON = _paymentMethod..card.toJson();
         var paymentToken = paymentMethod.card.token.toString();
+        
         print(
             'Received payment method : ${_paymentMethod.toJson()}\n$cardJSON');
         print(
             'Received payment method ID : ${_paymentMethod.id} \n $paymentToken');
-
         Future.delayed(Duration(seconds: 2), () {});
         createCustomer(_paymentMethod, context);
       }).catchError((e) {

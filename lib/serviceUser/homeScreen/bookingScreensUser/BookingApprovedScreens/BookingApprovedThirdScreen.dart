@@ -175,319 +175,7 @@ class _BookingApproveThirdScreenState extends State<BookingApproveThirdScreen> {
                         fontFamily: 'NotoSansJP'),
                   ),
                   SizedBox(height: 10),
-                  Container(
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Color.fromRGBO(242, 242, 242, 1),
-                              Color.fromRGBO(242, 242, 242, 1)
-                            ]),
-                        shape: BoxShape.rectangle,
-                        border: Border.all(
-                          color: Colors.grey[100],
-                        ),
-                        borderRadius: BorderRadius.circular(16.0),
-                        color: Colors.grey[100]),
-                    width: MediaQuery.of(context).size.width * 0.90,
-                    height: 290,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.02),
-                        Expanded(
-                          child: new Row(
-                            children: [
-                              HealingMatchConstants.therapistProfileDetails.data
-                                          .uploadProfileImgUrl !=
-                                      null
-                                  ? CachedNetworkImage(
-                                      imageUrl: HealingMatchConstants
-                                          .therapistProfileDetails
-                                          .data
-                                          .uploadProfileImgUrl,
-                                      filterQuality: FilterQuality.high,
-                                      fadeInCurve: Curves.easeInSine,
-                                      imageBuilder: (context, imageProvider) =>
-                                          Container(
-                                        width: 65.0,
-                                        height: 65.0,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          image: DecorationImage(
-                                              image: imageProvider,
-                                              fit: BoxFit.cover),
-                                        ),
-                                      ),
-                                      placeholder: (context, url) =>
-                                          SpinKitDoubleBounce(
-                                              color: Colors.lightGreenAccent),
-                                      errorWidget: (context, url, error) =>
-                                          Container(
-                                        width: 56.0,
-                                        height: 56.0,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border:
-                                              Border.all(color: Colors.black12),
-                                          image: DecorationImage(
-                                              image: new AssetImage(
-                                                  'assets/images_gps/placeholder_image.png'),
-                                              fit: BoxFit.cover),
-                                        ),
-                                      ),
-                                    )
-                                  : CircleAvatar(
-                                      child: Image.asset(
-                                        'assets/images_gps/placeholder_image.png',
-                                        height: 65,
-                                        color: Colors.black,
-                                        fit: BoxFit.cover,
-                                      ),
-                                      radius: 35,
-                                      backgroundColor: Colors.white,
-                                    ),
-                              /*  SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.02),*/
-                              HealingMatchConstants.therapistProfileDetails.data
-                                          .storeName.isNotEmpty &&
-                                      HealingMatchConstants
-                                              .therapistProfileDetails
-                                              .data
-                                              .storeName !=
-                                          null
-                                  ? Text(
-                                      '${HealingMatchConstants.therapistProfileDetails.data.storeName}',
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'NotoSansJP'),
-                                    )
-                                  : Text(
-                                      '${HealingMatchConstants.therapistProfileDetails.data.userName}',
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'NotoSansJP'),
-                                    ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 12),
-                        Expanded(
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.03),
-                              Image.asset('assets/images_gps/calendar.png',
-                                  height: 25, width: 25),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.02),
-                              Text(
-                                '$date',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'NotoSansJP'),
-                              ),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.03),
-                              Text(
-                                '$jaName',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.grey[400],
-                                    fontFamily: 'NotoSansJP'),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 12),
-                        Expanded(
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.03),
-                              SvgPicture.asset('assets/images_gps/clock.svg',
-                                  height: 25, width: 25),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.02),
-                              new Text(
-                                '$sTime～$eTime',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                    fontFamily: 'NotoSansJP'),
-                              ),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.02),
-                              new Text(
-                                '${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].totalMinOfService}分',
-                                style: TextStyle(
-                                    color: Colors.grey[400],
-                                    fontSize: 14,
-                                    fontFamily: 'NotoSansJP'),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Expanded(
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.03),
-                              SvgPicture.asset('assets/images_gps/cost.svg',
-                                  height: 25, width: 25),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.02),
-                              Chip(
-                                label: Text(
-                                    '${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].nameOfService}'),
-                                backgroundColor: Colors.white,
-                              ),
-                              Text(
-                                "¥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].priceOfService}",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold),
-                                textAlign: TextAlign.left,
-                              ),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.01),
-                              /* Text(
-                                '(交通費込み-1,000)',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.grey[400],
-                                    fontFamily: 'NotoSansJP'),
-                              ),*/
-                            ],
-                          ),
-                        ),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Expanded(
-                                  child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Divider(),
-                              )),
-                              Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: InkWell(
-                                  onTap: () {
-                                    ProgressDialogBuilder
-                                        .showCommonProgressDialog(context);
-                                    getChatDetails(HealingMatchConstants
-                                        .therapistProfileDetails
-                                        .data
-                                        .firebaseUdid);
-                                  },
-                                  child: Card(
-                                    elevation: 3,
-                                    shape: CircleBorder(),
-                                    child: CircleAvatar(
-                                        maxRadius: 20,
-                                        backgroundColor: Colors.white,
-                                        child: SvgPicture.asset(
-                                            'assets/images_gps/chat.svg',
-                                            height: 15,
-                                            width: 15)),
-                                  ),
-                                ),
-                              ),
-                            ]),
-                        Expanded(
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.03),
-                              SvgPicture.asset('assets/images_gps/gps.svg',
-                                  height: 25, width: 25),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.02),
-                              Text(
-                                '施術を受ける場所',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'NotoSansJP'),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 12),
-                        Expanded(
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.03),
-                              Container(
-                                  padding: EdgeInsets.only(left: 15, right: 15),
-                                  decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
-                                          colors: [
-                                            Color.fromRGBO(255, 255, 255, 1),
-                                            Color.fromRGBO(255, 255, 255, 1)
-                                          ]),
-                                      shape: BoxShape.rectangle,
-                                      border: Border.all(
-                                        color: Colors.grey[300],
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      color: Colors.grey[200]),
-                                  child: Text(
-                                    '${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].locationType}',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: 'NotoSansJP'),
-                                  )),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.02),
-                              Flexible(
-                                child: Text(
-                                  '${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].location}',
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.grey[500],
-                                      fontFamily: 'NotoSansJP'),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  buildBookingDetails(context),
                   SizedBox(height: 10),
                 ],
               ),
@@ -699,7 +387,7 @@ class _BookingApproveThirdScreenState extends State<BookingApproveThirdScreen> {
                       radioButtonValue: (value) {
                         if (value == 'Y') {
                           setState(() {
-                            isCancelSelected = true;
+                            isCancelSelected = !isCancelSelected;
                           });
                         } else {
                           setState(() {
@@ -948,6 +636,352 @@ class _BookingApproveThirdScreenState extends State<BookingApproveThirdScreen> {
     } catch (e) {
       print('cancelException : ${e.toString()}');
     }
+  }
+
+  buildBookingDetails(BuildContext context) {
+    DateTime startTime = HealingMatchConstants
+        .therapistProfileDetails.bookingDataResponse[0].startTime
+        .toLocal();
+    DateTime endTime = HealingMatchConstants
+        .therapistProfileDetails.bookingDataResponse[0].endTime
+        .toLocal();
+    String date = DateFormat('MM月d').format(startTime);
+
+    String jaName = DateFormat('EEEE', 'ja_JP').format(startTime);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          margin: const EdgeInsets.all(12.0),
+          decoration: BoxDecoration(
+            color: Color.fromRGBO(242, 242, 242, 1),
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          child: Stack(
+            children: [
+              Positioned(
+                top: 92.0,
+                bottom: 12,
+                right: 5.0,
+                child: InkWell(
+                  onTap: () {
+                    ProgressDialogBuilder.showCommonProgressDialog(context);
+                    getChatDetails(HealingMatchConstants
+                        .therapistProfileDetails.data.firebaseUdid);
+                  },
+                  child: Card(
+                    elevation: 3,
+                    shape: CircleBorder(),
+                    child: CircleAvatar(
+                        maxRadius: 20,
+                        backgroundColor: Colors.white,
+                        child: SvgPicture.asset('assets/images_gps/chat.svg',
+                            height: 15, width: 15)),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        HealingMatchConstants.therapistProfileDetails.data
+                                    .uploadProfileImgUrl !=
+                                null
+                            ? CachedNetworkImage(
+                                imageUrl: HealingMatchConstants
+                                    .therapistProfileDetails
+                                    .data
+                                    .uploadProfileImgUrl,
+                                filterQuality: FilterQuality.high,
+                                fadeInCurve: Curves.easeInSine,
+                                imageBuilder: (context, imageProvider) =>
+                                    Container(
+                                  width: 25.0,
+                                  height: 25.0,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover),
+                                  ),
+                                ),
+                                placeholder: (context, url) =>
+                                    SpinKitDoubleBounce(
+                                        color: Colors.lightGreenAccent),
+                                errorWidget: (context, url, error) => Container(
+                                  width: 25.0,
+                                  height: 25.0,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: Colors.black12),
+                                    image: DecorationImage(
+                                        image: new AssetImage(
+                                            'assets/images_gps/placeholder_image.png'),
+                                        fit: BoxFit.cover),
+                                  ),
+                                ),
+                              )
+                            : CircleAvatar(
+                                child: Image.asset(
+                                  'assets/images_gps/placeholder_image.png',
+                                  height: 25,
+                                  color: Colors.black,
+                                  fit: BoxFit.cover,
+                                ),
+                                radius: 35,
+                                backgroundColor: Colors.white,
+                              ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        HealingMatchConstants.therapistProfileDetails.data
+                                    .storeName.isNotEmpty &&
+                                HealingMatchConstants.therapistProfileDetails
+                                        .data.storeName !=
+                                    null
+                            ? Text(
+                                '${HealingMatchConstants.therapistProfileDetails.data.storeName}',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'NotoSansJP'),
+                              )
+                            : Text(
+                                '${HealingMatchConstants.therapistProfileDetails.data.userName}',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'NotoSansJP'),
+                              ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SvgPicture.asset(
+                          "assets/images_gps/calendar.svg",
+                          height: 14.77,
+                          width: 15.0,
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          '$date',
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          ' $jaName ',
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            color: Color.fromRGBO(102, 102, 102, 1),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SvgPicture.asset(
+                          "assets/images_gps/clock.svg",
+                          height: 14.77,
+                          width: 16.0,
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          startTime.hour < 10
+                              ? "0${startTime.hour}"
+                              : "${startTime.hour}",
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          startTime.minute < 10
+                              ? ": 0${startTime.minute}"
+                              : ": ${startTime.minute}",
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          endTime.hour < 10
+                              ? " ~ 0${endTime.hour}"
+                              : " ~ ${endTime.hour}",
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          endTime.minute < 10
+                              ? ": 0${endTime.minute}"
+                              : ": ${endTime.minute}",
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          ' ${therapistDetails.bookingDataResponse[0].totalMinOfService}分 ',
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            color: Color.fromRGBO(102, 102, 102, 1),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SvgPicture.asset(
+                          "assets/images_gps/cost.svg",
+                          height: 14.77,
+                          width: 16.0,
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Color.fromRGBO(217, 217, 217, 1),
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              ' ${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].nameOfService} ',
+                              style: TextStyle(
+                                fontSize: 12.0,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 2,
+                        ),
+                        Text(
+                          "¥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].priceOfService}",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 3,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Divider(
+                            // height: 50,
+                            color: Color.fromRGBO(217, 217, 217, 1),
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(''),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 3,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SvgPicture.asset(
+                          "assets/images_gps/location.svg",
+                          height: 14.77,
+                          width: 16.0,
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          '施術をする場所',
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Color.fromRGBO(217, 217, 217, 1),
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              '${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].locationType}',
+                              style: TextStyle(
+                                fontSize: 12.0,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 2,
+                        ),
+                        Flexible(
+                          child: Text(
+                            '${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].location} ',
+                            style: TextStyle(
+                              fontSize: 12.0,
+                              color: Color.fromRGBO(102, 102, 102, 1),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 
   void _handleCategoryChange(bool newVal, BuildingCategory category) {

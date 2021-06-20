@@ -379,7 +379,10 @@ class _PastReservationsState extends State<PastReservations> {
                                                                             .storeName
                                                                             .isNotEmpty
                                                                     ? Text(
-                                                                        '${bookingDetailsList[index].bookingTherapistId.storeName}',
+                                                                        bookingDetailsList[index].bookingTherapistId.storeName.length > 10
+                                                                            ? bookingDetailsList[index].bookingTherapistId.storeName.substring(0, 10) +
+                                                                                "..."
+                                                                            : bookingDetailsList[index].bookingTherapistId.storeName,
                                                                         style: TextStyle(
                                                                             fontSize:
                                                                                 14,
@@ -392,7 +395,10 @@ class _PastReservationsState extends State<PastReservations> {
                                                                                 FontWeight.bold),
                                                                       )
                                                                     : Text(
-                                                                        '${bookingDetailsList[index].bookingTherapistId.userName}',
+                                                                        bookingDetailsList[index].bookingTherapistId.userName.length > 10
+                                                                            ? bookingDetailsList[index].bookingTherapistId.userName.substring(0, 10) +
+                                                                                "..."
+                                                                            : bookingDetailsList[index].bookingTherapistId.userName,
                                                                         style: TextStyle(
                                                                             fontSize:
                                                                                 14,

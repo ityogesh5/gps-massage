@@ -382,7 +382,10 @@ class _FavoriteState extends State<Favorite> {
                                                                             .storeName
                                                                             .isNotEmpty
                                                                     ? Text(
-                                                                        '${favouriteUserList[index].favouriteTherapistId.storeName}',
+                                                                        favouriteUserList[index].favouriteTherapistId.storeName.length > 10
+                                                                            ? favouriteUserList[index].favouriteTherapistId.storeName.substring(0, 10) +
+                                                                                "..."
+                                                                            : favouriteUserList[index].favouriteTherapistId.storeName,
                                                                         style: TextStyle(
                                                                             fontSize:
                                                                                 14,
@@ -395,7 +398,10 @@ class _FavoriteState extends State<Favorite> {
                                                                                 FontWeight.bold),
                                                                       )
                                                                     : Text(
-                                                                        '${favouriteUserList[index].favouriteTherapistId.userName}',
+                                                                        favouriteUserList[index].favouriteTherapistId.userName.length > 10
+                                                                            ? favouriteUserList[index].favouriteTherapistId.userName.substring(0, 10) +
+                                                                                "..."
+                                                                            : favouriteUserList[index].favouriteTherapistId.userName,
                                                                         style: TextStyle(
                                                                             fontSize:
                                                                                 14,

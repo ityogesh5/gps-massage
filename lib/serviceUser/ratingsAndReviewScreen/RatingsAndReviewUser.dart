@@ -42,7 +42,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
   var rUserID;
   String accessToken;
   bool isLoadingData = false;
-  var _pageNumber = 1;
+  var _pageNumber = 0;
   var _pageSize = 10;
   var totalElements;
 
@@ -91,7 +91,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
       body: status == 0
           ? buildLoading()
           : LazyLoadScrollView(
-              onEndOfPage: () => _loadMoreData(),
+              onEndOfPage: () => _getMoreDataByType(),
               isLoading: isLoadingData,
               child: ListView(
                 shrinkWrap: true,
@@ -245,6 +245,9 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                             autofocus: false,
                                             focusNode: _focus,
                                             decoration: new InputDecoration(
+                                              contentPadding:
+                                                  EdgeInsets.fromLTRB(
+                                                      6, 3, 6, 1),
                                               filled: false,
                                               fillColor: ColorConstants
                                                   .formFieldFillColor,
@@ -658,13 +661,14 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
 
   _providerRatingList() async {
     try {
-      ServiceUserAPIProvider.getAllTherapistsRatings(
-              context, widget.bookingDetail.therapistId)
-          .then((value) {
-        if (value != null) {
+      var ratingsProvider =
+          ServiceUserAPIProvider.getAllTherapistsRatingsByLimit(context,
+              _pageNumber, _pageSize, widget.bookingDetail.therapistId);
+      ratingsProvider.then((value) {
+        if (this.mounted) {
           setState(() {
-            totalElements = value.therapistsData.totalElements;
             ratingListValues = value.therapistsData.therapistReviewList;
+            totalElements = value.therapistsData.totalElements;
             status = 1;
           });
         }
@@ -674,9 +678,48 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
     }
   }
 
-  _loadMoreData() async {
+  _getMoreDataByType() async {
     try {
       if (!isLoadingData) {
+        setState(() {
+          isLoadingData = true;
+          // call fetch more method here
+          _pageNumber++;
+          print('Page number : $_pageNumber Page Size : $_pageSize');
+          var ratingsProvider =
+              ServiceUserAPIProvider.getAllTherapistsRatingsByLimit(context,
+                  _pageNumber, _pageSize, widget.bookingDetail.therapistId);
+          ratingsProvider.then((value) {
+            if (value.therapistsData.therapistReviewList.isEmpty) {
+              setState(() {
+                isLoadingData = false;
+                print(
+                    'TherapistList data count is Zero : ${value.therapistsData.therapistReviewList.length}');
+              });
+            } else {
+              print(
+                  'TherapistList data Size : ${value.therapistsData.therapistReviewList.length}');
+              setState(() {
+                isLoadingData = false;
+                if (this.mounted) {
+                  ratingListValues
+                      .addAll(value.therapistsData.therapistReviewList);
+                }
+              });
+            }
+          });
+        });
+      }
+      //print('Therapist users data Size : ${therapistUsers.length}');
+    } catch (e) {
+      print('Exception more data' + e.toString());
+    }
+  }
+
+  /*_loadMoreData() async {
+    try {
+      if (!isLoadingData) {
+        setState(() {});
         isLoadingData = true;
         // call fetch more method here
         _pageNumber++;
@@ -709,7 +752,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
         isLoadingData = false;
       });
     }
-  }
+  }*/
 
   _showLoadingIndicator(BuildContext context) {
     AlertDialog alert = AlertDialog(

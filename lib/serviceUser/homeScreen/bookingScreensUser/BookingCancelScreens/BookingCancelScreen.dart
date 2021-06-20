@@ -191,7 +191,7 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
     String otherCategory = _cancelReasonController.text;
     String cancelReason =
         selectedBuildingType == "その他" ? otherCategory : selectedBuildingType;
-    if (cancelReason == null || cancelReason == '') {
+    if (selectedBuildingType == null || selectedBuildingType == '') {
       ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -201,6 +201,36 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
           children: [
             Flexible(
               child: Text('キャンセルの理由を選択してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+    if ((selectedBuildingType == "その他") &&
+        (otherCategory == null || otherCategory == '')) {
+      ProgressDialogBuilder.hideLoader(context);
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('キャンセルの理由を入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),

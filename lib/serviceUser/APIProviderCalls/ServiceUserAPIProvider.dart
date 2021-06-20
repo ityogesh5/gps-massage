@@ -660,7 +660,7 @@ class ServiceUserAPIProvider {
             "locationDistance": locationDistance,
             "totalCost": totalCost,
             "userReviewStatus": userReviewStatus,
-            "userCommands": userCommands,
+            "userComments": userCommands,
             "travelAmount": 0,
             "eventId": eventId,
             "addressId": bookingAddressId,

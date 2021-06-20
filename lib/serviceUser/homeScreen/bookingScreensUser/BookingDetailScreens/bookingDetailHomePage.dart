@@ -191,158 +191,183 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                     Padding(
                       padding: const EdgeInsets.only(
                           top: 8.0, left: 12.0, bottom: 8.0, right: 8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Color.fromRGBO(255, 255, 255, 1),
-                                  Color.fromRGBO(255, 255, 255, 1),
-                                ]),
-                            shape: BoxShape.rectangle,
-                            border: Border.all(
-                              color: Colors.grey[300],
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "施術を受ける場所",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
                             ),
-                            borderRadius: BorderRadius.circular(5.0),
-                            color: Colors.grey[200]),
-                        width: MediaQuery.of(context).size.width * 0.90,
-                        height: 50.0,
-                        child: WidgetAnimator(
-                          TextFormField(
-                            //display the address
-                            readOnly: true,
-                            autofocus: false,
-                            decoration: new InputDecoration(
-                              hintText: HealingMatchConstants
-                                  .userRegisteredAddressDetail,
-                              filled: true,
-                              fillColor: Colors.white,
-                              hintStyle: TextStyle(
-                                  fontSize: 12,
-                                  fontFamily: 'NotoSansJP',
-                                  color: Colors.black),
-                              focusColor: Colors.grey[100],
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide(
-                                  color: Colors.grey[200],
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide(
-                                  color: Colors.grey[200],
-                                ),
-                              ),
-                              disabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide(
-                                  color: Colors.grey[200],
-                                ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide(
-                                  color: Colors.grey[200],
-                                ),
-                              ),
-                              prefixIcon: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                        'assets/images_gps/gps.svg'),
-                                    SizedBox(width: 10),
-                                    Container(
-                                        padding: EdgeInsets.only(
-                                            left: 8.0,
-                                            top: 4.0,
-                                            bottom: 4.0,
-                                            right: 8.0),
-                                        decoration: BoxDecoration(
-                                            gradient: LinearGradient(
-                                                begin: Alignment.topCenter,
-                                                end: Alignment.bottomCenter,
-                                                colors: [
-                                                  Color.fromRGBO(
-                                                      255, 255, 255, 1),
-                                                  Color.fromRGBO(
-                                                      255, 255, 255, 1),
-                                                ]),
-                                            shape: BoxShape.rectangle,
-                                            border: Border.all(
-                                              color: Colors.grey[300],
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(5.0),
-                                            color: Colors.grey[200]),
-                                        child: shopLocationSelected
-                                            ? Text(
-                                                '店舗',
-                                                style: TextStyle(
-                                                  color: Color.fromRGBO(
-                                                      0, 0, 0, 1),
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontFamily: 'NotoSansJP',
-                                                ),
-                                              )
-                                            : Text(
-                                                '$userPlaceForMassage',
-                                                style: TextStyle(
-                                                  color: Color.fromRGBO(
-                                                      0, 0, 0, 1),
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontFamily: 'NotoSansJP',
-                                                ),
-                                              )),
-                                    SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.03),
-                                    Flexible(
-                                        child: shopLocationSelected
-                                            ? new Text(
-                                                '${therapistDetails.data.addresses[0].address}',
-                                                maxLines: 2,
-                                                overflow: TextOverflow.visible,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontFamily: 'NotoSansJP',
-                                                    color: Colors.grey[500]),
-                                              )
-                                            : new Text(
-                                                '$userRegisteredAddress',
-                                                maxLines: 2,
-                                                overflow: TextOverflow.visible,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontFamily: 'NotoSansJP',
-                                                    color: Colors.grey[500]),
-                                              )),
-                                    SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.15),
-                                    GestureDetector(
-                                      onTap: () =>
-                                          openUserLocationSelectionDialog(),
-                                      child: Icon(
-                                          Icons.keyboard_arrow_down_sharp,
-                                          size: 35,
-                                          color: Colors.black),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            style: TextStyle(color: Colors.black54),
                           ),
-                        ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Container(
+                            /* decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      Color.fromRGBO(255, 255, 255, 1),
+                                      Color.fromRGBO(255, 255, 255, 1),
+                                    ]),
+                                shape: BoxShape.rectangle,
+                                border: Border.all(
+                                  color: Colors.grey[300],
+                                ),
+                                borderRadius: BorderRadius.circular(5.0),
+                                color: Colors.grey[200]),*/
+                            width: MediaQuery.of(context).size.width * 0.90,
+                            height: 50.0,
+                            child: WidgetAnimator(
+                              TextFormField(
+                                //display the address
+                                readOnly: true,
+                                autofocus: false,
+                                decoration: new InputDecoration(
+                                  hintText: HealingMatchConstants
+                                      .userRegisteredAddressDetail,
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  hintStyle: TextStyle(
+                                      fontSize: 12,
+                                      fontFamily: 'NotoSansJP',
+                                      color: Colors.black),
+                                  focusColor: Colors.grey[100],
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: BorderSide(
+                                      color: Colors.grey[400],
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: BorderSide(
+                                      color: Colors.grey[400],
+                                    ),
+                                  ),
+                                  disabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: BorderSide(
+                                      color: Colors.grey[400],
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: BorderSide(
+                                      color: Colors.grey[400],
+                                    ),
+                                  ),
+                                  prefixIcon: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        SvgPicture.asset(
+                                            'assets/images_gps/gps.svg'),
+                                        SizedBox(width: 10),
+                                        Container(
+                                            padding: EdgeInsets.only(
+                                                left: 8.0,
+                                                top: 4.0,
+                                                bottom: 4.0,
+                                                right: 8.0),
+                                            decoration: BoxDecoration(
+                                                gradient: LinearGradient(
+                                                    begin: Alignment.topCenter,
+                                                    end: Alignment.bottomCenter,
+                                                    colors: [
+                                                      Color.fromRGBO(
+                                                          255, 255, 255, 1),
+                                                      Color.fromRGBO(
+                                                          255, 255, 255, 1),
+                                                    ]),
+                                                shape: BoxShape.rectangle,
+                                                border: Border.all(
+                                                  color: Colors.grey[300],
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(5.0),
+                                                color: Colors.grey[200]),
+                                            child: shopLocationSelected
+                                                ? Text(
+                                                    '店舗',
+                                                    style: TextStyle(
+                                                      color: Color.fromRGBO(
+                                                          0, 0, 0, 1),
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontFamily: 'NotoSansJP',
+                                                    ),
+                                                  )
+                                                : Text(
+                                                    '$userPlaceForMassage',
+                                                    style: TextStyle(
+                                                      color: Color.fromRGBO(
+                                                          0, 0, 0, 1),
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontFamily: 'NotoSansJP',
+                                                    ),
+                                                  )),
+                                        SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.03),
+                                        Flexible(
+                                            child: shopLocationSelected
+                                                ? new Text(
+                                                    '${therapistDetails.data.addresses[0].address}',
+                                                    maxLines: 2,
+                                                    overflow:
+                                                        TextOverflow.visible,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        color:
+                                                            Colors.grey[500]),
+                                                  )
+                                                : new Text(
+                                                    '$userRegisteredAddress',
+                                                    maxLines: 2,
+                                                    overflow:
+                                                        TextOverflow.visible,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        color:
+                                                            Colors.grey[500]),
+                                                  )),
+                                        SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.15),
+                                        GestureDetector(
+                                          onTap: () =>
+                                              openUserLocationSelectionDialog(),
+                                          child: Icon(
+                                              Icons.keyboard_arrow_down_sharp,
+                                              size: 35,
+                                              color: Colors.black),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                style: TextStyle(color: Colors.black54),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
+
                     SizedBox(width: MediaQuery.of(context).size.width * 0.15),
                     therapistDetails.bookingDataResponse.length != 0 &&
                             (therapistDetails
@@ -409,7 +434,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                 : therapistDetails.bookingDataResponse[0].bookingStatus == 0
                     ? waitingForApproval()
                     : therapistDetails.bookingDataResponse[0].bookingStatus ==
-                                1 &&
+                                1 ||
                             therapistDetails
                                     .bookingDataResponse[0].bookingStatus ==
                                 3
@@ -496,7 +521,16 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
         ),
         color: Colors.green,
         onPressed: () {
-          bookingConfirmField();
+          if (HealingMatchConstants.isUserRegistrationSkipped) {
+            DialogHelper.showUserLoginOrRegisterDialog(context);
+          } else {
+            if (!isLoading) {
+              setState(() {
+                isLoading = true;
+                validateFields();
+              });
+            }
+          }
         },
         child: new Text(
           'もう一度予約する',
@@ -596,7 +630,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12.0),
-            border: Border.all(color: Colors.black),
+            border: Border.all(color: Colors.grey[400]),
           ),
           child: Padding(
             padding: const EdgeInsets.all(12.0),
@@ -1454,13 +1488,21 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                   ],
                   radioButtonValue: (value) {
                     if (value == 'Y') {
-                      if (this.mounted) {
+                      if (therapistDetails.data.isShop == true) {
                         setState(() {
                           shopLocationSelected = true;
                           HealingMatchConstants.bookingAddressId =
                               therapistDetails.data.addresses[0].id;
                           // dialog.dissmiss();
                         });
+                      } else if (therapistDetails.data.isShop == false) {
+                        Toast.show("このセラピストの方には店舗がありません。。", context,
+                            duration: 3,
+                            gravity: Toast.CENTER,
+                            backgroundColor: Colors.redAccent,
+                            textColor: Colors.white);
+
+                        return;
                       }
                     } else {
                       // dialog.dissmiss();
@@ -2178,12 +2220,12 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                 ),
               ),
               SizedBox(
-                width: 80,
+                width: 90,
                 child: Center(
                   child: Text(
                     '${therapistListItem.name}',
                     style: TextStyle(
-                      fontSize: 10.0,
+                      fontSize: 9.0,
                       color: visibility[index]
                           ? Color.fromRGBO(0, 0, 0, 1)
                           : Color.fromRGBO(102, 102, 102, 1),
@@ -2291,6 +2333,13 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
   }
 
   Widget buildDateTimeDetails() {
+    String dateFormat;
+    String jaName;
+
+    if (selectedTime != null) {
+      dateFormat = DateFormat('MM月dd').format(selectedTime);
+      jaName = DateFormat('EEEE', 'ja_JP').format(selectedTime);
+    }
     return Row(
       children: [
         selectedTime != null
@@ -2306,7 +2355,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                             height: 16, width: 16),
                         SizedBox(width: 10),
                         new Text(
-                          '${DateFormat('MM月dd').format(selectedTime)}',
+                          '$dateFormat :',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 12,
@@ -2314,7 +2363,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                         ),
                         SizedBox(width: 5),
                         new Text(
-                          "月曜日",
+                          "$jaName",
                           style: TextStyle(
                               color: Colors.grey[400],
                               fontSize: 12,
@@ -2499,7 +2548,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
     if (cid == 1) {
       if (name.contains("ブライダル")) {
         return "assets/images_gps/subCategory/esthetic/bridal.svg";
-      } else if (name.contains("ボディ")) {
+      } else if (name == ("ボディ")) {
         return "assets/images_gps/subCategory/esthetic/body.svg";
       } else if (name.contains("太もも・ヒップ")) {
         return "assets/images_gps/subCategory/esthetic/thighsHips.svg";
@@ -2509,7 +2558,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
         return "assets/images_gps/subCategory/esthetic/breastEnhancement.svg";
       } else if (name.contains("脱毛（女性")) {
         return "assets/images_gps/subCategory/esthetic/hairRemovalWomen.svg";
-      } else if (name.contains("脱毛（女性")) {
+      } else if (name.contains("脱毛（男性")) {
         return "assets/images_gps/subCategory/esthetic/hairRemovalMen.svg";
       } else if (name.contains("アロマテラピー")) {
         return "assets/images_gps/subCategory/esthetic/aromatherapy.svg";
@@ -2539,7 +2588,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
       } else if (name.contains("カッピング")) {
         return "assets/images_gps/subCategory/relaxation/cupping1.svg";
       } else {
-        return "assets/images_gps/subCategory/relaxation/relaxationOthers.svg";
+        return "assets/images_gps/subCategory/relaxation/relaxationOther.svg";
       }
     }
     //treatment
@@ -2550,6 +2599,8 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
         return "assets/images_gps/subCategory/osteopathic/beautyAcupunctureFace.svg";
       } else if (name.contains("きゅう")) {
         return "assets/images_gps/subCategory/osteopathic/Kyu.svg";
+      } else if (name == ("ベビーマッサージ")) {
+        return "assets/images_gps/subCategory/osteopathic/babyMassage.svg";
       } else if (name.contains("マッサージ")) {
         return "assets/images_gps/subCategory/osteopathic/Massage.svg";
       } else if (name.contains("ストレッチ")) {
@@ -2560,8 +2611,6 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
         return "assets/images_gps/subCategory/osteopathic/cupping.svg";
       } else if (name.contains("マタニティ")) {
         return "assets/images_gps/subCategory/osteopathic/maternity1.svg";
-      } else if (name.contains("ベビーマッサージ")) {
-        return "assets/images_gps/subCategory/osteopathic/babyMassage.svg";
       }
       //other fields
       else {
@@ -2570,7 +2619,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
     }
     //fitness
     else if (cid == 2) {
-      if (name.contains("ヨガ")) {
+      if (name == "ヨガ") {
         return "assets/images_gps/subCategory/fitness/yoga.svg";
       } else if (name.contains("ホットヨガ")) {
         return "assets/images_gps/subCategory/fitness/hotYoga.svg";

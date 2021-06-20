@@ -764,8 +764,9 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
           ),
         ),
         therapistDetails.bookingDataResponse[0].bookingStatus == 2 &&
-                therapistDetails.bookingDataResponse[0].addedPrice != null &&
-                therapistDetails.bookingDataResponse[0].addedPrice != ''
+                therapistDetails.bookingDataResponse[0].therapistComments !=
+                    null &&
+                therapistDetails.bookingDataResponse[0].therapistComments != ''
             ? buildConditionReason(context)
             : Container(),
         therapistDetails.bookingDataResponse[0].bookingStatus == 2
@@ -808,7 +809,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 Text(
-                  "${therapistDetails.bookingDataResponse[0].addedPrice}",
+                  "${therapistDetails.bookingDataResponse[0].therapistComments}",
                   style: TextStyle(fontSize: 14.0, color: Colors.black),
                 ),
               ],
@@ -896,7 +897,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                             HealingMatchConstants.therapistProfileDetails
                                         .bookingDataResponse[0].addedPrice !=
                                     null
-                                ? "¥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].addedPrice}  "
+                                ? "${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].addedPrice}  "
                                 : '交通費',
                             style:
                                 TextStyle(fontSize: 14.0, color: Colors.black),
@@ -1422,7 +1423,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                   child: Text(
                     '${therapistListItem.name}',
                     style: TextStyle(
-                      fontSize: 10.0,
+                      fontSize: 9.0,
                       color: visibility[index]
                           ? Color.fromRGBO(0, 0, 0, 1)
                           : Color.fromRGBO(102, 102, 102, 1),
