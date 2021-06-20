@@ -27,7 +27,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
   double ratingsValue = 0.0;
   int status = 0;
   bool isLoadingData = false;
-  var _pageNumber = 1;
+  var _pageNumber = 0;
   var _pageSize = 10;
   var totalElements;
 
@@ -64,177 +64,191 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
           ),
           centerTitle: true,
         ),
-        body: LazyLoadScrollView(
-          onEndOfPage: () => _loadMoreData(),
-          isLoading: isLoadingData,
-          child: CustomScrollView(
-            //shrinkWrap: true,
-            slivers: <Widget>[
-              // Add the app bar to the CustomScrollView.
-              SliverAppBar(
-                // Provide a standard title.
-                elevation: 0.0,
-                backgroundColor: Colors.white,
-                // Allows the user to reveal the app bar if they begin scrolling
-                // back up the list of items.
-                floating: true,
-                automaticallyImplyLeading: false,
-                flexibleSpace: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        '${HealingMatchConstants.serviceProviderUserName}についてのレビュー',
-                        style: TextStyle(
-                            fontFamily: 'NotoSansJP',
-                            fontSize: 14,
-                            color: Color.fromRGBO(0, 0, 0, 1),
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        "($totalElements)",
-                        style: TextStyle(
-                            fontFamily: 'NotoSansJP',
-                            fontSize: 12,
-                            color: Color.fromRGBO(153, 153, 153, 1),
-                            fontWeight: FontWeight.w300),
-                      ),
-                      SizedBox(height: 10),
-                    ],
-                  ),
-                ),
-                // Display a placeholder widget to visualize the shrinking size.
-                // Make the initial height of the SliverAppBar larger than normal.
-              ),
-              // Next, create a SliverList
-              SliverList(
-                  delegate: SliverChildListDelegate([
-                ratingListValues != null && ratingListValues.isNotEmpty
-                    ? Padding(
+        body: status == 0
+            ? buildLoading()
+            : LazyLoadScrollView(
+                onEndOfPage: () => _getMoreDataByType(),
+                isLoading: isLoadingData,
+                child: CustomScrollView(
+                  //shrinkWrap: true,
+                  slivers: <Widget>[
+                    // Add the app bar to the CustomScrollView.
+                    SliverAppBar(
+                      // Provide a standard title.
+                      elevation: 0.0,
+                      backgroundColor: Colors.white,
+                      // Allows the user to reveal the app bar if they begin scrolling
+                      // back up the list of items.
+                      floating: true,
+                      automaticallyImplyLeading: false,
+                      flexibleSpace: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: ListView.builder(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: ratingListValues.length + 1,
-                            itemBuilder: (BuildContext context, int index) {
-                              if (index == ratingListValues.length) {
-                                return _buildProgressIndicator();
-                              } else {
-                                return new Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              '${HealingMatchConstants.serviceProviderUserName}についてのレビュー',
+                              style: TextStyle(
+                                  fontFamily: 'NotoSansJP',
+                                  fontSize: 14,
+                                  color: Color.fromRGBO(0, 0, 0, 1),
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              "($totalElements)",
+                              style: TextStyle(
+                                  fontFamily: 'NotoSansJP',
+                                  fontSize: 12,
+                                  color: Color.fromRGBO(153, 153, 153, 1),
+                                  fontWeight: FontWeight.w300),
+                            ),
+                            SizedBox(height: 10),
+                          ],
+                        ),
+                      ),
+                      // Display a placeholder widget to visualize the shrinking size.
+                      // Make the initial height of the SliverAppBar larger than normal.
+                    ),
+                    // Next, create a SliverList
+                    SliverList(
+                        delegate: SliverChildListDelegate([
+                      ratingListValues != null && ratingListValues.isNotEmpty
+                          ? Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ListView.builder(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.vertical,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount: ratingListValues.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    if (index == ratingListValues.length) {
+                                      return _buildProgressIndicator();
+                                    } else {
+                                      return new Column(
                                         children: [
-                                          Text(
-                                            '${ratingListValues[index].reviewUserId.userName}',
-                                            style: TextStyle(
-                                                fontFamily: 'NotoSansJP',
-                                                fontSize: 14,
-                                                color:
-                                                    Color.fromRGBO(0, 0, 0, 1),
-                                                fontWeight: FontWeight.bold),
+                                          Padding(
+                                            padding: const EdgeInsets.all(5.0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  '${ratingListValues[index].reviewUserId.userName}',
+                                                  style: TextStyle(
+                                                      fontFamily: 'NotoSansJP',
+                                                      fontSize: 14,
+                                                      color: Color.fromRGBO(
+                                                          0, 0, 0, 1),
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          buildReviewContent(
+                                              ratingListValues[index]),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 20, right: 20),
+                                            child: Container(
+                                                child: Divider(
+                                                    color: Colors.grey[300],
+                                                    height: 1)),
                                           ),
                                         ],
-                                      ),
-                                    ),
-                                    buildReviewContent(ratingListValues[index]),
+                                      );
+                                    }
+                                  }),
+                            )
+                          : Stack(
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 20, right: 20),
-                                      child: Container(
-                                          child: Divider(
-                                              color: Colors.grey[300],
-                                              height: 1)),
-                                    ),
-                                  ],
-                                );
-                              }
-                            }),
-                      )
-                    : Stack(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Center(
-                                  child: Container(
-                                    padding: EdgeInsets.all(8.0),
-                                    height: MediaQuery.of(context).size.height *
-                                        0.22,
-                                    width: MediaQuery.of(context).size.width,
-                                    decoration: BoxDecoration(
-                                      color: Color.fromRGBO(255, 255, 255, 1),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(16.0)),
-                                      border: Border.all(
-                                          color:
-                                              Color.fromRGBO(217, 217, 217, 1)),
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            InkWell(
-                                              onTap: () {},
-                                              child: new Container(
-                                                  width: 80.0,
-                                                  height: 80.0,
-                                                  decoration: new BoxDecoration(
-                                                    border: Border.all(
-                                                        color: Colors.black12),
-                                                    shape: BoxShape.circle,
-                                                    image: new DecorationImage(
-                                                        fit: BoxFit.fill,
-                                                        image: new AssetImage(
-                                                            'assets/images_gps/appIcon.png')),
-                                                  )),
-                                            ),
-                                            SizedBox(width: 10),
-                                            Expanded(
-                                              child: Column(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Center(
+                                        child: Container(
+                                          padding: EdgeInsets.all(8.0),
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.22,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          decoration: BoxDecoration(
+                                            color: Color.fromRGBO(
+                                                255, 255, 255, 1),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(16.0)),
+                                            border: Border.all(
+                                                color: Color.fromRGBO(
+                                                    217, 217, 217, 1)),
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
                                                 children: [
-                                                  Text(
-                                                    '今のところ、このセラピストの方にはレビューがありません。',
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontFamily:
-                                                            'NotoSansJP',
-                                                        fontWeight:
-                                                            FontWeight.bold),
+                                                  InkWell(
+                                                    onTap: () {},
+                                                    child: new Container(
+                                                        width: 80.0,
+                                                        height: 80.0,
+                                                        decoration:
+                                                            new BoxDecoration(
+                                                          border: Border.all(
+                                                              color: Colors
+                                                                  .black12),
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          image: new DecorationImage(
+                                                              fit: BoxFit.fill,
+                                                              image: new AssetImage(
+                                                                  'assets/images_gps/appIcon.png')),
+                                                        )),
+                                                  ),
+                                                  SizedBox(width: 10),
+                                                  Expanded(
+                                                    child: Column(
+                                                      children: [
+                                                        Text(
+                                                          '今のところ、このセラピストの方にはレビューがありません。',
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'NotoSansJP',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
                                                 ],
-                                              ),
-                                            ),
-                                          ],
-                                        )
-                                      ],
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-              ]))
-            ],
-          ),
-        ));
+                              ],
+                            ),
+                    ]))
+                  ],
+                ),
+              ));
   }
 
   Widget _buildProgressIndicator() {
@@ -265,17 +279,58 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
 
   _providerRatingList() async {
     try {
-      ServiceUserAPIProvider.getAllTherapistsRatings(context, widget.id)
-          .then((value) {
-        if (value != null) {
+      var ratingsProvider =
+          ServiceUserAPIProvider.getAllTherapistsRatingsByLimit(
+              context, _pageNumber, _pageSize, widget.id);
+      ratingsProvider.then((value) {
+        if (this.mounted) {
           setState(() {
-            totalElements = value.therapistsData.totalElements;
             ratingListValues = value.therapistsData.therapistReviewList;
+            totalElements = value.therapistsData.totalElements;
+            status = 1;
           });
         }
       });
     } catch (e) {
       print('Ratings Exception : ${e.toString()}');
+    }
+  }
+
+  _getMoreDataByType() async {
+    try {
+      if (!isLoadingData) {
+        setState(() {
+          isLoadingData = true;
+          // call fetch more method here
+          _pageNumber++;
+          print('Page number : $_pageNumber Page Size : $_pageSize');
+          var ratingsProvider =
+              ServiceUserAPIProvider.getAllTherapistsRatingsByLimit(
+                  context, _pageNumber, _pageSize, widget.id);
+          ratingsProvider.then((value) {
+            if (value.therapistsData.therapistReviewList.isEmpty) {
+              setState(() {
+                isLoadingData = false;
+                print(
+                    'TherapistList data count is Zero : ${value.therapistsData.therapistReviewList.length}');
+              });
+            } else {
+              print(
+                  'TherapistList data Size : ${value.therapistsData.therapistReviewList.length}');
+              setState(() {
+                isLoadingData = false;
+                if (this.mounted) {
+                  ratingListValues
+                      .addAll(value.therapistsData.therapistReviewList);
+                }
+              });
+            }
+          });
+        });
+      }
+      //print('Therapist users data Size : ${therapistUsers.length}');
+    } catch (e) {
+      print('Exception more data' + e.toString());
     }
   }
 
@@ -331,6 +386,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
               allowHalfRating: true,
               itemCount: 5,
               itemSize: 24.0,
+              ignoreGestures: true,
               itemPadding: new EdgeInsets.only(bottom: 3.0),
               itemBuilder: (context, index) => new SizedBox(
                   height: 20.0,

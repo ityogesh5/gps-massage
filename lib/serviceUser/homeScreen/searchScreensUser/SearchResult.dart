@@ -340,7 +340,7 @@ class _SearchResultState extends State<SearchResult> {
                     flexibleSpace: Padding(
                       padding: const EdgeInsets.only(left: 25.0, right: 25.0),
                       child: Container(
-                        height: MediaQuery.of(context).size.height * 0.082,
+                        height: MediaQuery.of(context).size.height * 0.09,
                         decoration: BoxDecoration(
                             color: Colors.white,
                             border: Border.all(
@@ -447,7 +447,7 @@ class _SearchResultState extends State<SearchResult> {
                   right: 20,
                   left: 20,
                   child: Container(
-                    height: MediaQuery.of(context).size.height * 0.082,
+                    height: MediaQuery.of(context).size.height * 0.09,
                     width: MediaQuery.of(context).size.width * 0.15,
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -1394,7 +1394,7 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                     flexibleSpace: Padding(
                       padding: const EdgeInsets.only(left: 25.0, right: 25.0),
                       child: Container(
-                        height: MediaQuery.of(context).size.height * 0.082,
+                        height: MediaQuery.of(context).size.height * 0.09,
                         decoration: BoxDecoration(
                             color: Colors.white,
                             border: Border.all(
@@ -1501,7 +1501,7 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                   right: 20,
                   left: 20,
                   child: Container(
-                    height: MediaQuery.of(context).size.height * 0.082,
+                    height: MediaQuery.of(context).size.height * 0.09,
                     width: MediaQuery.of(context).size.width * 0.15,
                     decoration: BoxDecoration(
                         color: Colors.white,

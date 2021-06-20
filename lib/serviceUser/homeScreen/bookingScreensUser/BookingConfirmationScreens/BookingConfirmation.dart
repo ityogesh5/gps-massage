@@ -991,7 +991,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
     var totalCost = HealingMatchConstants.confServiceCost;
     int userReviewStatus = 0;
     int therapistReviewStatus = 0;
-    String userCommands = _otherBuildingController.text;
+    String userCommands = _queriesAskController.text;
     String currentPrefecture = HealingMatchConstants.locality;
 
     print('Entering on press');

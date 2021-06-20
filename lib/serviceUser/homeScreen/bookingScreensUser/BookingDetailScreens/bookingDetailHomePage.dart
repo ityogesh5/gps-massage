@@ -2220,12 +2220,12 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                 ),
               ),
               SizedBox(
-                width: 80,
+                width: 90,
                 child: Center(
                   child: Text(
                     '${therapistListItem.name}',
                     style: TextStyle(
-                      fontSize: 10.0,
+                      fontSize: 9.0,
                       color: visibility[index]
                           ? Color.fromRGBO(0, 0, 0, 1)
                           : Color.fromRGBO(102, 102, 102, 1),
@@ -2548,7 +2548,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
     if (cid == 1) {
       if (name.contains("ブライダル")) {
         return "assets/images_gps/subCategory/esthetic/bridal.svg";
-      } else if (name.contains("ボディ")) {
+      } else if (name == ("ボディ")) {
         return "assets/images_gps/subCategory/esthetic/body.svg";
       } else if (name.contains("太もも・ヒップ")) {
         return "assets/images_gps/subCategory/esthetic/thighsHips.svg";
@@ -2558,7 +2558,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
         return "assets/images_gps/subCategory/esthetic/breastEnhancement.svg";
       } else if (name.contains("脱毛（女性")) {
         return "assets/images_gps/subCategory/esthetic/hairRemovalWomen.svg";
-      } else if (name.contains("脱毛（女性")) {
+      } else if (name.contains("脱毛（男性")) {
         return "assets/images_gps/subCategory/esthetic/hairRemovalMen.svg";
       } else if (name.contains("アロマテラピー")) {
         return "assets/images_gps/subCategory/esthetic/aromatherapy.svg";
@@ -2588,7 +2588,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
       } else if (name.contains("カッピング")) {
         return "assets/images_gps/subCategory/relaxation/cupping1.svg";
       } else {
-        return "assets/images_gps/subCategory/relaxation/relaxationOthers.svg";
+        return "assets/images_gps/subCategory/relaxation/relaxationOther.svg";
       }
     }
     //treatment
@@ -2599,6 +2599,8 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
         return "assets/images_gps/subCategory/osteopathic/beautyAcupunctureFace.svg";
       } else if (name.contains("きゅう")) {
         return "assets/images_gps/subCategory/osteopathic/Kyu.svg";
+      } else if (name == ("ベビーマッサージ")) {
+        return "assets/images_gps/subCategory/osteopathic/babyMassage.svg";
       } else if (name.contains("マッサージ")) {
         return "assets/images_gps/subCategory/osteopathic/Massage.svg";
       } else if (name.contains("ストレッチ")) {
@@ -2609,8 +2611,6 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
         return "assets/images_gps/subCategory/osteopathic/cupping.svg";
       } else if (name.contains("マタニティ")) {
         return "assets/images_gps/subCategory/osteopathic/maternity1.svg";
-      } else if (name.contains("ベビーマッサージ")) {
-        return "assets/images_gps/subCategory/osteopathic/babyMassage.svg";
       }
       //other fields
       else {
@@ -2619,7 +2619,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
     }
     //fitness
     else if (cid == 2) {
-      if (name.contains("ヨガ")) {
+      if (name == "ヨガ") {
         return "assets/images_gps/subCategory/fitness/yoga.svg";
       } else if (name.contains("ホットヨガ")) {
         return "assets/images_gps/subCategory/fitness/hotYoga.svg";
