@@ -747,7 +747,8 @@ class _BookingApproveThirdScreenState extends State<BookingApproveThirdScreen> {
                           width: 8,
                         ),
                         HealingMatchConstants.therapistProfileDetails.data
-                                    .storeName.isNotEmpty &&
+                                        .storeName !=
+                                    "" &&
                                 HealingMatchConstants.therapistProfileDetails
                                         .data.storeName !=
                                     null
@@ -897,11 +898,18 @@ class _BookingApproveThirdScreenState extends State<BookingApproveThirdScreen> {
                           width: 2,
                         ),
                         Text(
-                          "¥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].priceOfService}",
+                          "¥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].priceOfService + HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].travelAmount}",
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 12,
                               fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          "(${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].addedPrice}-${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].travelAmount})",
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 12,
+                          ),
                         ),
                       ],
                     ),

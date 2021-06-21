@@ -239,10 +239,11 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                           Expanded(
                                             child: SingleChildScrollView(
                                               child: TextField(
+                                                maxLength: 240,
                                                 controller: reviewController,
-                                                /* scrollController: _scroll,
+                                                scrollController: _scroll,
                                                 scrollPhysics:
-                                                    BouncingScrollPhysics(), */
+                                                    BouncingScrollPhysics(),
                                                 keyboardType:
                                                     TextInputType.multiline,
                                                 textInputAction:

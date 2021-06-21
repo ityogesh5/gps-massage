@@ -887,17 +887,14 @@ class ServiceUserAPIProvider {
     List<Event> unavailableEvents = List<Event>();
     events.items.forEach((event) {
 // {events.items.forEach((event) => print("EVENT ${event.summary}"))});
-      if (event.description == "unavailable") {
-        unavailableEvents.add(event);
-      } else {
-        flutterEvents.add(
-          FlutterWeekViewEvent(
-            events: event,
-            start: event.start.dateTime.toLocal(),
-            end: event.end.dateTime.toLocal(),
-          ),
-        );
-      }
+
+      flutterEvents.add(
+        FlutterWeekViewEvent(
+          events: event,
+          start: event.start.dateTime.toLocal(),
+          end: event.end.dateTime.toLocal(),
+        ),
+      );
     });
     HealingMatchConstants.userEvents.clear();
     HealingMatchConstants.userEvents.addAll(flutterEvents);
@@ -909,6 +906,9 @@ class ServiceUserAPIProvider {
 
   static Future<List<FlutterWeekViewEvent>> getProviderCalEvents() async {
     List<FlutterWeekViewEvent> flutterEvents = List<FlutterWeekViewEvent>();
+    List<FlutterWeekViewEvent> unavailableCalendarEvents =
+        List<FlutterWeekViewEvent>();
+
     var accountCredentials = ServiceAccountCredentials.fromJson({
       "private_key_id": "ea91c6540fdc102720f699c56f692d25d4aefeec",
       "private_key":
@@ -943,13 +943,43 @@ class ServiceUserAPIProvider {
         );
       }
     });
-    if (HealingMatchConstants.numberOfEmployeeRegistered > 1) {
-      flutterEvents.clear();
+    unavailableEvents
+        .sort((a, b) => a.start.dateTime.compareTo(b.start.dateTime));
+    for (var unavailableEvent in unavailableEvents) {
+      if (unavailableCalendarEvents.length == 0) {
+        unavailableCalendarEvents.add(
+          FlutterWeekViewEvent(
+            events: unavailableEvent,
+            start: unavailableEvent.start.dateTime.toLocal(),
+            end: unavailableEvent.end.dateTime.toLocal(),
+          ),
+        );
+      } else if (unavailableCalendarEvents[unavailableCalendarEvents.length - 1]
+              .end ==
+          unavailableEvent.start.dateTime.toLocal()) {
+        unavailableCalendarEvents[unavailableCalendarEvents.length - 1].end =
+            unavailableEvent.end.dateTime.toLocal();
+      } else {
+        unavailableCalendarEvents.add(
+          FlutterWeekViewEvent(
+            events: unavailableEvent,
+            start: unavailableEvent.start.dateTime.toLocal(),
+            end: unavailableEvent.end.dateTime.toLocal(),
+          ),
+        );
+      }
     }
-    HealingMatchConstants.userEvents.clear();
-    HealingMatchConstants.userEvents.addAll(flutterEvents);
-    httpClient.close();
-    return HealingMatchConstants.userEvents;
+      if (HealingMatchConstants.numberOfEmployeeRegistered > 1) {
+        flutterEvents.clear();
+      }
+      if (unavailableCalendarEvents.length != 0) {
+        flutterEvents.addAll(unavailableCalendarEvents);
+      }
+      HealingMatchConstants.userEvents.clear();
+      HealingMatchConstants.userEvents.addAll(flutterEvents);
+      httpClient.close();
+      return HealingMatchConstants.userEvents;
+    
   }
 
   static Future<bool> removeEvent(String eventID, BuildContext context) async {

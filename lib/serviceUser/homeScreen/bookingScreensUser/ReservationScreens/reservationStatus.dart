@@ -470,8 +470,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                           onTap: () {
                                             HealingMatchConstants
                                                     .serviceDistanceRadius =
-                                                waitingForApprovalList[index]
-                                                    .locationDistance;
+                                            double.parse(     waitingForApprovalList[index]
+                                                    .locationDistance);
                                             NavigationRouter
                                                 .switchToUserSearchDetailPageOne(
                                                     context,
@@ -1170,9 +1170,9 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 'bookingId: ${HealingMatchConstants.bookingIdPay}');
                                             HealingMatchConstants
                                                     .serviceDistanceRadius =
-                                                approvedWithConditionsList[
+                                           double.parse(      approvedWithConditionsList[
                                                         index]
-                                                    .locationDistance;
+                                                    .locationDistance);
 
                                             NavigationRouter
                                                 .switchToUserSearchDetailPageOne(
@@ -1904,8 +1904,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 approvedList[index].id;
                                             HealingMatchConstants
                                                     .serviceDistanceRadius =
-                                                approvedList[index]
-                                                    .locationDistance;
+                                     double.parse(            approvedList[index]
+                                                    .locationDistance);
                                             NavigationRouter
                                                 .switchToUserSearchDetailPageOne(
                                                     context,
@@ -2676,8 +2676,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 confirmedPaymentList[index].id;
                                             HealingMatchConstants
                                                     .serviceDistanceRadius =
-                                                confirmedPaymentList[index]
-                                                    .locationDistance;
+                                         double.parse(        confirmedPaymentList[index]
+                                                    .locationDistance);
                                             NavigationRouter
                                                 .switchToUserSearchDetailPageOne(
                                                     context,
@@ -3510,8 +3510,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                           onTap: () {
                                             HealingMatchConstants
                                                     .serviceDistanceRadius =
-                                                canceledReservationList[index]
-                                                    .locationDistance;
+                                                double.parse(
+                                                    canceledReservationList[
+                                                            index]
+                                                        .locationDistance);
                                             NavigationRouter
                                                 .switchToServiceUserBookingDetailsCompletedScreenOne(
                                                     context,

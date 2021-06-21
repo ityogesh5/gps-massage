@@ -55,7 +55,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
   String weekDays;
   GlobalKey key = new GlobalKey();
   CreateBookingModel createBooking;
-  double distance = HealingMatchConstants.serviceDistanceRadius;
+  double distance;
   final GeoLocater.Geolocator geoLocator = GeoLocater.Geolocator()
     ..forceAndroidLocationManager;
   String sTime, eTime;
@@ -65,6 +65,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
     // TODO: implement initState
     super.initState();
     getProfileDetails();
+    distance = HealingMatchConstants.serviceDistanceRadius;
     sTime =
         DateFormat('kk:mm').format(HealingMatchConstants.confSelectedDateTime);
     eTime = DateFormat('kk:mm').format(HealingMatchConstants.confEndDateTime);
@@ -141,9 +142,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                       Column(
                         children: [
                           buildProfileImage(),
-                          HealingMatchConstants.serviceDistanceRadius != null &&
-                                  HealingMatchConstants.serviceDistanceRadius !=
-                                      0
+                          distance != null && distance != 0
                               ? Text(
                                   '${distance.toStringAsFixed(2)}Ｋｍ圏内',
                                   textAlign: TextAlign.left,
@@ -992,7 +991,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
     int bookingStatus = 0;
     String locationType = selectedBuildingType;
     String location = HealingMatchConstants.confServiceAddress;
-    String locationDistance = distance.toString();
+    String locationDistance = distance.toStringAsFixed(2);
     var totalCost = HealingMatchConstants.confServiceCost;
     int userReviewStatus = 0;
     int therapistReviewStatus = 0;

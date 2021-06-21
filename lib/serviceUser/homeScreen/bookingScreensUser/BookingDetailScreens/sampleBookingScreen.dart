@@ -541,7 +541,8 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                     Spacer(),
                     InkWell(
                       onTap: () {
-                        HealingMatchConstants.calEventId =   therapistDetails.bookingDataResponse[0].eventId;
+                        HealingMatchConstants.calEventId =
+                            therapistDetails.bookingDataResponse[0].eventId;
                         therapistDetails.bookingDataResponse[0].bookingStatus ==
                                 0
                             ? NavigationRouter
@@ -1082,10 +1083,19 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
   Widget buildDateTimeDetails() {
     String dateFormat;
     String jaName;
+    String sTime;
+    String eTime;
 
     if (selectedTime != null) {
       dateFormat = DateFormat('MM月dd').format(selectedTime);
       jaName = DateFormat('EEEE', 'ja_JP').format(selectedTime);
+      sTime =
+          "${selectedTime.hour.toString().padLeft(2, '0')}-${selectedTime.minute.toString().padLeft(2, '0')}";
+      eTime =
+          "${endTime.hour.toString().padLeft(2, '0')}-${endTime.minute.toString().padLeft(2, '0')}";
+
+      /*   sTime = DateFormat('kk:mm').format(selectedTime);
+      eTime = DateFormat('kk:mm').format(endTime); */
     }
     return Row(
       children: [
@@ -1127,7 +1137,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                             height: 14, width: 14),
                         SizedBox(width: 7),
                         new Text(
-                          '${selectedTime.hour}:${selectedTime.minute} ～ ${endTime.hour}:${endTime.minute}',
+                          '$sTime ～ $eTime',
                           style: TextStyle(
                               color: Colors.grey[400],
                               fontSize: 12,
@@ -1523,7 +1533,13 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
         ),
         color: Colors.lime,
         onPressed: () {
-          bookingConfirmField();
+          if (!isLoading) {
+            setState(() {
+              isLoading = true;
+              validateFields();
+            });
+          }
+          /*  bookingConfirmField(); */
         },
         child: new Text(
           'もう一度予約する',
@@ -1904,15 +1920,18 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
       HealingMatchConstants.confServiceCost = finalAmount;
       HealingMatchConstants.confserviceCId = serviceCId;
       HealingMatchConstants.confserviceSubId = serviceSubId;
-      isLoading = false;
+      
     });
 
     print('EndDateTime:${HealingMatchConstants.confEndDateTime.weekday}');
     print('EndDateTime:${HealingMatchConstants.confEndDateTime.hour}');
     print('subCategoryId:${subCategoryId}');
     print('Corona:${HealingMatchConstants.confCoronaMeasures}');
-    ProgressDialogBuilder.hideCommonProgressDialog(context);
-    //  ProgressDialogBuilder.hideLoader(context);
+    setState(() {
+      isLoading = false;
+    });
+    //ProgressDialogBuilder.hideCommonProgressDialog(context);
+    ProgressDialogBuilder.hideLoader(context);
     NavigationRouter.switchToServiceUserBookingConfirmationScreen(context);
   }
 }

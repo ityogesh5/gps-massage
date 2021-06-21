@@ -670,7 +670,7 @@ class HealingMatchConstants {
 
   // User Home screen
   static int serviceTypeValue = 0;
-  static var serviceDistanceRadius;
+  static double serviceDistanceRadius;
   static List<String> userBannerImages = [];
   static int therapistId = 0;
   static List<TherapistUsersModel> getRecommendedTherapists = [];

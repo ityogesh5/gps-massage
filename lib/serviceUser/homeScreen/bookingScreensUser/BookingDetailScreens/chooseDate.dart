@@ -97,7 +97,7 @@ class _ChooseDateState extends State<ChooseDate> {
   }
 
   getEvents() {
-    calendarEvents.addAll(HealingMatchConstants.events);
+    calendarEvents.addAll(HealingMatchConstants.userEvents);
     for (var event in calendarEvents) {
       DateTime start = DateTime(event.start.year, event.start.month, 1,
           event.start.hour, event.start.minute);
