@@ -374,10 +374,8 @@ class _PastReservationsState extends State<PastReservations> {
                                                               children: [
                                                                 bookingDetailsList[index].bookingTherapistId.storeName !=
                                                                             null &&
-                                                                        bookingDetailsList[index]
-                                                                            .bookingTherapistId
-                                                                            .storeName
-                                                                            .isNotEmpty
+                                                                        bookingDetailsList[index].bookingTherapistId.storeName !=
+                                                                            ''
                                                                     ? Text(
                                                                         bookingDetailsList[index].bookingTherapistId.storeName.length > 10
                                                                             ? bookingDetailsList[index].bookingTherapistId.storeName.substring(0, 10) +
@@ -891,10 +889,8 @@ class _PastReservationsState extends State<PastReservations> {
                                                                   onTap: () {
                                                                     HealingMatchConstants.serviceProviderUserName = bookingDetailsList[index].bookingTherapistId.storeName !=
                                                                                 null &&
-                                                                            bookingDetailsList[index]
-                                                                                .bookingTherapistId
-                                                                                .storeName
-                                                                                .isNotEmpty
+                                                                            bookingDetailsList[index].bookingTherapistId.storeName !=
+                                                                                ''
                                                                         ? bookingDetailsList[index]
                                                                             .bookingTherapistId
                                                                             .storeName

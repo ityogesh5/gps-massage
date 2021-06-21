@@ -377,10 +377,8 @@ class _FavoriteState extends State<Favorite> {
                                                               children: [
                                                                 favouriteUserList[index].favouriteTherapistId.storeName !=
                                                                             null &&
-                                                                        favouriteUserList[index]
-                                                                            .favouriteTherapistId
-                                                                            .storeName
-                                                                            .isNotEmpty
+                                                                        favouriteUserList[index].favouriteTherapistId.storeName !=
+                                                                            ''
                                                                     ? Text(
                                                                         favouriteUserList[index].favouriteTherapistId.storeName.length > 10
                                                                             ? favouriteUserList[index].favouriteTherapistId.storeName.substring(0, 10) +

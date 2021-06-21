@@ -593,7 +593,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                     children: [
                                                                       Row(
                                                                         children: [
-                                                                          waitingForApprovalList[index].bookingTherapistId.storeName != null && waitingForApprovalList[index].bookingTherapistId.storeName.isNotEmpty
+                                                                          waitingForApprovalList[index].bookingTherapistId.storeName != null && waitingForApprovalList[index].bookingTherapistId.storeName != ''
                                                                               ? Text(
                                                                                   waitingForApprovalList[index].bookingTherapistId.storeName.length > 10 ? waitingForApprovalList[index].bookingTherapistId.storeName.substring(0, 10) + "..." : waitingForApprovalList[index].bookingTherapistId.storeName,
                                                                                   style: TextStyle(fontSize: 14, color: Color.fromRGBO(0, 0, 0, 1), fontWeight: FontWeight.bold),
@@ -1292,7 +1292,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                     Row(
                                                                       children: [
                                                                         approvedWithConditionsList[index].bookingTherapistId.storeName != null &&
-                                                                                approvedWithConditionsList[index].bookingTherapistId.storeName.isNotEmpty
+                                                                                approvedWithConditionsList[index].bookingTherapistId.storeName != ''
                                                                             ? Text(
                                                                                 approvedWithConditionsList[index].bookingTherapistId.storeName.length > 10 ? approvedWithConditionsList[index].bookingTherapistId.storeName.substring(0, 10) + "..." : approvedWithConditionsList[index].bookingTherapistId.storeName,
                                                                                 style: TextStyle(fontSize: 14, color: Color.fromRGBO(0, 0, 0, 1), fontWeight: FontWeight.bold),
@@ -2021,7 +2021,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                     Row(
                                                                       children: [
                                                                         approvedList[index].bookingTherapistId.storeName != null &&
-                                                                                approvedList[index].bookingTherapistId.storeName.isNotEmpty
+                                                                                approvedList[index].bookingTherapistId.storeName != ''
                                                                             ? Text(
                                                                                 approvedList[index].bookingTherapistId.storeName.length > 10 ? approvedList[index].bookingTherapistId.storeName.substring(0, 10) + "..." : approvedList[index].bookingTherapistId.storeName,
                                                                                 style: TextStyle(fontSize: 14, color: Color.fromRGBO(0, 0, 0, 1), fontWeight: FontWeight.bold),
@@ -2816,7 +2816,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                   children: [
                                                                     confirmedPaymentList[index].bookingTherapistId.storeName !=
                                                                                 null &&
-                                                                            confirmedPaymentList[index].bookingTherapistId.storeName.isNotEmpty
+                                                                            confirmedPaymentList[index].bookingTherapistId.storeName !=
+                                                                                ''
                                                                         ? Text(
                                                                             confirmedPaymentList[index].bookingTherapistId.storeName.length > 10
                                                                                 ? confirmedPaymentList[index].bookingTherapistId.storeName.substring(0, 10) + "..."
@@ -3645,7 +3646,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                   children: [
                                                                     canceledReservationList[index].bookingTherapistId.storeName !=
                                                                                 null &&
-                                                                            canceledReservationList[index].bookingTherapistId.storeName.isNotEmpty
+                                                                            canceledReservationList[index].bookingTherapistId.storeName !=
+                                                                                ''
                                                                         ? Text(
                                                                             canceledReservationList[index].bookingTherapistId.storeName.length > 10
                                                                                 ? canceledReservationList[index].bookingTherapistId.storeName.substring(0, 10) + "..."
