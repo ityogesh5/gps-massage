@@ -80,6 +80,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    addedAddressType.clear();
     //getEditUserFields();
     getUserProfileData();
   }
@@ -1379,6 +1380,10 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                                         .black),
                                                                 onPressed: () {
                                                                   setState(() {
+                                                                    addedAddressType
+                                                                        .remove(
+                                                                            constantUserAddressValuesList[index].addressCategory);
+
                                                                     constantUserAddressValuesList
                                                                         .removeAt(
                                                                             index);
@@ -1705,6 +1710,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     AwesomeDialog dialog;
     bool isFocus = false;
     dialog = AwesomeDialog(
+      useRootNavigator: true,
       context: context,
       animType: AnimType.BOTTOMSLIDE,
       dialogType: DialogType.QUESTION,
@@ -1765,7 +1771,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                         if (_editAddressController.text != null &&
                             _editAddressController.text.isNotEmpty) {
                           editPosition = position;
-
+                          dialog.dissmiss();
                           _getLatLngFromAddress(
                               _editAddressController.text.toString(), position);
                         } else {
