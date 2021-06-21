@@ -519,7 +519,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
           borderRadius: new BorderRadius.circular(10.0),
           //side: BorderSide(color: Colors.black),
         ),
-        color: Colors.green,
+        color: Colors.lime,
         onPressed: () {
           if (HealingMatchConstants.isUserRegistrationSkipped) {
             DialogHelper.showUserLoginOrRegisterDialog(context);
@@ -1890,6 +1890,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                     }
 
                     _value = 1;
+
                     getSubType();
                   });
                 }
