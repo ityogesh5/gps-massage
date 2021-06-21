@@ -773,7 +773,7 @@ class _UserLoginState extends State<UserLogin> {
     } else {
       print('Guest User GPS Enabled : $isGPSEnabled');
       geoLocator
-          .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.lowest)
           .then((Position position) {
         _currentPosition = position;
         print(

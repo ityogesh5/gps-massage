@@ -1766,6 +1766,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
     ProgressDialogBuilder.hideLoader(context);
     AwesomeDialog dialog;
     dialog = AwesomeDialog(
+      useRootNavigator: true,
       dialogBackgroundColor: Colors.red[200],
       context: context,
       animType: AnimType.RIGHSLIDE,

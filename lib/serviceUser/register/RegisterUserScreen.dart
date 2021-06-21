@@ -2540,7 +2540,7 @@ class _RegisterUserState extends State<RegisterUser> {
     } else {
       print('Guest User GPS Enabled : $isGPSEnabled');
       geoLocator
-          .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.lowest)
           .then((Position position) {
         _currentPosition = position;
         print(
