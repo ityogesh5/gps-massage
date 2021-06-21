@@ -86,6 +86,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
   Widget build(BuildContext context) {
     if (_state == 0) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await Future.delayed(const Duration(seconds: 2));
         _state = 1;
         if (Platform.isIOS) {
           fcm.requestNotificationPermissions(IosNotificationSettings());
