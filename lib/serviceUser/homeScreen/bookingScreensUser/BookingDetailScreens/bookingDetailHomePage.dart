@@ -1491,8 +1491,8 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                   ],
                   radioButtonValue: (value) {
                     if (value == 'Y') {
+                      dialog.dissmiss();
                       if (therapistDetails.data.isShop == true) {
-                        dialog.dissmiss();
                         setState(() {
                           shopLocationSelected = true;
                           HealingMatchConstants.bookingAddressId =
