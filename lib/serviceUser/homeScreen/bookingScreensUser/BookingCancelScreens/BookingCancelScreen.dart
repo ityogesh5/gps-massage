@@ -139,17 +139,17 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
                     ),
                     SizedBox(height: 5),
                     Padding(
-                      padding: const EdgeInsets.only(right: 5, left: 11),
+                      padding: const EdgeInsets.only(right: 15, left: 15),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           ButtonTheme(
-                            minWidth: MediaQuery.of(context).size.width * 0.35,
+                            minWidth: MediaQuery.of(context).size.width * 0.30,
                             child: CustomToggleButton(
                               elevation: 0,
                               height: 55.0,
-                              width: 135.0,
+                              width: MediaQuery.of(context).size.width * 0.25,
                               autoWidth: false,
                               buttonColor: Colors.grey[300],
                               enableShape: true,
