@@ -68,6 +68,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   DateTime displayDay;
   final keywordController = new TextEditingController();
   var stopLoading;
+  var currentLoading;
 
   var dateString;
   var constantUserAddressSize = new List();
@@ -207,16 +208,60 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            GestureDetector(
+                            ArgonButton(
+                              padding: EdgeInsets.all(0.0),
+                              roundLoadingShape: true,
+                              height: 65,
+                              width: 65,
+                              borderRadius: 5.0,
+                              elevation: 0.0,
+                              color: Colors.transparent,
+                              child: CircleAvatar(
+                                maxRadius: 32,
+                                backgroundColor: gpsColor == 0
+                                    ? Colors.grey[200]
+                                    : Color.fromRGBO(200, 217, 33, 1),
+                                child: SvgPicture.asset(
+                                    'assets/images_gps/current_location.svg',
+                                    color: gpsColor == 0
+                                        ? Colors.black
+                                        : Color.fromRGBO(255, 255, 255, 1),
+                                    height: 30,
+                                    width: 30),
+                              ),
+                              loader: Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Color.fromRGBO(200, 217, 33, 1),
+                                  // borderRadius: BorderRadius.circular(25.0),
+                                ),
+                                padding: EdgeInsets.all(10),
+                                child: SpinKitFadingCircle(
+                                  color: Colors.white,
+                                  // size: loaderWidth ,
+                                ),
+                              ),
+                              onTap: (startLoading, stopLoading, btnState) {
+                                if (btnState == ButtonState.Idle) {
+                                  this.currentLoading = stopLoading;
+                                  startLoading();
+                                  setState(() {
+                                    gpsColor = 1;
+                                  });
+                                  _getCurrentLocation(context);
+                                }
+                              },
+                            ),
+                            /*  GestureDetector(
                               onTap: () {
                                 setState(() {
                                   gpsColor = 1;
                                 });
                                 _showLoadingIndicator(context, "現在地の取得");
-                                _getCurrentLocation();
+                                _getCurrentLocation(context);
                               },
                               child: CircleAvatar(
                                 maxRadius: 32,
@@ -231,7 +276,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                     height: 30,
                                     width: 30),
                               ),
-                            ),
+                            ), */
                             SizedBox(
                               height: 8,
                             ),
@@ -990,10 +1035,6 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
     );
   }
 
-  dismissDialog() {
-    Navigator.pop(context);
-  }
-
   Future buildYearPicker(BuildContext context) {
     return showModalBottomSheet(
         context: context,
@@ -1444,11 +1485,11 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   }
 
   // Get current address from Latitude Longitude
-  _getCurrentLocation() async {
+  _getCurrentLocation(BuildContext context) async {
     bool isGPSEnabled = await geoLocator.isLocationServiceEnabled();
     print('GPS Enabled : $isGPSEnabled');
     if (HealingMatchConstants.isUserRegistrationSkipped && !isGPSEnabled) {
-      Navigator.pop(context);
+      currentLoading();
       displaySnackBar("場所を取得するには、GPSをオンにしてください。");
       return;
     } else {
@@ -1460,15 +1501,15 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
         print('Current lat : ${_currentPosition.latitude}');
         HealingMatchConstants.currentLatitude = _currentPosition.latitude;
         HealingMatchConstants.currentLongitude = _currentPosition.longitude;
-        _getAddressFromLatLng();
+        _getAddressFromLatLng(context);
       }).catchError((e) {
-        Navigator.pop(context);
+        currentLoading();
         print('Current Location exception : ${e.toString()}');
       });
     }
   }
 
-  _getAddressFromLatLng() async {
+  _getAddressFromLatLng(BuildContext context) async {
     try {
       List<Placemark> p = await geoLocator.placemarkFromCoordinates(
           _currentPosition.latitude, _currentPosition.longitude);
@@ -1492,7 +1533,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
         print('Current Search address : $userAddress : '
             '$searchAddressLatitude && '
             '$searchAddressLongitude');
-        Navigator.pop(context);
+        currentLoading();
         /*  timeDurationSinceDate(DateTime(
             _cyear,
             _cmonth,
@@ -1501,11 +1542,10 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
             HealingMatchConstants.dateTime.minute)); */
         //proceedToSearchResults();
       } else {
-        Navigator.pop(context);
-        return null;
+        currentLoading();
       }
     } catch (e) {
-      Navigator.pop(context);
+      currentLoading();
       print(e);
     }
   }
