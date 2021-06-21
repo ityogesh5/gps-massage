@@ -45,6 +45,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
   var _pageNumber = 0;
   var _pageSize = 10;
   var totalElements;
+  bool isLoading = false;
 
   // String noOfRating = ratingListResponseModel.userData.totalElements;
 
@@ -162,156 +163,173 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                               color: Colors.transparent),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
+                            child: Stack(
                               children: [
-                                Expanded(
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          RatingBar.builder(
-                                            initialRating: 0,
-                                            minRating: 1,
-                                            direction: Axis.horizontal,
-                                            allowHalfRating: false,
-                                            itemCount: 5,
-                                            itemSize: 24.0,
-                                            itemPadding:
-                                                new EdgeInsets.all(4.0),
-                                            itemBuilder: (context, index) =>
-                                                new SizedBox(
-                                                    height: 20.0,
-                                                    width: 20.0,
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsets.all(2.0),
-                                                      child: index >
-                                                              ratingsValue - 1
-                                                          ? SvgPicture.asset(
-                                                              "assets/images_gps/star_2.svg",
-                                                              height: 15.0,
-                                                              width: 15.0,
-                                                              /*  color:
-                                                                  Colors.white, */
-                                                            )
-                                                          : SvgPicture.asset(
-                                                              "assets/images_gps/star_colour.svg",
-                                                              height: 15.0,
-                                                              width: 15.0,
-                                                              // color: Color.fromRGBO(200, 217, 33, 1),
-                                                            ), /*  new Icon(
-                                                                  Icons.star,
-                                                                  size: 20.0), */
-                                                    )),
-                                            onRatingUpdate: (rating) {
-                                              print(rating);
-                                              ratingsValue = rating;
-                                            },
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              RatingBar.builder(
+                                                initialRating: 0,
+                                                minRating: 1,
+                                                direction: Axis.horizontal,
+                                                allowHalfRating: false,
+                                                itemCount: 5,
+                                                itemSize: 24.0,
+                                                itemPadding:
+                                                    new EdgeInsets.all(4.0),
+                                                itemBuilder: (context, index) =>
+                                                    new SizedBox(
+                                                        height: 20.0,
+                                                        width: 20.0,
+                                                        child: Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  2.0),
+                                                          child: index >
+                                                                  ratingsValue -
+                                                                      1
+                                                              ? SvgPicture
+                                                                  .asset(
+                                                                  "assets/images_gps/star_2.svg",
+                                                                  height: 15.0,
+                                                                  width: 15.0,
+                                                                  /*  color:
+                                                                      Colors.white, */
+                                                                )
+                                                              : SvgPicture
+                                                                  .asset(
+                                                                  "assets/images_gps/star_colour.svg",
+                                                                  height: 15.0,
+                                                                  width: 15.0,
+                                                                  // color: Color.fromRGBO(200, 217, 33, 1),
+                                                                ), /*  new Icon(
+                                                                      Icons.star,
+                                                                      size: 20.0), */
+                                                        )),
+                                                onRatingUpdate: (rating) {
+                                                  print(rating);
+                                                  ratingsValue = rating;
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(height: 10),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 20, right: 20),
+                                            child: Container(
+                                                child: Divider(
+                                                    color: Color.fromRGBO(
+                                                        217, 217, 217, 1),
+                                                    height: 1)),
+                                          ),
+                                          SizedBox(height: 2),
+                                          Expanded(
+                                            child: SingleChildScrollView(
+                                              child: TextField(
+                                                controller: reviewController,
+                                                /* scrollController: _scroll,
+                                                scrollPhysics:
+                                                    BouncingScrollPhysics(), */
+                                                keyboardType:
+                                                    TextInputType.multiline,
+                                                textInputAction:
+                                                    TextInputAction.done,
+                                                maxLines: 8,
+                                                autofocus: false,
+                                                focusNode: _focus,
+                                                decoration: new InputDecoration(
+                                                  filled: false,
+                                                  fillColor: ColorConstants
+                                                      .formFieldFillColor,
+                                                  hintText:
+                                                      '良かった点、気づいた点などをご記入ください',
+                                                  hintStyle: TextStyle(
+                                                    fontSize: 13.0,
+                                                    color: Color.fromRGBO(
+                                                        217, 217, 217, 1),
+                                                  ),
+                                                  labelStyle: TextStyle(
+                                                      color: Colors.grey[400],
+                                                      fontFamily: 'NotoSansJP',
+                                                      fontSize: 10),
+                                                  focusColor: Colors.grey[100],
+                                                  border: HealingMatchConstants
+                                                      .textFormInputBorder,
+                                                  focusedBorder:
+                                                      HealingMatchConstants
+                                                          .textFormInputBorder,
+                                                  disabledBorder:
+                                                      HealingMatchConstants
+                                                          .textFormInputBorder,
+                                                  enabledBorder:
+                                                      HealingMatchConstants
+                                                          .textFormInputBorder,
+                                                ),
+                                              ),
+                                            ),
                                           ),
                                         ],
                                       ),
-                                      SizedBox(height: 10),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 20, right: 20),
-                                        child: Container(
-                                            child: Divider(
-                                                color: Color.fromRGBO(
-                                                    217, 217, 217, 1),
-                                                height: 1)),
-                                      ),
-                                      SizedBox(height: 2),
-                                      Expanded(
-                                        flex: 1,
-                                        child: SingleChildScrollView(
-                                          child: TextField(
-                                            controller: reviewController,
-                                            scrollController: _scroll,
-                                            scrollPhysics:
-                                                BouncingScrollPhysics(),
-                                            keyboardType:
-                                                TextInputType.multiline,
-                                            textInputAction:
-                                                TextInputAction.done,
-                                            maxLines: 8,
-                                            autofocus: false,
-                                            focusNode: _focus,
-                                            decoration: new InputDecoration(
-                                              contentPadding:
-                                                  EdgeInsets.fromLTRB(
-                                                      6, 3, 6, 1),
-                                              filled: false,
-                                              fillColor: ColorConstants
-                                                  .formFieldFillColor,
-                                              hintText: '良かった点、気づいた点などをご記入ください',
-                                              hintStyle: TextStyle(
-                                                fontSize: 13.0,
-                                                color: Color.fromRGBO(
-                                                    217, 217, 217, 1),
-                                              ),
-                                              labelStyle: TextStyle(
-                                                  color: Colors.grey[400],
-                                                  fontFamily: 'NotoSansJP',
-                                                  fontSize: 10),
-                                              focusColor: Colors.grey[100],
-                                              border: HealingMatchConstants
-                                                  .textFormInputBorder,
-                                              focusedBorder:
-                                                  HealingMatchConstants
-                                                      .textFormInputBorder,
-                                              disabledBorder:
-                                                  HealingMatchConstants
-                                                      .textFormInputBorder,
-                                              enabledBorder:
-                                                  HealingMatchConstants
-                                                      .textFormInputBorder,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: 60),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        _ratingAndReview();
-                                      },
-                                      child: Align(
-                                        alignment: Alignment.topRight,
-                                        child: Card(
-                                          shape: CircleBorder(
-                                              side: BorderSide(
-                                                  color: Color.fromRGBO(
-                                                      216, 216, 216, 1))),
-                                          elevation: 8.0,
-                                          margin: EdgeInsets.all(4.0),
-                                          child: Container(
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 4.0),
-                                              child: SvgPicture.asset(
-                                                "assets/images_gps/sending.svg",
-                                                height: 25.0,
-                                                width: 25.0,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
                                     ),
-                                  ),
+                                  ],
                                 ),
+                                isLoading
+                                    ? Positioned(
+                                        bottom: 10.0,
+                                        right: 4.0,
+                                        child: SpinKitFadingCircle(
+                                          color: ColorConstants.buttonColor,
+                                          size: 25.0,
+                                        ),
+                                      )
+                                    : Positioned(
+                                        bottom: 10.0,
+                                        right: 4.0,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              isLoading = true;
+                                              _ratingAndReview();
+                                            });
+                                          },
+                                          child: Align(
+                                            alignment: Alignment.topRight,
+                                            child: Card(
+                                              shape: CircleBorder(
+                                                  side: BorderSide(
+                                                      color: Color.fromRGBO(
+                                                          216, 216, 216, 1))),
+                                              elevation: 8.0,
+                                              margin: EdgeInsets.all(4.0),
+                                              child: Container(
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 4.0),
+                                                  child: SvgPicture.asset(
+                                                    "assets/images_gps/sending.svg",
+                                                    height: 25.0,
+                                                    width: 25.0,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                               ],
                             ),
                           ),
@@ -431,6 +449,9 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
           ],
         ),
       ));
+      setState(() {
+        isLoading = false;
+      });
       return null;
     }
     if (reviewComment.length == 0 ||
@@ -461,9 +482,13 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
           ],
         ),
       ));
+      setState(() {
+        isLoading = false;
+      });
       return null;
     }
-    if (reviewComment.length > 50) {
+
+    /* if (reviewComment.length > 50) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -490,7 +515,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
         ),
       ));
       return null;
-    }
+    } */
     try {
       // _showLoadingIndicator(context);
       // ProgressDialogBuilder.showRatingsAndReviewProgressDialog(context);

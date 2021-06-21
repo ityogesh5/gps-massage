@@ -541,6 +541,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                     Spacer(),
                     InkWell(
                       onTap: () {
+                        HealingMatchConstants.calEventId =   therapistDetails.bookingDataResponse[0].eventId;
                         therapistDetails.bookingDataResponse[0].bookingStatus ==
                                 0
                             ? NavigationRouter

@@ -1450,6 +1450,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
       keyboardAware: true,
       width: MediaQuery.of(context).size.width,
       dismissOnTouchOutside: true,
+      useRootNavigator: true,
       showCloseIcon: true,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -1490,12 +1491,12 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                   ],
                   radioButtonValue: (value) {
                     if (value == 'Y') {
+                      dialog.dissmiss();
                       if (therapistDetails.data.isShop == true) {
                         setState(() {
                           shopLocationSelected = true;
                           HealingMatchConstants.bookingAddressId =
                               therapistDetails.data.addresses[0].id;
-                          // dialog.dissmiss();
                         });
                       } else if (therapistDetails.data.isShop == false) {
                         Toast.show("このセラピストの方には店舗がありません。。", context,
@@ -1507,7 +1508,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                         return;
                       }
                     } else {
-                      // dialog.dissmiss();
+                      dialog.dissmiss();
 
                       getUserAddressValues();
                     }
@@ -1570,6 +1571,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
         dialogType: DialogType.INFO,
         keyboardAware: true,
         width: MediaQuery.of(context).size.width,
+        useRootNavigator: true,
         dismissOnTouchOutside: true,
         showCloseIcon: false,
         body: Padding(
@@ -1880,9 +1882,12 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
               onTap: () {
                 if (this.mounted) {
                   setState(() {
-                    allTherapistList != null
-                        ? allTherapistList.clear()
-                        : Container();
+                    if (allTherapistList != null &&
+                        allTherapistList.isNotEmpty) {
+                      allTherapistList.clear();
+                      scrollController.jumpTo(index: 0);
+                    }
+
                     _value = 1;
 
                     getSubType();
@@ -1931,9 +1936,11 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
               onTap: () {
                 if (this.mounted) {
                   setState(() {
-                    allTherapistList != null
-                        ? allTherapistList.clear()
-                        : Container();
+                    if (allTherapistList != null &&
+                        allTherapistList.isNotEmpty) {
+                      allTherapistList.clear();
+                      scrollController.jumpTo(index: 0);
+                    }
                     _value = 2;
                     getSubType();
                   });
@@ -1981,9 +1988,11 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
               onTap: () {
                 if (this.mounted) {
                   setState(() {
-                    allTherapistList != null
-                        ? allTherapistList.clear()
-                        : Container();
+                    if (allTherapistList != null &&
+                        allTherapistList.isNotEmpty) {
+                      allTherapistList.clear();
+                      scrollController.jumpTo(index: 0);
+                    }
                     _value = 3;
                     getSubType();
                   });
@@ -2031,9 +2040,11 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
               onTap: () {
                 if (this.mounted) {
                   setState(() {
-                    allTherapistList != null
-                        ? allTherapistList.clear()
-                        : Container();
+                    if (allTherapistList != null &&
+                        allTherapistList.isNotEmpty) {
+                      allTherapistList.clear();
+                      scrollController.jumpTo(index: 0);
+                    }
                     _value = 4;
                     getSubType();
                   });
@@ -2150,6 +2161,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
             child: Center(
               child: ScrollablePositionedList.builder(
                 scrollDirection: Axis.horizontal,
+                initialScrollIndex: 0,
                 itemScrollController: scrollController,
                 itemCount: allTherapistList.length,
                 itemBuilder: (BuildContext context, int index) {

@@ -138,7 +138,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
   }
 
   getEvents() {
-    ServiceProviderApi.getCalEvents().then((value) {
+    ServiceProviderApi.getCalXOEvents().then((value) {
       calendarEvents.addAll(HealingMatchConstants.events);
       for (var event in calendarEvents) {
         DateTime start = DateTime(event.start.year, event.start.month, 1,

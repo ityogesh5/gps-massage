@@ -1007,17 +1007,14 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
     if (cancellationReasonController.text == null ||
         cancellationReasonController.text == "") {
       displaySnackBar("キャンセルする理由を入力してください。");
+      return null;
     }
     cancelBooking(context);
   }
 
   void cancelBooking(BuildContext context) {
-    ServiceProviderApi.updateNotificationEvent(
-            widget.requestBookingDetailsList.bookingDetail.eventId,
-            onCancel,
-            false,
-            false,
-            widget.requestBookingDetailsList)
+    ServiceProviderApi.removeEvent(
+            widget.requestBookingDetailsList.bookingDetail.eventId, context)
         .then((value) {
       //    if (value) {
       ServiceProviderApi.updateStatusUpdateNotification(
@@ -1034,6 +1031,10 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
 
   void validateFields() {
     if (proposeAdditionalCosts) {
+      if (price == null && addedpriceReason == null) {
+        displaySnackBar("追加の費用と理由を選択してください。");
+        return null;
+      }
       if (price != null && addedpriceReason == null) {
         displaySnackBar("費用の追加の理由をご選択ください。");
         return null;

@@ -26,6 +26,7 @@ import 'package:shimmer_animation/shimmer_animation.dart';
 List<String> _options = ['エステ', 'フィットネス', '整骨・整体', 'リラクゼーション'];
 int _selectedIndex;
 var therapistId;
+int status = 0;
 
 class NearByProviderAndShop extends StatelessWidget {
   @override
@@ -669,7 +670,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
           ? LazyLoadScrollView(
               isLoading: isLoading,
               onEndOfPage: () => _getMoreData(),
-              scrollOffset: 0,
+              // scrollOffset: therapistUsers.length - 1,
               child: CustomScrollView(
                 //shrinkWrap: true,
                 slivers: <Widget>[
@@ -707,7 +708,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                           shrinkWrap: true,
                           scrollDirection: Axis.vertical,
                           physics: ClampingScrollPhysics(),
-                          itemCount: therapistUsers.length + 1,
+                          itemCount: therapistUsers.length,
                           itemBuilder: (context, index) {
                             if (index == therapistUsers.length) {
                               return _buildProgressIndicator();
@@ -1363,7 +1364,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
           ? LazyLoadScrollView(
               isLoading: isLoading,
               onEndOfPage: () => _getMoreDataByType(),
-              scrollOffset: 0,
+              //  scrollOffset: widget.getTherapistByType.length - 1,
               child: CustomScrollView(
                 slivers: <Widget>[
                   // Add the app bar to the CustomScrollView.
@@ -1400,7 +1401,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                           shrinkWrap: true,
                           scrollDirection: Axis.vertical,
                           physics: ClampingScrollPhysics(),
-                          itemCount: widget.getTherapistByType.length + 1,
+                          itemCount: widget.getTherapistByType.length,
                           itemBuilder: (context, index) {
                             if (index == widget.getTherapistByType.length) {
                               return _buildProgressIndicator();
@@ -2143,6 +2144,7 @@ class _MassageTypeChipsState extends State<MassageTypeChips>
               } else if (selected && i == 2) {
                 HealingMatchConstants.serviceTypeValue = 3;
               } else if (selected && i == 3) {
+                status = 0;
                 HealingMatchConstants.serviceTypeValue = 4;
               } else {
                 print(
@@ -2177,7 +2179,8 @@ class _MassageTypeChipsState extends State<MassageTypeChips>
 
   @override
   Widget build(BuildContext context) {
-    if (_selectedIndex == 3) {
+    if (_selectedIndex == 3 && status == 0) {
+      status = 1;
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         scrollController.animateTo(scrollController.position.maxScrollExtent,
             duration: Duration(milliseconds: 500), curve: Curves.ease);

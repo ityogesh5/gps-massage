@@ -172,6 +172,7 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
       var fcmToken = value.getString('deviceToken');
       HealingMatchConstants.userAddressId = value.getString('addressID');
       HealingMatchConstants.serviceUserID = value.getString('userID');
+      HealingMatchConstants.serviceUserGender = value.getString('userGender');
 
       HealingMatchConstants.serviceUserName = value.getString("userName");
       if (accessToken != null) {
@@ -2119,7 +2120,7 @@ class _ReservationListState extends State<ReservationList> {
                                   bookingDetailsList[0]
                                               .bookingTherapistId
                                               .storeName
-                                              .isNotEmpty &&
+                                              !="" &&
                                           bookingDetailsList[0]
                                                   .bookingTherapistId
                                                   .storeName !=

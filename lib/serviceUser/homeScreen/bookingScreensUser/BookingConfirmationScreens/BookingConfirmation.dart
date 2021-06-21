@@ -17,6 +17,7 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/booking/createB
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
+import 'package:intl/intl.dart';
 
 double ratingsValue = 4.0;
 bool checkValue = false;
@@ -54,15 +55,19 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
   String weekDays;
   GlobalKey key = new GlobalKey();
   CreateBookingModel createBooking;
-  var distance = HealingMatchConstants.serviceDistanceRadius;
+  double distance = HealingMatchConstants.serviceDistanceRadius;
   final GeoLocater.Geolocator geoLocator = GeoLocater.Geolocator()
     ..forceAndroidLocationManager;
+  String sTime, eTime;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getProfileDetails();
+    sTime =
+        DateFormat('kk:mm').format(HealingMatchConstants.confSelectedDateTime);
+    eTime = DateFormat('kk:mm').format(HealingMatchConstants.confEndDateTime);
   }
 
   @override
@@ -140,7 +145,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                                   HealingMatchConstants.serviceDistanceRadius !=
                                       0
                               ? Text(
-                                  '${distance}Ｋｍ圏内',
+                                  '${distance.toStringAsFixed(2)}Ｋｍ圏内',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                       fontSize: 10.0,
@@ -161,7 +166,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                         children: [
                           Row(
                             children: [
-                              HealingMatchConstants.confShopName.isNotEmpty &&
+                              HealingMatchConstants.confShopName != "" &&
                                       HealingMatchConstants.confShopName != null
                                   ? Text(
                                       '${HealingMatchConstants.confShopName}',
@@ -398,7 +403,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                       ),
                       SizedBox(width: 2),
                       Text(
-                        ' ${HealingMatchConstants.confSelectedDateTime.hour}:${HealingMatchConstants.confSelectedDateTime.minute}～${HealingMatchConstants.confEndDateTime.hour}:${HealingMatchConstants.confEndDateTime.minute}',
+                        ' $sTime～$eTime',
                         style: TextStyle(
                             fontSize: 14,
                             color: Colors.black,
@@ -993,6 +998,10 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
     int therapistReviewStatus = 0;
     String userCommands = _queriesAskController.text;
     String currentPrefecture = HealingMatchConstants.locality;
+    String userAppendedName = HealingMatchConstants.serviceUserName +
+        "(" +
+        HealingMatchConstants.serviceUserGender +
+        ")";
 
     print('Entering on press');
     print('StartTime: ${HealingMatchConstants.confSelectedDateTime.toLocal()}');
@@ -1001,7 +1010,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
         CalendarEventCreateReqModel(
       HealingMatchConstants.serviceUserID,
       therapistId,
-      HealingMatchConstants.serviceUserName,
+      userAppendedName,
       HealingMatchConstants.providerName,
       locationType,
       location,

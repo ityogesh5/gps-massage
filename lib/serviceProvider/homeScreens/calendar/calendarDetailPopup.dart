@@ -29,7 +29,7 @@ class ProviderCalendarDetailPopup {
     String jaName = DateFormat('EEEE', 'ja_JP').format(start);
     String sTime = DateFormat('kk:mm').format(start);
     String eTime = DateFormat('kk:mm').format(end);
-    String day = DateFormat('MM/dd').format(end);
+    String day = DateFormat('MM月dd').format(end);
     var difference = end.difference(start).inMinutes;
 
     showDialog(
