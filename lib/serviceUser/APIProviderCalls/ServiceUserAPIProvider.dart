@@ -411,6 +411,8 @@ class ServiceUserAPIProvider {
       HealingMatchConstants.providerName = _therapisyByIdModel.data.isShop
           ? _therapisyByIdModel.data.storeName
           : _therapisyByIdModel.data.userName;
+      HealingMatchConstants.numberOfEmployeeRegistered =
+          _therapisyByIdModel.data.numberOfEmp;
       ProgressDialogBuilder.hideLoader(context);
       return _therapisyByIdModel;
     } on SocketException catch (_) {
@@ -878,7 +880,7 @@ class ServiceUserAPIProvider {
     DateTime firstMonth = DateTime(2020, 09, 30);
     var calEvents = calendar.events.list(
       "sugyo.sumihiko@gmail.com",
-      q: "SP${HealingMatchConstants.therapistId}",
+      q: "SU${HealingMatchConstants.serviceUserID}",
       /*  timeMax: lastMonth.toUtc(), timeMin: firstMonth.toUtc() */
     );
     Events events = await calEvents;
@@ -901,6 +903,82 @@ class ServiceUserAPIProvider {
     HealingMatchConstants.userEvents.addAll(flutterEvents);
     httpClient.close();
     return HealingMatchConstants.userEvents;
+  }
+
+  // Get calendar events
+
+  static Future<List<FlutterWeekViewEvent>> getProviderCalEvents() async {
+    List<FlutterWeekViewEvent> flutterEvents = List<FlutterWeekViewEvent>();
+    var accountCredentials = ServiceAccountCredentials.fromJson({
+      "private_key_id": "ea91c6540fdc102720f699c56f692d25d4aefeec",
+      "private_key":
+          "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC916/Vmhw+wpgw\nYjtvKWWnoVFJqz4sXXu5DRWaB9dSxWhIebQv0n+UdTRz8MT3ipOMz8Z4u9ziw2/J\n6tLJTU82iCk7afMEjSGypAK7osXZW5JvLkAohtamTPYSSKc7oeRfNLLCBZFHoVqQ\nvoQLnBTZbk8HSAwUBu4LFTGdSj226R7VoPeFFcdybA7tKNdM4nk/GTdnJUabTWXQ\nISRgD4ZK2SxJDlWqCkyZ1+6x/d6DEYvZX9QgGczMu8rkReNBpN+AOwZjUQ1sByhA\nhzlQXS+UX7KvJW4kfUCTvRDOr952M5J4aAvGpQzy9B3Hhm91fMsPSrdPtklDceJj\n62JfhVztAgMBAAECggEAGPleXtXCwHjeB4NsuS9zeY1twai+6Zw0sf/oJxa/+1oP\n4XTtQNtKwE944oW6i6wVxBDzVZ+1K7m1I5V6PFQoxw47il7iQueEFtmfqGp95521\n0l19wDcY1tDKEFaxdVVTUzj+CSstVQSDgwYlHdffIEl0KQuP1zSgLSIRIFWLb9vZ\ntpKl0VFrbB6W9NRIzcupHIFdhzvTbZPv/Kd0fHh49zL6oAxfFq8kzRci/jhld/Wz\n1oWlvOne1NSMiZWbltr/iI+YsNMcQdEudWPsw1Wvbnj8YEn9bdFUVb5IS0bc7XP9\n3G6TwHpJMZutSvtlqSIJF7PfvwZJQXeTr+G3EMcGywKBgQD3rUBd9o2ad7W8aKZv\nvErKr1TX9C1rZpadnabGPo5CGSx/tUzwUTpf6FxtTqgvjMhUw8HWGM0iJpf2B7Gc\nef+1w5mMaPz9WV9XeC2//0S9f0QGkPiXDEC9raud6uJQ41hYW6yJp7nrahZ9dFog\nnL0w5HEJ/eSWYwlijtOi+AUZiwKBgQDEOOQR3Bz9rUlrlMJf5s7LlO80TUq12s6U\nRqBmiUiwGBSioQ7gUdedlWjL1Ukh6KMLCvFgwbIEYDsZnL/Uzbb/Qkp3yGuEmyRm\na15iMWJ6TYNGxEw7+6nw7LsVwV528/DRyZQVyJHLPAYG3Zytfi2nRRXSeAS7qIQF\nNyweaG8CZwKBgHAdCr/99Udw3OE2dfCqSSjKiRtgOpcdTxx12qJuerLM9mmwxe0a\nt9PmOMB6FIPBtIU6P6oMe/7zfWIvRWTRjMDYk88NT0fXhuLvUbZRdOpai451XTHy\np/O0g7TuOBfpcXo9tTJyrCQ2V4veeVW93Z4eKlUdirXQitUEViS1JInVAoGAXkb3\nTZ10UG3x2L6gpXM/6JCmXXrFapq2podIiftr8S+guoKnox+veQdQUp8nhCNCMwwO\n7W4jGfcibivh/1zXj81J+kNRZWUlGBB+SK9xoVGcwWOPPUKtZBRZzxoZSQ3rpuAz\nRkQXyI4OVz4jCTiWtsd6tKT1oTRWOitIB1QmAgECgYEAw8Q6oLV4Iq4oKTYJpmha\nvPb4BH+df8lvv9hCGviFBk48ZsY4ImRDb//KlknDmiTgGlW+kLWOFY8+a8NhAMB+\nb/AdpUK2tuYg09RM66bneCBU6wCaSBvUMxZHt469tWboam1i74BCQpDdIDd0A1uL\nb7GwDGIB8mLkOwQXOvKRqBY=\n-----END PRIVATE KEY-----\n",
+      "client_email": "healing-match@appspot.gserviceaccount.com",
+      "client_id": "109325874687014297008",
+      "type": "service_account"
+    });
+    final httpClient =
+        await clientViaServiceAccount(accountCredentials, _scopes);
+    var calendar = CalendarApi(httpClient);
+    DateTime lastMonth = DateTime(2020, 09, 1);
+    DateTime firstMonth = DateTime(2020, 09, 30);
+    var calEvents = calendar.events.list(
+      "sugyo.sumihiko@gmail.com",
+      q: "SP${HealingMatchConstants.therapistId}",
+      /*  timeMax: lastMonth.toUtc(), timeMin: firstMonth.toUtc() */
+    );
+    Events events = await calEvents;
+    List<Event> unavailableEvents = List<Event>();
+    events.items.forEach((event) {
+// {events.items.forEach((event) => print("EVENT ${event.summary}"))});
+      if (event.description == "unavailable") {
+        unavailableEvents.add(event);
+      } else if (event.status == "confirmed") {
+        flutterEvents.add(
+          FlutterWeekViewEvent(
+            events: event,
+            start: event.start.dateTime.toLocal(),
+            end: event.end.dateTime.toLocal(),
+          ),
+        );
+      }
+    });
+    if (HealingMatchConstants.numberOfEmployeeRegistered > 1) {
+      flutterEvents.clear();
+    }
+    HealingMatchConstants.userEvents.clear();
+    HealingMatchConstants.userEvents.addAll(flutterEvents);
+    httpClient.close();
+    return HealingMatchConstants.userEvents;
+  }
+
+  static Future<bool> removeEvent(String eventID, BuildContext context) async {
+    var accountCredentials = ServiceAccountCredentials.fromJson({
+      "private_key_id": "ea91c6540fdc102720f699c56f692d25d4aefeec",
+      "private_key":
+          "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC916/Vmhw+wpgw\nYjtvKWWnoVFJqz4sXXu5DRWaB9dSxWhIebQv0n+UdTRz8MT3ipOMz8Z4u9ziw2/J\n6tLJTU82iCk7afMEjSGypAK7osXZW5JvLkAohtamTPYSSKc7oeRfNLLCBZFHoVqQ\nvoQLnBTZbk8HSAwUBu4LFTGdSj226R7VoPeFFcdybA7tKNdM4nk/GTdnJUabTWXQ\nISRgD4ZK2SxJDlWqCkyZ1+6x/d6DEYvZX9QgGczMu8rkReNBpN+AOwZjUQ1sByhA\nhzlQXS+UX7KvJW4kfUCTvRDOr952M5J4aAvGpQzy9B3Hhm91fMsPSrdPtklDceJj\n62JfhVztAgMBAAECggEAGPleXtXCwHjeB4NsuS9zeY1twai+6Zw0sf/oJxa/+1oP\n4XTtQNtKwE944oW6i6wVxBDzVZ+1K7m1I5V6PFQoxw47il7iQueEFtmfqGp95521\n0l19wDcY1tDKEFaxdVVTUzj+CSstVQSDgwYlHdffIEl0KQuP1zSgLSIRIFWLb9vZ\ntpKl0VFrbB6W9NRIzcupHIFdhzvTbZPv/Kd0fHh49zL6oAxfFq8kzRci/jhld/Wz\n1oWlvOne1NSMiZWbltr/iI+YsNMcQdEudWPsw1Wvbnj8YEn9bdFUVb5IS0bc7XP9\n3G6TwHpJMZutSvtlqSIJF7PfvwZJQXeTr+G3EMcGywKBgQD3rUBd9o2ad7W8aKZv\nvErKr1TX9C1rZpadnabGPo5CGSx/tUzwUTpf6FxtTqgvjMhUw8HWGM0iJpf2B7Gc\nef+1w5mMaPz9WV9XeC2//0S9f0QGkPiXDEC9raud6uJQ41hYW6yJp7nrahZ9dFog\nnL0w5HEJ/eSWYwlijtOi+AUZiwKBgQDEOOQR3Bz9rUlrlMJf5s7LlO80TUq12s6U\nRqBmiUiwGBSioQ7gUdedlWjL1Ukh6KMLCvFgwbIEYDsZnL/Uzbb/Qkp3yGuEmyRm\na15iMWJ6TYNGxEw7+6nw7LsVwV528/DRyZQVyJHLPAYG3Zytfi2nRRXSeAS7qIQF\nNyweaG8CZwKBgHAdCr/99Udw3OE2dfCqSSjKiRtgOpcdTxx12qJuerLM9mmwxe0a\nt9PmOMB6FIPBtIU6P6oMe/7zfWIvRWTRjMDYk88NT0fXhuLvUbZRdOpai451XTHy\np/O0g7TuOBfpcXo9tTJyrCQ2V4veeVW93Z4eKlUdirXQitUEViS1JInVAoGAXkb3\nTZ10UG3x2L6gpXM/6JCmXXrFapq2podIiftr8S+guoKnox+veQdQUp8nhCNCMwwO\n7W4jGfcibivh/1zXj81J+kNRZWUlGBB+SK9xoVGcwWOPPUKtZBRZzxoZSQ3rpuAz\nRkQXyI4OVz4jCTiWtsd6tKT1oTRWOitIB1QmAgECgYEAw8Q6oLV4Iq4oKTYJpmha\nvPb4BH+df8lvv9hCGviFBk48ZsY4ImRDb//KlknDmiTgGlW+kLWOFY8+a8NhAMB+\nb/AdpUK2tuYg09RM66bneCBU6wCaSBvUMxZHt469tWboam1i74BCQpDdIDd0A1uL\nb7GwDGIB8mLkOwQXOvKRqBY=\n-----END PRIVATE KEY-----\n",
+      "client_email": "healing-match@appspot.gserviceaccount.com",
+      "client_id": "109325874687014297008",
+      "type": "service_account"
+    });
+    final httpClient =
+        await clientViaServiceAccount(accountCredentials, _scopes);
+
+    var calendar = CalendarApi(httpClient);
+    String calendarId = "sugyo.sumihiko@gmail.com";
+
+    try {
+      var eventValue = await calendar.events.delete(calendarId, eventID);
+
+      return true;
+
+      /* calendar.events.delete(calendarId, eventID).then((value) {
+        print("Removed______");
+      }); */
+    } catch (e) {
+      print('Error creating event $e');
+      return false;
+    }
   }
 
   static Future<bool> saveFirebaseUserID(

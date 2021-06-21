@@ -61,7 +61,7 @@ class _ChooseDateState extends State<ChooseDate> {
     daysToDisplay = totalDays(_cmonth, _cyear);
     timeBuilder(_cyear, _cmonth);
     selectedMin = HealingMatchConstants.selectedMin;
-    ServiceUserAPIProvider.getCalEvents().then((value) {
+    ServiceUserAPIProvider.getProviderCalEvents().then((value) {
       calendarEvents.addAll(value);
       getEvents();
     });
@@ -602,8 +602,8 @@ class _ChooseDateState extends State<ChooseDate> {
         }
       }
       return true;
-    }  catch (e) {
-          return false;
+    } catch (e) {
+      return false;
     }
   }
 

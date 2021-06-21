@@ -55,7 +55,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
   String weekDays;
   GlobalKey key = new GlobalKey();
   CreateBookingModel createBooking;
-  var distance = HealingMatchConstants.serviceDistanceRadius;
+  double distance = HealingMatchConstants.serviceDistanceRadius;
   final GeoLocater.Geolocator geoLocator = GeoLocater.Geolocator()
     ..forceAndroidLocationManager;
   String sTime, eTime;
@@ -145,7 +145,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                                   HealingMatchConstants.serviceDistanceRadius !=
                                       0
                               ? Text(
-                                  '${distance}Ｋｍ圏内',
+                                  '${distance.toStringAsFixed(2)}Ｋｍ圏内',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                       fontSize: 10.0,
@@ -166,7 +166,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                         children: [
                           Row(
                             children: [
-                              HealingMatchConstants.confShopName.isNotEmpty &&
+                              HealingMatchConstants.confShopName != "" &&
                                       HealingMatchConstants.confShopName != null
                                   ? Text(
                                       '${HealingMatchConstants.confShopName}',

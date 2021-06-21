@@ -2120,7 +2120,7 @@ class _ReservationListState extends State<ReservationList> {
                                   bookingDetailsList[0]
                                               .bookingTherapistId
                                               .storeName
-                                              .isNotEmpty &&
+                                              !="" &&
                                           bookingDetailsList[0]
                                                   .bookingTherapistId
                                                   .storeName !=

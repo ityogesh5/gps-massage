@@ -628,11 +628,19 @@ class _BookingApproveThirdScreenState extends State<BookingApproveThirdScreen> {
       return null;
     }
     try {
-      var cancelBooking = ServiceUserAPIProvider.updateBookingCompeted(
-          HealingMatchConstants
-              .therapistProfileDetails.bookingDataResponse[0].id,
-          selectedBuildingType);
-      DialogHelper.showUserBookingCancelDialog(context);
+      ServiceUserAPIProvider.removeEvent(
+              HealingMatchConstants
+                  .therapistProfileDetails.bookingDataResponse[0].eventId,
+              context)
+          .then((value) {
+        if (value) {
+          ServiceUserAPIProvider.updateBookingCompeted(
+              HealingMatchConstants
+                  .therapistProfileDetails.bookingDataResponse[0].id,
+              selectedBuildingType);
+          DialogHelper.showUserBookingCancelDialog(context);
+        }
+      });
     } catch (e) {
       print('cancelException : ${e.toString()}');
     }

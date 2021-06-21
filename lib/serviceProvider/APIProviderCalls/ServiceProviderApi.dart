@@ -507,7 +507,7 @@ class ServiceProviderApi {
         print("Removed______");
       }); */
     } catch (e) {
-      log('Error creating event $e');
+      print('Error creating event $e');
       ProgressDialogBuilder.hideCommonProgressDialog(context);
       return false;
     }

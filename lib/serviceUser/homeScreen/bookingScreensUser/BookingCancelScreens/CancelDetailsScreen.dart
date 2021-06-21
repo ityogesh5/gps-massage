@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
@@ -234,13 +235,22 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
 
     try {
       // ProgressDialogBuilder.showOverlayLoader(context);
-      var cancelBooking = ServiceUserAPIProvider.updateBookingCompeted(
-          widget.bookingId, cancelReason);
-      ProgressDialogBuilder.hideLoader(context);
-      DialogHelper.showUserBookingCancelDialog(context);
+      ServiceUserAPIProvider.removeEvent(
+              HealingMatchConstants.calEventId, context)
+          .then((value) {
+        if (value) {
+          ServiceUserAPIProvider.updateBookingCompeted(
+              widget.bookingId, cancelReason);
+        /*   ProgressDialogBuilder.hideLoader(context); */
+          DialogHelper.showUserBookingCancelDialog(context);
+        } else {
+          /* ProgressDialogBuilder.hideLoader(context); */
+        }
+      });
     } catch (e) {
       // ProgressDialogBuilder.hideLoader(context);
       print('cancelException : ${e.toString()}');
+     /*  ProgressDialogBuilder.hideLoader(context); */
     }
   }
 }

@@ -959,10 +959,16 @@ class _TherapistAcceptNotificationState
       return null;
     }
     try {
-      var cancelBooking = ServiceUserAPIProvider.updateBookingCompeted(
-          widget.requestBookingDetailsList.bookingDetail.id,
-          selectedBuildingType);
-      DialogHelper.showUserBookingCancelDialog(context);
+      ServiceUserAPIProvider.removeEvent(
+              widget.requestBookingDetailsList.bookingDetail.eventId, context)
+          .then((value) {
+        if (value) {
+          ServiceUserAPIProvider.updateBookingCompeted(
+              widget.requestBookingDetailsList.bookingDetail.id,
+              selectedBuildingType);
+        }
+      });
+      var cancelBooking = DialogHelper.showUserBookingCancelDialog(context);
     } catch (e) {
       print('cancelException : ${e.toString()}');
     }

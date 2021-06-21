@@ -2402,6 +2402,11 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                           .bookingIdPay = approvedList[
                                                                               index]
                                                                           .id;
+                                                                      HealingMatchConstants
+                                                                          .calEventId = approvedList[
+                                                                              index]
+                                                                          .eventId;
+
                                                                       NavigationRouter.switchToServiceUserBookingCancelScreen(
                                                                           context,
                                                                           approvedList[index]
@@ -3217,6 +3222,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                       confirmedPaymentList[
                                                                               index]
                                                                           .id;
+                                                                  HealingMatchConstants
+                                                                      .calEventId = confirmedPaymentList[
+                                                                          index]
+                                                                      .eventId;
                                                                   NavigationRouter.switchToServiceUserBookingCancelScreen(
                                                                       context,
                                                                       confirmedPaymentList[
