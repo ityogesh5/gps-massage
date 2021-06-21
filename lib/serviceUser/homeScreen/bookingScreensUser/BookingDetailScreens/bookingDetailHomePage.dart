@@ -1450,6 +1450,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
       keyboardAware: true,
       width: MediaQuery.of(context).size.width,
       dismissOnTouchOutside: true,
+      useRootNavigator: true,
       showCloseIcon: true,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -1491,11 +1492,11 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                   radioButtonValue: (value) {
                     if (value == 'Y') {
                       if (therapistDetails.data.isShop == true) {
+                        dialog.dissmiss();
                         setState(() {
                           shopLocationSelected = true;
                           HealingMatchConstants.bookingAddressId =
                               therapistDetails.data.addresses[0].id;
-                          // dialog.dissmiss();
                         });
                       } else if (therapistDetails.data.isShop == false) {
                         Toast.show("このセラピストの方には店舗がありません。。", context,
@@ -1507,7 +1508,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                         return;
                       }
                     } else {
-                      // dialog.dissmiss();
+                      dialog.dissmiss();
 
                       getUserAddressValues();
                     }
@@ -1570,6 +1571,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
         dialogType: DialogType.INFO,
         keyboardAware: true,
         width: MediaQuery.of(context).size.width,
+        useRootNavigator: true,
         dismissOnTouchOutside: true,
         showCloseIcon: false,
         body: Padding(
