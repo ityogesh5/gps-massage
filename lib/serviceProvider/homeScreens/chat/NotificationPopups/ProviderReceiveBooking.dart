@@ -429,6 +429,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                           controller: providerCommentsController,
                           textInputAction: TextInputAction.done,
                           expands: false,
+                          maxLength: 120,
                           maxLines: 4,
                           decoration: InputDecoration(
                             hintText: "別の時間を選択した理由",
@@ -1038,7 +1039,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
       print("a");
       /*   if (value) { */
       ServiceProviderApi.updateStatusUpdate(widget.bookingDetail,
-              proposeAdditionalCosts, suggestAnotherTime, onCancel)
+              proposeAdditionalCosts, suggestAnotherTime, false)
           .then((value) {
         if (value) {
           addFirebaseContacts();

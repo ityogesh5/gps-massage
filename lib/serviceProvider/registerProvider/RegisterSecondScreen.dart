@@ -1263,10 +1263,10 @@ class _RegistrationSecondPageState
               ? HealingMatchConstants.serviceProviderGenderService
               : '',
       'storeType': storeTypeDisplay,
-      'numberOfEmp': HealingMatchConstants.serviceProviderBusinessForm ==
-                  "施術店舗あり 施術従業員あり" &&
+      'numberOfEmp': (HealingMatchConstants.serviceProviderBusinessForm ==
+                  "施術店舗あり 施術従業員あり" ||
               HealingMatchConstants.serviceProviderBusinessForm ==
-                  "施術店舗なし 施術従業員あり（出張のみ)" &&
+                  "施術店舗なし 施術従業員あり（出張のみ)") &&
               HealingMatchConstants.serviceProviderNumberOfEmpl != null
           ? HealingMatchConstants.serviceProviderNumberOfEmpl
           : '0',

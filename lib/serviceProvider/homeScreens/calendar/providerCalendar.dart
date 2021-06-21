@@ -555,11 +555,11 @@ class _ProviderCalendarState extends State<ProviderCalendar> {
                                         child: DayView(
                                           controller: dayViewController,
                                           initialTime: const HourMinute(
-                                              hour: 2, minute: 55),
+                                              hour: 0, minute: 0),
                                           minimumTime:
-                                              HourMinute(hour: 2, minute: 55),
+                                              HourMinute(hour: 0, minute: 0),
                                           maximumTime:
-                                              HourMinute(hour: 17, minute: 10),
+                                              HourMinute(hour: 24, minute: 00),
                                           date: displayDay,
                                           inScrollableWidget: true,
                                           hoursColumnStyle: HoursColumnStyle(

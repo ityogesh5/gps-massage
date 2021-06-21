@@ -2682,9 +2682,9 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
               ? HealingMatchConstants.serviceProviderGenderService
               : '',
       'storeType': storeTypeDisplay,
-      'numberOfEmp': bussinessForm == "施術店舗あり 施術従業員あり" ||
-              bussinessForm == "施術店舗あり 施術従業員なし（個人経営）" ||
-              bussinessForm == "施術店舗なし 施術従業員あり（出張のみ)"
+      'numberOfEmp': (bussinessForm == "施術店舗あり 施術従業員あり" ||
+                  bussinessForm == "施術店舗なし 施術従業員あり（出張のみ)") &&
+              HealingMatchConstants.serviceProviderNumberOfEmpl != null
           ? HealingMatchConstants.serviceProviderNumberOfEmpl
           : '0',
       'businessTrip':

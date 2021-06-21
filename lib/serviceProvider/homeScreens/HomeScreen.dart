@@ -1100,7 +1100,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Center(
                                           child: Text(
-                                        "営業時間 - 09: 00~17: 00",
+                                        "営業時間 - 00: 00~24: 00",
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 12.0,
@@ -1125,11 +1125,11 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                             child: DayView(
                                               controller: dayViewController,
                                               initialTime: const HourMinute(
-                                                  hour: 8, minute: 55),
+                                                  hour: 0, minute: 0),
                                               minimumTime: HourMinute(
-                                                  hour: 8, minute: 55),
+                                                  hour: 0, minute: 0),
                                               maximumTime: HourMinute(
-                                                  hour: 17, minute: 10),
+                                                  hour: 24, minute: 00),
                                               date: displayDay,
                                               inScrollableWidget: true,
                                               hoursColumnStyle:
