@@ -970,8 +970,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
   }
 
   void cancelBooking(BuildContext context) {
-    ServiceProviderApi.updateEvent(widget.bookingDetail.eventId, onCancel,
-            false, false, widget.bookingDetail)
+    ServiceProviderApi.removeEvent(widget.bookingDetail.eventId, context)
         .then((value) {
       //    if (value) {
       ServiceProviderApi.updateStatusUpdate(

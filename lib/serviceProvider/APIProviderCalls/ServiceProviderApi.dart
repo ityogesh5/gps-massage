@@ -242,7 +242,7 @@ class ServiceProviderApi {
       // {events.items.forEach((event) => print("EVENT ${event.summary}"))});
       if (event.description == "unavailable") {
         unavailableEvents.add(event);
-      } else {
+      } else if (event.status == "confirmed") {
         flutterEvents.add(
           FlutterWeekViewEvent(
             events: event,
@@ -483,7 +483,7 @@ class ServiceProviderApi {
     }
   }
 
-  static removeEvent(String eventID, BuildContext context) async {
+  static Future<bool> removeEvent(String eventID, BuildContext context) async {
     var accountCredentials = ServiceAccountCredentials.fromJson({
       "private_key_id": "ea91c6540fdc102720f699c56f692d25d4aefeec",
       "private_key":
@@ -499,13 +499,17 @@ class ServiceProviderApi {
     String calendarId = "sugyo.sumihiko@gmail.com";
 
     try {
-      calendar.events.delete(calendarId, eventID).then((value) {
-        ProgressDialogBuilder.hideCommonProgressDialog(context);
+      var eventValue = await calendar.events.delete(calendarId, eventID);
 
+      return true;
+
+      /* calendar.events.delete(calendarId, eventID).then((value) {
         print("Removed______");
-      });
+      }); */
     } catch (e) {
       log('Error creating event $e');
+      ProgressDialogBuilder.hideCommonProgressDialog(context);
+      return false;
     }
   }
 

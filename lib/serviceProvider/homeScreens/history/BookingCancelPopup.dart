@@ -137,8 +137,8 @@ class _CancelBookingState extends State<CancelBooking> {
             onPressed: () {
               widget.bookingDetail.cancellationReason =
                   textEditingController.text;
-              ServiceProviderApi.updateEvent(widget.bookingDetail.eventId, true,
-                      false, false, widget.bookingDetail)
+              ServiceProviderApi.removeEvent(
+                      widget.bookingDetail.eventId, context)
                   .then((value) {
                 if (value) {
                   ServiceProviderApi.updateStatusUpdate(
