@@ -37,6 +37,7 @@ class _SplashScreenPageState extends State<SplashScreen>
 
   void navigationPage() {
     if (HealingMatchConstants.isInternetAvailable) {
+      //HealingMatchConstants.initiatePayment(context);
       _navigateUser();
     } else {
       DialogHelper.showNoInternetConnectionDialog(context, SplashScreen());
