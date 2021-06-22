@@ -21,7 +21,7 @@ class HealingMatchApp extends StatelessWidget {
         statusBarBrightness: Brightness.dark,
         statusBarIconBrightness: Brightness.dark));
 
-    return MaterialApp(      
+    return MaterialApp(
         theme: ThemeData(
           appBarTheme: AppBarTheme(brightness: Brightness.dark),
           fontFamily: 'NotoSansJP',
@@ -35,6 +35,6 @@ class HealingMatchApp extends StatelessWidget {
         ],
         title: 'Healing Match',
         debugShowCheckedModeBanner: false,
-        home: SplashScreen()); //SplashScreen());
+        home: SplashScreen());
   }
 } //TestPayment
