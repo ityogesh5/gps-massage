@@ -90,7 +90,7 @@ dependencies:
   flutter_overlay_loader: ^0.0.2
   lazy_load_scrollview: 1.1.0
   cached_network_image: any
-  stripe_payment:
+#  stripe_payment:
   super_tooltip: any
   time: any
 
@@ -122,7 +122,8 @@ dependencies:
 
   readmore: any #Gowtham Text ReadMore
   argon_buttons_flutter: any
-  
+  flutter_stripe_payment: any
+ 
 
 
 

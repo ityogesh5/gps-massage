@@ -564,6 +564,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.3"
+  flutter_stripe_payment:
+    dependency: "direct main"
+    description:
+      name: flutter_stripe_payment
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.12"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -1181,13 +1188,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0-nullsafety.1"
-  stripe_payment:
-    dependency: "direct main"
-    description:
-      name: stripe_payment
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.11"
   super_tooltip:
     dependency: "direct main"
     description:
