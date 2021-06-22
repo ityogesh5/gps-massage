@@ -5,9 +5,9 @@ import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 
 class PaymentProcessingPage extends StatefulWidget {
-  var paymentMethod;
+  var paymentID;
 
-  PaymentProcessingPage(this.paymentMethod);
+  PaymentProcessingPage(this.paymentID);
 
   @override
   State createState() {
@@ -83,16 +83,17 @@ class _PaymentProcessingPageState extends State<PaymentProcessingPage> {
   }
 
   _processPayment() async {
+    debugPrint('Started payment...!!');
     try {
       ServiceUserAPIProvider.chargePaymentForCustomer(
               context,
               HealingMatchConstants.serviceUserID,
-              widget.paymentMethod.id,
+              widget.paymentID,
               HealingMatchConstants.confServiceCost)
           .then((value) {
         if (value.status == 'success') {
           ServiceUserAPIProvider.paymentSuccess(
-                  context, value.message.id, widget.paymentMethod.id)
+                  context, value.message.id, widget.paymentID)
               .then((value) {
             if (value.status == 'success') {
               NavigationRouter.switchToPaymentSuccessScreen(context);

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -1988,7 +1987,10 @@ class _ReservationListState extends State<ReservationList> {
         eTime = DateFormat('kk:mm').format(endTime);
         jaName = DateFormat('EEEE', 'ja_JP').format(startTime);
       });
-    } else {}
+      print('Booking status : ${bookingDetailsList[0].bookingStatus}');
+    } else {
+      //print('Booking status : ${bookingDetailsList[0].bookingStatus}');
+    }
 
     GlobalKey key = new GlobalKey();
     void showToolTip(String text) {
@@ -2118,9 +2120,9 @@ class _ReservationListState extends State<ReservationList> {
                               Row(
                                 children: [
                                   bookingDetailsList[0]
-                                              .bookingTherapistId
-                                              .storeName
-                                              !="" &&
+                                                  .bookingTherapistId
+                                                  .storeName !=
+                                              "" &&
                                           bookingDetailsList[0]
                                                   .bookingTherapistId
                                                   .storeName !=
@@ -3624,48 +3626,20 @@ class _RecommendListsState extends State<RecommendLists> {
                                   ),
                             Spacer(flex: 2),
                             HealingMatchConstants.isUserRegistrationSkipped
-                                ? GestureDetector(
-                                    onTap: () {
-                                      return;
-                                    },
-                                    child: Container(
-                                      child: CustomPaint(
-                                        size: Size(30, 30),
-                                        painter: HeartPainter(),
-                                      ),
-                                    ), /*  SvgPicture.asset(
-                                      'assets/images_gps/heart_wo_color.svg',
+                                ? Container(
+                                    child: SvgPicture.asset(
+                                      'assets/images_gps/recommendedHeart.svg',
                                       width: 25,
                                       height: 25,
-                                      color: Colors.grey[400],
-                                    ), */
+                                    ),
                                   )
-                                : FavoriteButton(
-                                    iconSize: 40,
-                                    iconColor: Colors.red,
-                                    isFavorite: widget
-                                                .getRecommendedTherapists[index]
-                                                .favouriteToTherapist !=
-                                            null &&
-                                        widget.getRecommendedTherapists[index]
-                                                .favouriteToTherapist ==
-                                            1,
-                                    valueChanged: (_isFavorite) {
-                                      print('Is Favorite : $_isFavorite');
-                                      if (_isFavorite != null && _isFavorite) {
-                                        // call favorite therapist API
-                                        ServiceUserAPIProvider
-                                            .favouriteTherapist(widget
-                                                .getRecommendedTherapists[index]
-                                                .id);
-                                      } else {
-                                        // call un-favorite therapist API
-                                        ServiceUserAPIProvider
-                                            .unFavouriteTherapist(widget
-                                                .getRecommendedTherapists[index]
-                                                .id);
-                                      }
-                                    }),
+                                : Container(
+                                    child: SvgPicture.asset(
+                                      'assets/images_gps/recommendedHeart.svg',
+                                      width: 25,
+                                      height: 25,
+                                    ),
+                                  ),
                           ],
                         ),
                         SizedBox(
