@@ -10,7 +10,10 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/login/sendVerif
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/verifyOtp.dart';
 import 'package:http/http.dart' as http;
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 //final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
+Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 
 class RegisterOtpScreen extends StatefulWidget {
   @override
@@ -25,9 +28,12 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
   bool autoValidate = false;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   var UserVerifyOtp = VerifyOtpModel();
+  var phoneNumber;
 
   void initState() {
     super.initState();
+    //getUserPhoneNumber();
+    setUserVerifyStatus(HealingMatchConstants.isUserVerified);
   }
 
   @override
@@ -254,18 +260,17 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
         final vrfyOtp = json.decode(response.body);
         UserVerifyOtp = VerifyOtpModel.fromJson(vrfyOtp);
         ProgressDialogBuilder.hideLoader(context);
-        /*_firebaseMessaging.getToken().then((value) {
-          HealingMatchConstants.userFcmToken = value;
-          print('FCM Token : ${value.toString()}');
-        });*/
         DialogHelper.showRegisterSuccessDialog(context);
         HealingMatchConstants.isUserVerified = true;
+        setUserVerifyStatus(HealingMatchConstants.isUserVerified);
       } else {
+        setUserVerifyStatus(HealingMatchConstants.isUserVerified);
         ProgressDialogBuilder.hideLoader(context);
         print('Response Failure !!');
         return;
       }
     } catch (e) {
+      setUserVerifyStatus(HealingMatchConstants.isUserVerified);
       ProgressDialogBuilder.hideLoader(context);
       print('Response catch error : ${e.toString()}');
       return;
@@ -290,9 +295,6 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
         reSendVerifyResponse = SendVerifyResponseModel.fromJson(sendVerify);
 
         ProgressDialogBuilder.hideLoader(context);
-
-        // NavigationRouter.switchToUserChangePasswordScreen(context);
-
       } else {
         ProgressDialogBuilder.hideLoader(context);
         print('Response Failure !!');
@@ -303,5 +305,21 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
       print('Response catch error : ${e.toString()}');
       return;
     }
+  }
+
+  void getUserPhoneNumber() async {
+    /*_sharedPreferences.then((value) {
+      HealingMatchConstants.serviceUserPhoneNumber =
+          value.getString('userPhoneNumber');
+      debugPrint(
+          'user phone number : ${HealingMatchConstants.serviceUserPhoneNumber}');
+    });*/
+  }
+
+  void setUserVerifyStatus(bool isUserVerified) async {
+    _sharedPreferences.then((value) {
+      var userVerifyStatus = value.setBool('userVerifyStatus', isUserVerified);
+      debugPrint('user verified : $userVerifyStatus');
+    });
   }
 }
