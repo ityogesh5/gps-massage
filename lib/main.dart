@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
+import 'package:gps_massageapp/utils/StripeTest/StripeNewPayment.dart';
 
 import 'initialScreens/splashScreen.dart';
 
@@ -21,7 +22,7 @@ class HealingMatchApp extends StatelessWidget {
         statusBarBrightness: Brightness.dark,
         statusBarIconBrightness: Brightness.dark));
 
-    return MaterialApp(      
+    return MaterialApp(
         theme: ThemeData(
           appBarTheme: AppBarTheme(brightness: Brightness.dark),
           fontFamily: 'NotoSansJP',
@@ -35,6 +36,6 @@ class HealingMatchApp extends StatelessWidget {
         ],
         title: 'Healing Match',
         debugShowCheckedModeBanner: false,
-        home: SplashScreen()); //SplashScreen());
+        home: SplashScreen());
   }
 } //TestPayment

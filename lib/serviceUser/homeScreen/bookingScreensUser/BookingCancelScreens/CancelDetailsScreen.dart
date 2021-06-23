@@ -226,7 +226,7 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
       ));
       return null;
     }
-    if (cancelReason.length < 125) {
+    if (cancelReason.length > 125) {
       ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,

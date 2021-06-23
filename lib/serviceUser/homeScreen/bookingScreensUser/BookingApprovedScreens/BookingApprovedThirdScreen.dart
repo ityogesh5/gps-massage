@@ -657,7 +657,7 @@ class _BookingApproveThirdScreenState extends State<BookingApproveThirdScreen> {
       ));
       return null;
     }
-    if ((selectedBuildingType == "その他") && (otherCategory.length < 125)) {
+    if ((selectedBuildingType == "その他") && (otherCategory.length > 125)) {
       ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,

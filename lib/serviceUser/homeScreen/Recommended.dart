@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -13,7 +10,6 @@ import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
-import 'package:gps_massageapp/customLibraryClasses/customPainterHeart/CustomHeartPainter.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
@@ -789,48 +785,20 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                                   ),
                             Spacer(flex: 2),
                             HealingMatchConstants.isUserRegistrationSkipped
-                                ? GestureDetector(
-                                    onTap: () {
-                                      return;
-                                    },
-                                    child: Container(
-                                      child: CustomPaint(
-                                        size: Size(30, 30),
-                                        painter: HeartPainter(),
-                                      ),
-                                    ), /*  SvgPicture.asset(
-                                      'assets/images_gps/heart_wo_color.svg',
+                                ? Container(
+                                    child: SvgPicture.asset(
+                                      'assets/images_gps/recommendedHeart.svg',
                                       width: 25,
                                       height: 25,
-                                      color: Colors.grey[400],
-                                    ), */
+                                    ),
                                   )
-                                : FavoriteButton(
-                                    iconSize: 40,
-                                    iconColor: Colors.red,
-                                    isFavorite: widget
-                                                .getRecommendedTherapists[index]
-                                                .favouriteToTherapist !=
-                                            null &&
-                                        widget.getRecommendedTherapists[index]
-                                                .favouriteToTherapist ==
-                                            1,
-                                    valueChanged: (_isFavorite) {
-                                      print('Is Favorite : $_isFavorite');
-                                      if (_isFavorite != null && _isFavorite) {
-                                        // call favorite therapist API
-                                        ServiceUserAPIProvider
-                                            .favouriteTherapist(widget
-                                                .getRecommendedTherapists[index]
-                                                .id);
-                                      } else {
-                                        // call un-favorite therapist API
-                                        ServiceUserAPIProvider
-                                            .unFavouriteTherapist(widget
-                                                .getRecommendedTherapists[index]
-                                                .id);
-                                      }
-                                    }),
+                                : Container(
+                                    child: SvgPicture.asset(
+                                      'assets/images_gps/recommendedHeart.svg',
+                                      width: 25,
+                                      height: 25,
+                                    ),
+                                  ),
                           ],
                         ),
                         SizedBox(

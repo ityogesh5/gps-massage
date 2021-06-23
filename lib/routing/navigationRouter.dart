@@ -1301,10 +1301,10 @@ class NavigationRouter {
 
   // payment processing page
   static void switchToPaymentProcessingScreen(
-      BuildContext context, var paymentMethod) {
+      BuildContext context, var paymentID) {
     Navigator.of(context).push(PageRouteBuilder(
         pageBuilder: (context, animation, anotherAnimation) {
-          return PaymentProcessingPage(paymentMethod);
+          return PaymentProcessingPage(paymentID);
         },
         transitionDuration: Duration(milliseconds: 1000),
         transitionsBuilder: (context, animation, anotherAnimation, child) {

@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe_payment/flutter_stripe_payment.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/event.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/ProviderDetailsResponseModel.dart';
@@ -19,7 +20,6 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/Get
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
-import 'package:stripe_payment/stripe_payment.dart';
 
 enum MessageType {
   Text,
@@ -57,7 +57,7 @@ class HealingMatchConstants {
 
       //      "http://106.51.49.160:9087/api"; // Development data URL
 
-      "http://106.51.49.160:9087/api"; // Testing data URL
+      "http://106.51.49.160:9094/api"; // Testing data URL
 
 // get therapist list By ID
   static const String THERAPIST_USER_BY_ID_URL =
@@ -739,6 +739,7 @@ class HealingMatchConstants {
       '期限内にセラピストに、よる予約の承認がされなかった為、予約はキャンセルされました';
   static String cancelTimerText = '期限内に支払いが完了しなかった為、予約がキャンセルされました。';
   static bool isBookingDone = false;
+
   //booking HomePage
 
   //FontStyle
@@ -798,26 +799,32 @@ class HealingMatchConstants {
   );
 
   static void initiatePayment(BuildContext context) async {
-    PaymentMethod _paymentMethod;
+    String _paymentMethodId;
+    String _errorMessage = "";
+    final _stripePayment = FlutterStripePayment();
     try {
-      StripePayment.setOptions(StripeOptions(
-          publishableKey:
-              "${HealingMatchConstants.CLIENT_PUBLISHABLE_KEY_STRIPE}"));
-      StripePayment.paymentRequestWithCardForm(CardFormPaymentRequest())
-          .then((paymentMethod) {
-        _paymentMethod = paymentMethod;
-        var cardJSON = _paymentMethod..card.toJson();
-        var paymentToken = paymentMethod.card.token.toString();
+      _stripePayment.setStripeSettings(
+          "${HealingMatchConstants.CLIENT_PUBLISHABLE_KEY_STRIPE}");
 
-        print(
-            'Received payment method : ${_paymentMethod.toJson()}\n$cardJSON');
-        print(
-            'Received payment method ID : ${_paymentMethod.id} \n $paymentToken');
-        Future.delayed(Duration(seconds: 2), () {});
-        createCustomer(_paymentMethod, context);
-      }).catchError((e) {
+      _stripePayment.onCancel = () {
+        print("the payment form was cancelled");
+      };
+      _stripePayment.addPaymentMethod().then((paymentResponse) {
+        if (paymentResponse.status == PaymentResponseStatus.succeeded) {
+          _paymentMethodId = paymentResponse.paymentMethodId;
+          debugPrint('Payment Response : ${paymentResponse.paymentMethodId}');
+          Future.delayed(Duration(seconds: 2), () {
+            createCustomer(_paymentMethodId, context);
+          });
+        } else {
+          _errorMessage = paymentResponse.errorMessage;
+          debugPrint('Error message while payment : $_errorMessage');
+          NavigationRouter.switchToPaymentFailedScreen(context);
+        }
+      }).catchError((error) {
+        debugPrint('Payment Error : $error');
+
         NavigationRouter.switchToPaymentFailedScreen(context);
-        print('Payment initiate exception : ${e.toString()}');
       });
     } catch (e) {
       NavigationRouter.switchToPaymentFailedScreen(context);
@@ -825,9 +832,8 @@ class HealingMatchConstants {
     }
   }
 
-  static void createCustomer(
-      PaymentMethod paymentMethod, BuildContext context) async {
-    NavigationRouter.switchToPaymentProcessingScreen(context, paymentMethod);
+  static void createCustomer(var paymentID, BuildContext context) async {
+    NavigationRouter.switchToPaymentProcessingScreen(context, paymentID);
   }
 
   static List<Curve> curveList = [
