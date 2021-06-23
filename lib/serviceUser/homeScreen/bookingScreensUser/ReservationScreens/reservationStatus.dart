@@ -470,8 +470,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                           onTap: () {
                                             HealingMatchConstants
                                                     .serviceDistanceRadius =
-                                            double.parse(     waitingForApprovalList[index]
-                                                    .locationDistance);
+                                                double.parse(
+                                                    waitingForApprovalList[
+                                                            index]
+                                                        .locationDistance);
                                             NavigationRouter
                                                 .switchToUserSearchDetailPageOne(
                                                     context,
@@ -886,25 +888,37 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                                     );
                                                                                   }),
                                                                             )
-                                                                          : Container(),
+                                                                          : Container(
+                                                                              height: 38.0,
+                                                                            ),
                                                                     ]),
                                                               ),
                                                             ],
                                                           ),
-                                                          Expanded(
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(4.0),
-                                                              child: Divider(
-                                                                color: Color
-                                                                    .fromRGBO(
-                                                                        217,
-                                                                        217,
-                                                                        217,
-                                                                        1),
+                                                          SizedBox(
+                                                            height: 2,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Expanded(
+                                                                flex: 4,
+                                                                child: Divider(
+                                                                  // height: 50,
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          217,
+                                                                          217,
+                                                                          217,
+                                                                          1),
+                                                                ),
                                                               ),
-                                                            ),
+                                                              Expanded(
+                                                                child: Text(''),
+                                                              )
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height: 2,
                                                           ),
                                                           Row(
                                                             children: [
@@ -1106,7 +1120,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                           approvedWithConditionsList.length != 0
                               ? Container(
                                   // height: MediaQuery.of(context).size.height *
-                                  height: 300,
+                                  height: 280,
                                   width:
                                       MediaQuery.of(context).size.width * 0.95,
                                   child: ListView.builder(
@@ -1170,9 +1184,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 'bookingId: ${HealingMatchConstants.bookingIdPay}');
                                             HealingMatchConstants
                                                     .serviceDistanceRadius =
-                                           double.parse(      approvedWithConditionsList[
-                                                        index]
-                                                    .locationDistance);
+                                                double.parse(
+                                                    approvedWithConditionsList[
+                                                            index]
+                                                        .locationDistance);
 
                                             NavigationRouter
                                                 .switchToUserSearchDetailPageOne(
@@ -1199,6 +1214,85 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 ),
                                                 child: Stack(
                                                   children: [
+                                                    Positioned(
+                                                      top: 142.0,
+                                                      // bottom: 5.0,
+                                                      right: 55.0,
+                                                      child: InkWell(
+                                                        onTap: () {
+                                                          ProgressDialogBuilder
+                                                              .showCommonProgressDialog(
+                                                                  context);
+                                                          getChatDetails(
+                                                              approvedWithConditionsList[
+                                                                      index]
+                                                                  .bookingTherapistId
+                                                                  .firebaseUdid);
+                                                        },
+                                                        child: Card(
+                                                          elevation: 4.0,
+                                                          shape: CircleBorder(),
+                                                          margin:
+                                                              EdgeInsets.all(
+                                                                  0.0),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(12.0),
+                                                            child: SvgPicture.asset(
+                                                                'assets/images_gps/chat.svg',
+                                                                height: 15,
+                                                                width: 15),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Positioned(
+                                                      top: 142.0,
+                                                      // bottom: 5.0,
+                                                      right: 10.0,
+                                                      child: InkWell(
+                                                        onTap: () {
+                                                          HealingMatchConstants
+                                                                  .bookingIdPay =
+                                                              approvedWithConditionsList[
+                                                                      index]
+                                                                  .id;
+                                                          HealingMatchConstants
+                                                                  .therapistIdPay =
+                                                              approvedWithConditionsList[
+                                                                      index]
+                                                                  .therapistId;
+                                                          HealingMatchConstants
+                                                                  .confServiceCost =
+                                                              approvedWithConditionsList[
+                                                                      index]
+                                                                  .totalCost;
+                                                          NavigationRouter
+                                                              .switchToUserBookingApprovedThirdScreen(
+                                                                  context,
+                                                                  approvedWithConditionsList[
+                                                                          index]
+                                                                      .therapistId);
+                                                        },
+                                                        child: Card(
+                                                          elevation: 4.0,
+                                                          shape: CircleBorder(),
+                                                          margin:
+                                                              EdgeInsets.all(
+                                                                  0.0),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(12.0),
+                                                            child: SvgPicture.asset(
+                                                                'assets/images_gps/accept.svg',
+                                                                height: 15,
+                                                                width: 15),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
                                                     Padding(
                                                       padding:
                                                           const EdgeInsets.all(
@@ -1593,93 +1687,39 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                                   );
                                                                                 }),
                                                                           )
-                                                                        : Container(),
+                                                                        : Container(
+                                                                            height:
+                                                                                38.0,
+                                                                          ),
                                                                   ],
                                                                 ),
                                                               ),
                                                             ],
                                                           ),
-                                                          Expanded(
-                                                            child: Row(
-                                                                children: <
-                                                                    Widget>[
-                                                                  Expanded(
-                                                                    child:
-                                                                        Divider(
-                                                                      // height: 50,
-
-                                                                      color: Color.fromRGBO(
+                                                          SizedBox(
+                                                            height: 2,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Expanded(
+                                                                flex: 2,
+                                                                child: Divider(
+                                                                  // height: 50,
+                                                                  color: Color
+                                                                      .fromRGBO(
                                                                           217,
                                                                           217,
                                                                           217,
                                                                           1),
-                                                                    ),
-                                                                  ),
-                                                                  InkWell(
-                                                                    onTap: () {
-                                                                      ProgressDialogBuilder
-                                                                          .showCommonProgressDialog(
-                                                                              context);
-                                                                      getChatDetails(approvedWithConditionsList[
-                                                                              index]
-                                                                          .bookingTherapistId
-                                                                          .firebaseUdid);
-                                                                    },
-                                                                    child: Card(
-                                                                      elevation:
-                                                                          3,
-                                                                      shape:
-                                                                          CircleBorder(),
-                                                                      child: CircleAvatar(
-                                                                          maxRadius:
-                                                                              20,
-                                                                          backgroundColor: Colors
-                                                                              .white,
-                                                                          child: SvgPicture.asset(
-                                                                              'assets/images_gps/chat.svg',
-                                                                              height: 15,
-                                                                              width: 15)),
-                                                                    ),
-                                                                  ),
-                                                                  SizedBox(
-                                                                    width: 3,
-                                                                  ),
-                                                                  InkWell(
-                                                                    onTap: () {
-                                                                      HealingMatchConstants
-                                                                          .bookingIdPay = approvedWithConditionsList[
-                                                                              index]
-                                                                          .id;
-                                                                      HealingMatchConstants
-                                                                          .therapistIdPay = approvedWithConditionsList[
-                                                                              index]
-                                                                          .therapistId;
-                                                                      HealingMatchConstants
-                                                                          .confServiceCost = approvedWithConditionsList[
-                                                                              index]
-                                                                          .totalCost;
-                                                                      NavigationRouter.switchToUserBookingApprovedThirdScreen(
-                                                                          context,
-                                                                          approvedWithConditionsList[index]
-                                                                              .therapistId);
-                                                                    },
-                                                                    child: Card(
-                                                                      elevation:
-                                                                          3,
-                                                                      shape:
-                                                                          CircleBorder(),
-                                                                      child: CircleAvatar(
-                                                                          maxRadius:
-                                                                              20,
-                                                                          backgroundColor: Colors
-                                                                              .white,
-                                                                          child: SvgPicture.asset(
-                                                                              'assets/images_gps/accept.svg',
-                                                                              height: 20,
-                                                                              width: 20)),
-                                                                    ),
-                                                                  ),
-                                                                ]),
+                                                                ),
+                                                              ),
+                                                              Expanded(
+                                                                child: Text(''),
+                                                              )
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height: 2,
                                                           ),
                                                           Row(
                                                             children: [
@@ -1862,7 +1902,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                           approvedList.length != 0
                               ? Container(
                                   // height: MediaQuery.of(context).size.height * 0.39,
-                                  height: 300,
+                                  height: 285,
                                   width:
                                       MediaQuery.of(context).size.width * 0.95,
                                   child: ListView.builder(
@@ -1904,7 +1944,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 approvedList[index].id;
                                             HealingMatchConstants
                                                     .serviceDistanceRadius =
-                                     double.parse(            approvedList[index]
+                                                double.parse(approvedList[index]
                                                     .locationDistance);
                                             NavigationRouter
                                                 .switchToUserSearchDetailPageOne(
@@ -1930,6 +1970,143 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 ),
                                                 child: Stack(
                                                   children: [
+                                                    Positioned(
+                                                        top: 150.0,
+                                                        // bottom: 5.0,
+                                                        right: 110.0,
+                                                        child: InkWell(
+                                                          onTap: () {
+                                                            ProgressDialogBuilder
+                                                                .showCommonProgressDialog(
+                                                                    context);
+                                                            getChatDetails(
+                                                                approvedList[
+                                                                        index]
+                                                                    .bookingTherapistId
+                                                                    .firebaseUdid);
+                                                          },
+                                                          child: Card(
+                                                            elevation: 4.0,
+                                                            shape:
+                                                                CircleBorder(),
+                                                            margin:
+                                                                EdgeInsets.all(
+                                                                    0.0),
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .all(
+                                                                      12.0),
+                                                              child: SvgPicture
+                                                                  .asset(
+                                                                      'assets/images_gps/chat.svg',
+                                                                      height:
+                                                                          15,
+                                                                      width:
+                                                                          15),
+                                                            ),
+                                                          ),
+                                                        )),
+                                                    Positioned(
+                                                      top: 150.0,
+                                                      // bottom: 5.0,
+                                                      right: 60.0,
+                                                      child: InkWell(
+                                                        onTap: () {
+                                                          HealingMatchConstants
+                                                                  .bookingIdPay =
+                                                              approvedList[
+                                                                      index]
+                                                                  .id;
+                                                          HealingMatchConstants
+                                                                  .therapistIdPay =
+                                                              approvedList[
+                                                                      index]
+                                                                  .therapistId;
+                                                          HealingMatchConstants
+                                                                  .confServiceCost =
+                                                              approvedList[
+                                                                      index]
+                                                                  .totalCost;
+                                                          print(
+                                                              'bookingId: ${HealingMatchConstants.bookingIdPay}');
+
+                                                          HealingMatchConstants
+                                                              .initiatePayment(
+                                                                  context);
+                                                        },
+                                                        child: Card(
+                                                          elevation: 4.0,
+                                                          shape: CircleBorder(),
+                                                          margin:
+                                                              EdgeInsets.all(
+                                                                  0.0),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(12.0),
+                                                            child: SvgPicture.asset(
+                                                                'assets/images_gps/pay.svg',
+                                                                color: Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        193,
+                                                                        7,
+                                                                        1),
+                                                                height: 15,
+                                                                width: 15),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Positioned(
+                                                      top: 150.0,
+                                                      // bottom: 5.0,
+                                                      right: 10.0,
+                                                      child: InkWell(
+                                                        onTap: () {
+                                                          HealingMatchConstants
+                                                                  .bookingIdPay =
+                                                              approvedList[
+                                                                      index]
+                                                                  .id;
+                                                          HealingMatchConstants
+                                                                  .calEventId =
+                                                              approvedList[
+                                                                      index]
+                                                                  .eventId;
+
+                                                          NavigationRouter
+                                                              .switchToServiceUserBookingCancelScreen(
+                                                                  context,
+                                                                  approvedList[
+                                                                          index]
+                                                                      .id);
+                                                        },
+                                                        child: Card(
+                                                          elevation: 4.0,
+                                                          shape: CircleBorder(),
+                                                          margin:
+                                                              EdgeInsets.all(
+                                                                  0.0),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(12.0),
+                                                            child: SvgPicture.asset(
+                                                                'assets/images_gps/cancel.svg',
+                                                                color: Color
+                                                                    .fromRGBO(
+                                                                        217,
+                                                                        217,
+                                                                        217,
+                                                                        1),
+                                                                height: 15,
+                                                                width: 15),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
                                                     Padding(
                                                       padding:
                                                           const EdgeInsets.all(
@@ -2325,131 +2502,39 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                                   );
                                                                                 }),
                                                                           )
-                                                                        : Container(),
+                                                                        : Container(
+                                                                            height:
+                                                                                38.0,
+                                                                          ),
                                                                   ],
                                                                 ),
                                                               ),
                                                             ],
                                                           ),
-                                                          Expanded(
-                                                            child: Row(
-                                                                children: <
-                                                                    Widget>[
-                                                                  Expanded(
-                                                                    child:
-                                                                        Divider(
-                                                                      // height: 50,
-                                                                      color: Color.fromRGBO(
+                                                          SizedBox(
+                                                            height: 10,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Expanded(
+                                                                flex: 1,
+                                                                child: Divider(
+                                                                  // height: 50,
+                                                                  color: Color
+                                                                      .fromRGBO(
                                                                           217,
                                                                           217,
                                                                           217,
                                                                           1),
-                                                                    ),
-                                                                  ),
-                                                                  InkWell(
-                                                                    onTap: () {
-                                                                      ProgressDialogBuilder
-                                                                          .showCommonProgressDialog(
-                                                                              context);
-                                                                      getChatDetails(approvedList[
-                                                                              index]
-                                                                          .bookingTherapistId
-                                                                          .firebaseUdid);
-                                                                    },
-                                                                    child: Card(
-                                                                      elevation:
-                                                                          3,
-                                                                      shape:
-                                                                          CircleBorder(),
-                                                                      child: CircleAvatar(
-                                                                          maxRadius:
-                                                                              20,
-                                                                          backgroundColor: Colors
-                                                                              .white,
-                                                                          child: SvgPicture.asset(
-                                                                              'assets/images_gps/chat.svg',
-                                                                              height: 15,
-                                                                              width: 15)),
-                                                                    ),
-                                                                  ),
-                                                                  SizedBox(
-                                                                    width: 3,
-                                                                  ),
-                                                                  InkWell(
-                                                                    onTap: () {
-                                                                      HealingMatchConstants
-                                                                          .bookingIdPay = approvedList[
-                                                                              index]
-                                                                          .id;
-                                                                      HealingMatchConstants
-                                                                          .therapistIdPay = approvedList[
-                                                                              index]
-                                                                          .therapistId;
-                                                                      HealingMatchConstants
-                                                                          .confServiceCost = approvedList[
-                                                                              index]
-                                                                          .totalCost;
-                                                                      print(
-                                                                          'bookingId: ${HealingMatchConstants.bookingIdPay}');
-
-                                                                      HealingMatchConstants
-                                                                          .initiatePayment(
-                                                                              context);
-                                                                    },
-                                                                    child: Card(
-                                                                      shape:
-                                                                          CircleBorder(),
-                                                                      elevation:
-                                                                          3,
-                                                                      child: CircleAvatar(
-                                                                          maxRadius:
-                                                                              20,
-                                                                          backgroundColor: Colors
-                                                                              .white,
-                                                                          child: SvgPicture.asset(
-                                                                              'assets/images_gps/pay.svg',
-                                                                              color: Color.fromRGBO(255, 193, 7, 1),
-                                                                              height: 20,
-                                                                              width: 20)),
-                                                                    ),
-                                                                  ),
-                                                                  SizedBox(
-                                                                    width: 3,
-                                                                  ),
-                                                                  InkWell(
-                                                                    onTap: () {
-                                                                      HealingMatchConstants
-                                                                          .bookingIdPay = approvedList[
-                                                                              index]
-                                                                          .id;
-                                                                      HealingMatchConstants
-                                                                          .calEventId = approvedList[
-                                                                              index]
-                                                                          .eventId;
-
-                                                                      NavigationRouter.switchToServiceUserBookingCancelScreen(
-                                                                          context,
-                                                                          approvedList[index]
-                                                                              .id);
-                                                                    },
-                                                                    child: Card(
-                                                                      elevation:
-                                                                          3,
-                                                                      shape:
-                                                                          CircleBorder(),
-                                                                      child: CircleAvatar(
-                                                                          maxRadius:
-                                                                              20,
-                                                                          backgroundColor: Colors
-                                                                              .white,
-                                                                          child: SvgPicture.asset(
-                                                                              'assets/images_gps/cancel.svg',
-                                                                              color: Color.fromRGBO(217, 217, 217, 1),
-                                                                              height: 15,
-                                                                              width: 15)),
-                                                                    ),
-                                                                  ),
-                                                                ]),
+                                                                ),
+                                                              ),
+                                                              Expanded(
+                                                                child: Text(''),
+                                                              )
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height: 2,
                                                           ),
                                                           Row(
                                                             children: [
@@ -2632,7 +2717,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                           confirmedPaymentList.length != 0
                               ? Container(
                                   // height: MediaQuery.of(context).size.height * 0.39,
-                                  height: 300,
+                                  height: 280,
                                   width:
                                       MediaQuery.of(context).size.width * 0.95,
                                   child: ListView.builder(
@@ -2676,8 +2761,9 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 confirmedPaymentList[index].id;
                                             HealingMatchConstants
                                                     .serviceDistanceRadius =
-                                         double.parse(        confirmedPaymentList[index]
-                                                    .locationDistance);
+                                                double.parse(
+                                                    confirmedPaymentList[index]
+                                                        .locationDistance);
                                             NavigationRouter
                                                 .switchToUserSearchDetailPageOne(
                                                     context,
@@ -2700,661 +2786,652 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                       BorderRadius.circular(
                                                           12.0),
                                                 ),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Column(
-                                                    children: [
-                                                      Row(
-                                                        children: [
-                                                          Expanded(
-                                                            flex: 1,
-                                                            child: Column(
-                                                              children: [
-                                                                confirmedPaymentList[index]
-                                                                            .bookingTherapistId
-                                                                            .uploadProfileImgUrl !=
-                                                                        null
-                                                                    ? CachedNetworkImage(
-                                                                        imageUrl: confirmedPaymentList[index]
-                                                                            .bookingTherapistId
-                                                                            .uploadProfileImgUrl,
-                                                                        filterQuality:
-                                                                            FilterQuality.high,
-                                                                        fadeInCurve:
-                                                                            Curves.easeInSine,
-                                                                        imageBuilder:
-                                                                            (context, imageProvider) =>
-                                                                                Container(
-                                                                          width:
-                                                                              65.0,
-                                                                          height:
-                                                                              65.0,
-                                                                          decoration:
-                                                                              BoxDecoration(
-                                                                            shape:
-                                                                                BoxShape.circle,
-                                                                            image:
-                                                                                DecorationImage(image: imageProvider, fit: BoxFit.cover),
-                                                                          ),
-                                                                        ),
-                                                                        placeholder:
-                                                                            (context, url) =>
-                                                                                SpinKitDoubleBounce(color: Colors.lightGreenAccent),
-                                                                        errorWidget: (context,
-                                                                                url,
-                                                                                error) =>
-                                                                            Container(
-                                                                          width:
-                                                                              56.0,
-                                                                          height:
-                                                                              56.0,
-                                                                          decoration:
-                                                                              BoxDecoration(
-                                                                            shape:
-                                                                                BoxShape.circle,
-                                                                            border:
-                                                                                Border.all(color: Colors.black12),
-                                                                            image:
-                                                                                DecorationImage(image: new AssetImage('assets/images_gps/placeholder_image.png'), fit: BoxFit.cover),
-                                                                          ),
-                                                                        ),
-                                                                      )
-                                                                    : CircleAvatar(
-                                                                        child: Image
-                                                                            .asset(
-                                                                          'assets/images_gps/placeholder_image.png',
-                                                                          height:
-                                                                              70,
-                                                                          color:
-                                                                              Colors.black,
-                                                                          fit: BoxFit
-                                                                              .cover,
-                                                                        ),
-                                                                        radius:
-                                                                            35,
-                                                                        backgroundColor:
-                                                                            Colors.white,
-                                                                      ),
-                                                                FittedBox(
-                                                                  child: confirmedPaymentList[index]
-                                                                              .locationDistance !=
-                                                                          null
-                                                                      ? Text(
-                                                                          '${confirmedPaymentList[index].locationDistance}km圏内',
-                                                                          style:
-                                                                              TextStyle(
-                                                                            color: Color.fromRGBO(
-                                                                                153,
-                                                                                153,
-                                                                                153,
-                                                                                1),
-                                                                          ),
-                                                                        )
-                                                                      : Text(
-                                                                          '0.0km圏内',
-                                                                          style:
-                                                                              TextStyle(
-                                                                            color: Color.fromRGBO(
-                                                                                153,
-                                                                                153,
-                                                                                153,
-                                                                                1),
-                                                                          ),
-                                                                        ),
-                                                                ),
-                                                              ],
-                                                            ),
+                                                child: Stack(
+                                                  children: [
+                                                    Positioned(
+                                                      top: 148.0,
+                                                      // bottom: 5.0,
+                                                      right: 60.0,
+                                                      child: InkWell(
+                                                        onTap: () {
+                                                          ProgressDialogBuilder
+                                                              .showCommonProgressDialog(
+                                                                  context);
+                                                          getChatDetails(
+                                                              confirmedPaymentList[
+                                                                      index]
+                                                                  .bookingTherapistId
+                                                                  .firebaseUdid);
+                                                        },
+                                                        child: Card(
+                                                          elevation: 4.0,
+                                                          shape: CircleBorder(),
+                                                          margin:
+                                                              EdgeInsets.all(
+                                                                  0.0),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(12.0),
+                                                            child: SvgPicture.asset(
+                                                                'assets/images_gps/chat.svg',
+                                                                height: 15,
+                                                                width: 15),
                                                           ),
-                                                          SizedBox(width: 10),
-                                                          Expanded(
-                                                            flex: 4,
-                                                            child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Row(
-                                                                  children: [
-                                                                    confirmedPaymentList[index].bookingTherapistId.storeName !=
-                                                                                null &&
-                                                                            confirmedPaymentList[index].bookingTherapistId.storeName !=
-                                                                                ''
-                                                                        ? Text(
-                                                                            confirmedPaymentList[index].bookingTherapistId.storeName.length > 10
-                                                                                ? confirmedPaymentList[index].bookingTherapistId.storeName.substring(0, 10) + "..."
-                                                                                : confirmedPaymentList[index].bookingTherapistId.storeName,
-                                                                            style: TextStyle(
-                                                                                fontSize: 14,
-                                                                                color: Color.fromRGBO(0, 0, 0, 1),
-                                                                                fontWeight: FontWeight.bold),
-                                                                          )
-                                                                        : Text(
-                                                                            confirmedPaymentList[index].bookingTherapistId.userName.length > 10
-                                                                                ? confirmedPaymentList[index].bookingTherapistId.userName.substring(0, 10) + "..."
-                                                                                : confirmedPaymentList[index].bookingTherapistId.userName,
-                                                                            style: TextStyle(
-                                                                                fontSize: 14,
-                                                                                color: Color.fromRGBO(0, 0, 0, 1),
-                                                                                fontWeight: FontWeight.bold),
-                                                                          ),
-                                                                    SizedBox(
-                                                                      width: 5,
-                                                                    ),
-                                                                    InkWell(
-                                                                      onTap:
-                                                                          () {
-                                                                        showToolTip(
-                                                                            confirmedPaymentList[index].bookingTherapistId.storeType,
-                                                                            confirmedPaymentKey[index]);
-                                                                      },
-                                                                      child:
-                                                                          Container(
-                                                                        decoration:
-                                                                            BoxDecoration(
-                                                                          gradient: LinearGradient(
-                                                                              begin: Alignment.topCenter,
-                                                                              end: Alignment.bottomCenter,
-                                                                              colors: [
-                                                                                Colors.white,
-                                                                                Colors.white
-                                                                              ]),
-                                                                          shape:
-                                                                              BoxShape.circle,
-                                                                          border:
-                                                                              Border.all(
-                                                                            color:
-                                                                                Colors.grey[400],
-                                                                          ),
-                                                                        ),
-                                                                        child:
-                                                                            Padding(
-                                                                          padding:
-                                                                              const EdgeInsets.all(8.0),
-                                                                          child:
-                                                                              SvgPicture.asset(
-                                                                            "assets/images_gps/info.svg",
-                                                                            height:
-                                                                                10.0,
-                                                                            width:
-                                                                                10.0,
-                                                                            key:
-                                                                                confirmedPaymentKey[index],
-                                                                            color:
-                                                                                Colors.black,
-                                                                          ), /* Icon(
-                                                          Icons
-                                                              .shopping_bag_rounded,
-                                                          key: key,
-                                                          color: Colors.black ), */
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                    Spacer(),
-                                                                    FavoriteButton(
-                                                                        isFavorite:
-                                                                            confirmedPaymentList[index].favouriteToTherapist ==
-                                                                                1,
-                                                                        iconSize:
-                                                                            40,
-                                                                        iconColor:
-                                                                            Colors
-                                                                                .red,
-                                                                        valueChanged:
-                                                                            (_isFavorite) {
-                                                                          print(
-                                                                              'Is Favorite : $_isFavorite');
-                                                                          print(
-                                                                              'Is Favorite : $_isFavorite');
-                                                                          if (_isFavorite != null &&
-                                                                              _isFavorite) {
-                                                                            // call favorite therapist API
-                                                                            ServiceUserAPIProvider.favouriteTherapist(confirmedPaymentList[index].therapistId);
-                                                                          } else {
-                                                                            // call un-favorite therapist API
-                                                                            ServiceUserAPIProvider.unFavouriteTherapist(confirmedPaymentList[index].therapistId);
-                                                                          }
-                                                                        }),
-                                                                  ],
-                                                                ),
-                                                                SizedBox(
-                                                                  height: 5,
-                                                                ),
-                                                                FittedBox(
-                                                                  child: Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceBetween,
-                                                                    children: [
-                                                                      Visibility(
-                                                                        visible: confirmedPaymentList[index]
-                                                                            .bookingTherapistId
-                                                                            .isShop,
-                                                                        child: Container(
-                                                                            decoration: BoxDecoration(
-                                                                                gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
-                                                                                  Colors.white,
-                                                                                  Colors.white,
-                                                                                ]),
-                                                                                shape: BoxShape.rectangle,
-                                                                                border: Border.all(
-                                                                                  color: Colors.grey[300],
-                                                                                ),
-                                                                                borderRadius: BorderRadius.circular(5.0),
-                                                                                color: Colors.grey[200]),
-                                                                            padding: EdgeInsets.all(4),
-                                                                            child: Text(
-                                                                              '店舗',
-                                                                              style: TextStyle(
-                                                                                color: Color.fromRGBO(0, 0, 0, 1),
-                                                                              ),
-                                                                            )),
-                                                                      ),
-                                                                      confirmedPaymentList[index]
-                                                                              .bookingTherapistId
-                                                                              .isShop
-                                                                          ? SizedBox(
-                                                                              width: 5,
-                                                                            )
-                                                                          : SizedBox
-                                                                              .shrink(),
-                                                                      Visibility(
-                                                                        visible: confirmedPaymentList[index]
-                                                                            .bookingTherapistId
-                                                                            .businessTrip,
-                                                                        child: Container(
-                                                                            padding: EdgeInsets.all(4),
-                                                                            decoration: BoxDecoration(
-                                                                                gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
-                                                                                  Colors.white,
-                                                                                  Colors.white,
-                                                                                ]),
-                                                                                shape: BoxShape.rectangle,
-                                                                                border: Border.all(
-                                                                                  color: Colors.grey[300],
-                                                                                ),
-                                                                                borderRadius: BorderRadius.circular(5.0),
-                                                                                color: Colors.grey[200]),
-                                                                            child: Text(
-                                                                              '出張',
-                                                                              style: TextStyle(
-                                                                                color: Color.fromRGBO(0, 0, 0, 1),
-                                                                              ),
-                                                                            )),
-                                                                      ),
-                                                                      confirmedPaymentList[index]
-                                                                              .bookingTherapistId
-                                                                              .businessTrip
-                                                                          ? SizedBox(
-                                                                              width: 5,
-                                                                            )
-                                                                          : SizedBox
-                                                                              .shrink(),
-                                                                      Visibility(
-                                                                        visible: confirmedPaymentList[index]
-                                                                            .bookingTherapistId
-                                                                            .coronaMeasure,
-                                                                        child: Container(
-                                                                            padding: EdgeInsets.all(4),
-                                                                            decoration: BoxDecoration(
-                                                                                gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
-                                                                                  Colors.white,
-                                                                                  Colors.white,
-                                                                                ]),
-                                                                                shape: BoxShape.rectangle,
-                                                                                border: Border.all(
-                                                                                  color: Colors.grey[300],
-                                                                                ),
-                                                                                borderRadius: BorderRadius.circular(5.0),
-                                                                                color: Colors.grey[200]),
-                                                                            child: Text(
-                                                                              'コロナ対策実施',
-                                                                              style: TextStyle(
-                                                                                color: Color.fromRGBO(0, 0, 0, 1),
-                                                                              ),
-                                                                            )),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                SizedBox(
-                                                                  height: 5,
-                                                                ),
-                                                                Row(
-                                                                  children: [
-                                                                    confirmedPaymentList[index].reviewAvgData !=
-                                                                                null &&
-                                                                            confirmedPaymentList[index].reviewAvgData !=
-                                                                                "0.00"
-                                                                        ? Text(
-                                                                            '(${confirmedPaymentList[index].reviewAvgData})',
-                                                                            style:
-                                                                                TextStyle(
-                                                                              color: Color.fromRGBO(153, 153, 153, 1),
-                                                                            ),
-                                                                          )
-                                                                        : Text(
-                                                                            '(0.0)',
-                                                                            style:
-                                                                                TextStyle(
-                                                                              color: Color.fromRGBO(153, 153, 153, 1),
-                                                                            ),
-                                                                          ),
-                                                                    confirmedPaymentList[index].reviewAvgData ==
-                                                                                null ||
-                                                                            confirmedPaymentList[index].reviewAvgData ==
-                                                                                "0.00"
-                                                                        ? RatingBar
-                                                                            .builder(
-                                                                            initialRating:
-                                                                                0.00,
-                                                                            minRating:
-                                                                                1,
-                                                                            direction:
-                                                                                Axis.horizontal,
-                                                                            allowHalfRating:
-                                                                                false,
-                                                                            itemCount:
-                                                                                5,
-                                                                            itemSize:
-                                                                                24.0,
-                                                                            ignoreGestures:
-                                                                                true,
-                                                                            itemPadding:
-                                                                                new EdgeInsets.only(bottom: 3.0),
-                                                                            itemBuilder:
-                                                                                (context, rindex) {
-                                                                              return new SizedBox(
-                                                                                  height: 20.0,
-                                                                                  width: 18.0,
-                                                                                  child: new IconButton(
-                                                                                      onPressed: () {},
-                                                                                      padding: new EdgeInsets.all(0.0),
-                                                                                      // color: Colors.white,
-                                                                                      icon: SvgPicture.asset(
-                                                                                        "assets/images_gps/star_2.svg",
-                                                                                        height: 13.0,
-                                                                                        width: 13.0,
-                                                                                      )));
-                                                                            },
-                                                                            onRatingUpdate:
-                                                                                (rating) {
-                                                                              print(rating);
-                                                                            },
-                                                                          )
-                                                                        : RatingBar
-                                                                            .builder(
-                                                                            initialRating:
-                                                                                double.parse(confirmedPaymentList[index].reviewAvgData),
-                                                                            minRating:
-                                                                                1,
-                                                                            direction:
-                                                                                Axis.horizontal,
-                                                                            allowHalfRating:
-                                                                                false,
-                                                                            itemCount:
-                                                                                5,
-                                                                            itemSize:
-                                                                                24.0,
-                                                                            ignoreGestures:
-                                                                                true,
-                                                                            itemPadding:
-                                                                                new EdgeInsets.only(bottom: 3.0),
-                                                                            itemBuilder:
-                                                                                (context, rindex) {
-                                                                              return new SizedBox(
-                                                                                  height: 20.0,
-                                                                                  width: 18.0,
-                                                                                  child: new IconButton(
-                                                                                    onPressed: () {},
-                                                                                    padding: new EdgeInsets.all(0.0),
-                                                                                    // color: Colors.white,
-                                                                                    icon: rindex > double.parse(confirmedPaymentList[index].reviewAvgData).ceilToDouble() - 1
-                                                                                        ? SvgPicture.asset(
-                                                                                            "assets/images_gps/star_2.svg",
-                                                                                            height: 13.0,
-                                                                                            width: 13.0,
-                                                                                          )
-                                                                                        : SvgPicture.asset(
-                                                                                            "assets/images_gps/star_colour.svg",
-                                                                                            height: 13.0,
-                                                                                            width: 13.0,
-                                                                                            //color: Colors.black,
-                                                                                          ),
-                                                                                  ));
-                                                                            },
-                                                                            onRatingUpdate:
-                                                                                (rating) {
-                                                                              print(rating);
-                                                                            },
-                                                                          ),
-                                                                    confirmedPaymentList[index].noOfReviewsMembers !=
-                                                                                null ||
-                                                                            confirmedPaymentList[index].noOfReviewsMembers ==
-                                                                                "0.00"
-                                                                        ? Text(
-                                                                            '(${confirmedPaymentList[index].noOfReviewsMembers})',
-                                                                            style:
-                                                                                TextStyle(
-                                                                              color: Color.fromRGBO(153, 153, 153, 1),
-                                                                            ),
-                                                                          )
-                                                                        : Text(
-                                                                            '(0)',
-                                                                            style:
-                                                                                TextStyle(
-                                                                              color: Color.fromRGBO(153, 153, 153, 1),
-                                                                            ),
-                                                                          )
-                                                                  ],
-                                                                ),
-                                                                SizedBox(
-                                                                  height: 5,
-                                                                ),
-                                                                certificateUploadConfdPayList[index].length !=
-                                                                            0 &&
-                                                                        certificateUploadConfdPayList[index].keys.elementAt(0) !=
-                                                                            "無資格"
-                                                                    ? Container(
-                                                                        height:
-                                                                            38.0,
-                                                                        padding:
-                                                                            EdgeInsets.only(top: 5.0),
-                                                                        width: MediaQuery.of(context).size.width -
-                                                                            130.0, //200.0,
-                                                                        child: ListView.builder(
-                                                                            shrinkWrap: true,
-                                                                            scrollDirection: Axis.horizontal,
-                                                                            itemCount: certificateUploadConfdPayList[index].length,
-                                                                            itemBuilder: (context, subindex) {
-                                                                              String key = certificateUploadConfdPayList[index].keys.elementAt(subindex);
-                                                                              return WidgetAnimator(
-                                                                                Wrap(
-                                                                                  children: [
-                                                                                    Padding(
-                                                                                      padding: index == 0 ? const EdgeInsets.only(left: 0.0, top: 4.0, right: 4.0, bottom: 4.0) : const EdgeInsets.all(4.0),
-                                                                                      child: Container(
-                                                                                        padding: EdgeInsets.all(5),
-                                                                                        decoration: boxDecoration,
-                                                                                        child: Text(
-                                                                                          key,
-                                                                                          //Qualififcation
-                                                                                          style: TextStyle(
-                                                                                            fontSize: 14,
-                                                                                            color: Colors.black,
-                                                                                          ),
-                                                                                        ),
-                                                                                      ),
-                                                                                    ),
-                                                                                  ],
-                                                                                ),
-                                                                              );
-                                                                            }),
-                                                                      )
-                                                                    : Container(),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ],
+                                                        ),
                                                       ),
-                                                      Expanded(
-                                                        child: Row(
-                                                            children: <Widget>[
-                                                              Expanded(
-                                                                child: Divider(
-                                                                  // height: 50,
-
-                                                                  color: Color
-                                                                      .fromRGBO(
-                                                                          217,
-                                                                          217,
-                                                                          217,
-                                                                          1),
-                                                                ),
-                                                              ),
-                                                              InkWell(
-                                                                onTap: () {
-                                                                  ProgressDialogBuilder
-                                                                      .showCommonProgressDialog(
-                                                                          context);
-                                                                  getChatDetails(confirmedPaymentList[
+                                                    ),
+                                                    Positioned(
+                                                      top: 148.0,
+                                                      // bottom: 5.0,
+                                                      right: 10.0,
+                                                      child: InkWell(
+                                                        onTap: () {
+                                                          HealingMatchConstants
+                                                                  .bookingIdPay =
+                                                              confirmedPaymentList[
+                                                                      index]
+                                                                  .id;
+                                                          HealingMatchConstants
+                                                                  .calEventId =
+                                                              confirmedPaymentList[
+                                                                      index]
+                                                                  .eventId;
+                                                          NavigationRouter
+                                                              .switchToServiceUserBookingCancelScreen(
+                                                                  context,
+                                                                  confirmedPaymentList[
                                                                           index]
-                                                                      .bookingTherapistId
-                                                                      .firebaseUdid);
-                                                                },
-                                                                child: Card(
-                                                                  elevation: 3,
-                                                                  shape:
-                                                                      CircleBorder(),
-                                                                  child: CircleAvatar(
-                                                                      maxRadius:
-                                                                          20,
-                                                                      backgroundColor:
-                                                                          Colors
-                                                                              .white,
-                                                                      child: SvgPicture.asset(
-                                                                          'assets/images_gps/chat.svg',
-                                                                          height:
-                                                                              15,
-                                                                          width:
-                                                                              15)),
+                                                                      .id);
+                                                        },
+                                                        child: Card(
+                                                          elevation: 4.0,
+                                                          shape: CircleBorder(),
+                                                          margin:
+                                                              EdgeInsets.all(
+                                                                  0.0),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(12.0),
+                                                            child: SvgPicture.asset(
+                                                                'assets/images_gps/cancel.svg',
+                                                                color: Color
+                                                                    .fromRGBO(
+                                                                        217,
+                                                                        217,
+                                                                        217,
+                                                                        1),
+                                                                height: 15,
+                                                                width: 15),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Column(
+                                                        children: [
+                                                          Row(
+                                                            children: [
+                                                              Expanded(
+                                                                flex: 1,
+                                                                child: Column(
+                                                                  children: [
+                                                                    confirmedPaymentList[index].bookingTherapistId.uploadProfileImgUrl !=
+                                                                            null
+                                                                        ? CachedNetworkImage(
+                                                                            imageUrl:
+                                                                                confirmedPaymentList[index].bookingTherapistId.uploadProfileImgUrl,
+                                                                            filterQuality:
+                                                                                FilterQuality.high,
+                                                                            fadeInCurve:
+                                                                                Curves.easeInSine,
+                                                                            imageBuilder: (context, imageProvider) =>
+                                                                                Container(
+                                                                              width: 65.0,
+                                                                              height: 65.0,
+                                                                              decoration: BoxDecoration(
+                                                                                shape: BoxShape.circle,
+                                                                                image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+                                                                              ),
+                                                                            ),
+                                                                            placeholder: (context, url) =>
+                                                                                SpinKitDoubleBounce(color: Colors.lightGreenAccent),
+                                                                            errorWidget: (context, url, error) =>
+                                                                                Container(
+                                                                              width: 56.0,
+                                                                              height: 56.0,
+                                                                              decoration: BoxDecoration(
+                                                                                shape: BoxShape.circle,
+                                                                                border: Border.all(color: Colors.black12),
+                                                                                image: DecorationImage(image: new AssetImage('assets/images_gps/placeholder_image.png'), fit: BoxFit.cover),
+                                                                              ),
+                                                                            ),
+                                                                          )
+                                                                        : CircleAvatar(
+                                                                            child:
+                                                                                Image.asset(
+                                                                              'assets/images_gps/placeholder_image.png',
+                                                                              height: 70,
+                                                                              color: Colors.black,
+                                                                              fit: BoxFit.cover,
+                                                                            ),
+                                                                            radius:
+                                                                                35,
+                                                                            backgroundColor:
+                                                                                Colors.white,
+                                                                          ),
+                                                                    FittedBox(
+                                                                      child: confirmedPaymentList[index].locationDistance !=
+                                                                              null
+                                                                          ? Text(
+                                                                              '${confirmedPaymentList[index].locationDistance}km圏内',
+                                                                              style: TextStyle(
+                                                                                color: Color.fromRGBO(153, 153, 153, 1),
+                                                                              ),
+                                                                            )
+                                                                          : Text(
+                                                                              '0.0km圏内',
+                                                                              style: TextStyle(
+                                                                                color: Color.fromRGBO(153, 153, 153, 1),
+                                                                              ),
+                                                                            ),
+                                                                    ),
+                                                                  ],
                                                                 ),
                                                               ),
                                                               SizedBox(
-                                                                width: 3,
-                                                              ),
-                                                              InkWell(
-                                                                onTap: () {
-                                                                  HealingMatchConstants
-                                                                          .bookingIdPay =
-                                                                      confirmedPaymentList[
-                                                                              index]
-                                                                          .id;
-                                                                  HealingMatchConstants
-                                                                      .calEventId = confirmedPaymentList[
-                                                                          index]
-                                                                      .eventId;
-                                                                  NavigationRouter.switchToServiceUserBookingCancelScreen(
-                                                                      context,
-                                                                      confirmedPaymentList[
-                                                                              index]
-                                                                          .id);
-                                                                },
-                                                                child: Card(
-                                                                  shape:
-                                                                      CircleBorder(),
-                                                                  elevation: 3,
-                                                                  child: CircleAvatar(
-                                                                      maxRadius:
-                                                                          20,
-                                                                      backgroundColor:
-                                                                          Colors
-                                                                              .white,
-                                                                      child: SvgPicture.asset(
-                                                                          'assets/images_gps/cancel.svg',
-                                                                          color: Color.fromRGBO(
-                                                                              217,
-                                                                              217,
-                                                                              217,
-                                                                              1),
-                                                                          height:
-                                                                              15,
+                                                                  width: 10),
+                                                              Expanded(
+                                                                flex: 4,
+                                                                child: Column(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Row(
+                                                                      children: [
+                                                                        confirmedPaymentList[index].bookingTherapistId.storeName != null &&
+                                                                                confirmedPaymentList[index].bookingTherapistId.storeName != ''
+                                                                            ? Text(
+                                                                                confirmedPaymentList[index].bookingTherapistId.storeName.length > 10 ? confirmedPaymentList[index].bookingTherapistId.storeName.substring(0, 10) + "..." : confirmedPaymentList[index].bookingTherapistId.storeName,
+                                                                                style: TextStyle(fontSize: 14, color: Color.fromRGBO(0, 0, 0, 1), fontWeight: FontWeight.bold),
+                                                                              )
+                                                                            : Text(
+                                                                                confirmedPaymentList[index].bookingTherapistId.userName.length > 10 ? confirmedPaymentList[index].bookingTherapistId.userName.substring(0, 10) + "..." : confirmedPaymentList[index].bookingTherapistId.userName,
+                                                                                style: TextStyle(fontSize: 14, color: Color.fromRGBO(0, 0, 0, 1), fontWeight: FontWeight.bold),
+                                                                              ),
+                                                                        SizedBox(
                                                                           width:
-                                                                              15)),
+                                                                              5,
+                                                                        ),
+                                                                        InkWell(
+                                                                          onTap:
+                                                                              () {
+                                                                            showToolTip(confirmedPaymentList[index].bookingTherapistId.storeType,
+                                                                                confirmedPaymentKey[index]);
+                                                                          },
+                                                                          child:
+                                                                              Container(
+                                                                            decoration:
+                                                                                BoxDecoration(
+                                                                              gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                                                                                Colors.white,
+                                                                                Colors.white
+                                                                              ]),
+                                                                              shape: BoxShape.circle,
+                                                                              border: Border.all(
+                                                                                color: Colors.grey[400],
+                                                                              ),
+                                                                            ),
+                                                                            child:
+                                                                                Padding(
+                                                                              padding: const EdgeInsets.all(8.0),
+                                                                              child: SvgPicture.asset(
+                                                                                "assets/images_gps/info.svg",
+                                                                                height: 10.0,
+                                                                                width: 10.0,
+                                                                                key: confirmedPaymentKey[index],
+                                                                                color: Colors.black,
+                                                                              ), /* Icon(
+                                                              Icons
+                                                                  .shopping_bag_rounded,
+                                                              key: key,
+                                                              color: Colors.black ), */
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Spacer(),
+                                                                        FavoriteButton(
+                                                                            isFavorite: confirmedPaymentList[index].favouriteToTherapist ==
+                                                                                1,
+                                                                            iconSize:
+                                                                                40,
+                                                                            iconColor:
+                                                                                Colors.red,
+                                                                            valueChanged: (_isFavorite) {
+                                                                              print('Is Favorite : $_isFavorite');
+                                                                              print('Is Favorite : $_isFavorite');
+                                                                              if (_isFavorite != null && _isFavorite) {
+                                                                                // call favorite therapist API
+                                                                                ServiceUserAPIProvider.favouriteTherapist(confirmedPaymentList[index].therapistId);
+                                                                              } else {
+                                                                                // call un-favorite therapist API
+                                                                                ServiceUserAPIProvider.unFavouriteTherapist(confirmedPaymentList[index].therapistId);
+                                                                              }
+                                                                            }),
+                                                                      ],
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height: 5,
+                                                                    ),
+                                                                    FittedBox(
+                                                                      child:
+                                                                          Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.spaceBetween,
+                                                                        children: [
+                                                                          Visibility(
+                                                                            visible:
+                                                                                confirmedPaymentList[index].bookingTherapistId.isShop,
+                                                                            child: Container(
+                                                                                decoration: BoxDecoration(
+                                                                                    gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                                                                                      Colors.white,
+                                                                                      Colors.white,
+                                                                                    ]),
+                                                                                    shape: BoxShape.rectangle,
+                                                                                    border: Border.all(
+                                                                                      color: Colors.grey[300],
+                                                                                    ),
+                                                                                    borderRadius: BorderRadius.circular(5.0),
+                                                                                    color: Colors.grey[200]),
+                                                                                padding: EdgeInsets.all(4),
+                                                                                child: Text(
+                                                                                  '店舗',
+                                                                                  style: TextStyle(
+                                                                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                                                                  ),
+                                                                                )),
+                                                                          ),
+                                                                          confirmedPaymentList[index].bookingTherapistId.isShop
+                                                                              ? SizedBox(
+                                                                                  width: 5,
+                                                                                )
+                                                                              : SizedBox.shrink(),
+                                                                          Visibility(
+                                                                            visible:
+                                                                                confirmedPaymentList[index].bookingTherapistId.businessTrip,
+                                                                            child: Container(
+                                                                                padding: EdgeInsets.all(4),
+                                                                                decoration: BoxDecoration(
+                                                                                    gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                                                                                      Colors.white,
+                                                                                      Colors.white,
+                                                                                    ]),
+                                                                                    shape: BoxShape.rectangle,
+                                                                                    border: Border.all(
+                                                                                      color: Colors.grey[300],
+                                                                                    ),
+                                                                                    borderRadius: BorderRadius.circular(5.0),
+                                                                                    color: Colors.grey[200]),
+                                                                                child: Text(
+                                                                                  '出張',
+                                                                                  style: TextStyle(
+                                                                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                                                                  ),
+                                                                                )),
+                                                                          ),
+                                                                          confirmedPaymentList[index].bookingTherapistId.businessTrip
+                                                                              ? SizedBox(
+                                                                                  width: 5,
+                                                                                )
+                                                                              : SizedBox.shrink(),
+                                                                          Visibility(
+                                                                            visible:
+                                                                                confirmedPaymentList[index].bookingTherapistId.coronaMeasure,
+                                                                            child: Container(
+                                                                                padding: EdgeInsets.all(4),
+                                                                                decoration: BoxDecoration(
+                                                                                    gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                                                                                      Colors.white,
+                                                                                      Colors.white,
+                                                                                    ]),
+                                                                                    shape: BoxShape.rectangle,
+                                                                                    border: Border.all(
+                                                                                      color: Colors.grey[300],
+                                                                                    ),
+                                                                                    borderRadius: BorderRadius.circular(5.0),
+                                                                                    color: Colors.grey[200]),
+                                                                                child: Text(
+                                                                                  'コロナ対策実施',
+                                                                                  style: TextStyle(
+                                                                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                                                                  ),
+                                                                                )),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height: 5,
+                                                                    ),
+                                                                    Row(
+                                                                      children: [
+                                                                        confirmedPaymentList[index].reviewAvgData != null &&
+                                                                                confirmedPaymentList[index].reviewAvgData != "0.00"
+                                                                            ? Text(
+                                                                                '(${confirmedPaymentList[index].reviewAvgData})',
+                                                                                style: TextStyle(
+                                                                                  color: Color.fromRGBO(153, 153, 153, 1),
+                                                                                ),
+                                                                              )
+                                                                            : Text(
+                                                                                '(0.0)',
+                                                                                style: TextStyle(
+                                                                                  color: Color.fromRGBO(153, 153, 153, 1),
+                                                                                ),
+                                                                              ),
+                                                                        confirmedPaymentList[index].reviewAvgData == null ||
+                                                                                confirmedPaymentList[index].reviewAvgData == "0.00"
+                                                                            ? RatingBar.builder(
+                                                                                initialRating: 0.00,
+                                                                                minRating: 1,
+                                                                                direction: Axis.horizontal,
+                                                                                allowHalfRating: false,
+                                                                                itemCount: 5,
+                                                                                itemSize: 24.0,
+                                                                                ignoreGestures: true,
+                                                                                itemPadding: new EdgeInsets.only(bottom: 3.0),
+                                                                                itemBuilder: (context, rindex) {
+                                                                                  return new SizedBox(
+                                                                                      height: 20.0,
+                                                                                      width: 18.0,
+                                                                                      child: new IconButton(
+                                                                                          onPressed: () {},
+                                                                                          padding: new EdgeInsets.all(0.0),
+                                                                                          // color: Colors.white,
+                                                                                          icon: SvgPicture.asset(
+                                                                                            "assets/images_gps/star_2.svg",
+                                                                                            height: 13.0,
+                                                                                            width: 13.0,
+                                                                                          )));
+                                                                                },
+                                                                                onRatingUpdate: (rating) {
+                                                                                  print(rating);
+                                                                                },
+                                                                              )
+                                                                            : RatingBar.builder(
+                                                                                initialRating: double.parse(confirmedPaymentList[index].reviewAvgData),
+                                                                                minRating: 1,
+                                                                                direction: Axis.horizontal,
+                                                                                allowHalfRating: false,
+                                                                                itemCount: 5,
+                                                                                itemSize: 24.0,
+                                                                                ignoreGestures: true,
+                                                                                itemPadding: new EdgeInsets.only(bottom: 3.0),
+                                                                                itemBuilder: (context, rindex) {
+                                                                                  return new SizedBox(
+                                                                                      height: 20.0,
+                                                                                      width: 18.0,
+                                                                                      child: new IconButton(
+                                                                                        onPressed: () {},
+                                                                                        padding: new EdgeInsets.all(0.0),
+                                                                                        // color: Colors.white,
+                                                                                        icon: rindex > double.parse(confirmedPaymentList[index].reviewAvgData).ceilToDouble() - 1
+                                                                                            ? SvgPicture.asset(
+                                                                                                "assets/images_gps/star_2.svg",
+                                                                                                height: 13.0,
+                                                                                                width: 13.0,
+                                                                                              )
+                                                                                            : SvgPicture.asset(
+                                                                                                "assets/images_gps/star_colour.svg",
+                                                                                                height: 13.0,
+                                                                                                width: 13.0,
+                                                                                                //color: Colors.black,
+                                                                                              ),
+                                                                                      ));
+                                                                                },
+                                                                                onRatingUpdate: (rating) {
+                                                                                  print(rating);
+                                                                                },
+                                                                              ),
+                                                                        confirmedPaymentList[index].noOfReviewsMembers != null ||
+                                                                                confirmedPaymentList[index].noOfReviewsMembers == "0.00"
+                                                                            ? Text(
+                                                                                '(${confirmedPaymentList[index].noOfReviewsMembers})',
+                                                                                style: TextStyle(
+                                                                                  color: Color.fromRGBO(153, 153, 153, 1),
+                                                                                ),
+                                                                              )
+                                                                            : Text(
+                                                                                '(0)',
+                                                                                style: TextStyle(
+                                                                                  color: Color.fromRGBO(153, 153, 153, 1),
+                                                                                ),
+                                                                              )
+                                                                      ],
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height: 5,
+                                                                    ),
+                                                                    certificateUploadConfdPayList[index].length !=
+                                                                                0 &&
+                                                                            certificateUploadConfdPayList[index].keys.elementAt(0) !=
+                                                                                "無資格"
+                                                                        ? Container(
+                                                                            height:
+                                                                                38.0,
+                                                                            padding:
+                                                                                EdgeInsets.only(top: 5.0),
+                                                                            width:
+                                                                                MediaQuery.of(context).size.width - 130.0, //200.0,
+                                                                            child: ListView.builder(
+                                                                                shrinkWrap: true,
+                                                                                scrollDirection: Axis.horizontal,
+                                                                                itemCount: certificateUploadConfdPayList[index].length,
+                                                                                itemBuilder: (context, subindex) {
+                                                                                  String key = certificateUploadConfdPayList[index].keys.elementAt(subindex);
+                                                                                  return WidgetAnimator(
+                                                                                    Wrap(
+                                                                                      children: [
+                                                                                        Padding(
+                                                                                          padding: index == 0 ? const EdgeInsets.only(left: 0.0, top: 4.0, right: 4.0, bottom: 4.0) : const EdgeInsets.all(4.0),
+                                                                                          child: Container(
+                                                                                            padding: EdgeInsets.all(5),
+                                                                                            decoration: boxDecoration,
+                                                                                            child: Text(
+                                                                                              key,
+                                                                                              //Qualififcation
+                                                                                              style: TextStyle(
+                                                                                                fontSize: 14,
+                                                                                                color: Colors.black,
+                                                                                              ),
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ],
+                                                                                    ),
+                                                                                  );
+                                                                                }),
+                                                                          )
+                                                                        : Container(
+                                                                            height:
+                                                                                38.0,
+                                                                          ),
+                                                                  ],
                                                                 ),
                                                               ),
-                                                            ]),
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          SvgPicture.asset(
-                                                              'assets/images_gps/gps.svg',
-                                                              color: Color
-                                                                  .fromRGBO(0,
-                                                                      0, 0, 1),
-                                                              height: 20,
-                                                              width: 20),
+                                                            ],
+                                                          ),
                                                           SizedBox(
-                                                            width: 5,
+                                                            height: 5,
                                                           ),
-                                                          Text(
-                                                            '施術を受ける場所',
-                                                            style: TextStyle(
-                                                                color: Color
-                                                                    .fromRGBO(
-                                                                        0,
-                                                                        0,
-                                                                        0,
-                                                                        1),
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
+                                                          Row(
+                                                            children: [
+                                                              Expanded(
+                                                                flex: 2,
+                                                                child: Divider(
+                                                                  // height: 50,
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          217,
+                                                                          217,
+                                                                          217,
+                                                                          1),
+                                                                ),
+                                                              ),
+                                                              Expanded(
+                                                                child: Text(''),
+                                                              )
+                                                            ],
                                                           ),
-                                                        ],
-                                                      ),
-                                                      SizedBox(
-                                                        height: 10,
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          Container(
-                                                              padding:
-                                                                  EdgeInsets.all(
-                                                                      4),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                      gradient: LinearGradient(
-                                                                          begin: Alignment
-                                                                              .topCenter,
-                                                                          end: Alignment
-                                                                              .bottomCenter,
-                                                                          colors: [
-                                                                            Colors.white,
-                                                                            Colors.white,
-                                                                          ]),
-                                                                      shape: BoxShape
-                                                                          .rectangle,
-                                                                      border:
-                                                                          Border
-                                                                              .all(
+                                                          SizedBox(
+                                                            height: 2,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              SvgPicture.asset(
+                                                                  'assets/images_gps/gps.svg',
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          0,
+                                                                          0,
+                                                                          0,
+                                                                          1),
+                                                                  height: 20,
+                                                                  width: 20),
+                                                              SizedBox(
+                                                                width: 5,
+                                                              ),
+                                                              Text(
+                                                                '施術を受ける場所',
+                                                                style: TextStyle(
+                                                                    color: Color
+                                                                        .fromRGBO(
+                                                                            0,
+                                                                            0,
+                                                                            0,
+                                                                            1),
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height: 10,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Container(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              4),
+                                                                  decoration: BoxDecoration(
+                                                                      gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                                                                        Colors
+                                                                            .white,
+                                                                        Colors
+                                                                            .white,
+                                                                      ]),
+                                                                      shape: BoxShape.rectangle,
+                                                                      border: Border.all(
                                                                         color: Colors
                                                                             .grey[300],
                                                                       ),
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              5.0),
-                                                                      color: Colors
-                                                                              .grey[
-                                                                          200]),
-                                                              child: Text(
-                                                                '${confirmedPaymentList[index].locationType}',
+                                                                      borderRadius: BorderRadius.circular(5.0),
+                                                                      color: Colors.grey[200]),
+                                                                  child: Text(
+                                                                    '${confirmedPaymentList[index].locationType}',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          12.0,
+                                                                      color: Color
+                                                                          .fromRGBO(
+                                                                              0,
+                                                                              0,
+                                                                              0,
+                                                                              1),
+                                                                    ),
+                                                                  )),
+                                                              SizedBox(
+                                                                width: 5,
+                                                              ),
+                                                              Flexible(
+                                                                child: Text(
+                                                                  confirmedPaymentList[index]
+                                                                              .location
+                                                                              .length >
+                                                                          20
+                                                                      ? confirmedPaymentList[index].location.substring(
+                                                                              0,
+                                                                              20) +
+                                                                          "..."
+                                                                      : confirmedPaymentList[
+                                                                              index]
+                                                                          .location,
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        12.0,
+                                                                    color: Color
+                                                                        .fromRGBO(
+                                                                            102,
+                                                                            102,
+                                                                            102,
+                                                                            1),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height: 10,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              SvgPicture.asset(
+                                                                  'assets/images_gps/calendar.svg',
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          0,
+                                                                          0,
+                                                                          0,
+                                                                          1),
+                                                                  height: 20,
+                                                                  width: 20),
+                                                              SizedBox(
+                                                                width: 5,
+                                                              ),
+                                                              Text(
+                                                                '予約日時：${date}',
+                                                                style: TextStyle(
+                                                                    color: Color
+                                                                        .fromRGBO(
+                                                                            102,
+                                                                            102,
+                                                                            102,
+                                                                            1),
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ),
+                                                              SizedBox(
+                                                                width: 8,
+                                                              ),
+                                                              Text(
+                                                                '${sTime}~${eTime}',
                                                                 style:
                                                                     TextStyle(
-                                                                  fontSize:
-                                                                      12.0,
                                                                   color: Color
                                                                       .fromRGBO(
                                                                           0,
@@ -3362,82 +3439,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                           0,
                                                                           1),
                                                                 ),
-                                                              )),
-                                                          SizedBox(
-                                                            width: 5,
-                                                          ),
-                                                          Flexible(
-                                                            child: Text(
-                                                              confirmedPaymentList[index]
-                                                                          .location
-                                                                          .length >
-                                                                      20
-                                                                  ? confirmedPaymentList[
-                                                                              index]
-                                                                          .location
-                                                                          .substring(
-                                                                              0,
-                                                                              20) +
-                                                                      "..."
-                                                                  : confirmedPaymentList[
-                                                                          index]
-                                                                      .location,
-                                                              style: TextStyle(
-                                                                fontSize: 12.0,
-                                                                color: Color
-                                                                    .fromRGBO(
-                                                                        102,
-                                                                        102,
-                                                                        102,
-                                                                        1),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      SizedBox(
-                                                        height: 10,
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          SvgPicture.asset(
-                                                              'assets/images_gps/calendar.svg',
-                                                              color: Color
-                                                                  .fromRGBO(0,
-                                                                      0, 0, 1),
-                                                              height: 20,
-                                                              width: 20),
-                                                          SizedBox(
-                                                            width: 5,
-                                                          ),
-                                                          Text(
-                                                            '予約日時：${date}',
-                                                            style: TextStyle(
-                                                                color: Color
-                                                                    .fromRGBO(
-                                                                        102,
-                                                                        102,
-                                                                        102,
-                                                                        1),
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                          ),
-                                                          SizedBox(
-                                                            width: 8,
-                                                          ),
-                                                          Text(
-                                                            '${sTime}~${eTime}',
-                                                            style: TextStyle(
-                                                              color: Color
-                                                                  .fromRGBO(0,
-                                                                      0, 0, 1),
-                                                            ),
+                                                              )
+                                                            ],
                                                           )
                                                         ],
-                                                      )
-                                                    ],
-                                                  ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
                                             ),
@@ -4029,17 +4037,39 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                               );
                                                                             }),
                                                                       )
-                                                                    : Container(),
+                                                                    : Container(
+                                                                        height:
+                                                                            38.0,
+                                                                      ),
                                                               ],
                                                             ),
                                                           ),
                                                         ],
                                                       ),
-                                                      Expanded(
-                                                        child: Divider(
-                                                          color: Color.fromRGBO(
-                                                              217, 217, 217, 1),
-                                                        ),
+                                                      SizedBox(
+                                                        height: 2,
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Expanded(
+                                                            flex: 4,
+                                                            child: Divider(
+                                                              // height: 50,
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                      217,
+                                                                      217,
+                                                                      217,
+                                                                      1),
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            child: Text(''),
+                                                          )
+                                                        ],
+                                                      ),
+                                                      SizedBox(
+                                                        height: 2,
                                                       ),
                                                       Row(
                                                         children: [
