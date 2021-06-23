@@ -226,6 +226,35 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
       ));
       return null;
     }
+    if (cancelReason.length < 125) {
+      ProgressDialogBuilder.hideLoader(context);
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('キャンセル理由を125以内で入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
 
     try {
       // ProgressDialogBuilder.showOverlayLoader(context);
@@ -235,7 +264,7 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
         if (value) {
           ServiceUserAPIProvider.updateBookingCompeted(
               widget.bookingId, cancelReason);
-        /*   ProgressDialogBuilder.hideLoader(context); */
+          /*   ProgressDialogBuilder.hideLoader(context); */
           DialogHelper.showUserBookingCancelDialog(context);
         } else {
           /* ProgressDialogBuilder.hideLoader(context); */
@@ -244,7 +273,7 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
     } catch (e) {
       // ProgressDialogBuilder.hideLoader(context);
       print('cancelException : ${e.toString()}');
-     /*  ProgressDialogBuilder.hideLoader(context); */
+      /*  ProgressDialogBuilder.hideLoader(context); */
     }
   }
 }
