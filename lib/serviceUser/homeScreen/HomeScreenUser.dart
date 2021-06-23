@@ -775,7 +775,8 @@ class _LoadHomePageState extends State<LoadHomePage> {
                 ),
                 InkWell(
                   onTap: () {
-                    if (isRecommended) {
+                    if (widget.getRecommendedTherapists != null &&
+                        widget.getRecommendedTherapists.isNotEmpty) {
                       NavigationRouter.switchToRecommended(context);
                     } else {
                       return;
@@ -888,7 +889,8 @@ class _HomeScreenByMassageType extends State<HomeScreenByMassageType> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    if (isRecommended) {
+                    if (widget.getRecommendedTherapists != null &&
+                        widget.getRecommendedTherapists.isNotEmpty) {
                       NavigationRouter.switchToRecommended(context);
                     } else {
                       return;
