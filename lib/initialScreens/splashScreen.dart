@@ -28,6 +28,8 @@ class _SplashScreenPageState extends State<SplashScreen>
   bool providerLoggedOut = false;
   bool userRegistered = false;
   bool providerRegistered = false;
+  bool userVerified = false;
+  bool providerVerified = false;
   bool isGuestUser = false;
 
   startTime() async {
@@ -96,6 +98,10 @@ class _SplashScreenPageState extends State<SplashScreen>
     print('Entering loops !!');
     _sharedPreferences.then((value) {
       HealingMatchConstants.accessToken = value.getString("accessToken");
+      HealingMatchConstants.serviceUserPhoneNumber =
+          value.getString('userPhoneNumber');
+      HealingMatchConstants.serviceProviderPhoneNumber =
+          value.getString('providerPhoneNumer');
       userLoggedIn = value.getBool('isUserLoggedIn');
       providerLoggedIn = value.getBool('isProviderLoggedIn');
       userRegistered = value.getBool('isUserRegister');
@@ -103,7 +109,11 @@ class _SplashScreenPageState extends State<SplashScreen>
       userLoggedOut = value.getBool('isUserLoggedOut');
       providerLoggedOut = value.getBool('isProviderLoggedOut');
       isGuestUser = value.getBool('isGuest');
+      userVerified = value.getBool('userVerifyStatus');
+      providerVerified = value.getBool('providerVerifyStatus');
       print('User Register : $userRegistered');
+      debugPrint('user verified : $userVerified');
+      debugPrint('provider verified : $providerVerified');
       if (isGuestUser != null && isGuestUser) {
         NavigationRouter.switchToUserLogin(context);
         print('Is Guest User : $isGuestUser !!');
@@ -113,6 +123,10 @@ class _SplashScreenPageState extends State<SplashScreen>
       } else if (providerLoggedIn != null && providerLoggedIn) {
         print('Entering 2 loop !!');
         NavigationRouter.switchToServiceProviderBottomBar(context);
+      } else if (userVerified != null && !userVerified) {
+        NavigationRouter.switchToUserOtpScreen(context);
+      } else if (providerVerified != null && !providerVerified) {
+        NavigationRouter.switchToProviderOtpScreen(context);
       } else {
         if (userRegistered != null && userRegistered) {
           print('Entering 3 loop !!');

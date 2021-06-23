@@ -14,6 +14,8 @@ import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
+
 class RegistrationSuccessOtpScreen extends StatefulWidget {
   @override
   _RegistrationSuccessOtpScreenState createState() =>
@@ -33,6 +35,7 @@ class _RegistrationSuccessOtpScreenState
 
   void initState() {
     super.initState();
+    setProviderVerifyStatus(HealingMatchConstants.isUserVerified);
   }
 
   @override
@@ -272,12 +275,15 @@ class _RegistrationSuccessOtpScreenState
         ProgressDialogBuilder.hideVerifyOtpProgressDialog(context);
         DialogHelper.showProviderRegisterSuccessDialog(context);
         HealingMatchConstants.isUserVerified = true;
+        setProviderVerifyStatus(HealingMatchConstants.isUserVerified);
       } else {
+        setProviderVerifyStatus(HealingMatchConstants.isUserVerified);
         ProgressDialogBuilder.hideVerifyOtpProgressDialog(context);
         print('Response Failure !!');
         return;
       }
     } catch (e) {
+      setProviderVerifyStatus(HealingMatchConstants.isUserVerified);
       ProgressDialogBuilder.hideVerifyOtpProgressDialog(context);
       print('Response catch error : ${e.toString()}');
       return;
@@ -312,5 +318,13 @@ class _RegistrationSuccessOtpScreenState
       print('Response catch error : ${e.toString()}');
       return;
     }
+  }
+
+  void setProviderVerifyStatus(bool isUserVerified) async {
+    _sharedPreferences.then((value) {
+      var userVerifyStatus =
+          value.setBool('providerVerifyStatus', isUserVerified);
+      debugPrint('provider verified : $userVerifyStatus');
+    });
   }
 }
