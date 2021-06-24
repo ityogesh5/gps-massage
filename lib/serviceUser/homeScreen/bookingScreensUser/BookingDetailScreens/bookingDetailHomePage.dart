@@ -1926,9 +1926,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                         allTherapistList.clear();
                         scrollController.jumpTo(index: 0);
                       }
-
                       _value = 1;
-
                       getSubType();
                     });
                   }

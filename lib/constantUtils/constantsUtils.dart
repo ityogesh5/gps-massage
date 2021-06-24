@@ -290,6 +290,7 @@ class HealingMatchConstants {
   static bool isUserRegistrationSkipped = false;
   static bool isUserRegistered = false;
   static bool isUserVerified = false;
+  static bool isUserForgetVerified = false;
   static bool isUserLoggedIn = false;
   static bool isBottomBarVisible = true;
   static String currentDate;

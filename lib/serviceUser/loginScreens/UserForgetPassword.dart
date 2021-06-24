@@ -237,15 +237,5 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
     }
 
     print('User details length in array : ${forgetPasswordDetails.length}');
-
-    /*   final url = '';
-    http.post(url,
-        headers: {
-          "Accept": "application/json",
-          "Authorization": "Bearer ${'token'}"
-        },
-        body: json.encode({
-          "serviceUserDetails": forgetPasswordDetails,
-        })); */
   }
 }
