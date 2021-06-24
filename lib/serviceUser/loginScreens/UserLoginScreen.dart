@@ -596,7 +596,6 @@ class _UserLoginState extends State<UserLogin> {
                   loginResponseModel.data.id.toString() +
                   "@nexware.global.com";
           HealingMatchConstants.isLoginRoute = true;
-          HealingMatchConstants.serviceUserPhoneNumber = password;
           HealingMatchConstants.serviceUserPhoneNumber = userPhoneNumber;
           Toast.show("許可されていないユーザー。", context,
               duration: 4,

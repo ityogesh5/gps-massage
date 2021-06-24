@@ -553,12 +553,12 @@ class NavigationRouter {
 
   //Provider OTP Enter screen after register
   static void switchToProviderOtpScreen(
-      BuildContext context, provideruserDataModel.Data userData) {
+      BuildContext context) {
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (BuildContext context) =>
-                RegistrationSuccessOtpScreen(userData)));
+                RegistrationSuccessOtpScreen()));
   }
 
   //User OTP Enter screen after register

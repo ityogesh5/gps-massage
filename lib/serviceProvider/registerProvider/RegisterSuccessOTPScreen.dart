@@ -18,10 +18,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart'
     as userDataModel;
 
-class RegistrationSuccessOtpScreen extends StatefulWidget {
-  final userDataModel.Data userData;
-  RegistrationSuccessOtpScreen(this.userData);
+Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 
+class RegistrationSuccessOtpScreen extends StatefulWidget {
   @override
   _RegistrationSuccessOtpScreenState createState() =>
       _RegistrationSuccessOtpScreenState();
@@ -40,6 +39,7 @@ class _RegistrationSuccessOtpScreenState
 
   void initState() {
     super.initState();
+    setProviderVerifyStatus(HealingMatchConstants.isUserVerified);
   }
 
   @override
@@ -57,6 +57,7 @@ class _RegistrationSuccessOtpScreenState
           ),
           onPressed: () {
             // Navigator.pop(context);
+            HealingMatchConstants.isLoginRoute = false;
             NavigationRouter.switchToProviderLogin(context);
           },
         ),
@@ -80,7 +81,7 @@ class _RegistrationSuccessOtpScreenState
                     children: [
                       FittedBox(
                         child: Text(
-                          "+81 ${widget.userData.phoneNumber} " +
+                          "+81 ${HealingMatchConstants.serviceProviderPhoneNumber} " +
                               HealingMatchConstants.serviceProviderOtpTxt,
                           textAlign: TextAlign.center,
                           style: TextStyle(fontFamily: 'NotoSansJP'),
@@ -262,7 +263,7 @@ class _RegistrationSuccessOtpScreenState
       final response = await http.post(url,
           headers: {"Content-Type": "application/json"},
           body: json.encode({
-            "phoneNumber": widget.userData.phoneNumber.toString(),
+            "phoneNumber": HealingMatchConstants.serviceProviderPhoneNumber,
             "otp": pinCode,
             "isTherapist": "1"
           }));
@@ -273,38 +274,38 @@ class _RegistrationSuccessOtpScreenState
         final vrfyOtp = json.decode(response.body);
         UserVerifyOtp = VerifyOtpModel.fromJson(vrfyOtp);
         if (HealingMatchConstants.isLoginRoute) {
-          firebaseChatLogin(
-              widget.userData, HealingMatchConstants.serviceProviderPassword);
+          firebaseChatLogin();
         } else {
           ProgressDialogBuilder.hideVerifyOtpProgressDialog(context);
           HealingMatchConstants.isLoginRoute = false;
           HealingMatchConstants.isUserVerified = true;
+          setProviderVerifyStatus(HealingMatchConstants.isUserVerified);
           DialogHelper.showProviderRegisterSuccessDialog(context);
         }
       } else {
+        setProviderVerifyStatus(HealingMatchConstants.isUserVerified);
         ProgressDialogBuilder.hideVerifyOtpProgressDialog(context);
         print('Response Failure !!');
         return;
       }
     } catch (e) {
+      setProviderVerifyStatus(HealingMatchConstants.isUserVerified);
       ProgressDialogBuilder.hideVerifyOtpProgressDialog(context);
       print('Response catch error : ${e.toString()}');
       return;
     }
   }
 
-  void firebaseChatLogin(userDataModel.Data userData, String password) {
+  void firebaseChatLogin() {
     Auth()
-        .signIn(
-            userData.phoneNumber.toString() +
-                userData.id.toString() +
-                "@nexware.global.com",
-            password)
+        .signIn(HealingMatchConstants.fbUserid,
+            HealingMatchConstants.serviceProviderPassword)
         .then((value) {
       if (value) {
         ProgressDialogBuilder.hideVerifyOtpProgressDialog(context);
         HealingMatchConstants.isLoginRoute = false;
         HealingMatchConstants.isUserVerified = true;
+        setProviderVerifyStatus(HealingMatchConstants.isUserVerified);
         DialogHelper.showProviderRegisterSuccessDialog(context);
       } else {
         ProgressDialogBuilder.hideVerifyOtpProgressDialog(context);
@@ -319,7 +320,7 @@ class _RegistrationSuccessOtpScreenState
       final response = await http.post(url,
           headers: {"Content-Type": "application/json"},
           body: json.encode({
-            "phoneNumber": widget.userData.phoneNumber.toString(),
+            "phoneNumber": HealingMatchConstants.serviceProviderPhoneNumber,
             "isTherapist": "1"
           }));
       print('Status code : ${response.statusCode}');
@@ -340,5 +341,13 @@ class _RegistrationSuccessOtpScreenState
       print('Response catch error : ${e.toString()}');
       return;
     }
+  }
+
+  void setProviderVerifyStatus(bool isUserVerified) async {
+    _sharedPreferences.then((value) {
+      var userVerifyStatus =
+          value.setBool('providerVerifyStatus', isUserVerified);
+      debugPrint('provider verified : $userVerifyStatus');
+    });
   }
 }

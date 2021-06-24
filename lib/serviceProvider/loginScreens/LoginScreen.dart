@@ -514,6 +514,10 @@ class _ProviderLoginState extends State<ProviderLogin> {
         if (loginResponseModel.data.isVerified) {
           firebaseChatLogin(userData, password);
         } else {
+          HealingMatchConstants.fbUserid =
+              loginResponseModel.data.phoneNumber.toString() +
+                  loginResponseModel.data.id.toString() +
+                  "@nexware.global.com";
           HealingMatchConstants.isLoginRoute = true;
           HealingMatchConstants.serviceProviderPassword = password;
           HealingMatchConstants.serviceProviderPhoneNumber = userPhoneNumber;
@@ -591,7 +595,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
         //reSendVerifyResponse = SendVerifyResponseModel.fromJson(sendVerify);
 
         ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
-        NavigationRouter.switchToProviderOtpScreen(context, userData);
+        NavigationRouter.switchToProviderOtpScreen(context);
         //     NavigationRouter.switchToUserChangePasswordScreen(context);
       } else {
         ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
