@@ -827,6 +827,7 @@ class HealingMatchConstants {
         }
       }).catchError((error) {
         debugPrint('Payment Error : $error');
+
         NavigationRouter.switchToPaymentFailedScreen(context);
       });
     } catch (e) {

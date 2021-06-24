@@ -469,10 +469,33 @@ class _FavoriteState extends State<Favorite> {
                                                                   ),
                                                                 ),
                                                                 Spacer(),
-                                                                SvgPicture.asset(
-                                                                    'assets/images_gps/recommendedHeart.svg',
-                                                                    width: 25,
-                                                                    height: 25),
+                                                                FavoriteButton(
+                                                                    isFavorite:
+                                                                        favouriteUserList[index]
+                                                                            .isFavourite,
+                                                                    iconSize:
+                                                                        40,
+                                                                    iconColor:
+                                                                        Colors
+                                                                            .red,
+                                                                    valueChanged:
+                                                                        (_isFavorite) {
+                                                                      print(
+                                                                          'Is Favorite : $_isFavorite');
+                                                                      print(
+                                                                          'Is Favorite : $_isFavorite');
+                                                                      if (_isFavorite !=
+                                                                              null &&
+                                                                          _isFavorite) {
+                                                                        // call favorite therapist API
+                                                                        ServiceUserAPIProvider.favouriteTherapist(
+                                                                            favouriteUserList[index].therapistId);
+                                                                      } else {
+                                                                        // call un-favorite therapist API
+                                                                        ServiceUserAPIProvider.unFavouriteTherapist(
+                                                                            favouriteUserList[index].therapistId);
+                                                                      }
+                                                                    }),
                                                               ],
                                                             ),
                                                             SizedBox(

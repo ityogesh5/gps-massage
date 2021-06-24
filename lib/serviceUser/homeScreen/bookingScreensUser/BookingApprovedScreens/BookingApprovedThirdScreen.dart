@@ -627,6 +627,65 @@ class _BookingApproveThirdScreenState extends State<BookingApproveThirdScreen> {
       ));
       return null;
     }
+    if ((selectedBuildingType == "その他") &&
+        (otherCategory == null || otherCategory == '')) {
+      ProgressDialogBuilder.hideLoader(context);
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('キャンセルの理由を入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+    if ((selectedBuildingType == "その他") && (otherCategory.length > 125)) {
+      ProgressDialogBuilder.hideLoader(context);
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('キャンセル理由を125以内で入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
     try {
       ServiceUserAPIProvider.removeEvent(
               HealingMatchConstants

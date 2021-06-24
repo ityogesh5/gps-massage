@@ -40,7 +40,6 @@ Map<String, dynamic> _formData = {
 };
 
 List<String> selectedBuildingTypeValues = List<String>();
-var selectedBuildingType = '店舗';
 
 class BookingConfirmationScreen extends StatefulWidget {
   @override
@@ -59,12 +58,14 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
   final GeoLocater.Geolocator geoLocator = GeoLocater.Geolocator()
     ..forceAndroidLocationManager;
   String sTime, eTime;
+  var selectedBuildingType = '店舗';
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getProfileDetails();
+
     distance = HealingMatchConstants.serviceDistanceRadius;
     sTime =
         DateFormat('kk:mm').format(HealingMatchConstants.confSelectedDateTime);

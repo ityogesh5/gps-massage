@@ -2916,10 +2916,9 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
         HealingMatchConstants.confServiceName = serviceName;
         HealingMatchConstants.confNoOfServiceDuration = serviceDuration;
         HealingMatchConstants.confServiceCost = finalAmount;
-        shopLocationSelected
-            ? HealingMatchConstants.confServiceAddressType = '店舗'
-            : HealingMatchConstants.confServiceAddressType =
-                userPlaceForMassage.toString();
+
+        HealingMatchConstants.confServiceAddressType =
+            shopLocationSelected ? '店舗' : userPlaceForMassage.toString();
         shopLocationSelected
             ? HealingMatchConstants.confServiceAddress =
                 therapistDetails.data.addresses[0].address
