@@ -318,7 +318,7 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
 
   void firebaseChatLogin() {
     Auth()
-        .signIn(HealingMatchConstants.serviceUserPhoneNumber,
+        .signIn(HealingMatchConstants.fbUserid,
             HealingMatchConstants.serviceUserPhoneNumber)
         .then((value) {
       if (value) {
