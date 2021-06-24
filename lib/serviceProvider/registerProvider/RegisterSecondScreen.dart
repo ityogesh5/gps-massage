@@ -1361,6 +1361,8 @@ class _RegistrationSecondPageState
             LoginResponseModel.fromJson(json.decode(response.body));
         Data userData = registerResponseModel.data;
         HealingMatchConstants.userId = userData.id;
+        HealingMatchConstants.serviceProviderPhoneNumber =
+            userData.phoneNumber.toString();
         HealingMatchConstants.accessToken = registerResponseModel.accessToken;
         Auth()
             .signUp(
@@ -1383,13 +1385,13 @@ class _RegistrationSecondPageState
         sharedPreferences.setString("userData", json.encode(userData));
         sharedPreferences.setString(
             "accessToken", registerResponseModel.accessToken);
-        sharedPreferences.setString(
-            "providerPhoneNumer", registerResponseModel.data.phoneNumber.toString());
+        sharedPreferences.setString("providerPhoneNumer",
+            registerResponseModel.data.phoneNumber.toString());
         /*   sharedPreferences.setBool('isProviderRegister', true); */
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         print('Login response : ${registerResponseModel.toJson()}');
         print('Login token : ${registerResponseModel.accessToken}');
-        NavigationRouter.switchToProviderOtpScreen(context, userData);
+        NavigationRouter.switchToProviderOtpScreen(context);
       } else {
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         print('Response error occured!');
