@@ -84,6 +84,8 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/booking/Booking
 
 import 'package:gps_massageapp/models/responseModels/serviceUser/notification/firebaseNotificationUserListModel.dart'
     as userNotification;
+import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart'
+    as provideruserDataModel;
 
 class NavigationRouter {
   // Network dis connect handler class
@@ -550,11 +552,13 @@ class NavigationRouter {
   }
 
   //Provider OTP Enter screen after register
-  static void switchToProviderOtpScreen(BuildContext context) {
+  static void switchToProviderOtpScreen(
+      BuildContext context, provideruserDataModel.Data userData) {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (BuildContext context) => RegistrationSuccessOtpScreen()));
+            builder: (BuildContext context) =>
+                RegistrationSuccessOtpScreen(userData)));
   }
 
   //User OTP Enter screen after register

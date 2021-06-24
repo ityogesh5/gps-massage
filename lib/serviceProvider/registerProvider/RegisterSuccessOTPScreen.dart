@@ -4,17 +4,24 @@ import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/auth.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/keyboardDoneButton/keyboardActionConfig.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/login/sendVerifyResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/verifyOtp.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart'
+    as userDataModel;
 
 class RegistrationSuccessOtpScreen extends StatefulWidget {
+  final userDataModel.Data userData;
+  RegistrationSuccessOtpScreen(this.userData);
+
   @override
   _RegistrationSuccessOtpScreenState createState() =>
       _RegistrationSuccessOtpScreenState();
@@ -49,8 +56,8 @@ class _RegistrationSuccessOtpScreenState
             color: Colors.black,
           ),
           onPressed: () {
-            Navigator.pop(context);
-            // NavigationRouter.switchToServiceProviderSecondScreen(context);
+            // Navigator.pop(context);
+            NavigationRouter.switchToProviderLogin(context);
           },
         ),
       ),
@@ -73,7 +80,7 @@ class _RegistrationSuccessOtpScreenState
                     children: [
                       FittedBox(
                         child: Text(
-                          "+81 ${HealingMatchConstants.serviceProviderPhoneNumber} " +
+                          "+81 ${widget.userData.phoneNumber} " +
                               HealingMatchConstants.serviceProviderOtpTxt,
                           textAlign: TextAlign.center,
                           style: TextStyle(fontFamily: 'NotoSansJP'),
@@ -255,7 +262,7 @@ class _RegistrationSuccessOtpScreenState
       final response = await http.post(url,
           headers: {"Content-Type": "application/json"},
           body: json.encode({
-            "phoneNumber": HealingMatchConstants.serviceProviderPhoneNumber,
+            "phoneNumber": widget.userData.phoneNumber.toString(),
             "otp": pinCode,
             "isTherapist": "1"
           }));
@@ -265,13 +272,15 @@ class _RegistrationSuccessOtpScreenState
         sharedPreferences.setBool('isProviderRegister', true);
         final vrfyOtp = json.decode(response.body);
         UserVerifyOtp = VerifyOtpModel.fromJson(vrfyOtp);
-        HealingMatchConstants.estheticServicePriceModel.clear();
-        HealingMatchConstants.relaxationServicePriceModel.clear();
-        HealingMatchConstants.treatmentServicePriceModel.clear();
-        HealingMatchConstants.fitnessServicePriceModel.clear();
-        ProgressDialogBuilder.hideVerifyOtpProgressDialog(context);
-        DialogHelper.showProviderRegisterSuccessDialog(context);
-        HealingMatchConstants.isUserVerified = true;
+        if (HealingMatchConstants.isLoginRoute) {
+          firebaseChatLogin(
+              widget.userData, HealingMatchConstants.serviceProviderPassword);
+        } else {
+          ProgressDialogBuilder.hideVerifyOtpProgressDialog(context);
+          HealingMatchConstants.isLoginRoute = false;
+          HealingMatchConstants.isUserVerified = true;
+          DialogHelper.showProviderRegisterSuccessDialog(context);
+        }
       } else {
         ProgressDialogBuilder.hideVerifyOtpProgressDialog(context);
         print('Response Failure !!');
@@ -284,6 +293,25 @@ class _RegistrationSuccessOtpScreenState
     }
   }
 
+  void firebaseChatLogin(userDataModel.Data userData, String password) {
+    Auth()
+        .signIn(
+            userData.phoneNumber.toString() +
+                userData.id.toString() +
+                "@nexware.global.com",
+            password)
+        .then((value) {
+      if (value) {
+        ProgressDialogBuilder.hideVerifyOtpProgressDialog(context);
+        HealingMatchConstants.isLoginRoute = false;
+        HealingMatchConstants.isUserVerified = true;
+        DialogHelper.showProviderRegisterSuccessDialog(context);
+      } else {
+        ProgressDialogBuilder.hideVerifyOtpProgressDialog(context);
+      }
+    });
+  }
+
   resendOtp() async {
     try {
       ProgressDialogBuilder.showForgetPasswordUserProgressDialog(context);
@@ -291,7 +319,7 @@ class _RegistrationSuccessOtpScreenState
       final response = await http.post(url,
           headers: {"Content-Type": "application/json"},
           body: json.encode({
-            "phoneNumber": HealingMatchConstants.serviceProviderPhoneNumber,
+            "phoneNumber": widget.userData.phoneNumber.toString(),
             "isTherapist": "1"
           }));
       print('Status code : ${response.statusCode}');

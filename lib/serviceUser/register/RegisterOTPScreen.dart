@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/auth.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/login/sendVerifyResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/verifyOtp.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 import 'package:pin_code_fields/pin_code_fields.dart';
 //final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
@@ -43,7 +45,8 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
             color: Colors.black,
           ),
           onPressed: () {
-            Navigator.pop(context);
+            NavigationRouter.switchToUserLogin(context);
+            // Navigator.pop(context);
           },
         ),
       ),
@@ -253,11 +256,15 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
           response.statusCode, context, response.body)) {
         final vrfyOtp = json.decode(response.body);
         UserVerifyOtp = VerifyOtpModel.fromJson(vrfyOtp);
+        if (HealingMatchConstants.isLoginRoute) {
+          firebaseChatLogin();
+        } else {
+          HealingMatchConstants.isLoginRoute = false;
+          ProgressDialogBuilder.hideLoader(context);
+          HealingMatchConstants.isUserVerified = true;
+          DialogHelper.showRegisterSuccessDialog(context);
+        }
         ProgressDialogBuilder.hideLoader(context);
-        /*_firebaseMessaging.getToken().then((value) {
-          HealingMatchConstants.userFcmToken = value;
-          print('FCM Token : ${value.toString()}');
-        });*/
         DialogHelper.showRegisterSuccessDialog(context);
         HealingMatchConstants.isUserVerified = true;
       } else {
@@ -303,5 +310,21 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
       print('Response catch error : ${e.toString()}');
       return;
     }
+  }
+
+  void firebaseChatLogin() {
+    Auth()
+        .signIn(HealingMatchConstants.serviceUserPhoneNumber,
+            HealingMatchConstants.serviceUserPhoneNumber)
+        .then((value) {
+      if (value) {
+        HealingMatchConstants.isLoginRoute = false;
+        ProgressDialogBuilder.hideLoader(context);
+        HealingMatchConstants.isUserVerified = true;
+        DialogHelper.showRegisterSuccessDialog(context);
+      } else {
+        ProgressDialogBuilder.hideLoader(context);
+      }
+    });
   }
 }

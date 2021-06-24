@@ -55,9 +55,9 @@ class HealingMatchConstants {
   static const String ON_PREMISE_USER_BASE_URL =
       // "http://103.92.19.158:9087/api"; //secondary backup IP
 
-      //      "http://106.51.49.160:9087/api"; // Development data URL
+            "http://106.51.49.160:9087/api"; // Development data URL
 
-      "http://106.51.49.160:9094/api"; // Testing data URL
+      // "http://106.51.49.160:9094/api"; // Testing data URL
 
 // get therapist list By ID
   static const String THERAPIST_USER_BY_ID_URL =
@@ -356,6 +356,10 @@ class HealingMatchConstants {
   static String serviceProviderOtpTxt = 'に届いた「認証コード」を入力し、\n「確認」ボタンをクリックしてください。';
   static String serviceProviderOtpBtn = '確認';
   static String serviceProviderResendOtpTxt = '認証コードを再送する';
+
+  // login to OTP
+  static bool isLoginRoute = false;
+  static String fbUserid;
 
   //Register Service Provider Screen Constants
   static PickedFile profileImage;

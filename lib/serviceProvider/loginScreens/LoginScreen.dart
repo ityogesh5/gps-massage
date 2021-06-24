@@ -16,6 +16,7 @@ import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/auth.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/lineLoginHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/keyboardDoneButton/keyboardActionConfig.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart';
@@ -513,14 +514,17 @@ class _ProviderLoginState extends State<ProviderLogin> {
         if (loginResponseModel.data.isVerified) {
           firebaseChatLogin(userData, password);
         } else {
+          HealingMatchConstants.isLoginRoute = true;
+          HealingMatchConstants.serviceProviderPassword = password;
+          HealingMatchConstants.serviceProviderPhoneNumber = userPhoneNumber;
           hideLoader();
-          Toast.show("許可されていないユーザー。", context,
+          Toast.show("アカウントが確認されていません。", context,
               duration: 4,
               gravity: Toast.BOTTOM,
               backgroundColor: Colors.redAccent,
               textColor: Colors.white);
+          resendOtp(userData);
           print('Unverified User!!');
-          return;
         }
       } else {
         print('Response Failure !!');
@@ -569,6 +573,35 @@ class _ProviderLoginState extends State<ProviderLogin> {
       LineLoginHelper.startLineLogin(context);
     } catch (e) {
       print(e);
+    }
+  }
+
+  resendOtp(Data userData) async {
+    try {
+      ProgressDialogBuilder.showForgetPasswordUserProgressDialog(context);
+      final url = HealingMatchConstants.SEND_VERIFY_USER_URL;
+      final response = await http.post(url,
+          headers: {"Content-Type": "application/json"},
+          body: json.encode(
+              {"phoneNumber": userData.phoneNumber, "isTherapist": "1"}));
+      print('Status code : ${response.statusCode}');
+      if (StatusCodeHelper.isSendVerify(
+          response.statusCode, context, response.body)) {
+        final sendVerify = json.decode(response.body);
+        //reSendVerifyResponse = SendVerifyResponseModel.fromJson(sendVerify);
+
+        ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
+        NavigationRouter.switchToProviderOtpScreen(context, userData);
+        //     NavigationRouter.switchToUserChangePasswordScreen(context);
+      } else {
+        ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
+        print('Response Failure !!');
+        return;
+      }
+    } catch (e) {
+      ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
+      print('Response catch error : ${e.toString()}');
+      return;
     }
   }
 }

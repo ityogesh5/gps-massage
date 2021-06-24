@@ -15,7 +15,7 @@ import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUse
 import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/bankNameDropDownModel.dart'
     as Bank;
-import 'package:gps_massageapp/models/responseModels/serviceProvider/registerProviderResponseModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
 import 'package:gps_massageapp/customLibraryClasses/customTextField/text_field_custom.dart';
@@ -1264,9 +1264,9 @@ class _RegistrationSecondPageState
               : '',
       'storeType': storeTypeDisplay,
       'numberOfEmp': (HealingMatchConstants.serviceProviderBusinessForm ==
-                  "施術店舗あり 施術従業員あり" ||
-              HealingMatchConstants.serviceProviderBusinessForm ==
-                  "施術店舗なし 施術従業員あり（出張のみ)") &&
+                      "施術店舗あり 施術従業員あり" ||
+                  HealingMatchConstants.serviceProviderBusinessForm ==
+                      "施術店舗なし 施術従業員あり（出張のみ)") &&
               HealingMatchConstants.serviceProviderNumberOfEmpl != null
           ? HealingMatchConstants.serviceProviderNumberOfEmpl
           : '0',
@@ -1357,8 +1357,8 @@ class _RegistrationSecondPageState
       print("This is response: ${response.statusCode}\n${response.body}");
       if (StatusCodeHelper.isRegisterSuccess(
           response.statusCode, context, response.body)) {
-        RegisterResponseModel registerResponseModel =
-            RegisterResponseModel.fromJson(json.decode(response.body));
+        LoginResponseModel registerResponseModel =
+            LoginResponseModel.fromJson(json.decode(response.body));
         Data userData = registerResponseModel.data;
         HealingMatchConstants.userId = userData.id;
         HealingMatchConstants.accessToken = registerResponseModel.accessToken;
@@ -1387,7 +1387,7 @@ class _RegistrationSecondPageState
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         print('Login response : ${registerResponseModel.toJson()}');
         print('Login token : ${registerResponseModel.accessToken}');
-        NavigationRouter.switchToProviderOtpScreen(context);
+        NavigationRouter.switchToProviderOtpScreen(context, userData);
       } else {
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         print('Response error occured!');

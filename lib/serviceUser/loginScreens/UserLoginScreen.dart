@@ -591,7 +591,13 @@ class _UserLoginState extends State<UserLogin> {
         if (loginResponseModel.data.isVerified) {
           firebaseChatLogin(loginResponseModel.data, password);
         } else {
-          ProgressDialogBuilder.hideLoader(context);
+          HealingMatchConstants.fbUserid =
+              loginResponseModel.data.phoneNumber.toString() +
+                  loginResponseModel.data.id.toString() +
+                  "@nexware.global.com";
+          HealingMatchConstants.isLoginRoute = true;
+          HealingMatchConstants.serviceUserPhoneNumber = password;
+          HealingMatchConstants.serviceUserPhoneNumber = userPhoneNumber;
           Toast.show("許可されていないユーザー。", context,
               duration: 4,
               gravity: Toast.CENTER,
@@ -599,7 +605,7 @@ class _UserLoginState extends State<UserLogin> {
               textColor: Colors.white);
           print('Unverified User!!');
           ProgressDialogBuilder.hideLoader(context);
-          return;
+          resendOtp();
         }
       } else {
         ProgressDialogBuilder.hideLoader(context);
@@ -616,7 +622,7 @@ class _UserLoginState extends State<UserLogin> {
   void firebaseChatLogin(Data userData, String password) {
     Auth()
         .signIn(
-            userData.phoneNumber.toString() /* "8056687695251" */ +
+            userData.phoneNumber.toString() +
                 userData.id.toString() +
                 "@nexware.global.com",
             password)
@@ -784,6 +790,38 @@ class _UserLoginState extends State<UserLogin> {
       }).catchError((e) {
         print('Current Location exception : ${e.toString()}');
       });
+    }
+  }
+
+  resendOtp() async {
+    try {
+      ProgressDialogBuilder.showOverlayLoader(context);
+      final url = HealingMatchConstants.SEND_VERIFY_USER_URL;
+      final response = await http.post(url,
+          headers: {"Content-Type": "application/json"},
+          body: json.encode({
+            "phoneNumber": HealingMatchConstants.serviceUserPhoneNumber,
+            "isTherapist": "0"
+          }));
+      print('Status code : ${response.statusCode}');
+      print('responseResend : ${response.body}');
+      if (StatusCodeHelper.isSendVerify(
+          response.statusCode, context, response.body)) {
+        final sendVerify = json.decode(response.body);
+        //reSendVerifyResponse = SendVerifyResponseModel.fromJson(sendVerify);
+
+        ProgressDialogBuilder.hideLoader(context);
+
+        NavigationRouter.switchToUserOtpScreen(context);
+      } else {
+        ProgressDialogBuilder.hideLoader(context);
+        print('Response Failure !!');
+        return;
+      }
+    } catch (e) {
+      ProgressDialogBuilder.hideLoader(context);
+      print('Response catch error : ${e.toString()}');
+      return;
     }
   }
 }
