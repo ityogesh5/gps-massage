@@ -804,8 +804,7 @@ class _UserLoginState extends State<UserLogin> {
           }));
       print('Status code : ${response.statusCode}');
       print('responseResend : ${response.body}');
-      if (StatusCodeHelper.isSendVerify(
-          response.statusCode, context, response.body)) {
+      if (response.statusCode == 200) {
         final sendVerify = json.decode(response.body);
         //reSendVerifyResponse = SendVerifyResponseModel.fromJson(sendVerify);
 

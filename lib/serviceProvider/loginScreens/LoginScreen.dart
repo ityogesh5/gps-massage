@@ -589,8 +589,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
           body: json.encode(
               {"phoneNumber": userData.phoneNumber, "isTherapist": "1"}));
       print('Status code : ${response.statusCode}');
-      if (StatusCodeHelper.isSendVerify(
-          response.statusCode, context, response.body)) {
+      if (response.statusCode == 200) {
         final sendVerify = json.decode(response.body);
         //reSendVerifyResponse = SendVerifyResponseModel.fromJson(sendVerify);
 
