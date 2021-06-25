@@ -505,13 +505,14 @@ class _ProviderLoginState extends State<ProviderLogin> {
         loginResponseModel = LoginResponseModel.fromJson(loginResponse);
         Data userData = loginResponseModel.data;
         instances.setString("userData", json.encode(userData));
-        instances.setBool('isProviderLoggedIn', true);
-        instances.setBool('isUserLoggedIn', false);
+
         instances.setString("accessToken", loginResponseModel.accessToken);
         print('Login response : ${loginResponseModel.toJson()}');
         print('Login token : ${loginResponseModel.accessToken}');
         print('Is Provider verified : ${loginResponseModel.data.isVerified}');
         if (loginResponseModel.data.isVerified) {
+          instances.setBool('isProviderLoggedIn', true);
+          instances.setBool('isUserLoggedIn', false);
           firebaseChatLogin(userData, password);
         } else {
           HealingMatchConstants.fbUserid =

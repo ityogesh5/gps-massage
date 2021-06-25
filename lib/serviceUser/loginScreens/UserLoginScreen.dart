@@ -565,9 +565,7 @@ class _UserLoginState extends State<UserLogin> {
             value.setString('cityName', userAddressData.cityName);
             value.setString(
                 'capitalAndPrefecture', userAddressData.capitalAndPrefecture);
-            value.setBool('isUserLoggedIn', true);
-            value.setBool('userLoginSkipped', false);
-            value.setBool('isProviderLoggedIn', false);
+
             HealingMatchConstants.isUserRegistrationSkipped = false;
             value.setBool('isGuest', false);
 
@@ -586,26 +584,29 @@ class _UserLoginState extends State<UserLogin> {
           print(loginResponseModel.data.age.toString());
           print(loginResponseModel.data.gender);
           print(loginResponseModel.data.userOccupation);
+          print('Is User verified : ${loginResponseModel.data.isVerified}');
+          if (loginResponseModel.data.isVerified) {
+            value.setBool('isUserLoggedIn', true);
+            value.setBool('userLoginSkipped', false);
+            value.setBool('isProviderLoggedIn', false);
+            firebaseChatLogin(loginResponseModel.data, password);
+          } else {
+            HealingMatchConstants.fbUserid =
+                loginResponseModel.data.phoneNumber.toString() +
+                    loginResponseModel.data.id.toString() +
+                    "@nexware.global.com";
+            HealingMatchConstants.isLoginRoute = true;
+            HealingMatchConstants.serviceUserPhoneNumber = userPhoneNumber;
+            Toast.show("許可されていないユーザー。", context,
+                duration: 4,
+                gravity: Toast.CENTER,
+                backgroundColor: Colors.redAccent,
+                textColor: Colors.white);
+            print('Unverified User!!');
+            ProgressDialogBuilder.hideLoader(context);
+            resendOtp();
+          }
         });
-        print('Is User verified : ${loginResponseModel.data.isVerified}');
-        if (loginResponseModel.data.isVerified) {
-          firebaseChatLogin(loginResponseModel.data, password);
-        } else {
-          HealingMatchConstants.fbUserid =
-              loginResponseModel.data.phoneNumber.toString() +
-                  loginResponseModel.data.id.toString() +
-                  "@nexware.global.com";
-          HealingMatchConstants.isLoginRoute = true;
-          HealingMatchConstants.serviceUserPhoneNumber = userPhoneNumber;
-          Toast.show("許可されていないユーザー。", context,
-              duration: 4,
-              gravity: Toast.CENTER,
-              backgroundColor: Colors.redAccent,
-              textColor: Colors.white);
-          print('Unverified User!!');
-          ProgressDialogBuilder.hideLoader(context);
-          resendOtp();
-        }
       } else {
         ProgressDialogBuilder.hideLoader(context);
         print('Response Failure !!');

@@ -270,12 +270,14 @@ class _RegistrationSuccessOtpScreenState
       print('Status code : ${response.statusCode}');
       if (StatusCodeHelper.isVerifyOtpUserUser(
           response.statusCode, context, response.body)) {
-        sharedPreferences.setBool('isProviderRegister', true);
         final vrfyOtp = json.decode(response.body);
         UserVerifyOtp = VerifyOtpModel.fromJson(vrfyOtp);
         if (HealingMatchConstants.isLoginRoute) {
+          sharedPreferences.setBool('isProviderLoggedIn', true);
+          sharedPreferences.setBool('isUserLoggedIn', false);
           firebaseChatLogin();
         } else {
+          sharedPreferences.setBool('isProviderRegister', true);
           ProgressDialogBuilder.hideVerifyOtpProgressDialog(context);
           HealingMatchConstants.isLoginRoute = false;
           HealingMatchConstants.isUserVerified = true;

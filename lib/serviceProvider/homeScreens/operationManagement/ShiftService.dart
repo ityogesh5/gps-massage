@@ -529,7 +529,7 @@ class _ShiftServiceState extends State<ShiftService> {
     if (val == HealingMatchConstants.chooseServiceOtherDropdownFiled) {
       checkValue = otherSelected[mindex];
     } else {
-      checkValue = selectedDropdownValues.contains(val.toLowerCase());
+      checkValue = selectedDropdownValues.contains(val);
     }
     if (checkValue) {
       indexPos = getIndex(val, servicePriceModel);
@@ -1495,7 +1495,7 @@ class _ShiftServiceState extends State<ShiftService> {
                                                   }
 
                                                   selectedDropdownValues
-                                                      .add(val.toLowerCase());
+                                                      .add(val);
                                                   setState(() {
                                                     //checking with the mindex the values are added to corresponding lists
                                                     if (mindex == 0) {
@@ -1989,6 +1989,14 @@ class _ShiftServiceState extends State<ShiftService> {
     deletedRelaxationList.clear();
     deletedTreatmentList.clear();
     deletedFitnessList.clear();
+    selectedEstheticDropdownValues.clear();
+    selectedRelaxationDropdownValues.clear();
+    selectedTreatmentDropdownValues.clear();
+    selectedFitnessDropdownValues.clear();
+    otherEstheticDropDownValues.clear();
+    otherTreatmentDropDownValues.clear();
+    otherRelaxationDropDownValues.clear();
+    otherFitnessDropDownValues.clear();
     getSavedValues();
   }
 
@@ -2146,7 +2154,7 @@ class _ShiftServiceState extends State<ShiftService> {
       int indexPos,
       String val,
       int mindex) {
-    selectedDropdownValues.remove(val.toLowerCase());
+    selectedDropdownValues.remove(val);
     setState(() {
       if (mindex == 0) {
         try {

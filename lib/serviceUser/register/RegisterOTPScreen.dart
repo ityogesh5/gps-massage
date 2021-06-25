@@ -250,6 +250,8 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
     }
     try {
       ProgressDialogBuilder.showOverlayLoader(context);
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
       final url = HealingMatchConstants.CHANGE_PASSWORD_VERIFY_OTP_URL;
       final response = await http.post(url,
           headers: {"Content-Type": "application/json"},
@@ -264,6 +266,9 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
         final vrfyOtp = json.decode(response.body);
         UserVerifyOtp = VerifyOtpModel.fromJson(vrfyOtp);
         if (HealingMatchConstants.isLoginRoute) {
+          sharedPreferences.setBool('isUserLoggedIn', true);
+          sharedPreferences.setBool('userLoginSkipped', false);
+          sharedPreferences.setBool('isProviderLoggedIn', false);
           firebaseChatLogin();
         } else {
           HealingMatchConstants.isLoginRoute = false;
