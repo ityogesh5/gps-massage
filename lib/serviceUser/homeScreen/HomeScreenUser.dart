@@ -20,8 +20,8 @@ import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityH
 import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
 import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
 import 'package:gps_massageapp/customLibraryClasses/customPainterHeart/CustomHeartPainter.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingStatus.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UpComingReservationModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UserBannerImagesModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
@@ -54,7 +54,7 @@ String therapistImage = '';
 var _selectedIndex;
 List<UserList> therapistListByType = [];
 List<UserList> therapistUsers = [];
-List<BookingDetailsList> bookingDetailsList = List();
+List<Datum> bookingDetailsList = List();
 var accessToken, deviceToken;
 var userID;
 List<UserAddresses> constantUserAddressValuesList = new List<UserAddresses>();
@@ -191,11 +191,11 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
   }
 
   getBookingList() async {
-    var getFavourite = ServiceUserAPIProvider.getBookingStatus();
+    var getFavourite = ServiceUserAPIProvider.getUpComingBookingStatus();
     getFavourite.then((value) {
       if (this.mounted) {
         setState(() {
-          bookingDetailsList = value.bookingDetailsList;
+          bookingDetailsList = value.data;
           print('bookingDetails:${bookingDetailsList}');
           status = 1;
         });

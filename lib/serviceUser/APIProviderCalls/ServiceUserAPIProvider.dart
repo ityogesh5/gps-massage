@@ -25,6 +25,7 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherap
 import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/FavouriteTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/UnFavouriteTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UpComingReservationModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UserBannerImagesModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/notification/firebaseNotificationUserListModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/DeleteSubAddressModel.dart';
@@ -86,6 +87,8 @@ class ServiceUserAPIProvider {
       new PaymentCustomerCharge();
   static PaymentSuccessModel _paymentSuccessModel = new PaymentSuccessModel();
   static BookingStatusModel _bookingStatusModel = new BookingStatusModel();
+  static UpComingBookingModel _upComingBookingStatusModel =
+      new UpComingBookingModel();
   static BookingCompletedList _bookingCompletedList =
       new BookingCompletedList();
 
@@ -247,6 +250,35 @@ class ServiceUserAPIProvider {
       // ProgressDialogBuilder.hideLoader(context);
     }
     return _bookingStatusModel;
+  }
+
+  //GET UPCOMING BOOKING API
+  static Future<UpComingBookingModel> getUpComingBookingStatus() async {
+    try {
+      final url = HealingMatchConstants.UPCOMING_BOOKING_STATUS_LIST;
+
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': HealingMatchConstants.accessToken
+      };
+      final response = await http.get(url, headers: headers);
+
+      if (response.statusCode == 200) {
+        print('responseUpComingBooking : ${response.body}');
+        var getBookingStatusResponse = json.decode(response.body);
+        _upComingBookingStatusModel =
+            UpComingBookingModel.fromJson(getBookingStatusResponse);
+        print(
+            'getBookingStatusResponse : ${_bookingStatusModel.bookingDetailsList.length}');
+      } else {
+        print('Error occurred!!! TypeMassages response');
+        throw Exception();
+      }
+    } catch (e) {
+      print(e.toString());
+      // ProgressDialogBuilder.hideLoader(context);
+    }
+    return _upComingBookingStatusModel;
   }
 
   // get all therapist ratings
@@ -969,17 +1001,16 @@ class ServiceUserAPIProvider {
         );
       }
     }
-      if (HealingMatchConstants.numberOfEmployeeRegistered > 1) {
-        flutterEvents.clear();
-      }
-      if (unavailableCalendarEvents.length != 0) {
-        flutterEvents.addAll(unavailableCalendarEvents);
-      }
-      HealingMatchConstants.userEvents.clear();
-      HealingMatchConstants.userEvents.addAll(flutterEvents);
-      httpClient.close();
-      return HealingMatchConstants.userEvents;
-    
+    if (HealingMatchConstants.numberOfEmployeeRegistered > 1) {
+      flutterEvents.clear();
+    }
+    if (unavailableCalendarEvents.length != 0) {
+      flutterEvents.addAll(unavailableCalendarEvents);
+    }
+    HealingMatchConstants.userEvents.clear();
+    HealingMatchConstants.userEvents.addAll(flutterEvents);
+    httpClient.close();
+    return HealingMatchConstants.userEvents;
   }
 
   static Future<bool> removeEvent(String eventID, BuildContext context) async {

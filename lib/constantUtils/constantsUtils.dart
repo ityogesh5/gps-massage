@@ -57,7 +57,7 @@ class HealingMatchConstants {
 
       //      "http://106.51.49.160:9087/api"; // Development data URL
 
-      "http://106.51.49.160:9094/api"; // Testing data URL
+      "http://106.51.49.160:9087/api"; // Testing data URL
 
 // get therapist list By ID
   static const String THERAPIST_USER_BY_ID_URL =
@@ -272,6 +272,8 @@ class HealingMatchConstants {
   //booking Status Api
   static const String BOOKING_STATUS_LIST =
       ON_PREMISE_USER_BASE_URL + '/booking/bookingStatusList';
+  static const String UPCOMING_BOOKING_STATUS_LIST =
+      ON_PREMISE_USER_BASE_URL + '/bookingDetails/userUpComingBookingStatus';
 
   //booking Completed List
   static const String BOOKING_COMPLETED_LIST =
