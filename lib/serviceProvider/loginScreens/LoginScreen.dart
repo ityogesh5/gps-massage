@@ -16,6 +16,7 @@ import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/auth.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/lineLoginHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/keyboardDoneButton/keyboardActionConfig.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart';
@@ -432,8 +433,8 @@ class _ProviderLoginState extends State<ProviderLogin> {
     }
 
     // user phone number validation
-    if (userPhoneNumber.length < 10 ||
-        userPhoneNumber.length > 10 ||
+    if (userPhoneNumber.length > 11 ||
+        userPhoneNumber.length < 10 ||
         userPhoneNumber == null ||
         userPhoneNumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -504,23 +505,31 @@ class _ProviderLoginState extends State<ProviderLogin> {
         loginResponseModel = LoginResponseModel.fromJson(loginResponse);
         Data userData = loginResponseModel.data;
         instances.setString("userData", json.encode(userData));
-        instances.setBool('isProviderLoggedIn', true);
-        instances.setBool('isUserLoggedIn', false);
+
         instances.setString("accessToken", loginResponseModel.accessToken);
         print('Login response : ${loginResponseModel.toJson()}');
         print('Login token : ${loginResponseModel.accessToken}');
         print('Is Provider verified : ${loginResponseModel.data.isVerified}');
         if (loginResponseModel.data.isVerified) {
+          instances.setBool('isProviderLoggedIn', true);
+          instances.setBool('isUserLoggedIn', false);
           firebaseChatLogin(userData, password);
         } else {
+          HealingMatchConstants.fbUserid =
+              loginResponseModel.data.phoneNumber.toString() +
+                  loginResponseModel.data.id.toString() +
+                  "@nexware.global.com";
+          HealingMatchConstants.isLoginRoute = true;
+          HealingMatchConstants.serviceProviderPassword = password;
+          HealingMatchConstants.serviceProviderPhoneNumber = userPhoneNumber;
           hideLoader();
-          Toast.show("許可されていないユーザー。", context,
+          Toast.show("アカウントが確認されていません。", context,
               duration: 4,
               gravity: Toast.BOTTOM,
               backgroundColor: Colors.redAccent,
               textColor: Colors.white);
+          resendOtp(userData);
           print('Unverified User!!');
-          return;
         }
       } else {
         print('Response Failure !!');
@@ -569,6 +578,34 @@ class _ProviderLoginState extends State<ProviderLogin> {
       LineLoginHelper.startLineLogin(context);
     } catch (e) {
       print(e);
+    }
+  }
+
+  resendOtp(Data userData) async {
+    try {
+      ProgressDialogBuilder.showForgetPasswordUserProgressDialog(context);
+      final url = HealingMatchConstants.SEND_VERIFY_USER_URL;
+      final response = await http.post(url,
+          headers: {"Content-Type": "application/json"},
+          body: json.encode(
+              {"phoneNumber": userData.phoneNumber, "isTherapist": "1"}));
+      print('Status code : ${response.statusCode}');
+      if (response.statusCode == 200) {
+        final sendVerify = json.decode(response.body);
+        //reSendVerifyResponse = SendVerifyResponseModel.fromJson(sendVerify);
+
+        ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
+        NavigationRouter.switchToProviderOtpScreen(context);
+        //     NavigationRouter.switchToUserChangePasswordScreen(context);
+      } else {
+        ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
+        print('Response Failure !!');
+        return;
+      }
+    } catch (e) {
+      ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
+      print('Response catch error : ${e.toString()}');
+      return;
     }
   }
 }

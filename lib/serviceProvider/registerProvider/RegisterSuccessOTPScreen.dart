@@ -4,15 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/auth.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/keyboardDoneButton/keyboardActionConfig.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/login/sendVerifyResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/verifyOtp.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart'
+    as userDataModel;
 
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 
@@ -52,8 +56,9 @@ class _RegistrationSuccessOtpScreenState
             color: Colors.black,
           ),
           onPressed: () {
-            Navigator.pop(context);
-            // NavigationRouter.switchToServiceProviderSecondScreen(context);
+            // Navigator.pop(context);
+            HealingMatchConstants.isLoginRoute = false;
+            NavigationRouter.switchToProviderLogin(context);
           },
         ),
       ),
@@ -265,17 +270,20 @@ class _RegistrationSuccessOtpScreenState
       print('Status code : ${response.statusCode}');
       if (StatusCodeHelper.isVerifyOtpUserUser(
           response.statusCode, context, response.body)) {
-        sharedPreferences.setBool('isProviderRegister', true);
         final vrfyOtp = json.decode(response.body);
         UserVerifyOtp = VerifyOtpModel.fromJson(vrfyOtp);
-        HealingMatchConstants.estheticServicePriceModel.clear();
-        HealingMatchConstants.relaxationServicePriceModel.clear();
-        HealingMatchConstants.treatmentServicePriceModel.clear();
-        HealingMatchConstants.fitnessServicePriceModel.clear();
-        ProgressDialogBuilder.hideVerifyOtpProgressDialog(context);
-        DialogHelper.showProviderRegisterSuccessDialog(context);
-        HealingMatchConstants.isUserVerified = true;
-        setProviderVerifyStatus(HealingMatchConstants.isUserVerified);
+        if (HealingMatchConstants.isLoginRoute) {
+          sharedPreferences.setBool('isProviderLoggedIn', true);
+          sharedPreferences.setBool('isUserLoggedIn', false);
+          firebaseChatLogin();
+        } else {
+          sharedPreferences.setBool('isProviderRegister', true);
+          ProgressDialogBuilder.hideVerifyOtpProgressDialog(context);
+          HealingMatchConstants.isLoginRoute = false;
+          HealingMatchConstants.isUserVerified = true;
+          setProviderVerifyStatus(HealingMatchConstants.isUserVerified);
+          DialogHelper.showProviderRegisterSuccessDialog(context);
+        }
       } else {
         setProviderVerifyStatus(HealingMatchConstants.isUserVerified);
         ProgressDialogBuilder.hideVerifyOtpProgressDialog(context);
@@ -288,6 +296,23 @@ class _RegistrationSuccessOtpScreenState
       print('Response catch error : ${e.toString()}');
       return;
     }
+  }
+
+  void firebaseChatLogin() {
+    Auth()
+        .signIn(HealingMatchConstants.fbUserid,
+            HealingMatchConstants.serviceProviderPassword)
+        .then((value) {
+      if (value) {
+        ProgressDialogBuilder.hideVerifyOtpProgressDialog(context);
+        HealingMatchConstants.isLoginRoute = false;
+        HealingMatchConstants.isUserVerified = true;
+        setProviderVerifyStatus(HealingMatchConstants.isUserVerified);
+        DialogHelper.showProviderRegisterSuccessDialog(context);
+      } else {
+        ProgressDialogBuilder.hideVerifyOtpProgressDialog(context);
+      }
+    });
   }
 
   resendOtp() async {
