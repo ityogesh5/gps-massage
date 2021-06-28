@@ -385,30 +385,17 @@ class _UserLoginState extends State<UserLogin> {
         (password == null || password.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        duration: Duration(seconds: 3),
-        content: Row(
-          children: [
-            Flexible(
-              child: Text('電話番号とパスワードを入力してください。',
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  style: TextStyle(fontFamily: 'NotoSansJP')),
-            ),
-            Spacer(),
-            InkWell(
-              onTap: () {
-                _scaffoldKey.currentState.hideCurrentSnackBar();
-              },
-              child: Text('はい',
-                  style: TextStyle(
-                      fontFamily: 'NotoSansJP',
-                      decoration: TextDecoration.underline)),
-            ),
-          ],
-        ),
+        content:
+            Text('電話番号を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
       ));
       ProgressDialogBuilder.hideLoader(context);
-      return null;
+      return;
     }
 
     // user phone number validation
@@ -418,88 +405,49 @@ class _UserLoginState extends State<UserLogin> {
         userPhoneNumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        duration: Duration(seconds: 3),
-        content: Row(
-          children: [
-            Flexible(
-              child: Text('正しい電話番号とパスワードを入力してください。',
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  style: TextStyle(fontFamily: 'NotoSansJP', fontSize: 10.0)),
-            ),
-            Spacer(),
-            InkWell(
-              onTap: () {
-                _scaffoldKey.currentState.hideCurrentSnackBar();
-              },
-              child: Text('はい',
-                  style: TextStyle(
-                      fontFamily: 'NotoSansJP',
-                      decoration: TextDecoration.underline)),
-            ),
-          ],
-        ),
+        content: Text('電話番号・パスワードに誤りがあるか、登録されていません。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
       ));
       ProgressDialogBuilder.hideLoader(context);
-      return null;
+      return;
     }
 
     if (password == null || password.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        duration: Duration(seconds: 3),
-        content: Row(
-          children: [
-            Flexible(
-              child: Text('パスワードを入力してください。',
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  style: TextStyle(fontFamily: 'NotoSansJP')),
-            ),
-            Spacer(),
-            InkWell(
-              onTap: () {
-                _scaffoldKey.currentState.hideCurrentSnackBar();
-              },
-              child: Text('はい',
-                  style: TextStyle(
-                      fontFamily: 'NotoSansJP',
-                      decoration: TextDecoration.underline)),
-            ),
-          ],
-        ),
+        content:
+            Text('パスワードを入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
       ));
       ProgressDialogBuilder.hideLoader(context);
-      return null;
+      return;
     }
 
     if (password.length < 8 || password.length > 16) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        duration: Duration(seconds: 3),
-        content: Row(
-          children: [
-            Flexible(
-              child: Text('正しいパスワードを入力してください。',
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  style: TextStyle(fontFamily: 'NotoSansJP')),
-            ),
-            Spacer(),
-            InkWell(
-              onTap: () {
-                _scaffoldKey.currentState.hideCurrentSnackBar();
-              },
-              child: Text('はい',
-                  style: TextStyle(
-                      fontFamily: 'NotoSansJP',
-                      decoration: TextDecoration.underline)),
-            ),
-          ],
-        ),
+        content: Text('電話番号・パスワードに誤りがあるか、登録されていません。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
       ));
       ProgressDialogBuilder.hideLoader(context);
-      return null;
+      return;
     }
 
     try {

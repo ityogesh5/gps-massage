@@ -1520,6 +1520,13 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
         ),
         color: Colors.red,
         onPressed: () {
+          HealingMatchConstants.bookingIdPay =
+              therapistDetails.bookingDataResponse[0].id;
+
+          HealingMatchConstants.therapistIdPay =
+              therapistDetails.bookingDataResponse[0].therapistId;
+          HealingMatchConstants.confServiceCost =
+              therapistDetails.bookingDataResponse[0].priceOfService;
           HealingMatchConstants.initiatePayment(context);
         },
         child: new Text(

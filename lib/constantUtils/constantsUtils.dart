@@ -272,6 +272,8 @@ class HealingMatchConstants {
   //booking Status Api
   static const String BOOKING_STATUS_LIST =
       ON_PREMISE_USER_BASE_URL + '/booking/bookingStatusList';
+  static const String UPCOMING_BOOKING_STATUS_LIST =
+      ON_PREMISE_USER_BASE_URL + '/bookingDetails/userUpComingBookingStatus';
 
   //booking Completed List
   static const String BOOKING_COMPLETED_LIST =
@@ -290,6 +292,7 @@ class HealingMatchConstants {
   static bool isUserRegistrationSkipped = false;
   static bool isUserRegistered = false;
   static bool isUserVerified = false;
+  static bool isUserForgetVerified = false;
   static bool isUserLoggedIn = false;
   static bool isBottomBarVisible = true;
   static String currentDate;

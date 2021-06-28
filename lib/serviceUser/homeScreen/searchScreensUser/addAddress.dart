@@ -265,7 +265,7 @@ class _AddAddressState extends State<SearchAddAddress> {
                                                                 WidgetAnimator(
                                                               DropDownFormField(
                                                                   hintText:
-                                                                      '府県',
+                                                                      '都道府県',
                                                                   value:
                                                                       _myAddedPrefecture,
                                                                   onSaved:
@@ -322,7 +322,7 @@ class _AddAddressState extends State<SearchAddAddress> {
                                                                 WidgetAnimator(
                                                               DropDownFormField(
                                                                   hintText:
-                                                                      '府県',
+                                                                      '都道府県',
                                                                   value:
                                                                       _myAddedPrefecture,
                                                                   onSaved:
@@ -358,7 +358,8 @@ class _AddAddressState extends State<SearchAddAddress> {
                                                             child:
                                                                 WidgetAnimator(
                                                               DropDownFormField(
-                                                                  hintText: '市',
+                                                                  hintText:
+                                                                      '市区町村',
                                                                   value:
                                                                       _myAddedCity,
                                                                   onSaved:
@@ -402,7 +403,8 @@ class _AddAddressState extends State<SearchAddAddress> {
                                                             child:
                                                                 WidgetAnimator(
                                                               DropDownFormField(
-                                                                  hintText: '市',
+                                                                  hintText:
+                                                                      '市区町村',
                                                                   value:
                                                                       _myAddedCity,
                                                                   onSaved:

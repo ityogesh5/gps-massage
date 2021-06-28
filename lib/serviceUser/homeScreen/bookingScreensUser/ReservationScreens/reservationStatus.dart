@@ -440,7 +440,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                           waitingForApprovalList.length != 0
                               ? Container(
                                   // height: MediaQuery.of(context).size.height * 0.37,
-                                  height: 275,
+                                  height: 277,
                                   width:
                                       MediaQuery.of(context).size.width * 0.95,
                                   child: ListView.builder(
@@ -562,22 +562,24 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                     SizedBox(
                                                                       height: 5,
                                                                     ),
-                                                                    FittedBox(
-                                                                      child: waitingForApprovalList[index].locationDistance !=
-                                                                              null
-                                                                          ? Text(
-                                                                              '${waitingForApprovalList[index].locationDistance}km圏内',
-                                                                              style: TextStyle(
-                                                                                color: Color.fromRGBO(153, 153, 153, 1),
-                                                                              ),
-                                                                            )
-                                                                          : Text(
-                                                                              '0.0km圏内',
-                                                                              style: TextStyle(
-                                                                                color: Color.fromRGBO(153, 153, 153, 1),
-                                                                              ),
+                                                                    waitingForApprovalList[index].locationDistance !=
+                                                                            null
+                                                                        ? Text(
+                                                                            '${waitingForApprovalList[index].locationDistance}km圏内',
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: Color.fromRGBO(153, 153, 153, 1),
+                                                                              fontSize: 11.0,
                                                                             ),
-                                                                    ),
+                                                                          )
+                                                                        : Text(
+                                                                            '0.0km圏内',
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: Color.fromRGBO(153, 153, 153, 1),
+                                                                            ),
+                                                                          ),
+                                                                    Text('')
                                                                   ],
                                                                 ),
                                                               ),
@@ -663,190 +665,186 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         height:
                                                                             5,
                                                                       ),
-                                                                      FittedBox(
-                                                                        child:
-                                                                            Row(
-                                                                          mainAxisAlignment:
-                                                                              MainAxisAlignment.spaceBetween,
-                                                                          children: [
-                                                                            Visibility(
-                                                                              visible: waitingForApprovalList[index].bookingTherapistId.isShop,
-                                                                              child: Container(
-                                                                                  decoration: BoxDecoration(
-                                                                                      gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
-                                                                                        Colors.white,
-                                                                                        Colors.white,
-                                                                                      ]),
-                                                                                      shape: BoxShape.rectangle,
-                                                                                      border: Border.all(
-                                                                                        color: Colors.grey[300],
-                                                                                      ),
-                                                                                      borderRadius: BorderRadius.circular(5.0),
-                                                                                      color: Colors.grey[200]),
-                                                                                  padding: EdgeInsets.all(4),
-                                                                                  child: Text(
-                                                                                    '店舗',
-                                                                                    style: TextStyle(
-                                                                                      color: Color.fromRGBO(0, 0, 0, 1),
+                                                                      Row(
+                                                                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                        children: [
+                                                                          Visibility(
+                                                                            visible:
+                                                                                waitingForApprovalList[index].bookingTherapistId.isShop,
+                                                                            child: Container(
+                                                                                decoration: BoxDecoration(
+                                                                                    gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                                                                                      Colors.white,
+                                                                                      Colors.white,
+                                                                                    ]),
+                                                                                    shape: BoxShape.rectangle,
+                                                                                    border: Border.all(
+                                                                                      color: Colors.grey[300],
                                                                                     ),
-                                                                                  )),
-                                                                            ),
-                                                                            waitingForApprovalList[index].bookingTherapistId.isShop
-                                                                                ? SizedBox(
-                                                                                    width: 5,
-                                                                                  )
-                                                                                : SizedBox.shrink(),
-                                                                            Visibility(
-                                                                              visible: waitingForApprovalList[index].bookingTherapistId.businessTrip,
-                                                                              child: Container(
-                                                                                  padding: EdgeInsets.all(4),
-                                                                                  decoration: BoxDecoration(
-                                                                                      gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
-                                                                                        Colors.white,
-                                                                                        Colors.white,
-                                                                                      ]),
-                                                                                      shape: BoxShape.rectangle,
-                                                                                      border: Border.all(
-                                                                                        color: Colors.grey[300],
-                                                                                      ),
-                                                                                      borderRadius: BorderRadius.circular(5.0),
-                                                                                      color: Colors.grey[200]),
-                                                                                  child: Text(
-                                                                                    '出張',
-                                                                                    style: TextStyle(
-                                                                                      color: Color.fromRGBO(0, 0, 0, 1),
+                                                                                    borderRadius: BorderRadius.circular(5.0),
+                                                                                    color: Colors.grey[200]),
+                                                                                padding: EdgeInsets.all(4),
+                                                                                child: Text(
+                                                                                  '店舗',
+                                                                                  style: TextStyle(
+                                                                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                                                                  ),
+                                                                                )),
+                                                                          ),
+                                                                          waitingForApprovalList[index].bookingTherapistId.isShop
+                                                                              ? SizedBox(
+                                                                                  width: 5,
+                                                                                )
+                                                                              : SizedBox.shrink(),
+                                                                          Visibility(
+                                                                            visible:
+                                                                                waitingForApprovalList[index].bookingTherapistId.businessTrip,
+                                                                            child: Container(
+                                                                                padding: EdgeInsets.all(4),
+                                                                                decoration: BoxDecoration(
+                                                                                    gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                                                                                      Colors.white,
+                                                                                      Colors.white,
+                                                                                    ]),
+                                                                                    shape: BoxShape.rectangle,
+                                                                                    border: Border.all(
+                                                                                      color: Colors.grey[300],
                                                                                     ),
-                                                                                  )),
-                                                                            ),
-                                                                            waitingForApprovalList[index].bookingTherapistId.businessTrip
-                                                                                ? SizedBox(
-                                                                                    width: 5,
-                                                                                  )
-                                                                                : SizedBox.shrink(),
-                                                                            Visibility(
-                                                                              visible: waitingForApprovalList[index].bookingTherapistId.coronaMeasure,
-                                                                              child: Container(
-                                                                                  padding: EdgeInsets.all(4),
-                                                                                  decoration: BoxDecoration(
-                                                                                      gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
-                                                                                        Colors.white,
-                                                                                        Colors.white,
-                                                                                      ]),
-                                                                                      shape: BoxShape.rectangle,
-                                                                                      border: Border.all(
-                                                                                        color: Colors.grey[300],
-                                                                                      ),
-                                                                                      borderRadius: BorderRadius.circular(5.0),
-                                                                                      color: Colors.grey[200]),
-                                                                                  child: Text(
-                                                                                    'コロナ対策実施',
-                                                                                    style: TextStyle(
-                                                                                      color: Color.fromRGBO(0, 0, 0, 1),
+                                                                                    borderRadius: BorderRadius.circular(5.0),
+                                                                                    color: Colors.grey[200]),
+                                                                                child: Text(
+                                                                                  '出張',
+                                                                                  style: TextStyle(
+                                                                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                                                                  ),
+                                                                                )),
+                                                                          ),
+                                                                          waitingForApprovalList[index].bookingTherapistId.businessTrip
+                                                                              ? SizedBox(
+                                                                                  width: 5,
+                                                                                )
+                                                                              : SizedBox.shrink(),
+                                                                          Visibility(
+                                                                            visible:
+                                                                                waitingForApprovalList[index].bookingTherapistId.coronaMeasure,
+                                                                            child: Container(
+                                                                                padding: EdgeInsets.all(4),
+                                                                                decoration: BoxDecoration(
+                                                                                    gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                                                                                      Colors.white,
+                                                                                      Colors.white,
+                                                                                    ]),
+                                                                                    shape: BoxShape.rectangle,
+                                                                                    border: Border.all(
+                                                                                      color: Colors.grey[300],
                                                                                     ),
-                                                                                  )),
-                                                                            ),
-                                                                          ],
-                                                                        ),
+                                                                                    borderRadius: BorderRadius.circular(5.0),
+                                                                                    color: Colors.grey[200]),
+                                                                                child: Text(
+                                                                                  'コロナ対策実施',
+                                                                                  style: TextStyle(
+                                                                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                                                                  ),
+                                                                                )),
+                                                                          ),
+                                                                        ],
                                                                       ),
                                                                       SizedBox(
                                                                         height:
                                                                             5,
                                                                       ),
-                                                                      FittedBox(
-                                                                        child:
-                                                                            Row(
-                                                                          children: [
-                                                                            waitingForApprovalList[index].reviewAvgData == null || waitingForApprovalList[index].reviewAvgData == "0.00"
-                                                                                ? Text(
-                                                                                    '(0.00)',
-                                                                                    style: TextStyle(
-                                                                                      color: Color.fromRGBO(153, 153, 153, 1),
-                                                                                    ),
-                                                                                  )
-                                                                                : Text(
-                                                                                    '(${waitingForApprovalList[index].reviewAvgData})',
-                                                                                    style: TextStyle(
-                                                                                      color: Color.fromRGBO(153, 153, 153, 1),
-                                                                                    ),
+                                                                      Row(
+                                                                        children: [
+                                                                          waitingForApprovalList[index].reviewAvgData == null || waitingForApprovalList[index].reviewAvgData == "0.00"
+                                                                              ? Text(
+                                                                                  '(0.00)',
+                                                                                  style: TextStyle(
+                                                                                    color: Color.fromRGBO(153, 153, 153, 1),
                                                                                   ),
-                                                                            waitingForApprovalList[index].reviewAvgData == null || waitingForApprovalList[index].reviewAvgData == "0.00"
-                                                                                ? RatingBar.builder(
-                                                                                    initialRating: 0.00,
-                                                                                    minRating: 1,
-                                                                                    direction: Axis.horizontal,
-                                                                                    allowHalfRating: false,
-                                                                                    itemCount: 5,
-                                                                                    itemSize: 24.0,
-                                                                                    ignoreGestures: true,
-                                                                                    itemPadding: new EdgeInsets.only(bottom: 3.0),
-                                                                                    itemBuilder: (context, rindex) {
-                                                                                      return new SizedBox(
-                                                                                          height: 20.0,
-                                                                                          width: 18.0,
-                                                                                          child: new IconButton(
-                                                                                              onPressed: () {},
-                                                                                              padding: new EdgeInsets.all(0.0),
-                                                                                              // color: Colors.white,
-                                                                                              icon: SvgPicture.asset(
-                                                                                                "assets/images_gps/star_2.svg",
-                                                                                                height: 13.0,
-                                                                                                width: 13.0,
-                                                                                              )));
-                                                                                    },
-                                                                                    onRatingUpdate: (rating) {
-                                                                                      print(rating);
-                                                                                    },
-                                                                                  )
-                                                                                : RatingBar.builder(
-                                                                                    initialRating: double.parse(waitingForApprovalList[index].reviewAvgData),
-                                                                                    minRating: 1,
-                                                                                    direction: Axis.horizontal,
-                                                                                    allowHalfRating: false,
-                                                                                    itemCount: 5,
-                                                                                    itemSize: 24.0,
-                                                                                    ignoreGestures: true,
-                                                                                    itemPadding: new EdgeInsets.only(bottom: 3.0),
-                                                                                    itemBuilder: (context, rindex) {
-                                                                                      return new SizedBox(
-                                                                                          height: 20.0,
-                                                                                          width: 18.0,
-                                                                                          child: new IconButton(
+                                                                                )
+                                                                              : Text(
+                                                                                  '(${waitingForApprovalList[index].reviewAvgData})',
+                                                                                  style: TextStyle(
+                                                                                    color: Color.fromRGBO(153, 153, 153, 1),
+                                                                                  ),
+                                                                                ),
+                                                                          waitingForApprovalList[index].reviewAvgData == null || waitingForApprovalList[index].reviewAvgData == "0.00"
+                                                                              ? RatingBar.builder(
+                                                                                  initialRating: 0.00,
+                                                                                  minRating: 1,
+                                                                                  direction: Axis.horizontal,
+                                                                                  allowHalfRating: false,
+                                                                                  itemCount: 5,
+                                                                                  itemSize: 24.0,
+                                                                                  ignoreGestures: true,
+                                                                                  itemPadding: new EdgeInsets.only(bottom: 3.0),
+                                                                                  itemBuilder: (context, rindex) {
+                                                                                    return new SizedBox(
+                                                                                        height: 20.0,
+                                                                                        width: 18.0,
+                                                                                        child: new IconButton(
                                                                                             onPressed: () {},
                                                                                             padding: new EdgeInsets.all(0.0),
                                                                                             // color: Colors.white,
-                                                                                            icon: rindex > double.parse(waitingForApprovalList[index].reviewAvgData).ceilToDouble() - 1
-                                                                                                ? SvgPicture.asset(
-                                                                                                    "assets/images_gps/star_2.svg",
-                                                                                                    height: 13.0,
-                                                                                                    width: 13.0,
-                                                                                                  )
-                                                                                                : SvgPicture.asset(
-                                                                                                    "assets/images_gps/star_colour.svg",
-                                                                                                    height: 13.0,
-                                                                                                    width: 13.0,
-                                                                                                    //color: Colors.black,
-                                                                                                  ),
-                                                                                          ));
-                                                                                    },
-                                                                                    onRatingUpdate: (rating) {
-                                                                                      print(rating);
-                                                                                    },
+                                                                                            icon: SvgPicture.asset(
+                                                                                              "assets/images_gps/star_2.svg",
+                                                                                              height: 13.0,
+                                                                                              width: 13.0,
+                                                                                            )));
+                                                                                  },
+                                                                                  onRatingUpdate: (rating) {
+                                                                                    print(rating);
+                                                                                  },
+                                                                                )
+                                                                              : RatingBar.builder(
+                                                                                  initialRating: double.parse(waitingForApprovalList[index].reviewAvgData),
+                                                                                  minRating: 1,
+                                                                                  direction: Axis.horizontal,
+                                                                                  allowHalfRating: false,
+                                                                                  itemCount: 5,
+                                                                                  itemSize: 24.0,
+                                                                                  ignoreGestures: true,
+                                                                                  itemPadding: new EdgeInsets.only(bottom: 3.0),
+                                                                                  itemBuilder: (context, rindex) {
+                                                                                    return new SizedBox(
+                                                                                        height: 20.0,
+                                                                                        width: 18.0,
+                                                                                        child: new IconButton(
+                                                                                          onPressed: () {},
+                                                                                          padding: new EdgeInsets.all(0.0),
+                                                                                          // color: Colors.white,
+                                                                                          icon: rindex > double.parse(waitingForApprovalList[index].reviewAvgData).ceilToDouble() - 1
+                                                                                              ? SvgPicture.asset(
+                                                                                                  "assets/images_gps/star_2.svg",
+                                                                                                  height: 13.0,
+                                                                                                  width: 13.0,
+                                                                                                )
+                                                                                              : SvgPicture.asset(
+                                                                                                  "assets/images_gps/star_colour.svg",
+                                                                                                  height: 13.0,
+                                                                                                  width: 13.0,
+                                                                                                  //color: Colors.black,
+                                                                                                ),
+                                                                                        ));
+                                                                                  },
+                                                                                  onRatingUpdate: (rating) {
+                                                                                    print(rating);
+                                                                                  },
+                                                                                ),
+                                                                          waitingForApprovalList[index].noOfReviewsMembers == null || waitingForApprovalList[index].noOfReviewsMembers == "0.00"
+                                                                              ? Text(
+                                                                                  '(0.00)',
+                                                                                  style: TextStyle(
+                                                                                    color: Color.fromRGBO(153, 153, 153, 1),
                                                                                   ),
-                                                                            waitingForApprovalList[index].noOfReviewsMembers == null || waitingForApprovalList[index].noOfReviewsMembers == "0.00"
-                                                                                ? Text(
-                                                                                    '(0.00)',
-                                                                                    style: TextStyle(
-                                                                                      color: Color.fromRGBO(153, 153, 153, 1),
-                                                                                    ),
-                                                                                  )
-                                                                                : Text(
-                                                                                    '(${waitingForApprovalList[index].noOfReviewsMembers})',
-                                                                                    style: TextStyle(
-                                                                                      color: Color.fromRGBO(153, 153, 153, 1),
-                                                                                    ),
+                                                                                )
+                                                                              : Text(
+                                                                                  '(${waitingForApprovalList[index].noOfReviewsMembers})',
+                                                                                  style: TextStyle(
+                                                                                    color: Color.fromRGBO(153, 153, 153, 1),
                                                                                   ),
-                                                                          ],
-                                                                        ),
+                                                                                ),
+                                                                        ],
                                                                       ),
                                                                       SizedBox(
                                                                         height:
@@ -922,18 +920,16 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                           ),
                                                           Row(
                                                             children: [
-                                                              FittedBox(
-                                                                child: SvgPicture.asset(
-                                                                    'assets/images_gps/gps.svg',
-                                                                    color: Color
-                                                                        .fromRGBO(
-                                                                            0,
-                                                                            0,
-                                                                            0,
-                                                                            1),
-                                                                    height: 20,
-                                                                    width: 20),
-                                                              ),
+                                                              SvgPicture.asset(
+                                                                  'assets/images_gps/gps.svg',
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          0,
+                                                                          0,
+                                                                          0,
+                                                                          1),
+                                                                  height: 20,
+                                                                  width: 20),
                                                               SizedBox(
                                                                 width: 7,
                                                               ),
@@ -1036,43 +1032,38 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                           ),
                                                           Row(
                                                             children: [
-                                                              FittedBox(
-                                                                child: SvgPicture.asset(
-                                                                    'assets/images_gps/calendar.svg',
-                                                                    color: Color
-                                                                        .fromRGBO(
-                                                                            0,
-                                                                            0,
-                                                                            0,
-                                                                            1),
-                                                                    height: 20,
-                                                                    width: 20),
-                                                              ),
+                                                              SvgPicture.asset(
+                                                                  'assets/images_gps/calendar.svg',
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          0,
+                                                                          0,
+                                                                          0,
+                                                                          1),
+                                                                  height: 20,
+                                                                  width: 20),
                                                               SizedBox(
                                                                 width: 5,
                                                               ),
-                                                              FittedBox(
-                                                                child: Text(
-                                                                  '予約日時：${date}',
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    color: Color
-                                                                        .fromRGBO(
-                                                                            0,
-                                                                            0,
-                                                                            0,
-                                                                            1),
-                                                                  ),
+                                                              Text(
+                                                                '予約日時：${date}',
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          0,
+                                                                          0,
+                                                                          0,
+                                                                          1),
                                                                 ),
                                                               ),
                                                               SizedBox(
                                                                 width: 8,
                                                               ),
-                                                              FittedBox(
-                                                                  child: Text(
+                                                              Text(
                                                                 '${sTime}~${eTime}',
                                                                 style:
                                                                     TextStyle(
@@ -1083,7 +1074,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                           102,
                                                                           1),
                                                                 ),
-                                                              ))
+                                                              )
                                                             ],
                                                           )
                                                         ],
@@ -1120,7 +1111,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                           approvedWithConditionsList.length != 0
                               ? Container(
                                   // height: MediaQuery.of(context).size.height *
-                                  height: 280,
+                                  height: 282,
                                   width:
                                       MediaQuery.of(context).size.width * 0.95,
                                   child: ListView.builder(
@@ -1241,8 +1232,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                     .all(12.0),
                                                             child: SvgPicture.asset(
                                                                 'assets/images_gps/chat.svg',
-                                                                height: 15,
-                                                                width: 15),
+                                                                height: 20,
+                                                                width: 20),
                                                           ),
                                                         ),
                                                       ),
@@ -1287,8 +1278,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                     .all(12.0),
                                                             child: SvgPicture.asset(
                                                                 'assets/images_gps/accept.svg',
-                                                                height: 15,
-                                                                width: 15),
+                                                                height: 20,
+                                                                width: 20),
                                                           ),
                                                         ),
                                                       ),
@@ -1352,22 +1343,23 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                     SizedBox(
                                                                       height: 5,
                                                                     ),
-                                                                    FittedBox(
-                                                                      child: approvedWithConditionsList[index].locationDistance !=
-                                                                              null
-                                                                          ? Text(
-                                                                              '${approvedWithConditionsList[index].locationDistance}',
-                                                                              style: TextStyle(
-                                                                                color: Color.fromRGBO(153, 153, 153, 1),
-                                                                              ),
-                                                                            )
-                                                                          : Text(
-                                                                              '0.0km圏内',
-                                                                              style: TextStyle(
-                                                                                color: Color.fromRGBO(153, 153, 153, 1),
-                                                                              ),
+                                                                    approvedWithConditionsList[index].locationDistance !=
+                                                                            null
+                                                                        ? Text(
+                                                                            '${approvedWithConditionsList[index].locationDistance}',
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: Color.fromRGBO(153, 153, 153, 1),
+                                                                              fontSize: 11.0,
                                                                             ),
-                                                                    ),
+                                                                          )
+                                                                        : Text(
+                                                                            '0.0km圏内',
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: Color.fromRGBO(153, 153, 153, 1),
+                                                                            ),
+                                                                          ),
                                                                   ],
                                                                 ),
                                                               ),
@@ -1458,91 +1450,89 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                     SizedBox(
                                                                       height: 5,
                                                                     ),
-                                                                    FittedBox(
-                                                                      child:
-                                                                          Row(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.spaceBetween,
-                                                                        children: [
-                                                                          Visibility(
-                                                                            visible:
-                                                                                approvedWithConditionsList[index].bookingTherapistId.isShop,
-                                                                            child: Container(
-                                                                                decoration: BoxDecoration(
-                                                                                    gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
-                                                                                      Colors.white,
-                                                                                      Colors.white,
-                                                                                    ]),
-                                                                                    shape: BoxShape.rectangle,
-                                                                                    border: Border.all(
-                                                                                      color: Colors.grey[300],
-                                                                                    ),
-                                                                                    borderRadius: BorderRadius.circular(5.0),
-                                                                                    color: Colors.grey[200]),
-                                                                                padding: EdgeInsets.all(4),
-                                                                                child: Text(
-                                                                                  '店舗',
-                                                                                  style: TextStyle(
-                                                                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                                                    Row(
+                                                                      children: [
+                                                                        Visibility(
+                                                                          visible: approvedWithConditionsList[index]
+                                                                              .bookingTherapistId
+                                                                              .isShop,
+                                                                          child: Container(
+                                                                              decoration: BoxDecoration(
+                                                                                  gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                                                                                    Colors.white,
+                                                                                    Colors.white,
+                                                                                  ]),
+                                                                                  shape: BoxShape.rectangle,
+                                                                                  border: Border.all(
+                                                                                    color: Colors.grey[300],
                                                                                   ),
-                                                                                )),
-                                                                          ),
-                                                                          SizedBox(
-                                                                            width:
-                                                                                5,
-                                                                          ),
-                                                                          Visibility(
-                                                                            visible:
-                                                                                approvedWithConditionsList[index].bookingTherapistId.businessTrip,
-                                                                            child: Container(
-                                                                                padding: EdgeInsets.all(4),
-                                                                                decoration: BoxDecoration(
-                                                                                    gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
-                                                                                      Colors.white,
-                                                                                      Colors.white,
-                                                                                    ]),
-                                                                                    shape: BoxShape.rectangle,
-                                                                                    border: Border.all(
-                                                                                      color: Colors.grey[300],
-                                                                                    ),
-                                                                                    borderRadius: BorderRadius.circular(5.0),
-                                                                                    color: Colors.grey[200]),
-                                                                                child: Text(
-                                                                                  '出張',
-                                                                                  style: TextStyle(
-                                                                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                                                                  borderRadius: BorderRadius.circular(5.0),
+                                                                                  color: Colors.grey[200]),
+                                                                              padding: EdgeInsets.all(4),
+                                                                              child: Text(
+                                                                                '店舗',
+                                                                                style: TextStyle(
+                                                                                  color: Color.fromRGBO(0, 0, 0, 1),
+                                                                                ),
+                                                                              )),
+                                                                        ),
+                                                                        SizedBox(
+                                                                          width:
+                                                                              5,
+                                                                        ),
+                                                                        Visibility(
+                                                                          visible: approvedWithConditionsList[index]
+                                                                              .bookingTherapistId
+                                                                              .businessTrip,
+                                                                          child: Container(
+                                                                              padding: EdgeInsets.all(4),
+                                                                              decoration: BoxDecoration(
+                                                                                  gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                                                                                    Colors.white,
+                                                                                    Colors.white,
+                                                                                  ]),
+                                                                                  shape: BoxShape.rectangle,
+                                                                                  border: Border.all(
+                                                                                    color: Colors.grey[300],
                                                                                   ),
-                                                                                )),
-                                                                          ),
-                                                                          SizedBox(
-                                                                            width:
-                                                                                5,
-                                                                          ),
-                                                                          Visibility(
-                                                                            visible:
-                                                                                approvedWithConditionsList[index].bookingTherapistId.coronaMeasure,
-                                                                            child: Container(
-                                                                                padding: EdgeInsets.all(4),
-                                                                                decoration: BoxDecoration(
-                                                                                    gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
-                                                                                      Colors.white,
-                                                                                      Colors.white,
-                                                                                    ]),
-                                                                                    shape: BoxShape.rectangle,
-                                                                                    border: Border.all(
-                                                                                      color: Colors.grey[300],
-                                                                                    ),
-                                                                                    borderRadius: BorderRadius.circular(5.0),
-                                                                                    color: Colors.grey[200]),
-                                                                                child: Text(
-                                                                                  'コロナ対策実施',
-                                                                                  style: TextStyle(
-                                                                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                                                                  borderRadius: BorderRadius.circular(5.0),
+                                                                                  color: Colors.grey[200]),
+                                                                              child: Text(
+                                                                                '出張',
+                                                                                style: TextStyle(
+                                                                                  color: Color.fromRGBO(0, 0, 0, 1),
+                                                                                ),
+                                                                              )),
+                                                                        ),
+                                                                        SizedBox(
+                                                                          width:
+                                                                              5,
+                                                                        ),
+                                                                        Visibility(
+                                                                          visible: approvedWithConditionsList[index]
+                                                                              .bookingTherapistId
+                                                                              .coronaMeasure,
+                                                                          child: Container(
+                                                                              padding: EdgeInsets.all(4),
+                                                                              decoration: BoxDecoration(
+                                                                                  gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                                                                                    Colors.white,
+                                                                                    Colors.white,
+                                                                                  ]),
+                                                                                  shape: BoxShape.rectangle,
+                                                                                  border: Border.all(
+                                                                                    color: Colors.grey[300],
                                                                                   ),
-                                                                                )),
-                                                                          ),
-                                                                        ],
-                                                                      ),
+                                                                                  borderRadius: BorderRadius.circular(5.0),
+                                                                                  color: Colors.grey[200]),
+                                                                              child: Text(
+                                                                                'コロナ対策実施',
+                                                                                style: TextStyle(
+                                                                                  color: Color.fromRGBO(0, 0, 0, 1),
+                                                                                ),
+                                                                              )),
+                                                                        ),
+                                                                      ],
                                                                     ),
                                                                     SizedBox(
                                                                       height: 5,
@@ -1902,7 +1892,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                           approvedList.length != 0
                               ? Container(
                                   // height: MediaQuery.of(context).size.height * 0.39,
-                                  height: 285,
+                                  height: 287,
                                   width:
                                       MediaQuery.of(context).size.width * 0.95,
                                   child: ListView.builder(
@@ -2001,9 +1991,9 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                   .asset(
                                                                       'assets/images_gps/chat.svg',
                                                                       height:
-                                                                          15,
+                                                                          20,
                                                                       width:
-                                                                          15),
+                                                                          20),
                                                             ),
                                                           ),
                                                         )),
@@ -2053,8 +2043,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         193,
                                                                         7,
                                                                         1),
-                                                                height: 15,
-                                                                width: 15),
+                                                                height: 20,
+                                                                width: 20),
                                                           ),
                                                         ),
                                                       ),
@@ -2101,8 +2091,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         217,
                                                                         217,
                                                                         1),
-                                                                height: 15,
-                                                                width: 15),
+                                                                height: 20,
+                                                                width: 20),
                                                           ),
                                                         ),
                                                       ),
@@ -2168,18 +2158,20 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                     ),
                                                                     approvedList[index].locationDistance !=
                                                                             null
-                                                                        ? FittedBox(
-                                                                            child: Text('${approvedList[index].locationDistance}km圏内',
-                                                                                style: TextStyle(
-                                                                                  color: Color.fromRGBO(153, 153, 153, 1),
-                                                                                )),
-                                                                          )
+                                                                        ? Text(
+                                                                            '${approvedList[index].locationDistance}km圏内',
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: Color.fromRGBO(153, 153, 153, 1),
+                                                                              fontSize: 11.0,
+                                                                            ))
                                                                         : Text(
                                                                             '0.0km圏内',
                                                                             style:
                                                                                 TextStyle(
                                                                               color: Color.fromRGBO(153, 153, 153, 1),
                                                                             )),
+                                                                    Text('')
                                                                   ],
                                                                 ),
                                                               ),
@@ -2271,93 +2263,91 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                     SizedBox(
                                                                       height: 5,
                                                                     ),
-                                                                    FittedBox(
-                                                                      child:
-                                                                          Row(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.spaceBetween,
-                                                                        children: [
-                                                                          Visibility(
-                                                                            visible:
-                                                                                approvedList[index].bookingTherapistId.isShop,
-                                                                            child: Container(
-                                                                                decoration: BoxDecoration(
-                                                                                    gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
-                                                                                      Colors.white,
-                                                                                      Colors.white,
-                                                                                    ]),
-                                                                                    shape: BoxShape.rectangle,
-                                                                                    border: Border.all(
-                                                                                      color: Colors.grey[300],
-                                                                                    ),
-                                                                                    borderRadius: BorderRadius.circular(5.0),
-                                                                                    color: Colors.grey[200]),
-                                                                                padding: EdgeInsets.all(4),
-                                                                                child: Text(
-                                                                                  '店舗',
-                                                                                  style: TextStyle(
-                                                                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                                                    Row(
+                                                                      children: [
+                                                                        Visibility(
+                                                                          visible: approvedList[index]
+                                                                              .bookingTherapistId
+                                                                              .isShop,
+                                                                          child: Container(
+                                                                              decoration: BoxDecoration(
+                                                                                  gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                                                                                    Colors.white,
+                                                                                    Colors.white,
+                                                                                  ]),
+                                                                                  shape: BoxShape.rectangle,
+                                                                                  border: Border.all(
+                                                                                    color: Colors.grey[300],
                                                                                   ),
-                                                                                )),
-                                                                          ),
-                                                                          approvedList[index].bookingTherapistId.isShop
-                                                                              ? SizedBox(
-                                                                                  width: 5,
-                                                                                )
-                                                                              : SizedBox.shrink(),
-                                                                          Visibility(
-                                                                            visible:
-                                                                                approvedList[index].bookingTherapistId.businessTrip,
-                                                                            child: Container(
-                                                                                padding: EdgeInsets.all(4),
-                                                                                decoration: BoxDecoration(
-                                                                                    gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
-                                                                                      Colors.white,
-                                                                                      Colors.white,
-                                                                                    ]),
-                                                                                    shape: BoxShape.rectangle,
-                                                                                    border: Border.all(
-                                                                                      color: Colors.grey[300],
-                                                                                    ),
-                                                                                    borderRadius: BorderRadius.circular(5.0),
-                                                                                    color: Colors.grey[200]),
-                                                                                child: Text(
-                                                                                  '出張',
-                                                                                  style: TextStyle(
-                                                                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                                                                  borderRadius: BorderRadius.circular(5.0),
+                                                                                  color: Colors.grey[200]),
+                                                                              padding: EdgeInsets.all(4),
+                                                                              child: Text(
+                                                                                '店舗',
+                                                                                style: TextStyle(
+                                                                                  color: Color.fromRGBO(0, 0, 0, 1),
+                                                                                ),
+                                                                              )),
+                                                                        ),
+                                                                        approvedList[index].bookingTherapistId.isShop
+                                                                            ? SizedBox(
+                                                                                width: 5,
+                                                                              )
+                                                                            : SizedBox.shrink(),
+                                                                        Visibility(
+                                                                          visible: approvedList[index]
+                                                                              .bookingTherapistId
+                                                                              .businessTrip,
+                                                                          child: Container(
+                                                                              padding: EdgeInsets.all(4),
+                                                                              decoration: BoxDecoration(
+                                                                                  gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                                                                                    Colors.white,
+                                                                                    Colors.white,
+                                                                                  ]),
+                                                                                  shape: BoxShape.rectangle,
+                                                                                  border: Border.all(
+                                                                                    color: Colors.grey[300],
                                                                                   ),
-                                                                                )),
-                                                                          ),
-                                                                          approvedList[index].bookingTherapistId.businessTrip
-                                                                              ? SizedBox(
-                                                                                  width: 5,
-                                                                                )
-                                                                              : SizedBox.shrink(),
-                                                                          Visibility(
-                                                                            visible:
-                                                                                approvedList[index].bookingTherapistId.coronaMeasure,
-                                                                            child: Container(
-                                                                                padding: EdgeInsets.all(4),
-                                                                                decoration: BoxDecoration(
-                                                                                    gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
-                                                                                      Colors.white,
-                                                                                      Colors.white,
-                                                                                    ]),
-                                                                                    shape: BoxShape.rectangle,
-                                                                                    border: Border.all(
-                                                                                      color: Colors.grey[300],
-                                                                                    ),
-                                                                                    borderRadius: BorderRadius.circular(5.0),
-                                                                                    color: Colors.grey[200]),
-                                                                                child: Text(
-                                                                                  'コロナ対策実施',
-                                                                                  style: TextStyle(
-                                                                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                                                                  borderRadius: BorderRadius.circular(5.0),
+                                                                                  color: Colors.grey[200]),
+                                                                              child: Text(
+                                                                                '出張',
+                                                                                style: TextStyle(
+                                                                                  color: Color.fromRGBO(0, 0, 0, 1),
+                                                                                ),
+                                                                              )),
+                                                                        ),
+                                                                        approvedList[index].bookingTherapistId.businessTrip
+                                                                            ? SizedBox(
+                                                                                width: 5,
+                                                                              )
+                                                                            : SizedBox.shrink(),
+                                                                        Visibility(
+                                                                          visible: approvedList[index]
+                                                                              .bookingTherapistId
+                                                                              .coronaMeasure,
+                                                                          child: Container(
+                                                                              padding: EdgeInsets.all(4),
+                                                                              decoration: BoxDecoration(
+                                                                                  gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                                                                                    Colors.white,
+                                                                                    Colors.white,
+                                                                                  ]),
+                                                                                  shape: BoxShape.rectangle,
+                                                                                  border: Border.all(
+                                                                                    color: Colors.grey[300],
                                                                                   ),
-                                                                                )),
-                                                                          ),
-                                                                        ],
-                                                                      ),
+                                                                                  borderRadius: BorderRadius.circular(5.0),
+                                                                                  color: Colors.grey[200]),
+                                                                              child: Text(
+                                                                                'コロナ対策実施',
+                                                                                style: TextStyle(
+                                                                                  color: Color.fromRGBO(0, 0, 0, 1),
+                                                                                ),
+                                                                              )),
+                                                                        ),
+                                                                      ],
                                                                     ),
                                                                     SizedBox(
                                                                       height: 5,
@@ -2717,7 +2707,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                           confirmedPaymentList.length != 0
                               ? Container(
                                   // height: MediaQuery.of(context).size.height * 0.39,
-                                  height: 280,
+                                  height: 282,
                                   width:
                                       MediaQuery.of(context).size.width * 0.95,
                                   child: ListView.builder(
@@ -2815,8 +2805,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                     .all(12.0),
                                                             child: SvgPicture.asset(
                                                                 'assets/images_gps/chat.svg',
-                                                                height: 15,
-                                                                width: 15),
+                                                                height: 20,
+                                                                width: 20),
                                                           ),
                                                         ),
                                                       ),
@@ -2862,8 +2852,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         217,
                                                                         217,
                                                                         1),
-                                                                height: 15,
-                                                                width: 15),
+                                                                height: 20,
+                                                                width: 20),
                                                           ),
                                                         ),
                                                       ),
@@ -2924,22 +2914,24 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                             backgroundColor:
                                                                                 Colors.white,
                                                                           ),
-                                                                    FittedBox(
-                                                                      child: confirmedPaymentList[index].locationDistance !=
-                                                                              null
-                                                                          ? Text(
-                                                                              '${confirmedPaymentList[index].locationDistance}km圏内',
-                                                                              style: TextStyle(
-                                                                                color: Color.fromRGBO(153, 153, 153, 1),
-                                                                              ),
-                                                                            )
-                                                                          : Text(
-                                                                              '0.0km圏内',
-                                                                              style: TextStyle(
-                                                                                color: Color.fromRGBO(153, 153, 153, 1),
-                                                                              ),
+                                                                    confirmedPaymentList[index].locationDistance !=
+                                                                            null
+                                                                        ? Text(
+                                                                            '${confirmedPaymentList[index].locationDistance}km圏内',
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: Color.fromRGBO(153, 153, 153, 1),
+                                                                              fontSize: 11.0,
                                                                             ),
-                                                                    ),
+                                                                          )
+                                                                        : Text(
+                                                                            '0.0km圏内',
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: Color.fromRGBO(153, 153, 153, 1),
+                                                                            ),
+                                                                          ),
+                                                                    Text('')
                                                                   ],
                                                                 ),
                                                               ),
@@ -3031,93 +3023,91 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                     SizedBox(
                                                                       height: 5,
                                                                     ),
-                                                                    FittedBox(
-                                                                      child:
-                                                                          Row(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.spaceBetween,
-                                                                        children: [
-                                                                          Visibility(
-                                                                            visible:
-                                                                                confirmedPaymentList[index].bookingTherapistId.isShop,
-                                                                            child: Container(
-                                                                                decoration: BoxDecoration(
-                                                                                    gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
-                                                                                      Colors.white,
-                                                                                      Colors.white,
-                                                                                    ]),
-                                                                                    shape: BoxShape.rectangle,
-                                                                                    border: Border.all(
-                                                                                      color: Colors.grey[300],
-                                                                                    ),
-                                                                                    borderRadius: BorderRadius.circular(5.0),
-                                                                                    color: Colors.grey[200]),
-                                                                                padding: EdgeInsets.all(4),
-                                                                                child: Text(
-                                                                                  '店舗',
-                                                                                  style: TextStyle(
-                                                                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                                                    Row(
+                                                                      children: [
+                                                                        Visibility(
+                                                                          visible: confirmedPaymentList[index]
+                                                                              .bookingTherapistId
+                                                                              .isShop,
+                                                                          child: Container(
+                                                                              decoration: BoxDecoration(
+                                                                                  gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                                                                                    Colors.white,
+                                                                                    Colors.white,
+                                                                                  ]),
+                                                                                  shape: BoxShape.rectangle,
+                                                                                  border: Border.all(
+                                                                                    color: Colors.grey[300],
                                                                                   ),
-                                                                                )),
-                                                                          ),
-                                                                          confirmedPaymentList[index].bookingTherapistId.isShop
-                                                                              ? SizedBox(
-                                                                                  width: 5,
-                                                                                )
-                                                                              : SizedBox.shrink(),
-                                                                          Visibility(
-                                                                            visible:
-                                                                                confirmedPaymentList[index].bookingTherapistId.businessTrip,
-                                                                            child: Container(
-                                                                                padding: EdgeInsets.all(4),
-                                                                                decoration: BoxDecoration(
-                                                                                    gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
-                                                                                      Colors.white,
-                                                                                      Colors.white,
-                                                                                    ]),
-                                                                                    shape: BoxShape.rectangle,
-                                                                                    border: Border.all(
-                                                                                      color: Colors.grey[300],
-                                                                                    ),
-                                                                                    borderRadius: BorderRadius.circular(5.0),
-                                                                                    color: Colors.grey[200]),
-                                                                                child: Text(
-                                                                                  '出張',
-                                                                                  style: TextStyle(
-                                                                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                                                                  borderRadius: BorderRadius.circular(5.0),
+                                                                                  color: Colors.grey[200]),
+                                                                              padding: EdgeInsets.all(4),
+                                                                              child: Text(
+                                                                                '店舗',
+                                                                                style: TextStyle(
+                                                                                  color: Color.fromRGBO(0, 0, 0, 1),
+                                                                                ),
+                                                                              )),
+                                                                        ),
+                                                                        confirmedPaymentList[index].bookingTherapistId.isShop
+                                                                            ? SizedBox(
+                                                                                width: 5,
+                                                                              )
+                                                                            : SizedBox.shrink(),
+                                                                        Visibility(
+                                                                          visible: confirmedPaymentList[index]
+                                                                              .bookingTherapistId
+                                                                              .businessTrip,
+                                                                          child: Container(
+                                                                              padding: EdgeInsets.all(4),
+                                                                              decoration: BoxDecoration(
+                                                                                  gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                                                                                    Colors.white,
+                                                                                    Colors.white,
+                                                                                  ]),
+                                                                                  shape: BoxShape.rectangle,
+                                                                                  border: Border.all(
+                                                                                    color: Colors.grey[300],
                                                                                   ),
-                                                                                )),
-                                                                          ),
-                                                                          confirmedPaymentList[index].bookingTherapistId.businessTrip
-                                                                              ? SizedBox(
-                                                                                  width: 5,
-                                                                                )
-                                                                              : SizedBox.shrink(),
-                                                                          Visibility(
-                                                                            visible:
-                                                                                confirmedPaymentList[index].bookingTherapistId.coronaMeasure,
-                                                                            child: Container(
-                                                                                padding: EdgeInsets.all(4),
-                                                                                decoration: BoxDecoration(
-                                                                                    gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
-                                                                                      Colors.white,
-                                                                                      Colors.white,
-                                                                                    ]),
-                                                                                    shape: BoxShape.rectangle,
-                                                                                    border: Border.all(
-                                                                                      color: Colors.grey[300],
-                                                                                    ),
-                                                                                    borderRadius: BorderRadius.circular(5.0),
-                                                                                    color: Colors.grey[200]),
-                                                                                child: Text(
-                                                                                  'コロナ対策実施',
-                                                                                  style: TextStyle(
-                                                                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                                                                  borderRadius: BorderRadius.circular(5.0),
+                                                                                  color: Colors.grey[200]),
+                                                                              child: Text(
+                                                                                '出張',
+                                                                                style: TextStyle(
+                                                                                  color: Color.fromRGBO(0, 0, 0, 1),
+                                                                                ),
+                                                                              )),
+                                                                        ),
+                                                                        confirmedPaymentList[index].bookingTherapistId.businessTrip
+                                                                            ? SizedBox(
+                                                                                width: 5,
+                                                                              )
+                                                                            : SizedBox.shrink(),
+                                                                        Visibility(
+                                                                          visible: confirmedPaymentList[index]
+                                                                              .bookingTherapistId
+                                                                              .coronaMeasure,
+                                                                          child: Container(
+                                                                              padding: EdgeInsets.all(4),
+                                                                              decoration: BoxDecoration(
+                                                                                  gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                                                                                    Colors.white,
+                                                                                    Colors.white,
+                                                                                  ]),
+                                                                                  shape: BoxShape.rectangle,
+                                                                                  border: Border.all(
+                                                                                    color: Colors.grey[300],
                                                                                   ),
-                                                                                )),
-                                                                          ),
-                                                                        ],
-                                                                      ),
+                                                                                  borderRadius: BorderRadius.circular(5.0),
+                                                                                  color: Colors.grey[200]),
+                                                                              child: Text(
+                                                                                'コロナ対策実施',
+                                                                                style: TextStyle(
+                                                                                  color: Color.fromRGBO(0, 0, 0, 1),
+                                                                                ),
+                                                                              )),
+                                                                        ),
+                                                                      ],
                                                                     ),
                                                                     SizedBox(
                                                                       height: 5,
@@ -3476,7 +3466,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                           canceledReservationList.length != 0
                               ? Container(
                                   // height: MediaQuery.of(context).size.height * 0.35,
-                                  height: 275,
+                                  height: 277,
                                   width:
                                       MediaQuery.of(context).size.width * 0.95,
                                   child: ListView.builder(
@@ -3620,33 +3610,34 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         backgroundColor:
                                                                             Colors.white,
                                                                       ),
-                                                                FittedBox(
-                                                                  child: canceledReservationList[index]
-                                                                              .locationDistance !=
-                                                                          null
-                                                                      ? Text(
-                                                                          '${canceledReservationList[index].locationDistance}圏内',
-                                                                          style:
-                                                                              TextStyle(
-                                                                            color: Color.fromRGBO(
-                                                                                153,
-                                                                                153,
-                                                                                153,
-                                                                                1),
-                                                                          ),
-                                                                        )
-                                                                      : Text(
-                                                                          '0.0圏内',
-                                                                          style:
-                                                                              TextStyle(
-                                                                            color: Color.fromRGBO(
-                                                                                153,
-                                                                                153,
-                                                                                153,
-                                                                                1),
-                                                                          ),
+                                                                canceledReservationList[index]
+                                                                            .locationDistance !=
+                                                                        null
+                                                                    ? Text(
+                                                                        '${canceledReservationList[index].locationDistance}km圏内',
+                                                                        style:
+                                                                            TextStyle(
+                                                                          color: Color.fromRGBO(
+                                                                              153,
+                                                                              153,
+                                                                              153,
+                                                                              1),
+                                                                          fontSize:
+                                                                              11.0,
                                                                         ),
-                                                                ),
+                                                                      )
+                                                                    : Text(
+                                                                        '0.0圏内',
+                                                                        style:
+                                                                            TextStyle(
+                                                                          color: Color.fromRGBO(
+                                                                              153,
+                                                                              153,
+                                                                              153,
+                                                                              1),
+                                                                        ),
+                                                                      ),
+                                                                Text(''),
                                                               ],
                                                             ),
                                                           ),
@@ -3768,102 +3759,105 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                 SizedBox(
                                                                   height: 5,
                                                                 ),
-                                                                FittedBox(
-                                                                  child: Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceBetween,
-                                                                    children: [
-                                                                      Visibility(
-                                                                        visible: canceledReservationList[index]
-                                                                            .bookingTherapistId
-                                                                            .isShop,
-                                                                        child: Container(
-                                                                            decoration: BoxDecoration(
-                                                                                gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
-                                                                                  Colors.white,
-                                                                                  Colors.white,
-                                                                                ]),
-                                                                                shape: BoxShape.rectangle,
-                                                                                border: Border.all(
-                                                                                  color: Colors.grey[300],
-                                                                                ),
-                                                                                borderRadius: BorderRadius.circular(5.0),
-                                                                                color: Colors.grey[200]),
-                                                                            padding: EdgeInsets.all(4),
-                                                                            child: Text(
-                                                                              '店舗',
-                                                                              style: TextStyle(
-                                                                                color: Color.fromRGBO(0, 0, 0, 1),
+                                                                Row(
+                                                                  children: [
+                                                                    Visibility(
+                                                                      visible: canceledReservationList[
+                                                                              index]
+                                                                          .bookingTherapistId
+                                                                          .isShop,
+                                                                      child: Container(
+                                                                          decoration: BoxDecoration(
+                                                                              gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                                                                                Colors.white,
+                                                                                Colors.white,
+                                                                              ]),
+                                                                              shape: BoxShape.rectangle,
+                                                                              border: Border.all(
+                                                                                color: Colors.grey[300],
                                                                               ),
-                                                                            )),
-                                                                      ),
-                                                                      canceledReservationList[index]
-                                                                              .bookingTherapistId
-                                                                              .isShop
-                                                                          ? SizedBox(
-                                                                              width: 5,
-                                                                            )
-                                                                          : SizedBox
-                                                                              .shrink(),
-                                                                      Visibility(
-                                                                        visible: canceledReservationList[index]
+                                                                              borderRadius: BorderRadius.circular(5.0),
+                                                                              color: Colors.grey[200]),
+                                                                          padding: EdgeInsets.all(4),
+                                                                          child: Text(
+                                                                            '店舗',
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: Color.fromRGBO(0, 0, 0, 1),
+                                                                            ),
+                                                                          )),
+                                                                    ),
+                                                                    canceledReservationList[index]
                                                                             .bookingTherapistId
-                                                                            .businessTrip,
-                                                                        child: Container(
-                                                                            padding: EdgeInsets.all(4),
-                                                                            decoration: BoxDecoration(
-                                                                                gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
-                                                                                  Colors.white,
-                                                                                  Colors.white,
-                                                                                ]),
-                                                                                shape: BoxShape.rectangle,
-                                                                                border: Border.all(
-                                                                                  color: Colors.grey[300],
-                                                                                ),
-                                                                                borderRadius: BorderRadius.circular(5.0),
-                                                                                color: Colors.grey[200]),
-                                                                            child: Text(
-                                                                              '出張',
-                                                                              style: TextStyle(
-                                                                                color: Color.fromRGBO(0, 0, 0, 1),
+                                                                            .isShop
+                                                                        ? SizedBox(
+                                                                            width:
+                                                                                5,
+                                                                          )
+                                                                        : SizedBox
+                                                                            .shrink(),
+                                                                    Visibility(
+                                                                      visible: canceledReservationList[
+                                                                              index]
+                                                                          .bookingTherapistId
+                                                                          .businessTrip,
+                                                                      child: Container(
+                                                                          padding: EdgeInsets.all(4),
+                                                                          decoration: BoxDecoration(
+                                                                              gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                                                                                Colors.white,
+                                                                                Colors.white,
+                                                                              ]),
+                                                                              shape: BoxShape.rectangle,
+                                                                              border: Border.all(
+                                                                                color: Colors.grey[300],
                                                                               ),
-                                                                            )),
-                                                                      ),
-                                                                      canceledReservationList[index]
-                                                                              .bookingTherapistId
-                                                                              .businessTrip
-                                                                          ? SizedBox(
-                                                                              width: 5,
-                                                                            )
-                                                                          : SizedBox
-                                                                              .shrink(),
-                                                                      Visibility(
-                                                                        visible: canceledReservationList[index]
+                                                                              borderRadius: BorderRadius.circular(5.0),
+                                                                              color: Colors.grey[200]),
+                                                                          child: Text(
+                                                                            '出張',
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: Color.fromRGBO(0, 0, 0, 1),
+                                                                            ),
+                                                                          )),
+                                                                    ),
+                                                                    canceledReservationList[index]
                                                                             .bookingTherapistId
-                                                                            .coronaMeasure,
-                                                                        child: Container(
-                                                                            padding: EdgeInsets.all(4),
-                                                                            decoration: BoxDecoration(
-                                                                                gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
-                                                                                  Colors.white,
-                                                                                  Colors.white,
-                                                                                ]),
-                                                                                shape: BoxShape.rectangle,
-                                                                                border: Border.all(
-                                                                                  color: Colors.grey[300],
-                                                                                ),
-                                                                                borderRadius: BorderRadius.circular(5.0),
-                                                                                color: Colors.grey[200]),
-                                                                            child: Text(
-                                                                              'コロナ対策実施',
-                                                                              style: TextStyle(
-                                                                                color: Color.fromRGBO(0, 0, 0, 1),
+                                                                            .businessTrip
+                                                                        ? SizedBox(
+                                                                            width:
+                                                                                5,
+                                                                          )
+                                                                        : SizedBox
+                                                                            .shrink(),
+                                                                    Visibility(
+                                                                      visible: canceledReservationList[
+                                                                              index]
+                                                                          .bookingTherapistId
+                                                                          .coronaMeasure,
+                                                                      child: Container(
+                                                                          padding: EdgeInsets.all(4),
+                                                                          decoration: BoxDecoration(
+                                                                              gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                                                                                Colors.white,
+                                                                                Colors.white,
+                                                                              ]),
+                                                                              shape: BoxShape.rectangle,
+                                                                              border: Border.all(
+                                                                                color: Colors.grey[300],
                                                                               ),
-                                                                            )),
-                                                                      ),
-                                                                    ],
-                                                                  ),
+                                                                              borderRadius: BorderRadius.circular(5.0),
+                                                                              color: Colors.grey[200]),
+                                                                          child: Text(
+                                                                            'コロナ対策実施',
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: Color.fromRGBO(0, 0, 0, 1),
+                                                                            ),
+                                                                          )),
+                                                                    ),
+                                                                  ],
                                                                 ),
                                                                 SizedBox(
                                                                   height: 5,

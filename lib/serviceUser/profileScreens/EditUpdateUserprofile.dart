@@ -868,7 +868,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                         0.39,
                                     child: WidgetAnimator(
                                       DropDownFormField(
-                                          hintText: '府県',
+                                          hintText: '都道府県',
                                           value: _myPrefecture,
                                           onSaved: (value) {
                                             setState(() {
@@ -910,7 +910,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                         child: WidgetAnimator(
                                           DropDownFormField(
                                               hintText:
-                                                  readonly ? _myCity : '市',
+                                                  readonly ? _myCity : '市区町村',
                                               value: _myCity,
                                               onSaved: (value) {
                                                 setState(() {
@@ -3090,7 +3090,7 @@ class _AddAddressState extends State<AddAddress> {
                                                                 WidgetAnimator(
                                                               DropDownFormField(
                                                                   hintText:
-                                                                      '府県',
+                                                                      '都道府県',
                                                                   value:
                                                                       _myAddedPrefecture,
                                                                   onSaved:
@@ -3141,7 +3141,7 @@ class _AddAddressState extends State<AddAddress> {
                                                                 WidgetAnimator(
                                                               DropDownFormField(
                                                                   hintText:
-                                                                      '府県',
+                                                                      '都道府県',
                                                                   value:
                                                                       _myAddedPrefecture,
                                                                   onSaved:
@@ -3177,7 +3177,8 @@ class _AddAddressState extends State<AddAddress> {
                                                             child:
                                                                 WidgetAnimator(
                                                               DropDownFormField(
-                                                                  hintText: '市',
+                                                                  hintText:
+                                                                      '市区町村',
                                                                   value:
                                                                       _myAddedCity,
                                                                   onSaved:
@@ -3215,7 +3216,8 @@ class _AddAddressState extends State<AddAddress> {
                                                             child:
                                                                 WidgetAnimator(
                                                               DropDownFormField(
-                                                                  hintText: '市',
+                                                                  hintText:
+                                                                      '市区町村',
                                                                   value:
                                                                       _myAddedCity,
                                                                   onSaved:
