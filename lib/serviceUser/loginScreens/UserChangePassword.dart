@@ -67,7 +67,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
             color: Colors.black,
           ),
           onPressed: () {
-            NavigationRouter.switchToUserLogin(context);
+            NavigationRouter.switchToUserForgetPasswordScreen(context);
           },
         ),
       ),
