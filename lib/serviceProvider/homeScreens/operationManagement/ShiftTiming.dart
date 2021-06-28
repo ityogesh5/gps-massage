@@ -513,6 +513,9 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                                       context);
                                               ServiceProviderApi.removeEvent(
                                                   eventId, context);
+                                              ProgressDialogBuilder
+                                                  .hideCommonProgressDialog(
+                                                      context);
                                               setState(() {
                                                 if (events[timeRow[i]].length ==
                                                     1) {
@@ -564,7 +567,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                             scheduleEventId[DateTime(
                                                 timeRow[i].year,
                                                 timeRow[i].month,
-                                                j + 1,
+                                                j,
                                                 timeRow[i].hour,
                                                 timeRow[i].minute,
                                                 timeRow[i].second)] = value.id;
@@ -1737,6 +1740,9 @@ class _ShiftTimingState extends State<ShiftTiming> {
               borderRadius: BorderRadius.circular(10.0),
             ),
             onPressed: () {
+              refreshState(() {
+                _storeServiceTime[index].shopOpen = true;
+              });
               Navigator.pop(context);
             },
             //  minWidth: MediaQuery.of(context).size.width * 0.38,

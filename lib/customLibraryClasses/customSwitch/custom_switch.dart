@@ -7,7 +7,7 @@ class CustomSwitch extends StatefulWidget {
   final ValueChanged<bool> onChanged;
   final Color activeColor;
 
-  const CustomSwitch({Key key, this.value, this.onChanged, this.activeColor})
+  CustomSwitch({Key key, this.value, this.onChanged, this.activeColor})
       : super(key: key);
 
   @override
@@ -60,8 +60,8 @@ class _CustomSwitchState extends State<CustomSwitch>
 
                 ),
             child: Padding(
-              padding: const EdgeInsets.only(
-                  top: 4.0, bottom: 4.0, right: 1.0, left: 1.0),
+              padding:
+                  EdgeInsets.only(top: 4.0, bottom: 4.0, right: 1.0, left: 1.0),
               child: Row(
                 mainAxisAlignment:
                     _circleAnimation.value == Alignment.centerRight
