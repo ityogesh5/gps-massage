@@ -64,10 +64,10 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   Position _currentPosition;
   DateTime today = DateTime.now();
   DateTime displayDay;
+  bool isGPSLoading = false;
   final keywordController = new TextEditingController();
   var stopLoading;
   var currentLoading;
-
   var dateString;
   var constantUserAddressSize = new List();
   var differenceInTime;
@@ -247,6 +247,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                   this.currentLoading = stopLoading;
                                   startLoading();
                                   setState(() {
+                                    isGPSLoading = true;
                                     gpsColor = 1;
                                   });
                                   _getCurrentLocation(context);
@@ -907,7 +908,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                       ),
                     ),
                     onTap: (startLoading, stopLoading, btnState) {
-                      if (btnState == ButtonState.Idle) {
+                      if (btnState == ButtonState.Idle && !isGPSLoading) {
                         this.stopLoading = stopLoading;
                         startLoading();
                         timeDurationSinceDate(DateTime(
@@ -1488,6 +1489,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
     print('GPS Enabled : $isGPSEnabled');
     if (HealingMatchConstants.isUserRegistrationSkipped && !isGPSEnabled) {
       currentLoading();
+      isGPSLoading = false;
       displaySnackBar("場所を取得するには、GPSをオンにしてください。");
       return;
     } else {
@@ -1495,6 +1497,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
       geoLocator
           .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
           .then((Position position) {
+        isGPSLoading = false;
         _currentPosition = position;
         print('Current lat : ${_currentPosition.latitude}');
         HealingMatchConstants.currentLatitude = _currentPosition.latitude;
@@ -1502,6 +1505,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
         _getAddressFromLatLng(context);
       }).catchError((e) {
         currentLoading();
+        isGPSLoading = false;
         print('Current Location exception : ${e.toString()}');
       });
     }

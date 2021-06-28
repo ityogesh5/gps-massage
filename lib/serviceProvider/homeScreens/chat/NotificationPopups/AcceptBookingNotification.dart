@@ -443,6 +443,7 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
                           controller: providerCommentsController,
                           textInputAction: TextInputAction.done,
                           expands: false,
+                          maxLength: 120,
                           maxLines: 4,
                           decoration: InputDecoration(
                             hintText: "別の時間を選択した理由",

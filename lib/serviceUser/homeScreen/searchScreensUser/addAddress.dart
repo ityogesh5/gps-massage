@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -41,6 +42,7 @@ class _AddAddressState extends State<SearchAddAddress> {
   String _myCategoryPlaceForMassage = '';
   int _stateID;
   int _cityID;
+  var stopLoading;
   final _addedAddressTypeKey = new GlobalKey<FormState>();
   final _addedPrefectureKey = new GlobalKey<FormState>();
   final _placeOfAddressKey = new GlobalKey<FormState>();
@@ -614,7 +616,34 @@ class _AddAddressState extends State<SearchAddAddress> {
                         SizedBox(height: 20),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.85,
-                          child: new RaisedButton(
+                          child: ArgonButton(
+                            height: 45,
+                            width:
+                                MediaQuery.of(context).size.width - 20.0, //350,
+                            borderRadius: 5.0,
+                            color: ColorConstants.buttonColor,
+                            child: new Text(
+                              '追加',
+                              style: TextStyle(
+                                  color: Color.fromRGBO(255, 255, 255, 1),
+                                  fontFamily: 'NotoSansJP',
+                                  fontSize: 16),
+                            ),
+                            loader: Container(
+                              padding: EdgeInsets.all(10),
+                              child: SpinKitRotatingCircle(
+                                color: Colors.white,
+                                // size: loaderWidth ,
+                              ),
+                            ),
+                            onTap: (startLoading, stopLoading, btnState) {
+                              if (btnState == ButtonState.Idle) {
+                                this.stopLoading = stopLoading;
+                                startLoading();
+                                validateAddress();
+                              }
+                            },
+                          ), /* new RaisedButton(
                             shape: RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(10.0),
                               //side: BorderSide(color: Colors.black),
@@ -630,7 +659,7 @@ class _AddAddressState extends State<SearchAddAddress> {
                                   fontWeight: FontWeight.bold,
                                   fontSize: 14),
                             ),
-                          ),
+                          ), */
                         ),
                         SizedBox(height: 15),
                       ],
@@ -677,7 +706,7 @@ class _AddAddressState extends State<SearchAddAddress> {
   //validateSelection
   validateAddress() {
     if (_myCategoryPlaceForMassage.isEmpty) {
-      ProgressDialogBuilder.hideLoader(context);
+      stopLoading();
       print('Manual address empty fields');
       displaySnackBar("登録する地点のカテゴリーを選択してください。");
 
@@ -685,7 +714,7 @@ class _AddAddressState extends State<SearchAddAddress> {
     }
 
     if (_myAddedPrefecture.isEmpty) {
-      ProgressDialogBuilder.hideLoader(context);
+      stopLoading();
       print('Manual address empty fields');
       displaySnackBar("有効な府県を選択してください。");
 
@@ -693,7 +722,7 @@ class _AddAddressState extends State<SearchAddAddress> {
     }
 
     if (_myAddedCity.isEmpty) {
-      ProgressDialogBuilder.hideLoader(context);
+      stopLoading();
       print('Manual address empty fields');
       displaySnackBar("有効な市を選択してください。");
 
@@ -701,7 +730,7 @@ class _AddAddressState extends State<SearchAddAddress> {
     }
 
     if (addedUserAreaController.text.isEmpty) {
-      ProgressDialogBuilder.hideLoader(context);
+      stopLoading();
       print('Manual address empty fields');
       displaySnackBar("有効な丁目と番地を入力してください。");
 
@@ -711,7 +740,7 @@ class _AddAddressState extends State<SearchAddAddress> {
     if (_myCategoryPlaceForMassage == 'その他（直接入力）') {}
     if (_myCategoryPlaceForMassage == 'その他（直接入力）' &&
         otherController.text.isEmpty) {
-      ProgressDialogBuilder.hideLoader(context);
+      stopLoading();
       print('Manual address empty fields');
       displaySnackBar("登録する地点のカテゴリーを入力してください。");
 

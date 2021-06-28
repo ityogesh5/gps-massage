@@ -44,6 +44,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
   List<String> bannerImages = List<String>();
   Map<String, Map<int, int>> serviceSelection = Map<String, Map<int, int>>();
   DateTime selectedTime, endTime;
+  ShowToolTip popup;
   String defaultBannerUrl =
       "https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80";
 
@@ -51,6 +52,13 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
   void initState() {
     getProviderInfo();
     super.initState();
+  }
+
+  Future<bool> _willPopCallback() async {
+    if (popup != null) {
+      popup.dismiss();
+    }
+    return true;
   }
 
   @override
@@ -88,71 +96,75 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                 : Container(
                     height: 0.0,
                   ),
-            body: SafeArea(
-              child: SingleChildScrollView(
-                child: Container(
-                  color: Colors.white,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      DetailCarouselWithIndicator(therapistDetails, widget.id),
-                      DetailProfileDetails(therapistDetails),
-                      therapistDetails.bookingDataResponse.length != 0 &&
-                              (therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus ==
-                                      9 ||
-                                  therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus ==
-                                      4 ||
-                                  therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus ==
-                                      5 ||
-                                  therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus ==
-                                      7 ||
-                                  therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus ==
-                                      8)
-                          ? buildOldBookingDetails(context)
-                          : Container(),
-                      therapistDetails.bookingDataResponse.length != 0 &&
-                              !(therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus ==
-                                      9 ||
-                                  therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus ==
-                                      4 ||
-                                  therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus ==
-                                      5 ||
-                                  therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus ==
-                                      7 ||
-                                  therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus ==
-                                      8)
-                          ? buildBookingDetails(context)
-                          : buildServices(context),
-                      therapistDetails.bookingDataResponse.length == 0 ||
-                              (therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus ==
-                                      9 ||
-                                  therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus ==
-                                      4 ||
-                                  therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus ==
-                                      5 ||
-                                  therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus ==
-                                      7 ||
-                                  therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus ==
-                                      8)
-                          ? dateTimeInfoBuilder(context)
-                          : Container()
-                    ],
+            body: WillPopScope(
+              onWillPop: _willPopCallback,
+              child: SafeArea(
+                child: SingleChildScrollView(
+                  child: Container(
+                    color: Colors.white,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        DetailCarouselWithIndicator(
+                            therapistDetails, widget.id),
+                        DetailProfileDetails(therapistDetails),
+                        therapistDetails.bookingDataResponse.length != 0 &&
+                                (therapistDetails.bookingDataResponse[0]
+                                            .bookingStatus ==
+                                        9 ||
+                                    therapistDetails.bookingDataResponse[0]
+                                            .bookingStatus ==
+                                        4 ||
+                                    therapistDetails.bookingDataResponse[0]
+                                            .bookingStatus ==
+                                        5 ||
+                                    therapistDetails.bookingDataResponse[0]
+                                            .bookingStatus ==
+                                        7 ||
+                                    therapistDetails.bookingDataResponse[0]
+                                            .bookingStatus ==
+                                        8)
+                            ? buildOldBookingDetails(context)
+                            : Container(),
+                        therapistDetails.bookingDataResponse.length != 0 &&
+                                !(therapistDetails.bookingDataResponse[0]
+                                            .bookingStatus ==
+                                        9 ||
+                                    therapistDetails.bookingDataResponse[0]
+                                            .bookingStatus ==
+                                        4 ||
+                                    therapistDetails.bookingDataResponse[0]
+                                            .bookingStatus ==
+                                        5 ||
+                                    therapistDetails.bookingDataResponse[0]
+                                            .bookingStatus ==
+                                        7 ||
+                                    therapistDetails.bookingDataResponse[0]
+                                            .bookingStatus ==
+                                        8)
+                            ? buildBookingDetails(context)
+                            : buildServices(context),
+                        therapistDetails.bookingDataResponse.length == 0 ||
+                                (therapistDetails.bookingDataResponse[0]
+                                            .bookingStatus ==
+                                        9 ||
+                                    therapistDetails.bookingDataResponse[0]
+                                            .bookingStatus ==
+                                        4 ||
+                                    therapistDetails.bookingDataResponse[0]
+                                            .bookingStatus ==
+                                        5 ||
+                                    therapistDetails.bookingDataResponse[0]
+                                            .bookingStatus ==
+                                        7 ||
+                                    therapistDetails.bookingDataResponse[0]
+                                            .bookingStatus ==
+                                        8)
+                            ? dateTimeInfoBuilder(context)
+                            : Container()
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -1271,7 +1283,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
           allTherapistList.addAll(therapistDetails.therapistEstheticList);
         }
         if (HealingMatchConstants.serviceType != 0 &&
-            HealingMatchConstants.serviceType == 2) {
+            HealingMatchConstants.serviceType == 4) {
           allTherapistList.addAll(therapistDetails.therapistRelaxationList);
         }
         if (HealingMatchConstants.serviceType != 0 &&
@@ -1279,7 +1291,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
           allTherapistList.addAll(therapistDetails.therapistOrteopathicList);
         }
         if (HealingMatchConstants.serviceType != 0 &&
-            HealingMatchConstants.serviceType == 4) {
+            HealingMatchConstants.serviceType == 2) {
           allTherapistList.addAll(therapistDetails.therapistFitnessListList);
         } else if (HealingMatchConstants.serviceType == 0 ||
             HealingMatchConstants.serviceType == null) {
@@ -1705,7 +1717,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
       TherapistList therapistListItem) {
     var width = MediaQuery.of(context).size.width - 10.0;
     print(width);
-    ShowToolTip popup = ShowToolTip(context, updateServiceSelection,
+    popup = ShowToolTip(context, updateServiceSelection,
         index: index,
         therapistListItem: therapistListItem,
         timePrice: serviceSelection[allTherapistList[index].name],
@@ -1920,7 +1932,6 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
       HealingMatchConstants.confServiceCost = finalAmount;
       HealingMatchConstants.confserviceCId = serviceCId;
       HealingMatchConstants.confserviceSubId = serviceSubId;
-      
     });
 
     print('EndDateTime:${HealingMatchConstants.confEndDateTime.weekday}');

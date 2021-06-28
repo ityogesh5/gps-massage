@@ -185,7 +185,7 @@ class _ChatUserListState extends State<ChatUserList> {
                                             );
                                           },
                                           child: Text(chatData.peer.username)),
-                                      subtitle: Text(chatData.peer.email),
+                                      subtitle: Text(""),
                                     ),
                                   ),
                                 );

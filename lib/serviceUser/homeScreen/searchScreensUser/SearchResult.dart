@@ -579,14 +579,36 @@ class _SearchResultState extends State<SearchResult> {
                                       widget.getTherapistsSearchResults[index]
                                           .storeName.isNotEmpty
                                   ? Text(
-                                      '${widget.getTherapistsSearchResults[index].storeName}',
+                                      widget.getTherapistsSearchResults[index]
+                                                  .storeName.length >
+                                              10
+                                          ? widget
+                                                  .getTherapistsSearchResults[
+                                                      index]
+                                                  .storeName
+                                                  .substring(0, 10) +
+                                              "..."
+                                          : widget
+                                              .getTherapistsSearchResults[index]
+                                              .storeName,
                                       style: TextStyle(
                                           fontSize: 14,
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold),
                                     )
                                   : Text(
-                                      '${widget.getTherapistsSearchResults[index].userName}',
+                                      widget.getTherapistsSearchResults[index]
+                                                  .userName.length >
+                                              10
+                                          ? widget
+                                                  .getTherapistsSearchResults[
+                                                      index]
+                                                  .userName
+                                                  .substring(0, 10) +
+                                              "..."
+                                          : widget
+                                              .getTherapistsSearchResults[index]
+                                              .userName,
                                       style: TextStyle(
                                           fontSize: 14,
                                           color: Colors.black,
@@ -1633,14 +1655,36 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                                       widget.getTherapistsSearchResults[index]
                                           .storeName.isNotEmpty
                                   ? Text(
-                                      '${widget.getTherapistsSearchResults[index].storeName}',
+                                      widget.getTherapistsSearchResults[index]
+                                                  .storeName.length >
+                                              10
+                                          ? widget
+                                                  .getTherapistsSearchResults[
+                                                      index]
+                                                  .storeName
+                                                  .substring(0, 10) +
+                                              "..."
+                                          : widget
+                                              .getTherapistsSearchResults[index]
+                                              .storeName,
                                       style: TextStyle(
                                           fontSize: 14,
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold),
                                     )
                                   : Text(
-                                      '${widget.getTherapistsSearchResults[index].userName}',
+                                      widget.getTherapistsSearchResults[index]
+                                                  .userName.length >
+                                              10
+                                          ? widget
+                                                  .getTherapistsSearchResults[
+                                                      index]
+                                                  .userName
+                                                  .substring(0, 10) +
+                                              "..."
+                                          : widget
+                                              .getTherapistsSearchResults[index]
+                                              .userName,
                                       style: TextStyle(
                                           fontSize: 14,
                                           color: Colors.black,

@@ -65,8 +65,8 @@ class _ShiftTimingState extends State<ShiftTiming> {
   @override
   void initState() {
     super.initState();
-    startTime = 9;
-    endTime = 20;
+    startTime = 0;
+    endTime = 23;
     displayDay = today;
     _cyear = DateTime.now().year;
     _cmonth = DateTime.now().month;
@@ -87,11 +87,11 @@ class _ShiftTimingState extends State<ShiftTiming> {
 
   timeBuilder(int year, int month) {
     DateTime start =
-        DateTime(year, month, 1, 9, 0); //1st day is mentioned as dummy
+        DateTime(year, month, 1, startTime, 0); //1st day is mentioned as dummy
     if (timeRow != null) {
       timeRow.clear();
     }
-    while (start.hour != endTime) {
+    while (start.hour <= endTime && start.day == 1) {
       timeRow.add(start);
       start = start.add(Duration(minutes: 15));
     }

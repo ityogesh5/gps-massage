@@ -1128,8 +1128,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                   hour: 0, minute: 0),
                                               minimumTime: HourMinute(
                                                   hour: 0, minute: 0),
-                                              maximumTime: HourMinute(
-                                                  hour: 24, minute: 00),
+                                              maximumTime: HourMinute.MAX,
                                               date: displayDay,
                                               inScrollableWidget: true,
                                               hoursColumnStyle:

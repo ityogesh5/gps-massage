@@ -436,7 +436,7 @@ class ServiceProviderApi {
     event.status = isCancel ? "cancelled" : "confirmed";
 
     event.summary =
-        "SP${bookingDetailsList.bookingDetail.therapistId},${HealingMatchConstants.providerName},SU${bookingDetailsList.userId},${bookingDetailsList.bookingDetail.bookingUserId.userName}";
+        "SP${bookingDetailsList.bookingDetail.therapistId},${HealingMatchConstants.providerName},SU${bookingDetailsList.userId},${bookingDetailsList.bookingDetail.bookingUserId.userName}(${bookingDetailsList.bookingDetail.bookingUserId.gender})";
     event.description =
         "${bookingDetailsList.bookingDetail.nameOfService},¥${bookingDetailsList.bookingDetail.priceOfService + bookingDetailsList.bookingDetail.travelAmount}";
     event.location =
