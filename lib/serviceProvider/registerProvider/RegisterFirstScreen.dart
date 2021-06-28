@@ -1485,7 +1485,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                           child: DropDownFormField(
                                             titleText: null,
                                             hintText:
-                                                readonly ? myState : '都、県選択',
+                                                readonly ? myState : '都道府県',
                                             onSaved: (value) {
                                               setState(() {
                                                 myState = value;
@@ -1527,7 +1527,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                     margin: EdgeInsets.all(0.0),
                                     child: DropDownFormField(
                                       titleText: null,
-                                      hintText: readonly ? myCity : '市',
+                                      hintText: readonly ? myCity : '市区町村',
                                       onSaved: (value) {
                                         setState(() {
                                           myCity = value;

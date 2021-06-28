@@ -1117,7 +1117,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                                   0.39,
                                               child: DropDownFormField(
                                                   requiredField: true,
-                                                  hintText: '府県 ',
+                                                  hintText: '都道府県 ',
                                                   value: _myPrefecture,
                                                   onSaved: (value) {
                                                     setState(() {
@@ -1157,7 +1157,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                                       .width *
                                                   0.39,
                                               child: DropDownFormField(
-                                                  hintText: '府県 ',
+                                                  hintText: '都道府県 ',
                                                   value: _myPrefecture,
                                                   onSaved: (value) {
                                                     setState(() {
@@ -1181,7 +1181,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                                   0.39,
                                               child: DropDownFormField(
                                                   requiredField: true,
-                                                  hintText: '市 ',
+                                                  hintText: '市区町村 ',
                                                   value: _myCity,
                                                   onSaved: (value) {
                                                     setState(() {
@@ -1217,7 +1217,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                                   0.39,
                                               child: DropDownFormField(
                                                   requiredField: true,
-                                                  hintText: '市 ',
+                                                  hintText: '市区町村 ',
                                                   value: _myCity,
                                                   onSaved: (value) {
                                                     setState(() {

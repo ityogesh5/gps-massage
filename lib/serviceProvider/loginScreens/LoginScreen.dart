@@ -438,7 +438,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
         userPhoneNumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('正しい電話番号を入力してください。',
+        content: Text('電話番号・パスワードに誤りがあるか、登録されていません。',
             style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
@@ -470,7 +470,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
     if (password.length < 8 || password.length > 16) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('正しい電話番号とパスワードを入力してください。 ',
+        content: Text('電話番号・パスワードに誤りがあるか、登録されていません。 ',
             style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
