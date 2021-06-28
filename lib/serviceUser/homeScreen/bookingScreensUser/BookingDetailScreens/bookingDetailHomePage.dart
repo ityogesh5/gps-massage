@@ -109,14 +109,21 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
       }
 
       if (this.mounted) {
-        setState(() {
-          userRegisteredAddress =
-              HealingMatchConstants.userRegisteredAddressDetail;
-          userPlaceForMassage = HealingMatchConstants.userPlaceForMassage;
-          getServiceType();
+        if (therapistDetails.data.businessTrip == false) {
+          setState(() {
+            shopLocationSelected = true;
+            status = 1;
+          });
+        } else {
+          setState(() {
+            userRegisteredAddress =
+                HealingMatchConstants.userRegisteredAddressDetail;
+            userPlaceForMassage = HealingMatchConstants.userPlaceForMassage;
+            getServiceType();
 
-          status = 1;
-        });
+            status = 1;
+          });
+        }
       }
     } catch (e) {
       ProgressDialogBuilder.hideLoader(context);
@@ -522,7 +529,16 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
           //side: BorderSide(color: Colors.black),
         ),
         color: Colors.red,
-        onPressed: () {},
+        onPressed: () {
+          HealingMatchConstants.bookingIdPay =
+              therapistDetails.bookingDataResponse[0].id;
+
+          HealingMatchConstants.therapistIdPay =
+              therapistDetails.bookingDataResponse[0].therapistId;
+          HealingMatchConstants.confServiceCost =
+              therapistDetails.bookingDataResponse[0].priceOfService;
+          HealingMatchConstants.initiatePayment(context);
+        },
         child: new Text(
           '受け入れて支払う',
           style: TextStyle(
@@ -579,7 +595,16 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
           //side: BorderSide(color: Colors.black),
         ),
         color: Colors.red,
-        onPressed: () {},
+        onPressed: () {
+          HealingMatchConstants.bookingIdPay =
+              therapistDetails.bookingDataResponse[0].id;
+
+          HealingMatchConstants.therapistIdPay =
+              therapistDetails.bookingDataResponse[0].therapistId;
+          HealingMatchConstants.confServiceCost =
+              therapistDetails.bookingDataResponse[0].priceOfService;
+          HealingMatchConstants.initiatePayment(context);
+        },
         child: new Text(
           '支払いに進む',
           style: TextStyle(
@@ -1336,10 +1361,10 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                             HealingMatchConstants.therapistProfileDetails
                                         .bookingDataResponse[0].addedPrice !=
                                     null
-                                ? "¥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].addedPrice}  "
+                                ? "${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].addedPrice}  "
                                 : '交通費',
                             style:
-                                TextStyle(fontSize: 14.0, color: Colors.grey),
+                                TextStyle(fontSize: 14.0, color: Colors.black),
                           ),
                           SizedBox(height: 20),
                           Text(
@@ -2564,7 +2589,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                             height: 14, width: 14),
                         SizedBox(width: 7),
                         new Text(
-                          '${selectedTime.hour}:${selectedTime.minute} ～ ${endTime.hour}:${endTime.minute}',
+                          '$sTime ～ $eTime',
                           style: TextStyle(
                               color: Colors.grey[400],
                               fontSize: 12,

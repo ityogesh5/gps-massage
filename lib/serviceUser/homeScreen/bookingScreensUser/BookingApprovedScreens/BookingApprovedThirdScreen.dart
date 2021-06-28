@@ -231,7 +231,7 @@ class _BookingApproveThirdScreenState extends State<BookingApproveThirdScreen> {
                                             .bookingDataResponse[0]
                                             .addedPrice !=
                                         null
-                                    ? "¥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].addedPrice}  "
+                                    ? "${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].addedPrice}  "
                                     : '交通費',
                                 style: TextStyle(
                                     fontSize: 14.0, color: Colors.black),
@@ -963,13 +963,19 @@ class _BookingApproveThirdScreenState extends State<BookingApproveThirdScreen> {
                               fontSize: 12,
                               fontWeight: FontWeight.bold),
                         ),
-                        Text(
-                          "(${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].addedPrice}-${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].travelAmount})",
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 12,
-                          ),
-                        ),
+                        HealingMatchConstants.therapistProfileDetails
+                                    .bookingDataResponse[0].travelAmount >
+                                0
+                            ? Flexible(
+                                child: Text(
+                                  "(${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].addedPrice}込み- ￥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].travelAmount})",
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                              )
+                            : Container(),
                       ],
                     ),
                     SizedBox(

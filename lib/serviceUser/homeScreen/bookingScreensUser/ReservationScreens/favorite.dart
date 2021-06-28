@@ -798,7 +798,12 @@ class _FavoriteState extends State<Favorite> {
 
                                                         Flexible(
                                                           child: Text(
-                                                            '${favouriteUserList[index].favouriteTherapistId.addresses[0].address}',
+                                                            favouriteUserList[
+                                                                        index]
+                                                                    .favouriteTherapistId
+                                                                    .isShop
+                                                                ? '${favouriteUserList[index].favouriteTherapistId.addresses[0].address}'
+                                                                : '  ${favouriteUserList[index].favouriteTherapistId.addresses[0].capitalAndPrefecture} ${favouriteUserList[index].favouriteTherapistId.addresses[0].cityName} ${favouriteUserList[index].favouriteTherapistId.addresses[0].area}',
                                                             style: TextStyle(
                                                                 color: Color
                                                                     .fromRGBO(

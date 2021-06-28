@@ -1508,6 +1508,13 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
         ),
         color: Colors.red,
         onPressed: () {
+          HealingMatchConstants.bookingIdPay =
+              therapistDetails.bookingDataResponse[0].id;
+
+          HealingMatchConstants.therapistIdPay =
+              therapistDetails.bookingDataResponse[0].therapistId;
+          HealingMatchConstants.confServiceCost =
+              therapistDetails.bookingDataResponse[0].priceOfService;
           HealingMatchConstants.initiatePayment(context);
         },
         child: new Text(
@@ -1920,7 +1927,6 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
       HealingMatchConstants.confServiceCost = finalAmount;
       HealingMatchConstants.confserviceCId = serviceCId;
       HealingMatchConstants.confserviceSubId = serviceSubId;
-      
     });
 
     print('EndDateTime:${HealingMatchConstants.confEndDateTime.weekday}');

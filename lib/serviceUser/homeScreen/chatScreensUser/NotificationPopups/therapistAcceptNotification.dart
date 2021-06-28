@@ -196,7 +196,7 @@ class _TherapistAcceptNotificationState
               radioButtonValue: (value) {
                 if (value == 'Y') {
                   setState(() {
-                    isCancelSelected = true;
+                    isCancelSelected = !isCancelSelected;
                   });
                 } else {
                   setState(() {
@@ -440,7 +440,7 @@ class _TherapistAcceptNotificationState
                           width: 8,
                         ),
                         Text(
-                          '¥${requestBookingDetailsList.bookingDetail.totalCost}',
+                          '¥${requestBookingDetailsList.bookingDetail.priceOfService + requestBookingDetailsList.bookingDetail.travelAmount}',
                           style: TextStyle(
                             fontSize: 14.0,
                             color: Colors.black,
@@ -448,11 +448,13 @@ class _TherapistAcceptNotificationState
                           ),
                         ),
                         requestBookingDetailsList.bookingDetail.travelAmount > 0
-                            ? Text(
-                                ' (${requestBookingDetailsList.bookingDetail.addedPrice} - ${requestBookingDetailsList.bookingDetail.travelAmount}) ',
-                                style: TextStyle(
-                                  fontSize: 10.0,
-                                  color: Color.fromRGBO(102, 102, 102, 1),
+                            ? Flexible(
+                                child: Text(
+                                  ' (${requestBookingDetailsList.bookingDetail.addedPrice}込み- ￥ ${requestBookingDetailsList.bookingDetail.travelAmount}) ',
+                                  style: TextStyle(
+                                    fontSize: 10.0,
+                                    color: Color.fromRGBO(102, 102, 102, 1),
+                                  ),
                                 ),
                               )
                             : Container(),
@@ -624,7 +626,7 @@ class _TherapistAcceptNotificationState
                             requestBookingDetailsList
                                         .bookingDetail.addedPrice !=
                                     null
-                                ? "¥${requestBookingDetailsList.bookingDetail.addedPrice}  "
+                                ? "${requestBookingDetailsList.bookingDetail.addedPrice}  "
                                 : '交通費',
                             style:
                                 TextStyle(fontSize: 14.0, color: Colors.black),

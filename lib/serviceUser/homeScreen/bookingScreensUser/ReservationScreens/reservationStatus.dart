@@ -440,7 +440,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                           waitingForApprovalList.length != 0
                               ? Container(
                                   // height: MediaQuery.of(context).size.height * 0.37,
-                                  height: 275,
+                                  height: 277,
                                   width:
                                       MediaQuery.of(context).size.width * 0.95,
                                   child: ListView.builder(
@@ -1111,7 +1111,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                           approvedWithConditionsList.length != 0
                               ? Container(
                                   // height: MediaQuery.of(context).size.height *
-                                  height: 280,
+                                  height: 282,
                                   width:
                                       MediaQuery.of(context).size.width * 0.95,
                                   child: ListView.builder(
@@ -1232,8 +1232,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                     .all(12.0),
                                                             child: SvgPicture.asset(
                                                                 'assets/images_gps/chat.svg',
-                                                                height: 15,
-                                                                width: 15),
+                                                                height: 20,
+                                                                width: 20),
                                                           ),
                                                         ),
                                                       ),
@@ -1278,8 +1278,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                     .all(12.0),
                                                             child: SvgPicture.asset(
                                                                 'assets/images_gps/accept.svg',
-                                                                height: 15,
-                                                                width: 15),
+                                                                height: 20,
+                                                                width: 20),
                                                           ),
                                                         ),
                                                       ),
@@ -1892,7 +1892,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                           approvedList.length != 0
                               ? Container(
                                   // height: MediaQuery.of(context).size.height * 0.39,
-                                  height: 285,
+                                  height: 287,
                                   width:
                                       MediaQuery.of(context).size.width * 0.95,
                                   child: ListView.builder(
@@ -1991,9 +1991,9 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                   .asset(
                                                                       'assets/images_gps/chat.svg',
                                                                       height:
-                                                                          15,
+                                                                          20,
                                                                       width:
-                                                                          15),
+                                                                          20),
                                                             ),
                                                           ),
                                                         )),
@@ -2043,8 +2043,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         193,
                                                                         7,
                                                                         1),
-                                                                height: 15,
-                                                                width: 15),
+                                                                height: 20,
+                                                                width: 20),
                                                           ),
                                                         ),
                                                       ),
@@ -2091,8 +2091,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         217,
                                                                         217,
                                                                         1),
-                                                                height: 15,
-                                                                width: 15),
+                                                                height: 20,
+                                                                width: 20),
                                                           ),
                                                         ),
                                                       ),
@@ -2707,7 +2707,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                           confirmedPaymentList.length != 0
                               ? Container(
                                   // height: MediaQuery.of(context).size.height * 0.39,
-                                  height: 280,
+                                  height: 282,
                                   width:
                                       MediaQuery.of(context).size.width * 0.95,
                                   child: ListView.builder(
@@ -2805,8 +2805,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                     .all(12.0),
                                                             child: SvgPicture.asset(
                                                                 'assets/images_gps/chat.svg',
-                                                                height: 15,
-                                                                width: 15),
+                                                                height: 20,
+                                                                width: 20),
                                                           ),
                                                         ),
                                                       ),
@@ -2852,8 +2852,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         217,
                                                                         217,
                                                                         1),
-                                                                height: 15,
-                                                                width: 15),
+                                                                height: 20,
+                                                                width: 20),
                                                           ),
                                                         ),
                                                       ),
@@ -3466,7 +3466,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                           canceledReservationList.length != 0
                               ? Container(
                                   // height: MediaQuery.of(context).size.height * 0.35,
-                                  height: 275,
+                                  height: 277,
                                   width:
                                       MediaQuery.of(context).size.width * 0.95,
                                   child: ListView.builder(
