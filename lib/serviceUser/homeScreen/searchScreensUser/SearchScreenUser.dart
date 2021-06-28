@@ -911,12 +911,17 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                       if (btnState == ButtonState.Idle && !isGPSLoading) {
                         this.stopLoading = stopLoading;
                         startLoading();
-                        timeDurationSinceDate(DateTime(
-                            _cyear,
-                            _cmonth,
-                            _currentDay,
-                            HealingMatchConstants.dateTime.hour,
-                            HealingMatchConstants.dateTime.minute));
+                        if (keywordController.text == "" ||
+                            keywordController.text == null) {
+                          timeDurationSinceDate(DateTime(
+                              _cyear,
+                              _cmonth,
+                              _currentDay,
+                              HealingMatchConstants.dateTime.hour,
+                              HealingMatchConstants.dateTime.minute));
+                        } else {
+                          getAddressType();
+                        }
                       }
                     },
                   ),

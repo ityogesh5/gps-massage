@@ -477,11 +477,11 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                     ),
                                                     SizedBox(width: 5.0),
                                                     RatingBar.builder(
-                                                      initialRating:
-                                                          double.parse(
+                                                      initialRating: 4.5,
+                                                      /* double.parse(
                                                               therapistDetails
                                                                   .reviewData
-                                                                  .ratingAvg),
+                                                                  .ratingAvg), */
                                                       minRating: 1,
                                                       direction:
                                                           Axis.horizontal,
@@ -507,8 +507,9 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                                         0.0),
                                                                 // color: Colors.white,
                                                                 icon: index >
-                                                                        (double.parse(therapistDetails.reviewData.ratingAvg)).ceilToDouble() -
-                                                                            1
+                                                                        4.5
+                                                                    /*  (double.parse(therapistDetails.reviewData.ratingAvg)).ceilToDouble() -
+                                                                            1 */
                                                                     ? SvgPicture
                                                                         .asset(
                                                                         "assets/images_gps/star_2.svg",

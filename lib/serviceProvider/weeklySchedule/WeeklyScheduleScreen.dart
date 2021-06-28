@@ -183,6 +183,7 @@ class _WeeklyScheduleState extends State<WeeklySchedule> {
         ? DateTime.parse(requestBookingDetailsList[index].newEndTime).toLocal()
         : requestBookingDetailsList[index].endTime.toLocal();
     String jaName = DateFormat('EEEE', 'ja_JP').format(startTime);
+    String jaSingleName = DateFormat('E', 'ja_JP').format(startTime);
     bool dayChange = false;
     bool timeChange = false;
 
@@ -218,7 +219,7 @@ class _WeeklyScheduleState extends State<WeeklySchedule> {
                         )),
                   ),
                   Text(
-                    "$year-$month-$day 月",
+                    "$year-$month-$day $jaSingleName",
                     style: TextStyle(
                       fontSize: 12.0,
                       color: Colors.grey,
@@ -601,7 +602,7 @@ class _WeeklyScheduleState extends State<WeeklySchedule> {
                 ),
                 requestBookingDetailsList[index].bookingStatus == 6
                     ? Positioned(
-                        top: 85.0, //88.0
+                        top: 88.0,
                         right: 10.0,
                         child: InkWell(
                           onTap: () {

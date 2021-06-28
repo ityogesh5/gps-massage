@@ -98,7 +98,13 @@ class _GivenRatingReviewScreenState extends State<GivenRatingReviewScreen> {
                             child: Row(
                               children: [
                                 Text(
-                                  '${HealingMatchConstants.serviceUserName}さんについてのレビュー',
+                                  HealingMatchConstants.serviceUserName.length >
+                                          10
+                                      ? HealingMatchConstants.serviceUserName
+                                              .substring(0, 10) +
+                                          "..."
+                                      : HealingMatchConstants.serviceUserName +
+                                          ' さんについてのレビュー',
                                   style: TextStyle(
                                       color: Color.fromRGBO(0, 0, 0, 1),
                                       fontSize: 14.0,

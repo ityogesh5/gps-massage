@@ -1491,6 +1491,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                                 myState = value;
                                               });
                                             },
+                                            requiredField: true,
                                             value: myState,
                                             onChanged: (value) {
                                               setState(() {
@@ -1527,6 +1528,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                     margin: EdgeInsets.all(0.0),
                                     child: DropDownFormField(
                                       titleText: null,
+                                      requiredField: true,
                                       hintText: readonly ? myCity : '市',
                                       onSaved: (value) {
                                         setState(() {

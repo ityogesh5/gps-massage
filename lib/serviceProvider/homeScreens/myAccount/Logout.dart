@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/auth.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
@@ -59,7 +60,7 @@ class _ProviderLogoutState extends State<ProviderLogout> {
               ButtonTheme(
                 minWidth: MediaQuery.of(context).size.width * 0.30,
                 child: CustomToggleButton(
-                  initialValue: 0,
+                  initialValue: 1,
                   elevation: 0,
                   height: 50.0,
                   width: MediaQuery.of(context).size.width * 0.30,
@@ -77,6 +78,7 @@ class _ProviderLogoutState extends State<ProviderLogout> {
                   ],
                   radioButtonValue: (value) {
                     if (value == 'Y') {
+                      ProgressDialogBuilder.showCommonProgressDialog(context);
                       ServiceProviderApi.logOutApi().then((value) {
                         if (value) {
                           Auth().signOut();
@@ -86,6 +88,8 @@ class _ProviderLogoutState extends State<ProviderLogout> {
                             value.setBool('isUserLoggedOut', false);
                             value.setBool('isProviderRegister', false);
                           });
+                          ProgressDialogBuilder.hideCommonProgressDialog(
+                              context);
                           NavigationRouter.switchToProviderLogin(context);
                         }
                       });
