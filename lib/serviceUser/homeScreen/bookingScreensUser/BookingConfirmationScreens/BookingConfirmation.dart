@@ -18,6 +18,7 @@ import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 
 double ratingsValue = 4.0;
 bool checkValue = false;
@@ -59,6 +60,8 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
     ..forceAndroidLocationManager;
   String sTime, eTime;
   var selectedBuildingType = '店舗';
+  var currentLoading;
+  bool isBookingLoading = false;
 
   @override
   void initState() {
@@ -797,8 +800,12 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
           ),
         ),
         onTap: (startLoading, stopLoading, btnState) {
-          if (btnState == ButtonState.Idle) {
+          if (btnState == ButtonState.Idle && !isBookingLoading) {
+            this.currentLoading = stopLoading;
             startLoading();
+            setState(() {
+              isBookingLoading = true;
+            });
             _getLatAndLongFromAddress();
           }
         },
@@ -951,6 +958,43 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
   }
 
   _getLatAndLongFromAddress() async {
+    if ((HealingMatchConstants.confServiceAddressType != '店舗') &&
+        selectedBuildingType == '店舗') {
+      currentLoading();
+      isBookingLoading = false;
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('施術を受ける建物を選んでください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+
+      currentLoading();
+    }
+    if ((selectedBuildingType == 'その他') &&
+        (_otherBuildingController.text == null ||
+            _otherBuildingController.text.isEmpty)) {
+      currentLoading();
+      isBookingLoading = false;
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('施術を受ける建物を8文字以内で入力してください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+
+      currentLoading();
+    }
     var splitAddress = HealingMatchConstants.confServiceAddress.split(' ');
     List<Location> address = await locationFromAddress(
         Platform.isIOS
@@ -960,6 +1004,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
 
     var searchAddressLatitude = address[0].latitude;
     var searchAddressLongitude = address[0].longitude;
+
     _getAddressFromLatLng(searchAddressLatitude, searchAddressLongitude);
   }
 
@@ -979,6 +1024,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
 
   _updateUserBookingDetails() async {
     //   ProgressDialogBuilder.showOverlayLoader(context);
+
     int therapistId = HealingMatchConstants.confTherapistId;
     String startTime =
         HealingMatchConstants.confSelectedDateTime.toLocal().toString();
@@ -1006,6 +1052,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
     print('Entering on press');
     print('StartTime: ${HealingMatchConstants.confSelectedDateTime.toLocal()}');
     print('StartTime: ${startTime}');
+
     CalendarEventCreateReqModel calendarEventCreateReqModel =
         CalendarEventCreateReqModel(
       HealingMatchConstants.serviceUserID,

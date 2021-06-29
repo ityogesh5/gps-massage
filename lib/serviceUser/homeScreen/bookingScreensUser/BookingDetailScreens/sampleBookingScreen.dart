@@ -1794,7 +1794,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
       if (name.contains("はり")) {
         return "assets/images_gps/subCategory/osteopathic/needle.svg";
       } else if (name.contains("美容鍼（顔）")) {
-        return "assets/images_gps/subCategory/osteopathic/beautyAcupunctureFace.svg";
+        return "assets/images_gps/subCategory/osteopathic/beautyAcupuncture.svg";
       } else if (name.contains("きゅう")) {
         return "assets/images_gps/subCategory/osteopathic/Kyu.svg";
       } else if (name == ("ベビーマッサージ")) {

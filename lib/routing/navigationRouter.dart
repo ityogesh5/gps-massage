@@ -1253,7 +1253,7 @@ class NavigationRouter {
   static void switchToServiceUserReservationAndFavourite(BuildContext context) {
     Navigator.of(context).push(PageRouteBuilder(
         pageBuilder: (context, animation, anotherAnimation) {
-          return ReservationAndFavourite();
+          return BottomBarUser(2);
         },
         transitionDuration: Duration(milliseconds: 2000),
         transitionsBuilder: (context, animation, anotherAnimation, child) {
@@ -1267,6 +1267,18 @@ class NavigationRouter {
             ),
           );
         }));
+  }
+
+  //Reservation Completed Screen
+  static void switchToUserCompletedHistoryScreen(BuildContext context) {
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => BottomBarUser(
+                  2,
+                  historyPage: 1,
+                )));
   }
 
   // Service Provider Chat Screen
