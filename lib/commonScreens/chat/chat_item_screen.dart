@@ -35,7 +35,8 @@ class ChatItemScreen extends StatefulWidget {
   _ChatItemScreenState createState() => _ChatItemScreenState();
 }
 
-class _ChatItemScreenState extends State<ChatItemScreen> {
+class _ChatItemScreenState extends State<ChatItemScreen>
+    with WidgetsBindingObserver {
   DB db;
 
   // keep track of last fetched message to get messages only after this message
@@ -73,12 +74,14 @@ class _ChatItemScreenState extends State<ChatItemScreen> {
   GlobalKey textFieldKey = GlobalKey();
   Message msgToReply;
   bool replied = false;
+  String lastTimeStamp;
 
   FocusNode bodyFocusNode;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     print('initcalled =============');
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: ColorConstants.statusBarColor,
@@ -104,12 +107,23 @@ class _ChatItemScreenState extends State<ChatItemScreen> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _textEditingController.dispose();
     _scrollController.removeListener(() {});
     _scrollController.dispose();
     _textFieldFocusNode.dispose();
     bodyFocusNode.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      setState(() {});
+    } else if (state == AppLifecycleState.paused) {
+      lastSnapshot = widget.chatData.lastDoc;
+      lastTimeStamp = widget.chatData.messages[0].timeStamp;
+    }
   }
 
   void onMessageSend(String content, MessageType type,
@@ -327,6 +341,13 @@ class _ChatItemScreenState extends State<ChatItemScreen> {
               // if new snapshot is a message from this UserDetail, find the last seen message index
               if (newMsg.fromId == userId && newMsg.isSeen) {
                 handleSeenStatusWhenFromMe(newMsg);
+              }
+              if (!widget.chatData.messageId
+                      .contains(newMsg.fromId + newMsg.timeStamp) &&
+                  newMsg.fromId != HealingMatchConstants.fbUserId) {
+                //  chatData.addMessage(newMsg);
+                widget.chatData.messages.insert(1, newMsg);
+                widget.chatData.messageId.add(newMsg.fromId + newMsg.timeStamp);
               }
               // }
             }

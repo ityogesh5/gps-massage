@@ -18,7 +18,8 @@ class ChatUserList extends StatefulWidget {
   _ChatUserListState createState() => _ChatUserListState();
 }
 
-class _ChatUserListState extends State<ChatUserList> {
+class _ChatUserListState extends State<ChatUserList>
+    with WidgetsBindingObserver {
   bool _value = false;
   int _tabIndex = 0;
   TabController _tabController;
@@ -31,10 +32,28 @@ class _ChatUserListState extends State<ChatUserList> {
   List<ChatData> chatData = List<ChatData>();
   var userName, userEmail, userChat;
   var isOnline = false;
+  AppLifecycleState appState;
 
+  @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     getChatDetailsFromFirebase();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      contactList.clear();
+      chatData.clear();
+      getChatDetailsFromFirebase();
+    }
   }
 
   getChatDetailsFromFirebase() {
@@ -129,7 +148,9 @@ class _ChatUserListState extends State<ChatUserList> {
                                         child: Column(
                                           children: [
                                             Text(
-                                              '予約が完了した後にメッセージのやり取りができます。',
+                                              HealingMatchConstants.isProvider
+                                                  ? "利用者からの予約リクエストを承認した後メッセージのやり取りができます。"
+                                                  : '予約が完了した後にメッセージのやり取りができます。',
                                               style: TextStyle(
                                                   fontSize: 14,
                                                   fontFamily: 'NotoSansJP',

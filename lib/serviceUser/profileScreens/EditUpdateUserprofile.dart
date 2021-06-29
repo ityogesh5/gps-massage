@@ -2271,7 +2271,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       ));
       return null;
     }
-    // user phone number validation
+    /* // user phone number validation
     if (userPhoneNumber != null &&
         userPhoneNumber.isNotEmpty &&
         userPhoneNumber.length > 10) {
@@ -2301,7 +2301,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         ),
       ));
       return null;
-    }
+    } */
 
     // user phone number validation
     if (userPhoneNumber != null || userPhoneNumber.isNotEmpty) {
