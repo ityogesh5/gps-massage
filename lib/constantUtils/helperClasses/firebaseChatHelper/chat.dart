@@ -76,10 +76,12 @@ class Chat with ChangeNotifier {
 
     int unreadCount = 0;
     List<Message> messages = [];
+    List<String> messageId = [];
     for (int i = 0; i < messagesData.docs.length; i++) {
       var tmp = Message.fromMap(
           Map<String, dynamic>.from(messagesData.docs[i].data()));
       messages.add(tmp);
+      messageId.add(tmp.fromId + tmp.timeStamp);
       if (tmp.fromId == peerId && !tmp.isSeen) unreadCount++;
     }
 
@@ -95,6 +97,7 @@ class Chat with ChangeNotifier {
       messages: messages,
       lastDoc: lastDoc,
       unreadCount: unreadCount,
+      messageId: messageId,
     );
     return chatData;
   }

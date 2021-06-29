@@ -276,7 +276,7 @@ class _ChatUserListState extends State<ChatUserList> {
       lastMessage = chatData[index].messages[0];
       lastMessageDate =
           DateTime.fromMillisecondsSinceEpoch(int.parse(lastMessage.timeStamp));
-      _stream = db.getSnapshotsWithLimit(chatData[index].groupId, 1);
+      _stream = db.getSnapshotsWithLimit(chatData[index].groupId, 2);
     }
 
     return InkWell(
@@ -388,10 +388,17 @@ class _ChatUserListState extends State<ChatUserList> {
                               return Container(height: 0, width: 0);
                             else {
                               if (snapshots.data.documents.isNotEmpty) {
+                                if (snapshots.data.documents.length > 1) {
+                                  final snapshot1 = snapshots.data.documents[1];
+                                  Message newMsg1 =
+                                      Message.fromMap(snapshot1.data());
+                                  _addNewMessages(newMsg1, chatData[index]);
+                                }
                                 final snapshot = snapshots.data.documents[0];
                                 Message newMsg =
                                     Message.fromMap(snapshot.data());
                                 _addNewMessages(newMsg, chatData[index]);
+
                                 return Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -423,14 +430,17 @@ class _ChatUserListState extends State<ChatUserList> {
                                               ],
                                             ),
                                           )
-                                        : Flexible(
-                                            child: Text(newMsg.content,
-                                                style: TextStyle(
-                                                    color: Color.fromRGBO(
-                                                        153, 153, 153, 1),
-                                                    fontSize: 10),
-                                                textAlign: TextAlign.left),
-                                          ),
+                                        : Text(
+                                            newMsg.content.length < 20
+                                                ? newMsg.content
+                                                : newMsg.content
+                                                        .substring(0, 20) +
+                                                    "...",
+                                            style: TextStyle(
+                                                color: Color.fromRGBO(
+                                                    153, 153, 153, 1),
+                                                fontSize: 10),
+                                            textAlign: TextAlign.left),
                                     Spacer(),
                                     Expanded(
                                       child: Row(
@@ -510,9 +520,11 @@ class _ChatUserListState extends State<ChatUserList> {
   // add new messages to ChatData and update unread count
   void _addNewMessages(Message newMsg, ChatData chatData) {
     final isIos = Theme.of(context).platform == TargetPlatform.iOS;
-    if (chatData.messages.isEmpty ||
-        newMsg.sendDate.isAfter(chatData.messages[0].sendDate)) {
+    if ((chatData.messages.isEmpty ||
+            newMsg.sendDate.isAfter(chatData.messages[0].sendDate)) &&
+        !chatData.messageId.contains(newMsg.fromId + newMsg.timeStamp)) {
       chatData.addMessage(newMsg);
+      chatData.messageId.add(newMsg.fromId + newMsg.timeStamp);
 
       if (newMsg.fromId != chatData.userId) {
         chatData.unreadCount++;
@@ -522,6 +534,21 @@ class _ChatUserListState extends State<ChatUserList> {
         // if(isIos)
         //   Utils.playSound('mp3/notificationIphone.mp3');
         // else Utils.playSound('mp3/notificationAndroid.mp3');
+
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          Provider.of<Chat>(context, listen: false)
+              .bringChatToTop(chatData.groupId);
+          setState(() {});
+        });
+      }
+    } else if (!chatData.messageId.contains(newMsg.fromId + newMsg.timeStamp) &&
+        newMsg.fromId != HealingMatchConstants.fbUserId) {
+      //  chatData.addMessage(newMsg);
+      chatData.messages.insert(1, newMsg);
+      chatData.messageId.add(newMsg.fromId + newMsg.timeStamp);
+
+      if (newMsg.fromId != chatData.userId) {
+        chatData.unreadCount++;
 
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
           Provider.of<Chat>(context, listen: false)

@@ -135,6 +135,9 @@ class _ChatItemScreenState extends State<ChatItemScreen> {
     // add message to messages list
     widget.chatData.messages.insert(0, newMessage);
 
+    //add messageId to List
+    widget.chatData.messageId.add(newMessage.fromId + newMessage.timeStamp);
+
     // set media message
     if (type == MessageType.Media) mediaMsg = newMessage;
 
@@ -307,8 +310,11 @@ class _ChatItemScreenState extends State<ChatItemScreen> {
           Message newMsg = Message.fromMap(snapshot.data());
           if (widget.chatData.messages.isNotEmpty) {
             // add message to the list only if it's after the first item in the list
-            if (newMsg.sendDate.isAfter(widget.chatData.messages[0].sendDate)) {
+            if (newMsg.sendDate.isAfter(widget.chatData.messages[0].sendDate) &&
+                !widget.chatData.messageId
+                    .contains(newMsg.fromId + newMsg.timeStamp)) {
               widget.chatData.messages.insert(0, newMsg);
+              widget.chatData.messageId.add(newMsg.fromId + newMsg.timeStamp);
 
               // // play notification sound
               // Utils.playSound('mp3/newMessage.mp3');
@@ -478,7 +484,7 @@ class _ChatItemScreenState extends State<ChatItemScreen> {
                           onSubmitted: (_) => send(),
                           onChanged: (value) {
                             if (this.mounted) {
-                              setState(() {
+                              /*    setState(() {
                                 if (_textEditingController.text.length > 0) {
                                   if (this.mounted) {
                                     _isTyping = true;
@@ -493,8 +499,8 @@ class _ChatItemScreenState extends State<ChatItemScreen> {
                                   _updateTypingStatus(_isTyping, userId);
                                 } else {
                                   _updateTypingStatus(false, userId);
-                                }
-                              });
+                                } 
+                              });*/
                             }
                           },
                         ),
@@ -511,7 +517,7 @@ class _ChatItemScreenState extends State<ChatItemScreen> {
                                   size: 25, color: Colors.white),
                               onPressed: () {
                                 send();
-                                _updateTypingStatus(false, userId);
+                                //  _updateTypingStatus(false, userId);
                               },
                             ),
                           ),
