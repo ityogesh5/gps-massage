@@ -364,37 +364,36 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                                                           .size
                                                           .width *
                                                       0.03),
-                                              Flexible(
-                                                  child: shopLocationSelected
-                                                      ? new Text(
-                                                          '${therapistDetails.data.addresses[0].address}',
-                                                          maxLines: 2,
-                                                          overflow: TextOverflow
-                                                              .visible,
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              color: Colors
-                                                                  .grey[500]),
-                                                        )
-                                                      : new Text(
-                                                          '$userRegisteredAddress',
-                                                          maxLines: 2,
-                                                          overflow: TextOverflow
-                                                              .visible,
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              color: Colors
-                                                                  .grey[500]),
-                                                        )),
-                                              SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.15),
+                                              shopLocationSelected
+                                                  ? Flexible(
+                                                      child: new Text(
+                                                        '${therapistDetails.data.addresses[0].address}',
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow
+                                                            .visible,
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontFamily:
+                                                                'NotoSansJP',
+                                                            color: Colors
+                                                                .grey[500]),
+                                                      ),
+                                                    )
+                                                  : Flexible(
+                                                      child: new Text(
+                                                        '$userRegisteredAddress',
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow
+                                                            .visible,
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontFamily:
+                                                                'NotoSansJP',
+                                                            color: Colors
+                                                                .grey[500]),
+                                                      ),
+                                                    ),
+                                              Spacer(),
                                               GestureDetector(
                                                 onTap: () =>
                                                     openUserLocationSelectionDialog(),
@@ -1616,7 +1615,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                     value.data.addresses.cast<UserAddresses>();
                 print(
                     'Address length loop : ${HealingMatchConstants.userAddressDetailsList.length}');
-                HealingMatchConstants.userAddressDetailsList.removeAt(0);
+                // HealingMatchConstants.userAddressDetailsList.removeAt(0);
                 openAddressListDialog();
               } else {
                 ProgressDialogBuilder.hideLoader(context);
@@ -2821,7 +2820,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
       if (name.contains("はり")) {
         return "assets/images_gps/subCategory/osteopathic/needle.svg";
       } else if (name.contains("美容鍼（顔）")) {
-        return "assets/images_gps/subCategory/osteopathic/beautyAcupunctureFace.svg";
+        return "assets/images_gps/subCategory/osteopathic/beautyAcupuncture.svg";
       } else if (name.contains("きゅう")) {
         return "assets/images_gps/subCategory/osteopathic/Kyu.svg";
       } else if (name == ("ベビーマッサージ")) {

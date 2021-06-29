@@ -65,7 +65,7 @@ class _GivenRatingListState extends State<GivenRatingList> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
-            NavigationRouter.switchToServiceUserBottomBarFavourite(context);
+            NavigationRouter.switchToUserCompletedHistoryScreen(context);
           },
         ),
         backgroundColor: Colors.transparent,

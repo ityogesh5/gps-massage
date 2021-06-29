@@ -21,8 +21,9 @@ var accessToken;
 
 class BottomBarUser extends StatefulWidget {
   final int page;
+  final int historyPage;
 
-  BottomBarUser(this.page);
+  BottomBarUser(this.page, {this.historyPage});
 
   @override
   _BottomBarUserState createState() => _BottomBarUserState();
@@ -31,16 +32,9 @@ class BottomBarUser extends StatefulWidget {
 class _BottomBarUserState extends State<BottomBarUser> {
   int selectedpage;
   int skippedPage;
+  var _pageOptions;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   static var fcmMessageid;
-
-  final _pageOptions = [
-    HomeScreen(),
-    SearchScreenUser(),
-    ReservationAndFavourite(),
-    ViewUserProfile(),
-    NotifyScreenUser(),
-  ];
 
   @override
   void initState() {
@@ -49,6 +43,14 @@ class _BottomBarUserState extends State<BottomBarUser> {
     selectedpage = widget.page; //initial Page
     skippedPage = widget.page;
     super.initState();
+    _pageOptions = [
+      HomeScreen(),
+      SearchScreenUser(),
+      ReservationAndFavourite(
+          widget.historyPage == null ? 0 : widget.historyPage),
+      ViewUserProfile(),
+      NotifyScreenUser(),
+    ];
     _sharedPreferences.then((value) {
       accessToken = value.getString('accessToken');
       if (accessToken != null) {

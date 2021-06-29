@@ -2170,8 +2170,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     if ((myState == null || myState.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content:
-            Text('有効な府県を選択してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
+        content: Text('有効な都道府県を選択してください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2186,8 +2186,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     if ((myCity == null || myCity.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content:
-            Text('有効な市を選択してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
+        content: Text('有効な市区町村を選択してください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();

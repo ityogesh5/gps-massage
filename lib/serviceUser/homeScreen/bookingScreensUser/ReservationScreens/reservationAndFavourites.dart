@@ -9,6 +9,8 @@ import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/Reserva
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/ReservationScreens/reservationStatus.dart';
 
 class ReservationAndFavourite extends StatefulWidget {
+  final int tabindex;
+  ReservationAndFavourite(this.tabindex);
   @override
   _ReservationAndFavouriteState createState() =>
       _ReservationAndFavouriteState();
@@ -23,8 +25,10 @@ class _ReservationAndFavouriteState extends State<ReservationAndFavourite>
   @override
   void initState() {
     super.initState();
+    _tabIndex = widget.tabindex;
     _tabController = TabController(vsync: this, length: 3);
     _tabController.addListener(_handleTabSelection);
+    _tabController.index = widget.tabindex;
 
     Loader.show(context,
         progressIndicator: SpinKitThreeBounce(color: Colors.lime));

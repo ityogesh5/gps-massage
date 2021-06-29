@@ -715,7 +715,7 @@ class _AddAddressState extends State<SearchAddAddress> {
     if (_myAddedPrefecture.isEmpty) {
       stopLoading();
       print('Manual address empty fields');
-      displaySnackBar("有効な府県を選択してください。");
+      displaySnackBar("有効な都道府県を選択してください。");
 
       return;
     }
@@ -723,7 +723,7 @@ class _AddAddressState extends State<SearchAddAddress> {
     if (_myAddedCity.isEmpty) {
       stopLoading();
       print('Manual address empty fields');
-      displaySnackBar("有効な市を選択してください。");
+      displaySnackBar("有効な市区町村を選択してください。");
 
       return;
     }
