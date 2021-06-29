@@ -702,13 +702,6 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                   converToLocalTime();
                                 }
 
-                                /*    _storeServiceTime = List<StoreServiceTime>.from(
-                                    json
-                                        .decode(HealingMatchConstants
-                                            .storeServiceTime)
-                                        .map((x) =>
-                                            StoreServiceTime.fromJson(x))); */
-
                                 Navigator.pop(context);
                               },
                               child: Icon(
@@ -823,15 +816,12 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             CustomSwitch(
                               activeColor: Colors.lime,
                               value: _storeServiceTime[0].shopOpen,
+                              dayName: _storeServiceTime[0].weekDay,
                               onChanged: (value) {
                                 print("VALUE : $value");
-                                if (value) {
-                                  refreshState(() {
-                                    _storeServiceTime[0].shopOpen = value;
-                                  });
-                                } else {
-                                  showConfirmDialog(0);
-                                }
+                                refreshState(() {
+                                  _storeServiceTime[0].shopOpen = value;
+                                });
                               },
                             ),
                           ],
@@ -934,15 +924,12 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             CustomSwitch(
                               activeColor: Colors.lime,
                               value: _storeServiceTime[1].shopOpen,
+                              dayName: _storeServiceTime[1].weekDay,
                               onChanged: (value) {
                                 print("VALUE : $value");
-                                if (value) {
-                                  refreshState(() {
-                                    _storeServiceTime[1].shopOpen = value;
-                                  });
-                                } else {
-                                  showConfirmDialog(1);
-                                }
+                                refreshState(() {
+                                  _storeServiceTime[1].shopOpen = value;
+                                });
                               },
                             ),
                           ],
@@ -1056,15 +1043,12 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             CustomSwitch(
                               activeColor: Colors.lime,
                               value: _storeServiceTime[2].shopOpen,
+                              dayName: _storeServiceTime[2].weekDay,
                               onChanged: (value) {
                                 print("VALUE : $value");
-                                if (value) {
-                                  refreshState(() {
-                                    _storeServiceTime[2].shopOpen = value;
-                                  });
-                                } else {
-                                  showConfirmDialog(2);
-                                }
+                                refreshState(() {
+                                  _storeServiceTime[2].shopOpen = value;
+                                });
                               },
                             ),
                           ],
@@ -1167,15 +1151,12 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             CustomSwitch(
                               activeColor: Colors.lime,
                               value: _storeServiceTime[3].shopOpen,
+                              dayName: _storeServiceTime[3].weekDay,
                               onChanged: (value) {
                                 print("VALUE : $value");
-                                if (value) {
-                                  refreshState(() {
-                                    _storeServiceTime[3].shopOpen = value;
-                                  });
-                                } else {
-                                  showConfirmDialog(3);
-                                }
+                                refreshState(() {
+                                  _storeServiceTime[3].shopOpen = value;
+                                });
                               },
                             ),
                           ],
@@ -1278,15 +1259,12 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             CustomSwitch(
                               activeColor: Colors.lime,
                               value: _storeServiceTime[4].shopOpen,
+                              dayName: _storeServiceTime[4].weekDay,
                               onChanged: (value) {
                                 print("VALUE : $value");
-                                if (value) {
-                                  refreshState(() {
-                                    _storeServiceTime[4].shopOpen = value;
-                                  });
-                                } else {
-                                  showConfirmDialog(4);
-                                }
+                                refreshState(() {
+                                  _storeServiceTime[4].shopOpen = value;
+                                });
                               },
                             ),
                           ],
@@ -1389,15 +1367,12 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             CustomSwitch(
                               activeColor: Colors.lime,
                               value: _storeServiceTime[5].shopOpen,
+                              dayName: _storeServiceTime[5].weekDay,
                               onChanged: (value) {
                                 print("VALUE : $value");
-                                if (value) {
-                                  refreshState(() {
-                                    _storeServiceTime[5].shopOpen = value;
-                                  });
-                                } else {
-                                  showConfirmDialog(5);
-                                }
+                                refreshState(() {
+                                  _storeServiceTime[5].shopOpen = value;
+                                });
                               },
                             ),
                           ],
@@ -1500,15 +1475,12 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             CustomSwitch(
                               activeColor: Colors.lime,
                               value: _storeServiceTime[6].shopOpen,
+                              dayName: _storeServiceTime[6].weekDay,
                               onChanged: (value) {
                                 print("VALUE : $value");
-                                if (value) {
-                                  refreshState(() {
-                                    _storeServiceTime[6].shopOpen = value;
-                                  });
-                                } else {
-                                  showConfirmDialog(6);
-                                }
+                                refreshState(() {
+                                  _storeServiceTime[6].shopOpen = value;
+                                });
                               },
                             ),
                           ],
@@ -1644,36 +1616,6 @@ class _ShiftTimingState extends State<ShiftTiming> {
     );
   }
 
-  showConfirmDialog(int index) {
-    String day = _storeServiceTime[index].weekDay;
-    return showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) {
-          return Dialog(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            elevation: 16,
-            child: Container(
-              padding: EdgeInsets.all(12.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    "全ての$dayをXにします",
-                    style: TextStyle(fontSize: 14.0),
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  buildButton(index)
-                ],
-              ),
-            ),
-          );
-        });
-  }
-
   //Method called from ShowtoolTip to refresh the page after TimePicker is Selected
   refreshPage(int index, DateTime newTime, bool isStart) {
     refreshState(() {
@@ -1728,67 +1670,5 @@ class _ShiftTimingState extends State<ShiftTiming> {
         return 6;
         break;
     }
-  }
-
-  buildButton(int index) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Expanded(
-          child: MaterialButton(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            onPressed: () {
-              refreshState(() {
-                _storeServiceTime[index].shopOpen = true;
-              });
-              Navigator.pop(context);
-            },
-            //  minWidth: MediaQuery.of(context).size.width * 0.38,
-            // splashColor: Colors.grey,
-            color: Color.fromRGBO(217, 217, 217, 1),
-            padding: EdgeInsets.symmetric(
-              vertical: 10.0,
-            ),
-            child: Text(
-              'キャンセル',
-              style: TextStyle(
-                  fontSize: 16.0,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-        ),
-        SizedBox(
-          width: 15.0,
-        ),
-        Expanded(
-          child: MaterialButton(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            onPressed: () {
-              refreshState(() {
-                _storeServiceTime[index].shopOpen = false;
-              });
-              Navigator.pop(context);
-            },
-            //   minWidth: MediaQuery.of(context).size.width * 0.38,
-            color: Color.fromRGBO(200, 217, 33, 1),
-            padding: EdgeInsets.symmetric(
-              vertical: 10.0,
-            ),
-            child: Text(
-              'OK',
-              style: TextStyle(
-                  fontSize: 16.0,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-        ),
-      ],
-    );
   }
 }
