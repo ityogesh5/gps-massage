@@ -15,8 +15,6 @@ import 'package:http/http.dart' as http;
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart'
-    as userDataModel;
 
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 

@@ -1,8 +1,8 @@
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/commonScreens/chat/chatUserList.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/notification.dart';
 
 class ChatTabBar extends StatefulWidget {

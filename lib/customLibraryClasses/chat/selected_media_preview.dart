@@ -20,8 +20,6 @@ class SelectedMediaPreview extends StatelessWidget {
     @required this.pickedMediaType,
   });
 
-
-
   void send(String content) {
     onSend(
       content,
@@ -80,26 +78,25 @@ class SelectedMediaPreview extends StatelessWidget {
 
 class _SelectedMedia extends StatelessWidget {
   final MediaType mediaType;
-  final File file;  
+  final File file;
   const _SelectedMedia({
     Key key,
     @required this.mediaType,
-    @required this.file,    
+    @required this.file,
   }) : super(key: key);
- 
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Container(
       alignment: Alignment.center,
-      height: size.height,     
+      height: size.height,
       width: double.infinity,
       child: mediaType == MediaType.Photo
           ? Image.file(
               file,
               fit: BoxFit.cover,
-              height: size.height,              
+              height: size.height,
               width: double.infinity,
             )
           : CVideoPlayer(video: file, isLocal: true),
@@ -134,7 +131,7 @@ class _TextField extends StatelessWidget {
             padding: const EdgeInsets.all(2),
             decoration: BoxDecoration(
               color: kBlackColor3.withOpacity(0.7),
-              borderRadius: BorderRadius.circular(25),              
+              borderRadius: BorderRadius.circular(25),
             ),
             alignment: Alignment.center,
             child: CupertinoButton(
@@ -193,7 +190,7 @@ class _InputField extends StatelessWidget {
               ),
               onSubmitted: onSend,
             ),
-          ),          
+          ),
         ],
       ),
     );

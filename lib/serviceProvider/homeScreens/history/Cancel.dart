@@ -298,7 +298,7 @@ class _ProviderCancelScreenState extends State<ProviderCancelScreen> {
                   width: 8,
                 ),
                 Flexible(
-                                  child: Text(
+                  child: Text(
                     '${requestBookingDetailsList[index].location}',
                     style: TextStyle(
                       color: Color.fromRGBO(102, 102, 102, 1),

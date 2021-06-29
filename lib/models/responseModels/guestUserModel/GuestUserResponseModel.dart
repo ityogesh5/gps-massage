@@ -37,16 +37,16 @@ class Data {
 
   Data(
       {this.guestUserStatus,
-        this.otp,
-        this.isTherapist,
-        this.isVerified,
-        this.isActive,
-        this.isAccepted,
-        this.coronaMeasure,
-        this.isShop,
-        this.id,
-        this.updatedAt,
-        this.createdAt});
+      this.otp,
+      this.isTherapist,
+      this.isVerified,
+      this.isActive,
+      this.isAccepted,
+      this.coronaMeasure,
+      this.isShop,
+      this.id,
+      this.updatedAt,
+      this.createdAt});
 
   Data.fromJson(Map<String, dynamic> json) {
     guestUserStatus = json['guestUserStatus'];

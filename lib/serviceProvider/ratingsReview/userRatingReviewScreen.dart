@@ -9,11 +9,11 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/userReviewandRatingsResponseModel.dart';
 import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
+import 'package:gps_massageapp/serviceProvider/BlocCalls/GetUserRatingsandReviewScreenBlocCalls/Repository/user_ratings_review_repository.dart';
 import 'package:gps_massageapp/serviceProvider/BlocCalls/GetUserRatingsandReviewScreenBlocCalls/user_ratings_bloc.dart';
 import 'package:gps_massageapp/serviceProvider/BlocCalls/GetUserRatingsandReviewScreenBlocCalls/user_ratings_event.dart';
 import 'package:gps_massageapp/serviceProvider/BlocCalls/GetUserRatingsandReviewScreenBlocCalls/user_ratings_state.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
-import 'package:gps_massageapp/serviceProvider/BlocCalls/GetUserRatingsandReviewScreenBlocCalls/Repository/user_ratings_review_repository.dart';
 
 class UserRatingReviewScreen extends StatefulWidget {
   final int userId;
@@ -601,7 +601,8 @@ class _LoadUserReviewRatingsByIdState extends State<LoadUserReviewRatingsById> {
               initialRating: userReviewList.ratingsCount.toDouble(),
               minRating: 1,
               direction: Axis.horizontal,
-              allowHalfRating: false,ignoreGestures: true,
+              allowHalfRating: false,
+              ignoreGestures: true,
               itemCount: 5,
               itemSize: 24.0,
               itemPadding: new EdgeInsets.only(bottom: 3.0),

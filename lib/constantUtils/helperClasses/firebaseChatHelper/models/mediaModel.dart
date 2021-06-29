@@ -24,16 +24,16 @@ class MediaModel {
       );
 
   static toJson(MediaModel media) => json.encode({
-    'url': media.url,
-    'fromId': media.fromId,
-    'toId': media.toId,
-    'timeStamp': media.timeStamp.toIso8601String(),
-  });
+        'url': media.url,
+        'fromId': media.fromId,
+        'toId': media.toId,
+        'timeStamp': media.timeStamp.toIso8601String(),
+      });
 
   static fromMsgToMap(Message msg) => {
-    'url': msg.mediaUrl,
-    'fromId': msg.fromId,
-    'toId': msg.toId,
-    'timeStamp': msg.sendDate,
-  };
+        'url': msg.mediaUrl,
+        'fromId': msg.fromId,
+        'toId': msg.toId,
+        'timeStamp': msg.sendDate,
+      };
 }

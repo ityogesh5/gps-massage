@@ -7,7 +7,6 @@ import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/mo
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/user.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
-import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
 import 'package:intl/intl.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
@@ -324,7 +323,7 @@ class _ProviderApprovedScreenState extends State<ProviderApprovedScreen> {
                       width: 8,
                     ),
                     Flexible(
-                                          child: Text(
+                      child: Text(
                         '${requestBookingDetailsList[index].location}',
                         style: TextStyle(
                           color: Color.fromRGBO(102, 102, 102, 1),

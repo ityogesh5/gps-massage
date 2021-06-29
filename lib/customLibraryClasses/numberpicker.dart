@@ -3,9 +3,9 @@ import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:infinite_listview/infinite_listview.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter/widgets.dart';
 
 /// Created by Marcin Szałek
 ///Define a text mapper to transform the text displayed by the picker
@@ -724,7 +724,6 @@ class NumberPicker extends StatelessWidget {
     );
   }
 
-
   String getDisplayedValue(int value) {
     final text = zeroPad
         ? value.toString().padLeft(maxValue.toString().length, '0')
@@ -787,7 +786,6 @@ class NumberPicker extends StatelessWidget {
     return true;
   }
 
-
   ///There was a bug, when if there was small integer range, e.g. from 1 to 5,
   ///When user scrolled to the top, whole listview got displayed.
   ///To prevent this we are calculating cacheExtent by our own so it gets smaller if number of items is smaller
@@ -827,7 +825,6 @@ class NumberPicker extends StatelessWidget {
         notification.direction == ScrollDirection.idle &&
         scrollController.position.activity is! HoldScrollActivity;
   }
-
 
   ///converts integer indicator of decimal value to double
   ///e.g. decimalPlaces = 1, value = 4  >>> result = 0.4

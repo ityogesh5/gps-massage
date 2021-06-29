@@ -129,9 +129,7 @@ class GetTherapistTypeRepositoryImpl implements GetTherapistTypeRepository {
       if (response.statusCode == 200) {
         final recommendedTherapists = json.decode(response.body);
         List<UserList> getRecommendedTherapists =
-            TherapistUsersModel.fromJson(recommendedTherapists)
-                .data
-                .userList;
+            TherapistUsersModel.fromJson(recommendedTherapists).data.userList;
         print('RecommendedTherapistData : ${response.body}');
         return getRecommendedTherapists;
       }

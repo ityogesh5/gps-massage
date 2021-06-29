@@ -1,4 +1,3 @@
-
 class CalendarEventCreateReqModel {
   String userId;
   int therapistId;
