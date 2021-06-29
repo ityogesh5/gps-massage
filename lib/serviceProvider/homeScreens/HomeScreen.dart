@@ -477,57 +477,79 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                     ),
                                                     SizedBox(width: 5.0),
                                                     RatingBar.builder(
-                                                      initialRating: 4.5,
-                                                      /* double.parse(
+                                                      initialRating: 3.5
+                                                      /*  double.parse(
                                                               therapistDetails
                                                                   .reviewData
-                                                                  .ratingAvg), */
+                                                                  .ratingAvg) */
+                                                      ,
                                                       minRating: 1,
                                                       direction:
                                                           Axis.horizontal,
                                                       allowHalfRating: true,
+                                                      unratedColor: Colors.grey[400],
                                                       itemCount: 5,
                                                       itemSize: 24.0,
                                                       ignoreGestures: true,
                                                       itemPadding:
                                                           new EdgeInsets.only(
                                                               bottom: 3.0),
-                                                      itemBuilder: (context,
-                                                              index) =>
-                                                          new SizedBox(
-                                                              height: 20.0,
-                                                              width: 18.0,
-                                                              child:
-                                                                  new IconButton(
-                                                                onPressed:
-                                                                    () {},
-                                                                padding:
-                                                                    new EdgeInsets
-                                                                            .all(
-                                                                        0.0),
-                                                                // color: Colors.white,
-                                                                icon: index >
-                                                                        4.5
-                                                                    /*  (double.parse(therapistDetails.reviewData.ratingAvg)).ceilToDouble() -
-                                                                            1 */
-                                                                    ? SvgPicture
-                                                                        .asset(
-                                                                        "assets/images_gps/star_2.svg",
-                                                                        height:
-                                                                            13.0,
-                                                                        width:
-                                                                            13.0,
-                                                                      )
-                                                                    : SvgPicture
-                                                                        .asset(
-                                                                        "assets/images_gps/star_colour.svg",
-                                                                        height:
-                                                                            13.0,
-                                                                        width:
-                                                                            13.0,
-                                                                        //color: Colors.black,
-                                                                      ),
-                                                              )),
+                                                      itemBuilder:
+                                                          (context, index) {
+                                                        double ratingAvg =
+                                                            double.parse(
+                                                                therapistDetails
+                                                                    .reviewData
+                                                                    .ratingAvg);
+                                                        bool isDecimal =
+                                                            isInteger(
+                                                                (ratingAvg));
+                                                        print("$isDecimal");
+                                                        return SizedBox(
+                                                            height: 20.0,
+                                                            width: 18.0,
+                                                            child:
+                                                                new IconButton(
+                                                              onPressed: () {},
+                                                              padding:
+                                                                  new EdgeInsets
+                                                                      .all(0.0),
+                                                              // color: Colors.white,
+                                                              icon: index >
+                                                                      (double.parse(therapistDetails.reviewData.ratingAvg))
+                                                                              .ceilToDouble() -
+                                                                          1
+                                                                  ? SvgPicture
+                                                                      .asset(
+                                                                      "assets/images_gps/star_2.svg",
+                                                                      height:
+                                                                          13.0,
+                                                                      width:
+                                                                          13.0,
+                                                                    )
+                                                                  : !isDecimal &&
+                                                                          index ==
+                                                                              ((double.parse(therapistDetails.reviewData.ratingAvg)).ceilToDouble() -
+                                                                                  1)
+                                                                      ? SvgPicture
+                                                                          .asset(
+                                                                          "assets/images_gps/half_star.svg",
+                                                                          height:
+                                                                              13.0,
+                                                                          width:
+                                                                              13.0,
+                                                                        )
+                                                                      : SvgPicture
+                                                                          .asset(
+                                                                          "assets/images_gps/star_colour.svg",
+                                                                          height:
+                                                                              13.0,
+                                                                          width:
+                                                                              13.0,
+                                                                          //color: Colors.black,
+                                                                        ),
+                                                            ));
+                                                      },
                                                       onRatingUpdate: (rating) {
                                                         print(rating);
                                                       },
@@ -1655,4 +1677,6 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
         break;
     }
   }
+
+  bool isInteger(num value) => (value % 1) == 0;
 }
