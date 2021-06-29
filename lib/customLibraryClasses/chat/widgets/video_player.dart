@@ -85,7 +85,8 @@ class _CVideoPlayerState extends State<CVideoPlayer>
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                    color: Theme.of(context).accentColor.withOpacity(0.8), width: 2),
+                    color: Theme.of(context).accentColor.withOpacity(0.8),
+                    width: 2),
               ),
               child: Center(
                 child: Icon(

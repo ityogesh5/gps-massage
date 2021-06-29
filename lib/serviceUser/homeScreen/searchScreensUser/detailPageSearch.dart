@@ -3277,16 +3277,16 @@ class _SearchCauroselWithIndicatorState
                   backgroundColor: Colors.white,
                   child: HealingMatchConstants.isUserRegistrationSkipped
                       ? GestureDetector(
-                    onTap: () {
-                      return;
-                    },
-                    child: SvgPicture.asset(
-                      'assets/images_gps/heart_wo_color.svg',
-                      width: 25,
-                      height: 25,
-                      color: Colors.grey[400],
-                    ),
-                  )
+                          onTap: () {
+                            return;
+                          },
+                          child: SvgPicture.asset(
+                            'assets/images_gps/heart_wo_color.svg',
+                            width: 25,
+                            height: 25,
+                            color: Colors.grey[400],
+                          ),
+                        )
                       : FavoriteButton(
                           iconSize: 40,
                           iconColor: Colors.red,

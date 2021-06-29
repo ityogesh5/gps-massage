@@ -178,7 +178,7 @@ class Data {
         "userId": userId,
         "email": email,
         "phoneNumber": phoneNumber,
-        "firebaseUDID":firebaseUDID,
+        "firebaseUDID": firebaseUDID,
         "fcmToken": fcmToken,
         "lineBotUserId": lineBotUserId,
         "appleUserId": appleUserId,

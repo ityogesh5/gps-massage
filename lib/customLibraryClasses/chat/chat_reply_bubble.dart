@@ -146,7 +146,9 @@ class _ReplyText extends StatelessWidget {
         style: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w400,
-          color: color == Colors.grey[100] ? Colors.black.withOpacity(0.5): kBaseWhiteColor.withOpacity(0.5),
+          color: color == Colors.grey[100]
+              ? Colors.black.withOpacity(0.5)
+              : kBaseWhiteColor.withOpacity(0.5),
         ),
       ),
     );

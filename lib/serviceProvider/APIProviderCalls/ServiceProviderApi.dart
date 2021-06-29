@@ -1,22 +1,21 @@
 import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import "package:googleapis/calendar/v3.dart";
+import "package:googleapis_auth/auth_io.dart";
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/event.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/ProviderDetailsResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/currentBookingRatingResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/firebaseNotificationTherapistListModel.dart';
-import 'package:gps_massageapp/models/responseModels/serviceProvider/shiftTimeUpdateResponse.dart'
-    as shiftTimeUpdate;
+import 'package:gps_massageapp/models/responseModels/serviceProvider/providerReviewandRatingsViewResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/userReviewCreateResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/userReviewandRatingsResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
-import 'package:gps_massageapp/models/responseModels/serviceProvider/providerReviewandRatingsViewResponseModel.dart';
-import 'package:gps_massageapp/models/responseModels/serviceProvider/userReviewCreateResponseModel.dart';
-import 'package:gps_massageapp/models/responseModels/serviceProvider/ProviderDetailsResponseModel.dart';
-import "package:googleapis_auth/auth_io.dart";
-import "package:googleapis/calendar/v3.dart";
-import 'dart:developer';
 
 class ServiceProviderApi {
   static const _scopes = const [CalendarApi.calendarScope];

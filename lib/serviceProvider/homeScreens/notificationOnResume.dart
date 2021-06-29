@@ -20,15 +20,15 @@ class _NotificationHistoryProviderState
         elevation: 2.0,
         automaticallyImplyLeading: false,
         leading: IconButton(
-          padding:
-              EdgeInsets.only(left: 4.0, top: 8.0, bottom: 8.0, right: 0.0),
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
-          ),
-          onPressed: () =>Navigator.pop(context)
-             /*  NavigationRouter.switchToServiceProviderBottomBar(context), */
-        ),
+            padding:
+                EdgeInsets.only(left: 4.0, top: 8.0, bottom: 8.0, right: 0.0),
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
+            onPressed: () => Navigator.pop(context)
+            /*  NavigationRouter.switchToServiceProviderBottomBar(context), */
+            ),
         title: Text(
           'メッセージ',
           style: TextStyle(

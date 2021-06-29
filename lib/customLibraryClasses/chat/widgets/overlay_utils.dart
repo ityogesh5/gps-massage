@@ -17,34 +17,32 @@ class OverlayUtils {
       Alignment alignment,
       Duration duration,
       Color color}) {
-        if(_overlayEntry == null)
-    if (_toastTimer == null || !_toastTimer.isActive) {
+    if (_overlayEntry == null) if (_toastTimer == null ||
+        !_toastTimer.isActive) {
       _overlayEntry = createOverlayEntry(context, child, alignment, color);
       Overlay.of(context).insert(_overlayEntry);
     }
   }
 
   static removeOverlay() {
-    if(_overlayEntry != null) {
+    if (_overlayEntry != null) {
       _overlayEntry.remove();
       _overlayEntry = null;
     }
   }
 
   static hasOverlay() => _overlayEntry != null;
-  
 
   static OverlayEntry createOverlayEntry(
       BuildContext context, Widget child, Alignment alignment, Color color) {
-    return OverlayEntry(            
+    return OverlayEntry(
       builder: (context) => Align(
         alignment: alignment,
-        child: 
-        ToastMessageAnimation(
+        child: ToastMessageAnimation(
           Material(
             color: Colors.transparent,
             child: child,
-          ),        
+          ),
         ),
       ),
     );
@@ -58,25 +56,24 @@ class ToastMessageAnimation extends StatelessWidget {
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarColor(kBlackColor2);
     final tween = MultiTrackTween([
-      Track("translateY")
-          .add(
-            Duration(milliseconds: 250),
-            Tween(begin: -100.0, end: 0),
-            curve: Curves.easeOut,
-          ),          
+      Track("translateY").add(
+        Duration(milliseconds: 250),
+        Tween(begin: -100.0, end: 0),
+        curve: Curves.easeOut,
+      ),
       Track("opacity")
-          .add(Duration(milliseconds: 500), Tween(begin: 0.0, end: 1.0))          
+          .add(Duration(milliseconds: 500), Tween(begin: 0.0, end: 1.0))
     ]);
 
     return ControlledAnimation(
-        duration: tween.duration,
-        tween: tween,
-        child: child,
-        builderWithChild: (context, child, animation) => Opacity(
-    opacity: animation["opacity"],
-    child: Transform.translate(
-        offset: Offset(0, animation["translateY"]), child: child),
-        ),
-      );   
+      duration: tween.duration,
+      tween: tween,
+      child: child,
+      builderWithChild: (context, child, animation) => Opacity(
+        opacity: animation["opacity"],
+        child: Transform.translate(
+            offset: Offset(0, animation["translateY"]), child: child),
+      ),
+    );
   }
 }

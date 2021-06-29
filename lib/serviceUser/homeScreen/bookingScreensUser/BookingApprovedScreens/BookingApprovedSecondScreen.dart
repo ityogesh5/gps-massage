@@ -257,9 +257,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                                 child: Divider(),
                               )),
                               InkWell(
-                                onTap: () {
-                                 
-                                },
+                                onTap: () {},
                                 child: CircleAvatar(
                                     maxRadius: 25,
                                     backgroundColor: Colors.white,

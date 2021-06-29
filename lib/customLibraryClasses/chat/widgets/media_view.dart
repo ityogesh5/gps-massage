@@ -31,9 +31,9 @@ class MediaView extends StatelessWidget {
                   ),
                   height: double.infinity,
                   width: double.infinity,
-                  child: type == MediaType.Photo ?
-                  CachedNetworkImage(imageUrl: url, fit: BoxFit.cover)
-                  : CVideoPlayer(url: url, isLocal: false),                  
+                  child: type == MediaType.Photo
+                      ? CachedNetworkImage(imageUrl: url, fit: BoxFit.cover)
+                      : CVideoPlayer(url: url, isLocal: false),
                 ),
               ),
             ),

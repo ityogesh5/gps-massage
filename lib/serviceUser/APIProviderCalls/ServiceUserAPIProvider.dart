@@ -13,11 +13,6 @@ import 'package:gps_massageapp/models/responseModels/guestUserModel/GuestUserRes
 import 'package:gps_massageapp/models/responseModels/paymentModels/CustomerCreation.dart';
 import 'package:gps_massageapp/models/responseModels/paymentModels/PaymentCustomerCharge.dart';
 import 'package:gps_massageapp/models/responseModels/paymentModels/PaymentSuccessModel.dart';
-
-import 'package:gps_massageapp/models/responseModels/serviceProvider/currentBookingRatingResponseModel.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/booking/createBooking.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingStatus.dart';
-
 import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingCompletedList.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingStatus.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/booking/createBooking.dart';

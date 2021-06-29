@@ -46,7 +46,7 @@ class _ConditionsApplyBookingScreenState
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: InkWell(
         onTap: () {
-        /*   NavigationRouter.switchToServiceUserChatScreen(context); */
+          /*   NavigationRouter.switchToServiceUserChatScreen(context); */
         },
         child: CircleAvatar(
             maxRadius: 25,

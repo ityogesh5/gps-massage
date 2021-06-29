@@ -2022,7 +2022,7 @@ class _RegisterUserState extends State<RegisterUser> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('有効な府県を選択してください。',
+              child: Text('有効な都道府県を選択してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -2053,7 +2053,7 @@ class _RegisterUserState extends State<RegisterUser> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('有効な市を選択してください。',
+              child: Text('有効な市区町村を選択してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),

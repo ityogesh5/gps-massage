@@ -11,6 +11,10 @@ import 'package:gps_massageapp/initialScreens/userDefineScreen.dart';
 import 'package:gps_massageapp/initialScreens/userTutorial.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/firebaseNotificationTherapistListModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingCompletedList.dart'
+    as userBooking;
+import 'package:gps_massageapp/models/responseModels/serviceUser/notification/firebaseNotificationUserListModel.dart'
+    as userNotification;
 import 'package:gps_massageapp/serviceProvider/homeScreens/ProviderBottomBar.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/calendar/providerCalendar.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/AcceptBookingNotification.dart';
@@ -48,7 +52,6 @@ import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/Booking
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/ApprovalWaitingScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/BookingDetailsApprovedScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/BookingDetailsCompletedScreen.dart';
-
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/BookingDetailsConfirmedScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/ConditionsAppliedScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/bookingDetailHomePage.dart';
@@ -65,7 +68,6 @@ import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchRe
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/addAddress.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/detailPageSearch.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/detailPageSearchOne.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/searchScreenWithoutRegister.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/UserChangePassword.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/UserForgetPassword.dart';
@@ -79,13 +81,6 @@ import 'package:gps_massageapp/serviceUser/ratingsAndReviewScreen/RatingsAndRevi
 import 'package:gps_massageapp/serviceUser/ratingsAndReviewScreen/givenRatingViewScreen.dart';
 import 'package:gps_massageapp/serviceUser/register/RegisterOTPScreen.dart';
 import 'package:gps_massageapp/serviceUser/register/RegisterUserScreen.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingCompletedList.dart'
-    as userBooking;
-
-import 'package:gps_massageapp/models/responseModels/serviceUser/notification/firebaseNotificationUserListModel.dart'
-    as userNotification;
-import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart'
-    as provideruserDataModel;
 
 class NavigationRouter {
   // Network dis connect handler class
@@ -95,50 +90,153 @@ class NavigationRouter {
   }
 
   static void switchToServiceUserRegistration(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => RegisterServiceUserScreen()),
-    );
+    Navigator.of(context).push(PageRouteBuilder(
+        pageBuilder: (context, animation, anotherAnimation) {
+          return RegisterServiceUserScreen();
+        },
+        transitionDuration: Duration(milliseconds: 2000),
+        transitionsBuilder: (context, animation, anotherAnimation, child) {
+          animation = CurvedAnimation(
+              curve: HealingMatchConstants.curveList[2], parent: animation);
+          return Align(
+            child: SizeTransition(
+              sizeFactor: animation,
+              child: child,
+              axisAlignment: 0.0,
+            ),
+          );
+        }));
   }
 
 //Provider WeeklySchedule
   static void switchToWeeklySchedule(BuildContext context) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => WeeklySchedule()));
+    Navigator.of(context).push(PageRouteBuilder(
+        pageBuilder: (context, animation, anotherAnimation) {
+          return WeeklySchedule();
+        },
+        transitionDuration: Duration(milliseconds: 2000),
+        transitionsBuilder: (context, animation, anotherAnimation, child) {
+          animation = CurvedAnimation(
+              curve: HealingMatchConstants.curveList[2], parent: animation);
+          return Align(
+            child: SizeTransition(
+              sizeFactor: animation,
+              child: child,
+              axisAlignment: 0.0,
+            ),
+          );
+        }));
   }
 
 // Terms and conditions screen
   static void switchToTermsAndConditions(BuildContext context) {
     Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => IntroTermsAndPolicy()));
+      PageRouteBuilder(
+          pageBuilder: (context, animation, anotherAnimation) {
+            return IntroTermsAndPolicy();
+          },
+          transitionDuration: Duration(milliseconds: 2000),
+          transitionsBuilder: (context, animation, anotherAnimation, child) {
+            animation = CurvedAnimation(
+                curve: HealingMatchConstants.curveList[2], parent: animation);
+            return Align(
+              child: SizeTransition(
+                sizeFactor: animation,
+                child: child,
+                axisAlignment: 0.0,
+              ),
+            );
+          }),
+    );
   }
 
   //NotificationPopup
   static void switchToNotificationPopup(BuildContext context) {
     Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => NotificationPopup()));
+      PageRouteBuilder(
+          pageBuilder: (context, animation, anotherAnimation) {
+            return NotificationPopup();
+          },
+          transitionDuration: Duration(milliseconds: 2000),
+          transitionsBuilder: (context, animation, anotherAnimation, child) {
+            animation = CurvedAnimation(
+                curve: HealingMatchConstants.curveList[2], parent: animation);
+            return Align(
+              child: SizeTransition(
+                sizeFactor: animation,
+                child: child,
+                axisAlignment: 0.0,
+              ),
+            );
+          }),
+    );
   }
 
 // User define screen
   static void switchToUserDefineScreen(BuildContext context) {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => UserDefineScreen()));
+      context,
+      PageRouteBuilder(
+          pageBuilder: (context, animation, anotherAnimation) {
+            return UserDefineScreen();
+          },
+          transitionDuration: Duration(milliseconds: 2000),
+          transitionsBuilder: (context, animation, anotherAnimation, child) {
+            animation = CurvedAnimation(
+                curve: HealingMatchConstants.curveList[2], parent: animation);
+            return Align(
+              child: SizeTransition(
+                sizeFactor: animation,
+                child: child,
+                axisAlignment: 0.0,
+              ),
+            );
+          }),
+    );
   }
 
   // Provider login screen
 
   static void switchToProviderLogin(BuildContext context) {
     Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => ProviderLogin()),
+        PageRouteBuilder(
+            pageBuilder: (context, animation, anotherAnimation) {
+              return ProviderLogin();
+            },
+            transitionDuration: Duration(milliseconds: 2000),
+            transitionsBuilder: (context, animation, anotherAnimation, child) {
+              animation = CurvedAnimation(
+                  curve: HealingMatchConstants.curveList[2], parent: animation);
+              return Align(
+                child: SizeTransition(
+                  sizeFactor: animation,
+                  child: child,
+                  axisAlignment: 0.0,
+                ),
+              );
+            }),
         (Route<dynamic> route) => false);
   }
 
 //User Login screen
   static void switchToUserLogin(BuildContext context) {
     Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => UserLogin()),
+        PageRouteBuilder(
+            pageBuilder: (context, animation, anotherAnimation) {
+              return UserLogin();
+            },
+            transitionDuration: Duration(milliseconds: 2000),
+            transitionsBuilder: (context, animation, anotherAnimation, child) {
+              animation = CurvedAnimation(
+                  curve: HealingMatchConstants.curveList[2], parent: animation);
+              return Align(
+                child: SizeTransition(
+                  sizeFactor: animation,
+                  child: child,
+                  axisAlignment: 0.0,
+                ),
+              );
+            }),
         (Route<dynamic> route) => false);
   }
 
@@ -222,8 +320,25 @@ class NavigationRouter {
 
   //Choose Date
   static void switchToChooseDate(BuildContext context) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (BuildContext context) => ChooseDate()));
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+          pageBuilder: (context, animation, anotherAnimation) {
+            return ChooseDate();
+          },
+          transitionDuration: Duration(milliseconds: 2000),
+          transitionsBuilder: (context, animation, anotherAnimation, child) {
+            animation = CurvedAnimation(
+                curve: HealingMatchConstants.curveList[2], parent: animation);
+            return Align(
+              child: SizeTransition(
+                sizeFactor: animation,
+                child: child,
+                axisAlignment: 0.0,
+              ),
+            );
+          }),
+    );
   }
 
   //User Recommended
@@ -371,9 +486,24 @@ class NavigationRouter {
 
   static void switchToServiceProviderTCScreen(BuildContext context) {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => ProviderTermsAndConditions()));
+      context,
+      PageRouteBuilder(
+          pageBuilder: (context, animation, anotherAnimation) {
+            return ProviderTermsAndConditions();
+          },
+          transitionDuration: Duration(milliseconds: 2000),
+          transitionsBuilder: (context, animation, anotherAnimation, child) {
+            animation = CurvedAnimation(
+                curve: HealingMatchConstants.curveList[2], parent: animation);
+            return Align(
+              child: SizeTransition(
+                sizeFactor: animation,
+                child: child,
+                axisAlignment: 0.0,
+              ),
+            );
+          }),
+    );
   }
 
   static void switchToServiceUserTCScreen(BuildContext context) {
@@ -398,8 +528,22 @@ class NavigationRouter {
 // Provider bottom bar homescreen
   static void switchToServiceProviderBottomBar(BuildContext context) {
     Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-            builder: (BuildContext context) => BottomBarProvider(0)),
+        PageRouteBuilder(
+            pageBuilder: (context, animation, anotherAnimation) {
+              return BottomBarProvider(0);
+            },
+            transitionDuration: Duration(milliseconds: 2000),
+            transitionsBuilder: (context, animation, anotherAnimation, child) {
+              animation = CurvedAnimation(
+                  curve: HealingMatchConstants.curveList[2], parent: animation);
+              return Align(
+                child: SizeTransition(
+                  sizeFactor: animation,
+                  child: child,
+                  axisAlignment: 0.0,
+                ),
+              );
+            }),
         (Route<dynamic> route) => false);
   }
 
@@ -458,23 +602,72 @@ class NavigationRouter {
 
   //Provider Choose service screen
   static void switchToChooseServiceScreen(BuildContext context) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => ChooseServiceScreen()));
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+          pageBuilder: (context, animation, anotherAnimation) {
+            return ChooseServiceScreen();
+          },
+          transitionDuration: Duration(milliseconds: 2000),
+          transitionsBuilder: (context, animation, anotherAnimation, child) {
+            animation = CurvedAnimation(
+                curve: HealingMatchConstants.curveList[2], parent: animation);
+            return Align(
+              child: SizeTransition(
+                sizeFactor: animation,
+                child: child,
+                axisAlignment: 0.0,
+              ),
+            );
+          }),
+    );
   }
 
   // Provider Register 1st screen
   static void switchToServiceProviderFirstScreen(BuildContext context) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => RegisterProviderFirstScreen()));
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+          pageBuilder: (context, animation, anotherAnimation) {
+            return RegisterProviderFirstScreen();
+          },
+          transitionDuration: Duration(milliseconds: 2000),
+          transitionsBuilder: (context, animation, anotherAnimation, child) {
+            animation = CurvedAnimation(
+                curve: HealingMatchConstants.curveList[2], parent: animation);
+            return Align(
+              child: SizeTransition(
+                sizeFactor: animation,
+                child: child,
+                axisAlignment: 0.0,
+              ),
+            );
+          }),
+    );
   }
 
   // Provider Register 2nd screen
 
   static void switchToServiceProviderSecondScreen(BuildContext context) {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => RegistrationProviderSecondScreen()));
+      context,
+      PageRouteBuilder(
+          pageBuilder: (context, animation, anotherAnimation) {
+            return RegistrationProviderSecondScreen();
+          },
+          transitionDuration: Duration(milliseconds: 2000),
+          transitionsBuilder: (context, animation, anotherAnimation, child) {
+            animation = CurvedAnimation(
+                curve: HealingMatchConstants.curveList[2], parent: animation);
+            return Align(
+              child: SizeTransition(
+                sizeFactor: animation,
+                child: child,
+                axisAlignment: 0.0,
+              ),
+            );
+          }),
+    );
   }
 
   //Provider Receive Booking Screen
@@ -530,59 +723,149 @@ class NavigationRouter {
   //Provider Phone number input Forget Password Screen
 
   static void switchToProviderForgetPasswordScreen(BuildContext context) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => ForgetPassword()));
+    Navigator.of(context).push(PageRouteBuilder(
+        pageBuilder: (context, animation, anotherAnimation) {
+          return ForgetPassword();
+        },
+        transitionDuration: Duration(milliseconds: 2000),
+        transitionsBuilder: (context, animation, anotherAnimation, child) {
+          animation = CurvedAnimation(
+              curve: HealingMatchConstants.curveList[2], parent: animation);
+          return Align(
+            child: SizeTransition(
+              sizeFactor: animation,
+              child: child,
+              axisAlignment: 0.0,
+            ),
+          );
+        }));
   }
 
   static void switchToUserForgetPasswordScreen(BuildContext context) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => UserForgetPassword()));
+    Navigator.of(context).push(PageRouteBuilder(
+        pageBuilder: (context, animation, anotherAnimation) {
+          return UserForgetPassword();
+        },
+        transitionDuration: Duration(milliseconds: 2000),
+        transitionsBuilder: (context, animation, anotherAnimation, child) {
+          animation = CurvedAnimation(
+              curve: HealingMatchConstants.curveList[2], parent: animation);
+          return Align(
+            child: SizeTransition(
+              sizeFactor: animation,
+              child: child,
+              axisAlignment: 0.0,
+            ),
+          );
+        }));
   }
 
   // Provider Change password screen
   static void switchToProviderChangePasswordScreen(BuildContext context) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => ChangePassword()));
+    Navigator.of(context).push(PageRouteBuilder(
+        pageBuilder: (context, animation, anotherAnimation) {
+          return ChangePassword();
+        },
+        transitionDuration: Duration(milliseconds: 2000),
+        transitionsBuilder: (context, animation, anotherAnimation, child) {
+          animation = CurvedAnimation(
+              curve: HealingMatchConstants.curveList[2], parent: animation);
+          return Align(
+            child: SizeTransition(
+              sizeFactor: animation,
+              child: child,
+              axisAlignment: 0.0,
+            ),
+          );
+        }));
   }
 
   // User Change password screen
   static void switchToUserChangePasswordScreen(BuildContext context) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => UserChangePassword()));
+    Navigator.of(context).push(PageRouteBuilder(
+        pageBuilder: (context, animation, anotherAnimation) {
+          return UserChangePassword();
+        },
+        transitionDuration: Duration(milliseconds: 2000),
+        transitionsBuilder: (context, animation, anotherAnimation, child) {
+          animation = CurvedAnimation(
+              curve: HealingMatchConstants.curveList[2], parent: animation);
+          return Align(
+            child: SizeTransition(
+              sizeFactor: animation,
+              child: child,
+              axisAlignment: 0.0,
+            ),
+          );
+        }));
   }
 
   //Provider OTP Enter screen after register
-  static void switchToProviderOtpScreen(
-      BuildContext context) {
+  static void switchToProviderOtpScreen(BuildContext context) {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (BuildContext context) =>
-                RegistrationSuccessOtpScreen()));
+            builder: (BuildContext context) => RegistrationSuccessOtpScreen()));
   }
 
   //User OTP Enter screen after register
   static void switchToUserOtpScreen(BuildContext context) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => RegisterOtpScreen()));
+    Navigator.of(context).push(PageRouteBuilder(
+        pageBuilder: (context, animation, anotherAnimation) {
+          return RegisterOtpScreen();
+        },
+        transitionDuration: Duration(milliseconds: 2000),
+        transitionsBuilder: (context, animation, anotherAnimation, child) {
+          animation = CurvedAnimation(
+              curve: HealingMatchConstants.curveList[2], parent: animation);
+          return Align(
+            child: SizeTransition(
+              sizeFactor: animation,
+              child: child,
+              axisAlignment: 0.0,
+            ),
+          );
+        }));
   }
 
   //Provider Edit Profile Screen
   static void switchToProviderEditProfileScreen(BuildContext context) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => ProviderEditProfile()));
+    Navigator.of(context).push(PageRouteBuilder(
+        pageBuilder: (context, animation, anotherAnimation) {
+          return ProviderEditProfile();
+        },
+        transitionDuration: Duration(milliseconds: 2000),
+        transitionsBuilder: (context, animation, anotherAnimation, child) {
+          animation = CurvedAnimation(
+              curve: HealingMatchConstants.curveList[2], parent: animation);
+          return Align(
+            child: SizeTransition(
+              sizeFactor: animation,
+              child: child,
+              axisAlignment: 0.0,
+            ),
+          );
+        }));
   }
 
   //Provider Initial Tutorial Screen
   static void switchToProviderInitialTutorialScreen(BuildContext context) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => ProviderInitialTutorial()));
+    Navigator.of(context).push(PageRouteBuilder(
+        pageBuilder: (context, animation, anotherAnimation) {
+          return ProviderInitialTutorial();
+        },
+        transitionDuration: Duration(milliseconds: 2000),
+        transitionsBuilder: (context, animation, anotherAnimation, child) {
+          animation = CurvedAnimation(
+              curve: HealingMatchConstants.curveList[2], parent: animation);
+          return Align(
+            child: SizeTransition(
+              sizeFactor: animation,
+              child: child,
+              axisAlignment: 0.0,
+            ),
+          );
+        }));
   }
 
   //Provider Initial Tutorial Screen
@@ -636,38 +919,87 @@ class NavigationRouter {
   //Provider User Rating Screen
   static void switchToProviderSideUserReviewScreen(
       BuildContext context, int userId) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => UserRatingReviewScreen(userId)));
+    Navigator.of(context).push(PageRouteBuilder(
+        pageBuilder: (context, animation, anotherAnimation) {
+          return UserRatingReviewScreen(userId);
+        },
+        transitionDuration: Duration(milliseconds: 2000),
+        transitionsBuilder: (context, animation, anotherAnimation, child) {
+          animation = CurvedAnimation(
+              curve: HealingMatchConstants.curveList[2], parent: animation);
+          return Align(
+            child: SizeTransition(
+              sizeFactor: animation,
+              child: child,
+              axisAlignment: 0.0,
+            ),
+          );
+        }));
   }
 
   //Provider Self Review Screen
   static void switchToProviderSelfReviewScreen(BuildContext context) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => ProviderSelfReviewScreen()));
+    Navigator.of(context).push(PageRouteBuilder(
+        pageBuilder: (context, animation, anotherAnimation) {
+          return ProviderSelfReviewScreen();
+        },
+        transitionDuration: Duration(milliseconds: 2000),
+        transitionsBuilder: (context, animation, anotherAnimation, child) {
+          animation = CurvedAnimation(
+              curve: HealingMatchConstants.curveList[2], parent: animation);
+          return Align(
+            child: SizeTransition(
+              sizeFactor: animation,
+              child: child,
+              axisAlignment: 0.0,
+            ),
+          );
+        }));
   }
 
   //Provider Provider Review Screen
   static void switchToProviderReviewScreen(BuildContext context, int index) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) =>
-                ProviderRatingsAndReviewUser(index)));
+    Navigator.of(context).push(PageRouteBuilder(
+        pageBuilder: (context, animation, anotherAnimation) {
+          return ProviderRatingsAndReviewUser(index);
+        },
+        transitionDuration: Duration(milliseconds: 2000),
+        transitionsBuilder: (context, animation, anotherAnimation, child) {
+          animation = CurvedAnimation(
+              curve: HealingMatchConstants.curveList[2], parent: animation);
+          return Align(
+            child: SizeTransition(
+              sizeFactor: animation,
+              child: child,
+              axisAlignment: 0.0,
+            ),
+          );
+        }));
   }
 
   //Provider Provider Review Screen
   static void switchToProviderReviewScreenSent(
       BuildContext context, int userId) {
     Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => GivenRatingReviewScreen()
+      context,
+      PageRouteBuilder(
+          pageBuilder: (context, animation, anotherAnimation) {
+            return GivenRatingReviewScreen();
             // ProviderRatingsAndReviewUser(1)
-            ));
+          },
+          transitionDuration: Duration(milliseconds: 2000),
+          transitionsBuilder: (context, animation, anotherAnimation, child) {
+            animation = CurvedAnimation(
+                curve: HealingMatchConstants.curveList[2], parent: animation);
+            return Align(
+              child: SizeTransition(
+                sizeFactor: animation,
+                child: child,
+                axisAlignment: 0.0,
+              ),
+            );
+          }),
+    );
   }
 
   //Provider Calendar Screen
@@ -1071,10 +1403,22 @@ class NavigationRouter {
   //CancelPopupScreen
   static void switchToServiceUserBookingCancelScreenPopup(
       BuildContext context, int bookingId) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => CancelDetailsScreen(bookingId)));
+    Navigator.of(context).push(PageRouteBuilder(
+        pageBuilder: (context, animation, anotherAnimation) {
+          return CancelDetailsScreen(bookingId);
+        },
+        transitionDuration: Duration(milliseconds: 2000),
+        transitionsBuilder: (context, animation, anotherAnimation, child) {
+          animation = CurvedAnimation(
+              curve: HealingMatchConstants.curveList[2], parent: animation);
+          return Align(
+            child: SizeTransition(
+              sizeFactor: animation,
+              child: child,
+              axisAlignment: 0.0,
+            ),
+          );
+        }));
   }
 
   //Waiting for approval

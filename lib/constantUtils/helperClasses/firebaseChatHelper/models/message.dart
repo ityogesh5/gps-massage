@@ -40,5 +40,3 @@ class Message {
     return _$MessageToJson(message);
   }
 }
-
-

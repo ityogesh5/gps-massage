@@ -1015,8 +1015,11 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
       }
       if (newStartTime != null) {
         if ((newStartTime.day != widget.bookingDetail.startTime.day ||
-                newEndTime.day != widget.bookingDetail.endTime.day)/*  &&
-            !(newEndTime.hour == 0 && newEndTime.minute == 0) */) {
+                newEndTime.day !=
+                    widget.bookingDetail.endTime
+                        .day) /*  &&
+            !(newEndTime.hour == 0 && newEndTime.minute == 0) */
+            ) {
           displaySnackBar("同じ日の有効な時間を選択してください。");
           return null;
         }

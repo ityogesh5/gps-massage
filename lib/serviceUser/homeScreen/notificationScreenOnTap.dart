@@ -24,8 +24,7 @@ class _NotificationHistoryUserState extends State<NotificationHistoryUser> {
               Icons.arrow_back_ios,
               color: Colors.black,
             ),
-            onPressed: () => Navigator.pop(context)
-              ),
+            onPressed: () => Navigator.pop(context)),
         title: Text(
           'メッセージ',
           style: TextStyle(
