@@ -667,6 +667,11 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
                 ),
                 InkWell(
                   onTap: () {
+                    HealingMatchConstants.serviceUserName = widget
+                        .requestBookingDetailsList
+                        .bookingDetail
+                        .bookingUserId
+                        .userName;
                     NavigationRouter.switchToProviderSideUserReviewScreen(
                         context,
                         widget.requestBookingDetailsList.bookingDetail

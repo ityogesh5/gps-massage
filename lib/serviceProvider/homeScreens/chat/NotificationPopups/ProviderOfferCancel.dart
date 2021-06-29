@@ -5,6 +5,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/firebaseNotificationTherapistListModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
@@ -233,6 +234,8 @@ class _ProviderOfferCancelState extends State<ProviderOfferCancel> {
                 ),
                 InkWell(
                   onTap: () {
+                     HealingMatchConstants.serviceUserName = widget.requestBookingDetailsList.bookingDetail.bookingUserId.userName;
+
                     NavigationRouter.switchToProviderSideUserReviewScreen(
                         context,
                         requestBookingDetailsList

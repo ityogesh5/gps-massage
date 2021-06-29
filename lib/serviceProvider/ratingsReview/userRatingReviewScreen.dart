@@ -188,7 +188,10 @@ class _LoadUserReviewPageState extends State<LoadUserReviewPage> {
                     child: Row(
                       children: [
                         Text(
-                          '店舗についてのレビュー',
+                          HealingMatchConstants.serviceUserName.length > 15
+                              ? "${HealingMatchConstants.serviceUserName.substring(0, 15)}..."
+                              : '${HealingMatchConstants.serviceUserName}' +
+                                  'についてのレビュ',
                           style: TextStyle(
                               color: Color.fromRGBO(0, 0, 0, 1),
                               fontSize: 14.0,
@@ -601,7 +604,8 @@ class _LoadUserReviewRatingsByIdState extends State<LoadUserReviewRatingsById> {
               initialRating: userReviewList.ratingsCount.toDouble(),
               minRating: 1,
               direction: Axis.horizontal,
-              allowHalfRating: false,ignoreGestures: true,
+              allowHalfRating: false,
+              ignoreGestures: true,
               itemCount: 5,
               itemSize: 24.0,
               itemPadding: new EdgeInsets.only(bottom: 3.0),

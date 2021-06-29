@@ -6,6 +6,7 @@ import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper
 import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
+import 'package:toast/toast.dart';
 
 class CancelBooking extends StatefulWidget {
   final BookingDetailsList bookingDetail;
@@ -137,21 +138,30 @@ class _CancelBookingState extends State<CancelBooking> {
             onPressed: () {
               widget.bookingDetail.cancellationReason =
                   textEditingController.text;
-              ServiceProviderApi.removeEvent(
-                      widget.bookingDetail.eventId, context)
-                  .then((value) {
-                if (value) {
-                  ServiceProviderApi.updateStatusUpdate(
-                          widget.bookingDetail, false, false, true)
-                      .then((value) {
-                    ProgressDialogBuilder.hideCommonProgressDialog(context);
-                    if (value) {
-                      NavigationRouter.switchToServiceProviderBottomBar(
-                          context);
-                    }
-                  });
-                }
-              });
+              if (widget.bookingDetail.cancellationReason == null ||
+                  widget.bookingDetail.cancellationReason.length < 2) {
+                Toast.show("キャンセルの理由を入力してください。", context,
+                    duration: 4,
+                    gravity: Toast.CENTER,
+                    backgroundColor: Colors.redAccent,
+                    textColor: Colors.white);
+              } else {
+                ServiceProviderApi.removeEvent(
+                        widget.bookingDetail.eventId, context)
+                    .then((value) {
+                  if (value) {
+                    ServiceProviderApi.updateStatusUpdate(
+                            widget.bookingDetail, false, false, true)
+                        .then((value) {
+                      ProgressDialogBuilder.hideCommonProgressDialog(context);
+                      if (value) {
+                        NavigationRouter.switchToServiceProviderBottomBar(
+                            context);
+                      }
+                    });
+                  }
+                });
+              }
             },
             color: Color.fromRGBO(217, 217, 217, 1),
             padding: EdgeInsets.symmetric(
