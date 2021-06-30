@@ -1215,7 +1215,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                     ),
                   ],
                 ),
-                therapistDetails.bookingDataResponse[0].therapistComments !=
+                /*      therapistDetails.bookingDataResponse[0].therapistComments !=
                             null &&
                         therapistDetails
                                 .bookingDataResponse[0].therapistComments !=
@@ -1234,7 +1234,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                           ),
                         ],
                       )
-                    : Container(),
+                    : Container(),*/
               ],
             ),
           ),
@@ -1527,7 +1527,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                'マッサージのためにセラピストの店舗に行きたいですか？',
+                '店舗での施術に変更しますか？',
                 style: TextStyle(
                     fontSize: 14,
                     color: Colors.black,

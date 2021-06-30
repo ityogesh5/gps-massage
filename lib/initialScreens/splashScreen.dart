@@ -8,6 +8,7 @@ import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityH
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 class SplashScreen extends StatefulWidget {
   // ignore: non_constant_identifier_names
@@ -52,6 +53,7 @@ class _SplashScreenPageState extends State<SplashScreen>
   void initState() {
     CheckInternetConnection.checkConnectivity(context);
     super.initState();
+    FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
     animationController = new AnimationController(
         vsync: this, duration: new Duration(seconds: 2));
     animation = new CurvedAnimation(

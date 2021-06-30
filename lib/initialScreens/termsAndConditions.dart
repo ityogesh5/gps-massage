@@ -11,6 +11,7 @@ import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 class IntroTermsAndPolicy extends StatefulWidget {
   @override
@@ -29,7 +30,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
   @override
   void initState() {
     super.initState();
-
+    FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
     _tabController = TabController(vsync: this, length: 2);
     _tabController.addListener(_handleTabSelection);
   }

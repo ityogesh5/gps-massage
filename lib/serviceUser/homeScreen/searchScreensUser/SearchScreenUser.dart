@@ -148,7 +148,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                       onPressed: () {
                                         if (keywordController.text.isEmpty) {
                                           displaySnackBar(
-                                              "検索に有効なキーワードを入力してください。");
+                                              "キーワードを入力してから検索ボタンを押して下さい。");
                                         } else {
                                           HealingMatchConstants
                                                   .searchKeyWordValue =

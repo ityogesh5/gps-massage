@@ -681,7 +681,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                           //enableInteractiveSelection: false,
                           enabled: false,
                           autofocus: false,
-                          maxLength: 10,
+                          maxLength: 11,
                           controller: phoneNumberController,
                           keyboardType:
                               TextInputType.numberWithOptions(signed: true),

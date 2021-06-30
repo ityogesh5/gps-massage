@@ -62,6 +62,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
   var selectedBuildingType = '店舗';
   var currentLoading;
   bool isBookingLoading = false;
+  String currentPrefecture;
 
   @override
   void initState() {
@@ -996,6 +997,8 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
       currentLoading();
     }
     var splitAddress = HealingMatchConstants.confServiceAddress.split(' ');
+    currentPrefecture = splitAddress[0];
+    print(' CurrentLocality:${currentPrefecture}');
     List<Location> address = await locationFromAddress(
         Platform.isIOS
             ? "${splitAddress[1]},${splitAddress[0]}"
@@ -1024,7 +1027,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
 
   _updateUserBookingDetails() async {
     //   ProgressDialogBuilder.showOverlayLoader(context);
-
+    print(' CurrentLocality:${HealingMatchConstants.locality}');
     int therapistId = HealingMatchConstants.confTherapistId;
     String startTime =
         HealingMatchConstants.confSelectedDateTime.toLocal().toString();
@@ -1043,7 +1046,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
     int userReviewStatus = 0;
     int therapistReviewStatus = 0;
     String userCommands = _queriesAskController.text;
-    String currentPrefecture = HealingMatchConstants.locality;
+    String currentPref = currentPrefecture;
     String userAppendedName = HealingMatchConstants.serviceUserName +
         "(" +
         HealingMatchConstants.serviceUserGender +
@@ -1090,7 +1093,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
             therapistReviewStatus,
             userCommands,
             value.id,
-            currentPrefecture,
+            currentPref,
             HealingMatchConstants.bookingAddressId);
         NavigationRouter.switchToServiceUserReservationAndFavourite(context);
       });

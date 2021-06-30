@@ -753,7 +753,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                     ),
                   ],
                 ),
-                therapistDetails.bookingDataResponse[0].therapistComments !=
+                /*  therapistDetails.bookingDataResponse[0].therapistComments !=
                             null &&
                         therapistDetails
                                 .bookingDataResponse[0].therapistComments !=
@@ -772,7 +772,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                           ),
                         ],
                       )
-                    : Container(),
+                    : Container(),*/
               ],
             ),
           ),

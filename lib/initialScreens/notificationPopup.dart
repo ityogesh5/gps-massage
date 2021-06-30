@@ -2,6 +2,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 
@@ -12,6 +13,11 @@ class NotificationPopup extends StatefulWidget {
 
 class _NotificationPopupState extends State<NotificationPopup> {
   final fireBaseMessaging = new FirebaseMessaging();
+  @override
+  void initState() {
+    super.initState();
+    FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
+  }
 
   @override
   Widget build(BuildContext context) {
