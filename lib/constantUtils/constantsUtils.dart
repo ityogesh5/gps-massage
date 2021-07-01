@@ -474,11 +474,13 @@ class HealingMatchConstants {
   static const String registrationStorePhnNum = '店舗の電話番号';
   static const String registrationMailAdress = 'メールアドレス';
   static const String registrationPassword = 'パスワード';
-  static const String registrationPasswordInstructionText = "半角英数8~16文字以内";
+  static const String registrationPasswordInstructionText =
+      "半角英数8～16文字以内で、大文字、小文字、\n数字特殊文字を2種類以上使用";
   static const String registrationConfirmPassword = 'パスワード(確認用)';
   static const String registrationStorePhnText = '店舗として登録の場合は代表者の携帯番号を入力してください';
   static const String registrationIndividualText =
       '個人で登録の方は、住所の詳細情報が利用者に\n 開示されることはありません';
+  static const String registrationPlaceAddress = '住所の登録';
   static const String registrationBuildingName = '建物名';
   static const String registrationRoomNo = '部屋番号';
   static const String registrationPointTxt =

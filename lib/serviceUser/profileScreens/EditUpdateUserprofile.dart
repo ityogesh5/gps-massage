@@ -535,58 +535,46 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                       height: 15,
                     ),
                     // Drop down gender user
-                    Padding(
-                      padding: const EdgeInsets.only(left: 100.0, right: 25.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          WidgetAnimator(
-                            Text(
-                              '性別',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontFamily: 'NotoSansJP',
-                                  fontWeight: FontWeight.w300),
-                            ),
-                          ),
-                          Form(
-                            key: _genderKey,
-                            child: Center(
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.38,
-                                child: WidgetAnimator(
-                                  DropDownFormField(
-                                    hintText: '性別',
-                                    value: _myGender,
-                                    onSaved: (value) {
-                                      setState(() {
-                                        _myGender = value;
-                                      });
+                    Form(
+                      key: _genderKey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Center(
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.85,
+                              child: WidgetAnimator(
+                                DropDownFormField(
+                                  requiredField: true,
+                                  hintText: '性別',
+                                  value: _myGender,
+                                  onSaved: (value) {
+                                    setState(() {
+                                      _myGender = value;
+                                    });
+                                  },
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _myGender = value;
+                                      //print(_myBldGrp.toString());
+                                    });
+                                  },
+                                  dataSource: [
+                                    {
+                                      "display": "男性",
+                                      "value": "男性",
                                     },
-                                    onChanged: (value) {
-                                      setState(() {
-                                        _myGender = value;
-                                        //print(_myBldGrp.toString());
-                                      });
+                                    {
+                                      "display": "女性",
+                                      "value": "女性",
                                     },
-                                    dataSource: [
-                                      {
-                                        "display": "男性",
-                                        "value": "男性",
-                                      },
-                                      {
-                                        "display": "女性",
-                                        "value": "女性",
-                                      },
-                                      {
-                                        "display": "どちらでもない",
-                                        "value": "どちらでもない",
-                                      },
-                                    ],
-                                    textField: 'display',
-                                    valueField: 'value',
-                                  ),
+                                    {
+                                      "display": "どちらでもない",
+                                      "value": "どちらでもない",
+                                    },
+                                  ],
+                                  textField: 'display',
+                                  valueField: 'value',
                                 ),
                               ),
                             ),
@@ -597,6 +585,29 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                     SizedBox(
                       height: 15,
                     ),
+                    Form(
+                      child: Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            _showPicker(context, 0);
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.85,
+                            child: DropDownFormField(
+                              hintText: 'プロフィール写真の登録',
+                              onSaved: (value) {
+                                setState(() {});
+                              },
+                              onChanged: (value) {},
+                              dataSource: [],
+                              textField: 'display',
+                              valueField: 'value',
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 15),
                     // Drop down occupation user
                     Form(
                       key: _occupationKey,
@@ -1829,14 +1840,14 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                 children: <Widget>[
                   new ListTile(
                       leading: new Icon(Icons.photo_library),
-                      title: new Text('プロフィール画像を選択してください。'),
+                      title: new Text('既存の写真から選択する。'),
                       onTap: () {
                         _imgFromGallery(index);
                         Navigator.of(context).pop();
                       }),
                   new ListTile(
                     leading: new Icon(Icons.photo_camera),
-                    title: new Text('プロフィール写真を撮ってください。'),
+                    title: new Text('カメラで撮影する。'),
                     onTap: () {
                       _imgFromCamera(index);
                       Navigator.of(context).pop();

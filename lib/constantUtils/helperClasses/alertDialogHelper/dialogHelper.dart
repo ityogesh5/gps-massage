@@ -669,7 +669,7 @@ class DialogHelper {
                             Center(
                               child: FittedBox(
                                 child: Text(
-                                  '登録が完了しました。\n 現在管理者による登録内容の確認をしております。\n 確認がとれ次第アプリの使用が可能になります。',
+                                  '登録いただいた内容を確認しております。\n確認ができ次第アプリの使用が可能になります。',
                                   style: TextStyle(fontSize: 14.0),
                                   textAlign: TextAlign.center,
                                 ),

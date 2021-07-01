@@ -361,29 +361,6 @@ class _RegisterUserState extends State<RegisterUser> {
                       ],
                     ),
                     SizedBox(height: 10),
-                    Form(
-                      child: Center(
-                        child: GestureDetector(
-                          onTap: () {
-                            _showPicker(context);
-                          },
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.85,
-                            child: DropDownFormField(
-                              hintText: 'プロフィール画像アップロード',
-                              onSaved: (value) {
-                                setState(() {});
-                              },
-                              onChanged: (value) {},
-                              dataSource: [],
-                              textField: 'display',
-                              valueField: 'value',
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 15),
                     Container(
                       height: containerHeight,
                       width: MediaQuery.of(context).size.width * 0.85,
@@ -532,100 +509,65 @@ class _RegisterUserState extends State<RegisterUser> {
                       height: 15,
                     ),
                     // Drop down gender user
-                    Padding(
-                      padding: const EdgeInsets.only(left: 100.0, right: 25.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          FittedBox(
-                            child: RichText(
-                              textAlign: TextAlign.start,
-                              text: new TextSpan(
-                                text: '性別 ',
-                                style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontFamily: 'NotoSansJP',
-                                    color: Color.fromRGBO(0, 0, 0, 1),
-                                    fontWeight: FontWeight.w300),
-                                children: <TextSpan>[
-                                  new TextSpan(
-                                      text: '*',
-                                      style: new TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.red,
-                                          fontStyle: FontStyle.normal,
-                                          fontWeight: FontWeight.w300)),
+                    Form(
+                      key: _genderKey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Center(
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.85,
+                              child: DropDownFormField(
+                                requiredField: true,
+                                hintText: '性別',
+                                value: _myGender,
+                                onSaved: (value) {
+                                  setState(() {
+                                    _myGender = value;
+                                  });
+                                },
+                                onChanged: (value) {
+                                  setState(() {
+                                    _myGender = value;
+                                    print(value.toString());
+                                    if (_myGender.contains('M')) {
+                                      _sharedPreferences.then((value) {
+                                        value.setString('japaneseGender', '男性');
+                                        japaneseGender =
+                                            value.getString('japaneseGender');
+                                      });
+                                    } else if (_myGender.contains('F')) {
+                                      _sharedPreferences.then((value) {
+                                        value.setString('japaneseGender', '女性');
+                                        japaneseGender =
+                                            value.getString('japaneseGender');
+                                      });
+                                    } else if (_myGender.contains('O')) {
+                                      _sharedPreferences.then((value) {
+                                        value.setString(
+                                            'japaneseGender', 'どちらでもない');
+                                        japaneseGender =
+                                            value.getString('japaneseGender');
+                                      });
+                                    }
+                                  });
+                                },
+                                dataSource: [
+                                  {
+                                    "display": "男性",
+                                    "value": "男性",
+                                  },
+                                  {
+                                    "display": "女性",
+                                    "value": "女性",
+                                  },
+                                  {
+                                    "display": "どちらでもない",
+                                    "value": "どちらでもない",
+                                  },
                                 ],
-                              ),
-                            ),
-                          ),
-                          /* Text(
-                            '性別 *',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Color.fromRGBO(0, 0, 0, 1),
-                                fontFamily: 'NotoSansJP',
-                                fontWeight: FontWeight.w300),
-                          ),*/
-                          Form(
-                            key: _genderKey,
-                            child: Center(
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.38,
-                                child: DropDownFormField(
-                                  hintText: '',
-                                  value: _myGender,
-                                  onSaved: (value) {
-                                    setState(() {
-                                      _myGender = value;
-                                    });
-                                  },
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _myGender = value;
-                                      print(value.toString());
-                                      if (_myGender.contains('M')) {
-                                        _sharedPreferences.then((value) {
-                                          value.setString(
-                                              'japaneseGender', '男性');
-                                          japaneseGender =
-                                              value.getString('japaneseGender');
-                                        });
-                                      } else if (_myGender.contains('F')) {
-                                        _sharedPreferences.then((value) {
-                                          value.setString(
-                                              'japaneseGender', '女性');
-                                          japaneseGender =
-                                              value.getString('japaneseGender');
-                                        });
-                                      } else if (_myGender.contains('O')) {
-                                        _sharedPreferences.then((value) {
-                                          value.setString(
-                                              'japaneseGender', 'どちらでもない');
-                                          japaneseGender =
-                                              value.getString('japaneseGender');
-                                        });
-                                      }
-                                    });
-                                  },
-                                  dataSource: [
-                                    {
-                                      "display": "男性",
-                                      "value": "男性",
-                                    },
-                                    {
-                                      "display": "女性",
-                                      "value": "女性",
-                                    },
-                                    {
-                                      "display": "どちらでもない",
-                                      "value": "どちらでもない",
-                                    },
-                                  ],
-                                  textField: 'display',
-                                  valueField: 'value',
-                                ),
+                                textField: 'display',
+                                valueField: 'value',
                               ),
                             ),
                           ),
@@ -635,6 +577,29 @@ class _RegisterUserState extends State<RegisterUser> {
                     SizedBox(
                       height: 15,
                     ),
+                    Form(
+                      child: Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            _showPicker(context);
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.85,
+                            child: DropDownFormField(
+                              hintText: 'プロフィール写真の登録',
+                              onSaved: (value) {
+                                setState(() {});
+                              },
+                              onChanged: (value) {},
+                              dataSource: [],
+                              textField: 'display',
+                              valueField: 'value',
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 15),
                     // Drop down occupation user
                     Form(
                       key: _occupationKey,
@@ -2323,14 +2288,14 @@ class _RegisterUserState extends State<RegisterUser> {
                 children: <Widget>[
                   new ListTile(
                       leading: new Icon(Icons.photo_library),
-                      title: new Text('プロフィール画像を選択してください。'),
+                      title: new Text('既存の写真から選択する。'),
                       onTap: () {
                         _imgFromGallery();
                         Navigator.of(context).pop();
                       }),
                   new ListTile(
                     leading: new Icon(Icons.photo_camera),
-                    title: new Text('プロフィール写真を撮ってください。'),
+                    title: new Text('カメラで撮影する。'),
                     onTap: () {
                       _imgFromCamera();
                       Navigator.of(context).pop();
