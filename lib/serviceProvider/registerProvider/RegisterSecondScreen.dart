@@ -373,32 +373,6 @@ class _RegistrationSecondPageState
                   SizedBox(
                     height: 20,
                   ),
-                  InkWell(
-                    onTap: () {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return BannerImageUpload();
-                          });
-                    },
-                    child: TextFormField(
-                      enabled: false,
-                      decoration: new InputDecoration(
-                        contentPadding: EdgeInsets.fromLTRB(8, 3, 6, 3),
-                        disabledBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                        suffixIcon: Image.asset("assets/images_gps/upload.png"),
-                        filled: true,
-                        hintStyle: HealingMatchConstants.formHintTextStyle,
-                        hintText:
-                            HealingMatchConstants.registrationMultiPhotoUpload,
-                        fillColor: ColorConstants.formFieldFillColor,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -692,6 +666,32 @@ class _RegistrationSecondPageState
                           textAlign: TextAlign.left,
                           style: HealingMatchConstants.formHintTextStyle,
                         ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return BannerImageUpload();
+                          });
+                    },
+                    child: TextFormField(
+                      enabled: false,
+                      decoration: new InputDecoration(
+                        contentPadding: EdgeInsets.fromLTRB(8, 3, 6, 3),
+                        disabledBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        suffixIcon: Image.asset("assets/images_gps/upload.png"),
+                        filled: true,
+                        hintStyle: HealingMatchConstants.formHintTextStyle,
+                        hintText:
+                            HealingMatchConstants.registrationMultiPhotoUpload,
+                        fillColor: ColorConstants.formFieldFillColor,
                       ),
                     ),
                   ),

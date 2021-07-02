@@ -949,6 +949,26 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                       ),
                       SizedBox(height: sizedBoxFormHeight),
                       Container(
+                        width: containerWidth,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("*", style: TextStyle(color: Colors.red)),
+                            Expanded(
+                              child: Text(
+                                HealingMatchConstants.registrationPointTxt,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: ColorConstants.formHintTextColor,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: sizedBoxFormHeight),
+                      Container(
                         height: containerHeight,
                         width: containerWidth,
                         /*  decoration: BoxDecoration(
@@ -2789,14 +2809,14 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                 children: <Widget>[
                   new ListTile(
                       leading: new Icon(Icons.photo_library),
-                      title: new Text('プロフィール画像を選択してください。'),
+                      title: new Text('既存の写真から選択する。'),
                       onTap: () {
                         _imgFromGallery(index);
                         Navigator.of(context).pop();
                       }),
                   new ListTile(
                     leading: new Icon(Icons.photo_camera),
-                    title: new Text('プロフィール写真を撮ってください。'),
+                    title: new Text('カメラで撮影する。'),
                     onTap: () {
                       _imgFromCamera(index);
                       Navigator.of(context).pop();
