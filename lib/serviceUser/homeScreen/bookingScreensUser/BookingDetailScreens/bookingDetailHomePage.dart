@@ -1616,7 +1616,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                 print(
                     'Address length loop : ${HealingMatchConstants.userAddressDetailsList.length}');
                 // HealingMatchConstants.userAddressDetailsList.removeAt(0);
-                openAddressListDialog();
+
               } else {
                 ProgressDialogBuilder.hideLoader(context);
                 print('Is default false');
@@ -1624,6 +1624,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
               }
             }
           });
+          openAddressListDialog();
         }
       });
     } catch (e) {

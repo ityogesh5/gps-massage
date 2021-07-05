@@ -1346,7 +1346,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                     approvedWithConditionsList[index].locationDistance !=
                                                                             null
                                                                         ? Text(
-                                                                            '${approvedWithConditionsList[index].locationDistance}',
+                                                                            '${approvedWithConditionsList[index].locationDistance}km圏内',
                                                                             style:
                                                                                 TextStyle(
                                                                               color: Color.fromRGBO(153, 153, 153, 1),
@@ -2026,7 +2026,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                   context);
                                                         },
                                                         child: Card(
-                                                          elevation: 4.0,
+                                                          elevation: 8.0,
                                                           shape: CircleBorder(),
                                                           margin:
                                                               EdgeInsets.all(

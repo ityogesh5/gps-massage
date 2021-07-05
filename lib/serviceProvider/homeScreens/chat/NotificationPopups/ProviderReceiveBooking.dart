@@ -642,7 +642,8 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                 ),
                 InkWell(
                   onTap: () {
-                    HealingMatchConstants.serviceUserName = widget.bookingDetail.bookingUserId.userName;
+                    HealingMatchConstants.serviceUserName =
+                        widget.bookingDetail.bookingUserId.userName;
                     NavigationRouter.switchToProviderSideUserReviewScreen(
                         context, widget.bookingDetail.userId);
                   },

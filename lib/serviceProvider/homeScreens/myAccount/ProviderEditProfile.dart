@@ -397,6 +397,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                           ), */
                         ],
                       ),
+                      SizedBox(height: sizedBoxFormHeight),
                       Container(
                           height: containerHeight,
                           width: containerWidth,
@@ -631,7 +632,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                             enabled: false,
                             hintText: Text.rich(
                               TextSpan(
-                                text: "プロフィール画像アップロード",
+                                text: "プロフィール写真の登録",
                                 children: <InlineSpan>[
                                   TextSpan(
                                     text: '*',
@@ -770,7 +771,8 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                           child: DropDownFormField(
                                             requiredField: true,
                                             titleText: null,
-                                            hintText: readonly ? myCity : '市',
+                                            hintText:
+                                                readonly ? myCity : '市区町村',
                                             onSaved: (value) {
                                               setState(() {
                                                 myCity = value;

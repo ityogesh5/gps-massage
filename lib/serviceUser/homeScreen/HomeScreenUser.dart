@@ -1977,11 +1977,11 @@ class _ReservationListState extends State<ReservationList> {
   Widget build(BuildContext context) {
     if (bookingDetailsList != null && bookingDetailsList.isNotEmpty) {
       DateTime startTime = bookingDetailsList[0].newStartTime != null
-          ? bookingDetailsList[0].newStartTime.toLocal()
-          : bookingDetailsList[0].startTime.toLocal();
+          ? DateTime.parse(bookingDetailsList[0].newStartTime)
+          : bookingDetailsList[0].startTime;
       DateTime endTime = bookingDetailsList[0].newEndTime != null
-          ? bookingDetailsList[0].newEndTime.toLocal()
-          : bookingDetailsList[0].endTime.toLocal();
+          ? DateTime.parse(bookingDetailsList[0].newEndTime)
+          : bookingDetailsList[0].endTime;
       setState(() {
         month = DateFormat('MM月').format(startTime);
         day = DateFormat('d').format(startTime);
