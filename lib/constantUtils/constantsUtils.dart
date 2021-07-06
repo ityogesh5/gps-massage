@@ -556,7 +556,9 @@ class HealingMatchConstants {
 
   static int serviceUserId;
   static int userId;
-  static List<FlutterWeekViewEvent> events = List<FlutterWeekViewEvent>();
+  static List<FlutterWeekViewEvent> events =
+      List<FlutterWeekViewEvent>(); //allEvents
+  static List<FlutterWeekViewEvent> calEvents = List<FlutterWeekViewEvent>();
   static List<StoreServiceTime> therapistDetails = List<StoreServiceTime>();
   static String storeServiceTime = '';
 

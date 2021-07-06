@@ -487,7 +487,8 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                       direction:
                                                           Axis.horizontal,
                                                       allowHalfRating: true,
-                                                      unratedColor: Colors.grey[400],
+                                                      unratedColor:
+                                                          Colors.grey[400],
                                                       itemCount: 5,
                                                       itemSize: 24.0,
                                                       ignoreGestures: true,
@@ -1372,9 +1373,11 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
 
   List<DateTime> getEventDateTime() {
     eventDateTime.clear();
-    for (var event in flutterWeekEvents) {
-      DateTime eventDate = DateTime(event.events.start.dateTime.year,
-          event.events.start.dateTime.month, event.events.start.dateTime.day);
+    for (var event in  HealingMatchConstants.calEvents) {
+      DateTime startTime = event.events.start.dateTime.toLocal();
+      DateTime eventDate =
+          DateTime(startTime.year, startTime.month, startTime.day);
+
       eventDateTime.add(eventDate);
     }
     return eventDateTime;

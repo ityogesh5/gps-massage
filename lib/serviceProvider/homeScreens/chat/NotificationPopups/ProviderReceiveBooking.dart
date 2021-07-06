@@ -543,7 +543,9 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
 
   Card buildBookingCard() {
     String jaName = DateFormat('EEEE', 'ja_JP').format(startTime);
-    sTime = DateFormat('kk:mm').format(startTime);
+    sTime = startTime.hour == 0
+        ? DateFormat('KK:mm').format(startTime)
+        : DateFormat('kk:mm').format(startTime);
     eTime = DateFormat('kk:mm').format(endTime);
     DateTime updatedTime = widget.bookingDetail.updatedAt.toLocal();
     String updateTimeFormat = DateFormat('kk:mm').format(updatedTime);
@@ -1026,7 +1028,18 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
         }
       }
     }
-    acceptBooking();
+    if (HealingMatchConstants.numberOfEmployeeRegistered < 2) {
+      ServiceProviderApi.searchEventByTime(startTime, endTime).then((value) {
+        if (value.length == 0) {
+          acceptBooking();
+        } else {
+          displaySnackBar("この時点ですでに予約されています。");
+          return null;
+        }
+      });
+    } else {
+      acceptBooking();
+    }
   }
 
   void acceptBooking() {

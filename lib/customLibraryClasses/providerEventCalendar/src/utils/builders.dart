@@ -72,7 +72,9 @@ class DefaultBuilders {
     Calendar.Event googleApiEvent = event.events;
     var split = googleApiEvent.summary.split(',');
     var difference = event.end.difference(event.start).inMinutes;
-    String sTime = DateFormat('kk:mm').format(event.start);
+     String sTime = event.start.hour == 0
+        ? DateFormat('KK:mm').format(event.start)
+        : DateFormat('kk:mm').format(event.start);
     String eTime = DateFormat('kk:mm').format(event.end);
 
     return googleApiEvent.description == "unavailable"

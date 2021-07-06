@@ -27,7 +27,9 @@ class ProviderCalendarDetailPopup {
     ];
     var price = japaneseCurrency.format(int.parse(desSplit[1]));
     String jaName = DateFormat('EEEE', 'ja_JP').format(start);
-    String sTime = DateFormat('kk:mm').format(start);
+    String sTime = start.hour == 0
+        ? DateFormat('KK:mm').format(start)
+        : DateFormat('kk:mm').format(start);
     String eTime = DateFormat('kk:mm').format(end);
     String day = DateFormat('MM月dd').format(end);
     var difference = end.difference(start).inMinutes;
@@ -175,7 +177,7 @@ class ProviderCalendarDetailPopup {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         SvgPicture.asset(
-                          "assets/images_gps/clock.svg",
+                          "assets/images_gps/cost.svg",
                           height: 14.77,
                           width: 16.0,
                         ),
@@ -190,7 +192,9 @@ class ProviderCalendarDetailPopup {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              ' ${desSplit[0]} ',
+                              desSplit[0].length > 15
+                                  ? desSplit[0].substring(0, 15) + "..."
+                                  : ' ${desSplit[0]} ',
                               style: TextStyle(
                                 fontSize: 12.0,
                                 color: Colors.black,

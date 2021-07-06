@@ -641,8 +641,9 @@ class _ProviderCalendarState extends State<ProviderCalendar> {
   Map<DateTime, List<dynamic>> eventBuilder() {
     eventDotHandler = Map<DateTime, List<dynamic>>();
     for (var event in events) {
-      DateTime eventDate = DateTime(event.events.start.dateTime.year,
-          event.events.start.dateTime.month, event.events.start.dateTime.day);
+      DateTime startTime = event.events.start.dateTime.toLocal();
+      DateTime eventDate =
+          DateTime(startTime.year, startTime.month, startTime.day);
 
       var value = eventDotHandler[eventDate];
       if (value == null) {
