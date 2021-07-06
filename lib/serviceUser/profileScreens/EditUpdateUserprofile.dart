@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -75,6 +76,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
   String imgBase64ProfileImage;
   Uint8List profileImageInBytes;
+  var currentLoading;
+  bool isBookingLoading = false;
 
   @override
   void initState() {
@@ -1680,7 +1683,44 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                     ButtonTheme(
                       minWidth: MediaQuery.of(context).size.width * 0.85,
                       height: MediaQuery.of(context).size.height * 0.06,
-                      child: new RaisedButton(
+                      child: ArgonButton(
+                        height: 45,
+                        width: MediaQuery.of(context).size.width - 20.0,
+                        color: Colors.lime,
+                        child: Text(
+                          '更新',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'NotoSansJP',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14),
+                        ),
+                        loader: Container(
+                          padding: EdgeInsets.all(10),
+                          child: SpinKitRotatingCircle(
+                            color: Colors.white,
+                            // size: loaderWidth ,
+                          ),
+                        ),
+                        onTap: (startLoading, stopLoading, btnState) {
+                          if (btnState == ButtonState.Idle &&
+                              !isBookingLoading) {
+                            this.currentLoading = stopLoading;
+                            startLoading();
+                            setState(() {
+                              isBookingLoading = true;
+                            });
+                            print(
+                                'JSON LIST SUB ADDRESS CONST LIST : ${json.encode(HealingMatchConstants.userAddressesList)}');
+                            print(
+                                'JSON LIST SUB ADDRESS LOCAL LIST : ${json.encode(constantUserAddressValuesList)}');
+                            _updateUserDetails();
+                            print(
+                                'User id : ${HealingMatchConstants.serviceUserID}');
+                          }
+                        },
+                      ),
+                      /* RaisedButton(
                         shape: RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(10.0),
                           //side: BorderSide(color: Colors.black),
@@ -1703,7 +1743,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                               fontWeight: FontWeight.bold,
                               fontSize: 14),
                         ),
-                      ),
+                      ), */
                     ),
                   ],
                 )
@@ -1967,6 +2007,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     // user perfecture validation
     if ((_myPrefecture == null || _myPrefecture.isEmpty)) {
+      currentLoading();
       ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -1998,6 +2039,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     // user city validation
     if ((_myCity == null || _myCity.isEmpty)) {
+      currentLoading();
       ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -2029,6 +2071,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     // user area validation
     if ((userArea == null || userArea.isEmpty)) {
+      currentLoading();
       ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -2060,6 +2103,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     // user area validation
     if (userArea == null || userArea.isEmpty) {
+      currentLoading();
       ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -2093,6 +2137,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       print('_myAddressInputType : $_myAddressInputType');
     }
     if (userName.length == 0 || userName.isEmpty || userName == null) {
+      currentLoading();
       ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -2122,6 +2167,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       return null;
     }
     if (userName.length > 20) {
+      currentLoading();
       ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -2153,6 +2199,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     // user DOB validation
     if (userDOB == null || userDOB.isEmpty) {
+      currentLoading();
       ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -2183,6 +2230,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     }
     //age validation
     if (ageOfUser < 18) {
+      currentLoading();
       ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -2223,6 +2271,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     if (userPhoneNumber != null &&
         userPhoneNumber.isNotEmpty &&
         userPhoneNumber.length < 10) {
+      currentLoading();
       ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -2290,6 +2339,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     // Email Validation
     if (email.isNotEmpty && !(email.contains(regexMail))) {
+      currentLoading();
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -2318,6 +2368,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       return null;
     }
     if (email.isNotEmpty && email.length > 50) {
+      currentLoading();
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -2346,6 +2397,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       return null;
     }
     if (email.isNotEmpty && (email.contains(regexEmojis))) {
+      currentLoading();
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -2538,6 +2590,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           updateAddress.clear();
           constantUserAddressValuesList.clear();
           HealingMatchConstants.userAddressesList.clear();
+          currentLoading();
           ProgressDialogBuilder.hideLoader(context);
           DialogHelper.showUserProfileUpdatedSuccessDialog(context);
         } else if (value.statusCode == 400) {
@@ -2546,6 +2599,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           final editErrorUpdateResponse =
               UpdateErrorModel.fromJson(errorResponse);
           print('Error Message : ${editErrorUpdateResponse.message}');
+          currentLoading();
           ProgressDialogBuilder.hideLoader(context);
 
           _scaffoldKey.currentState.showSnackBar(SnackBar(

@@ -359,7 +359,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     SvgPicture.asset(
-                      "assets/images_gps/clock.svg",
+                      "assets/images_gps/cost.svg",
                       height: 14.77,
                       width: 16.0,
                     ),
@@ -386,7 +386,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                       width: 2,
                     ),
                     Text(
-                      '¥${therapistDetails.bookingDataResponse[0].priceOfService}',
+                      '¥${therapistDetails.bookingDataResponse[0].totalCost}',
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.black,

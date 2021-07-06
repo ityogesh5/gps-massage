@@ -1016,7 +1016,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
         displaySnackBar("新しい時間を選択してください。");
         return null;
       }
-      if (newStartTime != null) {
+      /* if (newStartTime != null) {
         if ((newStartTime.day != widget.bookingDetail.startTime.day ||
                 newEndTime.day !=
                     widget.bookingDetail.endTime
@@ -1026,7 +1026,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
           displaySnackBar("同じ日の有効な時間を選択してください。");
           return null;
         }
-      }
+      } */
     }
     if (HealingMatchConstants.numberOfEmployeeRegistered < 2) {
       ServiceProviderApi.searchEventByTime(startTime, endTime).then((value) {
@@ -1044,8 +1044,20 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
 
   void acceptBooking() {
     if (suggestAnotherTime) {
-      widget.bookingDetail.newStartTime = newStartTime;
-      widget.bookingDetail.newEndTime = newEndTime;
+      widget.bookingDetail.newStartTime = DateTime(
+          newStartTime.year,
+          newStartTime.month,
+          startTime.day,
+          newStartTime.hour,
+          newStartTime.minute,
+          newStartTime.second);
+      widget.bookingDetail.newEndTime = DateTime(
+          newEndTime.year,
+          newEndTime.month,
+          startTime.day,
+          newEndTime.hour,
+          newEndTime.minute,
+          newEndTime.second);
       widget.bookingDetail.therapistComments = providerCommentsController.text;
     }
     if (proposeAdditionalCosts) {

@@ -54,7 +54,8 @@ class _FavoriteState extends State<Favorite> {
   List<Map<String, String>> certificateUploadList = List<Map<String, String>>();
   var addressOfTherapists, distanceRadius;
   List<dynamic> distanceOfTherapist = new List();
-  List<GlobalKey<FormState>> _favformKeyList;
+  // List<GlobalKey<ScaffoldState>> _favformKeyList;
+  List<GlobalKey> _favformKeyList;
   BoxDecoration boxDecoration = BoxDecoration(
     borderRadius: BorderRadius.circular(8.0),
     color: Colors.white,
@@ -72,11 +73,11 @@ class _FavoriteState extends State<Favorite> {
     });
   }
 
-  /*  @override
-  void dispose(){
+  @override
+  void dispose() {
+    _favformKeyList.clear();
     super.dispose();
-
-  } */
+  }
 
   getFavoriteList() async {
     var getFavourite =
@@ -97,8 +98,10 @@ class _FavoriteState extends State<Favorite> {
     try {
       if (this.mounted) {
         setState(() {
+          /*    _favformKeyList = List.generate(favouriteUserList.length,
+              (index) => GlobalKey<ScaffoldState>(debugLabel: 'Fav$index')); */
           _favformKeyList = List.generate(favouriteUserList.length,
-              (index) => GlobalKey<FormState>(debugLabel: 'Fav$index'));
+              (index) => GlobalObjectKey<FormState>('Fav$index'));
           for (int i = 0; i < favouriteUserList.length; i++) {
             Map<String, String> certificateUploaded = Map<String, String>();
             if (favouriteUserList[i]
@@ -214,6 +217,9 @@ class _FavoriteState extends State<Favorite> {
                                           splashColor: Colors.lime,
                                           hoverColor: Colors.lime,
                                           onTap: () {
+                                            HealingMatchConstants
+                                                    .serviceDistanceRadius =
+                                                distance;
                                             HealingMatchConstants.therapistId =
                                                 favouriteUserList[index]
                                                     .therapistId;
@@ -985,8 +991,7 @@ class _FavoriteState extends State<Favorite> {
     }
   }
 
-  void showToolTipForFav(
-      String text, GlobalObjectKey<FormState> _favformKeyList) {
+  void showToolTipForFav(String text, var _favformKeyList) {
     ShowToolTip popup = ShowToolTip(context,
         text: text,
         textStyle: TextStyle(color: Colors.black),

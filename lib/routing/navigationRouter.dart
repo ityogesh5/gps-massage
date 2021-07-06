@@ -762,7 +762,7 @@ class NavigationRouter {
 
   // Provider Change password screen
   static void switchToProviderChangePasswordScreen(BuildContext context) {
-    Navigator.of(context).push(PageRouteBuilder(
+    Navigator.of(context).pushReplacement(PageRouteBuilder(
         pageBuilder: (context, animation, anotherAnimation) {
           return ChangePassword();
         },

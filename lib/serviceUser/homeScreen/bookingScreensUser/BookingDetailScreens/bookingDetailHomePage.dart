@@ -853,7 +853,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                       width: 2,
                     ),
                     Text(
-                      '¥${therapistDetails.bookingDataResponse[0].priceOfService}',
+                      '¥${therapistDetails.bookingDataResponse[0].totalCost}',
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.black,

@@ -9,6 +9,7 @@ import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHel
 import 'package:gps_massageapp/customLibraryClasses/keyboardDoneButton/keyboardActionConfig.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/changePasswordProviderResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/login/sendVerifyResponseModel.dart';
+import 'package:gps_massageapp/serviceProvider/loginScreens/LoginScreen.dart';
 import 'package:http/http.dart' as http;
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -69,7 +70,7 @@ class _ChangePasswordState extends State<ChangePassword> {
             Navigator.pop(
                 context,
                 MaterialPageRoute(
-                    builder: (BuildContext context) => ForgetPassword()));
+                    builder: (BuildContext context) => ProviderLogin()));
           },
         ),
       ),

@@ -600,7 +600,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
         reSendVerifyResponse = SendVerifyResponseModel.fromJson(sendVerify);
 
         ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
-        NavigationRouter.switchToUserChangePasswordScreen(context);
+    //    NavigationRouter.switchToUserChangePasswordScreen(context);
       } else {
         ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
         print('Response Failure !!');
