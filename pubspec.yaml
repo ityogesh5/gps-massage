@@ -123,6 +123,7 @@ dependencies:
   readmore: any #Gowtham Text ReadMore
   argon_buttons_flutter: any
   flutter_stripe_payment: any
+#  flutter_native_admob:
  
 
 
