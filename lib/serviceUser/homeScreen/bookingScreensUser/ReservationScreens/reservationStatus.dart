@@ -475,7 +475,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                             index]
                                                         .locationDistance);
                                             NavigationRouter
-                                                .switchToUserSearchDetailPageOne(
+                                                .switchToServiceUserBookingDetailsCompletedScreenOne(
                                                     context,
                                                     waitingForApprovalList[
                                                             index]
@@ -1181,7 +1181,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                         .locationDistance);
 
                                             NavigationRouter
-                                                .switchToUserSearchDetailPageOne(
+                                                .switchToServiceUserBookingDetailsCompletedScreenOne(
                                                     context,
                                                     approvedWithConditionsList[
                                                             index]
@@ -1937,7 +1937,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 double.parse(approvedList[index]
                                                     .locationDistance);
                                             NavigationRouter
-                                                .switchToUserSearchDetailPageOne(
+                                                .switchToServiceUserBookingDetailsCompletedScreenOne(
                                                     context,
                                                     approvedList[index]
                                                         .therapistId);
@@ -2755,7 +2755,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                     confirmedPaymentList[index]
                                                         .locationDistance);
                                             NavigationRouter
-                                                .switchToUserSearchDetailPageOne(
+                                                .switchToServiceUserBookingDetailsCompletedScreenOne(
                                                     context,
                                                     confirmedPaymentList[index]
                                                         .therapistId);
