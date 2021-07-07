@@ -55,7 +55,7 @@ class _FavoriteState extends State<Favorite> {
   var addressOfTherapists, distanceRadius;
   List<dynamic> distanceOfTherapist = new List();
   // List<GlobalKey<ScaffoldState>> _favformKeyList;
-  List<GlobalKey> _favformKeyList;
+  List<GlobalKey> _favformKeyList = List<GlobalKey>();
   BoxDecoration boxDecoration = BoxDecoration(
     borderRadius: BorderRadius.circular(8.0),
     color: Colors.white,
@@ -100,8 +100,8 @@ class _FavoriteState extends State<Favorite> {
         setState(() {
           /*    _favformKeyList = List.generate(favouriteUserList.length,
               (index) => GlobalKey<ScaffoldState>(debugLabel: 'Fav$index')); */
-          _favformKeyList = List.generate(favouriteUserList.length,
-              (index) => GlobalObjectKey<FormState>('Fav$index'));
+          _favformKeyList.addAll(List.generate(favouriteUserList.length,
+              (index) => GlobalObjectKey<FormState>('Fav$index')));
           for (int i = 0; i < favouriteUserList.length; i++) {
             Map<String, String> certificateUploaded = Map<String, String>();
             if (favouriteUserList[i]

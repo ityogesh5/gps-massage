@@ -18,13 +18,14 @@ class HealingMatchApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: ColorConstants.statusBarColor,
-        statusBarBrightness: Brightness.dark,
-        statusBarIconBrightness: Brightness.dark));
+      statusBarColor: ColorConstants.statusBarColor,
+      statusBarBrightness: Brightness.light,
+      statusBarIconBrightness: Brightness.light,
+    ));
 
     return MaterialApp(
         theme: ThemeData(
-          appBarTheme: AppBarTheme(brightness: Brightness.dark),
+          // appBarTheme: AppBarTheme(brightness: Brightness.light),
           fontFamily: 'NotoSansJP',
         ),
         localizationsDelegates: [

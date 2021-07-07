@@ -56,13 +56,18 @@ class _CalendarScreenState extends State<CalendarScreen> {
   void initState() {
     super.initState();
     HealingMatchConstants.isProviderHomePage = false;
-
-    ServiceUserAPIProvider.getCalEvents().then((value) {
-      events.addAll(value);
+    if (!HealingMatchConstants.isUserRegistrationSkipped) {
+      ServiceUserAPIProvider.getCalEvents().then((value) {
+        events.addAll(value);
+        setState(() {
+          status = 1;
+        });
+      });
+    } else {
       setState(() {
         status = 1;
       });
-    });
+    }
     _calendarController = CalendarController();
     dateString = '';
     displayDay = DateTime(today.year, today.month, today.day);

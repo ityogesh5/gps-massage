@@ -33,6 +33,14 @@ class ProviderCalendarDetailPopup {
     String eTime = DateFormat('kk:mm').format(end);
     String day = DateFormat('MM月dd').format(end);
     var difference = end.difference(start).inMinutes;
+    var splitGender = split[3].split('(');
+    String name = HealingMatchConstants.isProvider
+        ? splitGender[0].length > 10
+            ? splitGender[0].substring(0, 10) + "(" + splitGender[1]
+            : split[3]
+        : split[1].length > 10
+            ? split[1].substring(0, 10) + "..."
+            : split[1];
 
     showDialog(
         context: context,
@@ -56,9 +64,7 @@ class ProviderCalendarDetailPopup {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          HealingMatchConstants.isProvider
-                              ? split[3]
-                              : split[1],
+                          name,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16.0),
                         ),

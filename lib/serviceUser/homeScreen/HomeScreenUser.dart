@@ -2998,11 +2998,18 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                     valueChanged: (_isFavorite) {
                                       print('Is Favorite : $_isFavorite');
                                       if (_isFavorite != null && _isFavorite) {
+                                        therapistUsers[index]
+                                            .favouriteToTherapist = 1;
+
                                         // call favorite therapist API
+
                                         ServiceUserAPIProvider
                                             .favouriteTherapist(
                                                 therapistUsers[index].id);
                                       } else {
+                                        therapistUsers[index]
+                                            .favouriteToTherapist = 0;
+
                                         // call un-favorite therapist API
                                         ServiceUserAPIProvider
                                             .unFavouriteTherapist(

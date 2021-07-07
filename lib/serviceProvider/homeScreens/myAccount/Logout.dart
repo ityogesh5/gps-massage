@@ -83,6 +83,7 @@ class _ProviderLogoutState extends State<ProviderLogout> {
                         if (value) {
                           Auth().signOut();
                           sharedPreferences.then((value) {
+                            value.clear();
                             value.setBool('isProviderLoggedOut', true);
                             value.setBool('isProviderLoggedIn', false);
                             value.setBool('isUserLoggedOut', false);

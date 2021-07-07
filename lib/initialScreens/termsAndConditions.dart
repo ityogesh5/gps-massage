@@ -107,6 +107,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
+        brightness: Brightness.light,
         elevation: 5.0,
         automaticallyImplyLeading: false,
         title: Text(

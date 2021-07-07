@@ -1145,7 +1145,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                         index]
                                                     .endTime
                                                     .toLocal();
-                                        String date = DateFormat('MM月d')
+                                        String date = DateFormat('MM月dd')
                                             .format(startTime);
                                         String sTime = DateFormat('kk:mm')
                                             .format(startTime);
@@ -1919,7 +1919,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 : approvedList[index]
                                                     .endTime
                                                     .toLocal();
-                                        String date = DateFormat('MM月d')
+                                        String date = DateFormat('MM月dd')
                                             .format(startTime);
                                         String sTime = DateFormat('kk:mm')
                                             .format(startTime);
@@ -1930,7 +1930,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 .format(startTime);
                                         return InkWell(
                                           onTap: () {
-                                            HealingMatchConstants.bookingIdPay =
+                                            /*    HealingMatchConstants.bookingIdPay =
                                                 approvedList[index].id;
                                             HealingMatchConstants
                                                     .serviceDistanceRadius =
@@ -1940,7 +1940,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 .switchToUserSearchDetailPageOne(
                                                     context,
                                                     approvedList[index]
-                                                        .therapistId);
+                                                        .therapistId); */
                                           },
                                           child: Container(
                                             // height: MediaQuery.of(context).size.height * 0.22,
@@ -1961,9 +1961,9 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 child: Stack(
                                                   children: [
                                                     Positioned(
-                                                        top: 150.0,
+                                                        top: 115.0,
                                                         // bottom: 5.0,
-                                                        right: 110.0,
+                                                        right: 120.0,
                                                         child: InkWell(
                                                           onTap: () {
                                                             ProgressDialogBuilder
@@ -1998,9 +1998,9 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                           ),
                                                         )),
                                                     Positioned(
-                                                      top: 150.0,
+                                                      top: 115.0,
                                                       // bottom: 5.0,
-                                                      right: 60.0,
+                                                      right: 65.0,
                                                       child: InkWell(
                                                         onTap: () {
                                                           HealingMatchConstants
@@ -2050,7 +2050,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                       ),
                                                     ),
                                                     Positioned(
-                                                      top: 150.0,
+                                                      top: 115.0,
                                                       // bottom: 5.0,
                                                       right: 10.0,
                                                       child: InkWell(
@@ -2449,7 +2449,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                       ],
                                                                     ),
                                                                     SizedBox(
-                                                                      height: 5,
+                                                                      height: certificateUploadAprvdList[index].length != 0 &&
+                                                                              certificateUploadAprvdList[index].keys.elementAt(0) != "無資格"
+                                                                          ? 5
+                                                                          : 0,
                                                                     ),
                                                                     certificateUploadAprvdList[index].length !=
                                                                                 0 &&
@@ -2492,10 +2495,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                                   );
                                                                                 }),
                                                                           )
-                                                                        : Container(
-                                                                            height:
-                                                                                38.0,
-                                                                          ),
+                                                                        : Container(),
                                                                   ],
                                                                 ),
                                                               ),
@@ -2736,7 +2736,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 : confirmedPaymentList[index]
                                                     .endTime
                                                     .toLocal();
-                                        String date = DateFormat('MM月d')
+                                        String date = DateFormat('MM月dd')
                                             .format(startTime);
                                         String sTime = DateFormat('kk:mm')
                                             .format(startTime);
@@ -3495,7 +3495,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 : canceledReservationList[index]
                                                     .endTime
                                                     .toLocal();
-                                        String date = DateFormat('MM月d')
+                                        String date = DateFormat('MM月dd')
                                             .format(startTime);
                                         String sTime = DateFormat('kk:mm')
                                             .format(startTime);

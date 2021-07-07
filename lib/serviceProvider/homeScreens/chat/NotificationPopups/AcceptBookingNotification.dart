@@ -617,7 +617,14 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
                       width: 5.0,
                     ),
                     Text(
-                      '${widget.requestBookingDetailsList.bookingDetail.bookingUserId.userName}',
+                      widget.requestBookingDetailsList.bookingDetail
+                                  .bookingUserId.userName.length >
+                              10
+                          ? widget.requestBookingDetailsList.bookingDetail
+                                  .bookingUserId.userName
+                                  .substring(0, 9) +
+                              "..."
+                          : '${widget.requestBookingDetailsList.bookingDetail.bookingUserId.userName}',
                       style: TextStyle(
                         fontSize: 16.0,
                         color: Colors.black,
@@ -1078,7 +1085,7 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
         if (value.length == 0) {
           acceptBooking();
         } else {
-          displaySnackBar("この時点ですでに予約されています。");
+          displaySnackBar("この時間にもう予約が入っています。");
           return null;
         }
       });

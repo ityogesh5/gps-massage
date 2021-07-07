@@ -88,7 +88,11 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              '${HealingMatchConstants.serviceProviderUserName}についてのレビュー',
+                              HealingMatchConstants
+                                          .serviceProviderUserName.length >
+                                      15
+                                  ? '${HealingMatchConstants.serviceProviderUserName.substring(0,14)}...についてのレビュー'
+                                  : '${HealingMatchConstants.serviceProviderUserName}についてのレビュー',
                               style: TextStyle(
                                   fontFamily: 'NotoSansJP',
                                   fontSize: 14,

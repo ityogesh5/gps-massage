@@ -97,7 +97,11 @@ class _GivenRatingListState extends State<GivenRatingList> {
                           child: Row(
                             children: [
                               Text(
-                                '${HealingMatchConstants.serviceProviderUserName}についてのレビュー',
+                                HealingMatchConstants
+                                            .serviceProviderUserName.length >
+                                        15
+                                    ? '${HealingMatchConstants.serviceProviderUserName.substring(0, 14)}...についてのレビュー'
+                                    : '${HealingMatchConstants.serviceProviderUserName}についてのレビュー',
                                 style: TextStyle(
                                     color: Color.fromRGBO(0, 0, 0, 1),
                                     fontSize: 14.0,

@@ -53,7 +53,7 @@ class _SplashScreenPageState extends State<SplashScreen>
   void initState() {
     CheckInternetConnection.checkConnectivity(context);
     super.initState();
-    FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
+    //  FlutterStatusbarcolor.setStatusBarColor(Colors.red);
     animationController = new AnimationController(
         vsync: this, duration: new Duration(seconds: 2));
     animation = new CurvedAnimation(
@@ -75,6 +75,11 @@ class _SplashScreenPageState extends State<SplashScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        brightness: Brightness.light,
+        elevation: 0.0,
+        toolbarHeight: 0.0,
+      ),
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

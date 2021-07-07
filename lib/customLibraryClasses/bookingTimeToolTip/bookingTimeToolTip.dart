@@ -78,9 +78,11 @@ class ShowToolTip {
 
     _calculatePosition(context);
 
-    _entry = OverlayEntry(builder: (context) {
-      return buildPopupLayout(_offset);
-    });
+    _entry = OverlayEntry(
+      builder: (context) {
+        return buildPopupLayout(_offset);
+      },
+    );
 
     Overlay.of(context).insert(_entry);
     _isVisible = true;
@@ -133,8 +135,11 @@ class ShowToolTip {
           onTap: () {
             dismiss();
           },
+          /*    onHorizontalDragDown: (v) {
+            dismiss();
+          }, */
           child: Material(
-            color: Colors.transparent,
+            color: Colors.grey.withOpacity(0.5),
             child: Stack(
               children: <Widget>[
                 // popup content

@@ -42,7 +42,7 @@ class _BottomBarProviderPageState extends State<BottomBarProvider> {
   void initState() {
     _getNotificationStatus(context);
 
-    FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
+ //   FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
     selectedpage = widget.page; //initial Page
     _pageOptions = [
       ProviderHomeScreen(),

@@ -2231,6 +2231,7 @@ class _RegisterUserState extends State<RegisterUser> {
                 'capitalAndPrefecture', userAddressData.capitalAndPrefecture);
 
             value.setBool('isUserRegister', true);
+            value.setBool('userVerifyStatus', false);
             HealingMatchConstants.isUserRegistrationSkipped = false;
             value.setBool('isGuest', false);
           }

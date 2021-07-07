@@ -86,6 +86,7 @@ class _LogOutServiceUserState extends State<LogOutServiceUser> {
                               {
                                 _sharedPreferences.then((value) {
                                   value.remove('addressData');
+                                  value.clear();
                                   value.setBool('isUserLoggedOut', true);
                                   value.setBool('isUserLoggedIn', false);
                                   value.setBool('isProviderLoggedOut', false);

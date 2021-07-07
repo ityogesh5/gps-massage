@@ -207,7 +207,7 @@ class _PastReservationsState extends State<PastReservations> {
                                                 .endTime
                                                 .toLocal();
                                     String date =
-                                        DateFormat('MM月d').format(startTime);
+                                        DateFormat('MM月dd').format(startTime);
                                     String sTime =
                                         DateFormat('kk:mm').format(startTime);
                                     String eTime =

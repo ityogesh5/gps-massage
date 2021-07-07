@@ -1245,6 +1245,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                     }
                   },
                   child: Container(
+                    color: Colors.white,
                     padding: EdgeInsets.all(4.0),
                     child: Center(
                       child: Icon(
@@ -1256,9 +1257,12 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                child: dayPicker, //Daypicker Build here
+              Container(
+                width: MediaQuery.of(context).size.width - 30.0,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                  child: dayPicker, //Daypicker Build here
+                ),
               ),
               Positioned(
                 right: 0,
@@ -1294,6 +1298,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                     }
                   },
                   child: Container(
+                    color: Colors.white,
                     padding: EdgeInsets.all(4.0),
                     child: Center(
                       child: Icon(

@@ -38,6 +38,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
   var finalAmount;
   var serviceName, serviceDuration, serviceCostMap, serviceCost, subCategoryId;
   ItemScrollController scrollController = ItemScrollController();
+  ScrollController mainScrollController = ScrollController();
   List<bool> visibility = List<bool>();
   List<TherapistList> allTherapistList = List<TherapistList>();
   List<GlobalKey> globalKeyList = List<GlobalKey>();
@@ -100,6 +101,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
               onWillPop: _willPopCallback,
               child: SafeArea(
                 child: SingleChildScrollView(
+                  controller: mainScrollController,
                   child: Container(
                     color: Colors.white,
                     child: Column(
@@ -416,7 +418,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                       width: 8,
                     ),
                     Text(
-                      '施術をする場所',
+                      '施術を受ける場所',
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.black,
@@ -708,7 +710,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                       width: 8,
                     ),
                     Text(
-                      '施術をする場所',
+                      '施術を受ける場所',
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.black,
@@ -1462,17 +1464,22 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
   }
 
   void scrollListandToolTipCall(int index, TherapistList therapistListItem) {
-    if (index > 2 && index != allTherapistList.length - 1) {
-      scrollController
-          .scrollTo(
-              index: index,
-              alignment: 0.5,
-              duration: Duration(milliseconds: 200))
-          .whenComplete(() => showToolTip(
-              globalKeyList[index], context, index, therapistListItem));
-    } else {
-      showToolTip(globalKeyList[index], context, index, therapistListItem);
-    }
+    mainScrollController
+        .animateTo(mainScrollController.position.maxScrollExtent,
+            duration: Duration(milliseconds: 500), curve: Curves.ease)
+        .then((value) {
+      if (index > 2 && index != allTherapistList.length - 1) {
+        scrollController
+            .scrollTo(
+                index: index,
+                alignment: 0.5,
+                duration: Duration(milliseconds: 200))
+            .whenComplete(() => showToolTip(
+                globalKeyList[index], context, index, therapistListItem));
+      } else {
+        showToolTip(globalKeyList[index], context, index, therapistListItem);
+      }
+    });
   }
 
   Widget book() {

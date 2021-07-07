@@ -725,6 +725,8 @@ class _ShiftServiceState extends State<ShiftService> {
                                   if (otherValueText.isEmpty ||
                                       otherValueText == '') {
                                     showEmptyErrorMessage();
+                                  } else if (otherValueText.length > 15) {
+                                    showLengthErrorMessage();
                                   } else {
                                     //Logic: check the value is already present, if not insert before other field index
                                     if (mindex == 0) {
@@ -1750,6 +1752,22 @@ class _ShiftServiceState extends State<ShiftService> {
       backgroundColor: ColorConstants.snackBarColor,
       content:
           Text('追加する値を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+      action: SnackBarAction(
+          onPressed: () {
+            _scaffoldKey.currentState.hideCurrentSnackBar();
+          },
+          label: 'はい',
+          textColor: Colors.white),
+    ));
+    return;
+  }
+
+   //show the SnackBar Length >15 Error
+  void showLengthErrorMessage() {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      backgroundColor: ColorConstants.snackBarColor,
+      content:
+          Text('サービスの名前を15文字以内で入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
       action: SnackBarAction(
           onPressed: () {
             _scaffoldKey.currentState.hideCurrentSnackBar();

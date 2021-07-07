@@ -77,6 +77,8 @@ class _ProviderCancelScreenState extends State<ProviderCancelScreen> {
         ? DateTime.parse(requestBookingDetailsList[index].newEndTime).toLocal()
         : requestBookingDetailsList[index].endTime.toLocal();
     String jaName = DateFormat('EEEE', 'ja_JP').format(startTime);
+    String dateFormat = DateFormat('MM月dd').format(startTime);
+
     return Card(
       // margin: EdgeInsets.all(8.0),
       color: Color.fromRGBO(242, 242, 242, 1),
@@ -90,7 +92,17 @@ class _ProviderCancelScreenState extends State<ProviderCancelScreen> {
             Row(
               children: [
                 Text(
-                  '${requestBookingDetailsList[index].bookingUserId.userName}',
+                  requestBookingDetailsList[index]
+                                  .bookingUserId
+                                  .userName
+                                  .length >
+                              10
+                          ? requestBookingDetailsList[index]
+                                  .bookingUserId
+                                  .userName
+                                  .substring(0, 9) +
+                              "..."
+                          : '${requestBookingDetailsList[index].bookingUserId.userName}',
                   style: TextStyle(
                     fontSize: 16.0,
                     color: Colors.black,
@@ -140,7 +152,7 @@ class _ProviderCancelScreenState extends State<ProviderCancelScreen> {
                   width: 8,
                 ),
                 Text(
-                  '${startTime.month}月${startTime.day}',
+                  '$dateFormat',
                   style: TextStyle(
                     fontSize: 14.0,
                     color: Colors.black,

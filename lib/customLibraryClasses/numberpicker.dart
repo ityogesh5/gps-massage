@@ -15,7 +15,7 @@ typedef String TextMapper(String numberText);
 class NumberPicker extends StatelessWidget {
   ///height of every list element for normal number picker
   ///width of every list element for horizontal number picker
-  static const double kDefaultItemExtent = 50.0;
+  static const double kDefaultItemExtent = 47.0;
 
   ///width of list view for normal number picker
   ///height of list view for horizontal number picker

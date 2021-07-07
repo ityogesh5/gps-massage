@@ -932,6 +932,7 @@ class ServiceProviderApi {
           "newStartTime": bookingDetail.bookingDetail.newStartTime.toString(),
           "newEndTime": bookingDetail.bookingDetail.newEndTime.toString(),
           "therapistComments": bookingDetail.bookingDetail.therapistComments,
+          "totalCost": bookingDetail.bookingDetail.priceOfService,
         };
       } else {
         body = {

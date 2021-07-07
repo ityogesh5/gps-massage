@@ -11,6 +11,7 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/Get
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:readmore/readmore.dart';
+import 'package:intl/intl.dart';
 
 class DetailPeofileDetailsHome extends StatefulWidget {
   final TherapistByIdModel therapistDetails;
@@ -28,6 +29,8 @@ class _DetailPeofileDetailsHomeState extends State<DetailPeofileDetailsHome> {
   String genderOfService;
   int _value = 0;
   var result;
+  String startTime = "00:00";
+  String endTime = "24:00";
   bool shopLocationSelected = false;
   var userPlaceForMassage, therapistAddress, userRegisteredAddress;
   GlobalKey<FormState> _userDetailsFormKey = new GlobalKey<FormState>();
@@ -686,7 +689,7 @@ class _DetailPeofileDetailsHomeState extends State<DetailPeofileDetailsHome> {
               ),
               SizedBox(width: 5),
               new Text(
-                '10:30 ～ 11:30',
+                '$startTime ～ $endTime',
                 style: TextStyle(
                     color: Colors.grey[400],
                     fontSize: 12,
@@ -734,6 +737,8 @@ class _DetailPeofileDetailsHomeState extends State<DetailPeofileDetailsHome> {
     //Get avail. Service Types
     var split = widget.therapistDetails.data.storeType.split(',');
     serviceType = {for (int i = 0; i < split.length; i++) i: split[i]};
+    DateTime minSTime;
+    DateTime minETime;
 
     String serviceTypes = widget.therapistDetails.data.storeType;
     var splilts = serviceTypes.split(',');
@@ -751,6 +756,36 @@ class _DetailPeofileDetailsHomeState extends State<DetailPeofileDetailsHome> {
       } else {
         genderOfService = "男性のみ予約可能"; //only men
       }
+    }
+
+    //Get Business Time
+    if (widget.therapistDetails.storeServiceTiming.isNotEmpty) {
+      for (int i = 0;
+          i < widget.therapistDetails.storeServiceTiming.length;
+          i++) {
+        if (i == 0) {
+          minSTime = widget.therapistDetails.storeServiceTiming[i].startTime;
+          minETime = widget.therapistDetails.storeServiceTiming[i].endTime;
+        } else {
+          if (widget.therapistDetails.storeServiceTiming[i].startTime
+                  .compareTo(minSTime) <
+              0) {
+            widget.therapistDetails.storeServiceTiming[i].startTime = minSTime;
+          }
+          if (widget.therapistDetails.storeServiceTiming[i].endTime
+                  .compareTo(minETime) >
+              0) {
+            widget.therapistDetails.storeServiceTiming[i].endTime = minETime;
+          }
+        }
+      }
+      minSTime = minSTime.toLocal();
+      minETime = minETime.toLocal();
+
+      startTime = minSTime.hour == 0
+          ? DateFormat('KK:mm').format(minSTime)
+          : DateFormat('kk:mm').format(minSTime);
+      endTime = DateFormat('kk:mm').format(minETime);
     }
 
     //Get Children Measure Data

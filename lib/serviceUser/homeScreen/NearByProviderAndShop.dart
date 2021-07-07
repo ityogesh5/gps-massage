@@ -2123,8 +2123,10 @@ class _MassageTypeChipsState extends State<MassageTypeChips>
     for (int i = 0; i < _options.length; i++) {
       ChoiceChip choiceChip = ChoiceChip(
         selected: _selectedIndex == i,
+        padding: EdgeInsets.only(left:4.0,right:4.0),
         labelPadding: EdgeInsets.all(0.0),
         label: Text(_options[i],
+            textAlign: TextAlign.center,
             style: TextStyle(
                 color: _selectedIndex == i
                     ? Color.fromRGBO(251, 251, 251, 1)
@@ -2188,12 +2190,12 @@ class _MassageTypeChipsState extends State<MassageTypeChips>
     }
     return Container(
       child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(6.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                height: MediaQuery.of(context).size.height * 0.04,
+                height: MediaQuery.of(context).size.height * 0.06,
                 child: _buildChips(),
               ),
             ],
