@@ -58,7 +58,6 @@ class CustomDialog extends StatelessWidget {
       RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0)));
 
-
   @override
   Widget build(BuildContext context) {
     final DialogTheme dialogTheme = DialogTheme.of(context);
@@ -103,6 +102,7 @@ class ProgressDialog {
   void dispose() {
     _timer?.cancel();
   }
+
   Future<void> dismissProgressDialog(BuildContext context) async {
     _timer?.cancel();
     await lock.synchronized(() async {

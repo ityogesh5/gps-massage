@@ -1,9 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/customFavoriteButton/CustomHeartFavorite.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:simple_tooltip/simple_tooltip.dart';
 
@@ -29,6 +30,10 @@ double ratingsValue = 4.0;
 int _selectedIndex;
 
 class DetailPageSearchOne extends StatefulWidget {
+  final userID;
+
+  DetailPageSearchOne(this.userID);
+
   @override
   _DetailPageSearchOneState createState() => _DetailPageSearchOneState();
 }
@@ -41,6 +46,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
   int cuppingTipColor;
   int maternityTipColor;
   int babyTipColor;
+  var therapistId;
 
   @override
   Widget build(BuildContext context) {
@@ -48,11 +54,6 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
       backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      /*    floatingActionButton: CircleAvatar(
-          maxRadius: 25,
-          backgroundColor: Colors.grey[100],
-          child: SvgPicture.asset('assets/images_gps/chat.svg',
-              height: 35, width: 35)),*/
       body: ListView(
         physics: BouncingScrollPhysics(),
         children: [
@@ -313,7 +314,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 onTap: () {
                                   NavigationRouter
                                       .switchToServiceUserDisplayReviewScreen(
-                                          context);
+                                          context, therapistId);
                                 },
                                 child: Container(
                                   child: Text(
@@ -3481,9 +3482,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                       Spacer(),
                       InkWell(
                         onTap: () {
-                          /*  NavigationRouter
-                              .switchToServiceUserBookingConfirmationScreen(
-                                  context);*/
+                          NavigationRouter.switchToUserChooseDate(context);
                         },
                         child: CircleAvatar(
                           maxRadius: 38,
@@ -3620,12 +3619,39 @@ class _CauroselWithIndicatorSearchPageState
                 CircleAvatar(
                   maxRadius: 18,
                   backgroundColor: Colors.white,
-                  child: CustomFavoriteButton(
-                      iconSize: 40,
-                      iconColor: Colors.red,
-                      valueChanged: (_isFavorite) {
-                        print('Is Favorite : $_isFavorite');
-                      }),
+                  child: HealingMatchConstants.isUserRegistrationSkipped
+                      ? GestureDetector(
+                          onTap: () {
+                            return;
+                          },
+                          child: SvgPicture.asset(
+                            'assets/images_gps/heart_wo_color.svg',
+                            width: 25,
+                            height: 25,
+                            color: Colors.grey[400],
+                          ),
+                        )
+                      : FavoriteButton(
+                          iconSize: 40,
+                          iconColor: Colors.red,
+                          valueChanged: (_isFavorite) {
+                            print('Is Favorite : $_isFavorite');
+                          }),
+                ),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.01),
+                InkWell(
+                  onTap: () {
+                    DialogHelper.openReportBlockUserDialog(context);
+                  },
+                  child: CircleAvatar(
+                    maxRadius: 18,
+                    backgroundColor: Colors.white,
+                    child: Icon(
+                      Icons.report_gmailerrorred_rounded,
+                      color: Colors.red,
+                      size: 30.0,
+                    ),
+                  ),
                 ),
               ],
             ),

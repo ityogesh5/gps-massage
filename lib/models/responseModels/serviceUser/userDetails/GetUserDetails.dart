@@ -23,6 +23,9 @@ class Data {
   int id;
   String email;
   int phoneNumber;
+  String fcmToken;
+  dynamic lineBotUserId;
+  dynamic appleUserId;
   String userName;
   String gender;
   String dob;
@@ -32,27 +35,33 @@ class Data {
   String userOccupation;
   String uploadProfileImgUrl;
   dynamic userSearchRadiusDistance;
-  List<Addresses> addresses;
+  List<UserAddresses> addresses;
 
   Data(
       {this.id,
-        this.email,
-        this.phoneNumber,
-        this.userName,
-        this.gender,
-        this.dob,
-        this.age,
-        this.isTherapist,
-        this.isVerified,
-        this.userOccupation,
-        this.uploadProfileImgUrl,
-        this.userSearchRadiusDistance,
-        this.addresses});
+      this.email,
+      this.phoneNumber,
+      this.fcmToken,
+      this.lineBotUserId,
+      this.appleUserId,
+      this.userName,
+      this.gender,
+      this.dob,
+      this.age,
+      this.isTherapist,
+      this.isVerified,
+      this.userOccupation,
+      this.uploadProfileImgUrl,
+      this.userSearchRadiusDistance,
+      this.addresses});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     email = json['email'];
     phoneNumber = json['phoneNumber'];
+    fcmToken = json['fcmToken'];
+    lineBotUserId = json['lineBotUserId'];
+    appleUserId = json['appleUserId'];
     userName = json['userName'];
     gender = json['gender'];
     dob = json['dob'];
@@ -63,9 +72,9 @@ class Data {
     uploadProfileImgUrl = json['uploadProfileImgUrl'];
     userSearchRadiusDistance = json['userSearchRadiusDistance'];
     if (json['addresses'] != null) {
-      addresses = new List<Addresses>();
+      addresses = new List<UserAddresses>();
       json['addresses'].forEach((v) {
-        addresses.add(new Addresses.fromJson(v));
+        addresses.add(new UserAddresses.fromJson(v));
       });
     }
   }
@@ -75,6 +84,9 @@ class Data {
     data['id'] = this.id;
     data['email'] = this.email;
     data['phoneNumber'] = this.phoneNumber;
+    data['fcmToken'] = this.fcmToken;
+    data['lineBotUserId'] = this.lineBotUserId;
+    data['appleUserId'] = this.appleUserId;
     data['userName'] = this.userName;
     data['gender'] = this.gender;
     data['dob'] = this.dob;
@@ -91,7 +103,7 @@ class Data {
   }
 }
 
-class Addresses {
+class UserAddresses {
   int id;
   int userId;
   String addressTypeSelection;
@@ -107,23 +119,23 @@ class Addresses {
   double lon;
   bool isDefault;
 
-  Addresses(
+  UserAddresses(
       {this.id,
-        this.userId,
-        this.addressTypeSelection,
-        this.address,
-        this.userRoomNumber,
-        this.userPlaceForMassage,
-        this.otherAddressType,
-        this.capitalAndPrefecture,
-        this.cityName,
-        this.area,
-        this.buildingName,
-        this.lat,
-        this.lon,
-        this.isDefault});
+      this.userId,
+      this.addressTypeSelection,
+      this.address,
+      this.userRoomNumber,
+      this.userPlaceForMassage,
+      this.otherAddressType,
+      this.capitalAndPrefecture,
+      this.cityName,
+      this.area,
+      this.buildingName,
+      this.lat,
+      this.lon,
+      this.isDefault});
 
-  Addresses.fromJson(Map<String, dynamic> json) {
+  UserAddresses.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['userId'];
     addressTypeSelection = json['addressTypeSelection'];

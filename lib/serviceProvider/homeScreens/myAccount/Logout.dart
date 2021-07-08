@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/auth.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProviderLogout extends StatefulWidget {
   @override
@@ -57,7 +60,7 @@ class _ProviderLogoutState extends State<ProviderLogout> {
               ButtonTheme(
                 minWidth: MediaQuery.of(context).size.width * 0.30,
                 child: CustomToggleButton(
-                  initialValue: 0,
+                  initialValue: 1,
                   elevation: 0,
                   height: 50.0,
                   width: MediaQuery.of(context).size.width * 0.30,
@@ -75,13 +78,22 @@ class _ProviderLogoutState extends State<ProviderLogout> {
                   ],
                   radioButtonValue: (value) {
                     if (value == 'Y') {
-                      sharedPreferences.then((value) {
-                        value.setBool('isProviderLoggedOut', true);
-                        value.setBool('isProviderLoggedIn', false);
-                        value.setBool('isUserLoggedOut', false);
-                        value.setBool('isProviderRegister', false);
+                      ProgressDialogBuilder.showCommonProgressDialog(context);
+                      ServiceProviderApi.logOutApi().then((value) {
+                        if (value) {
+                          Auth().signOut();
+                          sharedPreferences.then((value) {
+                            value.clear();
+                            value.setBool('isProviderLoggedOut', true);
+                            value.setBool('isProviderLoggedIn', false);
+                            value.setBool('isUserLoggedOut', false);
+                            value.setBool('isProviderRegister', false);
+                          });
+                          ProgressDialogBuilder.hideCommonProgressDialog(
+                              context);
+                          NavigationRouter.switchToProviderLogin(context);
+                        }
                       });
-                      NavigationRouter.switchToProviderLogin(context);
                     } else {
                       Navigator.pop(context);
                     }

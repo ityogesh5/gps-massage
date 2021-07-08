@@ -40,40 +40,54 @@ class Data {
     this.id,
     this.email,
     this.phoneNumber,
+    this.fcmToken,
+    this.lineBotUserId,
+    this.appleUserId,
     this.userName,
     this.gender,
     this.dob,
     this.age,
     this.isTherapist,
+    this.isVerified,
     this.userOccupation,
     this.uploadProfileImgUrl,
+    this.userSearchRadiusDistance,
     this.addresses,
   });
 
   int id;
   String email;
   int phoneNumber;
+  String fcmToken;
+  dynamic lineBotUserId;
+  dynamic appleUserId;
   String userName;
   String gender;
   DateTime dob;
   int age;
   bool isTherapist;
+  bool isVerified;
   String userOccupation;
-
-  String uploadProfileImgUrl;
+  dynamic uploadProfileImgUrl;
+  dynamic userSearchRadiusDistance;
   List<Address> addresses;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["id"],
         email: json["email"],
         phoneNumber: json["phoneNumber"],
+        fcmToken: json['fcmToken'],
+        lineBotUserId: json['lineBotUserId'],
+        appleUserId: json['appleUserId'],
         userName: json["userName"],
         gender: json["gender"],
         dob: DateTime.parse(json["dob"]),
         age: json["age"],
         isTherapist: json["isTherapist"],
+        isVerified: json["isVerified"],
         userOccupation: json["userOccupation"],
         uploadProfileImgUrl: json["uploadProfileImgUrl"],
+        userSearchRadiusDistance: json["userSearchRadiusDistance"],
         addresses: List<Address>.from(
             json["addresses"].map((x) => Address.fromJson(x))),
       );
@@ -82,14 +96,19 @@ class Data {
         "id": id,
         "email": email,
         "phoneNumber": phoneNumber,
+        "fcmToken": fcmToken,
+        "lineBotUserId": lineBotUserId,
+        "appleUserId": appleUserId,
         "userName": userName,
         "gender": gender,
         "dob":
             "${dob.year.toString().padLeft(4, '0')}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}",
         "age": age,
         "isTherapist": isTherapist,
+        "isVerified": isVerified,
         "userOccupation": userOccupation,
         "uploadProfileImgUrl": uploadProfileImgUrl,
+        "userSearchRadiusDistance": userSearchRadiusDistance,
         "addresses": List<dynamic>.from(addresses.map((x) => x.toJson())),
       };
 }
@@ -110,9 +129,9 @@ class Address {
     this.area,
     this.buildingName,
     this.postalCode,
+    this.geomet,
     this.lat,
     this.lon,
-    this.userSearchRadiusDistance,
     this.createdUser,
     this.updatedUser,
     this.isDefault,
@@ -134,9 +153,9 @@ class Address {
   String area;
   String buildingName;
   dynamic postalCode;
+  Geomet geomet;
   double lat;
   double lon;
-  dynamic userSearchRadiusDistance;
   String createdUser;
   String updatedUser;
   bool isDefault;
@@ -158,9 +177,9 @@ class Address {
         area: json["area"],
         buildingName: json["buildingName"],
         postalCode: json["postalCode"],
+        geomet: Geomet.fromJson(json["geomet"]),
         lat: json["lat"].toDouble(),
         lon: json["lon"].toDouble(),
-        userSearchRadiusDistance: json["userSearchRadiusDistance"],
         createdUser: json["createdUser"],
         updatedUser: json["updatedUser"],
         isDefault: json["isDefault"],
@@ -183,13 +202,34 @@ class Address {
         "area": area,
         "buildingName": buildingName,
         "postalCode": postalCode,
+        "geomet": geomet.toJson(),
         "lat": lat,
         "lon": lon,
-        "userSearchRadiusDistance": userSearchRadiusDistance,
         "createdUser": createdUser,
         "updatedUser": updatedUser,
         "isDefault": isDefault,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
+      };
+}
+
+class Geomet {
+  Geomet({
+    this.type,
+    this.coordinates,
+  });
+
+  String type;
+  List<double> coordinates;
+
+  factory Geomet.fromJson(Map<String, dynamic> json) => Geomet(
+        type: json["type"],
+        coordinates:
+            List<double>.from(json["coordinates"].map((x) => x.toDouble())),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "type": type,
+        "coordinates": List<dynamic>.from(coordinates.map((x) => x)),
       };
 }

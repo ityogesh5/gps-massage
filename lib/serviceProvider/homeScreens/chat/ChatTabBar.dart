@@ -1,8 +1,8 @@
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/commonScreens/chat/chatUserList.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:gps_massageapp/serviceProvider/homeScreens/chat/chatUserList.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/notification.dart';
 
 class ChatTabBar extends StatefulWidget {
@@ -110,26 +110,26 @@ class _ChatTabBarState extends State<ChatTabBar>
                   ? Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
-                        "お知らせ(2)",
+                        "お知らせ",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 12.0,
                             fontWeight: FontWeight.bold),
                       ),
                     )
-                  : buildUnSelectedTabBar("お知らせ(2)"),
+                  : buildUnSelectedTabBar("お知らせ"),
             ),
             Tab(
               child: _tabIndex == 1
                   ? Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: Text("チャット(3)",
+                      child: Text("チャット",
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 12.0,
                               fontWeight: FontWeight.bold)),
                     )
-                  : buildUnSelectedTabBar("チャット(3)"),
+                  : buildUnSelectedTabBar("チャット"),
             ),
           ],
         ),

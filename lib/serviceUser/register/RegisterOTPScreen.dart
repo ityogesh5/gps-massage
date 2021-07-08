@@ -1,18 +1,21 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/auth.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/login/sendVerifyResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/verifyOtp.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 //final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
+Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 
 class RegisterOtpScreen extends StatefulWidget {
   @override
@@ -27,22 +30,12 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
   bool autoValidate = false;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   var UserVerifyOtp = VerifyOtpModel();
+  var phoneNumber;
 
   void initState() {
     super.initState();
-  }
-
-  showOverlayLoader() {
-    Loader.show(
-      context,
-      progressIndicator: SpinKitThreeBounce(color: Colors.lime),
-    );
-  }
-
-  hideLoader() {
-    Future.delayed(Duration(seconds: 0), () {
-      Loader.hide();
-    });
+    //getUserPhoneNumber();
+    setUserVerifyStatus(HealingMatchConstants.isUserVerified);
   }
 
   @override
@@ -58,7 +51,9 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
             color: Colors.black,
           ),
           onPressed: () {
-            Navigator.pop(context);
+            HealingMatchConstants.isLoginRoute = false;
+            NavigationRouter.switchToUserLogin(context);
+            // Navigator.pop(context);
           },
         ),
       ),
@@ -69,7 +64,7 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
         },
         child: Form(
           key: formKey,
-          autovalidate: autoValidate,
+          autovalidateMode: AutovalidateMode.disabled,
           child: Center(
             child: SingleChildScrollView(
               child: Container(
@@ -254,7 +249,9 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
       return null;
     }
     try {
-      showOverlayLoader();
+      ProgressDialogBuilder.showOverlayLoader(context);
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
       final url = HealingMatchConstants.CHANGE_PASSWORD_VERIFY_OTP_URL;
       final response = await http.post(url,
           headers: {"Content-Type": "application/json"},
@@ -268,20 +265,27 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
           response.statusCode, context, response.body)) {
         final vrfyOtp = json.decode(response.body);
         UserVerifyOtp = VerifyOtpModel.fromJson(vrfyOtp);
-        hideLoader();
-        /*_firebaseMessaging.getToken().then((value) {
-          HealingMatchConstants.userFcmToken = value;
-          print('FCM Token : ${value.toString()}');
-        });*/
-        DialogHelper.showRegisterSuccessDialog(context);
-        HealingMatchConstants.isUserVerified = true;
+        if (HealingMatchConstants.isLoginRoute) {
+          sharedPreferences.setBool('isUserLoggedIn', true);
+          sharedPreferences.setBool('userLoginSkipped', false);
+          sharedPreferences.setBool('isProviderLoggedIn', false);
+          firebaseChatLogin();
+        } else {
+          HealingMatchConstants.isLoginRoute = false;
+          ProgressDialogBuilder.hideLoader(context);
+          HealingMatchConstants.isUserVerified = true;
+          setUserVerifyStatus(HealingMatchConstants.isUserVerified);
+          DialogHelper.showRegisterSuccessDialog(context);
+        }
       } else {
-        hideLoader();
+        setUserVerifyStatus(HealingMatchConstants.isUserVerified);
+        ProgressDialogBuilder.hideLoader(context);
         print('Response Failure !!');
         return;
       }
     } catch (e) {
-      hideLoader();
+      setUserVerifyStatus(HealingMatchConstants.isUserVerified);
+      ProgressDialogBuilder.hideLoader(context);
       print('Response catch error : ${e.toString()}');
       return;
     }
@@ -289,7 +293,7 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
 
   resendOtp() async {
     try {
-      showOverlayLoader();
+      ProgressDialogBuilder.showOverlayLoader(context);
       final url = HealingMatchConstants.SEND_VERIFY_USER_URL;
       final response = await http.post(url,
           headers: {"Content-Type": "application/json"},
@@ -298,24 +302,55 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
             "isTherapist": "0"
           }));
       print('Status code : ${response.statusCode}');
+      print('responseResend : ${response.body}');
       if (StatusCodeHelper.isSendVerify(
           response.statusCode, context, response.body)) {
         final sendVerify = json.decode(response.body);
         reSendVerifyResponse = SendVerifyResponseModel.fromJson(sendVerify);
 
-        hideLoader();
-
-        // NavigationRouter.switchToUserChangePasswordScreen(context);
-
+        ProgressDialogBuilder.hideLoader(context);
       } else {
-        hideLoader();
+        ProgressDialogBuilder.hideLoader(context);
         print('Response Failure !!');
         return;
       }
     } catch (e) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       print('Response catch error : ${e.toString()}');
       return;
     }
+  }
+
+  void firebaseChatLogin() {
+    Auth()
+        .signIn(HealingMatchConstants.fbUserid,
+            HealingMatchConstants.serviceUserPhoneNumber)
+        .then((value) {
+      if (value) {
+        HealingMatchConstants.isLoginRoute = false;
+        ProgressDialogBuilder.hideLoader(context);
+        HealingMatchConstants.isUserVerified = true;
+        setUserVerifyStatus(HealingMatchConstants.isUserVerified);
+        DialogHelper.showRegisterSuccessDialog(context);
+      } else {
+        ProgressDialogBuilder.hideLoader(context);
+      }
+    });
+  }
+
+  void getUserPhoneNumber() async {
+    /*_sharedPreferences.then((value) {
+      HealingMatchConstants.serviceUserPhoneNumber =
+          value.getString('userPhoneNumber');
+      debugPrint(
+          'user phone number : ${HealingMatchConstants.serviceUserPhoneNumber}');
+    });*/
+  }
+
+  void setUserVerifyStatus(bool isUserVerified) async {
+    _sharedPreferences.then((value) {
+      var userVerifyStatus = value.setBool('userVerifyStatus', isUserVerified);
+      debugPrint('user verified : $userVerifyStatus');
+    });
   }
 }

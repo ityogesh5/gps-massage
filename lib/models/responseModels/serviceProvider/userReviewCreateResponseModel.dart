@@ -4,59 +4,67 @@
 
 import 'dart:convert';
 
-UserReviewCreateResponseModel userReviewCreateResponseModelFromJson(String str) => UserReviewCreateResponseModel.fromJson(json.decode(str));
+UserReviewCreateResponseModel userReviewCreateResponseModelFromJson(
+        String str) =>
+    UserReviewCreateResponseModel.fromJson(json.decode(str));
 
-String userReviewCreateResponseModelToJson(UserReviewCreateResponseModel data) => json.encode(data.toJson());
+String userReviewCreateResponseModelToJson(
+        UserReviewCreateResponseModel data) =>
+    json.encode(data.toJson());
 
 class UserReviewCreateResponseModel {
-    UserReviewCreateResponseModel({
-        this.status,
-        this.data,
-    });
+  UserReviewCreateResponseModel({
+    this.status,
+    this.data,
+  });
 
-    String status;
-    Data data;
+  String status;
+  Data data;
 
-    factory UserReviewCreateResponseModel.fromJson(Map<String, dynamic> json) => UserReviewCreateResponseModel(
+  factory UserReviewCreateResponseModel.fromJson(Map<String, dynamic> json) =>
+      UserReviewCreateResponseModel(
         status: json["status"],
         data: Data.fromJson(json["data"]),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "status": status,
         "data": data.toJson(),
-    };
+      };
 }
 
 class Data {
-    Data({
-        this.id,
-        this.userId,
-        this.therapistId,
-        this.isReviewStatus,
-        this.ratingsCount,
-        this.reviewComment,
-        this.createdUser,
-        this.updatedUser,
-        this.updatedAt,
-        this.createdAt,
-    });
+  Data({
+    this.id,
+    this.userId,
+    this.therapistId,
+    this.bookingId,
+    this.isReviewStatus,
+    this.ratingsCount,
+    this.reviewComment,
+    this.createdUser,
+    this.updatedUser,
+    this.updatedAt,
+    this.createdAt,
+  });
 
-    int id;
-    String userId;
-    int therapistId;
-    bool isReviewStatus;
-    int ratingsCount;
-    String reviewComment;
-    int createdUser;
-    int updatedUser;
-    DateTime updatedAt;
-    DateTime createdAt;
+  int id;
+  int userId;
+  int therapistId;
+  int bookingId;
+  bool isReviewStatus;
+  int ratingsCount;
+  String reviewComment;
+  int createdUser;
+  int updatedUser;
+  DateTime updatedAt;
+  DateTime createdAt;
 
-    factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["id"],
         userId: json["userId"],
         therapistId: json["therapistId"],
+        bookingId: json["bookingId"],
         isReviewStatus: json["isReviewStatus"],
         ratingsCount: json["ratingsCount"],
         reviewComment: json["reviewComment"],
@@ -64,12 +72,13 @@ class Data {
         updatedUser: json["updatedUser"],
         updatedAt: DateTime.parse(json["updatedAt"]),
         createdAt: DateTime.parse(json["createdAt"]),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "userId": userId,
         "therapistId": therapistId,
+        "bookingId": bookingId,
         "isReviewStatus": isReviewStatus,
         "ratingsCount": ratingsCount,
         "reviewComment": reviewComment,
@@ -77,5 +86,5 @@ class Data {
         "updatedUser": updatedUser,
         "updatedAt": updatedAt.toIso8601String(),
         "createdAt": createdAt.toIso8601String(),
-    };
+      };
 }

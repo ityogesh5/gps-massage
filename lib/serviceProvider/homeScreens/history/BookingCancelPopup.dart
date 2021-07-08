@@ -2,9 +2,15 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
+import 'package:toast/toast.dart';
 
 class CancelBooking extends StatefulWidget {
-  @override
+  final BookingDetailsList bookingDetail;
+  CancelBooking(this.bookingDetail);
   _CancelBookingState createState() => _CancelBookingState();
 }
 
@@ -77,18 +83,20 @@ class _CancelBookingState extends State<CancelBooking> {
               SizedBox(
                 height: 10.0,
               ),
-              FittedBox(
-                child: Text(
-                  "予約確定（支払い完了)した案件で、施術時間から\n 逆算して４８時間以内でのキャンセルはキャンセル料\nが 発生します。（詳細は利用規約をご参照ください。）",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
+              widget.bookingDetail.bookingStatus == 6
+                  ? FittedBox(
+                      child: Text(
+                        "予約確定（支払い完了)した案件で、施術時間から\n 逆算して４８時間以内でのキャンセルはキャンセル料\nが 発生します。（詳細は利用規約をご参照ください。）",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.black,
+                        ),
+                      ),
+                    )
+                  : Container(),
               SizedBox(
-                height: 15.0,
+                height: widget.bookingDetail.bookingStatus == 6 ? 15.0 : 0.0,
               ),
               buildButton()
               /*  Container(
@@ -128,7 +136,32 @@ class _CancelBookingState extends State<CancelBooking> {
               borderRadius: BorderRadius.circular(10.0),
             ),
             onPressed: () {
-              Navigator.pop(context);
+              widget.bookingDetail.cancellationReason =
+                  textEditingController.text;
+              if (widget.bookingDetail.cancellationReason == null ||
+                  widget.bookingDetail.cancellationReason.length < 2) {
+                Toast.show("キャンセルの理由を入力してください。", context,
+                    duration: 4,
+                    gravity: Toast.CENTER,
+                    backgroundColor: Colors.redAccent,
+                    textColor: Colors.white);
+              } else {
+                ServiceProviderApi.removeEvent(
+                        widget.bookingDetail.eventId, context)
+                    .then((value) {
+                  if (value) {
+                    ServiceProviderApi.updateStatusUpdate(
+                            widget.bookingDetail, false, false, true)
+                        .then((value) {
+                      ProgressDialogBuilder.hideCommonProgressDialog(context);
+                      if (value) {
+                        NavigationRouter.switchToServiceProviderBottomBar(
+                            context);
+                      }
+                    });
+                  }
+                });
+              }
             },
             color: Color.fromRGBO(217, 217, 217, 1),
             padding: EdgeInsets.symmetric(

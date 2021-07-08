@@ -2,21 +2,23 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/auth.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/bankNameDropDownModel.dart'
     as Bank;
-import 'package:gps_massageapp/models/responseModels/serviceProvider/registerProviderResponseModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:gps_massageapp/utils/text_field_custom.dart';
+import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
+import 'package:gps_massageapp/customLibraryClasses/customTextField/text_field_custom.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
@@ -45,7 +47,7 @@ class _RegistrationSecondPageState
   bool visible = false;
   bool idUploadVisible = false;
   bool uploadVisible = false;
-  var identificationverify, bankname, accountType;
+  var identificationVerify, bankName, accountType;
   String qualification;
   ProgressDialog _progressDialog = ProgressDialog();
   Map<String, String> certificateImages = Map<String, String>();
@@ -58,25 +60,29 @@ class _RegistrationSecondPageState
   Bank.BankNameDropDownModel bankNameDropDownModel;
   List<String> bankNameDropDownList = List<String>();
   List<String> privateQualification = List<String>();
+  final fireBaseMessaging = new FirebaseMessaging();
+  var fcmToken;
 
   void initState() {
     super.initState();
-    identificationverify = '';
+    identificationVerify = '';
     qualification = '';
-    bankname = '';
+    bankName = '';
     qualification = '';
     accountType = '';
-    getBankName();
     getsavedValues();
+    _getFCMToken();
   }
 
   saveValues() {
     HealingMatchConstants.providerRegisterStatus = 1;
-    HealingMatchConstants.idVerify = identificationverify.toString().trim();
-    HealingMatchConstants.bankName =
-        bankname == HealingMatchConstants.registrationBankOtherDropdownFiled
-            ? bankOtherFieldController.text
-            : bankname;
+    HealingMatchConstants.idVerify = identificationVerify.toString().trim();
+    HealingMatchConstants.bankNameDropDownList.clear();
+    HealingMatchConstants.bankNameDropDownList.addAll(bankNameDropDownList);
+    HealingMatchConstants.bankName = bankName;
+    if (bankName == HealingMatchConstants.registrationBankOtherDropdownFiled) {
+      HealingMatchConstants.otherBankName = bankOtherFieldController.text;
+    }
     HealingMatchConstants.branchNumber = branchNumberController.text;
     HealingMatchConstants.accountNumber = accountnumberController.text;
     HealingMatchConstants.accountType = accountType;
@@ -91,7 +97,13 @@ class _RegistrationSecondPageState
 
   getsavedValues() {
     if (HealingMatchConstants.providerRegisterStatus == 1) {
-      identificationverify = HealingMatchConstants.idVerify;
+      bankNameDropDownList.addAll(HealingMatchConstants.bankNameDropDownList);
+      bankName = HealingMatchConstants.bankName;
+      if (bankName ==
+          HealingMatchConstants.registrationBankOtherDropdownFiled) {
+        bankOtherFieldController.text = HealingMatchConstants.otherBankName;
+      }
+      identificationVerify = HealingMatchConstants.idVerify;
       branchNumberController.text = HealingMatchConstants.branchNumber;
       accountnumberController.text = HealingMatchConstants.accountNumber;
       accountType = HealingMatchConstants.accountType;
@@ -100,6 +112,9 @@ class _RegistrationSecondPageState
       _idProfileImage = HealingMatchConstants.idProfileImage;
       privateQualification.addAll(HealingMatchConstants.privateQualification);
       certificateImages.addAll(HealingMatchConstants.certificateImages);
+      idUploadVisible = _idProfileImage == null ? false : true;
+    } else {
+      getBankName();
     }
   }
 
@@ -193,24 +208,24 @@ class _RegistrationSecondPageState
                             titleText: null,
                             requiredField: true,
                             hintText: readonly
-                                ? identificationverify
+                                ? identificationVerify
                                 : HealingMatchConstants
                                     .registrationIdentityVerification,
                             onSaved: (value) {
                               if (_idProfileImage == null) {
                                 setState(() {
-                                  identificationverify = value;
+                                  identificationVerify = value;
                                   idUploadVisible = true;
                                 });
                               } else {
                                 showIdSelectError();
                               }
                             },
-                            value: identificationverify,
+                            value: identificationVerify,
                             onChanged: (value) {
                               if (_idProfileImage == null) {
                                 setState(() {
-                                  identificationverify = value;
+                                  identificationVerify = value;
                                   idUploadVisible = true;
                                 });
                               } else {
@@ -711,18 +726,18 @@ class _RegistrationSecondPageState
                                       child: DropDownFormField(
                                         titleText: null,
                                         hintText: readonly
-                                            ? bankname
+                                            ? bankName
                                             : HealingMatchConstants
                                                 .registrationBankName,
                                         onSaved: (value) {
                                           setState(() {
-                                            bankname = value;
+                                            bankName = value;
                                           });
                                         },
-                                        value: bankname,
+                                        value: bankName,
                                         onChanged: (value) {
                                           setState(() {
-                                            bankname = value;
+                                            bankName = value;
                                             FocusScope.of(context)
                                                 .requestFocus(new FocusNode());
                                           });
@@ -740,7 +755,7 @@ class _RegistrationSecondPageState
                             SizedBox(
                               height: 10,
                             ),
-                            bankname ==
+                            bankName ==
                                     HealingMatchConstants
                                         .registrationBankOtherDropdownFiled
                                 ? Padding(
@@ -976,13 +991,13 @@ class _RegistrationSecondPageState
   }
 
   _providerRegistrationDetails() {
-    var _myidentificationverify = identificationverify.toString().trim();
+    var _myidentificationVerify = identificationVerify.toString().trim();
     var _myqualification = qualification.toString().trim();
     String branchNumber = branchNumberController.text;
     String accountNumber = accountnumberController.text;
 
     //id Validation
-    if (_myidentificationverify.isEmpty || _myidentificationverify == null) {
+    if (_myidentificationVerify.isEmpty || _myidentificationVerify == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
@@ -1079,7 +1094,7 @@ class _RegistrationSecondPageState
       return;
     } */
 
-    if (bankname == 'その他' && bankOtherFieldController.text.length > 25) {
+    if (bankName == 'その他' && bankOtherFieldController.text.length > 25) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('有効な銀行名を入力してください。',
@@ -1231,9 +1246,6 @@ class _RegistrationSecondPageState
       'password': HealingMatchConstants.serviceProviderPassword,
       'password_confirmation':
           HealingMatchConstants.serviceProviderConfirmPassword,
-      'storeName': HealingMatchConstants.serviceProviderStoreName != null
-          ? HealingMatchConstants.serviceProviderStoreName
-          : '',
       'isTherapist': '1',
       'buildingName': HealingMatchConstants.serviceProviderBuildingName,
       'addressTypeSelection': "直接入力",
@@ -1251,7 +1263,11 @@ class _RegistrationSecondPageState
               ? HealingMatchConstants.serviceProviderGenderService
               : '',
       'storeType': storeTypeDisplay,
-      'numberOfEmp': HealingMatchConstants.serviceProviderNumberOfEmpl != null
+      'numberOfEmp': (HealingMatchConstants.serviceProviderBusinessForm ==
+                      "施術店舗あり 施術従業員あり" ||
+                  HealingMatchConstants.serviceProviderBusinessForm ==
+                      "施術店舗なし 施術従業員あり（出張のみ)") &&
+              HealingMatchConstants.serviceProviderNumberOfEmpl != null
           ? HealingMatchConstants.serviceProviderNumberOfEmpl
           : '0',
       'businessTrip':
@@ -1269,14 +1285,14 @@ class _RegistrationSecondPageState
       'userRoomNumber': HealingMatchConstants.serviceProviderRoomNumber,
       'qulaificationCertImgUrl': qualification,
       'bankName':
-          bankname == HealingMatchConstants.registrationBankOtherDropdownFiled
+          bankName == HealingMatchConstants.registrationBankOtherDropdownFiled
               ? bankOtherFieldController.text
-              : bankname,
+              : bankName,
       'branchCode': branchCodeController.text,
       'branchNumber': branchNumberController.text,
       'accountNumber': accountnumberController.text,
       'accountType': accountType,
-      'proofOfIdentityType': identificationverify,
+      'proofOfIdentityType': identificationVerify,
       'estheticList':
           json.encode(HealingMatchConstants.estheticServicePriceModel),
       'relaxationList':
@@ -1287,11 +1303,24 @@ class _RegistrationSecondPageState
       'fitnessList': json.encode(
         HealingMatchConstants.fitnessServicePriceModel,
       ),
+      "fcmToken":
+          sharedPreferences.getString("notificationStatus") == "accepted"
+              ? fcmToken
+              : '',
+      "isShop": HealingMatchConstants.serviceProviderBusinessForm ==
+                  "施術店舗あり 施術従業員あり" ||
+              HealingMatchConstants.serviceProviderBusinessForm ==
+                  "施術店舗あり 施術従業員なし（個人経営）"
+          ? "true"
+          : "false"
     });
 
-    if (HealingMatchConstants.serviceProviderStorePhoneNumber != '') {
+    if (HealingMatchConstants.serviceProviderBusinessForm == "施術店舗あり 施術従業員あり" ||
+        HealingMatchConstants.serviceProviderBusinessForm ==
+            "施術店舗あり 施術従業員なし（個人経営）") {
       request.fields.addAll({
-        'storePhone': HealingMatchConstants.serviceProviderStorePhoneNumber
+        'storePhone': HealingMatchConstants.serviceProviderStorePhoneNumber,
+        'storeName': HealingMatchConstants.serviceProviderStoreName
       });
     }
 
@@ -1328,13 +1357,37 @@ class _RegistrationSecondPageState
       print("This is response: ${response.statusCode}\n${response.body}");
       if (StatusCodeHelper.isRegisterSuccess(
           response.statusCode, context, response.body)) {
-        RegisterResponseModel registerResponseModel =
-            RegisterResponseModel.fromJson(json.decode(response.body));
+        LoginResponseModel registerResponseModel =
+            LoginResponseModel.fromJson(json.decode(response.body));
         Data userData = registerResponseModel.data;
+        HealingMatchConstants.userId = userData.id;
+        HealingMatchConstants.serviceProviderPhoneNumber =
+            userData.phoneNumber.toString();
+        HealingMatchConstants.accessToken = registerResponseModel.accessToken;
+        Auth()
+            .signUp(
+                userData.storeName != null && userData.storeName != ''
+                    ? userData.storeName
+                    : userData.userName,
+                userData.phoneNumber.toString() +
+                    userData.id.toString() +
+                    "@nexware.global.com",
+                "password",
+                userData.uploadProfileImgUrl,
+                1,
+                userData.id)
+            .then((value) {
+          if (value != null) {
+            ServiceProviderApi.saveFirebaseUserID(value, context);
+            userData.firebaseUDID = value;
+          }
+        });
         sharedPreferences.setString("userData", json.encode(userData));
         sharedPreferences.setString(
             "accessToken", registerResponseModel.accessToken);
-        sharedPreferences.setBool('isProviderRegister', true);
+        sharedPreferences.setString("providerPhoneNumer",
+            registerResponseModel.data.phoneNumber.toString());
+        /*   sharedPreferences.setBool('isProviderRegister', true); */
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         print('Login response : ${registerResponseModel.toJson()}');
         print('Login token : ${registerResponseModel.accessToken}');
@@ -1625,6 +1678,28 @@ class _RegistrationSecondPageState
       ],
     );
   }
+
+  _getFCMToken() async {
+    fireBaseMessaging.getToken().then((fcmTokenValue) {
+      if (fcmTokenValue != null) {
+        fcmToken = fcmTokenValue;
+        print('FCM Skip Token : $fcmToken');
+        HealingMatchConstants.userDeviceToken = fcmToken;
+      } else {
+        fireBaseMessaging.onTokenRefresh.listen((refreshToken) {
+          if (refreshToken != null) {
+            fcmToken = refreshToken;
+            HealingMatchConstants.userDeviceToken = fcmToken;
+            print('FCM Skip Refresh Tokens : $fcmToken');
+          }
+        }).onError((handleError) {
+          print('On FCM Skip Token Refresh error : ${handleError.toString()}');
+        });
+      }
+    }).catchError((onError) {
+      print('FCM Skip Token Exception : ${onError.toString()}');
+    });
+  }
 }
 
 //Class for the Banner Image Upload
@@ -1656,7 +1731,8 @@ class _BannerImageUploadState extends State<BannerImageUpload> {
         selectedAssets: images,
         cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
         materialOptions: MaterialOptions(
-          selectionLimitReachedText: "バーナーイメージは5個以上選択できません。選択を解除してやり直すことができます。",
+          selectionLimitReachedText: "バナーイメージは5個以上選択できません。選択を解除してやり直すことができます。",
+          textOnNothingSelected: "掲載写真を選択してください。",
           statusBarColor: "#F6F6F6",
           actionBarColor: "#C8D921",
           actionBarTitle: "Healing Match App",

@@ -2,30 +2,68 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe_payment/flutter_stripe_payment.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
+import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/event.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/ProviderDetailsResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart'
     as providerLogin;
 import 'package:gps_massageapp/models/responseModels/serviceProvider/messageServicePriceModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/profile/profileUpdateResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistResultsModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
-
-import 'package:http/http.dart' as http;
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
-class HealingMatchConstants {
-// ON-PREMISE API URLS == http://106.51.49.160:9092/api/
-// DOMAIN URL'S
-  //static const String SEARCH_USER_PROFILE_DETAILS_URL = DOMAIN_BASE_URL + "/search";
+enum MessageType {
+  Text,
+  Media,
+}
 
+enum MediaType {
+  Photo,
+  Video,
+}
+
+/* enum BookingStatus  {
+    user_order_placed: 0,
+    provider_accepted_without_changes: 1,
+    provider_accepted_with_changes: 2,
+    user_accepted: 3,
+    provider_cancel: 4,
+    user_cancel: 5,
+    order_confirm__with_payment: 6,
+    autoCancel_by_provider: 7,
+    autoCancel_by_user: 8,
+    order_Completed: 9
+} */
+
+final String ALL_MESSAGES_COLLECTION = 'MESSAGES';
+final String USERS_COLLECTION = 'USERS';
+final String CHATS_COLLECTION = 'CHATS';
+final String MEDIA_COLLECTION = 'MEDIA';
+
+final String CHATS_MEDIA_STORAGE_REF = 'ChatsMedia';
+
+class HealingMatchConstants {
   static const String ON_PREMISE_USER_BASE_URL =
-      /* "http://103.92.19.158:9094/api";*/
-      "http://106.51.49.160:9094/api";
+      // "http://103.92.19.158:9087/api"; //secondary backup IP
+
+      //   "http://106.51.49.160:9087/api"; // Development data URL
+
+      "http://106.51.49.160:9094/api"; // Testing data URL
+
 // get therapist list By ID
   static const String THERAPIST_USER_BY_ID_URL =
       ON_PREMISE_USER_BASE_URL + '/user' + '/therapistUserbyId';
+  static const String GET_RECOMMENDED_THERAPIST_LIST_URL =
+      ON_PREMISE_USER_BASE_URL + '/user' + '/homeTherapistSuggestionList';
   static const String REGISTER_PROVIDER_URL =
       ON_PREMISE_USER_BASE_URL + '/user/registerProvider';
   static const String STATE_PROVIDER_URL =
@@ -79,12 +117,16 @@ class HealingMatchConstants {
 
   // get Therapists list
   static const String THERAPIST_LIST_URL =
-      ON_PREMISE_USER_BASE_URL + '/user' + '/therapistUserList';
+      ON_PREMISE_USER_BASE_URL + '/user' + '/homeTherapistList';
 
   // get user
   // get Therapists list by type of massage service
   static const String THERAPIST_LIST_BY_TYPE =
-      ON_PREMISE_USER_BASE_URL + '/user' + '/therapistListByType';
+      ON_PREMISE_USER_BASE_URL + '/user' + '/homeTherapistListByType';
+
+  // get recommend therapists
+  static const String RECOMMENDED_THERAPISTS_LIST =
+      ON_PREMISE_USER_BASE_URL + '/user' + '/homeTherapistSuggestionList';
 
   // get Users list
   static const String USER_LIST_URL =
@@ -93,6 +135,17 @@ class HealingMatchConstants {
   // get Users list By ID
   static const String USER_LIST_ID_URL =
       ON_PREMISE_USER_BASE_URL + '/user' + '/userbyId';
+
+  //get Therapist Details by ID
+  static const String THERAPIST_DETAILS_BY_ID =
+      ON_PREMISE_USER_BASE_URL + "/user" + "/therapistByIdProfit";
+
+  //save Provider Shift Timing
+  static const String THERAPIST_SHIFT_TIME_SAVE =
+      ON_PREMISE_USER_BASE_URL + "/storeServicetime" + "/storeServicetimeMange";
+
+  static const String FIREBASE_UPDATE_USERID =
+      ON_PREMISE_USER_BASE_URL + "/firebase/firebaseUserIdUpdate";
 
   // // get Users list By ID
   // static const String THERAPIST_USER_BY_ID_URL =
@@ -116,17 +169,119 @@ class HealingMatchConstants {
       '/adminBanner' +
       '/getAllAdminBannerListMobile';
 
-  // get Users banner images from Admin
+  // get Users details
   static const String GET_USER_DETAILS =
       ON_PREMISE_USER_BASE_URL + '/user' + '/userbyId';
+
+  // get therapist details
+  static const String GET_THERAPIST_DETAILS =
+      ON_PREMISE_USER_BASE_URL + '/user' + '/therapistUserbyId';
 
   // delete user sub address
   static const String DELETE_SUB_ADDRESS_URL =
       ON_PREMISE_USER_BASE_URL + '/user/deleteUserSubAddress';
 
   // delete user sub address
+  static const String EDIT_SUB_ADDRESS_URL =
+      ON_PREMISE_USER_BASE_URL + '/user/userSubAddressUpdate';
+
+  // fetch therapist results
   static const String FETCH_THERAPIST_SEARCH_RESULTS =
       ON_PREMISE_USER_BASE_URL + '/search/searchServiceUser';
+
+  // fetch therapist results
+  static const String FETCH_SORTED_THERAPIST_SEARCH_RESULTS =
+      ON_PREMISE_USER_BASE_URL + '/search/searchServiceUserByOrder';
+
+  static const String BOOKING_THERAPIST =
+      ON_PREMISE_USER_BASE_URL + '/booking/createBooking';
+
+  // Favorite Therapist
+  static const String DO_FAVOURITE_THERAPIST =
+      ON_PREMISE_USER_BASE_URL + '/favourite/favouriteTherapistCreate';
+
+  // Un Favorite Therapist
+  static const String UNDO_FAVOURITE_THERAPIST =
+      ON_PREMISE_USER_BASE_URL + '/favourite/unFavouriteTherapist';
+
+  // therapist booking request
+  static const String THERAPIST_BOOKING_REQUEST =
+      ON_PREMISE_USER_BASE_URL + '/bookingDetails/bookingRequestStatusList';
+
+  // therapist approved booking request
+  static const String THERAPIST_BOOKING_APPROVED =
+      ON_PREMISE_USER_BASE_URL + '/bookingDetails/bookingApprovalStatusList';
+
+  // therapist confirmed booking request
+  static const String THERAPIST_BOOKING_CONFIRMED = ON_PREMISE_USER_BASE_URL +
+      '/bookingDetails/bookingConfirmReservationStatusList';
+
+  // therapist cancel booking list
+  static const String THERAPIST_CANCELLED_BOOKING =
+      ON_PREMISE_USER_BASE_URL + '/bookingDetails/bookingCancelStatusList';
+
+  // therapist booking status change
+  static const String THERAPIST_BOOKING_STATUS_UPDATE =
+      ON_PREMISE_USER_BASE_URL + '/booking/bookingRequestStatusUpdateById';
+
+  // therapist weekly booking detail request
+  static const String THERAPIST_WEEKLY_BOOKING =
+      ON_PREMISE_USER_BASE_URL + '/bookingDetails/weeklyBookingStatusList';
+
+  // handle guest user
+  static const String HANDLE_GUEST_USER =
+      ON_PREMISE_USER_BASE_URL + '/user/guestUser';
+
+  // customer create
+  static const String CREATE_CUSTOMER_FOR_PAYMENT_URL =
+      ON_PREMISE_USER_BASE_URL + '/user/customerCreation';
+
+  // handle guest user
+  static const String CHARGE_CUSTOMER_URL =
+      ON_PREMISE_USER_BASE_URL + '/user/paymentCharge';
+
+  // handle guest user
+  static const String PAYMENT_SUCCESS_CALL_URL =
+      ON_PREMISE_USER_BASE_URL + '/user/paymentConfirm';
+
+  // add user address
+  static const String USER_ADD_ADDRESS =
+      ON_PREMISE_USER_BASE_URL + '/user/userCreateAddress';
+
+  // USER fcm History
+  static const String USER_FIREBASE_NOTIFICATION_HISTORY =
+      ON_PREMISE_USER_BASE_URL +
+          '/firebaseNotification/firebaseNotificationUserList';
+
+  // provider fcm History
+  static const String PROVIDER_FIREBASE_NOTIFICATION_HISTORY =
+      ON_PREMISE_USER_BASE_URL +
+          '/firebaseNotification/firebaseNotificationTherapistList';
+
+  // provider fcm History
+  static const String UPDATE_FIREBASE_NOTIFICATION_READSTATUS =
+      ON_PREMISE_USER_BASE_URL +
+          '/firebaseNotification/firebaseNotificationReadApi';
+
+  // lINE id TOKEN url
+
+  //VERIFY_LINE_ID_TOKEN_URL
+  static const String VERIFY_LINE_ID_TOKEN_URL =
+      'https://api.line.me/oauth2/v2.1/verify';
+
+  //booking Status Api
+  static const String BOOKING_STATUS_LIST =
+      ON_PREMISE_USER_BASE_URL + '/booking/bookingStatusList';
+  static const String UPCOMING_BOOKING_STATUS_LIST =
+      ON_PREMISE_USER_BASE_URL + '/bookingDetails/userUpComingBookingStatus';
+
+  //booking Completed List
+  static const String BOOKING_COMPLETED_LIST =
+      ON_PREMISE_USER_BASE_URL + '/booking/bookingCompleteStatusList';
+
+  // provider fcm History
+  static const String LOGOUT_API =
+      ON_PREMISE_USER_BASE_URL + '/user/logoutUser';
 
   //Common string
   static bool isInternetAvailable = false;
@@ -137,10 +292,17 @@ class HealingMatchConstants {
   static bool isUserRegistrationSkipped = false;
   static bool isUserRegistered = false;
   static bool isUserVerified = false;
+  static bool isUserForgetVerified = false;
   static bool isUserLoggedIn = false;
   static bool isBottomBarVisible = true;
-  static String userFcmToken = '';
   static String currentDate;
+  static var isUserOnline = false;
+
+  static var CLIENT_PUBLISHABLE_KEY_STRIPE =
+      'pk_test_51HwMwNBL9ibeFzEEMHOV6az31lNurmBP3cvNPqaBQASqm4LrQhfJL5NHJ8fApM8twA1oxflxWUoatPKcef7ScZHS00WzhyrZFk';
+
+  static var CLIENT_SECRET_KEY_STRIPE =
+      'sk_test_51HyDhJHsOI5BijsXDYBipQR7TnSU0HmgygzOHQlgENKw6krlttBN6cM2N0vNBVbm9r3kEZe3pMvgW1o5D4dG5HMV00glIPUuVm';
 
   static String currentDay;
 
@@ -155,8 +317,9 @@ class HealingMatchConstants {
   static const String userPasswordPhn = "電話番号 ";
   static var userPhnNum = '';
   static var userForgetPassBtn = '送信';
-  static const String userPasswordTxt =
-      "パスワードを再設定するための認証コードを送信します。\nご登録の電話番号を入力の上「送信」ボタンを\nクリックしてください";
+  static const String userPasswordTxt1 = "パスワードを再設定するための認証コードを送信します。";
+  static const String userPasswordTxt2 = "ご登録の電話番号を入力の上「送信」ボタンを";
+  static const String userPasswordTxt3 = "クリックしてください";
 
   //Register Service User Screen Constants
   static String serviceUserById = '';
@@ -172,6 +335,7 @@ class HealingMatchConstants {
   static String serviceUserAddress = '';
 
   static String searchKeyWordValue;
+  static int searchType;
   static var searchAddressLatitude;
   static var searchAddressLongitude;
 
@@ -195,6 +359,10 @@ class HealingMatchConstants {
   static String serviceProviderOtpTxt = 'に届いた「認証コード」を入力し、\n「確認」ボタンをクリックしてください。';
   static String serviceProviderOtpBtn = '確認';
   static String serviceProviderResendOtpTxt = '認証コードを再送する';
+
+  // login to OTP
+  static bool isLoginRoute = false;
+  static String fbUserid;
 
   //Register Service Provider Screen Constants
   static PickedFile profileImage;
@@ -246,7 +414,9 @@ class HealingMatchConstants {
   static int providerRegisterStatus;
 
   static String idVerify = '';
+  static List<String> bankNameDropDownList = List<String>();
   static String bankName = '';
+  static String otherBankName = '';
   static String branchNumber = '';
   static String accountNumber = '';
   static String accountType = '';
@@ -255,6 +425,8 @@ class HealingMatchConstants {
   static PickedFile idProfileImage;
   static List<String> privateQualification = List<String>();
   static Map<String, String> certificateImages = Map<String, String>();
+
+  static var therapistRatingID;
 
   //userDefinedScreens
   static const String UserSelectFirtTxt = 'どちらで利用しますか？';
@@ -302,11 +474,13 @@ class HealingMatchConstants {
   static const String registrationStorePhnNum = '店舗の電話番号';
   static const String registrationMailAdress = 'メールアドレス';
   static const String registrationPassword = 'パスワード';
-  static const String registrationPasswordInstructionText = "半角英数8~16文字以内";
+  static const String registrationPasswordInstructionText =
+      "半角英数8～16文字以内で、大文字、小文字、\n数字特殊文字を2種類以上使用";
   static const String registrationConfirmPassword = 'パスワード(確認用)';
   static const String registrationStorePhnText = '店舗として登録の場合は代表者の携帯番号を入力してください';
   static const String registrationIndividualText =
       '個人で登録の方は、住所の詳細情報が利用者に\n 開示されることはありません';
+  static const String registrationPlaceAddress = '住所の登録';
   static const String registrationBuildingName = '建物名';
   static const String registrationRoomNo = '部屋番号';
   static const String registrationPointTxt =
@@ -353,7 +527,7 @@ class HealingMatchConstants {
   static const String changePasswordConfirmpass = "パスワード（確認用）*";
   static const String changePasswordBtn = 'パスワードを再設定する';
   static const String changeResendOtp = '認証コードを再送する';
-  static var ProviderPhnNum = '';
+  static var providerPhnNum = '';
 
   //Edit Profile
   static const String profileUpdateBtn = '更新';
@@ -373,16 +547,74 @@ class HealingMatchConstants {
 
   //Provider Home
   static providerLogin.Data userData;
-  static String accessToken = '';
+  static bool isProvider = false;
+  static bool isProviderHomePage;
+
+  static String accessToken;
+  static String providerName;
+  static int numberOfEmployeeRegistered;
+
   static int serviceUserId;
   static int userId;
+  static List<FlutterWeekViewEvent> events =
+      List<FlutterWeekViewEvent>(); //allEvents
+  static List<FlutterWeekViewEvent> calEvents = List<FlutterWeekViewEvent>();
+  static List<StoreServiceTime> therapistDetails = List<StoreServiceTime>();
+  static String storeServiceTime = '';
+
+  //Firebase Chat
+  static String fbUserId;
+
+  //Booking ID
+  static int bookingId;
+
+  //User Calendar
+  static TherapistByIdModel therapistProfileDetails;
+  static void Function(DateTime) callBack;
+  static DateTime selectedDateTime;
+  static int selectedMin = 0;
+  static List<FlutterWeekViewEvent> userEvents = List<FlutterWeekViewEvent>();
+
+  // User Booking Confirmation
+  static int confTherapistId;
+  static String confBooking = '';
+  static String confShopName = '';
+  static String confUserName = '';
+  static var confServiceType = '';
+  static String confRatingAvg = '';
+  static String confAddress = '';
+  static String confServiceName = '';
+  static String confServiceAddressType = '';
+  static String confServiceAddress = '';
+  static String locality = '';
+  static int confNoOfReviewsMembers;
+  static int confserviceCId;
+  static int confserviceSubId;
+  static var confNoOfServiceDuration;
+  static var confServiceCost;
+  static var confCertificationUpload;
+  static bool confBuisnessTrip;
+  static bool confShop;
+  static bool confCoronaMeasures;
+  static DateTime confSelectedDateTime;
+  static DateTime confEndDateTime;
 
   //User Token
   static String uAccessToken = '';
 
-  // LINE Login Channel ID
+  // LINE Login Channel ID && Credentials
   static const String clientLineChannelID = '1655556164';
   static const String demoLineChannelID = '1620019587';
+
+  static String lineUserID;
+
+  static String lineAccessToken;
+  static String lineUsername;
+  static String lineUserProfileURL;
+
+  static String lineUserProfileDetails;
+
+  static String lineUserEmail;
 
   // Profile Edit screen user
   static Uint8List userEditProfile;
@@ -390,6 +622,7 @@ class HealingMatchConstants {
 
   static var userEditUserId;
   static var userAddressId;
+  static var userDeviceToken = '';
 
   static String userEditUserName = '';
   static String userEditPhoneNumber = '';
@@ -409,8 +642,6 @@ class HealingMatchConstants {
   static String userEditAddress = '';
   static double mEditCurrentLatitude = 0.0;
   static double mEditCurrentLongitude = 0.0;
-  static double editCurrentLatitude = 0.0;
-  static double editCurrentLongitude = 0.0;
   static double addedCurrentLatitude = 0.0;
   static double addedCurrentLongitude = 0.0;
   static double manualAddressCurrentLatitude = 0.0;
@@ -418,20 +649,53 @@ class HealingMatchConstants {
   static String addedServiceUserPrefecture = '';
   static String addedServiceUserCity = '';
   static String manualUserAddress = '';
-  static String searchUserAddress;
+  static String searchUserAddress = '';
+  static String searchUserAddressType = '';
   static bool isLocationCriteria = true;
   static bool isTimeCriteria = true;
   static int serviceType = 0;
-  static DateTime dateTime = DateTime.now();
-  static List<Addresses> constantUserAddressValuesList = new List<Addresses>();
+  static bool showAddress = true;
+  static int addressTypeValues = 0;
+  static DateTime dateTime = DateTime.now().add(Duration(minutes: 45));
+  static List<UserAddresses> userAddressesList = new List<UserAddresses>();
   static var searchDistanceRadius;
   static String userProfileImage;
   static String serviceUserID;
+  static List<AddedSubAddresses> editUserSubAddressList =
+      new List<AddedSubAddresses>();
+  static String serviceUserBookingAmount;
+
+  //User booking Screen
+  static dynamic bookingAddressId;
+  static dynamic userRegAddressId;
+  static List<String> addressDropDownValues = List<String>();
+
+  //Therapist Detail Screen
+  static String therapistDStoreName = '';
+  static var therapistDProfileImage;
+  static String therapistDStoreType = '';
+  static String therapistDBusinessForm = '';
+  static int therapistDNumberOfEmp = 0;
+  static String therapistDStoreDescription = '';
+  static String therapistDProofOfIdentityType = '';
 
   // User Home screen
   static int serviceTypeValue = 0;
+  static double serviceDistanceRadius;
   static List<String> userBannerImages = [];
   static int therapistId = 0;
+  static List<TherapistUsersModel> getRecommendedTherapists = [];
+
+  //User details
+  static String userRegisteredAddressDetail = '';
+  static String userRoomNo = '';
+  static String userCity = '';
+  static String userPrefecture = '';
+  static String userPlaceForMassage = '';
+  static String userPlaceForMassageOther = '';
+  static String userArea = '';
+  static String userBuildName = '';
+  static List<UserAddresses> userAddressDetailsList = new List<UserAddresses>();
 
   // User Profile screen
   //Uint8List profile image;
@@ -455,6 +719,16 @@ class HealingMatchConstants {
   static String searchDateTxt = 'さがす条件を選んでください';
   static int searchServiceType = 0;
 
+  //payment
+  static int bookingIdPay;
+  static int therapistIdPay;
+  static int priceOfServicePay;
+
+  static String adminMessage;
+  static int notificationId;
+
+  static String calEventId;
+
   //Booking confirm screen
   //出張での施術は距離、場所によって別途交通費等がかかる場合があります。
   static String additionalDistanceCost = '出張での施術は距離、場所によって別途交通費等がかかる場合があります。\n'
@@ -476,6 +750,8 @@ class HealingMatchConstants {
       '期限内にセラピストに、よる予約の承認がされなかった為、予約はキャンセルされました';
   static String cancelTimerText = '期限内に支払いが完了しなかった為、予約がキャンセルされました。';
   static bool isBookingDone = false;
+
+  //booking HomePage
 
   //FontStyle
   static const headersText = TextStyle(
@@ -526,15 +802,91 @@ class HealingMatchConstants {
     ),
   );
 
-  static Future<void> getMoreData(int page, int size) async {
-    var loadDataURL =
-        '${HealingMatchConstants.ON_PREMISE_USER_BASE_URL}/user/therapistUserList?page=$page&size=$size';
-    Map<String, String> headers = {
-      'Content-Type': 'application/json',
-      'x-access-token': '${HealingMatchConstants.accessToken}'
-    };
-    var response = await http.post(loadDataURL, headers: headers);
-    print('response : ${response.body}');
-    return response;
+  static var datePickerTextFormInputBorder = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(10.0),
+    borderSide: BorderSide(
+      color: ColorConstants.formFieldFillColor,
+    ),
+  );
+
+  static void initiatePayment(BuildContext context) async {
+    String _paymentMethodId;
+    String _errorMessage = "";
+    final _stripePayment = FlutterStripePayment();
+    try {
+      _stripePayment.setStripeSettings(
+          "${HealingMatchConstants.CLIENT_PUBLISHABLE_KEY_STRIPE}");
+
+      _stripePayment.onCancel = () {
+        print("the payment form was cancelled");
+      };
+      _stripePayment.addPaymentMethod().then((paymentResponse) {
+        if (paymentResponse.status == PaymentResponseStatus.succeeded) {
+          _paymentMethodId = paymentResponse.paymentMethodId;
+          debugPrint('Payment Response : ${paymentResponse.paymentMethodId}');
+          Future.delayed(Duration(seconds: 2), () {
+            createCustomer(_paymentMethodId, context);
+          });
+        } else {
+          _errorMessage = paymentResponse.errorMessage;
+          debugPrint('Error message while payment : $_errorMessage');
+          NavigationRouter.switchToPaymentFailedScreen(context);
+        }
+      }).catchError((error) {
+        debugPrint('Payment Error : $error');
+
+        NavigationRouter.switchToPaymentFailedScreen(context);
+      });
+    } catch (e) {
+      NavigationRouter.switchToPaymentFailedScreen(context);
+      print('Payment initiate exception : ${e.toString()}');
+    }
   }
+
+  static void createCustomer(var paymentID, BuildContext context) async {
+    NavigationRouter.switchToPaymentProcessingScreen(context, paymentID);
+  }
+
+  static List<Curve> curveList = [
+    Curves.bounceIn,
+    Curves.bounceInOut,
+    Curves.bounceOut,
+    Curves.decelerate,
+    Curves.ease,
+    Curves.easeIn,
+    Curves.easeInBack,
+    Curves.easeInCirc,
+    Curves.easeInCubic,
+    Curves.easeInExpo,
+    Curves.easeInOut,
+    Curves.easeInOutBack,
+    Curves.easeInOutCirc,
+    Curves.easeInOutCubic,
+    Curves.easeInOutExpo,
+    Curves.easeInOutQuad,
+    Curves.easeInOutQuart,
+    Curves.easeInOutQuint,
+    Curves.easeInOutSine,
+    Curves.easeInQuad,
+    Curves.easeInQuart,
+    Curves.easeInQuint,
+    Curves.easeInSine,
+    Curves.easeInToLinear,
+    Curves.easeOut,
+    Curves.easeOutBack,
+    Curves.easeOutCubic,
+    Curves.easeOutExpo,
+    Curves.easeOutQuad,
+    Curves.easeOutQuart,
+    Curves.easeOutQuint,
+    Curves.easeOutSine,
+    Curves.elasticIn,
+    Curves.elasticInOut,
+    Curves.elasticOut,
+    Curves.fastLinearToSlowEaseIn,
+    Curves.fastOutSlowIn,
+    Curves.linear,
+    Curves.linearToEaseOut,
+    Curves.slowMiddle
+  ];
 }

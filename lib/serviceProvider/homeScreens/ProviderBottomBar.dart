@@ -1,9 +1,15 @@
+import 'dart:io';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/bottomNavigationBar/curved_Naviagtion_Bar.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/ChatTabBar.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/chat/notification.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/history/History.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/notificationOnResume.dart';
 
 import 'HomeScreen.dart';
 import 'myAccount/MyAccount.dart';
@@ -11,8 +17,10 @@ import 'operationManagement/OperationManagement.dart';
 
 class BottomBarProvider extends StatefulWidget {
   final int page;
+  final int opManagementPage;
+  final int historyPage;
 
-  BottomBarProvider(this.page);
+  BottomBarProvider(this.page, {this.opManagementPage, this.historyPage});
 
   @override
   _BottomBarProviderPageState createState() => _BottomBarProviderPageState();
@@ -21,14 +29,9 @@ class BottomBarProvider extends StatefulWidget {
 class _BottomBarProviderPageState extends State<BottomBarProvider> {
   int selectedpage; //initial value
 
-  final _pageOptions = [
-    ProviderHomeScreen(),
-    OperationManagement(),
-    History(),
-    MyAccount(),
-    ChatTabBar(),
-  ]; // listing of all 3 pages index wise
-
+  var _pageOptions; // listing of all 3 pages index wise
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  static var fcmMessageid;
   /*final bgcolor = [
     Colors.orange,
     Colors.pink,
@@ -37,8 +40,18 @@ class _BottomBarProviderPageState extends State<BottomBarProvider> {
 
   @override
   void initState() {
-    FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
+    _getNotificationStatus(context);
+
+ //   FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
     selectedpage = widget.page; //initial Page
+    _pageOptions = [
+      ProviderHomeScreen(),
+      OperationManagement(
+          widget.opManagementPage == null ? 0 : widget.opManagementPage),
+      History(widget.historyPage == null ? 0 : widget.historyPage),
+      MyAccount(),
+      ChatTabBar(),
+    ];
     super.initState();
   }
 
@@ -98,9 +111,62 @@ class _BottomBarProviderPageState extends State<BottomBarProvider> {
           setState(() {
             selectedpage =
                 index; // changing selected page as per bar index selected by the user
+            _pageOptions[1] = OperationManagement(0);
+            _pageOptions[2] = History(0);
           });
         },
       ),
     );
+  }
+
+  void _getNotificationStatus(BuildContext context) async {
+    _firebaseMessaging.configure(
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+
+        if (fcmMessageid != message["gcm.message_id"] && Platform.isIOS) {
+          fcmMessageid = message["gcm.message_id"];
+          navigateToProviderNotifications(context);
+        } else if (fcmMessageid != message["data"]["notificaitonId"]) {
+          fcmMessageid = message["data"]["notificaitonId"];
+          navigateToProviderNotifications(context);
+        }
+      },
+      // onBackgroundMessage: myBackgroundMessageHandler,
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+
+        if (fcmMessageid != message["gcm.message_id"] && Platform.isIOS) {
+          fcmMessageid = message["gcm.message_id"];
+          navigateToProviderNotifications(context);
+        } else if (fcmMessageid != message["data"]["notificaitonId"]) {
+          fcmMessageid = message["data"]["notificaitonId"];
+          navigateToProviderNotifications(context);
+        }
+      },
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+      },
+    );
+  }
+
+  /*  static Future<dynamic> myBackgroundMessageHandler(
+      Map<String, dynamic> message) async {
+    if (message.containsKey('data')) {
+      // Handle data message
+      final dynamic data = message['data'];
+    }
+
+    if (message.containsKey('notification')) {
+      // Handle notification message
+      final dynamic notification = message['notification'];
+    }
+
+    // Or do other work.
+  } */
+
+  void navigateToProviderNotifications(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => NotificationHistoryProvider()));
   }
 }

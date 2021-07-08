@@ -37,6 +37,7 @@ class BookingDetailsConfirmedScreen extends StatefulWidget {
 
 class _BookingDetailsConfirmedScreenState
     extends State<BookingDetailsConfirmedScreen> {
+  var therapistId;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -275,7 +276,7 @@ class _BookingDetailsConfirmedScreenState
                                 onTap: () {
                                   NavigationRouter
                                       .switchToServiceUserDisplayReviewScreen(
-                                          context);
+                                          context, therapistId);
                                 },
                                 child: Text(
                                   'もっとみる',
@@ -679,11 +680,7 @@ class _BookingDetailsConfirmedScreenState
                         ),
                         Spacer(),
                         GestureDetector(
-                          onTap: () {
-                            NavigationRouter
-                                .switchToServiceUserBookingCancelScreen(
-                                    context);
-                          },
+                          onTap: () {},
                           child: Text(
                             'キャンセルする',
                             style: TextStyle(

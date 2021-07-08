@@ -6,23 +6,20 @@ import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 
 class NewStopWatch extends StatefulWidget {
-
   @override
   _NewStopWatchState createState() => _NewStopWatchState();
-
 }
 
-class _NewStopWatchState extends State<NewStopWatch> with WidgetsBindingObserver{
-
-
+class _NewStopWatchState extends State<NewStopWatch>
+    with WidgetsBindingObserver {
   AppLifecycleState _notification;
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    setState(() { _notification = state; });
+    setState(() {
+      _notification = state;
+    });
   }
-
-
-
 
   Stopwatch watch = Stopwatch();
   Timer timer;
@@ -37,121 +34,106 @@ class _NewStopWatchState extends State<NewStopWatch> with WidgetsBindingObserver
         elapsedTime = transformMilliSeconds(watch.elapsedMilliseconds);
       });
     }
-
   }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          child: ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              itemCount: 2,
-              itemBuilder: (BuildContext ctxt, int index) {
-                return Column(
-                  /*  mainAxisAlignment:
+        body: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        child: ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemCount: 2,
+            itemBuilder: (BuildContext ctxt, int index) {
+              return Column(
+                /*  mainAxisAlignment:
                                           MainAxisAlignment.spaceAround,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,*/
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                            padding: EdgeInsets.all(8.0),
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                  colors: [
-                                    Color.fromRGBO(255, 255, 255, 1),
-                                    Color.fromRGBO(255, 255, 255, 1),
-                                  ]),
-                              shape: BoxShape.rectangle,
-                              border: Border.all(
-                                color: Color.fromRGBO(255, 255, 255, 1),
-                              ),
-                              borderRadius: BorderRadius.circular(6.0),
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                          padding: EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
+                            shape: BoxShape.rectangle,
+                            border: Border.all(
                               color: Color.fromRGBO(255, 255, 255, 1),
                             ),
-                            child: Text(
-                              'オフィス',
-                              style: TextStyle(
-                                color: Color.fromRGBO(0, 0, 0, 1),
-                              ),
-                            )),
-                        SizedBox(
-                          width: 3,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            width: MediaQuery.of(context)
-                                .size
-                                .width *
-                                0.60,
-                            child: TextFormField(
-                              initialValue:
-                              'Address lists',
-                              readOnly: true,
-                              //display the address
-                              decoration: new InputDecoration(
-                                  filled: true,
-                                  fillColor: ColorConstants
-                                      .formFieldFillColor,
-                                  hintText:
-                                  'Address',
-                                  hintStyle: TextStyle(
-                                      color: Colors.grey[400],
-                                      fontSize: 14),
-                                  focusColor:
-                                  Colors.grey[100],
-                                  border: HealingMatchConstants
-                                      .textFormInputBorder,
-                                  focusedBorder:
-                                  HealingMatchConstants
-                                      .textFormInputBorder,
-                                  disabledBorder:
-                                  HealingMatchConstants
-                                      .textFormInputBorder,
-                                  enabledBorder:
-                                  HealingMatchConstants
-                                      .textFormInputBorder,
-                                  suffixIcon: IconButton(
-                                    icon: Icon(Icons.keyboard_arrow_down_sharp,size: 40),
-                                    onPressed: () {
-                                      setState(() {
-                                        openAddressEditDialog();
-                                      });
-                                    },
-                                  )),
-                              style: TextStyle(
-                                  color: Colors.black54),
-                              onChanged: (value) {
-                                setState(() {
-
-                                });
-                              },
-                              // validator: (value) => _validateEmail(value),
+                            borderRadius: BorderRadius.circular(6.0),
+                            color: Color.fromRGBO(255, 255, 255, 1),
+                          ),
+                          child: Text(
+                            'オフィス',
+                            style: TextStyle(
+                              color: Color.fromRGBO(0, 0, 0, 1),
                             ),
+                          )),
+                      SizedBox(
+                        width: 3,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.60,
+                          child: TextFormField(
+                            initialValue: 'Address lists',
+                            readOnly: true,
+                            //display the address
+                            decoration: new InputDecoration(
+                                filled: true,
+                                fillColor: ColorConstants.formFieldFillColor,
+                                hintText: 'Address',
+                                hintStyle: TextStyle(
+                                    color: Colors.grey[400], fontSize: 14),
+                                focusColor: Colors.grey[100],
+                                border:
+                                    HealingMatchConstants.textFormInputBorder,
+                                focusedBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                disabledBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                enabledBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                suffixIcon: IconButton(
+                                  icon: Icon(Icons.keyboard_arrow_down_sharp,
+                                      size: 40),
+                                  onPressed: () {
+                                    setState(() {
+                                      openAddressEditDialog();
+                                    });
+                                  },
+                                )),
+                            style: TextStyle(color: Colors.black54),
+                            onChanged: (value) {
+                              setState(() {});
+                            },
+                            // validator: (value) => _validateEmail(value),
                           ),
                         ),
-                      ],
-                    ),
-                    SizedBox(height: 5),
-                  ],
-                );
-              }),
-        ),
-      )
-    );
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 5),
+                ],
+              );
+            }),
+      ),
+    ));
   }
 
   startOrStop() {
-    if(startStop) {
+    if (startStop) {
       startWatch();
     } else {
       stopWatch();
@@ -258,6 +240,4 @@ class _NewStopWatchState extends State<NewStopWatch> with WidgetsBindingObserver
       ),
     )..show();
   }
-
-
 }

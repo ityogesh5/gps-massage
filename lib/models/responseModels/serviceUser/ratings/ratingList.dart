@@ -67,7 +67,7 @@ class TherapistReviewList {
     this.id,
     this.userId,
     this.therapistId,
-    this.ratingsId,
+    this.bookingId,
     this.isReviewStatus,
     this.ratingsCount,
     this.reviewComment,
@@ -81,7 +81,7 @@ class TherapistReviewList {
   int id;
   int userId;
   int therapistId;
-  dynamic ratingsId;
+  int bookingId;
   bool isReviewStatus;
   int ratingsCount;
   String reviewComment;
@@ -96,7 +96,7 @@ class TherapistReviewList {
         id: json["id"],
         userId: json["userId"],
         therapistId: json["therapistId"],
-        ratingsId: json["ratingsId"],
+        bookingId: json["bookingId"],
         isReviewStatus: json["isReviewStatus"],
         ratingsCount: json["ratingsCount"],
         reviewComment: json["reviewComment"],
@@ -111,7 +111,7 @@ class TherapistReviewList {
         "id": id,
         "userId": userId,
         "therapistId": therapistId,
-        "ratingsId": ratingsId,
+        "bookingId": bookingId,
         "isReviewStatus": isReviewStatus,
         "ratingsCount": ratingsCount,
         "reviewComment": reviewComment,
@@ -134,7 +134,7 @@ class ReviewUserId {
   int id;
   String userId;
   String userName;
-  dynamic uploadProfileImgUrl;
+  String uploadProfileImgUrl;
 
   factory ReviewUserId.fromJson(Map<String, dynamic> json) => ReviewUserId(
         id: json["id"],

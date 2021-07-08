@@ -65,6 +65,7 @@ class BannersList {
     this.id,
     this.adminBannerId,
     this.isBannerActive,
+    this.isBannerImage,
     this.bannerImageName,
     this.bannerImageUrl,
     this.bannerDisplayOrder,
@@ -76,10 +77,11 @@ class BannersList {
   int id;
   dynamic adminBannerId;
   bool isBannerActive;
+  bool isBannerImage;
   String bannerImageName;
   String bannerImageUrl;
   String bannerDisplayOrder;
-  dynamic bannerUrl;
+  String bannerUrl;
   DateTime createdAt;
   DateTime updatedAt;
 
@@ -87,6 +89,7 @@ class BannersList {
         id: json["id"],
         adminBannerId: json["adminBannerId"],
         isBannerActive: json["isBannerActive"],
+        isBannerImage: json["isBannerImage"],
         bannerImageName: json["bannerImageName"],
         bannerImageUrl: json["bannerImageUrl"],
         bannerDisplayOrder: json["bannerDisplayOrder"],
@@ -99,6 +102,7 @@ class BannersList {
         "id": id,
         "adminBannerId": adminBannerId,
         "isBannerActive": isBannerActive,
+        "isBannerImage": isBannerImage,
         "bannerImageName": bannerImageName,
         "bannerImageUrl": bannerImageUrl,
         "bannerDisplayOrder": bannerDisplayOrder,

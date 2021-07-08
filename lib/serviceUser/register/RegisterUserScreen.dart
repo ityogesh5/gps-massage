@@ -1,25 +1,34 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/auth.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
+import 'package:gps_massageapp/customLibraryClasses/customTextField/text_field_custom.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/cityListResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/serviceUserRegisterResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/stateListResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:gps_massageapp/utils/text_field_custom.dart';
+import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:toast/toast.dart';
+
+Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 
 class RegisterServiceUserScreen extends StatefulWidget {
   @override
@@ -44,8 +53,6 @@ class RegisterUser extends StatefulWidget {
 }
 
 class _RegisterUserState extends State<RegisterUser> {
-  Future<SharedPreferences> _sharedPreferences =
-      SharedPreferences.getInstance();
   final formKey = GlobalKey<FormState>();
   DateTime selectedDate = DateTime.now();
   bool visible = false;
@@ -68,8 +75,11 @@ class _RegisterUserState extends State<RegisterUser> {
   String _myCity = '';
   File _profileImage;
   final picker = ImagePicker();
-  Placemark currentLocationPlaceMark;
-  Placemark userAddedAddressPlaceMark;
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  User firebaseUser;
+
+  // Placemark currentLocationPlaceMark;
+  // Placemark userAddedAddressPlaceMark;
 
   bool _showCurrentLocationInput = false;
   bool _secureText = true;
@@ -94,8 +104,11 @@ class _RegisterUserState extends State<RegisterUser> {
   final gpsAddressController = new TextEditingController();
   final roomNumberController = new TextEditingController();
   final otherController = new TextEditingController();
+  var lineUserImage;
 
   List<String> serviceUserDetails = [];
+  String fcmStatus;
+  var deviceToken;
 
   //final gpsAddressController = new TextEditingController();
 
@@ -104,6 +117,8 @@ class _RegisterUserState extends State<RegisterUser> {
   List<dynamic> stateDropDownValues = List();
   List<dynamic> cityDropDownValues = List();
   List<dynamic> addressValues = List();
+  final fireBaseMessaging = new FirebaseMessaging();
+  var fcmToken;
 
   StatesListResponseModel states;
   CitiesListResponseModel cities;
@@ -118,24 +133,24 @@ class _RegisterUserState extends State<RegisterUser> {
 //Date picker
 
   Future<Null> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        //locale : const Locale("ja","JP"),
-        initialDatePickerMode: DatePickerMode.day,
-        initialDate: selectedDate,
-        firstDate: DateTime(1901, 1),
-        lastDate: DateTime.now());
-    if (picked != null) {
-      setState(() {
-        selectedDate = picked;
-        _selectedDOBDate = new DateFormat("yyyy-MM-dd").format(picked);
-        _userDOBController.value =
-            TextEditingValue(text: _selectedDOBDate.toString());
-        //print(_selectedDOBDate);
-        selectedYear = picked.year;
-        calculateAge();
-      });
-    }
+    DatePicker.showDatePicker(context,
+        locale: LocaleType.jp,
+        currentTime: selectedDate,
+        minTime: DateTime(1901, 1),
+        maxTime: DateTime.now(), onConfirm: (DateTime picked) {
+      if (picked != null) {
+        setState(() {
+          selectedDate = picked;
+          _selectedDOBDate = new DateFormat("yyyy-MM-dd").format(picked);
+          _userDOBController.value =
+              TextEditingValue(text: _selectedDOBDate.toString());
+
+          //print(_selectedDOBDate);
+          selectedYear = picked.year;
+          calculateAge();
+        });
+      }
+    });
   }
 
   void calculateAge() {
@@ -221,12 +236,12 @@ class _RegisterUserState extends State<RegisterUser> {
             child: InkWell(
               onTap: () {
                 HealingMatchConstants.isUserRegistrationSkipped = true;
-                NavigationRouter.switchToServiceUserBottomBar(context);
+                _getFCMToken();
               },
               child: Text(
                 'スキップ',
                 style: TextStyle(
-                    color: Colors.black,
+                    color: Color.fromRGBO(0, 0, 0, 1),
                     fontWeight: FontWeight.bold,
                     fontFamily: 'NotoSansJP',
                     fontSize: 18.0,
@@ -251,11 +266,11 @@ class _RegisterUserState extends State<RegisterUser> {
                   children: [
                     Text('サービス利用者情報の入力',
                         style: new TextStyle(
-                            fontSize: 14,
-                            color: Color.fromRGBO(102, 102, 0, 1),
-                            fontStyle: FontStyle.normal,
-                            fontFamily: 'NotoSansJP',
-                            fontWeight: FontWeight.w100)),
+                          fontSize: 14,
+                          color: Color.fromRGBO(102, 102, 102, 1),
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'NotoSansJP',
+                        )),
                     SizedBox(height: 5),
                     RichText(
                       textAlign: TextAlign.start,
@@ -270,11 +285,10 @@ class _RegisterUserState extends State<RegisterUser> {
                           new TextSpan(
                               text: 'は必須項目です',
                               style: new TextStyle(
-                                  fontSize: 14,
-                                  color: Color.fromRGBO(102, 102, 0, 1),
-                                  fontFamily: 'NotoSansJP',
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: FontWeight.w100)),
+                                fontSize: 14,
+                                color: Color.fromRGBO(102, 102, 102, 1),
+                                fontFamily: 'NotoSansJP',
+                              )),
                         ],
                       ),
                     ),
@@ -285,8 +299,8 @@ class _RegisterUserState extends State<RegisterUser> {
                         _profileImage != null
                             ? Semantics(
                                 child: new Container(
-                                    width: 100.0,
-                                    height: 100.0,
+                                    width: 95.0,
+                                    height: 95.0,
                                     decoration: new BoxDecoration(
                                       border: Border.all(color: Colors.black12),
                                       shape: BoxShape.circle,
@@ -297,44 +311,56 @@ class _RegisterUserState extends State<RegisterUser> {
                                       ),
                                     )),
                               )
-                            : new Container(
-                                width: 95.0,
-                                height: 95.0,
-                                decoration: new BoxDecoration(
-                                  border: Border.all(color: Colors.grey[200]),
-                                  shape: BoxShape.circle,
-                                  image: new DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: new AssetImage(
-                                        'assets/images_gps/placeholder_image.png'),
-                                  ),
-                                )),
+                            : lineUserImage != null
+                                ? CachedNetworkImage(
+                                    imageUrl: lineUserImage,
+                                    filterQuality: FilterQuality.high,
+                                    fadeInCurve: Curves.easeInSine,
+                                    imageBuilder: (context, imageProvider) =>
+                                        Container(
+                                      width: 95.0,
+                                      height: 95.0,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                            image: imageProvider,
+                                            fit: BoxFit.cover),
+                                      ),
+                                    ),
+                                    placeholder: (context, url) =>
+                                        SpinKitDoubleBounce(
+                                            color: Colors.lightGreenAccent),
+                                    errorWidget: (context, url, error) =>
+                                        Container(
+                                      width: 95.0,
+                                      height: 95.0,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border:
+                                            Border.all(color: Colors.black12),
+                                        image: DecorationImage(
+                                            image: new AssetImage(
+                                                'assets/images_gps/placeholder_image.png'),
+                                            fit: BoxFit.cover),
+                                      ),
+                                    ),
+                                  )
+                                : new Container(
+                                    width: 95.0,
+                                    height: 95.0,
+                                    decoration: new BoxDecoration(
+                                      border:
+                                          Border.all(color: Colors.grey[200]),
+                                      shape: BoxShape.circle,
+                                      image: new DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: new AssetImage(
+                                            'assets/images_gps/placeholder_image.png'),
+                                      ),
+                                    )),
                       ],
                     ),
                     SizedBox(height: 10),
-                    Form(
-                      child: Center(
-                        child: GestureDetector(
-                          onTap: () {
-                            _showPicker(context);
-                          },
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.85,
-                            child: DropDownFormField(
-                              hintText: 'プロフィール画像アップロード',
-                              onSaved: (value) {
-                                setState(() {});
-                              },
-                              onChanged: (value) {},
-                              dataSource: [],
-                              textField: 'display',
-                              valueField: 'value',
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 15),
                     Container(
                       height: containerHeight,
                       width: MediaQuery.of(context).size.width * 0.85,
@@ -342,6 +368,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         controller: userNameController,
                         autofocus: false,
                         decoration: new InputDecoration(
+                          contentPadding: EdgeInsets.all(16.0),
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
                           focusColor: Colors.grey[100],
@@ -361,11 +388,11 @@ class _RegisterUserState extends State<RegisterUser> {
                               TextSpan(
                                 text: '*',
                                 style:
-                                    TextStyle(color: Colors.red, fontSize: 20),
+                                    TextStyle(color: Colors.red, fontSize: 16),
                               ),
                             ],
                             style: TextStyle(
-                                color: Colors.grey[400],
+                                color: Color.fromRGBO(197, 197, 197, 1),
                                 fontFamily: 'NotoSansJP',
                                 fontSize: 16),
                           ),
@@ -395,6 +422,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                     autofocus: false,
                                     keyboardType: TextInputType.number,
                                     decoration: new InputDecoration(
+                                      contentPadding: EdgeInsets.all(16.0),
                                       filled: true,
                                       fillColor:
                                           ColorConstants.formFieldFillColor,
@@ -426,11 +454,12 @@ class _RegisterUserState extends State<RegisterUser> {
                                             text: '*',
                                             style: TextStyle(
                                                 color: Colors.red,
-                                                fontSize: 20),
+                                                fontSize: 16),
                                           ),
                                         ],
                                         style: TextStyle(
-                                            color: Colors.grey[400],
+                                            color: Color.fromRGBO(
+                                                197, 197, 197, 1),
                                             fontFamily: 'NotoSansJP',
                                             fontSize: 14),
                                       ),
@@ -458,7 +487,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                   fillColor: ColorConstants.formFieldFillColor,
                                   labelText: '年齢',
                                   labelStyle: TextStyle(
-                                      color: Colors.grey[400],
+                                      color: Color.fromRGBO(197, 197, 197, 1),
                                       fontFamily: 'NotoSansJP',
                                       fontSize: 14),
                                   border:
@@ -480,100 +509,65 @@ class _RegisterUserState extends State<RegisterUser> {
                       height: 15,
                     ),
                     // Drop down gender user
-                    Padding(
-                      padding: const EdgeInsets.only(left: 100.0, right: 25.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          FittedBox(
-                            child: RichText(
-                              textAlign: TextAlign.start,
-                              text: new TextSpan(
-                                text: '性別 ',
-                                style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontFamily: 'NotoSansJP',
-                                    color: Color.fromRGBO(0, 0, 0, 1),
-                                    fontWeight: FontWeight.w300),
-                                children: <TextSpan>[
-                                  new TextSpan(
-                                      text: '*',
-                                      style: new TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.red,
-                                          fontStyle: FontStyle.normal,
-                                          fontWeight: FontWeight.w300)),
+                    Form(
+                      key: _genderKey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Center(
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.85,
+                              child: DropDownFormField(
+                                requiredField: true,
+                                hintText: '性別',
+                                value: _myGender,
+                                onSaved: (value) {
+                                  setState(() {
+                                    _myGender = value;
+                                  });
+                                },
+                                onChanged: (value) {
+                                  setState(() {
+                                    _myGender = value;
+                                    print(value.toString());
+                                    if (_myGender.contains('M')) {
+                                      _sharedPreferences.then((value) {
+                                        value.setString('japaneseGender', '男性');
+                                        japaneseGender =
+                                            value.getString('japaneseGender');
+                                      });
+                                    } else if (_myGender.contains('F')) {
+                                      _sharedPreferences.then((value) {
+                                        value.setString('japaneseGender', '女性');
+                                        japaneseGender =
+                                            value.getString('japaneseGender');
+                                      });
+                                    } else if (_myGender.contains('O')) {
+                                      _sharedPreferences.then((value) {
+                                        value.setString(
+                                            'japaneseGender', 'どちらでもない');
+                                        japaneseGender =
+                                            value.getString('japaneseGender');
+                                      });
+                                    }
+                                  });
+                                },
+                                dataSource: [
+                                  {
+                                    "display": "男性",
+                                    "value": "男性",
+                                  },
+                                  {
+                                    "display": "女性",
+                                    "value": "女性",
+                                  },
+                                  {
+                                    "display": "どちらでもない",
+                                    "value": "どちらでもない",
+                                  },
                                 ],
-                              ),
-                            ),
-                          ),
-                          /* Text(
-                            '性別 *',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Color.fromRGBO(0, 0, 0, 1),
-                                fontFamily: 'NotoSansJP',
-                                fontWeight: FontWeight.w300),
-                          ),*/
-                          Form(
-                            key: _genderKey,
-                            child: Center(
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.38,
-                                child: DropDownFormField(
-                                  hintText: '',
-                                  value: _myGender,
-                                  onSaved: (value) {
-                                    setState(() {
-                                      _myGender = value;
-                                    });
-                                  },
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _myGender = value;
-                                      print(value.toString());
-                                      if (_myGender.contains('M')) {
-                                        _sharedPreferences.then((value) {
-                                          value.setString(
-                                              'japaneseGender', '男性');
-                                          japaneseGender =
-                                              value.getString('japaneseGender');
-                                        });
-                                      } else if (_myGender.contains('F')) {
-                                        _sharedPreferences.then((value) {
-                                          value.setString(
-                                              'japaneseGender', '女性');
-                                          japaneseGender =
-                                              value.getString('japaneseGender');
-                                        });
-                                      } else if (_myGender.contains('O')) {
-                                        _sharedPreferences.then((value) {
-                                          value.setString(
-                                              'japaneseGender', 'どちらでもない');
-                                          japaneseGender =
-                                              value.getString('japaneseGender');
-                                        });
-                                      }
-                                    });
-                                  },
-                                  dataSource: [
-                                    {
-                                      "display": "男性",
-                                      "value": "男性",
-                                    },
-                                    {
-                                      "display": "女性",
-                                      "value": "女性",
-                                    },
-                                    {
-                                      "display": "どちらでもない",
-                                      "value": "どちらでもない",
-                                    },
-                                  ],
-                                  textField: 'display',
-                                  valueField: 'value',
-                                ),
+                                textField: 'display',
+                                valueField: 'value',
                               ),
                             ),
                           ),
@@ -583,6 +577,29 @@ class _RegisterUserState extends State<RegisterUser> {
                     SizedBox(
                       height: 15,
                     ),
+                    Form(
+                      child: Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            _showPicker(context);
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.85,
+                            child: DropDownFormField(
+                              hintText: 'プロフィール写真の登録',
+                              onSaved: (value) {
+                                setState(() {});
+                              },
+                              onChanged: (value) {},
+                              dataSource: [],
+                              textField: 'display',
+                              valueField: 'value',
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 15),
                     // Drop down occupation user
                     Form(
                       key: _occupationKey,
@@ -664,26 +681,26 @@ class _RegisterUserState extends State<RegisterUser> {
                       width: MediaQuery.of(context).size.width * 0.85,
                       child: TextFieldCustom(
                         controller: phoneNumberController,
-                        maxLength: 10,
+                        maxLength: 11,
                         autofocus: false,
                         keyboardType:
                             TextInputType.numberWithOptions(signed: true),
-                        onEditingComplete: () {
+                        /*      onEditingComplete: () {
                           var phnNum = phoneNumberController.text.toString();
                           var userPhoneNumber =
                               phnNum.replaceFirst(RegExp(r'^0+'), "");
                           print('Phone number after edit : $userPhoneNumber');
                           phoneNumberController.text = userPhoneNumber;
                           FocusScope.of(context).requestFocus(FocusNode());
-                        },
-                        onSubmitted: (userPhoneNumber) {
+                        },*/
+                        /*   onSubmitted: (userPhoneNumber) {
                           var phnNum = phoneNumberController.text.toString();
                           var userPhoneNumber =
                               phnNum.replaceFirst(RegExp(r'^0+'), "");
                           print('Phone number after submit : $userPhoneNumber');
                           phoneNumberController.text = userPhoneNumber;
                           FocusScope.of(context).requestFocus(FocusNode());
-                        },
+                        },*/
                         decoration: new InputDecoration(
                           counterText: '',
                           filled: true,
@@ -705,11 +722,11 @@ class _RegisterUserState extends State<RegisterUser> {
                               TextSpan(
                                 text: '*',
                                 style:
-                                    TextStyle(color: Colors.red, fontSize: 20),
+                                    TextStyle(color: Colors.red, fontSize: 16),
                               ),
                             ],
                             style: TextStyle(
-                                color: Colors.grey[400],
+                                color: Color.fromRGBO(197, 197, 197, 1),
                                 fontFamily: 'NotoSansJP',
                                 fontSize: 14),
                           ),
@@ -719,13 +736,13 @@ class _RegisterUserState extends State<RegisterUser> {
                     SizedBox(height: 15),
                     Container(
                       height: containerHeight,
-                      // height: MediaQuery.of(context).size.height * 0.07,
                       width: MediaQuery.of(context).size.width * 0.85,
                       child: TextFieldCustom(
                         controller: emailController,
                         keyboardType: TextInputType.emailAddress,
                         autofocus: false,
                         decoration: new InputDecoration(
+                          contentPadding: EdgeInsets.all(16.0),
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
                           focusColor: Colors.grey[100],
@@ -745,11 +762,11 @@ class _RegisterUserState extends State<RegisterUser> {
                               TextSpan(
                                 text: '*',
                                 style:
-                                    TextStyle(color: Colors.red, fontSize: 20),
+                                    TextStyle(color: Colors.red, fontSize: 16),
                               ),
                             ],
                             style: TextStyle(
-                                color: Colors.grey[400],
+                                color: Color.fromRGBO(197, 197, 197, 1),
                                 fontFamily: 'NotoSansJP',
                                 fontSize: 14),
                           ),
@@ -764,8 +781,11 @@ class _RegisterUserState extends State<RegisterUser> {
                       child: TextFieldCustom(
                         controller: passwordController,
                         obscureText: _secureText,
+                        maxLength: 16,
                         autofocus: false,
                         decoration: new InputDecoration(
+                          counterText: '',
+                          contentPadding: EdgeInsets.all(16.0),
                           suffixIcon: IconButton(
                             onPressed: showHide,
                             icon: Icon(_secureText
@@ -791,11 +811,11 @@ class _RegisterUserState extends State<RegisterUser> {
                               TextSpan(
                                 text: '*',
                                 style:
-                                    TextStyle(color: Colors.red, fontSize: 20),
+                                    TextStyle(color: Colors.red, fontSize: 16),
                               ),
                             ],
                             style: TextStyle(
-                                color: Colors.grey[400],
+                                color: Color.fromRGBO(197, 197, 197, 1),
                                 fontFamily: 'NotoSansJP',
                                 fontSize: 14),
                           ),
@@ -811,7 +831,10 @@ class _RegisterUserState extends State<RegisterUser> {
                         controller: confirmPasswordController,
                         obscureText: passwordConfirmVisibility,
                         autofocus: false,
+                        maxLength: 16,
                         decoration: new InputDecoration(
+                          counterText: '',
+                          contentPadding: EdgeInsets.all(16.0),
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
                           focusColor: Colors.grey[100],
@@ -841,11 +864,11 @@ class _RegisterUserState extends State<RegisterUser> {
                               TextSpan(
                                 text: '*',
                                 style:
-                                    TextStyle(color: Colors.red, fontSize: 20),
+                                    TextStyle(color: Colors.red, fontSize: 16),
                               ),
                             ],
                             style: TextStyle(
-                                color: Colors.grey[400],
+                                color: Color.fromRGBO(197, 197, 197, 1),
                                 fontFamily: 'NotoSansJP',
                                 fontSize: 14),
                           ),
@@ -870,11 +893,11 @@ class _RegisterUserState extends State<RegisterUser> {
                                 new TextSpan(
                                     text: '半角英数 8 ～１６文字以内',
                                     style: new TextStyle(
-                                        fontSize: 16,
+                                        fontSize: 14,
                                         fontFamily: 'NotoSansJP',
-                                        color: Colors.grey[400],
+                                        color: Color.fromRGBO(197, 197, 197, 1),
                                         fontStyle: FontStyle.normal,
-                                        fontWeight: FontWeight.w100)),
+                                        fontWeight: FontWeight.w300)),
                               ],
                             ),
                           ),
@@ -1014,6 +1037,7 @@ class _RegisterUserState extends State<RegisterUser> {
                             width: MediaQuery.of(context).size.width * 0.85,
                             child: TextFormField(
                               controller: otherController,
+                              maxLength: 10,
                               style: HealingMatchConstants.formTextStyle,
                               decoration: InputDecoration(
                                 counterText: '',
@@ -1058,7 +1082,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                                   0.39,
                                               child: DropDownFormField(
                                                   requiredField: true,
-                                                  hintText: '府県 ',
+                                                  hintText: '都道府県 ',
                                                   value: _myPrefecture,
                                                   onSaved: (value) {
                                                     setState(() {
@@ -1098,7 +1122,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                                       .width *
                                                   0.39,
                                               child: DropDownFormField(
-                                                  hintText: '府県 ',
+                                                  hintText: '都道府県 ',
                                                   value: _myPrefecture,
                                                   onSaved: (value) {
                                                     setState(() {
@@ -1122,7 +1146,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                                   0.39,
                                               child: DropDownFormField(
                                                   requiredField: true,
-                                                  hintText: '市 ',
+                                                  hintText: '市区町村 ',
                                                   value: _myCity,
                                                   onSaved: (value) {
                                                     setState(() {
@@ -1158,7 +1182,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                                   0.39,
                                               child: DropDownFormField(
                                                   requiredField: true,
-                                                  hintText: '市 ',
+                                                  hintText: '市区町村 ',
                                                   value: _myCity,
                                                   onSaved: (value) {
                                                     setState(() {
@@ -1191,8 +1215,11 @@ class _RegisterUserState extends State<RegisterUser> {
                                         0.39,
                                     child: TextFieldCustom(
                                       controller: userAreaController,
+                                      maxLength: 25,
                                       autofocus: false,
                                       decoration: new InputDecoration(
+                                        counterText: '',
+                                        contentPadding: EdgeInsets.all(16.0),
                                         filled: true,
                                         fillColor:
                                             ColorConstants.formFieldFillColor,
@@ -1215,7 +1242,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                               text: '*',
                                               style: TextStyle(
                                                   color: Colors.red,
-                                                  fontSize: 20),
+                                                  fontSize: 16),
                                             ),
                                           ],
                                           style: TextStyle(
@@ -1239,7 +1266,9 @@ class _RegisterUserState extends State<RegisterUser> {
                                     // keyboardType: TextInputType.number,
                                     autofocus: false,
                                     controller: buildingNameController,
+                                    maxLength: 20,
                                     decoration: new InputDecoration(
+                                      counterText: '',
                                       contentPadding: EdgeInsets.all(4.0),
                                       filled: true,
                                       fillColor:
@@ -1344,8 +1373,8 @@ class _RegisterUserState extends State<RegisterUser> {
                             new TextSpan(
                                 text: '登録した場所周辺のセラピストが表示されます',
                                 style: new TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.grey[500],
+                                    fontSize: 14,
+                                    color: Color.fromRGBO(197, 197, 197, 1),
                                     fontStyle: FontStyle.normal,
                                     fontWeight: FontWeight.w300)),
                           ],
@@ -1379,15 +1408,15 @@ class _RegisterUserState extends State<RegisterUser> {
                     SizedBox(height: 15),
                     InkWell(
                       onTap: () {
+                        HealingMatchConstants.isUserRegistrationSkipped = false;
                         NavigationRouter.switchToUserLogin(context);
                       },
                       child: Text('すでにアカウントをお持ちの方',
                           style: new TextStyle(
                               fontSize: 14,
-                              color: Colors.black,
+                              color: Color.fromRGBO(0, 0, 0, 1),
                               fontFamily: 'NotoSansJP',
                               fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.w100,
                               decoration: TextDecoration.underline)),
                     ),
                   ],
@@ -1400,65 +1429,12 @@ class _RegisterUserState extends State<RegisterUser> {
     );
   }
 
-  // Get current address from Latitude Longitude
-  _getCurrentLocation() {
-    ProgressDialogBuilder.showLocationProgressDialog(context);
-    geoLocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-      setState(() {
-        _currentPosition = position;
-      });
-      _getAddressFromLatLng();
-    }).catchError((e) {
-      print(e);
-    });
-  }
-
-  _getAddressFromLatLng() async {
-    try {
-      List<Placemark> p = await geoLocator.placemarkFromCoordinates(
-          _currentPosition.latitude, _currentPosition.longitude);
-
-      currentLocationPlaceMark = p[0];
-
-      HealingMatchConstants.currentLatitude = _currentPosition.latitude;
-      HealingMatchConstants.currentLongitude = _currentPosition.longitude;
-
-      setState(() {
-        _currentAddress =
-            '${currentLocationPlaceMark.locality},${currentLocationPlaceMark.subAdministrativeArea},${currentLocationPlaceMark.administrativeArea},${currentLocationPlaceMark.postalCode}'
-            ',${currentLocationPlaceMark.country}';
-        if (_currentAddress != null && _currentAddress.isNotEmpty) {
-          print(
-              'Current address : $_currentAddress : ${HealingMatchConstants.currentLatitude} && '
-              '${HealingMatchConstants.currentLongitude}');
-          gpsAddressController.value = TextEditingValue(text: _currentAddress);
-          setState(() {
-            _isGPSLocation = true;
-          });
-          HealingMatchConstants.serviceUserCity =
-              currentLocationPlaceMark.locality;
-          HealingMatchConstants.serviceUserPrefecture =
-              currentLocationPlaceMark.administrativeArea;
-        } else {
-          ProgressDialogBuilder.hideLocationProgressDialog(context);
-          return null;
-        }
-      });
-      ProgressDialogBuilder.hideLocationProgressDialog(context);
-    } catch (e) {
-      ProgressDialogBuilder.hideLocationProgressDialog(context);
-      print(e);
-    }
-  }
-
   Future<Map<String, dynamic>> _registerUserDetails() async {
-    showOverlayLoader();
-    var userName = userNameController.text.toString();
-    var email = emailController.text.toString();
-    var phnNum = phoneNumberController.text.toString();
-    var userPhoneNumber = phnNum.replaceFirst(RegExp(r'^0+'), "");
+    ProgressDialogBuilder.showOverlayLoader(context);
+    var userName = userNameController.text.trim();
+    var email = emailController.text.trim();
+    var phnNum = phoneNumberController.text.trim();
+    var userPhoneNumber = phnNum; //phnNum.replaceFirst(RegExp(r'^0+'), "");
     print('phnNumber: $userPhoneNumber');
     HealingMatchConstants.serviceUserPhoneNumber = userPhoneNumber;
     var password = passwordController.text.toString().trim();
@@ -1484,7 +1460,7 @@ class _RegisterUserState extends State<RegisterUser> {
     //gps address Validation
 
     if (userName.length > 20) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1512,7 +1488,7 @@ class _RegisterUserState extends State<RegisterUser> {
       ));
     }
     if (userName.length == 0 || userName.isEmpty || userName == null) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1543,7 +1519,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
     // user DOB validation
     if (userDOB == null || userDOB.isEmpty) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1574,8 +1550,8 @@ class _RegisterUserState extends State<RegisterUser> {
 
     // Age 18+ validation
 
-    if (ageOfUser != 0 && ageOfUser < 18) {
-      hideLoader();
+    if (ageOfUser < 18) {
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1583,7 +1559,7 @@ class _RegisterUserState extends State<RegisterUser> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('18歳未満のユーザーは登録できません！',
+              child: Text('大変申し訳ありませんが１８歳未満の方の登録はできません。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -1606,7 +1582,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
     // user gender validation
     if (_myGender == null || _myGender.isEmpty) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1637,7 +1613,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
     // user Occupation validation
     if (_myOccupation == null || _myOccupation.isEmpty) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1667,10 +1643,10 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     // user phone number validation
-    if (userPhoneNumber.length > 10 ||
+    if (userPhoneNumber.length > 11 ||
         userPhoneNumber == null ||
         userPhoneNumber.length < 10) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1700,7 +1676,7 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     if (!(email.contains(regexMail))) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1729,7 +1705,7 @@ class _RegisterUserState extends State<RegisterUser> {
       return null;
     }
     if (email.length > 50) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1737,7 +1713,7 @@ class _RegisterUserState extends State<RegisterUser> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('メールアドレスは100文字以内で入力してください。',
+              child: Text('メールアドレスは50文字以内で入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -1758,7 +1734,7 @@ class _RegisterUserState extends State<RegisterUser> {
       return null;
     }
     if ((email.contains(regexEmojis))) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1788,7 +1764,7 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     if (password.length < 8) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1818,7 +1794,7 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     if (password.length > 16) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1849,7 +1825,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
     if (password != confirmPassword) {
       //print("Entering password state");
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1878,7 +1854,7 @@ class _RegisterUserState extends State<RegisterUser> {
       return null;
     }
     if (password.contains(regexEmojis)) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1910,7 +1886,7 @@ class _RegisterUserState extends State<RegisterUser> {
     // user place for massage validation
     if (_myCategoryPlaceForMassage == null ||
         _myCategoryPlaceForMassage.isEmpty) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1941,7 +1917,7 @@ class _RegisterUserState extends State<RegisterUser> {
     //place for service (other option)
     if ((_myCategoryPlaceForMassage.contains("その他（直接入力）")) &&
         (otherCategory == null || otherCategory.isEmpty)) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1949,7 +1925,39 @@ class _RegisterUserState extends State<RegisterUser> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('検索地点を入力してください。',
+              child: Text('"登録する地点のカテゴリーを入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+
+    //place for service (other option)
+    if ((_myCategoryPlaceForMassage.contains("その他（直接入力）")) &&
+        (otherCategory.length > 10)) {
+      ProgressDialogBuilder.hideLoader(context);
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('登録する地点のカテゴリーを10文字数以内にする必要があります。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -1971,7 +1979,7 @@ class _RegisterUserState extends State<RegisterUser> {
     }
     // user perfecture validation
     if (_myPrefecture == null || _myPrefecture.isEmpty) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1979,7 +1987,7 @@ class _RegisterUserState extends State<RegisterUser> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('有効な府県を選択してください。',
+              child: Text('有効な都道府県を選択してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -2002,7 +2010,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
     // user city validation
     if (_myCity == null || _myCity.isEmpty) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -2010,7 +2018,7 @@ class _RegisterUserState extends State<RegisterUser> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('有効な市を選択してください。',
+              child: Text('有効な市区町村を選択してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -2033,7 +2041,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
     // user area validation
     if (userArea == null || userArea.isEmpty) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -2061,36 +2069,41 @@ class _RegisterUserState extends State<RegisterUser> {
       ));
       return null;
     }
+    String manualAddedAddress = _myPrefecture +
+        " " +
+        _myCity +
+        " " +
+        userArea +
+        " " +
+        buildingName +
+        " " +
+        roomNumber;
+    String address = roomNumber +
+        ',' +
+        buildingName +
+        ',' +
+        userArea +
+        ',' +
+        _myCity +
+        ',' +
+        _myPrefecture;
+    String query = Platform.isIOS ? _myCity + ',' + _myPrefecture : address;
     try {
-      if (HealingMatchConstants.userAddress.isEmpty) {
-        String address = roomNumber +
-            ',' +
-            buildingName +
-            ',' +
-            userArea +
-            ',' +
-            _myCity +
-            ',' +
-            _myPrefecture;
-
-        List<Placemark> userAddress =
-            await geoLocator.placemarkFromAddress(address);
-        userAddedAddressPlaceMark = userAddress[0];
-        Position addressPosition = userAddedAddressPlaceMark.position;
-        HealingMatchConstants.currentLatitude = addressPosition.latitude;
-        HealingMatchConstants.currentLongitude = addressPosition.longitude;
-        HealingMatchConstants.userAddress = address;
-
-        print(
-            'Manual Address lat lon : ${HealingMatchConstants.currentLatitude} && '
-            '${HealingMatchConstants.currentLongitude}');
-        print('Manual Place Json : ${userAddedAddressPlaceMark.toJson()}');
-        print('Manual Address : ${HealingMatchConstants.userAddress}');
-      }
+      List<Location> locations =
+          await locationFromAddress(query, localeIdentifier: "ja_JP");
+      HealingMatchConstants.currentLatitude = locations[0].latitude;
+      print("Lat: ${HealingMatchConstants.currentLatitude}");
+      HealingMatchConstants.currentLongitude = locations[0].longitude;
+      print("Long : ${HealingMatchConstants.currentLongitude}");
+      HealingMatchConstants.userAddress = manualAddedAddress;
     } catch (e) {
-      print('GPRC Exception : ${e.toString()}');
+      ProgressDialogBuilder.hideLoader(context);
+      Toast.show("有効な住所を入力してください ", context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.CENTER,
+          backgroundColor: Colors.red,
+          textColor: Colors.white);
     }
-
     //Calling Service User API for Register
     try {
       //MultiPart request
@@ -2126,7 +2139,8 @@ class _RegisterUserState extends State<RegisterUser> {
           "userRoomNumber": roomNumber,
           "addressTypeSelection": _myAddressInputTypeVal,
           "lat": HealingMatchConstants.currentLatitude.toString(),
-          "lon": HealingMatchConstants.currentLongitude.toString()
+          "lon": HealingMatchConstants.currentLongitude.toString(),
+          "fcmToken": fcmToken
         });
       } else {
         print('Profile image  null');
@@ -2152,7 +2166,8 @@ class _RegisterUserState extends State<RegisterUser> {
           "userRoomNumber": roomNumber,
           "addressTypeSelection": _myAddressInputTypeVal,
           "lat": HealingMatchConstants.currentLatitude.toString(),
-          "lon": HealingMatchConstants.currentLongitude.toString()
+          "lon": HealingMatchConstants.currentLongitude.toString(),
+          "fcmToken": fcmToken
         });
       }
 
@@ -2161,10 +2176,11 @@ class _RegisterUserState extends State<RegisterUser> {
       print("This is response: ${response.statusCode}\n${response.body}");
       if (StatusCodeHelper.isRegisterSuccess(
           response.statusCode, context, response.body)) {
-        final Map userDetailsResponse = json.decode(response.body);
+        final Map userDetailsResponse = json.decode(response.body.toString());
         final serviceUserDetails =
             ServiceUserRegisterModel.fromJson(userDetailsResponse);
         print('Response Status Message : ${serviceUserDetails.status}');
+        HealingMatchConstants.accessToken = serviceUserDetails.accessToken;
         // print('Token : ${serviceUserDetails.data.token}');
         _sharedPreferences.then((value) {
           value.clear();
@@ -2179,7 +2195,6 @@ class _RegisterUserState extends State<RegisterUser> {
               serviceUserDetails.data.phoneNumber.toString());
           value.setString('userEmailAddress', serviceUserDetails.data.email);
 
-          // value.setString('userDOB', serviceUserDetails.data.userResponse.dob.toString());
           value.setString(
               'userDOB',
               DateFormat("yyyy-MM-dd")
@@ -2189,9 +2204,11 @@ class _RegisterUserState extends State<RegisterUser> {
 
           value.setString('userAge', serviceUserDetails.data.age.toString());
           value.setString('userGender', serviceUserDetails.data.gender);
-          // value.setString('userGender', japaneseGender);
+
           value.setString(
               'userOccupation', serviceUserDetails.data.userOccupation);
+          value.setString('deviceToken', serviceUserDetails.data.fcmToken);
+          print('Fcm spf token : $fcmToken');
           // Way 1 for loop
           for (var userAddressData in serviceUserDetails.data.addresses) {
             print('Address of user : ${userAddressData.toJson()}');
@@ -2214,17 +2231,48 @@ class _RegisterUserState extends State<RegisterUser> {
                 'capitalAndPrefecture', userAddressData.capitalAndPrefecture);
 
             value.setBool('isUserRegister', true);
-            hideLoader();
-            NavigationRouter.switchToUserOtpScreen(context);
+            value.setBool('userVerifyStatus', false);
+            HealingMatchConstants.isUserRegistrationSkipped = false;
+            value.setBool('isGuest', false);
           }
         });
+
+        Auth()
+            .signUp(
+                serviceUserDetails.data.userName,
+                serviceUserDetails.data.phoneNumber.toString() +
+                    serviceUserDetails.data.id.toString() +
+                    "@nexware.global.com",
+                /*  serviceUserDetails.data.email, */
+                "password",
+                serviceUserDetails.data.uploadProfileImgUrl != null
+                    ? serviceUserDetails.data.uploadProfileImgUrl
+                    : '',
+                0,
+                serviceUserDetails.data.id)
+            .then((value) {
+          if (value != null) {
+            ServiceUserAPIProvider.saveFirebaseUserID(
+                value, context, serviceUserDetails.data.id);
+          } else {
+            ProgressDialogBuilder.hideLoader(context);
+          }
+        }).catchError((error) {
+          print('Exception caught while firebase : ${error.toString()}');
+          ProgressDialogBuilder.hideLoader(context);
+        });
+
+        HealingMatchConstants.isUserRegistrationSkipped = false;
+
+        ProgressDialogBuilder.hideLoader(context);
+        NavigationRouter.switchToUserOtpScreen(context);
       } else {
-        hideLoader();
+        ProgressDialogBuilder.hideLoader(context);
         print('Response error occured!');
       }
     } on SocketException catch (_) {
       //handle socket Exception
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       NavigationRouter.switchToNetworkHandler(context);
       print('Network error !!');
     }
@@ -2241,14 +2289,14 @@ class _RegisterUserState extends State<RegisterUser> {
                 children: <Widget>[
                   new ListTile(
                       leading: new Icon(Icons.photo_library),
-                      title: new Text('プロフィール画像を選択してください。'),
+                      title: new Text('既存の写真から選択する。'),
                       onTap: () {
                         _imgFromGallery();
                         Navigator.of(context).pop();
                       }),
                   new ListTile(
                     leading: new Icon(Icons.photo_camera),
-                    title: new Text('プロフィール写真を撮ってください。'),
+                    title: new Text('カメラで撮影する。'),
                     onTap: () {
                       _imgFromCamera();
                       Navigator.of(context).pop();
@@ -2291,19 +2339,6 @@ class _RegisterUserState extends State<RegisterUser> {
     });
   }
 
-  showOverlayLoader() {
-    Loader.show(
-      context,
-      progressIndicator: SpinKitThreeBounce(color: Colors.lime),
-    );
-  }
-
-  hideLoader() {
-    Future.delayed(Duration(seconds: 0), () {
-      Loader.hide();
-    });
-  }
-
   _getStates() async {
     await http.get(HealingMatchConstants.STATE_PROVIDER_URL).then((response) {
       states = StatesListResponseModel.fromJson(json.decode(response.body));
@@ -2314,11 +2349,60 @@ class _RegisterUserState extends State<RegisterUser> {
         });
       }
     });
+    _setLineCredentialsForUser();
+  }
+
+  _setLineCredentialsForUser() async {
+    setState(() {
+      if (HealingMatchConstants.lineUserProfileURL != null) {
+        lineUserImage = HealingMatchConstants.lineUserProfileURL;
+      }
+      if (HealingMatchConstants.lineUsername != null) {
+        userNameController.text = HealingMatchConstants.lineUsername;
+      }
+      if (HealingMatchConstants.lineUserEmail != null) {
+        emailController.text = HealingMatchConstants.lineUserEmail;
+      }
+    });
+    _getFCMStatus();
+  }
+
+  _getFCMStatus() async {
+    _sharedPreferences.then((value) {
+      fcmStatus = value.getString('notificationStatus');
+      deviceToken = value.getString('deviceToken');
+      print('fcmStatus reg : $fcmStatus');
+      if (fcmStatus != null && fcmStatus.contains('accepted')) {
+        fireBaseMessaging.getToken().then((fcmTokenValue) {
+          if (fcmTokenValue != null) {
+            fcmToken = fcmTokenValue;
+            print('FCM Reg Tokens : $fcmToken');
+          } else {
+            fireBaseMessaging.onTokenRefresh.listen((refreshToken) {
+              fcmToken = refreshToken;
+              print('FCM Reg Refresh Tokens : $fcmToken');
+            }).onError((handleError) {
+              print(
+                  'On FCM Reg Token Refresh error : ${handleError.toString()}');
+            });
+          }
+        }).catchError((onError) {
+          print('FCM Reg Token Exception : ${onError.toString()}');
+        });
+      } else {
+        print('FCM TOKEN AND STATUS EMPTY !! : $deviceToken');
+        if (deviceToken != null && deviceToken.isNotEmpty) {
+          fcmToken = deviceToken;
+        } else {
+          fcmToken = '';
+        }
+      }
+    });
   }
 
   // CityList cityResponse;
   _getCities(var prefId) async {
-    showOverlayLoader();
+    ProgressDialogBuilder.showOverlayLoader(context);
     //ProgressDialogBuilder.showGetCitiesProgressDialog(context);
     await http.post(HealingMatchConstants.CITY_PROVIDER_URL,
         body: {'prefecture_id': prefId.toString()}).then((response) {
@@ -2329,9 +2413,110 @@ class _RegisterUserState extends State<RegisterUser> {
           cityDropDownValues.add(cityList.cityJa + cityList.specialDistrictJa);
         });
       }
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       //ProgressDialogBuilder.hideGetCitiesProgressDialog(context);
       print('Response City list : ${response.body}');
     });
+  }
+
+  _getFCMToken() async {
+    fireBaseMessaging.getToken().then((fcmTokenValue) {
+      if (fcmTokenValue != null) {
+        fcmToken = fcmTokenValue;
+        print('FCM Skip Token : $fcmToken');
+        HealingMatchConstants.userDeviceToken = fcmToken;
+        _getCurrentLocation();
+      } else {
+        fireBaseMessaging.onTokenRefresh.listen((refreshToken) {
+          if (refreshToken != null) {
+            fcmToken = refreshToken;
+            HealingMatchConstants.userDeviceToken = fcmToken;
+            print('FCM Skip Refresh Tokens : $fcmToken');
+          }
+        }).onError((handleError) {
+          print('On FCM Skip Token Refresh error : ${handleError.toString()}');
+        });
+      }
+    }).catchError((onError) {
+      print('FCM Skip Token Exception : ${onError.toString()}');
+    });
+  }
+
+  _getGuestUserAccessToken() async {
+    var isTherapistValue = 0;
+    try {
+      ServiceUserAPIProvider.handleGuestUser(isTherapistValue)
+          .then((guestUserResponse) {
+        if (guestUserResponse != null) {
+          _sharedPreferences.then((value) {
+            value.setString('accessToken', guestUserResponse.accessToken);
+            value.setBool('isGuest', true);
+          });
+          ProgressDialogBuilder.hideLoader(context);
+          NavigationRouter.switchToServiceUserBottomBar(context);
+        } else {
+          ProgressDialogBuilder.hideLoader(context);
+          print('Guest user response has no value !!');
+        }
+      }).catchError((onError) {
+        ProgressDialogBuilder.hideLoader(context);
+        print('Catch error guest user : ${onError.toString()}');
+      });
+    } catch (e) {
+      ProgressDialogBuilder.hideLoader(context);
+      print('Skip exception : ${e.toString()}');
+    }
+  }
+
+  // Get current address from Latitude Longitude
+  _getCurrentLocation() async {
+    ProgressDialogBuilder.showOverlayLoader(context);
+    bool isGPSEnabled = await geoLocator.isLocationServiceEnabled();
+    print('GPS Enabled : $isGPSEnabled');
+    if (HealingMatchConstants.isUserRegistrationSkipped && !isGPSEnabled) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('GPSを有効にしてさらに進んでください！',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                FocusScope.of(context).requestFocus(new FocusNode());
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      fontWeight: FontWeight.w500,
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      ProgressDialogBuilder.hideLoader(context);
+      return;
+    } else {
+      print('Guest User GPS Enabled : $isGPSEnabled');
+      geoLocator
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.lowest)
+          .then((Position position) {
+        _currentPosition = position;
+        print(
+            'Current latLong Guest user : ${_currentPosition.latitude} && \n${_currentPosition.longitude}');
+        HealingMatchConstants.currentLatitude = _currentPosition.latitude;
+        HealingMatchConstants.currentLongitude = _currentPosition.longitude;
+        _getGuestUserAccessToken();
+      }).catchError((e) {
+        print('Current Location exception : ${e.toString()}');
+      });
+    }
   }
 }

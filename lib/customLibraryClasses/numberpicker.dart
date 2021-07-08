@@ -1,9 +1,11 @@
 import 'dart:math' as math;
-import 'package:intl/intl.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:infinite_listview/infinite_listview.dart';
+import 'package:intl/intl.dart';
 
 /// Created by Marcin Szałek
 ///Define a text mapper to transform the text displayed by the picker
@@ -13,7 +15,7 @@ typedef String TextMapper(String numberText);
 class NumberPicker extends StatelessWidget {
   ///height of every list element for normal number picker
   ///width of every list element for horizontal number picker
-  static const double kDefaultItemExtent = 50.0;
+  static const double kDefaultItemExtent = 47.0;
 
   ///width of list view for normal number picker
   ///height of list view for horizontal number picker
@@ -647,10 +649,6 @@ class NumberPicker extends StatelessWidget {
                   final int value = _intValueFromIndex(index);
 
                   //define special style for selected (middle) element
-                  final TextStyle itemStyle =
-                      value == selectedIntValue && highlightSelectedValue
-                          ? selectedStyle
-                          : defaultStyle;
 
                   bool isExtra = index <= numberToDisplay ~/ 2 - 1 ||
                       index >=
@@ -711,119 +709,6 @@ class NumberPicker extends StatelessWidget {
                                                 fontWeight: FontWeight.bold),
                                           ),
                                         );
-                },
-              ),
-              _NumberPickerSelectedItemDecoration(
-                axis: scrollDirection,
-                itemExtent: itemExtent,
-                decoration: decoration,
-              ),
-            ],
-          ),
-        ),
-        onNotification: _onIntegerNotification,
-      ),
-    );
-  }
-
-  Widget _decimalListView(ThemeData themeData) {
-    TextStyle defaultStyle = themeData.textTheme.bodyText2;
-    TextStyle selectedStyle =
-        themeData.textTheme.headline.copyWith(color: themeData.accentColor);
-
-    int decimalItemCount =
-        selectedIntValue == maxValue ? 3 : math.pow(10, decimalPlaces) + 2;
-
-    return Listener(
-      onPointerUp: (ev) {
-        ///used to detect that user stopped scrolling
-        if (decimalScrollController.position.activity is HoldScrollActivity) {
-          animateDecimal(selectedDecimalValue);
-        }
-      },
-      child: new NotificationListener(
-        child: new Container(
-          height: listViewHeight,
-          width: listViewWidth,
-          child: Stack(
-            children: <Widget>[
-              new ListView.builder(
-                controller: decimalScrollController,
-                itemExtent: itemExtent,
-                itemCount: decimalItemCount,
-                itemBuilder: (BuildContext context, int index) {
-                  final int value = index - 1;
-
-                  //define special style for selected (middle) element
-                  final TextStyle itemStyle =
-                      value == selectedDecimalValue && highlightSelectedValue
-                          ? selectedStyle
-                          : defaultStyle;
-
-                  bool isExtra = index <= numberToDisplay - 2 ||
-                      index >=
-                          decimalItemCount -
-                              (numberToDisplay -
-                                  2); //empty elements determined based on number to display
-
-                  return isExtra
-                      ? new Container() //empty first and last element
-                      : new Center(
-                          child: new Text(
-                              value.toString().padLeft(decimalPlaces, '0'),
-                              style: itemStyle),
-                        );
-                },
-              ),
-              _NumberPickerSelectedItemDecoration(
-                axis: scrollDirection,
-                itemExtent: itemExtent,
-                decoration: decoration,
-              ),
-            ],
-          ),
-        ),
-        onNotification: _onDecimalNotification,
-      ),
-    );
-  }
-
-  Widget _integerInfiniteListView(ThemeData themeData) {
-    TextStyle defaultStyle = themeData.textTheme.body1;
-    TextStyle selectedStyle =
-        themeData.textTheme.headline.copyWith(color: themeData.accentColor);
-
-    return Listener(
-      onPointerUp: (ev) {
-        ///used to detect that user stopped scrolling
-        if (intScrollController.position.activity is HoldScrollActivity) {
-          _animateIntWhenUserStoppedScrolling(selectedIntValue);
-        }
-      },
-      child: new NotificationListener(
-        child: new Container(
-          height: listViewHeight,
-          width: listViewWidth,
-          child: Stack(
-            children: <Widget>[
-              InfiniteListView.builder(
-                controller: intScrollController,
-                itemExtent: itemExtent,
-                itemBuilder: (BuildContext context, int index) {
-                  final int value = _intValueFromIndex(index);
-
-                  //define special style for selected (middle) element
-                  final TextStyle itemStyle =
-                      value == selectedIntValue && highlightSelectedValue
-                          ? selectedStyle
-                          : defaultStyle;
-
-                  return new Center(
-                    child: new Text(
-                      getDisplayedValue(value),
-                      style: itemStyle,
-                    ),
-                  );
                 },
               ),
               _NumberPickerSelectedItemDecoration(
@@ -901,31 +786,6 @@ class NumberPicker extends StatelessWidget {
     return true;
   }
 
-  bool _onDecimalNotification(Notification notification) {
-    if (notification is ScrollNotification) {
-      //calculate middle value
-      int indexOfMiddleElement =
-          (notification.metrics.pixels + listViewHeight / 2) ~/ itemExtent;
-      int decimalValueInTheMiddle = indexOfMiddleElement - 1;
-      decimalValueInTheMiddle =
-          _normalizeDecimalMiddleValue(decimalValueInTheMiddle);
-
-      if (_userStoppedScrolling(notification, decimalScrollController)) {
-        //center selected value
-        animateDecimal(decimalValueInTheMiddle);
-      }
-
-      //update selection
-      if (selectedIntValue != maxValue &&
-          decimalValueInTheMiddle != selectedDecimalValue) {
-        double decimalPart = _toDecimal(decimalValueInTheMiddle);
-        double newValue = ((selectedIntValue + decimalPart).toDouble());
-        onChanged(newValue);
-      }
-    }
-    return true;
-  }
-
   ///There was a bug, when if there was small integer range, e.g. from 1 to 5,
   ///When user scrolled to the top, whole listview got displayed.
   ///To prevent this we are calculating cacheExtent by our own so it gets smaller if number of items is smaller
@@ -964,26 +824,6 @@ class NumberPicker extends StatelessWidget {
     return notification is UserScrollNotification &&
         notification.direction == ScrollDirection.idle &&
         scrollController.position.activity is! HoldScrollActivity;
-  }
-
-  /// Allows to find currently selected element index and animate this element
-  /// Use it only when user manually stops scrolling in infinite loop
-  void _animateIntWhenUserStoppedScrolling(int valueToSelect) {
-    // estimated index of currently selected element based on offset and item extent
-    int currentlySelectedElementIndex =
-        intScrollController.offset ~/ itemExtent;
-
-    // when more(less) than half of the top(bottom) element is hidden
-    // then we should increment(decrement) index in case of positive(negative) offset
-    if (intScrollController.offset > 0 &&
-        intScrollController.offset % itemExtent > itemExtent / 2) {
-      currentlySelectedElementIndex++;
-    } else if (intScrollController.offset < 0 &&
-        intScrollController.offset % itemExtent < itemExtent / 2) {
-      currentlySelectedElementIndex--;
-    }
-
-    animateIntToIndex(currentlySelectedElementIndex);
   }
 
   ///converts integer indicator of decimal value to double

@@ -6,9 +6,12 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
+import 'package:gps_massageapp/customLibraryClasses/keyboardDoneButton/keyboardActionConfig.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/changePasswordProviderResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/login/sendVerifyResponseModel.dart';
+import 'package:gps_massageapp/serviceProvider/loginScreens/LoginScreen.dart';
 import 'package:http/http.dart' as http;
+import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import 'ForgetPassword.dart';
@@ -67,211 +70,215 @@ class _ChangePasswordState extends State<ChangePassword> {
             Navigator.pop(
                 context,
                 MaterialPageRoute(
-                    builder: (BuildContext context) => ForgetPassword()));
+                    builder: (BuildContext context) => ProviderLogin()));
           },
         ),
       ),
       backgroundColor: Colors.white,
-      body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).requestFocus(new FocusNode());
-        },
-        child: Form(
-          key: formKey,
-          child: Center(
-            child: SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.only(left: 20, right: 20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    FittedBox(
-                      child: Text(
-                        "+81 ${HealingMatchConstants.ProviderPhnNum} " +
-                            HealingMatchConstants.changePasswordTxt,
-                        style: TextStyle(
-                          fontSize: 12.0,
-                          color: Color.fromRGBO(102, 102, 102, 1),
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    Container(
-                      height: 50,
-                      width: MediaQuery.of(context).size.width,
-                      // margin: const EdgeInsets.all(8.0),
-                      /*     padding: const EdgeInsets.only(bottom: 8.0), */
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 8.0,
-                        vertical: 5.0,
-                      ),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            stops: [
-                              0.3,
-                              1
-                            ],
-                            colors: [
-                              ColorConstants.formFieldFillColor,
-                              ColorConstants.formFieldFillColor,
-                            ]),
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 1.0),
-                        child: PinCodeTextField(
-                          backgroundColor: ColorConstants.formFieldFillColor,
-                          //controller: pin,
-                          textInputAction: TextInputAction.next,
-                          //focusNode: pinCodeFoucs,
-                          keyboardType: TextInputType.number,
-                          appContext: context,
-                          length: 4,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          onSubmitted: (pin) {
-                            print("Completed: " + pin);
-                            userOTP = pin;
-                            pinCodeText.text = pin;
-                          },
-                          onChanged: (val) {},
-                          onCompleted: (pin) {
-                            print("Completed: " + pin);
-                            userOTP = pin;
-                            pinCodeText.text = pin;
-                          },
-                          textStyle: TextStyle(
-                            fontSize: 21,
-                            color: Colors.black,
-                            fontFamily: 'NotoSansJP',
-                          ),
-                          enableActiveFill: true,
-                          pinTheme: PinTheme(
-                              fieldHeight: 40.0,
-                              borderRadius: BorderRadius.circular(10.0),
-                              selectedFillColor: Colors.transparent,
-                              selectedColor: Colors.black,
-                              inactiveFillColor: Colors.transparent,
-                              inactiveColor: Colors.black,
-                              activeColor: Colors.black,
-                              fieldWidth: 50.0,
-                              activeFillColor: Colors.transparent,
-                              shape: PinCodeFieldShape.underline),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    TextFormField(
-                      obscureText: createPasswordVisibility,
-                      textInputAction: TextInputAction.next,
-                      focusNode: createPasswordFocus,
-                      style: HealingMatchConstants.formTextStyle,
-                      maxLength: 16,
-                      controller: createPassword,
-                      decoration: new InputDecoration(
-                        contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
-                        counterText: "",
-                        border: HealingMatchConstants.textFormInputBorder,
-                        focusedBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                        disabledBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                        enabledBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                        suffixIcon: IconButton(
-                            icon: createPasswordVisibility
-                                ? Icon(Icons.visibility_off)
-                                : Icon(Icons.visibility),
-                            onPressed: () {
-                              setState(() {
-                                createPasswordVisibility =
-                                    !createPasswordVisibility;
-                              });
-                            }),
-                        filled: true,
-                        labelText: HealingMatchConstants.changePasswordNewpass,
-                        labelStyle: HealingMatchConstants.formLabelTextStyle,
-                        fillColor: ColorConstants.formFieldFillColor,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    TextFormField(
-                      obscureText: confirmPasswordVisibility,
-                      textInputAction: TextInputAction.done,
-                      focusNode: confrimPasswordFocus,
-                      controller: confirmpassword,
-                      style: HealingMatchConstants.formTextStyle,
-                      maxLength: 16,
-                      decoration: new InputDecoration(
-                        contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
-                        counterText: "",
-                        border: HealingMatchConstants.textFormInputBorder,
-                        focusedBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                        disabledBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                        enabledBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                        suffixIcon: IconButton(
-                            icon: confirmPasswordVisibility
-                                ? Icon(Icons.visibility_off)
-                                : Icon(Icons.visibility),
-                            onPressed: () {
-                              setState(() {
-                                confirmPasswordVisibility =
-                                    !confirmPasswordVisibility;
-                              });
-                            }),
-                        filled: true,
-                        labelText:
-                            HealingMatchConstants.changePasswordConfirmpass,
-                        labelStyle: HealingMatchConstants.formLabelTextStyle,
-                        fillColor: ColorConstants.formFieldFillColor,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      width: double.infinity,
-                      height: 50,
-                      child: RaisedButton(
+      body: KeyboardActions(
+        config: KeyboardCustomActions().buildConfig(context, pinCodeFoucs),
+        child: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(new FocusNode());
+          },
+          child: Form(
+            key: formKey,
+            child: Center(
+              child: SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.only(left: 20, right: 20),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FittedBox(
                         child: Text(
-                          HealingMatchConstants.changePasswordBtn,
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
-                        color: ColorConstants.buttonColor,
-                        onPressed: () {
-                          //!Changed for Dev Purpose
-                          _providerChangePasswordDetails();
-                          // DialogHelper.showPasswordResetSuccessDialog(context);
-                        },
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    InkWell(
-                      child: Text(
-                        HealingMatchConstants.changeResendOtp,
-                        style: TextStyle(
+                          "+81 ${HealingMatchConstants.providerPhnNum} " +
+                              HealingMatchConstants.changePasswordTxt,
+                          style: TextStyle(
                             fontSize: 12.0,
-                            decoration: TextDecoration.underline,
-                            color: Colors.black),
+                            color: Color.fromRGBO(102, 102, 102, 1),
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
-                      onTap: resendOtp,
-                    ),
-                  ],
+                      SizedBox(
+                        height: 25,
+                      ),
+                      Container(
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        // margin: const EdgeInsets.all(8.0),
+                        /*     padding: const EdgeInsets.only(bottom: 8.0), */
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 8.0,
+                          vertical: 5.0,
+                        ),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              stops: [
+                                0.3,
+                                1
+                              ],
+                              colors: [
+                                ColorConstants.formFieldFillColor,
+                                ColorConstants.formFieldFillColor,
+                              ]),
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 1.0),
+                          child: PinCodeTextField(
+                            backgroundColor: ColorConstants.formFieldFillColor,
+                            //controller: pin,
+                            textInputAction: TextInputAction.next,
+                            focusNode: pinCodeFoucs,
+                            keyboardType: TextInputType.number,
+                            appContext: context,
+                            length: 4,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            onSubmitted: (pin) {
+                              print("Completed: " + pin);
+                              userOTP = pin;
+                              pinCodeText.text = pin;
+                            },
+                            onChanged: (val) {},
+                            onCompleted: (pin) {
+                              print("Completed: " + pin);
+                              userOTP = pin;
+                              pinCodeText.text = pin;
+                            },
+                            textStyle: TextStyle(
+                              fontSize: 21,
+                              color: Colors.black,
+                              fontFamily: 'NotoSansJP',
+                            ),
+                            enableActiveFill: true,
+                            pinTheme: PinTheme(
+                                fieldHeight: 40.0,
+                                borderRadius: BorderRadius.circular(10.0),
+                                selectedFillColor: Colors.transparent,
+                                selectedColor: Colors.black,
+                                inactiveFillColor: Colors.transparent,
+                                inactiveColor: Colors.black,
+                                activeColor: Colors.black,
+                                fieldWidth: 50.0,
+                                activeFillColor: Colors.transparent,
+                                shape: PinCodeFieldShape.underline),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      TextFormField(
+                        obscureText: createPasswordVisibility,
+                        textInputAction: TextInputAction.next,
+                        focusNode: createPasswordFocus,
+                        style: HealingMatchConstants.formTextStyle,
+                        maxLength: 16,
+                        controller: createPassword,
+                        decoration: new InputDecoration(
+                          contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
+                          counterText: "",
+                          border: HealingMatchConstants.textFormInputBorder,
+                          focusedBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          disabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          enabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          suffixIcon: IconButton(
+                              icon: createPasswordVisibility
+                                  ? Icon(Icons.visibility_off)
+                                  : Icon(Icons.visibility),
+                              onPressed: () {
+                                setState(() {
+                                  createPasswordVisibility =
+                                      !createPasswordVisibility;
+                                });
+                              }),
+                          filled: true,
+                          labelText:
+                              HealingMatchConstants.changePasswordNewpass,
+                          labelStyle: HealingMatchConstants.formLabelTextStyle,
+                          fillColor: ColorConstants.formFieldFillColor,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      TextFormField(
+                        obscureText: confirmPasswordVisibility,
+                        textInputAction: TextInputAction.done,
+                        focusNode: confrimPasswordFocus,
+                        controller: confirmpassword,
+                        style: HealingMatchConstants.formTextStyle,
+                        maxLength: 16,
+                        decoration: new InputDecoration(
+                          contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
+                          counterText: "",
+                          border: HealingMatchConstants.textFormInputBorder,
+                          focusedBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          disabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          enabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          suffixIcon: IconButton(
+                              icon: confirmPasswordVisibility
+                                  ? Icon(Icons.visibility_off)
+                                  : Icon(Icons.visibility),
+                              onPressed: () {
+                                setState(() {
+                                  confirmPasswordVisibility =
+                                      !confirmPasswordVisibility;
+                                });
+                              }),
+                          filled: true,
+                          labelText:
+                              HealingMatchConstants.changePasswordConfirmpass,
+                          labelStyle: HealingMatchConstants.formLabelTextStyle,
+                          fillColor: ColorConstants.formFieldFillColor,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        width: double.infinity,
+                        height: 50,
+                        child: RaisedButton(
+                          child: Text(
+                            HealingMatchConstants.changePasswordBtn,
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ),
+                          color: ColorConstants.buttonColor,
+                          onPressed: () {
+                            //!Changed for Dev Purpose
+                            _providerChangePasswordDetails();
+                            // DialogHelper.showPasswordResetSuccessDialog(context);
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      InkWell(
+                        child: Text(
+                          HealingMatchConstants.changeResendOtp,
+                          style: TextStyle(
+                              fontSize: 12.0,
+                              decoration: TextDecoration.underline,
+                              color: Colors.black),
+                        ),
+                        onTap: resendOtp,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -413,7 +420,7 @@ class _ChangePasswordState extends State<ChangePassword> {
 
     // Combination password
 
-    if (!passwordRegex.hasMatch(password)) {
+    /*   if (!passwordRegex.hasMatch(password)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -438,9 +445,9 @@ class _ChangePasswordState extends State<ChangePassword> {
         ),
       ));
       return null;
-    }
+    } */
 
-    if (password.contains(regexEmojis)) {
+    /*  if (password.contains(regexEmojis)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -465,7 +472,7 @@ class _ChangePasswordState extends State<ChangePassword> {
         ),
       ));
       return null;
-    }
+    } */
 
     //Confirm Password Validation
     if (confirmPassword == null || confirmPassword.isEmpty) {
@@ -527,7 +534,7 @@ class _ChangePasswordState extends State<ChangePassword> {
       final response = await http.post(url,
           headers: {"Content-Type": "application/json"},
           body: json.encode({
-            "phoneNumber": HealingMatchConstants.ProviderPhnNum,
+            "phoneNumber": HealingMatchConstants.providerPhnNum,
             "otp": pinCode,
             "password": password,
             "password_confirmation": confirmPassword,
@@ -561,7 +568,7 @@ class _ChangePasswordState extends State<ChangePassword> {
       final response = await http.post(url,
           headers: {"Content-Type": "application/json"},
           body: json.encode({
-            "phoneNumber": HealingMatchConstants.ProviderPhnNum,
+            "phoneNumber": HealingMatchConstants.providerPhnNum,
             "isTherapist": "1"
           }));
       print('Status code : ${response.statusCode}');

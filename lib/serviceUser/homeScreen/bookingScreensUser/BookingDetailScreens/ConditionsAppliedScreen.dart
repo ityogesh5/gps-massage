@@ -37,6 +37,7 @@ class ConditionsApplyBookingScreen extends StatefulWidget {
 
 class _ConditionsApplyBookingScreenState
     extends State<ConditionsApplyBookingScreen> {
+  var therapistId;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +46,7 @@ class _ConditionsApplyBookingScreenState
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: InkWell(
         onTap: () {
-          NavigationRouter.switchToServiceUserChatScreen(context);
+          /*   NavigationRouter.switchToServiceUserChatScreen(context); */
         },
         child: CircleAvatar(
             maxRadius: 25,
@@ -289,7 +290,7 @@ class _ConditionsApplyBookingScreenState
                                 onTap: () {
                                   NavigationRouter
                                       .switchToServiceUserDisplayReviewScreen(
-                                          context);
+                                          context, therapistId);
                                 },
                                 child: Text(
                                   'もっとみる',
@@ -694,11 +695,7 @@ class _ConditionsApplyBookingScreenState
                         ),
                         Spacer(),
                         InkWell(
-                          onTap: () {
-                            NavigationRouter
-                                .switchToServiceUserBookingCancelScreen(
-                                    context);
-                          },
+                          onTap: () {},
                           child: Text(
                             'キャンセルする',
                             style: TextStyle(

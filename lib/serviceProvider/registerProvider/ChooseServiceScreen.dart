@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/estheticDropDownModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/fitnessDropDownModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/messageServicePriceModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/relaxationDropDownModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/treatmentDropDownModel.dart';
 import 'package:http/http.dart' as http;
+import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:toast/toast.dart';
 
 class ChooseServiceScreen extends StatefulWidget {
@@ -46,6 +47,11 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
   int relaxtionStatus = 0;
   int treatmentStatus = 0;
   int fitnessStatus = 0;
+  FocusNode sixtyMinFocus = FocusNode();
+  FocusNode nintyMinFocus = FocusNode();
+  FocusNode oneTwentyMinFocus = FocusNode();
+  FocusNode oneFiftyMinFocus = FocusNode();
+  FocusNode oneEightyMinFocus = FocusNode();
 
   // TextEditingController sampleOthersController = TextEditingController();
   String otherValueText;
@@ -53,7 +59,6 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
   RelaxationDropDownModel relaxationDropDownModel;
   TreatmentDropDownModel treatmentDropDownModel;
   FitnessDropDownModel fitnessDropDownModel;
-  ProgressDialog _progressDialog = ProgressDialog();
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
@@ -63,14 +68,14 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
     otherSelected = [false, false, false, false];
   }
 
-  void showProgressDialog() {
+  /*  void showProgressDialog() {
     _progressDialog.showProgressDialog(context,
         textToBeDisplayed: '読み込み中...', dismissAfter: Duration(seconds: 5));
   }
 
   void hideProgressDialog() {
     _progressDialog.dismissProgressDialog(context);
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -96,399 +101,419 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
             ),
             onPressed: () => Navigator.pop(context),
           )),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          primary: true,
-          child: Container(
-            color: Colors.white,
-            padding: EdgeInsets.only(
-                left: 20.0, right: 20.0, top: 10.0, bottom: 10.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  HealingMatchConstants.chooseServiceFirstText,
-                  style: TextStyle(
-                      color: Color.fromRGBO(102, 102, 102, 1), fontSize: 12),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                //Esthetic DropDown
-                HealingMatchConstants.serviceProviderStoreType.contains('エステ')
-                    ? InkWell(
-                        onTap: () {
-                          if (estheticDropDownValues.length == 0) {
-                            showProgressDialog();
-                            getEstheticList();
-                          } else {
-                            setState(() {
-                              estheticStatus == 0
-                                  ? estheticStatus = 1
-                                  : estheticStatus = 0;
-                            });
-                          }
-                        },
-                        child: SizedBox(
-                          height: 51.0,
-                          child: TextFormField(
-                            enabled: false,
-                            initialValue: HealingMatchConstants
-                                .chooseServiceEstheticDropDown,
-                            style: HealingMatchConstants.formHintTextStyle,
-                            decoration: new InputDecoration(
-                              focusedBorder:
-                                  HealingMatchConstants.textFormInputBorder,
-                              disabledBorder:
-                                  HealingMatchConstants.textFormInputBorder,
-                              enabledBorder:
-                                  HealingMatchConstants.textFormInputBorder,
-                              suffixIcon: IconButton(
-                                  icon: estheticStatus == 0
-                                      ? Icon(
-                                          Icons.keyboard_arrow_down,
-                                          size: 35.0,
-                                          color: Colors
-                                              .black, //Color.fromRGBO(200, 200, 200, 1),
-                                        )
-                                      : Icon(
-                                          Icons.keyboard_arrow_up,
-                                          size: 35.0,
-                                          color: Colors
-                                              .black, //Color.fromRGBO(200, 200, 200, 1),
-                                        ),
-                                  onPressed: () {
-                                    if (estheticDropDownValues.length == 0) {
-                                      showProgressDialog();
-                                      getEstheticList();
-                                    } else {
-                                      setState(() {
-                                        estheticStatus == 0
-                                            ? estheticStatus = 1
-                                            : estheticStatus = 0;
-                                      });
-                                    }
-                                  }),
-                              filled: true,
-                              fillColor: ColorConstants.formFieldFillColor,
-                            ),
-                          ),
-                        ),
-                      )
-                    : Container(),
-                SizedBox(
-                  height: HealingMatchConstants.serviceProviderStoreType
-                          .contains('エステ')
-                      ? 15
-                      : 0,
-                ),
-                estheticStatus == 1
-                    ? Container(
-                        child: ListView.builder(
-                            primary: false,
-                            shrinkWrap: true,
-                            itemCount: estheticDropDownValues.length,
-                            itemBuilder: (BuildContext ctxt, int index) {
-                              return buildCheckBoxContent(
-                                  estheticDropDownValues[index], index, 0);
-                            }),
-                      )
-                    : Container(),
-                SizedBox(
-                  height: HealingMatchConstants.serviceProviderStoreType
-                          .contains('エステ')
-                      ? 20.0
-                      : 0,
-                ),
-
-                //Relaxation DropDown
-                HealingMatchConstants.serviceProviderStoreType
-                        .contains('リラクゼーション')
-                    ? InkWell(
-                        onTap: () {
-                          if (relaxationDropDownValues.length == 0) {
-                            showProgressDialog();
-                            getRelaxationList();
-                          } else {
-                            setState(() {
-                              relaxtionStatus == 0
-                                  ? relaxtionStatus = 1
-                                  : relaxtionStatus = 0;
-                            });
-                          }
-                        },
-                        child: SizedBox(
-                          height: 51.0,
-                          child: TextFormField(
-                            enabled: false,
-                            initialValue: HealingMatchConstants
-                                .chooseServiceRelaxationDropDown,
-                            style: HealingMatchConstants.formHintTextStyle,
-                            decoration: new InputDecoration(
-                              focusedBorder:
-                                  HealingMatchConstants.textFormInputBorder,
-                              disabledBorder:
-                                  HealingMatchConstants.textFormInputBorder,
-                              enabledBorder:
-                                  HealingMatchConstants.textFormInputBorder,
-                              suffixIcon: IconButton(
-                                  icon: relaxtionStatus == 0
-                                      ? Icon(
-                                          Icons.keyboard_arrow_down,
-                                          size: 35.0,
-                                          color: Colors
-                                              .black, //Color.fromRGBO(200, 200, 200, 1),
-                                        )
-                                      : Icon(
-                                          Icons.keyboard_arrow_up,
-                                          size: 35.0,
-                                          color: Colors
-                                              .black, //Color.fromRGBO(200, 200, 200, 1),
-                                        ),
-                                  onPressed: () {
-                                    if (relaxationDropDownValues.length == 0) {
-                                      showProgressDialog();
-                                      getRelaxationList();
-                                    } else {
-                                      setState(() {
-                                        relaxtionStatus == 0
-                                            ? relaxtionStatus = 1
-                                            : relaxtionStatus = 0;
-                                      });
-                                    }
-                                  }),
-                              filled: true,
-                              fillColor: ColorConstants.formFieldFillColor,
-                            ),
-                          ),
-                        ),
-                      )
-                    : Container(),
-                SizedBox(
-                  height: HealingMatchConstants.serviceProviderStoreType
-                          .contains('リラクゼーション')
-                      ? 15
-                      : 0,
-                ),
-                relaxtionStatus == 1
-                    ? Container(
-                        child: ListView.builder(
-                            primary: false,
-                            shrinkWrap: true,
-                            itemCount: relaxationDropDownValues.length,
-                            itemBuilder: (BuildContext ctxt, int index) {
-                              return buildCheckBoxContent(
-                                  relaxationDropDownValues[index], index, 1);
-                            }),
-                      )
-                    : Container(),
-                SizedBox(
-                  height: HealingMatchConstants.serviceProviderStoreType
-                          .contains('リラクゼーション')
-                      ? 20.0
-                      : 0,
-                ),
-
-                //Treatment DropDown
-                HealingMatchConstants.serviceProviderStoreType.contains('接骨・整体')
-                    ? InkWell(
-                        onTap: () {
-                          if (treatmentDropDownValues.length == 0) {
-                            showProgressDialog();
-                            getTreatmentList();
-                          } else {
-                            setState(() {
-                              treatmentStatus == 0
-                                  ? treatmentStatus = 1
-                                  : treatmentStatus = 0;
-                            });
-                          }
-                        },
-                        child: SizedBox(
-                          height: 51.0,
-                          child: TextFormField(
-                            enabled: false,
-                            initialValue: HealingMatchConstants
-                                .chooseServiceTreatmentDropDown,
-                            style: HealingMatchConstants.formHintTextStyle,
-                            decoration: new InputDecoration(
-                              focusedBorder:
-                                  HealingMatchConstants.textFormInputBorder,
-                              disabledBorder:
-                                  HealingMatchConstants.textFormInputBorder,
-                              enabledBorder:
-                                  HealingMatchConstants.textFormInputBorder,
-                              suffixIcon: IconButton(
-                                  icon: treatmentStatus == 0
-                                      ? Icon(
-                                          Icons.keyboard_arrow_down,
-                                          size: 35.0,
-                                          color: Colors
-                                              .black, //Color.fromRGBO(200, 200, 200, 1),
-                                        )
-                                      : Icon(
-                                          Icons.keyboard_arrow_up,
-                                          size: 35.0,
-                                          color: Colors
-                                              .black, //Color.fromRGBO(200, 200, 200, 1),
-                                        ),
-                                  onPressed: () {
-                                    if (treatmentDropDownValues.length == 0) {
-                                      showProgressDialog();
-                                      getTreatmentList();
-                                    } else {
-                                      setState(() {
-                                        treatmentStatus == 0
-                                            ? treatmentStatus = 1
-                                            : treatmentStatus = 0;
-                                      });
-                                    }
-                                  }),
-                              filled: true,
-                              fillColor: ColorConstants.formFieldFillColor,
-                            ),
-                          ),
-                        ),
-                      )
-                    : Container(),
-                SizedBox(
-                  height: HealingMatchConstants.serviceProviderStoreType
-                          .contains('接骨・整体')
-                      ? 15
-                      : 0,
-                ),
-                treatmentStatus == 1
-                    ? Container(
-                        child: ListView.builder(
-                            primary: false,
-                            shrinkWrap: true,
-                            itemCount: treatmentDropDownValues.length,
-                            itemBuilder: (BuildContext ctxt, int index) {
-                              return buildCheckBoxContent(
-                                  treatmentDropDownValues[index], index, 2);
-                            }),
-                      )
-                    : Container(),
-
-                SizedBox(
-                  height: HealingMatchConstants.serviceProviderStoreType
-                          .contains('接骨・整体')
-                      ? 20.0
-                      : 0,
-                ),
-
-                //Fitness DropDown
-                HealingMatchConstants.serviceProviderStoreType
-                        .contains('フィットネス')
-                    ? InkWell(
-                        onTap: () {
-                          if (fitnessDropDownValues.length == 0) {
-                            showProgressDialog();
-                            getFitnessList();
-                          } else {
-                            setState(() {
-                              fitnessStatus == 0
-                                  ? fitnessStatus = 1
-                                  : fitnessStatus = 0;
-                            });
-                          }
-                        },
-                        child: SizedBox(
-                          height: 51.0,
-                          child: TextFormField(
-                            enabled: false,
-                            initialValue: HealingMatchConstants
-                                .chooseServiceFitnessDropDown,
-                            style: HealingMatchConstants.formHintTextStyle,
-                            decoration: new InputDecoration(
-                              focusedBorder:
-                                  HealingMatchConstants.textFormInputBorder,
-                              disabledBorder:
-                                  HealingMatchConstants.textFormInputBorder,
-                              enabledBorder:
-                                  HealingMatchConstants.textFormInputBorder,
-                              suffixIcon: IconButton(
-                                  icon: fitnessStatus == 0
-                                      ? Icon(
-                                          Icons.keyboard_arrow_down,
-                                          size: 35.0,
-                                          color: Colors
-                                              .black, //Color.fromRGBO(200, 200, 200, 1),
-                                        )
-                                      : Icon(
-                                          Icons.keyboard_arrow_up,
-                                          size: 35.0,
-                                          color: Colors
-                                              .black, //Color.fromRGBO(200, 200, 200, 1),
-                                        ),
-                                  onPressed: () {
-                                    if (fitnessDropDownValues.length == 0) {
-                                      showProgressDialog();
-                                      getFitnessList();
-                                    } else {
-                                      setState(() {
-                                        fitnessStatus == 0
-                                            ? fitnessStatus = 1
-                                            : fitnessStatus = 0;
-                                      });
-                                    }
-                                  }),
-                              filled: true,
-                              fillColor: ColorConstants.formFieldFillColor,
-                            ),
-                          ),
-                        ),
-                      )
-                    : Container(),
-                SizedBox(
-                  height: HealingMatchConstants.serviceProviderStoreType
-                          .contains('フィットネス')
-                      ? 15
-                      : 0,
-                ),
-                fitnessStatus == 1
-                    ? Container(
-                        child: ListView.builder(
-                            primary: false,
-                            shrinkWrap: true,
-                            itemCount: fitnessDropDownValues.length,
-                            itemBuilder: (BuildContext ctxt, int index) {
-                              return buildCheckBoxContent(
-                                  fitnessDropDownValues[index], index, 3);
-                            }),
-                      )
-                    : Container(),
-                SizedBox(
-                  height: HealingMatchConstants.serviceProviderStoreType
-                          .contains('フィットネス')
-                      ? 20.0
-                      : 0,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        height: 50.0,
-                        child: RaisedButton(
-                          child: Text(
-                            "更新",
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
-                          ),
-                          color: ColorConstants.buttonColor,
-                          textColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(10.0),
-                          ),
-                          onPressed: () {
-                            saveSelectedValues();
+      body: KeyboardActions(
+        config: buildConfig(context),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            primary: true,
+            child: Container(
+              color: Colors.white,
+              padding: EdgeInsets.only(
+                  left: 20.0, right: 20.0, top: 10.0, bottom: 10.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    HealingMatchConstants.chooseServiceFirstText,
+                    style: TextStyle(
+                        color: Color.fromRGBO(102, 102, 102, 1), fontSize: 12),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  //Esthetic DropDown
+                  HealingMatchConstants.serviceProviderStoreType.contains('エステ')
+                      ? InkWell(
+                          onTap: () {
+                            if (estheticDropDownValues.length == 0) {
+                              ProgressDialogBuilder.showCommonProgressDialog(
+                                  context);
+                              getEstheticList();
+                            } else {
+                              setState(() {
+                                estheticStatus == 0
+                                    ? estheticStatus = 1
+                                    : estheticStatus = 0;
+                              });
+                            }
                           },
+                          child: SizedBox(
+                            height: 51.0,
+                            child: TextFormField(
+                              enabled: false,
+                              initialValue: HealingMatchConstants
+                                  .chooseServiceEstheticDropDown,
+                              style: HealingMatchConstants.formHintTextStyle,
+                              decoration: new InputDecoration(
+                                focusedBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                disabledBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                enabledBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                suffixIcon: IconButton(
+                                    icon: estheticStatus == 0
+                                        ? Icon(
+                                            Icons.keyboard_arrow_down,
+                                            size: 35.0,
+                                            color: Colors
+                                                .black, //Color.fromRGBO(200, 200, 200, 1),
+                                          )
+                                        : Icon(
+                                            Icons.keyboard_arrow_up,
+                                            size: 35.0,
+                                            color: Colors
+                                                .black, //Color.fromRGBO(200, 200, 200, 1),
+                                          ),
+                                    onPressed: () {
+                                      if (estheticDropDownValues.length == 0) {
+                                        ProgressDialogBuilder
+                                            .showCommonProgressDialog(context);
+                                        getEstheticList();
+                                      } else {
+                                        setState(() {
+                                          estheticStatus == 0
+                                              ? estheticStatus = 1
+                                              : estheticStatus = 0;
+                                        });
+                                      }
+                                    }),
+                                filled: true,
+                                fillColor: ColorConstants.formFieldFillColor,
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container(),
+                  SizedBox(
+                    height: HealingMatchConstants.serviceProviderStoreType
+                            .contains('エステ')
+                        ? 15
+                        : 0,
+                  ),
+                  estheticStatus == 1
+                      ? Container(
+                          child: ListView.builder(
+                              primary: false,
+                              shrinkWrap: true,
+                              itemCount: estheticDropDownValues.length,
+                              itemBuilder: (BuildContext ctxt, int index) {
+                                return buildCheckBoxContent(
+                                    estheticDropDownValues[index], index, 0);
+                              }),
+                        )
+                      : Container(),
+                  SizedBox(
+                    height: HealingMatchConstants.serviceProviderStoreType
+                            .contains('エステ')
+                        ? 20.0
+                        : 0,
+                  ),
+
+                  //Relaxation DropDown
+                  HealingMatchConstants.serviceProviderStoreType
+                          .contains('リラクゼーション')
+                      ? InkWell(
+                          onTap: () {
+                            if (relaxationDropDownValues.length == 0) {
+                              ProgressDialogBuilder.showCommonProgressDialog(
+                                  context);
+                              getRelaxationList();
+                            } else {
+                              setState(() {
+                                relaxtionStatus == 0
+                                    ? relaxtionStatus = 1
+                                    : relaxtionStatus = 0;
+                              });
+                            }
+                          },
+                          child: SizedBox(
+                            height: 51.0,
+                            child: TextFormField(
+                              enabled: false,
+                              initialValue: HealingMatchConstants
+                                  .chooseServiceRelaxationDropDown,
+                              style: HealingMatchConstants.formHintTextStyle,
+                              decoration: new InputDecoration(
+                                focusedBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                disabledBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                enabledBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                suffixIcon: IconButton(
+                                    icon: relaxtionStatus == 0
+                                        ? Icon(
+                                            Icons.keyboard_arrow_down,
+                                            size: 35.0,
+                                            color: Colors
+                                                .black, //Color.fromRGBO(200, 200, 200, 1),
+                                          )
+                                        : Icon(
+                                            Icons.keyboard_arrow_up,
+                                            size: 35.0,
+                                            color: Colors
+                                                .black, //Color.fromRGBO(200, 200, 200, 1),
+                                          ),
+                                    onPressed: () {
+                                      if (relaxationDropDownValues.length ==
+                                          0) {
+                                        ProgressDialogBuilder
+                                            .showCommonProgressDialog(context);
+                                        getRelaxationList();
+                                      } else {
+                                        setState(() {
+                                          relaxtionStatus == 0
+                                              ? relaxtionStatus = 1
+                                              : relaxtionStatus = 0;
+                                        });
+                                      }
+                                    }),
+                                filled: true,
+                                fillColor: ColorConstants.formFieldFillColor,
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container(),
+                  SizedBox(
+                    height: HealingMatchConstants.serviceProviderStoreType
+                            .contains('リラクゼーション')
+                        ? 15
+                        : 0,
+                  ),
+                  relaxtionStatus == 1
+                      ? Container(
+                          child: ListView.builder(
+                              primary: false,
+                              shrinkWrap: true,
+                              itemCount: relaxationDropDownValues.length,
+                              itemBuilder: (BuildContext ctxt, int index) {
+                                return buildCheckBoxContent(
+                                    relaxationDropDownValues[index], index, 1);
+                              }),
+                        )
+                      : Container(),
+                  SizedBox(
+                    height: HealingMatchConstants.serviceProviderStoreType
+                            .contains('リラクゼーション')
+                        ? 20.0
+                        : 0,
+                  ),
+
+                  //Treatment DropDown
+                  HealingMatchConstants.serviceProviderStoreType
+                          .contains('接骨・整体')
+                      ? InkWell(
+                          onTap: () {
+                            if (treatmentDropDownValues.length == 0) {
+                              ProgressDialogBuilder.showCommonProgressDialog(
+                                  context);
+                              getTreatmentList();
+                            } else {
+                              setState(() {
+                                treatmentStatus == 0
+                                    ? treatmentStatus = 1
+                                    : treatmentStatus = 0;
+                              });
+                            }
+                          },
+                          child: SizedBox(
+                            height: 51.0,
+                            child: TextFormField(
+                              enabled: false,
+                              initialValue: HealingMatchConstants
+                                  .chooseServiceTreatmentDropDown,
+                              style: HealingMatchConstants.formHintTextStyle,
+                              decoration: new InputDecoration(
+                                focusedBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                disabledBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                enabledBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                suffixIcon: IconButton(
+                                    icon: treatmentStatus == 0
+                                        ? Icon(
+                                            Icons.keyboard_arrow_down,
+                                            size: 35.0,
+                                            color: Colors
+                                                .black, //Color.fromRGBO(200, 200, 200, 1),
+                                          )
+                                        : Icon(
+                                            Icons.keyboard_arrow_up,
+                                            size: 35.0,
+                                            color: Colors
+                                                .black, //Color.fromRGBO(200, 200, 200, 1),
+                                          ),
+                                    onPressed: () {
+                                      if (treatmentDropDownValues.length == 0) {
+                                        ProgressDialogBuilder
+                                            .showCommonProgressDialog(context);
+                                        getTreatmentList();
+                                      } else {
+                                        setState(() {
+                                          treatmentStatus == 0
+                                              ? treatmentStatus = 1
+                                              : treatmentStatus = 0;
+                                        });
+                                      }
+                                    }),
+                                filled: true,
+                                fillColor: ColorConstants.formFieldFillColor,
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container(),
+                  SizedBox(
+                    height: HealingMatchConstants.serviceProviderStoreType
+                            .contains('接骨・整体')
+                        ? 15
+                        : 0,
+                  ),
+                  treatmentStatus == 1
+                      ? Container(
+                          child: ListView.builder(
+                              primary: false,
+                              shrinkWrap: true,
+                              itemCount: treatmentDropDownValues.length,
+                              itemBuilder: (BuildContext ctxt, int index) {
+                                return buildCheckBoxContent(
+                                    treatmentDropDownValues[index], index, 2);
+                              }),
+                        )
+                      : Container(),
+
+                  SizedBox(
+                    height: HealingMatchConstants.serviceProviderStoreType
+                            .contains('接骨・整体')
+                        ? 20.0
+                        : 0,
+                  ),
+
+                  //Fitness DropDown
+                  HealingMatchConstants.serviceProviderStoreType
+                          .contains('フィットネス')
+                      ? InkWell(
+                          onTap: () {
+                            if (fitnessDropDownValues.length == 0) {
+                              ProgressDialogBuilder.showCommonProgressDialog(
+                                  context);
+                              getFitnessList();
+                            } else {
+                              setState(() {
+                                fitnessStatus == 0
+                                    ? fitnessStatus = 1
+                                    : fitnessStatus = 0;
+                              });
+                            }
+                          },
+                          child: SizedBox(
+                            height: 51.0,
+                            child: TextFormField(
+                              enabled: false,
+                              initialValue: HealingMatchConstants
+                                  .chooseServiceFitnessDropDown,
+                              style: HealingMatchConstants.formHintTextStyle,
+                              decoration: new InputDecoration(
+                                focusedBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                disabledBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                enabledBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                suffixIcon: IconButton(
+                                    icon: fitnessStatus == 0
+                                        ? Icon(
+                                            Icons.keyboard_arrow_down,
+                                            size: 35.0,
+                                            color: Colors
+                                                .black, //Color.fromRGBO(200, 200, 200, 1),
+                                          )
+                                        : Icon(
+                                            Icons.keyboard_arrow_up,
+                                            size: 35.0,
+                                            color: Colors
+                                                .black, //Color.fromRGBO(200, 200, 200, 1),
+                                          ),
+                                    onPressed: () {
+                                      if (fitnessDropDownValues.length == 0) {
+                                        ProgressDialogBuilder
+                                            .showCommonProgressDialog(context);
+                                        getFitnessList();
+                                      } else {
+                                        setState(() {
+                                          fitnessStatus == 0
+                                              ? fitnessStatus = 1
+                                              : fitnessStatus = 0;
+                                        });
+                                      }
+                                    }),
+                                filled: true,
+                                fillColor: ColorConstants.formFieldFillColor,
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container(),
+                  SizedBox(
+                    height: HealingMatchConstants.serviceProviderStoreType
+                            .contains('フィットネス')
+                        ? 15
+                        : 0,
+                  ),
+                  fitnessStatus == 1
+                      ? Container(
+                          child: ListView.builder(
+                              primary: false,
+                              shrinkWrap: true,
+                              itemCount: fitnessDropDownValues.length,
+                              itemBuilder: (BuildContext ctxt, int index) {
+                                return buildCheckBoxContent(
+                                    fitnessDropDownValues[index], index, 3);
+                              }),
+                        )
+                      : Container(),
+                  SizedBox(
+                    height: HealingMatchConstants.serviceProviderStoreType
+                            .contains('フィットネス')
+                        ? 20.0
+                        : 0,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          height: 50.0,
+                          child: RaisedButton(
+                            child: Text(
+                              "更新",
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
+                            ),
+                            color: ColorConstants.buttonColor,
+                            textColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(10.0),
+                            ),
+                            onPressed: () {
+                              saveSelectedValues();
+                            },
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Text(
+                    "税込価格を入力して保存してください",
+                    style: TextStyle(fontSize: 14, color: Colors.grey[500]),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -735,10 +760,13 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                 FocusScope.of(context)
                                     .requestFocus(new FocusNode());
                                 setState(() {
+                                  otherValueText = otherValueText.toLowerCase();
                                   //Logic: check the value is empty
                                   if (otherValueText.isEmpty ||
                                       otherValueText == '') {
                                     showEmptyErrorMessage();
+                                  } else if (otherValueText.length > 15) {
+                                    showLengthErrorMessage();
                                   } else {
                                     //Logic: check the value is already present, if not insert before other field index
                                     if (mindex == 0) {
@@ -938,6 +966,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
     }
     return showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) {
         return Dialog(
           shape:
@@ -992,9 +1021,11 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                               children: [
                                 Expanded(
                                     child: TextFormField(
-                                        enableInteractiveSelection: false,
+                                        focusNode: sixtyMinFocus,
+                                        enableInteractiveSelection: true,
                                         textAlign: TextAlign.center,
                                         controller: sixtyMinutesController,
+                                        showCursor: true,
                                         keyboardType: TextInputType.number,
                                         decoration: InputDecoration(
                                           hintText: "¥0",
@@ -1053,7 +1084,8 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                               children: [
                                 Expanded(
                                     child: TextFormField(
-                                        enableInteractiveSelection: false,
+                                        focusNode: nintyMinFocus,
+                                        enableInteractiveSelection: true,
                                         textAlign: TextAlign.center,
                                         controller: nintyMinuteController,
                                         keyboardType: TextInputType.number,
@@ -1114,7 +1146,8 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                               children: [
                                 Expanded(
                                     child: TextFormField(
-                                        enableInteractiveSelection: false,
+                                        focusNode: oneTwentyMinFocus,
+                                        enableInteractiveSelection: true,
                                         controller: oneTwentyMinuteController,
                                         keyboardType: TextInputType.number,
                                         textAlign: TextAlign.center,
@@ -1175,7 +1208,8 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                               children: [
                                 Expanded(
                                     child: TextFormField(
-                                        enableInteractiveSelection: false,
+                                        focusNode: oneFiftyMinFocus,
+                                        enableInteractiveSelection: true,
                                         textAlign: TextAlign.center,
                                         controller: oneFiftyController,
                                         keyboardType: TextInputType.number,
@@ -1236,7 +1270,8 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                               children: [
                                 Expanded(
                                     child: TextFormField(
-                                        enableInteractiveSelection: false,
+                                        focusNode: oneEightyMinFocus,
+                                        enableInteractiveSelection: true,
                                         textAlign: TextAlign.center,
                                         controller: oneEightyMinuteController,
                                         keyboardType: TextInputType.number,
@@ -1625,7 +1660,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
       estheticDropDownValues.insertAll(
           estheticDropDownValues.length - 1, otherEstheticDropDownValues);
       setState(() {
-        hideProgressDialog();
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
         estheticStatus == 0 ? estheticStatus = 1 : estheticStatus = 0;
       });
     });
@@ -1645,7 +1680,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
       relaxationDropDownValues.insertAll(
           relaxationDropDownValues.length - 1, otherRelaxationDropDownValues);
       setState(() {
-        hideProgressDialog();
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
         relaxtionStatus == 0 ? relaxtionStatus = 1 : relaxtionStatus = 0;
       });
     });
@@ -1665,7 +1700,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
       treatmentDropDownValues.insertAll(
           treatmentDropDownValues.length - 1, otherTreatmentDropDownValues);
       setState(() {
-        hideProgressDialog();
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
         treatmentStatus == 0 ? treatmentStatus = 1 : treatmentStatus = 0;
       });
     });
@@ -1683,7 +1718,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
       fitnessDropDownValues.insertAll(
           fitnessDropDownValues.length - 1, otherFitnessDropDownValues);
       setState(() {
-        hideProgressDialog();
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
         fitnessStatus == 0 ? fitnessStatus = 1 : fitnessStatus = 0;
       });
     });
@@ -1695,6 +1730,22 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
       backgroundColor: ColorConstants.snackBarColor,
       content:
           Text('追加する値を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
+      action: SnackBarAction(
+          onPressed: () {
+            _scaffoldKey.currentState.hideCurrentSnackBar();
+          },
+          label: 'はい',
+          textColor: Colors.white),
+    ));
+    return;
+  }
+
+  //show the SnackBar Length >15 Error
+  void showLengthErrorMessage() {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      backgroundColor: ColorConstants.snackBarColor,
+      content: Text('サービスの名前を15文字以内で入力してください。',
+          style: TextStyle(fontFamily: 'Open Sans')),
       action: SnackBarAction(
           onPressed: () {
             _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1757,7 +1808,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
   //get the id of the Message Value
   int getID(int index, int mindex) {
     int id;
-        if (mindex == 0) {
+    if (mindex == 0) {
       if ((estheticDropDownModel.data.length < estheticDropDownValues.length) &&
           (index > estheticDropDownModel.data.length - 2))
       //minus 2 for indexing and removing the others field out of equation
@@ -1874,5 +1925,119 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
         .addAll(otherFitnessDropDownValues);
 
     Navigator.pop(context);
+  }
+
+  KeyboardActionsConfig buildConfig(BuildContext context) {
+    return KeyboardActionsConfig(
+        keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
+        keyboardBarColor: Colors.grey[200],
+        nextFocus: true,
+        actions: [
+          KeyboardActionsItem(
+            toolbarButtons: [
+              (node) {
+                return GestureDetector(
+                  onTap: () => node.unfocus(),
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      "完了",
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                );
+              }
+            ],
+            displayArrows: false,
+            focusNode: sixtyMinFocus,
+            footerBuilder: (_) => PreferredSize(
+                child: SizedBox(height: 2, child: Container()),
+                preferredSize: Size.fromHeight(2)),
+          ),
+          KeyboardActionsItem(
+            toolbarButtons: [
+              (node) {
+                return GestureDetector(
+                  onTap: () => node.unfocus(),
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      "完了",
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                );
+              }
+            ],
+            displayArrows: false,
+            focusNode: nintyMinFocus,
+            footerBuilder: (_) => PreferredSize(
+                child: SizedBox(height: 2, child: Container()),
+                preferredSize: Size.fromHeight(2)),
+          ),
+          KeyboardActionsItem(
+            toolbarButtons: [
+              (node) {
+                return GestureDetector(
+                  onTap: () => node.unfocus(),
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      "完了",
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                );
+              }
+            ],
+            displayArrows: false,
+            focusNode: oneTwentyMinFocus,
+            footerBuilder: (_) => PreferredSize(
+                child: SizedBox(height: 2, child: Container()),
+                preferredSize: Size.fromHeight(2)),
+          ),
+          KeyboardActionsItem(
+            toolbarButtons: [
+              (node) {
+                return GestureDetector(
+                  onTap: () => node.unfocus(),
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      "完了",
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                );
+              }
+            ],
+            displayArrows: false,
+            focusNode: oneFiftyMinFocus,
+            footerBuilder: (_) => PreferredSize(
+                child: SizedBox(height: 2, child: Container()),
+                preferredSize: Size.fromHeight(2)),
+          ),
+          KeyboardActionsItem(
+            toolbarButtons: [
+              (node) {
+                return GestureDetector(
+                  onTap: () => node.unfocus(),
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      "完了",
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                );
+              }
+            ],
+            displayArrows: false,
+            focusNode: oneEightyMinFocus,
+            footerBuilder: (_) => PreferredSize(
+                child: SizedBox(height: 2, child: Container()),
+                preferredSize: Size.fromHeight(2)),
+          ),
+        ]);
   }
 }

@@ -57,22 +57,38 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
               child: Container(
                 padding: EdgeInsets.only(left: 20, right: 20),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     FittedBox(
                       child: Text(
-                        HealingMatchConstants.userPasswordTxt,
+                        HealingMatchConstants.userPasswordTxt1,
                         style: TextStyle(
-                            fontWeight: FontWeight.bold,
                             fontFamily: 'NotoSansJP',
-                            color: Colors.grey),
+                            color: Color.fromRGBO(102, 102, 102, 1)),
+                      ),
+                    ),
+                    FittedBox(
+                      child: Text(
+                        HealingMatchConstants.userPasswordTxt2,
+                        style: TextStyle(
+                            fontFamily: 'NotoSansJP',
+                            color: Color.fromRGBO(102, 102, 102, 1)),
+                      ),
+                    ),
+                    FittedBox(
+                      child: Text(
+                        HealingMatchConstants.userPasswordTxt3,
+                        style: TextStyle(
+                            fontFamily: 'NotoSansJP',
+                            color: Color.fromRGBO(102, 102, 102, 1)),
                       ),
                     ),
                     SizedBox(
-                      height: 18,
+                      height: 16,
                     ),
                     TextFormField(
-                      maxLength: 10,
+                      maxLength: 11,
                       textInputAction: TextInputAction.done,
                       style: HealingMatchConstants.formTextStyle,
                       focusNode: phoneNumberFocus,
@@ -100,11 +116,11 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
                       ),
                     ),
                     SizedBox(
-                      height: 25,
+                      height: 21,
                     ),
                     Container(
                       width: double.infinity,
-                      height: 50,
+                      height: 41,
                       child: RaisedButton(
                         child: Text(
                           HealingMatchConstants.userForgetPassBtn,
@@ -113,7 +129,7 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
                               fontFamily: 'NotoSansJP',
                               fontSize: 20),
                         ),
-                        color: Colors.lime,
+                        color: Color.fromRGBO(200, 217, 33, 1),
                         onPressed: () {
                           _userForgetPasswordDetails();
                         },
@@ -139,59 +155,37 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
     if ((userPhoneNumber == null || userPhoneNumber.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        duration: Duration(seconds: 3),
-        content: Row(
-          children: [
-            Flexible(
-              child: Text('正しい電話番号を入力してください。',
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  style: TextStyle(fontFamily: 'NotoSansJP')),
-            ),
-            InkWell(
-              onTap: () {
-                _scaffoldKey.currentState.hideCurrentSnackBar();
-              },
-              child: Text('はい',
-                  style: TextStyle(
-                      fontFamily: 'NotoSansJP',
-                      decoration: TextDecoration.underline)),
-            ),
-          ],
-        ),
+        content: Text('正しい電話番号を入力してください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
       ));
-      return null;
+
+      return;
     }
 
     // user phone number validation
-    if (userPhoneNumber.length > 10 ||
+    if (userPhoneNumber.length > 11 ||
         userPhoneNumber.length < 10 ||
         userPhoneNumber == null ||
         userPhoneNumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        duration: Duration(seconds: 3),
-        content: Row(
-          children: [
-            Flexible(
-              child: Text('正しい電話番号を入力してください。',
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  style: TextStyle(fontFamily: 'NotoSansJP')),
-            ),
-            InkWell(
-              onTap: () {
-                _scaffoldKey.currentState.hideCurrentSnackBar();
-              },
-              child: Text('はい',
-                  style: TextStyle(
-                      fontFamily: 'NotoSansJP',
-                      decoration: TextDecoration.underline)),
-            ),
-          ],
-        ),
+        content: Text('正しい電話番号を入力してください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
       ));
-      return null;
+
+      return;
     }
     forgetPasswordDetails.add(userPhoneNumber);
     try {
@@ -221,15 +215,5 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
     }
 
     print('User details length in array : ${forgetPasswordDetails.length}');
-
-    /*   final url = '';
-    http.post(url,
-        headers: {
-          "Accept": "application/json",
-          "Authorization": "Bearer ${'token'}"
-        },
-        body: json.encode({
-          "serviceUserDetails": forgetPasswordDetails,
-        })); */
   }
 }

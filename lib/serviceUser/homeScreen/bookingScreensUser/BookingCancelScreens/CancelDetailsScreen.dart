@@ -1,19 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
+import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 
 bool isOtherSelected = false;
 final _cancelReasonController = new TextEditingController();
+
+GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 Map<String, dynamic> _formData = {
   'text': null,
   'category': null,
   'date': null,
   'time': null,
 };
-var selectedBuildingType;
+String selectedBuildingType;
 
 class CancelDetailsScreen extends StatefulWidget {
+  final int bookingId;
+  CancelDetailsScreen(this.bookingId);
   @override
   State<StatefulWidget> createState() {
     return _CancelDetailsScreenState();
@@ -24,17 +32,20 @@ class _CancelDetailsScreenState extends State<CancelDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.grey[200],
       body: ListView(
         physics: BouncingScrollPhysics(),
         shrinkWrap: true,
-        children: [ConfirmCancelScreen()],
+        children: [ConfirmCancelScreen(widget.bookingId)],
       ),
     );
   }
 }
 
 class ConfirmCancelScreen extends StatefulWidget {
+  final int bookingId;
+  ConfirmCancelScreen(this.bookingId);
   @override
   State<StatefulWidget> createState() {
     return _ConfirmCancelScreenState();
@@ -138,51 +149,43 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
                   ),
                 ),
                 SizedBox(height: 5),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 5, left: 15),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          ButtonTheme(
-                            minWidth: MediaQuery.of(context).size.width * 0.35,
-                            child: CustomToggleButton(
-                              elevation: 0,
-                              height: 55.0,
-                              width: 145.0,
-                              autoWidth: false,
-                              buttonColor: Colors.grey[300],
-                              enableShape: true,
-                              customShape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  side: BorderSide(color: Colors.transparent)),
-                              buttonLables: ["はい", "いいえ"],
-                              fontSize: 16.0,
-                              buttonValues: [
-                                "Y",
-                                "N",
-                              ],
-                              radioButtonValue: (value) {
-                                if (value == 'Y') {
-                                  DialogHelper.showUserBookingCancelDialog(
-                                      context);
-                                } else if (value == 'N') {
-                                  Navigator.of(context, rootNavigator: true)
-                                      .pop(context);
-                                }
-                              },
-                              selectedColor: Colors.lime,
-                            ),
-                          ),
-                          SizedBox(height: 20)
-                        ],
+                Padding(
+                  padding: const EdgeInsets.only(right: 15, left: 15),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ButtonTheme(
+                        minWidth: MediaQuery.of(context).size.width * 0.25,
+                        child: CustomToggleButton(
+                          elevation: 0,
+                          height: 55.0,
+                          width: MediaQuery.of(context).size.width * 0.35,
+                          autoWidth: false,
+                          buttonColor: Colors.grey[300],
+                          enableShape: true,
+                          customShape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              side: BorderSide(color: Colors.transparent)),
+                          buttonLables: ["はい", "いいえ"],
+                          fontSize: 16.0,
+                          buttonValues: [
+                            "Y",
+                            "N",
+                          ],
+                          radioButtonValue: (value) {
+                            if (value == 'Y') {
+                              cancelBooking();
+                            } else if (value == 'N') {
+                              Navigator.pop(context);
+                            }
+                          },
+                          selectedColor: Colors.lime,
+                        ),
                       ),
-                    )
-                  ],
+                      SizedBox(height: 20)
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -190,5 +193,87 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
         ),
       ),
     );
+  }
+
+  cancelBooking() {
+    String cancelReason = _cancelReasonController.text;
+    if (cancelReason == null || cancelReason == '') {
+      ProgressDialogBuilder.hideLoader(context);
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('キャンセルの理由を入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+    if (cancelReason.length > 125) {
+      ProgressDialogBuilder.hideLoader(context);
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('キャンセル理由を125以内で入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+
+    try {
+      // ProgressDialogBuilder.showOverlayLoader(context);
+      ServiceUserAPIProvider.removeEvent(
+              HealingMatchConstants.calEventId, context)
+          .then((value) {
+        if (value) {
+          ServiceUserAPIProvider.updateBookingCompeted(
+              widget.bookingId, cancelReason);
+          /*   ProgressDialogBuilder.hideLoader(context); */
+          DialogHelper.showUserBookingCancelDialog(context);
+        } else {
+          /* ProgressDialogBuilder.hideLoader(context); */
+        }
+      });
+    } catch (e) {
+      // ProgressDialogBuilder.hideLoader(context);
+      print('cancelException : ${e.toString()}');
+      /*  ProgressDialogBuilder.hideLoader(context); */
+    }
   }
 }

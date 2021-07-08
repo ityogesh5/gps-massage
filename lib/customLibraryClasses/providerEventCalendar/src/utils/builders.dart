@@ -1,7 +1,7 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:googleapis/calendar/v3.dart' as Calendar;
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/flutter_week_view.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/event.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/styles/day_bar.dart';
@@ -10,6 +10,7 @@ import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/ut
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/utils/utils.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/widgets/day_view.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/widgets/zoomable_header_widget.dart';
+import 'package:intl/intl.dart';
 
 /// Contains default builders and formatters.
 class DefaultBuilders {
@@ -35,7 +36,7 @@ class DefaultBuilders {
   /// Builds an event text widget in order to put it in a week view.
   static Widget defaultEventTextBuilder(FlutterWeekViewEvent event,
       BuildContext context, DayView dayView, double height, double width) {
-    List<TextSpan> text = [
+    /* List<TextSpan> text = [
       TextSpan(
         text: event.title,
         style: TextStyle(fontWeight: FontWeight.bold),
@@ -67,79 +68,114 @@ class DefaultBuilders {
       if (!_ellipsize(text)) {
         break;
       }
-    }
-    return Container(
-        padding: EdgeInsets.all(4.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    event.title,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-                  ),
-                  event.description == '0'
-                      ? Row(
-                          children: [
-                            SvgPicture.asset(
-                              "assets/images_gps/processing.svg",
-                              height: 20.0,
-                              width: 20.0,
-                            ),
-                            /*  Icon(
-                              Icons.hourglass_top_outlined,
-                              color: Color.fromRGBO(255, 193, 7, 1),
-                            ), */
-                            Text("承認待ち",
-                                style: TextStyle(
-                                  color: Color.fromRGBO(255, 193, 7, 1),
-                                ))
-                          ],
-                        )
-                      : Row(
-                          children: [
-                            Text("承認済み", style: TextStyle(color: Colors.black))
-                          ],
-                        )
-                ],
+    } */
+    Calendar.Event googleApiEvent = event.events;
+    var split = googleApiEvent.summary.split(',');
+    var difference = event.end.difference(event.start).inMinutes;
+    var splitGender = split[3].split('(');
+    String name = HealingMatchConstants.isProvider
+        ? splitGender[0].length > 10
+            ? splitGender[0].substring(0, 10) + "(" + splitGender[1]
+            : split[3]
+        : split[1].length > 10
+            ? split[1].substring(0, 10) + "..."
+            : split[1];
+    String sTime = event.start.hour == 0
+        ? DateFormat('KK:mm').format(event.start)
+        : DateFormat('kk:mm').format(event.start);
+    String eTime = DateFormat('kk:mm').format(event.end);
+
+    return googleApiEvent.description == "unavailable"
+        ? Container(
+            padding: EdgeInsets.all(2.0),
+            width: MediaQuery.of(context).size.width - 120.0,
+            alignment: Alignment.centerLeft,
+            child: FittedBox(
+              fit: BoxFit.contain,
+              child: Text(
+                "予約不可",
+                style: TextStyle(fontSize: 14.0),
               ),
             ),
-            SizedBox(
-              height: 8,
-            ),
-            Expanded(
-              child: Row(
-                children: [
-                  SvgPicture.asset(
-                    "assets/images_gps/clock.svg",
-                    height: 14.77,
-                    width: 16.0,
-                  ),
-                  SizedBox(
-                    width: 8,
-                  ),
-                  Text(
-                    '${event.start.hour}:${event.start.minute} ~ ${event.end.hour}: ${event.end.minute}',
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
+          )
+        : Container(
+            padding: EdgeInsets.all(2.0),
+            width: MediaQuery.of(context).size.width - 120.0,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      name,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16.0),
                     ),
-                  ),
-                  Text(
-                    ' 60分 ',
-                    style: TextStyle(
-                      fontSize: 12.0,
-                      color: Color.fromRGBO(102, 102, 102, 1),
+                    googleApiEvent.status == 'tentative'
+                        ? Row(
+                            children: [
+                              SvgPicture.asset(
+                                "assets/images_gps/processing.svg",
+                                height: 20.0,
+                                width: 20.0,
+                              ),
+                              /*  Icon(
+                Icons.hourglass_top_outlined,
+                color: Color.fromRGBO(255, 193, 7, 1),
+              ), */
+                              Text("承認待ち",
+                                  style: TextStyle(
+                                    color: Color.fromRGBO(255, 193, 7, 1),
+                                  ))
+                            ],
+                          )
+                        : Row(
+                            children: [
+                              Text("承認済み",
+                                  style: TextStyle(color: Colors.black))
+                            ],
+                          )
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset(
+                      "assets/images_gps/clock.svg",
+                      height: 14.77,
+                      width: 16.0,
                     ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ));
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      '$sTime ~ $eTime',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    Text(
+                      ' $difference分 ',
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        color: Color.fromRGBO(102, 102, 102, 1),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ));
 
     /*  return RichText(
       text: TextSpan(
@@ -207,60 +243,4 @@ class DefaultBuilders {
   /// The default day view style builder.
   static DayBarStyle defaultDayBarStyleBuilder(DateTime date) =>
       DayBarStyle.fromDate(date: date);
-
-  /// Returns whether this input exceeds the specified height.
-  static bool _exceedHeight(
-      List<TextSpan> input, TextStyle textStyle, double height, double width) {
-    double fontSize = textStyle?.fontSize ?? 14;
-    int maxLines = height ~/ ((textStyle?.height ?? 1.2) * fontSize);
-    if (maxLines == 0) {
-      return null;
-    }
-
-    TextPainter painter = TextPainter(
-      text: TextSpan(
-        children: input,
-        style: textStyle,
-      ),
-      maxLines: maxLines,
-      textDirection: TextDirection.ltr,
-    );
-    painter.layout(maxWidth: width);
-    return painter.didExceedMaxLines;
-  }
-
-  /// Ellipsizes the input.
-  static bool _ellipsize(List<TextSpan> input, [String ellipse = '…']) {
-    if (input.isEmpty) {
-      return false;
-    }
-
-    TextSpan last = input.last;
-    String text = last.text;
-    if (text.isEmpty || text == ellipse) {
-      input.removeLast();
-
-      if (text == ellipse) {
-        _ellipsize(input, ellipse);
-      }
-      return true;
-    }
-
-    String truncatedText;
-    if (text.endsWith('\n')) {
-      truncatedText = text.substring(0, text.length - 1) + ellipse;
-    } else {
-      truncatedText = Utils.removeLastWord(text);
-      truncatedText =
-          truncatedText.substring(0, math.max(0, truncatedText.length - 2)) +
-              ellipse;
-    }
-
-    input[input.length - 1] = TextSpan(
-      text: truncatedText,
-      style: last.style,
-    );
-
-    return true;
-  }
 }

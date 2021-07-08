@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,6 +10,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 class IntroTermsAndPolicy extends StatefulWidget {
   @override
@@ -20,11 +25,12 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
   int _state = 0;
   TabController _tabController;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  FirebaseMessaging fcm = FirebaseMessaging();
 
   @override
   void initState() {
     super.initState();
-
+    FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
     _tabController = TabController(vsync: this, length: 2);
     _tabController.addListener(_handleTabSelection);
   }
@@ -81,8 +87,17 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
   Widget build(BuildContext context) {
     if (_state == 0) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await Future.delayed(const Duration(seconds: 2));
         _state = 1;
-        DialogHelper.showNotificationDialog(context);
+        if (Platform.isIOS) {
+          fcm.requestNotificationPermissions(IosNotificationSettings());
+          fcm.setAutoInitEnabled(true);
+          SharedPreferences sharedPreferences =
+              await SharedPreferences.getInstance();
+          sharedPreferences.setString('notificationStatus', 'accepted');
+        } else {
+          DialogHelper.showNotificationDialog(context);
+        }
       });
     }
 
@@ -92,6 +107,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
+        brightness: Brightness.light,
         elevation: 5.0,
         automaticallyImplyLeading: false,
         title: Text(

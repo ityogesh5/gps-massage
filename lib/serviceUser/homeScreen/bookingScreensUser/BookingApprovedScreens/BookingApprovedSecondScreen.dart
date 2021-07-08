@@ -257,10 +257,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                                 child: Divider(),
                               )),
                               InkWell(
-                                onTap: () {
-                                  NavigationRouter
-                                      .switchToServiceUserChatScreen(context);
-                                },
+                                onTap: () {},
                                 child: CircleAvatar(
                                     maxRadius: 25,
                                     backgroundColor: Colors.white,

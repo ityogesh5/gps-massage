@@ -97,16 +97,11 @@ class StatusCodeHelper {
   static bool isLoginSuccess(
       int statusCode, BuildContext context, String body) {
     if (statusCode == 200) {
-      Toast.show("正常にログインしました。", context,
-          duration: Toast.LENGTH_LONG,
-          gravity: Toast.CENTER,
-          backgroundColor: Colors.lime,
-          textColor: Colors.white);
-      print('Response Success!!');
+      print('Login Response Success!!');
       return true;
     } else if (statusCode == 400) {
       //ユーザーが見つかりません。
-      Toast.show("ユーザーが見つかりません。", context,
+      Toast.show("電話番号・パスワードに誤りがあるか、登録されていません。", context,
           duration: 4,
           gravity: Toast.CENTER,
           backgroundColor: Colors.redAccent,
@@ -114,7 +109,7 @@ class StatusCodeHelper {
       print('User Not Found!!');
       return false;
     } else if (statusCode == 401) {
-      Toast.show("許可されていないユーザー。", context,
+      Toast.show("電話番号・パスワードに誤りがあるか、登録されていません。", context,
           duration: 4,
           gravity: Toast.CENTER,
           backgroundColor: Colors.redAccent,
@@ -319,7 +314,7 @@ class StatusCodeHelper {
   // send verify
   static bool isSendVerify(int statusCode, BuildContext context, String body) {
     if (statusCode == 200) {
-      Toast.show("認証コードは正常に送信されました。", context,
+      Toast.show("認証コードが正常に送信されました。", context,
           duration: Toast.LENGTH_LONG,
           gravity: Toast.CENTER,
           backgroundColor: Colors.lime,

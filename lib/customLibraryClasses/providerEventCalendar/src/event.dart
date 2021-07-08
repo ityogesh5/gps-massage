@@ -1,9 +1,13 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:googleapis/calendar/v3.dart' as Calendar;
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/utils/builders.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/utils/utils.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/widgets/day_view.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/calendar/calendarDetailPopup.dart';
 
 /// Builds an event text widget.
 typedef EventTextBuilder = Widget Function(FlutterWeekViewEvent event,
@@ -11,6 +15,9 @@ typedef EventTextBuilder = Widget Function(FlutterWeekViewEvent event,
 
 /// Represents a flutter week view event.
 class FlutterWeekViewEvent extends Comparable<FlutterWeekViewEvent> {
+  /// Google Calendar Event
+  final Calendar.Event events;
+
   /// The event title.
   final String title;
 
@@ -18,10 +25,10 @@ class FlutterWeekViewEvent extends Comparable<FlutterWeekViewEvent> {
   final String description;
 
   /// The event start date & time.
-  final DateTime start;
+  DateTime start;
 
   /// The event end date & time.
-  final DateTime end;
+  DateTime end;
 
   /// The event widget background color.
   final Color backgroundColor;
@@ -49,10 +56,11 @@ class FlutterWeekViewEvent extends Comparable<FlutterWeekViewEvent> {
 
   /// Creates a new flutter week view event instance.
   FlutterWeekViewEvent({
-    @required this.title,
-    @required this.description,
-    @required DateTime start,
-    @required DateTime end,
+    this.title,
+    this.description,
+    DateTime start,
+    DateTime end,
+    this.events,
     this.backgroundColor = const Color(0xCC2196F3),
     this.decoration,
     this.textStyle = const TextStyle(color: Colors.white),
@@ -62,11 +70,12 @@ class FlutterWeekViewEvent extends Comparable<FlutterWeekViewEvent> {
     this.onLongPress,
     this.eventTextBuilder,
   })  : start = start.yearMonthDayHourMinute,
-        end = end.yearMonthDayHourMinute,
-        assert(title != null),
+        end = end.yearMonthDayHourMinute
+  /*   assert(title != null),
         assert(description != null),
         assert(start != null),
-        assert(end != null);
+        assert(end != null) */
+  ;
 
   /// Builds the event widget.
   Widget build(
@@ -75,21 +84,37 @@ class FlutterWeekViewEvent extends Comparable<FlutterWeekViewEvent> {
     width = width - (padding?.left ?? 0.0) - (padding?.right ?? 0.0);
 
     return GestureDetector(
-      onTap: onTap,
+      onTap: () {
+        HealingMatchConstants.isProviderHomePage
+            ? NavigationRouter.switchToWeeklySchedule(context)
+            : ProviderCalendarDetailPopup.showBookingDetail(
+                context, events, start, end);
+      },
       onLongPress: onLongPress,
       child: Container(
-        decoration: decoration ??
+        /* decoration: decoration ??
             (backgroundColor != null
                 ? BoxDecoration(color: backgroundColor)
-                : null),
-        margin: margin,
+                : null), */
+        decoration: BoxDecoration(
+          color: events.description == "unavailable"
+              ? Color.fromRGBO(231, 231, 231, 1)
+              : HealingMatchConstants.isProviderHomePage
+                  ? Colors.white
+                  : Color.fromRGBO(242, 242, 242, 1),
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        margin: EdgeInsets.all(4.0),
         padding: padding,
-        child: (eventTextBuilder ?? DefaultBuilders.defaultEventTextBuilder)(
-          this,
-          context,
-          dayView,
-          math.max(0.0, height),
-          math.max(0.0, width),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: (eventTextBuilder ?? DefaultBuilders.defaultEventTextBuilder)(
+            this,
+            context,
+            dayView,
+            math.max(0.0, height),
+            math.max(0.0, width),
+          ),
         ),
       ),
     );

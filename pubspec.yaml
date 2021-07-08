@@ -31,7 +31,8 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.0
+  cupertino_icons: any
+  search_page: any
   curved_navigation_bar:
   flutter_markdown: ^0.5.1
   pin_code_fields: ^5.2.0
@@ -39,28 +40,19 @@ dependencies:
   connectivity: ^2.0.2 # Yogeshwar for checking Internet connection
   shared_preferences: # Yogeshwar storing data locally throughout the app
   provider: any
-  dio: any # Yogeshwar DIO Multipart API Call library / Netwrok call library for processing large data at a time
   toast: # Yogeshwar Toast messages to indicate the progress completion
-  sqflite: any # Yogeshwar Local database for storing data locally for App
   getwidget: any # Yogeshwar get widget for Loading indicators
   http: ^0.12.2 # Yogeshwar HTTP Network calls for API's
   uuid: ^2.0.4
   flutter_google_places: any # Yogeshwar
-  #  font_awesome_flutter: ^8.10.0
   google_fonts: ^1.1.1
   intl: any # Yogeshwar Date / Time format parsing
   geolocator: ^5.3.1 # Yogeshwar Finding Location of user to fetch Latitude and Longitude
   geocoding: #Aswin for Getting lat and long from Address
-  animated_text_kit: ^1.1.0 # Yogeshwar Text kit with Text display animation
   flutter_svg: any # Yogeshwar SVG Picture inclusion library from assets
-  multiselect_formfield: ^0.1.5
   image_picker: ^0.6.7+17 # Yogeshwar
   flutter_spinkit: ^4.1.2+1 # Yogeshwar Spin kits for loading indicators during API calls
   flutter_icons: any
-  logger: ^0.8.3
-  pretty_dio_logger: ^1.1.0
-  protobuf: ^1.0.1
-  progress_dialog: ^1.2.4 # Yogeshwar Dialog to show loading progress during API calls
   keyboard_service: ^1.0.3 # Yogeshwar Service to dismiss keyboard
   share: ^0.6.5+4 # Yogeshwar sharing app
   io: ^0.3.4 # Yogeshwar File Input / Output addition
@@ -74,40 +66,74 @@ dependencies:
   favorite_button: ^0.0.3 # Yogeshwar Favorite button for making Therapist
   path_provider: any
   infinite_listview: ^1.0.0
-  horizontal_center_date_picker: ^1.0.0+2
-  apple_sign_in: ^0.1.0
+  horizontal_center_date_picker: any
+
+
+  sign_in_with_apple: any 
+
+
   date_util: ^0.1.4
-  #lazy_data_table: ^0.2.1 #Aswin for Provider Schedule Calendar
+
   url_launcher: any #Aswin for Mail app launch
   flutter_statusbarcolor: ^0.2.3 #Aswin StatusBar Color
-  #flutter_week_view: ^1.0.0+2
+
   shimmer_animation: any #Yogeshwar - Shows loading Shimmer effect while parsing API data..
-
-
-  syncfusion_flutter_calendar: ^18.4.35
-
   flutter_chat_bubble: ^1.0.2 # Yogeshwar chat bubbles for one to one chat user screen
-  firebase_messaging: # Yogeshwar Firebase push notification configuration
-  #adhara_socket_io: ^0.4.2+1 # Yogeshwar socket connection for One to one chat
+
+  firebase_messaging: 7.0.3  # Yogeshwar Firebase push notification configuration
+
+
   simple_tooltip: ^0.1.16 # Yogeshwar tooltip customize popup
   dotted_border: ^1.0.7 # Yogeshwar for Circle rounded border
   table_calendar: ^2.3.3 #Gowtham for calendar Build
   awesome_dialog: any
   flutter_overlay_loader: ^0.0.2
   lazy_load_scrollview: 1.1.0
-  liquid_progress_indicator: ^0.3.2
   cached_network_image: any
-  stripe_payment: any
-  flutter_socket_io: ^0.6.0
-  web_socket_channel: any
+#  stripe_payment:
   super_tooltip: any
   time: any
 
+  location: any
 
-#  flutter_line_login: ^0.2.0
+  googleapis: #Aswin Google Calendar Api
+  googleapis_auth: # Aswin Google Cloud Authentication
+
+  scrollable_positioned_list: ^0.1.10 #Aswin for List Manual Scrolling
+  cloud_firestore: any
+  firebase_core: any
+  firebase_analytics: any
+  firebase_auth: any
+  firebase_storage: any
+
+  json_annotation: any
+  flutter_datetime_picker: any
+
+  #keyboard_visibility: 4.0.3
+
+
+  video_player: ^0.10.12
+  keyboard_actions: ^3.3.1+1
+
+
+  animated_text_kit: any
+
+
+
+  readmore: any #Gowtham Text ReadMore
+  argon_buttons_flutter: any
+  flutter_stripe_payment: any
+ 
+
+
+
+
+
 
 
 dev_dependencies:
+  build_runner: any
+  json_serializable: any
   flutter_test:
     sdk: flutter
 
@@ -132,6 +158,10 @@ flutter:
     - assets/privacy_policy/
     - assets/provider_tutorial/
     - assets/user_tutorial/
+    - assets/images_gps/subCategory/esthetic/
+    - assets/images_gps/subCategory/fitness/
+    - assets/images_gps/subCategory/osteopathic/
+    - assets/images_gps/subCategory/relaxation/
 
 
 

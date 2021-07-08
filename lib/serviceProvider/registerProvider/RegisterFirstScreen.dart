@@ -4,6 +4,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
@@ -16,8 +18,9 @@ import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:gps_massageapp/utils/text_field_custom.dart';
-import 'package:geocoding/geocoding.dart';
+import 'package:gps_massageapp/customLibraryClasses/customTextField/text_field_custom.dart';
+import 'package:keyboard_actions/keyboard_actions.dart';
+
 import 'package:toast/toast.dart';
 
 class RegisterProviderFirstScreen extends StatefulWidget {
@@ -157,6 +160,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
   PickedFile _profileImage;
   bool isName = false;
   FocusNode _focus = new FocusNode();
+  FocusNode _phoneNumberFocus = new FocusNode();
+  FocusNode _storePhoneNumberFocus = new FocusNode();
 
   void initState() {
     super.initState();
@@ -175,16 +180,12 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     debugPrint("Focus: " + _focus.hasFocus.toString());
   }
 
-  Future<Null> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        //locale : const Locale("ja","JP"),
-        initialDatePickerMode: DatePickerMode.day,
-        initialDate: selectedDate,
-        firstDate: DateTime(1901, 1),
-        lastDate: DateTime.now());
-
-    if (picked != null) {
+  _selectDate(BuildContext context) {
+    DatePicker.showDatePicker(context,
+        locale: LocaleType.jp,
+        currentTime: selectedDate,
+        minTime: DateTime(1901, 1),
+        maxTime: DateTime.now(), onConfirm: (DateTime picked) {
       setState(() {
         selectedDate = picked;
         _selectedDOBDate = new DateFormat("yyyy-MM-dd").format(picked);
@@ -195,7 +196,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
         selectedYear = picked.year;
         calculateAge();
       });
-    }
+    });
   }
 
   void calculateAge() {
@@ -252,624 +253,516 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
         toolbarHeight: 0.0,
       ),
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 40.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    HealingMatchConstants.registrationFirstText,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Color.fromRGBO(102, 102, 102, 1),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "*",
-                    style: TextStyle(
+      body: KeyboardActions(
+        config: buildConfig(context),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 40.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      HealingMatchConstants.registrationFirstText,
+                      style: TextStyle(
                         fontSize: 14,
-                        color: Colors.red,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    HealingMatchConstants.registrationSecondText,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Color.fromRGBO(102, 102, 102, 1),
+                        color: Color.fromRGBO(102, 102, 102, 1),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 20.0,
-              ),
-              drawRangeSlider(),
-              SizedBox(
-                height: 20.0,
-              ),
-              Stack(
-                overflow: Overflow.visible,
-                children: [
-                  _profileImage != null
-                      ? InkWell(
-                          onTap: () {
-                            _showPicker(context);
-                          },
-                          child: Semantics(
+                  ],
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "*",
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      HealingMatchConstants.registrationSecondText,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Color.fromRGBO(102, 102, 102, 1),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                drawRangeSlider(),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Stack(
+                  overflow: Overflow.visible,
+                  children: [
+                    _profileImage != null
+                        ? InkWell(
+                            onTap: () {
+                              _showPicker(context);
+                            },
+                            child: Semantics(
+                              child: new Container(
+                                  width: 100.0,
+                                  height: 100.0,
+                                  decoration: new BoxDecoration(
+                                    border: Border.all(color: Colors.black12),
+                                    shape: BoxShape.circle,
+                                    image: new DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image:
+                                          FileImage(File(_profileImage.path)),
+                                    ),
+                                  )),
+                            ),
+                          )
+                        : InkWell(
+                            onTap: () {
+                              _showPicker(context);
+                            },
                             child: new Container(
-                                width: 100.0,
-                                height: 100.0,
+                                width: 95.0,
+                                height: 95.0,
                                 decoration: new BoxDecoration(
-                                  border: Border.all(color: Colors.black12),
+                                  border: Border.all(color: Colors.grey[200]),
                                   shape: BoxShape.circle,
                                   image: new DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: FileImage(File(_profileImage.path)),
+                                    fit: BoxFit.none,
+                                    image: new AssetImage(
+                                        'assets/images_gps/female.png'),
                                   ),
                                 )),
                           ),
-                        )
-                      : InkWell(
-                          onTap: () {
-                            _showPicker(context);
-                          },
-                          child: new Container(
-                              width: 95.0,
-                              height: 95.0,
-                              decoration: new BoxDecoration(
-                                border: Border.all(color: Colors.grey[200]),
-                                shape: BoxShape.circle,
-                                image: new DecorationImage(
-                                  fit: BoxFit.none,
-                                  image: new AssetImage(
-                                      'assets/images_gps/female.png'),
-                                ),
-                              )),
-                        ),
-                  _profileImage != null
-                      ? Visibility(
-                          visible: false,
-                          child: Positioned(
-                            right: -60.0,
-                            top: 60,
-                            left: 10.0,
-                            child: InkWell(
-                              onTap: () {},
-                              child: CircleAvatar(
-                                backgroundColor: Colors.grey[500],
-                                radius: 13,
+                    /* _profileImage != null
+                        ? Visibility(
+                            visible: false,
+                            child: Positioned(
+                              right: -60.0,
+                              top: 60,
+                              left: 10.0,
+                              child: InkWell(
+                                onTap: () {},
                                 child: CircleAvatar(
-                                  backgroundColor: Colors.grey[100],
-                                  radius: 12,
-                                  child: Image.asset(
-                                      "assets/images_gps/upload.png"),
+                                  backgroundColor: Colors.grey[500],
+                                  radius: 13,
+                                  child: CircleAvatar(
+                                    backgroundColor: Colors.grey[100],
+                                    radius: 12,
+                                    child: Image.asset(
+                                        "assets/images_gps/upload.png"),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        )
-                      : Visibility(
-                          visible: true,
-                          child: Positioned(
-                            right: -60.0,
-                            top: 60,
-                            left: 10.0,
-                            child: InkWell(
-                              onTap: () {
-                                _showPicker(context);
-                              },
-                              child: CircleAvatar(
-                                backgroundColor: Colors.grey[500],
-                                radius: 13,
+                          )
+                        : Visibility(
+                            visible: true,
+                            child: Positioned(
+                              right: -60.0,
+                              top: 60,
+                              left: 10.0,
+                              child: InkWell(
+                                onTap: () {
+                                  _showPicker(context);
+                                },
                                 child: CircleAvatar(
-                                  backgroundColor: Colors.grey[100],
-                                  radius: 12,
-                                  child: Image.asset(
-                                      "assets/images_gps/upload.png"),
+                                  backgroundColor: Colors.grey[500],
+                                  radius: 13,
+                                  child: CircleAvatar(
+                                    backgroundColor: Colors.grey[100],
+                                    radius: 12,
+                                    child: Image.asset(
+                                        "assets/images_gps/upload.png"),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
+                          ), */
+                  ],
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Container(
+                    height: containerHeight,
+                    width: containerWidth,
+                    child: Theme(
+                      data: Theme.of(context)
+                          .copyWith(splashColor: Colors.black12),
+                      child: TextFieldCustom(
+                        controller: providerNameController,
+                        style: HealingMatchConstants.formTextStyle,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(16.0),
+                          /*  labelText: HealingMatchConstants.registrationName,
+                            labelStyle: HealingMatchConstants.formLabelTextStyle, */
+                          filled: true,
+                          fillColor: ColorConstants.formFieldFillColor,
+                          focusedBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          enabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
                         ),
-                ],
-              ),
-              SizedBox(
-                height: 20.0,
-              ),
-              Container(
-                height: containerHeight,
-                width: containerWidth,
-                child: Text(
-                  HealingMatchConstants.registrationFacePhtoText,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: ColorConstants.formHintTextColor,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: sizedBoxFormHeight,
-              ),
-              Container(
-                height: containerHeight,
-                width: containerWidth,
-                /*  decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                 // color: Colors.black12,
-                                  border: Border.all(color: Colors.transparent)), */
-                child: DropDownFormField(
-                  requiredField: true,
-                  hintText: '事業形態',
-                  value: bussinessForm,
-                  onSaved: (value) {
-                    setState(() {
-                      bussinessForm = value;
-                    });
-                  },
-                  onChanged: (value) {
-                    setState(() {
-                      if (value == "施術店舗なし 施術従業員あり（出張のみ)") {
-                        serviceBusinessTrips = "はい";
-                        businessTripEnabled = false;
-                      } else {
-                        businessTripEnabled = true;
-                      }
-                      if (bussinessForm == "施術店舗なし 施術従業員あり（出張のみ)") {
-                        serviceBusinessTrips = "";
-                        businessTripEnabled = true;
-                      }
-                      bussinessForm = value;
-
-                      FocusScope.of(context).requestFocus(new FocusNode());
-                    });
-                  },
-                  dataSource: businessFormDropDownValues,
-                  isList: true,
-                  textField: 'display',
-                  valueField: 'value',
-                ),
-              ),
-              SizedBox(
-                height: bussinessForm == "施術店舗あり 施術従業員あり" ||
-                        bussinessForm == "施術店舗なし 施術従業員あり（出張のみ)"
-                    ? sizedBoxFormHeight
-                    : 0.0,
-              ),
-              bussinessForm == "施術店舗あり 施術従業員あり" ||
-                      bussinessForm == "施術店舗なし 施術従業員あり（出張のみ)"
-                  ? Container(
-                      height: containerHeight,
-                      width: containerWidth,
-                      /*  decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                 // color: Colors.black12,
-                                  border: Border.all(color: Colors.black12)), */
-                      child: DropDownFormField(
-                        hintText: '従業員数',
-                        value: numberOfEmployees,
-                        onSaved: (value) {
-                          setState(() {
-                            numberOfEmployees = value;
-                          });
-                        },
-                        onChanged: (value) {
-                          setState(() {
-                            numberOfEmployees = value;
-                            FocusScope.of(context)
-                                .requestFocus(new FocusNode());
-                          });
-                        },
-                        dataSource: numberOfEmployeesDropDownValues,
-                        isList: true,
-                        textField: 'display',
-                        valueField: 'value',
-                      ),
-                    )
-                  : Container(),
-              SizedBox(
-                height: sizedBoxFormHeight,
-              ),
-              Container(
-                height: containerHeight,
-                width: containerWidth,
-                child: InkWell(
-                  onTap: () {
-                    setState(() {
-                      storeTypeDisplayStatus == 0
-                          ? storeTypeDisplayStatus = 1
-                          : storeTypeDisplayStatus = 0;
-                    });
-                  },
-                  child: TextFieldCustom(
-                    enabled: false,
-                    hintText: Text.rich(
-                      TextSpan(
-                        text: HealingMatchConstants.registrationStoretype,
-                        children: <InlineSpan>[
+                        labelText: Text.rich(
                           TextSpan(
-                            text: '*',
-                            style: HealingMatchConstants.formHintTextStyleStar,
-                          ),
-                        ],
-                        style: HealingMatchConstants.formHintTextStyle,
-                      ),
-                    ),
-                    // initialValue: HealingMatchConstants.registrationStoretype,
-                    style: HealingMatchConstants.formHintTextStyle,
-                    decoration: new InputDecoration(
-                      focusedBorder: HealingMatchConstants.textFormInputBorder,
-                      disabledBorder: HealingMatchConstants.textFormInputBorder,
-                      enabledBorder: HealingMatchConstants.textFormInputBorder,
-                      suffixIcon: IconButton(
-                          padding: EdgeInsets.only(left: 8.0),
-                          icon: storeTypeDisplayStatus == 0
-                              ? Icon(
-                                  Icons.keyboard_arrow_down,
-                                  size: 30.0,
-                                  color: Colors
-                                      .black, //Color.fromRGBO(200, 200, 200, 1),
-                                )
-                              : Icon(
-                                  Icons.keyboard_arrow_up,
-                                  size: 30.0,
-                                  color: Colors
-                                      .black, //Color.fromRGBO(200, 200, 200, 1),
-                                ),
-                          onPressed: () {
-                            setState(() {
-                              storeTypeDisplayStatus == 0
-                                  ? storeTypeDisplayStatus = 1
-                                  : storeTypeDisplayStatus = 0;
-                            });
-                          }),
-                      filled: true,
-                      fillColor: ColorConstants.formFieldFillColor,
-                    ),
-                  ),
-                ),
-              ),
-              storeTypeDisplayStatus == 1
-                  ? Container(
-                      width: containerWidth,
-                      padding: EdgeInsets.all(8.0),
-                      child: ListView.builder(
-                          primary: false,
-                          shrinkWrap: true,
-                          itemCount: storeTypeDropDownValues.length,
-                          itemBuilder: (BuildContext ctxt, int index) {
-                            return buildStoreTypeDisplayBoxContent(
-                              storeTypeDropDownValues[index],
-                              index,
-                            );
-                          }),
-                    )
-                  : Container(
-                      width: containerWidth,
-                      padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
-                      alignment: Alignment.topLeft,
-                      child: Wrap(
-                        direction: Axis.horizontal,
-                        alignment: WrapAlignment.start,
-                        spacing: 8.0,
-                        runSpacing: 8.0,
-                        children: selectedStoreTypeDisplayValues
-                            .map((e) {
-                              return Container(
-                                padding: EdgeInsets.all(10.0),
-                                height: 40.0,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    border: Border.all(
-                                      color: Colors.grey,
-                                    )),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      "$e",
-                                      style: TextStyle(fontSize: 12.0),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            })
-                            .toList()
-                            .cast<Widget>(),
-                      ),
-                    ),
-              SizedBox(
-                height: sizedBoxFormHeight,
-              ),
-              Container(
-                height: containerHeight,
-                width: containerWidth,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: Center(
-                        child: Text(
-                          HealingMatchConstants.registrationBuisnessTrip,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.black,
+                            text: HealingMatchConstants.registrationName,
+                            children: <InlineSpan>[
+                              TextSpan(
+                                text: '*',
+                                style:
+                                    HealingMatchConstants.formHintTextStyleStar,
+                              ),
+                            ],
+                            style: HealingMatchConstants.formLabelTextStyle,
                           ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Container(
-                        height: containerHeight,
-                        /* decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10.0),
-                                          color: Colors.black12,
-                                          border: Border.all(color: Colors.black12)), */
-                        child: DropDownFormField(
-                          enabled: businessTripEnabled,
-                          hintText: '',
-                          value: serviceBusinessTrips,
-                          onSaved: (value) {
-                            setState(() {
-                              serviceBusinessTrips = value;
-                            });
-                          },
-                          onChanged: (value) {
-                            setState(() {
-                              serviceBusinessTrips = value;
-                              FocusScope.of(context)
-                                  .requestFocus(new FocusNode());
-                            });
-                          },
-                          dataSource: serviceBusinessTripDropDownValues,
-                          isList: true,
-                          textField: 'display',
-                          valueField: 'value',
-                        ),
-                      ),
-                    ),
-                  ],
+                    )),
+                SizedBox(
+                  height: sizedBoxFormHeight,
                 ),
-              ),
-              SizedBox(
-                height: sizedBoxFormHeight,
-              ),
-              Container(
-                height: containerHeight,
-                width: containerWidth,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: Center(
-                        child: Text(
-                          HealingMatchConstants.registrationCoronaTxt,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Container(
-                        height: containerHeight,
-                        child: DropDownFormField(
-                          hintText: '',
-                          value: coronaMeasures,
-                          onSaved: (value) {
-                            setState(() {
-                              coronaMeasures = value;
-                            });
-                          },
-                          onChanged: (value) {
-                            setState(() {
-                              coronaMeasures = value;
-                              FocusScope.of(context)
-                                  .requestFocus(new FocusNode());
-                            });
-                          },
-                          dataSource: coronaMeasuresDropDownValues,
-                          isList: true,
-                          textField: 'display',
-                          valueField: 'value',
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: sizedBoxFormHeight,
-              ),
-              Container(
-                width: containerWidth,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("*", style: TextStyle(color: Colors.red)),
-                    Text(
-                      HealingMatchConstants.registrationJapanAssociationTxt,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: ColorConstants.formHintTextColor,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: sizedBoxFormHeight,
-              ),
-              Container(
-                height: containerHeight,
-                width: containerWidth,
-                child: InkWell(
-                  onTap: () {
-                    setState(() {
-                      childrenMeasureStatus == 0
-                          ? childrenMeasureStatus = 1
-                          : childrenMeasureStatus = 0;
-                    });
-                  },
-                  child: TextFormField(
-                    enabled: false,
-                    initialValue: HealingMatchConstants.registrationChildrenTxt,
-                    style: HealingMatchConstants.formHintTextStyle,
-                    decoration: new InputDecoration(
-                      focusedBorder: HealingMatchConstants.textFormInputBorder,
-                      disabledBorder: HealingMatchConstants.textFormInputBorder,
-                      enabledBorder: HealingMatchConstants.textFormInputBorder,
-                      suffixIcon: IconButton(
-                          padding: EdgeInsets.only(left: 8.0),
-                          icon: childrenMeasureStatus == 0
-                              ? Icon(
-                                  Icons.keyboard_arrow_down,
-                                  size: 30.0,
-                                  color: Colors
-                                      .black, //Color.fromRGBO(200, 200, 200, 1),
-                                )
-                              : Icon(
-                                  Icons.keyboard_arrow_up,
-                                  size: 30.0,
-                                  color: Colors
-                                      .black, //Color.fromRGBO(200, 200, 200, 1),
-                                ),
-                          onPressed: () {
-                            setState(() {
-                              childrenMeasureStatus == 0
-                                  ? childrenMeasureStatus = 1
-                                  : childrenMeasureStatus = 0;
-                            });
-                          }),
-                      filled: true,
-                      fillColor: ColorConstants.formFieldFillColor,
-                    ),
-                  ),
-                ),
-              ),
-              childrenMeasureStatus == 1
-                  ? Container(
-                      width: containerWidth,
-                      padding: EdgeInsets.all(8.0),
-                      child: ListView.builder(
-                          primary: false,
-                          shrinkWrap: true,
-                          itemCount: childrenMeasuresDropDownValues.length,
-                          itemBuilder: (BuildContext ctxt, int index) {
-                            return buildChildrenMeasureCheckBoxContent(
-                              childrenMeasuresDropDownValues[index],
-                              index,
-                            );
-                          }),
-                    )
-                  : Container(
-                      width: containerWidth,
-                      padding: EdgeInsets.only(top: 8.0),
-                      alignment: Alignment.topLeft,
-                      child: Wrap(
-                        direction: Axis.horizontal,
-                        alignment: WrapAlignment.start,
-                        spacing: 8.0,
-                        runSpacing: 8.0,
-                        children: childrenMeasuresDropDownValuesSelected
-                            .map((e) {
-                              return Container(
-                                padding: EdgeInsets.all(10.0),
-                                height: 40.0,
-                                //  width: 110.0,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    border: Border.all(
-                                      color: Colors.grey,
-                                    )),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Center(
-                                      child: Text(
-                                        "$e",
-                                        style: TextStyle(fontSize: 12.0),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            })
-                            .toList()
-                            .cast<Widget>(),
-                      ),
-                    ),
-              SizedBox(
-                height: sizedBoxFormHeight,
-              ),
-              Container(
-                height: containerHeight,
-                width: containerWidth,
-                child: DropDownFormField(
-                  hintText: '予約可能な利用者の性別',
-                  value: genderTreatment,
-                  onSaved: (value) {
-                    setState(() {
-                      genderTreatment = value;
-                    });
-                  },
-                  onChanged: (value) {
-                    setState(() {
-                      genderTreatment = value;
-                      FocusScope.of(context).requestFocus(new FocusNode());
-                    });
-                  },
-                  dataSource: genderTreatmentDropDownValues,
-                  isList: true,
-                  textField: 'display',
-                  valueField: 'value',
-                ),
-              ),
-              SizedBox(
-                height: sizedBoxFormHeight,
-              ),
-              Container(
+                Container(
                   height: containerHeight,
                   width: containerWidth,
-                  child: Theme(
-                    data:
-                        Theme.of(context).copyWith(splashColor: Colors.black12),
-                    child: TextFieldCustom(
-                      controller: providerNameController,
-                      style: HealingMatchConstants.formTextStyle,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(16.0),
-                        /*  labelText: HealingMatchConstants.registrationName,
-                          labelStyle: HealingMatchConstants.formLabelTextStyle, */
-                        filled: true,
-                        fillColor: ColorConstants.formFieldFillColor,
-                        focusedBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                        enabledBorder:
-                            HealingMatchConstants.textFormInputBorder,
+                  //margin: EdgeInsets.all(16.0),
+                  margin: EdgeInsets.only(left: 20.0, right: 20.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                          flex: 3,
+                          child: Theme(
+                            data: Theme.of(context)
+                                .copyWith(splashColor: Colors.black12),
+                            child: InkWell(
+                              onTap: () {
+                                _selectDate(context);
+                              },
+                              child: TextFieldCustom(
+                                enabled: false,
+                                controller: userDOBController,
+                                style: HealingMatchConstants.formTextStyle,
+                                decoration: InputDecoration(
+                                  /*  labelText:
+                                        HealingMatchConstants.registrationDob,
+                                    labelStyle:
+                                        HealingMatchConstants.formLabelTextStyle, */
+                                  filled: true,
+                                  fillColor: ColorConstants.formFieldFillColor,
+                                  focusedBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  disabledBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  enabledBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  suffixIcon: Image.asset(
+                                      "assets/images_gps/calendar.png"),
+                                ),
+                                labelText: Text.rich(
+                                  TextSpan(
+                                    text: HealingMatchConstants.registrationDob,
+                                    children: <InlineSpan>[
+                                      TextSpan(
+                                        text: '*',
+                                        style: HealingMatchConstants
+                                            .formHintTextStyleStar,
+                                      ),
+                                    ],
+                                    style: HealingMatchConstants
+                                        .formLabelTextStyle,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )),
+                      SizedBox(
+                        width: 10.0,
                       ),
-                      labelText: Text.rich(
+                      Expanded(
+                        child: Container(
+                          height: containerHeight,
+                          child: TextFormField(
+                            textAlign: TextAlign.center,
+                            enabled: false,
+                            controller: ageController,
+                            style: HealingMatchConstants.formTextStyle,
+                            decoration: InputDecoration(
+                              labelText: "年齢	",
+                              labelStyle:
+                                  HealingMatchConstants.formLabelTextStyle,
+                              filled: true,
+                              fillColor: ColorConstants.formFieldFillColor,
+                              focusedBorder:
+                                  HealingMatchConstants.textFormInputBorder,
+                              disabledBorder:
+                                  HealingMatchConstants.textFormInputBorder,
+                              enabledBorder:
+                                  HealingMatchConstants.textFormInputBorder,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: sizedBoxFormHeight,
+                ),
+                Container(
+                  height: containerHeight,
+                  width: containerWidth,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Container(
+                          height: containerHeight,
+                          child: DropDownFormField(
+                            requiredField: true,
+                            hintText: '性別',
+                            value: gender,
+                            onSaved: (value) {
+                              setState(() {
+                                gender = value;
+                              });
+                            },
+                            onChanged: (value) {
+                              setState(() {
+                                gender = value;
+                                FocusScope.of(context)
+                                    .requestFocus(new FocusNode());
+                              });
+                            },
+                            dataSource: genderDropDownValues,
+                            isList: true,
+                            textField: 'display',
+                            valueField: 'value',
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: sizedBoxFormHeight,
+                ),
+                Container(
+                    height: containerHeight,
+                    width: containerWidth,
+                    child: Theme(
+                      data: Theme.of(context)
+                          .copyWith(splashColor: Colors.black12),
+                      child: TextFieldCustom(
+                        focusNode: _phoneNumberFocus,
+                        controller: phoneNumberController,
+                        keyboardType: TextInputType.phone,
+                        style: HealingMatchConstants.formTextStyle,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(16.0),
+                          /*  labelText: HealingMatchConstants.registrationPhnNum,
+                            labelStyle: HealingMatchConstants.formLabelTextStyle, */
+                          filled: true,
+                          fillColor: ColorConstants.formFieldFillColor,
+                          focusedBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          enabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                        ),
+                        labelText: Text.rich(
+                          TextSpan(
+                            text: HealingMatchConstants.registrationPhnNum,
+                            children: <InlineSpan>[
+                              TextSpan(
+                                text: '*',
+                                style:
+                                    HealingMatchConstants.formHintTextStyleStar,
+                              ),
+                            ],
+                            style: HealingMatchConstants.formLabelTextStyle,
+                          ),
+                        ),
+                      ),
+                    )),
+                SizedBox(
+                  height: sizedBoxFormHeight,
+                ),
+                Container(
+                    height: containerHeight,
+                    width: containerWidth,
+                    child: Theme(
+                      data: Theme.of(context)
+                          .copyWith(splashColor: Colors.black12),
+                      child: TextFieldCustom(
+                        controller: mailAddressController,
+                        style: HealingMatchConstants.formTextStyle,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(16.0),
+                          /*  labelText:
+                                HealingMatchConstants.registrationMailAdress,
+                            labelStyle: HealingMatchConstants.formLabelTextStyle, */
+                          filled: true,
+                          fillColor: ColorConstants.formFieldFillColor,
+                          focusedBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          enabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                        ),
+                        labelText: Text.rich(
+                          TextSpan(
+                            text: HealingMatchConstants.registrationMailAdress,
+                            children: <InlineSpan>[
+                              TextSpan(
+                                text: '*',
+                                style:
+                                    HealingMatchConstants.formHintTextStyleStar,
+                              ),
+                            ],
+                            style: HealingMatchConstants.formLabelTextStyle,
+                          ),
+                        ),
+                      ),
+                    )),
+                SizedBox(
+                  height: sizedBoxFormHeight,
+                ),
+                Container(
+                    height: containerHeight,
+                    width: containerWidth,
+                    child: Theme(
+                      data: Theme.of(context)
+                          .copyWith(splashColor: Colors.black12),
+                      child: TextFieldCustom(
+                        controller: passwordController,
+                        obscureText: passwordVisibility,
+                        style: HealingMatchConstants.formTextStyle,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(16.0),
+                          /* labelText: HealingMatchConstants.registrationPassword,
+                            labelStyle: HealingMatchConstants.formLabelTextStyle, */
+                          filled: true,
+                          fillColor: ColorConstants.formFieldFillColor,
+                          focusedBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          enabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          suffixIcon: IconButton(
+                              icon: passwordVisibility
+                                  ? Icon(Icons.visibility_off)
+                                  : Icon(Icons.visibility),
+                              onPressed: () {
+                                setState(() {
+                                  passwordVisibility = !passwordVisibility;
+                                });
+                              }),
+                        ),
+                        labelText: Text.rich(
+                          TextSpan(
+                            text: HealingMatchConstants.registrationPassword,
+                            children: <InlineSpan>[
+                              TextSpan(
+                                text: '*',
+                                style:
+                                    HealingMatchConstants.formHintTextStyleStar,
+                              ),
+                            ],
+                            style: HealingMatchConstants.formLabelTextStyle,
+                          ),
+                        ),
+                      ),
+                    )),
+                SizedBox(
+                  height: sizedBoxFormHeight - 10.0,
+                ),
+                Container(
+                  height: containerHeight,
+                  width: containerWidth,
+                  child: Row(
+                    children: [
+                      Text("*", style: TextStyle(color: Colors.red)),
+                      Text(
+                        HealingMatchConstants
+                            .registrationPasswordInstructionText,
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: ColorConstants.formHintTextColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                    height: containerHeight,
+                    width: containerWidth,
+                    child: Theme(
+                      data: Theme.of(context)
+                          .copyWith(splashColor: Colors.black12),
+                      child: TextFieldCustom(
+                        controller: confirmPasswordController,
+                        obscureText: passwordConfirmVisibility,
+                        style: HealingMatchConstants.formTextStyle,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(16.0),
+                          /* labelText:
+                                HealingMatchConstants.registrationConfirmPassword,
+                            labelStyle: HealingMatchConstants.formLabelTextStyle, */
+                          filled: true,
+                          fillColor: ColorConstants.formFieldFillColor,
+                          focusedBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          enabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          suffixIcon: IconButton(
+                              icon: passwordConfirmVisibility
+                                  ? Icon(Icons.visibility_off)
+                                  : Icon(Icons.visibility),
+                              onPressed: () {
+                                setState(() {
+                                  passwordConfirmVisibility =
+                                      !passwordConfirmVisibility;
+                                });
+                              }),
+                        ),
+                        labelText: Text.rich(
+                          TextSpan(
+                            text: HealingMatchConstants
+                                .registrationConfirmPassword,
+                            children: <InlineSpan>[
+                              TextSpan(
+                                text: '*',
+                                style:
+                                    HealingMatchConstants.formHintTextStyleStar,
+                              ),
+                            ],
+                            style: HealingMatchConstants.formLabelTextStyle,
+                          ),
+                        ),
+                      ),
+                    )),
+                SizedBox(
+                  height: sizedBoxFormHeight,
+                ),
+                Container(
+                  height: containerHeight,
+                  width: containerWidth,
+                  child: InkWell(
+                    onTap: () {
+                      _showPicker(context);
+                    },
+                    child: TextFieldCustom(
+                      enabled: false,
+                      hintText: Text.rich(
                         TextSpan(
-                          text: HealingMatchConstants.registrationName,
+                          text: "プロフィール写真の登録",
                           children: <InlineSpan>[
                             TextSpan(
                               text: '*',
@@ -877,44 +770,233 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                   HealingMatchConstants.formHintTextStyleStar,
                             ),
                           ],
-                          style: HealingMatchConstants.formLabelTextStyle,
+                          style: HealingMatchConstants.formHintTextStyle,
+                        ),
+                      ),
+                      style: HealingMatchConstants.formHintTextStyle,
+                      decoration: new InputDecoration(
+                        focusedBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        disabledBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        enabledBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        suffixIcon: IconButton(
+                            padding: EdgeInsets.only(left: 8.0),
+                            icon: Icon(
+                              Icons.keyboard_arrow_down,
+                              size: 30.0,
+                              color: Colors
+                                  .black, //Color.fromRGBO(200, 200, 200, 1),
+                            ),
+                            onPressed: () {
+                              _showPicker(context);
+                            }),
+                        filled: true,
+                        fillColor: ColorConstants.formFieldFillColor,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: sizedBoxFormHeight),
+                Container(
+                  height: containerHeight,
+                  width: containerWidth,
+                  child: Text(
+                    HealingMatchConstants.registrationFacePhtoText,
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: ColorConstants.formHintTextColor,
+                    ),
+                  ),
+                ),
+                Column(
+                  children: [
+                    SizedBox(
+                      height: sizedBoxFormHeight,
+                    ),
+                    Container(
+                      width: containerWidth,
+                      child: Text(
+                        HealingMatchConstants.registrationPlaceAddress,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                          color: ColorConstants.formLabelTextColor,
                         ),
                       ),
                     ),
-                  )),
-              bussinessForm == "施術店舗あり 施術従業員あり" ||
-                      bussinessForm == "施術店舗あり 施術従業員なし（個人経営）"
-                  ? Column(children: [
-                      SizedBox(
-                        height: sizedBoxFormHeight,
-                      ),
-                      Container(
-                        width: containerWidth,
-                        child: Text(
-                          HealingMatchConstants.registrationStoreTxt,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontSize: 11,
-                            color: ColorConstants.formHintTextColor,
-                          ),
+                    SizedBox(
+                      height: sizedBoxFormHeight,
+                    ),
+                    Container(
+                      width: containerWidth,
+                      child: Text(
+                        HealingMatchConstants.registrationIndividualText,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: ColorConstants.formHintTextColor,
                         ),
                       ),
-                      SizedBox(
-                        height: sizedBoxFormHeight,
+                    ),
+                    SizedBox(
+                      height: sizedBoxFormHeight,
+                    ),
+                    Form(
+                      key: statekey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Center(
+                            child: Container(
+                              margin: EdgeInsets.all(0.0),
+                              width: containerWidth,
+                              child: DropDownFormField(
+                                titleText: null,
+                                hintText: readonly ? myState : '都道府県',
+                                onSaved: (value) {
+                                  setState(() {
+                                    myState = value;
+                                  });
+                                },
+                                requiredField: true,
+                                value: myState,
+                                onChanged: (value) {
+                                  setState(() {
+                                    myState = value;
+
+                                    _prefid =
+                                        stateDropDownValues.indexOf(value) + 1;
+                                    print('prefID : ${_prefid.toString()}');
+                                    cityDropDownValues.clear();
+                                    myCity = '';
+                                    _getCityDropDown(_prefid);
+                                    FocusScope.of(context)
+                                        .requestFocus(new FocusNode());
+                                  });
+                                },
+                                dataSource: stateDropDownValues,
+                                isList: true,
+                                textField: 'display',
+                                valueField: 'value',
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      Container(
-                          height: containerHeight,
-                          width: containerWidth,
-                          child: Theme(
+                    ),
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: sizedBoxFormHeight,
+                        ),
+                        Container(
+                            width: containerWidth,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    margin: EdgeInsets.all(0.0),
+                                    child: DropDownFormField(
+                                      titleText: null,
+                                      requiredField: true,
+                                      hintText: readonly ? myCity : '市区町村',
+                                      onSaved: (value) {
+                                        setState(() {
+                                          myCity = value;
+                                        });
+                                      },
+                                      value: myCity,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          myCity = value;
+                                          FocusScope.of(context)
+                                              .requestFocus(new FocusNode());
+                                        });
+                                      },
+                                      dataSource: cityDropDownValues,
+                                      isList: true,
+                                      textField: 'display',
+                                      valueField: 'value',
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10.0,
+                                ),
+                                Expanded(
+                                  child: Container(
+                                      height: containerHeight,
+                                      width: containerWidth,
+                                      child: Theme(
+                                        data: Theme.of(context).copyWith(
+                                            splashColor: Colors.black12),
+                                        child: TextFieldCustom(
+                                          controller: manualAddressController,
+                                          style: HealingMatchConstants
+                                              .formTextStyle,
+                                          decoration: InputDecoration(
+                                            contentPadding:
+                                                EdgeInsets.all(16.0),
+                                            /*  labelText: "丁目, 番地",
+                              labelStyle:
+                                  HealingMatchConstants.formLabelTextStyle, */
+                                            filled: true,
+                                            fillColor: ColorConstants
+                                                .formFieldFillColor,
+                                            disabledBorder:
+                                                HealingMatchConstants
+                                                    .textFormInputBorder,
+                                            focusedBorder: HealingMatchConstants
+                                                .textFormInputBorder,
+                                            enabledBorder: HealingMatchConstants
+                                                .textFormInputBorder,
+                                          ),
+                                          labelText: Text.rich(
+                                            TextSpan(
+                                              text: "丁目, 番地",
+                                              children: <InlineSpan>[
+                                                TextSpan(
+                                                  text: '*',
+                                                  style: HealingMatchConstants
+                                                      .formHintTextStyleStar,
+                                                ),
+                                              ],
+                                              style: HealingMatchConstants
+                                                  .formLabelTextStyle,
+                                            ),
+                                          ),
+                                        ),
+                                      )),
+                                )
+                              ],
+                            )),
+                      ],
+                    ),
+                    SizedBox(
+                      height: sizedBoxFormHeight,
+                    ),
+                    Container(
+                      height: containerHeight,
+                      width: containerWidth,
+                      //margin: EdgeInsets.all(16.0),
+                      //margin: EdgeInsets.only(left: 30.0, right: 30.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                              child: Theme(
                             data: Theme.of(context)
                                 .copyWith(splashColor: Colors.black12),
                             child: TextFieldCustom(
-                              controller: storeNameController,
+                              controller: buildingNameController,
                               style: HealingMatchConstants.formTextStyle,
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(16.0),
                                 /*  labelText: HealingMatchConstants
-                                      .registrationStoreName,
+                                      .registrationBuildingName,
                                   labelStyle:
                                       HealingMatchConstants.formLabelTextStyle, */
                                 filled: true,
@@ -927,586 +1009,219 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                               labelText: Text.rich(
                                 TextSpan(
                                   text: HealingMatchConstants
-                                      .registrationStoreName,
-                                  children: <InlineSpan>[
+                                      .registrationBuildingName,
+                                  /*  children: <InlineSpan>[
                                     TextSpan(
                                       text: '*',
                                       style: HealingMatchConstants
                                           .formHintTextStyleStar,
                                     ),
-                                  ],
+                                  ], */
                                   style:
                                       HealingMatchConstants.formLabelTextStyle,
                                 ),
                               ),
                             ),
                           )),
-                    ])
-                  : Container(),
-              SizedBox(
-                height: sizedBoxFormHeight,
-              ),
-              Container(
-                height: containerHeight,
-                width: containerWidth,
-                //margin: EdgeInsets.all(16.0),
-                margin: EdgeInsets.only(left: 20.0, right: 20.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                        flex: 3,
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          Expanded(
+                            child: Container(
+                                child: Theme(
+                              data: Theme.of(context)
+                                  .copyWith(splashColor: Colors.black12),
+                              child: TextFieldCustom(
+                                controller: roomNumberController,
+                                style: HealingMatchConstants.formTextStyle,
+                                keyboardType: TextInputType.text,
+                                maxLengthEnforced: true,
+                                maxLength: 4,
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.all(16.0),
+                                  counterText: "",
+                                  /*  labelText:
+                                      HealingMatchConstants.registrationRoomNo,
+                                  labelStyle:
+                                      HealingMatchConstants.formLabelTextStyle, */
+                                  filled: true,
+                                  fillColor: ColorConstants.formFieldFillColor,
+                                  focusedBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  enabledBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                ),
+                                labelText: Text.rich(
+                                  TextSpan(
+                                    text: HealingMatchConstants
+                                        .registrationRoomNo,
+                                    /*  children: <InlineSpan>[
+                                      TextSpan(
+                                        text: '*',
+                                        style: HealingMatchConstants
+                                            .formHintTextStyleStar,
+                                      ),
+                                    ], */
+                                    style: HealingMatchConstants
+                                        .formLabelTextStyle,
+                                  ),
+                                ),
+                              ),
+                            )),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: sizedBoxFormHeight),
+                Container(
+                  width: containerWidth,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("*", style: TextStyle(color: Colors.red)),
+                      Expanded(
+                        child: Text(
+                          HealingMatchConstants.registrationPointTxt,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: ColorConstants.formHintTextColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: sizedBoxFormHeight,
+                ),
+                Container(
+                  height: containerHeight,
+                  width: containerWidth,
+                  /*  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                   // color: Colors.black12,
+                                    border: Border.all(color: Colors.transparent)), */
+                  child: DropDownFormField(
+                    requiredField: true,
+                    hintText: '事業形態',
+                    value: bussinessForm,
+                    onSaved: (value) {
+                      setState(() {
+                        bussinessForm = value;
+                      });
+                    },
+                    onChanged: (value) {
+                      setState(() {
+                        if (value == "施術店舗なし 施術従業員あり（出張のみ)" ||
+                            value == "施術店舗なし 施術従業員なし（個人)") {
+                          serviceBusinessTrips = "はい";
+                          businessTripEnabled = false;
+                        } else {
+                          serviceBusinessTrips = "";
+                          businessTripEnabled = true;
+                        }
+                        /*  if (bussinessForm != "施術店舗なし 施術従業員あり（出張のみ)") {
+                          serviceBusinessTrips = "";
+                          businessTripEnabled = true;
+                        } */
+                        bussinessForm = value;
+
+                        FocusScope.of(context).requestFocus(new FocusNode());
+                      });
+                    },
+                    dataSource: businessFormDropDownValues,
+                    isList: true,
+                    textField: 'display',
+                    valueField: 'value',
+                  ),
+                ),
+                bussinessForm == "施術店舗あり 施術従業員あり" ||
+                        bussinessForm == "施術店舗あり 施術従業員なし（個人経営）"
+                    ? Column(children: [
+                        SizedBox(
+                          height: sizedBoxFormHeight,
+                        ),
+                        Container(
+                            height: containerHeight,
+                            width: containerWidth,
+                            child: Theme(
+                              data: Theme.of(context)
+                                  .copyWith(splashColor: Colors.black12),
+                              child: TextFieldCustom(
+                                controller: storeNameController,
+                                style: HealingMatchConstants.formTextStyle,
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.all(16.0),
+                                  /*  labelText: HealingMatchConstants
+                                        .registrationStoreName,
+                                    labelStyle:
+                                        HealingMatchConstants.formLabelTextStyle, */
+                                  filled: true,
+                                  fillColor: ColorConstants.formFieldFillColor,
+                                  focusedBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  enabledBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                ),
+                                labelText: Text.rich(
+                                  TextSpan(
+                                    text: HealingMatchConstants
+                                        .registrationStoreName,
+                                    children: <InlineSpan>[
+                                      TextSpan(
+                                        text: '*',
+                                        style: HealingMatchConstants
+                                            .formHintTextStyleStar,
+                                      ),
+                                    ],
+                                    style: HealingMatchConstants
+                                        .formLabelTextStyle,
+                                  ),
+                                ),
+                              ),
+                            )),
+                      ])
+                    : Container(),
+                /*  SizedBox(
+                  height: sizedBoxFormHeight,
+                ),
+                Container(
+                  width: containerWidth,
+                  child: Text(
+                    HealingMatchConstants.registrationStorePhnText,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: ColorConstants.formHintTextColor,
+                    ),
+                  ),
+                ),*/
+                SizedBox(
+                  height: bussinessForm == "施術店舗あり 施術従業員あり" ||
+                          bussinessForm == "施術店舗あり 施術従業員なし（個人経営）"
+                      ? sizedBoxFormHeight
+                      : 0,
+                ),
+                bussinessForm == "施術店舗あり 施術従業員あり" ||
+                        bussinessForm == "施術店舗あり 施術従業員なし（個人経営）"
+                    ? Container(
+                        height: containerHeight,
+                        width: containerWidth,
                         child: Theme(
                           data: Theme.of(context)
                               .copyWith(splashColor: Colors.black12),
-                          child: InkWell(
-                            onTap: () {
-                              _selectDate(context);
-                            },
-                            child: TextFieldCustom(
-                              enabled: false,
-                              controller: userDOBController,
-                              style: HealingMatchConstants.formTextStyle,
-                              decoration: InputDecoration(
-                                /*  labelText:
-                                      HealingMatchConstants.registrationDob,
-                                  labelStyle:
-                                      HealingMatchConstants.formLabelTextStyle, */
-                                filled: true,
-                                fillColor: ColorConstants.formFieldFillColor,
-                                focusedBorder:
-                                    HealingMatchConstants.textFormInputBorder,
-                                disabledBorder:
-                                    HealingMatchConstants.textFormInputBorder,
-                                enabledBorder:
-                                    HealingMatchConstants.textFormInputBorder,
-                                suffixIcon: Image.asset(
-                                    "assets/images_gps/calendar.png"),
-                              ),
-                              labelText: Text.rich(
-                                TextSpan(
-                                  text: HealingMatchConstants.registrationDob,
-                                  children: <InlineSpan>[
-                                    TextSpan(
-                                      text: '*',
-                                      style: HealingMatchConstants
-                                          .formHintTextStyleStar,
-                                    ),
-                                  ],
-                                  style:
-                                      HealingMatchConstants.formLabelTextStyle,
-                                ),
-                              ),
-                            ),
-                          ),
-                        )),
-                    SizedBox(
-                      width: 10.0,
-                    ),
-                    Expanded(
-                      child: Container(
-                        height: containerHeight,
-                        child: TextFormField(
-                          textAlign: TextAlign.center,
-                          enabled: false,
-                          controller: ageController,
-                          style: HealingMatchConstants.formTextStyle,
-                          decoration: InputDecoration(
-                            labelText: "年齢	",
-                            labelStyle:
-                                HealingMatchConstants.formLabelTextStyle,
-                            filled: true,
-                            fillColor: ColorConstants.formFieldFillColor,
-                            focusedBorder:
-                                HealingMatchConstants.textFormInputBorder,
-                            disabledBorder:
-                                HealingMatchConstants.textFormInputBorder,
-                            enabledBorder:
-                                HealingMatchConstants.textFormInputBorder,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: sizedBoxFormHeight,
-              ),
-              Container(
-                height: containerHeight,
-                width: containerWidth,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              HealingMatchConstants.registrationGender,
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text("*", style: TextStyle(color: Colors.red)),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Container(
-                        height: containerHeight,
-                        child: DropDownFormField(
-                          hintText: '',
-                          value: gender,
-                          onSaved: (value) {
-                            setState(() {
-                              gender = value;
-                            });
-                          },
-                          onChanged: (value) {
-                            setState(() {
-                              gender = value;
-                              FocusScope.of(context)
-                                  .requestFocus(new FocusNode());
-                            });
-                          },
-                          dataSource: genderDropDownValues,
-                          isList: true,
-                          textField: 'display',
-                          valueField: 'value',
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: sizedBoxFormHeight,
-              ),
-              Container(
-                  height: containerHeight,
-                  width: containerWidth,
-                  child: Theme(
-                    data:
-                        Theme.of(context).copyWith(splashColor: Colors.black12),
-                    child: TextFieldCustom(
-                      controller: phoneNumberController,
-                      keyboardType: TextInputType.phone,
-                      style: HealingMatchConstants.formTextStyle,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(16.0),
-                        /*  labelText: HealingMatchConstants.registrationPhnNum,
-                          labelStyle: HealingMatchConstants.formLabelTextStyle, */
-                        filled: true,
-                        fillColor: ColorConstants.formFieldFillColor,
-                        focusedBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                        enabledBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                      ),
-                      labelText: Text.rich(
-                        TextSpan(
-                          text: HealingMatchConstants.registrationPhnNum,
-                          children: <InlineSpan>[
-                            TextSpan(
-                              text: '*',
-                              style:
-                                  HealingMatchConstants.formHintTextStyleStar,
-                            ),
-                          ],
-                          style: HealingMatchConstants.formLabelTextStyle,
-                        ),
-                      ),
-                    ),
-                  )),
-              SizedBox(
-                height: sizedBoxFormHeight,
-              ),
-              Container(
-                width: containerWidth,
-                child: Text(
-                  HealingMatchConstants.registrationStorePhnText,
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: ColorConstants.formHintTextColor,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: bussinessForm == "施術店舗あり 施術従業員あり" ||
-                        bussinessForm == "施術店舗あり 施術従業員なし（個人経営）"
-                    ? sizedBoxFormHeight
-                    : 0,
-              ),
-              bussinessForm == "施術店舗あり 施術従業員あり" ||
-                      bussinessForm == "施術店舗あり 施術従業員なし（個人経営）"
-                  ? Container(
-                      height: containerHeight,
-                      width: containerWidth,
-                      child: Theme(
-                        data: Theme.of(context)
-                            .copyWith(splashColor: Colors.black12),
-                        child: TextFieldCustom(
-                          controller: storePhoneNumberController,
-                          style: HealingMatchConstants.formTextStyle,
-                          keyboardType: TextInputType.phone,
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.all(16.0),
-                            /*  labelText:
-                                  HealingMatchConstants.registrationStorePhnNum,
-                              labelStyle:
-                                  HealingMatchConstants.formLabelTextStyle, */
-                            filled: true,
-                            fillColor: ColorConstants.formFieldFillColor,
-                            focusedBorder:
-                                HealingMatchConstants.textFormInputBorder,
-                            enabledBorder:
-                                HealingMatchConstants.textFormInputBorder,
-                          ),
-                          labelText: Text.rich(
-                            TextSpan(
-                              text:
-                                  HealingMatchConstants.registrationStorePhnNum,
-                              children: <InlineSpan>[
-                                TextSpan(
-                                  text: '*',
-                                  style: HealingMatchConstants
-                                      .formHintTextStyleStar,
-                                ),
-                              ],
-                              style: HealingMatchConstants.formLabelTextStyle,
-                            ),
-                          ),
-                        ),
-                      ))
-                  : Container(),
-              SizedBox(
-                height: sizedBoxFormHeight,
-              ),
-              Container(
-                  height: containerHeight,
-                  width: containerWidth,
-                  child: Theme(
-                    data:
-                        Theme.of(context).copyWith(splashColor: Colors.black12),
-                    child: TextFieldCustom(
-                      controller: mailAddressController,
-                      style: HealingMatchConstants.formTextStyle,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(16.0),
-                        /*  labelText:
-                              HealingMatchConstants.registrationMailAdress,
-                          labelStyle: HealingMatchConstants.formLabelTextStyle, */
-                        filled: true,
-                        fillColor: ColorConstants.formFieldFillColor,
-                        focusedBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                        enabledBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                      ),
-                      labelText: Text.rich(
-                        TextSpan(
-                          text: HealingMatchConstants.registrationMailAdress,
-                          children: <InlineSpan>[
-                            TextSpan(
-                              text: '*',
-                              style:
-                                  HealingMatchConstants.formHintTextStyleStar,
-                            ),
-                          ],
-                          style: HealingMatchConstants.formLabelTextStyle,
-                        ),
-                      ),
-                    ),
-                  )),
-              SizedBox(
-                height: sizedBoxFormHeight,
-              ),
-              Container(
-                  height: containerHeight,
-                  width: containerWidth,
-                  child: Theme(
-                    data:
-                        Theme.of(context).copyWith(splashColor: Colors.black12),
-                    child: TextFieldCustom(
-                      controller: passwordController,
-                      obscureText: passwordVisibility,
-                      style: HealingMatchConstants.formTextStyle,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(16.0),
-                        /* labelText: HealingMatchConstants.registrationPassword,
-                          labelStyle: HealingMatchConstants.formLabelTextStyle, */
-                        filled: true,
-                        fillColor: ColorConstants.formFieldFillColor,
-                        focusedBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                        enabledBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                        suffixIcon: IconButton(
-                            icon: passwordVisibility
-                                ? Icon(Icons.visibility_off)
-                                : Icon(Icons.visibility),
-                            onPressed: () {
-                              setState(() {
-                                passwordVisibility = !passwordVisibility;
-                              });
-                            }),
-                      ),
-                      labelText: Text.rich(
-                        TextSpan(
-                          text: HealingMatchConstants.registrationPassword,
-                          children: <InlineSpan>[
-                            TextSpan(
-                              text: '*',
-                              style:
-                                  HealingMatchConstants.formHintTextStyleStar,
-                            ),
-                          ],
-                          style: HealingMatchConstants.formLabelTextStyle,
-                        ),
-                      ),
-                    ),
-                  )),
-              SizedBox(
-                height: sizedBoxFormHeight - 10.0,
-              ),
-              Container(
-                height: containerHeight,
-                width: containerWidth,
-                child: Row(
-                  children: [
-                    Text("*", style: TextStyle(color: Colors.red)),
-                    Text(
-                      HealingMatchConstants.registrationPasswordInstructionText,
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: ColorConstants.formHintTextColor,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                  height: containerHeight,
-                  width: containerWidth,
-                  child: Theme(
-                    data:
-                        Theme.of(context).copyWith(splashColor: Colors.black12),
-                    child: TextFieldCustom(
-                      controller: confirmPasswordController,
-                      obscureText: passwordConfirmVisibility,
-                      style: HealingMatchConstants.formTextStyle,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(16.0),
-                        /* labelText:
-                              HealingMatchConstants.registrationConfirmPassword,
-                          labelStyle: HealingMatchConstants.formLabelTextStyle, */
-                        filled: true,
-                        fillColor: ColorConstants.formFieldFillColor,
-                        focusedBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                        enabledBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                        suffixIcon: IconButton(
-                            icon: passwordConfirmVisibility
-                                ? Icon(Icons.visibility_off)
-                                : Icon(Icons.visibility),
-                            onPressed: () {
-                              setState(() {
-                                passwordConfirmVisibility =
-                                    !passwordConfirmVisibility;
-                              });
-                            }),
-                      ),
-                      labelText: Text.rich(
-                        TextSpan(
-                          text:
-                              HealingMatchConstants.registrationConfirmPassword,
-                          children: <InlineSpan>[
-                            TextSpan(
-                              text: '*',
-                              style:
-                                  HealingMatchConstants.formHintTextStyleStar,
-                            ),
-                          ],
-                          style: HealingMatchConstants.formLabelTextStyle,
-                        ),
-                      ),
-                    ),
-                  )),
-              Column(
-                children: [
-                  SizedBox(
-                    height: sizedBoxFormHeight,
-                  ),
-                  Container(
-                    width: containerWidth,
-                    child: Text(
-                      HealingMatchConstants.registrationIndividualText,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: ColorConstants.formHintTextColor,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: sizedBoxFormHeight,
-                  ),
-                  Container(
-                      height: 60.0, //containerHeight,
-                      width: containerWidth,
-                      child: Theme(
-                        data: Theme.of(context)
-                            .copyWith(splashColor: Colors.black12),
-                        child: TextFieldCustom(
-                          controller: manualAddressController,
-                          style: HealingMatchConstants.formTextStyle,
-                          decoration: InputDecoration(
-                            /*  labelText: "丁目, 番地",
-                            labelStyle:
-                                HealingMatchConstants.formLabelTextStyle, */
-                            filled: true,
-                            fillColor: ColorConstants.formFieldFillColor,
-                            disabledBorder:
-                                HealingMatchConstants.textFormInputBorder,
-                            focusedBorder:
-                                HealingMatchConstants.textFormInputBorder,
-                            enabledBorder:
-                                HealingMatchConstants.textFormInputBorder,
-                          ),
-                          labelText: Text.rich(
-                            TextSpan(
-                              text: "丁目, 番地",
-                              children: <InlineSpan>[
-                                TextSpan(
-                                  text: '*',
-                                  style: HealingMatchConstants
-                                      .formHintTextStyleStar,
-                                ),
-                              ],
-                              style: HealingMatchConstants.formLabelTextStyle,
-                            ),
-                          ),
-                        ),
-                      )),
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: sizedBoxFormHeight,
-                      ),
-                      Container(
-                          width: containerWidth,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Form(
-                                  key: statekey,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.all(0.0),
-                                        //    width: MediaQuery.of(context).size.width * 0.33,
-
-                                        child: DropDownFormField(
-                                          titleText: null,
-                                          hintText:
-                                              readonly ? myState : '都、県選択',
-                                          onSaved: (value) {
-                                            setState(() {
-                                              myState = value;
-                                            });
-                                          },
-                                          value: myState,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              myState = value;
-
-                                              _prefid = stateDropDownValues
-                                                      .indexOf(value) +
-                                                  1;
-                                              print(
-                                                  'prefID : ${_prefid.toString()}');
-                                              cityDropDownValues.clear();
-                                              myCity = '';
-                                              _getCityDropDown(_prefid);
-                                              FocusScope.of(context)
-                                                  .requestFocus(
-                                                      new FocusNode());
-                                            });
-                                          },
-                                          dataSource: stateDropDownValues,
-                                          isList: true,
-                                          textField: 'display',
-                                          valueField: 'value',
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 10.0,
-                              ),
-                              Expanded(
-                                child: Container(
-                                  margin: EdgeInsets.all(0.0),
-                                  child: DropDownFormField(
-                                    titleText: null,
-                                    hintText: readonly ? myCity : '市',
-                                    onSaved: (value) {
-                                      setState(() {
-                                        myCity = value;
-                                      });
-                                    },
-                                    value: myCity,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        myCity = value;
-                                        FocusScope.of(context)
-                                            .requestFocus(new FocusNode());
-                                      });
-                                    },
-                                    dataSource: cityDropDownValues,
-                                    isList: true,
-                                    textField: 'display',
-                                    valueField: 'value',
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )),
-                    ],
-                  ),
-                  SizedBox(
-                    height: sizedBoxFormHeight,
-                  ),
-                  Container(
-                    height: containerHeight,
-                    width: containerWidth,
-                    //margin: EdgeInsets.all(16.0),
-                    //margin: EdgeInsets.only(left: 30.0, right: 30.0),
-                    child: Row(
-                      children: [
-                        Expanded(
-                            child: Theme(
-                          data: Theme.of(context)
-                              .copyWith(splashColor: Colors.black12),
                           child: TextFieldCustom(
-                            controller: buildingNameController,
+                            focusNode: _storePhoneNumberFocus,
+                            controller: storePhoneNumberController,
                             style: HealingMatchConstants.formTextStyle,
+                            keyboardType: TextInputType.phone,
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.all(16.0),
-                              /*  labelText: HealingMatchConstants
-                                    .registrationBuildingName,
+                              /*  labelText:
+                                    HealingMatchConstants.registrationStorePhnNum,
                                 labelStyle:
                                     HealingMatchConstants.formLabelTextStyle, */
                               filled: true,
@@ -1519,7 +1234,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                             labelText: Text.rich(
                               TextSpan(
                                 text: HealingMatchConstants
-                                    .registrationBuildingName,
+                                    .registrationStorePhnNum,
                                 children: <InlineSpan>[
                                   TextSpan(
                                     text: '*',
@@ -1531,133 +1246,466 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                               ),
                             ),
                           ),
-                        )),
-                        SizedBox(
-                          width: 10.0,
+                        ))
+                    : Container(),
+                SizedBox(
+                  height: bussinessForm == "施術店舗あり 施術従業員あり" ||
+                          bussinessForm == "施術店舗なし 施術従業員あり（出張のみ)"
+                      ? sizedBoxFormHeight
+                      : 0.0,
+                ),
+                bussinessForm == "施術店舗あり 施術従業員あり" ||
+                        bussinessForm == "施術店舗なし 施術従業員あり（出張のみ)"
+                    ? Container(
+                        height: containerHeight,
+                        width: containerWidth,
+                        /*  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                   // color: Colors.black12,
+                                    border: Border.all(color: Colors.black12)), */
+                        child: DropDownFormField(
+                          hintText: '従業員数',
+                          value: numberOfEmployees,
+                          onSaved: (value) {
+                            setState(() {
+                              numberOfEmployees = value;
+                            });
+                          },
+                          onChanged: (value) {
+                            setState(() {
+                              numberOfEmployees = value;
+                              FocusScope.of(context)
+                                  .requestFocus(new FocusNode());
+                            });
+                          },
+                          dataSource: numberOfEmployeesDropDownValues,
+                          isList: true,
+                          textField: 'display',
+                          valueField: 'value',
                         ),
-                        Expanded(
-                          child: Container(
-                              child: Theme(
-                            data: Theme.of(context)
-                                .copyWith(splashColor: Colors.black12),
-                            child: TextFieldCustom(
-                              controller: roomNumberController,
-                              style: HealingMatchConstants.formTextStyle,
-                              keyboardType: TextInputType.text,
-                              maxLengthEnforced: true,
-                              maxLength: 4,
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.all(16.0),
-                                counterText: "",
-                                /*  labelText:
-                                    HealingMatchConstants.registrationRoomNo,
-                                labelStyle:
-                                    HealingMatchConstants.formLabelTextStyle, */
-                                filled: true,
-                                fillColor: ColorConstants.formFieldFillColor,
-                                focusedBorder:
-                                    HealingMatchConstants.textFormInputBorder,
-                                enabledBorder:
-                                    HealingMatchConstants.textFormInputBorder,
-                              ),
-                              labelText: Text.rich(
-                                TextSpan(
-                                  text:
-                                      HealingMatchConstants.registrationRoomNo,
-                                  children: <InlineSpan>[
-                                    TextSpan(
-                                      text: '*',
-                                      style: HealingMatchConstants
-                                          .formHintTextStyleStar,
-                                    ),
-                                  ],
-                                  style:
-                                      HealingMatchConstants.formLabelTextStyle,
-                                ),
-                              ),
+                      )
+                    : Container(),
+                SizedBox(
+                  height: sizedBoxFormHeight,
+                ),
+                Container(
+                  height: containerHeight,
+                  width: containerWidth,
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        storeTypeDisplayStatus == 0
+                            ? storeTypeDisplayStatus = 1
+                            : storeTypeDisplayStatus = 0;
+                      });
+                    },
+                    child: TextFieldCustom(
+                      enabled: false,
+                      hintText: Text.rich(
+                        TextSpan(
+                          text: HealingMatchConstants.registrationStoretype,
+                          children: <InlineSpan>[
+                            TextSpan(
+                              text: '*',
+                              style:
+                                  HealingMatchConstants.formHintTextStyleStar,
                             ),
-                          )),
+                          ],
+                          style: HealingMatchConstants.formHintTextStyle,
                         ),
-                      ],
+                      ),
+                      // initialValue: HealingMatchConstants.registrationStoretype,
+                      style: HealingMatchConstants.formHintTextStyle,
+                      decoration: new InputDecoration(
+                        focusedBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        disabledBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        enabledBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        suffixIcon: IconButton(
+                            padding: EdgeInsets.only(left: 8.0),
+                            icon: storeTypeDisplayStatus == 0
+                                ? Icon(
+                                    Icons.keyboard_arrow_down,
+                                    size: 30.0,
+                                    color: Colors
+                                        .black, //Color.fromRGBO(200, 200, 200, 1),
+                                  )
+                                : Icon(
+                                    Icons.keyboard_arrow_up,
+                                    size: 30.0,
+                                    color: Colors
+                                        .black, //Color.fromRGBO(200, 200, 200, 1),
+                                  ),
+                            onPressed: () {
+                              setState(() {
+                                storeTypeDisplayStatus == 0
+                                    ? storeTypeDisplayStatus = 1
+                                    : storeTypeDisplayStatus = 0;
+                              });
+                            }),
+                        filled: true,
+                        fillColor: ColorConstants.formFieldFillColor,
+                      ),
                     ),
                   ),
-                ],
-              ),
-              SizedBox(
-                height: sizedBoxFormHeight,
-              ),
-              Container(
-                width: containerWidth,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("*", style: TextStyle(color: Colors.red)),
-                    Expanded(
-                      child: Text(
-                        HealingMatchConstants.registrationPointTxt,
+                ),
+                storeTypeDisplayStatus == 1
+                    ? Container(
+                        width: containerWidth,
+                        padding: EdgeInsets.all(8.0),
+                        child: ListView.builder(
+                            primary: false,
+                            shrinkWrap: true,
+                            itemCount: storeTypeDropDownValues.length,
+                            itemBuilder: (BuildContext ctxt, int index) {
+                              return buildStoreTypeDisplayBoxContent(
+                                storeTypeDropDownValues[index],
+                                index,
+                              );
+                            }),
+                      )
+                    : Container(
+                        width: containerWidth,
+                        padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
+                        alignment: Alignment.topLeft,
+                        child: Wrap(
+                          direction: Axis.horizontal,
+                          alignment: WrapAlignment.start,
+                          spacing: 8.0,
+                          runSpacing: 8.0,
+                          children: selectedStoreTypeDisplayValues
+                              .map((e) {
+                                return Container(
+                                  padding: EdgeInsets.all(10.0),
+                                  height: 40.0,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      border: Border.all(
+                                        color: Colors.grey,
+                                      )),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        "$e",
+                                        style: TextStyle(fontSize: 12.0),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              })
+                              .toList()
+                              .cast<Widget>(),
+                        ),
+                      ),
+                SizedBox(
+                  height: sizedBoxFormHeight,
+                ),
+                Container(
+                  height: containerHeight,
+                  width: containerWidth,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Container(
+                          height: containerHeight,
+                          /* decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10.0),
+                                            color: Colors.black12,
+                                            border: Border.all(color: Colors.black12)), */
+                          child: DropDownFormField(
+                            enabled: businessTripEnabled,
+                            hintText:
+                                HealingMatchConstants.registrationBuisnessTrip,
+                            value: serviceBusinessTrips,
+                            onSaved: (value) {
+                              setState(() {
+                                serviceBusinessTrips = value;
+                              });
+                            },
+                            onChanged: (value) {
+                              setState(() {
+                                serviceBusinessTrips = value;
+                                FocusScope.of(context)
+                                    .requestFocus(new FocusNode());
+                              });
+                            },
+                            dataSource: serviceBusinessTripDropDownValues,
+                            isList: true,
+                            textField: 'display',
+                            valueField: 'value',
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: sizedBoxFormHeight,
+                ),
+                Container(
+                  height: containerHeight,
+                  width: containerWidth,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Container(
+                          height: containerHeight,
+                          child: DropDownFormField(
+                            hintText:
+                                HealingMatchConstants.registrationCoronaTxt,
+                            value: coronaMeasures,
+                            onSaved: (value) {
+                              setState(() {
+                                coronaMeasures = value;
+                              });
+                            },
+                            onChanged: (value) {
+                              setState(() {
+                                coronaMeasures = value;
+                                FocusScope.of(context)
+                                    .requestFocus(new FocusNode());
+                              });
+                            },
+                            dataSource: coronaMeasuresDropDownValues,
+                            isList: true,
+                            textField: 'display',
+                            valueField: 'value',
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: sizedBoxFormHeight,
+                ),
+                Container(
+                  width: containerWidth,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("*", style: TextStyle(color: Colors.red)),
+                      Text(
+                        HealingMatchConstants.registrationJapanAssociationTxt,
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontSize: 11,
                           color: ColorConstants.formHintTextColor,
                         ),
                       ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: sizedBoxFormHeight,
+                ),
+                Container(
+                  height: containerHeight,
+                  width: containerWidth,
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        childrenMeasureStatus == 0
+                            ? childrenMeasureStatus = 1
+                            : childrenMeasureStatus = 0;
+                      });
+                    },
+                    child: TextFormField(
+                      enabled: false,
+                      initialValue:
+                          HealingMatchConstants.registrationChildrenTxt,
+                      style: HealingMatchConstants.formHintTextStyle,
+                      decoration: new InputDecoration(
+                        focusedBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        disabledBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        enabledBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        suffixIcon: IconButton(
+                            padding: EdgeInsets.only(left: 8.0),
+                            icon: childrenMeasureStatus == 0
+                                ? Icon(
+                                    Icons.keyboard_arrow_down,
+                                    size: 30.0,
+                                    color: Colors
+                                        .black, //Color.fromRGBO(200, 200, 200, 1),
+                                  )
+                                : Icon(
+                                    Icons.keyboard_arrow_up,
+                                    size: 30.0,
+                                    color: Colors
+                                        .black, //Color.fromRGBO(200, 200, 200, 1),
+                                  ),
+                            onPressed: () {
+                              setState(() {
+                                childrenMeasureStatus == 0
+                                    ? childrenMeasureStatus = 1
+                                    : childrenMeasureStatus = 0;
+                              });
+                            }),
+                        filled: true,
+                        fillColor: ColorConstants.formFieldFillColor,
+                      ),
+                    ),
+                  ),
+                ),
+                childrenMeasureStatus == 1
+                    ? Container(
+                        width: containerWidth,
+                        padding: EdgeInsets.all(8.0),
+                        child: ListView.builder(
+                            primary: false,
+                            shrinkWrap: true,
+                            itemCount: childrenMeasuresDropDownValues.length,
+                            itemBuilder: (BuildContext ctxt, int index) {
+                              return buildChildrenMeasureCheckBoxContent(
+                                childrenMeasuresDropDownValues[index],
+                                index,
+                              );
+                            }),
+                      )
+                    : Container(
+                        width: containerWidth,
+                        padding: EdgeInsets.only(top: 8.0),
+                        alignment: Alignment.topLeft,
+                        child: Wrap(
+                          direction: Axis.horizontal,
+                          alignment: WrapAlignment.start,
+                          spacing: 8.0,
+                          runSpacing: 8.0,
+                          children: childrenMeasuresDropDownValuesSelected
+                              .map((e) {
+                                return Container(
+                                  padding: EdgeInsets.all(10.0),
+                                  height: 40.0,
+                                  //  width: 110.0,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      border: Border.all(
+                                        color: Colors.grey,
+                                      )),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Center(
+                                        child: Text(
+                                          "$e",
+                                          style: TextStyle(fontSize: 12.0),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              })
+                              .toList()
+                              .cast<Widget>(),
+                        ),
+                      ),
+                SizedBox(height: 8.0),
+                Container(
+                  // height: containerHeight,
+                  width: containerWidth,
+                  child: Text(
+                    '複数選択可能',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: ColorConstants.formHintTextColor,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 8.0),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Container(
+                        width: containerWidth,
+                        child: DropDownFormField(
+                          hintText: '予約可能な利用者の性別',
+                          value: genderTreatment,
+                          onSaved: (value) {
+                            setState(() {
+                              genderTreatment = value;
+                            });
+                          },
+                          onChanged: (value) {
+                            setState(() {
+                              genderTreatment = value;
+                              FocusScope.of(context)
+                                  .requestFocus(new FocusNode());
+                            });
+                          },
+                          dataSource: genderTreatmentDropDownValues,
+                          isList: true,
+                          textField: 'display',
+                          valueField: 'value',
+                        ),
+                      ),
                     ),
                   ],
                 ),
-              ),
-              SizedBox(
-                height: sizedBoxFormHeight,
-              ),
-              Container(
-                height: containerHeight,
-                width: containerWidth,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: ColorConstants.buttonColor,
+                SizedBox(
+                  height: sizedBoxFormHeight,
                 ),
-                child: RaisedButton(
-                  //padding: EdgeInsets.all(15.0),
-                  child: Text(
-                    HealingMatchConstants.registrationNextBtn,
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                Container(
+                  height: containerHeight,
+                  width: containerWidth,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: ColorConstants.buttonColor,
                   ),
-                  color: ColorConstants.buttonColor,
-                  textColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(10.0)),
-                  onPressed: () {
-                    validateFields();
-                    /*   NavigationRouter.switchToServiceProviderSecondScreen(
-                                      context); */
-                  },
-                ),
-              ),
-              SizedBox(
-                height: sizedBoxFormHeight,
-              ),
-              Container(
-                width: containerWidth,
-                child: InkWell(
-                  onTap: () {
-                    NavigationRouter.switchToProviderLogin(context);
-                  },
-                  child: Text(
-                    HealingMatchConstants.registrationAlreadyActTxt,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.black,
-                        decoration: TextDecoration.underline,
-                        decorationColor: Colors.black,
-                        decorationThickness: 2,
-                        decorationStyle: TextDecorationStyle.solid),
+                  child: RaisedButton(
+                    //padding: EdgeInsets.all(15.0),
+                    child: Text(
+                      HealingMatchConstants.registrationNextBtn,
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                    ),
+                    color: ColorConstants.buttonColor,
+                    textColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(10.0)),
+                    onPressed: () {
+                      validateFields();
+                      /*   NavigationRouter.switchToServiceProviderSecondScreen(
+                                        context); */
+                    },
                   ),
                 ),
-              ),
-              SizedBox(
-                height: sizedBoxFormHeight,
-              ),
-            ],
+                SizedBox(
+                  height: sizedBoxFormHeight,
+                ),
+                Container(
+                  width: containerWidth,
+                  child: InkWell(
+                    onTap: () {
+                      NavigationRouter.switchToProviderLogin(context);
+                    },
+                    child: Text(
+                      HealingMatchConstants.registrationAlreadyActTxt,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.black,
+                          decoration: TextDecoration.underline,
+                          decorationColor: Colors.black,
+                          decorationThickness: 2,
+                          decorationStyle: TextDecorationStyle.solid),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: sizedBoxFormHeight,
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -1814,7 +1862,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     if (int.parse(age) < 18) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('有効な生年月日を入力してください。',
+        content: Text('18歳未満の方はセラピストとしての登録はできません。',
             style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
@@ -1858,7 +1906,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       return;
     }
 
-    if (userPhoneNumber.length > 10 ||
+    if (userPhoneNumber.length > 11 ||
         userPhoneNumber.length < 10 ||
         userPhoneNumber == null ||
         userPhoneNumber.isEmpty) {
@@ -1896,7 +1944,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
 
     if ((bussinessForm == "施術店舗あり 施術従業員あり" ||
             bussinessForm == "施術店舗あり 施術従業員なし（個人経営）") &&
-        (storenumber.length > 10 ||
+        (storenumber.length > 11 ||
             storenumber.length < 10 ||
             storenumber == null ||
             storenumber.isEmpty)) {
@@ -2019,7 +2067,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     }
 
     // Combination password
-    if (!passwordRegex.hasMatch(password)) {
+    /*  if (!passwordRegex.hasMatch(password)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('パスワードには、大文字、小文字、数字、特殊文字を1つ含める必要があります。'),
@@ -2047,7 +2095,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       ));
       return;
     }
-
+ */
     //confirm password Validation
     if (confirmpassword.length == 0) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -2099,8 +2147,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     if ((myState == null || myState.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content:
-            Text('有効な府県を選択してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
+        content: Text('有効な都道府県を選択してください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2115,8 +2163,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     if ((myCity == null || myCity.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content:
-            Text('有効な市を選択してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
+        content: Text('有効な市区町村を選択してください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2128,7 +2176,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     }
 
     //building Validation
-    if (buildingname == null || buildingname.isEmpty) {
+    /*  if (buildingname == null || buildingname.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
@@ -2141,7 +2189,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
             textColor: Colors.white),
       ));
       return;
-    }
+    } */
 
     //building Length Validation
     if (buildingname.length > 20) {
@@ -2160,7 +2208,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     }
 
     //roomno Validation
-    if (roomnumber == null || roomnumber.isEmpty) {
+    /*   if (roomnumber == null || roomnumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
@@ -2173,7 +2221,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
             textColor: Colors.white),
       ));
       return;
-    }
+    } */
 
     //roomno Validation
     if (roomnumber.length > 4) {
@@ -2221,7 +2269,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
 
     ProgressDialogBuilder.showCommonProgressDialog(context);
 
-    String address = roomnumber +
+    /*  String address = roomnumber +
         ',' +
         buildingname +
         ',' +
@@ -2229,22 +2277,42 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
         ',' +
         myCity +
         ',' +
-        myState;
-    String query =    Platform.isIOS?  myCity +
-        ',' +
-        myState :address;
+        myState; */
+
+    String address = buildingname != null || buildingname != ''
+        ? myState +
+            ' ' +
+            myCity +
+            ' ' +
+            manualAddresss +
+            ' ' +
+            buildingname +
+            ' ' +
+            roomnumber
+        : myState + ' ' + myCity + ' ' + manualAddresss + ' ' + roomnumber;
+
+    String query = Platform.isIOS
+        ? myCity + ',' + myState
+        : roomnumber +
+            ',' +
+            buildingname +
+            ',' +
+            manualAddresss +
+            ',' +
+            myCity +
+            ',' +
+            myState;
     try {
-      
-      List<Location> locations = 
-          await locationFromAddress(query, localeIdentifier:  "ja_JP" );
+      List<Location> locations =
+          await locationFromAddress(query, localeIdentifier: "ja_JP");
       HealingMatchConstants.serviceProviderCurrentLatitude =
           locations[0].latitude;
-      print("Lat: ${HealingMatchConstants.serviceProviderCurrentLatitude }");
+      print("Lat: ${HealingMatchConstants.serviceProviderCurrentLatitude}");
       HealingMatchConstants.serviceProviderCurrentLongitude =
           locations[0].longitude;
-             print("Long : ${HealingMatchConstants.serviceProviderCurrentLongitude }");
-    
-       HealingMatchConstants.serviceProviderAddress = address;
+      print("Long : ${HealingMatchConstants.serviceProviderCurrentLongitude}");
+
+      HealingMatchConstants.serviceProviderAddress = address;
       HealingMatchConstants.serviceProviderPrefecture = myState;
       HealingMatchConstants.serviceProviderCity = myCity;
       HealingMatchConstants.serviceProviderArea = manualAddresss;
@@ -2252,22 +2320,24 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
           cityDropDownValues.indexOf(myCity) + 1;
       HealingMatchConstants.serviceProviderPrefectureID =
           stateDropDownValues.indexOf(myState) + 1;
-           Toast.show("Address Success ${locations[0].latitude} , ${locations[0].longitude}", context,
-          duration: Toast.LENGTH_LONG,
-          gravity: Toast.BOTTOM,
-          backgroundColor: Colors.lime,
-          textColor: Colors.white);
-          ProgressDialogBuilder.hideCommonProgressDialog(context);
-    NavigationRouter.switchToServiceProviderSecondScreen(context);
+
+      ProgressDialogBuilder.hideCommonProgressDialog(context);
+      NavigationRouter.switchToServiceProviderSecondScreen(context);
     } catch (e) {
       ProgressDialogBuilder.hideCommonProgressDialog(context);
-       Toast.show("Address not got ", context,
-          duration: Toast.LENGTH_LONG,
-          gravity: Toast.CENTER,
-          backgroundColor: Colors.red,
-          textColor: Colors.white);
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('アドレスを確認して、もう一度お試しください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
     }
-    
   }
 
   void _showPicker(context) {
@@ -2280,14 +2350,14 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                 children: <Widget>[
                   new ListTile(
                       leading: new Icon(Icons.photo_library),
-                      title: new Text('プロフィール画像を選択してください。'),
+                      title: new Text('既存の写真から選択する。'),
                       onTap: () {
                         _imgFromGallery();
                         Navigator.of(context).pop();
                       }),
                   new ListTile(
                     leading: new Icon(Icons.photo_camera),
-                    title: new Text('プロフィール写真を撮ってください。'),
+                    title: new Text('カメラで撮影する。'),
                     onTap: () {
                       _imgFromCamera();
                       Navigator.of(context).pop();
@@ -2512,5 +2582,56 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
         ),
       ],
     );
+  }
+
+  KeyboardActionsConfig buildConfig(BuildContext context) {
+    return KeyboardActionsConfig(
+        keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
+        keyboardBarColor: Colors.grey[200],
+        nextFocus: true,
+        actions: [
+          KeyboardActionsItem(
+            toolbarButtons: [
+              (node) {
+                return GestureDetector(
+                  onTap: () => node.unfocus(),
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      "完了",
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                );
+              }
+            ],
+            displayArrows: false,
+            focusNode: _phoneNumberFocus,
+            footerBuilder: (_) => PreferredSize(
+                child: SizedBox(height: 2, child: Container()),
+                preferredSize: Size.fromHeight(2)),
+          ),
+          KeyboardActionsItem(
+            toolbarButtons: [
+              (node) {
+                return GestureDetector(
+                  onTap: () => node.unfocus(),
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      "完了",
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                );
+              }
+            ],
+            displayArrows: false,
+            focusNode: _storePhoneNumberFocus,
+            footerBuilder: (_) => PreferredSize(
+                child: SizedBox(height: 2, child: Container()),
+                preferredSize: Size.fromHeight(2)),
+          ),
+        ]);
   }
 }

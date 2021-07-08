@@ -8,6 +8,7 @@ import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityH
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 class SplashScreen extends StatefulWidget {
   // ignore: non_constant_identifier_names
@@ -18,7 +19,6 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenPageState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   String result = '';
-
   AnimationController animationController;
   Animation<double> animation;
   Future<SharedPreferences> _sharedPreferences =
@@ -29,16 +29,19 @@ class _SplashScreenPageState extends State<SplashScreen>
   bool providerLoggedOut = false;
   bool userRegistered = false;
   bool providerRegistered = false;
+  bool userVerified = false;
+  bool providerVerified = false;
+  bool isGuestUser = false;
 
   startTime() async {
-    var _duration = new Duration(seconds: 4);
+    var _duration = new Duration(seconds: 3);
     return new Timer(_duration, navigationPage);
   }
 
   void navigationPage() {
     if (HealingMatchConstants.isInternetAvailable) {
+      //HealingMatchConstants.initiatePayment(context);
       _navigateUser();
-      //NavigationRouter.switchToServiceUserBottomBar(context);
     } else {
       DialogHelper.showNoInternetConnectionDialog(context, SplashScreen());
     }
@@ -50,10 +53,11 @@ class _SplashScreenPageState extends State<SplashScreen>
   void initState() {
     CheckInternetConnection.checkConnectivity(context);
     super.initState();
+    //  FlutterStatusbarcolor.setStatusBarColor(Colors.red);
     animationController = new AnimationController(
-        vsync: this, duration: new Duration(seconds: 4));
+        vsync: this, duration: new Duration(seconds: 2));
     animation = new CurvedAnimation(
-        parent: animationController, curve: Curves.easeInCirc);
+        parent: animationController, curve: Curves.bounceInOut);
 
     animation.addListener(() => this.setState(() {}));
     animationController.forward();
@@ -71,6 +75,11 @@ class _SplashScreenPageState extends State<SplashScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        brightness: Brightness.light,
+        elevation: 0.0,
+        toolbarHeight: 0.0,
+      ),
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -81,7 +90,9 @@ class _SplashScreenPageState extends State<SplashScreen>
               child: Container(
                 color: Colors.white,
                 child: new SvgPicture.asset('assets/images_gps/normalLogo.svg',
-                    width: 250, height: 250),
+                    width: animation.value * 250,
+                    height: animation.value * 250,
+                    fit: BoxFit.scaleDown),
               ),
             ),
           ],
@@ -93,19 +104,36 @@ class _SplashScreenPageState extends State<SplashScreen>
   _navigateUser() async {
     print('Entering loops !!');
     _sharedPreferences.then((value) {
+      HealingMatchConstants.accessToken = value.getString("accessToken");
+      HealingMatchConstants.serviceUserPhoneNumber =
+          value.getString('userPhoneNumber');
+      HealingMatchConstants.serviceProviderPhoneNumber =
+          value.getString('providerPhoneNumer');
       userLoggedIn = value.getBool('isUserLoggedIn');
       providerLoggedIn = value.getBool('isProviderLoggedIn');
       userRegistered = value.getBool('isUserRegister');
       providerRegistered = value.getBool('isProviderRegister');
       userLoggedOut = value.getBool('isUserLoggedOut');
-      providerLoggedOut =  value.getBool('isProviderLoggedOut');
+      providerLoggedOut = value.getBool('isProviderLoggedOut');
+      isGuestUser = value.getBool('isGuest');
+      userVerified = value.getBool('userVerifyStatus');
+      providerVerified = value.getBool('providerVerifyStatus');
       print('User Register : $userRegistered');
-      if (userLoggedIn != null && userLoggedIn) {
+      debugPrint('user verified : $userVerified');
+      debugPrint('provider verified : $providerVerified');
+      if (isGuestUser != null && isGuestUser) {
+        NavigationRouter.switchToUserLogin(context);
+        print('Is Guest User : $isGuestUser !!');
+      } else if (userLoggedIn != null && userLoggedIn) {
         print('Entering 1 loop !!');
         NavigationRouter.switchToServiceUserBottomBar(context);
       } else if (providerLoggedIn != null && providerLoggedIn) {
         print('Entering 2 loop !!');
         NavigationRouter.switchToServiceProviderBottomBar(context);
+      } else if (userVerified != null && !userVerified) {
+        NavigationRouter.switchToUserOtpScreen(context);
+      } else if (providerVerified != null && !providerVerified) {
+        NavigationRouter.switchToProviderOtpScreen(context);
       } else {
         if (userRegistered != null && userRegistered) {
           print('Entering 3 loop !!');

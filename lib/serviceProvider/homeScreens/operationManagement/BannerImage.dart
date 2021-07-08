@@ -1,8 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
@@ -15,9 +18,6 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 
 class BannerImage extends StatefulWidget {
   @override
@@ -204,14 +204,12 @@ class _BannerImageState extends State<BannerImage> {
                       title: new Text('プロフィール画像を選択してください。'),
                       onTap: () {
                         _imgFromGallery();
-                        Navigator.of(context).pop();
                       }),
                   new ListTile(
                     leading: new Icon(Icons.photo_camera),
                     title: new Text('プロフィール写真を撮ってください。'),
                     onTap: () {
                       _imgFromCamera();
-                      Navigator.of(context).pop();
                     },
                   ),
                 ],
@@ -234,6 +232,7 @@ class _BannerImageState extends State<BannerImage> {
       uploadVisible = false;
     });
     print('image path : ${_shiftImage.path}');
+    Navigator.of(context).pop();
   }
 
   _imgFromGallery() async {
@@ -247,6 +246,7 @@ class _BannerImageState extends State<BannerImage> {
       uploadVisible = false;
     });
     print('image path : ${_shiftImage.path}');
+    Navigator.of(context).pop();
   }
 
   Widget buildShiftImage(String bannerImage, int index) {
@@ -513,7 +513,7 @@ class _BannerImageState extends State<BannerImage> {
         sharedPreferences.setString("userData", json.encode(userData));
         HealingMatchConstants.userData =
             Data.fromJson(json.decode(sharedPreferences.getString("userData")));
-         ProgressDialogBuilder.hideCommonProgressDialog(context);
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
         NavigationRouter.switchToServiceProviderShiftBanner(context);
       } else {
         ProgressDialogBuilder.hideCommonProgressDialog(context);

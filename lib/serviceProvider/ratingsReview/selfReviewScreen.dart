@@ -9,11 +9,11 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/providerReviewandRatingsViewResponseModel.dart';
 import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
+import 'package:gps_massageapp/serviceProvider/BlocCalls/ProviderRatingsAndReviewScreenBlocCalls/Repository/ratings_review_repository.dart';
 import 'package:gps_massageapp/serviceProvider/BlocCalls/ProviderRatingsAndReviewScreenBlocCalls/ratings_review_bloc.dart';
 import 'package:gps_massageapp/serviceProvider/BlocCalls/ProviderRatingsAndReviewScreenBlocCalls/ratings_review_event.dart';
 import 'package:gps_massageapp/serviceProvider/BlocCalls/ProviderRatingsAndReviewScreenBlocCalls/ratings_review_state.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
-import 'package:gps_massageapp/serviceProvider/BlocCalls/ProviderRatingsAndReviewScreenBlocCalls/Repository/ratings_review_repository.dart';
 
 class ProviderSelfReviewScreen extends StatefulWidget {
   @override
@@ -169,74 +169,75 @@ class _LoadProviderReviewPageState extends State<LoadProviderReviewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: therapistReviewList != null && therapistReviewList.isNotEmpty
-          ? LazyLoadScrollView(
-              isLoading: isLoading,
-              onEndOfPage: () => _getMoreDataByType(),
-              child: SingleChildScrollView(
-                child: Container(
-                    padding: EdgeInsets.all(8.0),
-                    child: Column(
+      body: LazyLoadScrollView(
+        isLoading: isLoading,
+        onEndOfPage: () => _getMoreDataByType(),
+        child: SingleChildScrollView(
+          child: Container(
+              padding: EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 6.0),
+                    child: Row(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 6.0),
-                          child: Row(
-                            children: [
-                              Text(
-                                '店舗についてのレビュー',
-                                style: TextStyle(
-                                    color: Color.fromRGBO(0, 0, 0, 1),
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.bold),
+                        Text(
+                          '店舗についてのレビュー',
+                          style: TextStyle(
+                              color: Color.fromRGBO(0, 0, 0, 1),
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          ' ($_totalReviews レビュー)',
+                          style: TextStyle(
+                              color: Color.fromRGBO(153, 153, 153, 1),
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 8.0,
+                  ),
+                  therapistReviewList != null && therapistReviewList.isNotEmpty
+                      ? ListView.separated(
+                          separatorBuilder: (context, index) => Divider(
+                              //color: Color.fromRGBO(251, 251, 251, 1),
                               ),
-                              Text(
-                                '($_totalReviews レビュー)',
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: therapistReviewList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            if (index == therapistReviewList.length) {
+                              return _buildProgressIndicator();
+                            } else {
+                              return buildReviewContent(
+                                  therapistReviewList[index]);
+                            }
+                          })
+                      : Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: Center(
+                              child: Text(
+                                'まだレビューはありません。',
                                 style: TextStyle(
-                                    color: Color.fromRGBO(153, 153, 153, 1),
-                                    fontSize: 12.0,
-                                    fontWeight: FontWeight.bold),
+                                    color: Colors.black,
+                                    fontFamily: 'NotoSansJP',
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal),
                               ),
-                            ],
+                            ),
                           ),
                         ),
-                        SizedBox(
-                          height: 8.0,
-                        ),
-                        ListView.separated(
-                            separatorBuilder: (context, index) => Divider(
-                                //color: Color.fromRGBO(251, 251, 251, 1),
-                                ),
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: therapistReviewList.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              if (index == therapistReviewList.length) {
-                                return _buildProgressIndicator();
-                              } else {
-                                return buildReviewContent(
-                                    therapistReviewList[index]);
-                              }
-                            })
-                      ],
-                    )),
-              ),
-            )
-          : Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                child: Center(
-                  child: Text(
-                    'まだレビューはありません。',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'NotoSansJP',
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-            ),
+                ],
+              )),
+        ),
+      ),
     );
   }
 
@@ -301,7 +302,8 @@ class _LoadProviderReviewPageState extends State<LoadProviderReviewPage> {
               initialRating: therapistReviewList.ratingsCount.toDouble(),
               minRating: 1,
               direction: Axis.horizontal,
-              allowHalfRating: true,
+              allowHalfRating: false,
+              ignoreGestures: true,
               itemCount: 5,
               itemSize: 24.0,
               itemPadding: new EdgeInsets.only(bottom: 3.0),
@@ -312,18 +314,18 @@ class _LoadProviderReviewPageState extends State<LoadProviderReviewPage> {
                     onPressed: () {},
                     padding: new EdgeInsets.all(0.0),
                     color: Colors.black,
-                    icon: index > therapistReviewList.ratingsCount-1
+                    icon: index > therapistReviewList.ratingsCount - 1
                         ? SvgPicture.asset(
                             "assets/images_gps/star_2.svg",
                             height: 13.0,
                             width: 13.0,
-                           // color: Colors.black,
+                            // color: Colors.black,
                           )
                         : SvgPicture.asset(
-                            "assets/images_gps/star_1.svg",
+                            "assets/images_gps/star_colour.svg",
                             height: 13.0,
                             width: 13.0,
-                            color: Colors.black,
+                            //  color: Colors.black,
                           ), /*  new Icon(
                                                                 Icons.star,
                                                                 size: 20.0), */
@@ -401,6 +403,7 @@ class LoadProviderReviewRatingsById extends StatefulWidget {
 
   LoadProviderReviewRatingsById({Key key, @required this.therapistReviewList})
       : super(key: key);
+
   @override
   _LoadProviderReviewRatingsByIdState createState() =>
       _LoadProviderReviewRatingsByIdState();
@@ -423,41 +426,41 @@ class _LoadProviderReviewRatingsByIdState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: widget.therapistReviewList != null &&
-              widget.therapistReviewList.isNotEmpty
-          ? LazyLoadScrollView(
-              isLoading: isLoading,
-              onEndOfPage: () => _getMoreDataByType(),
-              child: SingleChildScrollView(
-                child: Container(
-                    padding: EdgeInsets.all(8.0),
-                    child: Column(
+      body: LazyLoadScrollView(
+        isLoading: isLoading,
+        onEndOfPage: () => _getMoreDataByType(),
+        child: SingleChildScrollView(
+          child: Container(
+              padding: EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 6.0),
+                    child: Row(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 6.0),
-                          child: Row(
-                            children: [
-                              Text(
-                                '店舗についてのレビュー',
-                                style: TextStyle(
-                                    color: Color.fromRGBO(0, 0, 0, 1),
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                '(152 レビュー)',
-                                style: TextStyle(
-                                    color: Color.fromRGBO(153, 153, 153, 1),
-                                    fontSize: 12.0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
+                        Text(
+                          '店舗についてのレビュー',
+                          style: TextStyle(
+                              color: Color.fromRGBO(0, 0, 0, 1),
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(
-                          height: 8.0,
+                        Text(
+                          '(152 レビュー)',
+                          style: TextStyle(
+                              color: Color.fromRGBO(153, 153, 153, 1),
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.bold),
                         ),
-                        ListView.separated(
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 8.0,
+                  ),
+                  widget.therapistReviewList != null &&
+                          widget.therapistReviewList.isNotEmpty
+                      ? ListView.separated(
                           separatorBuilder: (context, index) => Divider(
                               //color: Color.fromRGBO(251, 251, 251, 1),
                               ),
@@ -474,25 +477,26 @@ class _LoadProviderReviewRatingsByIdState
                             }
                           },
                         )
-                      ],
-                    )),
-              ),
-            )
-          : Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                child: Center(
-                  child: Text(
-                    'まだレビューはありません。',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'NotoSansJP',
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-            ),
+                      : Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: Center(
+                              child: Text(
+                                'まだレビューはありません。',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'NotoSansJP',
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal),
+                              ),
+                            ),
+                          ),
+                        )
+                ],
+              )),
+        ),
+      ),
     );
   }
 
@@ -558,7 +562,8 @@ class _LoadProviderReviewRatingsByIdState
               initialRating: therapistReviewList.ratingsCount.toDouble(),
               minRating: 1,
               direction: Axis.horizontal,
-              allowHalfRating: true,
+              allowHalfRating: false,
+              ignoreGestures: true,
               itemCount: 5,
               itemSize: 24.0,
               itemPadding: new EdgeInsets.only(bottom: 3.0),
@@ -569,7 +574,7 @@ class _LoadProviderReviewRatingsByIdState
                     onPressed: () {},
                     padding: new EdgeInsets.all(0.0),
                     color: Colors.black,
-                    icon: index > therapistReviewList.ratingsCount-1
+                    icon: index > therapistReviewList.ratingsCount - 1
                         ? SvgPicture.asset(
                             "assets/images_gps/star_2.svg",
                             height: 13.0,
@@ -577,13 +582,11 @@ class _LoadProviderReviewRatingsByIdState
                             color: Colors.black,
                           )
                         : SvgPicture.asset(
-                            "assets/images_gps/star_1.svg",
+                            "assets/images_gps/star_colour.svg",
                             height: 13.0,
                             width: 13.0,
-                            color: Colors.black,
-                          ), /*  new Icon(
-                                                                Icons.star,
-                                                                size: 20.0), */
+                            //color: Colors.black,
+                          ),
                   )),
               onRatingUpdate: (rating) {
                 print(rating);

@@ -1,6 +1,10 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
+
+Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 
 class NotificationPopup extends StatefulWidget {
   @override
@@ -8,8 +12,12 @@ class NotificationPopup extends StatefulWidget {
 }
 
 class _NotificationPopupState extends State<NotificationPopup> {
-  Future<SharedPreferences> _sharedPreferences =
-      SharedPreferences.getInstance();
+  final fireBaseMessaging = new FirebaseMessaging();
+  @override
+  void initState() {
+    super.initState();
+    FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +64,6 @@ class _NotificationPopupState extends State<NotificationPopup> {
               '通知方法は、テキスト、サウンド、\nアイコンバッジがあります。',
               textAlign: TextAlign.center,
               style: TextStyle(
-                  fontWeight: FontWeight.bold,
                   fontSize: 14,
                   color: Color.fromRGBO(35, 24, 21, 1),
                   fontFamily: 'Open Sans'),
@@ -66,7 +73,6 @@ class _NotificationPopupState extends State<NotificationPopup> {
             child: Text(
               '"設定"で指定できます。',
               style: TextStyle(
-                fontWeight: FontWeight.bold,
                 fontSize: 14,
                 fontFamily: 'Open Sans',
                 color: Color.fromRGBO(35, 24, 21, 1),
@@ -98,25 +104,30 @@ class _NotificationPopupState extends State<NotificationPopup> {
                     "N",
                     "Y",
                   ],
-                  radioButtonValue: (value) {
-                    if (value == 'Y') {
-                      Navigator.pop(context);
-                      print('Notification permission accepted!!');
-                      _sharedPreferences.then((value) {
-                        value.setBool('fcmStatus', true);
-                        bool fcmStatus = value.getBool('fcmStatus');
-                        print('fcmStatus is false : $fcmStatus');
-                      });
-                    } else {
-                      Navigator.pop(context);
-                      _sharedPreferences.then((value) {
-                        value.setBool('fcmStatus', false);
-                        bool fcmStatus = value.getBool('fcmStatus');
-                        print('fcmStatus is false : $fcmStatus');
-                      });
-                      print('Notification permission rejected!!');
-                    }
-                    print('Radio value : $value');
+                  radioButtonValue: (radioValue) {
+                    _sharedPreferences.then((spValue) {
+                      if (radioValue == 'Y') {
+                        Navigator.pop(context);
+                        print('Notification permission accepted!!');
+                        fireBaseMessaging.setAutoInitEnabled(true);
+                        //spValue.setBool('fcmStatus', true);
+                        spValue.setString('notificationStatus', 'accepted');
+                        //bool fcmStatus = spValue.getBool('fcmStatus');
+                        print(
+                            'fcmStatus is notification : ${spValue.getString('notificationStatus')}');
+                      } else {
+                        Navigator.pop(context);
+                        fireBaseMessaging.setAutoInitEnabled(false);
+                        print('Notification permission denied!!');
+                        //spValue.setBool('fcmStatus', false);
+                        spValue.setString('notificationStatus', 'denied');
+                        //bool fcmStatus = spValue.getBool('fcmStatus');
+                        print(
+                            'fcmStatus is notification : ${spValue.getString('notificationStatus')}');
+                        print('Notification permission rejected!!');
+                      }
+                    });
+                    print('Radio value : $radioValue');
                   },
                   selectedColor: Color.fromRGBO(200, 217, 33, 1),
                 ),

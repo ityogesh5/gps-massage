@@ -8,20 +8,24 @@ import 'package:gps_massageapp/serviceProvider/homeScreens/history/ConfirmReserv
 import 'package:gps_massageapp/serviceProvider/homeScreens/history/Request.dart';
 
 class History extends StatefulWidget {
+  final int tabindex;
+  History(this.tabindex);
   @override
   _HistoryState createState() => _HistoryState();
 }
 
 class _HistoryState extends State<History> with SingleTickerProviderStateMixin {
-  int _tabIndex = 0;
+  int _tabIndex;
   TabController _tabController;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
+    _tabIndex = widget.tabindex;
     _tabController = TabController(vsync: this, length: 4);
     _tabController.addListener(_handleTabSelection);
+    _tabController.index = widget.tabindex;
   }
 
   buildUnSelectedTabBar(String title) {

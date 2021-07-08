@@ -36,6 +36,7 @@ class ApprovalWaitingScreen extends StatefulWidget {
 }
 
 class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
+  var therapisId;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -277,7 +278,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                                   onTap: () {
                                     NavigationRouter
                                         .switchToServiceUserDisplayReviewScreen(
-                                            context);
+                                            context, therapisId);
                                   },
                                   child: Text(
                                     'もっとみる',
@@ -683,9 +684,9 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                         Spacer(),
                         GestureDetector(
                           onTap: () {
-                            NavigationRouter
+                            /*        NavigationRouter
                                 .switchToServiceUserBookingCancelScreenPopup(
-                                    context);
+                                    context);*/
                           },
                           child: Text(
                             'キャンセルする',
