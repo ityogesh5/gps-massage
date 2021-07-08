@@ -27,7 +27,7 @@ class _PastReservationsState extends State<PastReservations> {
   var _pageSize = 10;
   int count = 0;
   List<BookingDetailsList> bookingDetailsList;
-  List<GlobalKey> _formKeyList;
+  List<GlobalKey> _formKeyList = List<GlobalKey>();
   List<Map<String, String>> certificateUploadList = List<Map<String, String>>();
   Future<SharedPreferences> _sharedPreferences =
       SharedPreferences.getInstance();
@@ -67,8 +67,8 @@ class _PastReservationsState extends State<PastReservations> {
     try {
       if (this.mounted) {
         setState(() {
-          _formKeyList = List.generate(favouriteUserList.length,
-              (index) => GlobalObjectKey<FormState>(index));
+          _formKeyList.addAll(List.generate(favouriteUserList.length,
+              (index) => GlobalObjectKey<FormState>('Fav$index')));
           for (int i = 0; i < favouriteUserList.length; i++) {
             Map<String, String> certificateUploaded = Map<String, String>();
             if (favouriteUserList[i]

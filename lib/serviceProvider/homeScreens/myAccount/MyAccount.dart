@@ -607,7 +607,7 @@ class _MyAccountState extends State<MyAccount> {
         PopupMenuItem<String>(
           value: "1",
           child: Text(
-            '利用規約とプライバシーポリシー', //Terms and Conditions
+            '規約とプライバシーポリシー', //Terms and Conditions
             style: TextStyle(
               fontSize: 13.0,
               fontFamily: 'NotoSansJP',
@@ -682,7 +682,7 @@ class _MyAccountState extends State<MyAccount> {
     final Uri _emailLaunchUri = Uri(
         scheme: 'mailto',
         path: 'healingMatch@yopmail.com',
-        queryParameters: {'subject': 'QueryMail!'});
+        queryParameters: {'subject': 'お問い合わせメール'});
     launch(_emailLaunchUri.toString());
   }
 

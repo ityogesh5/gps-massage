@@ -59,7 +59,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
   final GeoLocater.Geolocator geoLocator = GeoLocater.Geolocator()
     ..forceAndroidLocationManager;
   String sTime, eTime;
-  var selectedBuildingType = '店舗';
+  String selectedBuildingType = '';
   var currentLoading;
   bool isBookingLoading = false;
   String currentPrefecture;
@@ -69,6 +69,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
     // TODO: implement initState
     super.initState();
     getProfileDetails();
+    selectedBuildingType = '';
 
     distance = HealingMatchConstants.serviceDistanceRadius;
     sTime =
@@ -903,6 +904,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                   enableInteractiveSelection: false,
                   // readOnly: true,
                   decoration: new InputDecoration(
+                      contentPadding: EdgeInsets.all(16.0),
                       filled: false,
                       fillColor: Colors.white,
                       hintStyle: TextStyle(color: Colors.black),
@@ -960,7 +962,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
 
   _getLatAndLongFromAddress() async {
     if ((HealingMatchConstants.confServiceAddressType != '店舗') &&
-        selectedBuildingType == '店舗') {
+        (selectedBuildingType == null || selectedBuildingType == '')) {
       currentLoading();
       isBookingLoading = false;
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -976,6 +978,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
       ));
 
       currentLoading();
+      return null;
     }
     if ((selectedBuildingType == 'その他') &&
         (_otherBuildingController.text == null ||
@@ -995,6 +998,44 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
       ));
 
       currentLoading();
+      return null;
+    }
+    if ((selectedBuildingType == 'その他') &&
+        (_otherBuildingController.text.length > 20)) {
+      currentLoading();
+      isBookingLoading = false;
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text("建物名を20文字以内で入力してください。",
+            style: TextStyle(fontFamily: 'NotoSansJP')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+
+      currentLoading();
+      return null;
+    }
+    if (_queriesAskController.text.length > 120) {
+      currentLoading();
+      isBookingLoading = false;
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('メッセージを120文字以内で入力してください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+
+      currentLoading();
+      return null;
     }
     var splitAddress = HealingMatchConstants.confServiceAddress.split(' ');
     currentPrefecture = splitAddress[0];
@@ -1027,7 +1068,11 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
 
   _updateUserBookingDetails() async {
     //   ProgressDialogBuilder.showOverlayLoader(context);
+
     print(' CurrentLocality:${HealingMatchConstants.locality}');
+    String locType = selectedBuildingType == 'その他'
+        ? _otherBuildingController.text
+        : selectedBuildingType;
     int therapistId = HealingMatchConstants.confTherapistId;
     String startTime =
         HealingMatchConstants.confSelectedDateTime.toLocal().toString();
@@ -1039,7 +1084,8 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
     int totalMinOfService = HealingMatchConstants.confNoOfServiceDuration;
     var priceOfService = HealingMatchConstants.confServiceCost;
     int bookingStatus = 0;
-    String locationType = selectedBuildingType;
+    String locationType =
+        HealingMatchConstants.confServiceAddressType == '店舗' ? '店舗' : locType;
     String location = HealingMatchConstants.confServiceAddress;
     String locationDistance = distance.toStringAsFixed(2);
     var totalCost = HealingMatchConstants.confServiceCost;
@@ -1095,6 +1141,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
             value.id,
             currentPref,
             HealingMatchConstants.bookingAddressId);
+        selectedBuildingType = '';
         NavigationRouter.switchToServiceUserReservationAndFavourite(context);
       });
     } catch (e) {

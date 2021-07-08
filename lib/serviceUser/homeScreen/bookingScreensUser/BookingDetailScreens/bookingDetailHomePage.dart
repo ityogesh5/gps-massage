@@ -1529,7 +1529,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                '店舗での施術に変更しますか？',
+                shopLocationSelected ? '出張での施術に変更しますか？' : '店舗での施術に変更しますか？',
                 style: TextStyle(
                     fontSize: 14,
                     color: Colors.black,
@@ -1561,34 +1561,40 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                   radioButtonValue: (value) {
                     if (value == 'Y') {
                       dialog.dissmiss();
-                      if (therapistDetails.data.isShop == true) {
-                        setState(() {
-                          shopLocationSelected = true;
-                          HealingMatchConstants.bookingAddressId =
-                              therapistDetails.data.addresses[0].id;
-                        });
-                      } else if (therapistDetails.data.isShop == false) {
-                        Toast.show("このセラピストの方には店舗がありません。。", context,
-                            duration: 3,
-                            gravity: Toast.CENTER,
-                            backgroundColor: Colors.redAccent,
-                            textColor: Colors.white);
+                      if (shopLocationSelected == false) {
+                        if (therapistDetails.data.isShop == true) {
+                          setState(() {
+                            shopLocationSelected = true;
+                            HealingMatchConstants.bookingAddressId =
+                                therapistDetails.data.addresses[0].id;
+                          });
+                        } else if (therapistDetails.data.isShop == false) {
+                          getUserAddressValues();
+                          Toast.show("このセラピストの方には店舗がありません。。", context,
+                              duration: 3,
+                              gravity: Toast.CENTER,
+                              backgroundColor: Colors.redAccent,
+                              textColor: Colors.white);
 
-                        return;
-                      }
-                    } else {
-                      dialog.dissmiss();
-                      if (therapistDetails.data.businessTrip == true) {
-                        getUserAddressValues();
+                          return;
+                        }
                       } else {
-                        Toast.show("このセラピストには出張オプションがありません...", context,
-                            duration: 3,
-                            gravity: Toast.CENTER,
-                            backgroundColor: Colors.redAccent,
-                            textColor: Colors.white);
+                        // dialog.dissmiss();
+                        if (therapistDetails.data.businessTrip == true) {
+                          getUserAddressValues();
+                        } else {
+                          Toast.show("このセラピストには出張オプションがありません...", context,
+                              duration: 3,
+                              gravity: Toast.CENTER,
+                              backgroundColor: Colors.redAccent,
+                              textColor: Colors.white);
 
-                        return;
+                          return;
+                        }
                       }
+                    }
+                    if (value == 'N') {
+                      dialog.dissmiss();
                     }
                     print('Radio value : $value');
                   },
@@ -2699,7 +2705,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('受けたい施術と価格を選んでください。',
+              child: Text('予約するサービスと金額を選択してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 3,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -2873,9 +2879,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
 
   void validateFields() {
     ProgressDialogBuilder.showCommonProgressDialog(context);
-    if (serviceSelection.keys.isEmpty ||
-        selectedTime == null ||
-        endTime == null) {
+    if (serviceSelection.keys.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -2883,7 +2887,40 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('受けたいマッサージと日時を選択してください。',
+              child: Text('予約するサービスと日時を選択してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 3,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      fontWeight: FontWeight.w500,
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      setState(() {
+        isLoading = false;
+      });
+      ProgressDialogBuilder.hideCommonProgressDialog(context);
+      return;
+    }
+    if (selectedTime == null || endTime == null) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('予約日時を選択してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 3,
                   style: TextStyle(fontFamily: 'NotoSansJP')),

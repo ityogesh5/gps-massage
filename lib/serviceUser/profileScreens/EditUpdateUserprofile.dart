@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -30,6 +29,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 List<UpdateAddress> updateAddress = new List<UpdateAddress>();
@@ -838,7 +838,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                 child: WidgetAnimator(
                                   TextFormField(
                                     controller: otherController,
-                                    enabled: false,
+                                    // enabled: false,
                                     style: HealingMatchConstants.formTextStyle,
                                     decoration: InputDecoration(
                                       counterText: '',
@@ -890,7 +890,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                             });
                                           },
                                           onChanged: (value) {
-                                            /*setState(() {
+                                            setState(() {
                                               _myPrefecture = value;
                                               print(
                                                   'Prefecture value : ${_myPrefecture.toString()}');
@@ -902,9 +902,9 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                               cityDropDownValues.clear();
                                               _myCity = '';
                                               getCities(_prefId);
-                                            });*/
+                                            });
                                           },
-                                          dataSource: [_myPrefecture],
+                                          dataSource: stateDropDownValues,
                                           isList: true,
                                           textField: 'display',
                                           valueField: 'value'),
@@ -932,12 +932,12 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                 });
                                               },
                                               onChanged: (value) {
-                                                /*setState(() {
+                                                setState(() {
                                                   _myCity = value;
                                                   //print(_myBldGrp.toString());
-                                                });*/
+                                                });
                                               },
-                                              dataSource: [_myCity],
+                                              dataSource: cityDropDownValues,
                                               isList: true,
                                               textField: 'display',
                                               valueField: 'value'),
@@ -964,7 +964,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                     child: WidgetAnimator(
                                       TextFormField(
                                         //enableInteractiveSelection: false,
-                                        readOnly: true,
+                                        // readOnly: true,
                                         autofocus: false,
                                         controller: userAreaController,
                                         decoration: new InputDecoration(
@@ -1007,7 +1007,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                       // keyboardType: TextInputType.number,
                                       autofocus: false,
                                       controller: buildingNameController,
-                                      readOnly: true,
+                                      // readOnly: true,
                                       decoration: new InputDecoration(
                                         filled: true,
                                         fillColor:
@@ -1055,7 +1055,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                     child: WidgetAnimator(
                                       TextFormField(
                                         //enableInteractiveSelection: false,
-                                        readOnly: true,
+                                        // readOnly: true,
                                         autofocus: false,
                                         controller: roomNumberController,
                                         decoration: new InputDecoration(
@@ -2451,27 +2451,27 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       print('numbers : $roomNumber');
     }
 
-    if (HealingMatchConstants.userEditAddress.isEmpty) {
-      String manualUserAddress = _myPrefecture +
-          " " +
-          _myCity +
-          " " +
-          userArea +
-          " " +
-          buildingName +
-          " " +
-          roomNumber;
-      String queryAddress = roomNumber +
-          ',' +
-          buildingName +
-          ',' +
-          userArea +
-          ',' +
-          _myCity +
-          ',' +
-          _myPrefecture;
-      String address =
-          Platform.isIOS ? _myCity + ',' + _myPrefecture : manualUserAddress;
+    String manualUserAddress = _myPrefecture +
+        " " +
+        _myCity +
+        " " +
+        userArea +
+        " " +
+        buildingName +
+        " " +
+        roomNumber;
+    String queryAddress = roomNumber +
+        ',' +
+        buildingName +
+        ',' +
+        userArea +
+        ',' +
+        _myCity +
+        ',' +
+        _myPrefecture;
+    String address =
+        Platform.isIOS ? _myCity + ',' + _myPrefecture : manualUserAddress;
+    try {
       List<Location> userAddress =
           await locationFromAddress(address, localeIdentifier: "ja_JP");
       HealingMatchConstants.mEditCurrentLatitude = userAddress[0].latitude;
@@ -2485,6 +2485,13 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       //  print('Manual Place Json : ${userAddedAddressPlaceMark.toJson()}');
       print('Manual Address : ${HealingMatchConstants.userAddress}');
       print('Manual Modified Address : ${manualUserAddress.trim()}');
+    } catch (e) {
+      ProgressDialogBuilder.hideLoader(context);
+      Toast.show("有効な住所を入力してください ", context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.CENTER,
+          backgroundColor: Colors.red,
+          textColor: Colors.white);
     }
 
     print('Id: ${HealingMatchConstants.accessToken}');
