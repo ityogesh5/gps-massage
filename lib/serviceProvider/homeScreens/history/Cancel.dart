@@ -48,8 +48,19 @@ class _ProviderCancelScreenState extends State<ProviderCancelScreen> {
                 //  margin: EdgeInsets.all(8.0),
                 child: Column(
                   children: [
+                    Center(
+                      child: Text(
+                        "キャンセルされた予約",
+                        // textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color.fromRGBO(102, 102, 102, 1),
+                          fontSize: 12.0,
+                          fontFamily: 'NotoSansJP',
+                        ),
+                      ),
+                    ),
                     SizedBox(
-                      height: 5,
+                      height: 15,
                     ),
                     ListView.separated(
                         separatorBuilder: (context, index) => SizedBox(
@@ -93,16 +104,16 @@ class _ProviderCancelScreenState extends State<ProviderCancelScreen> {
               children: [
                 Text(
                   requestBookingDetailsList[index]
-                                  .bookingUserId
-                                  .userName
-                                  .length >
-                              10
-                          ? requestBookingDetailsList[index]
-                                  .bookingUserId
-                                  .userName
-                                  .substring(0, 9) +
-                              "..."
-                          : '${requestBookingDetailsList[index].bookingUserId.userName}',
+                              .bookingUserId
+                              .userName
+                              .length >
+                          10
+                      ? requestBookingDetailsList[index]
+                              .bookingUserId
+                              .userName
+                              .substring(0, 9) +
+                          "..."
+                      : '${requestBookingDetailsList[index].bookingUserId.userName}',
                   style: TextStyle(
                     fontSize: 16.0,
                     color: Colors.black,

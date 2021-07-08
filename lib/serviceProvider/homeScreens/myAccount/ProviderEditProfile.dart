@@ -2889,7 +2889,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         }
         ProgressDialogBuilder.hideGetCitiesProgressDialog(context);
         setState(() {
-          myCity = userData.addresses[0].cityName;
+          //  myCity = userData.addresses[0].cityName;
         });
       }
     });
@@ -3410,6 +3410,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     }
     setState(() {
       status = 3;
+      myCity = userData.addresses[0].cityName;
     });
   }
 
