@@ -53,7 +53,7 @@ class _SplashScreenPageState extends State<SplashScreen>
   void initState() {
     CheckInternetConnection.checkConnectivity(context);
     super.initState();
-    //  FlutterStatusbarcolor.setStatusBarColor(Colors.red);
+    FlutterStatusbarcolor.setStatusBarColor(Colors.grey[100]);
     animationController = new AnimationController(
         vsync: this, duration: new Duration(seconds: 2));
     animation = new CurvedAnimation(

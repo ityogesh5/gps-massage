@@ -565,7 +565,7 @@ class _ViewUserProfileState extends State<ViewUserProfile>
         PopupMenuItem<String>(
           value: "1",
           child: Text(
-            '利用規約とプライバシーポリシー', //Terms and Conditions
+            '規約とプライバシーポリシー', //Terms and Conditions
             style: TextStyle(fontFamily: 'NotoSansJP'),
           ),
         ),
@@ -609,7 +609,7 @@ class _ViewUserProfileState extends State<ViewUserProfile>
     final Uri _emailLaunchUri = Uri(
         scheme: 'mailto',
         path: 'healingMatch@yopmail.com',
-        queryParameters: {'subject': 'QueryMail!'});
+        queryParameters: {'subject': 'お問い合わせメール'});
     launch(_emailLaunchUri.toString());
   }
 

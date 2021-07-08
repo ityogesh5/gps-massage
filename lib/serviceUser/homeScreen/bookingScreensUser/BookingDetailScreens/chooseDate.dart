@@ -628,7 +628,7 @@ class _ChooseDateState extends State<ChooseDate> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Flexible(
-            child: Text('ほかの日時を選択したい時は、もう選択した日時を無効にしてお試しください。',
+            child: Text('時間を変更する場合は、選択中の時間をタップしてから再度選択しなおしてください',
                 overflow: TextOverflow.ellipsis,
                 maxLines: 3,
                 style: TextStyle(fontFamily: 'NotoSansJP')),
