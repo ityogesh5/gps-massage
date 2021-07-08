@@ -419,7 +419,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                             filled: true,
                             fillColor: ColorConstants.formFieldFillColor,
                             labelText: 'お名前',
-                            //hintText: 'お名前 *',
                             /*hintStyle: TextStyle(
                               color: Colors.grey[400],
                             ),*/
