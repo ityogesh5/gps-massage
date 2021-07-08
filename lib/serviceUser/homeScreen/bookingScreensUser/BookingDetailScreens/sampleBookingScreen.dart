@@ -1231,7 +1231,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('受けたい施術と価格を選んでください。',
+              child: Text('予約するサービスと金額を選択してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 3,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -1839,9 +1839,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
 
   void validateFields() {
     ProgressDialogBuilder.showCommonProgressDialog(context);
-    if (serviceSelection.keys.isEmpty ||
-        selectedTime == null ||
-        endTime == null) {
+    if (serviceSelection.keys.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1850,6 +1848,39 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
           children: [
             Flexible(
               child: Text('受けたいマッサージと日時を選択してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 3,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      fontWeight: FontWeight.w500,
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      setState(() {
+        isLoading = false;
+      });
+      ProgressDialogBuilder.hideCommonProgressDialog(context);
+      return;
+    }
+    if (selectedTime == null || endTime == null) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('予約日時を選択してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 3,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
