@@ -1930,7 +1930,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 .format(startTime);
                                         return InkWell(
                                           onTap: () {
-                                            /*    HealingMatchConstants.bookingIdPay =
+                                               HealingMatchConstants.bookingIdPay =
                                                 approvedList[index].id;
                                             HealingMatchConstants
                                                     .serviceDistanceRadius =
@@ -1940,7 +1940,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 .switchToServiceUserBookingDetailsCompletedScreenOne(
                                                     context,
                                                     approvedList[index]
-                                                        .therapistId); */
+                                                        .therapistId);
                                           },
                                           child: Container(
                                             // height: MediaQuery.of(context).size.height * 0.22,

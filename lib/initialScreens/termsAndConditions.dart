@@ -135,7 +135,10 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
             indicatorColor: Colors.lime,
             tabBarIndicatorSize: TabBarIndicatorSize.tab,
           ),
-          onTap: (index) {},
+          
+          onTap: (index) {
+
+          },
           dragStartBehavior: DragStartBehavior.start,
           tabs: [
             Tab(

@@ -55,9 +55,9 @@ class _ChatUserListState extends State<ChatUserList>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      contactList.clear();
-      chatData.clear();
-      getChatDetailsFromFirebase();
+      // contactList.clear();
+      // chatData.clear();
+      // getChatDetailsFromFirebase();
     }
   }
 
