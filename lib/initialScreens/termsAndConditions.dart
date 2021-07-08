@@ -180,7 +180,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
                                 .copyWith(
                                     p: Theme.of(context)
                                         .textTheme
-                                        .bodyText1
+                                        .bodyText2
                                         .copyWith(
                                             fontSize: 14.0,
                                             fontFamily: 'NotoSansJP')));
@@ -205,7 +205,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
                                 .copyWith(
                                     p: Theme.of(context)
                                         .textTheme
-                                        .bodyText1
+                                        .bodyText2
                                         .copyWith(
                                             fontSize: 14.0,
                                             fontFamily: 'NotoSansJP')));

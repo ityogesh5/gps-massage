@@ -17,7 +17,6 @@ class _ProviderInitialTutorialState extends State<ProviderInitialTutorial> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // bottomNavigationBar: tutorialBottomNavigationBar(),
         floatingActionButton: tutorialBottomNavigationBar(),
         body: SafeArea(
           bottom: false,
@@ -71,30 +70,60 @@ class _ProviderInitialTutorialState extends State<ProviderInitialTutorial> {
                     fit: BoxFit.fill,
                   ),
                 ),
-                child: FutureBuilder(
-                    future: rootBundle.loadString(
-                        "assets/provider_tutorial/service_provider_page_2.md"),
-                    builder:
-                        (BuildContext context, AsyncSnapshot<String> snapshot) {
-                      if (snapshot.hasData) {
-                        return Markdown(
-                            data: snapshot.data,
-                            styleSheet:
-                                MarkdownStyleSheet.fromTheme(Theme.of(context))
-                                    .copyWith(
-                                        p: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1
-                                            .copyWith(
-                                                fontSize: 17.0,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white,
-                                                fontFamily: 'NotoSansJP')));
-                      }
-                      return Center(
-                        child: SpinKitDoubleBounce(color: Colors.limeAccent),
-                      );
-                    }),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: CircleAvatar(
+                          backgroundColor: Colors.white,
+                          child: IconButton(
+                              padding: EdgeInsets.all(0.0),
+                              icon: new Icon(
+                                Icons.navigate_before,
+                                color: Colors.black,
+                                size: 40.0,
+                              ),
+                              onPressed: () {
+                                if (currentPage == 1) {
+                                  pageController.animateToPage(0,
+                                      duration: Duration(milliseconds: 400),
+                                      curve: Curves.easeInOut);
+                                }
+                              }),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: FutureBuilder(
+                          future: rootBundle.loadString(
+                              "assets/provider_tutorial/service_provider_page_2.md"),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<String> snapshot) {
+                            if (snapshot.hasData) {
+                              return Markdown(
+                                  data: snapshot.data,
+                                  styleSheet: MarkdownStyleSheet.fromTheme(
+                                          Theme.of(context))
+                                      .copyWith(
+                                          p: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                  fontSize: 17.0,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                  fontFamily: 'NotoSansJP')));
+                            }
+                            return Center(
+                              child:
+                                  SpinKitDoubleBounce(color: Colors.limeAccent),
+                            );
+                          }),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
