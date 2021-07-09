@@ -835,7 +835,7 @@ class DialogHelper {
 // User Profile Details Update success popup
   static void showUserProfileUpdatedSuccessDialog(BuildContext context) {
     showDialog(
-        barrierDismissible: true,
+        barrierDismissible: false,
         context: context,
         builder: (context) {
           return Dialog(
@@ -952,7 +952,7 @@ class DialogHelper {
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
                           width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height * 0.1,
+                          height: MediaQuery.of(context).size.height * 0.2,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
                           )),
@@ -961,7 +961,7 @@ class DialogHelper {
                   ),
                 ),
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.38,
+                  height: 250.0,//MediaQuery.of(context).size.height * 0.38,
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
@@ -999,7 +999,7 @@ class DialogHelper {
                   ),
                 ),
                 Positioned(
-                  top: 50,
+                  top: 30,
                   right: 50,
                   left: 50,
                   child: CircleAvatar(
@@ -1462,7 +1462,7 @@ class HeaderCurvedContainer extends CustomPainter {
     Paint paint = Paint()..color = Colors.lime;
     Path path = Path()
       ..relativeLineTo(-12, 0)
-      ..quadraticBezierTo(size.width / 2, 190.0, size.width, 12)
+      ..quadraticBezierTo(size.width / 2, 160.0, size.width, 12)
       ..relativeLineTo(0, -12)
       ..close();
 

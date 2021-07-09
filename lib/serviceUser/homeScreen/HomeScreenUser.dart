@@ -1280,14 +1280,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               SizedBox(width: 5),
-                              widget.getTherapistByType[index].businessForm
-                                          .contains('施術店舗あり 施術従業員あり') ||
-                                      widget.getTherapistByType[index]
-                                          .businessForm
-                                          .contains('施術店舗あり 施術従業員なし（個人経営）') ||
-                                      widget.getTherapistByType[index]
-                                          .businessForm
-                                          .contains('施術店舗なし 施術従業員なし（個人)')
+                              widget.getTherapistByType[index].isShop == 1
                                   ? Visibility(
                                       visible: true,
                                       child: Container(
@@ -1977,15 +1970,17 @@ class _ReservationListState extends State<ReservationList> {
   Widget build(BuildContext context) {
     if (bookingDetailsList != null && bookingDetailsList.isNotEmpty) {
       DateTime startTime = bookingDetailsList[0].newStartTime != null
-          ? DateTime.parse(bookingDetailsList[0].newStartTime)
-          : bookingDetailsList[0].startTime;
+          ? DateTime.parse(bookingDetailsList[0].newStartTime).toLocal()
+          : bookingDetailsList[0].startTime.toLocal();
       DateTime endTime = bookingDetailsList[0].newEndTime != null
-          ? DateTime.parse(bookingDetailsList[0].newEndTime)
-          : bookingDetailsList[0].endTime;
+          ? DateTime.parse(bookingDetailsList[0].newEndTime).toLocal()
+          : bookingDetailsList[0].endTime.toLocal();
       setState(() {
         month = DateFormat('MM月').format(startTime);
         day = DateFormat('d').format(startTime);
-        sTime = DateFormat('kk:mm').format(startTime);
+        sTime = startTime.hour == 0
+            ? DateFormat('KK:mm').format(startTime)
+            : DateFormat('kk:mm').format(startTime);
         eTime = DateFormat('kk:mm').format(endTime);
         jaName = DateFormat('EEEE', 'ja_JP').format(startTime);
       });
@@ -2121,58 +2116,33 @@ class _ReservationListState extends State<ReservationList> {
                             children: [
                               Row(
                                 children: [
-                                  bookingDetailsList[0]
-                                                  .bookingTherapistId
-                                                  .storeName !=
-                                              "" &&
-                                          bookingDetailsList[0]
-                                                  .bookingTherapistId
-                                                  .storeName !=
+                                  bookingDetailsList[0].bookingTherapistId.storeName != "" &&
+                                          bookingDetailsList[0].bookingTherapistId.storeName !=
                                               null
-                                      ? Flexible(
-                                          child: Text(
-                                              bookingDetailsList[0]
-                                                          .bookingTherapistId
-                                                          .storeName
-                                                          .length >
-                                                      10
-                                                  ? bookingDetailsList[0]
-                                                          .bookingTherapistId
-                                                          .storeName
-                                                          .substring(0, 10) +
-                                                      "..."
-                                                  : bookingDetailsList[0]
+                                      ? Text(
+                                          bookingDetailsList[0]
                                                       .bookingTherapistId
-                                                      .storeName,
-                                              style: TextStyle(
-                                                  color: Color.fromRGBO(
-                                                      0, 0, 0, 1),
-                                                  fontWeight: FontWeight.bold,
-                                                  fontFamily: ColorConstants
-                                                      .fontFamily)),
-                                        )
-                                      : Flexible(
-                                          child: Text(
-                                              bookingDetailsList[0]
-                                                          .bookingTherapistId
-                                                          .userName
-                                                          .length >
-                                                      10
-                                                  ? bookingDetailsList[0]
-                                                          .bookingTherapistId
-                                                          .userName
-                                                          .substring(0, 10) +
-                                                      "..."
-                                                  : bookingDetailsList[0]
+                                                      .storeName
+                                                      .length >
+                                                  10
+                                              ? bookingDetailsList[0]
                                                       .bookingTherapistId
-                                                      .userName,
-                                              style: TextStyle(
-                                                  color: Color.fromRGBO(
-                                                      0, 0, 0, 1),
-                                                  fontWeight: FontWeight.bold,
-                                                  fontFamily: ColorConstants
-                                                      .fontFamily)),
-                                        ),
+                                                      .storeName
+                                                      .substring(0, 10) +
+                                                  "..."
+                                              : bookingDetailsList[0]
+                                                  .bookingTherapistId
+                                                  .storeName,
+                                          style: TextStyle(
+                                              color: Color.fromRGBO(0, 0, 0, 1),
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily:
+                                                  ColorConstants.fontFamily))
+                                      : Text(bookingDetailsList[0].bookingTherapistId.userName.length > 10 ? bookingDetailsList[0].bookingTherapistId.userName.substring(0, 10) + "..." : bookingDetailsList[0].bookingTherapistId.userName,
+                                          style: TextStyle(
+                                              color: Color.fromRGBO(0, 0, 0, 1),
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: ColorConstants.fontFamily)),
                                   SizedBox(
                                     width: 5,
                                   ),
@@ -2222,6 +2192,7 @@ class _ReservationListState extends State<ReservationList> {
                                             Text(
                                               '承認待ち',
                                               style: TextStyle(
+                                                fontSize: 12.0,
                                                 color: Colors.orange,
                                               ),
                                             )
@@ -3025,15 +2996,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                           child: Row(
                             children: [
                               SizedBox(width: 5),
-                              therapistUsers[index]
-                                          .businessForm
-                                          .contains('施術店舗あり 施術従業員あり') ||
-                                      therapistUsers[index]
-                                          .businessForm
-                                          .contains('施術店舗あり 施術従業員なし（個人経営）') ||
-                                      therapistUsers[index]
-                                          .businessForm
-                                          .contains('施術店舗なし 施術従業員なし（個人)')
+                              therapistUsers[index].isShop == 1
                                   ? Visibility(
                                       visible: true,
                                       child: Container(
@@ -3659,15 +3622,7 @@ class _RecommendListsState extends State<RecommendLists> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               SizedBox(width: 5),
-                              widget.getRecommendedTherapists[index]
-                                          .businessForm
-                                          .contains('施術店舗あり 施術従業員あり') ||
-                                      widget.getRecommendedTherapists[index]
-                                          .businessForm
-                                          .contains('施術店舗あり 施術従業員なし（個人経営）') ||
-                                      widget.getRecommendedTherapists[index]
-                                          .businessForm
-                                          .contains('施術店舗なし 施術従業員なし（個人)')
+                              widget.getRecommendedTherapists[index].isShop == 1
                                   ? Visibility(
                                       visible: true,
                                       child: Container(

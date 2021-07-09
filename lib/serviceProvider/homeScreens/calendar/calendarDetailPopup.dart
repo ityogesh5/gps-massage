@@ -198,8 +198,8 @@ class ProviderCalendarDetailPopup {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              desSplit[0].length > 15
-                                  ? desSplit[0].substring(0, 15) + "..."
+                              desSplit[0].length > 10
+                                  ? desSplit[0].substring(0, 10) + "..."
                                   : ' ${desSplit[0]} ',
                               style: TextStyle(
                                 fontSize: 12.0,

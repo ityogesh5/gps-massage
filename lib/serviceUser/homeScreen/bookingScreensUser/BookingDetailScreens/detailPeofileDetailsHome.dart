@@ -763,29 +763,33 @@ class _DetailPeofileDetailsHomeState extends State<DetailPeofileDetailsHome> {
       for (int i = 0;
           i < widget.therapistDetails.storeServiceTiming.length;
           i++) {
+        DateTime startTime =
+            widget.therapistDetails.storeServiceTiming[i].startTime.toLocal();
+        DateTime endTime =
+            widget.therapistDetails.storeServiceTiming[i].endTime.toLocal();
+        DateTime currentSTime = DateTime(startTime.year, startTime.month, 1,
+            startTime.hour, startTime.minute, startTime.second);
+        DateTime currentETime = endTime.hour == 0
+            ? DateTime(endTime.year, endTime.month, 2, endTime.hour,
+                endTime.minute, endTime.second)
+            : DateTime(endTime.year, endTime.month, 1, endTime.hour,
+                endTime.minute, endTime.second);
         if (i == 0) {
-          minSTime = widget.therapistDetails.storeServiceTiming[i].startTime;
-          minETime = widget.therapistDetails.storeServiceTiming[i].endTime;
+          minSTime = currentSTime;
+          minETime = currentETime;
         } else {
-          if (widget.therapistDetails.storeServiceTiming[i].startTime
-                  .compareTo(minSTime) <
-              0) {
-            widget.therapistDetails.storeServiceTiming[i].startTime = minSTime;
+          if (currentSTime.compareTo(minSTime) < 0) {
+            minSTime = currentSTime;
           }
-          if (widget.therapistDetails.storeServiceTiming[i].endTime
-                  .compareTo(minETime) >
-              0) {
-            widget.therapistDetails.storeServiceTiming[i].endTime = minETime;
+          if (currentETime.compareTo(minETime) > 0) {
+            minETime = currentETime;
           }
         }
       }
-      minSTime = minSTime.toLocal();
-      minETime = minETime.toLocal();
-
-      startTime = minSTime.hour == 0
+      this.startTime = minSTime.hour == 0
           ? DateFormat('KK:mm').format(minSTime)
           : DateFormat('kk:mm').format(minSTime);
-      endTime = DateFormat('kk:mm').format(minETime);
+      this.endTime = DateFormat('kk:mm').format(minETime);
     }
 
     //Get Children Measure Data

@@ -2750,6 +2750,8 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         sharedPreferences.setString(
             "userData", json.encode(loginResponseModel.data));
         HealingMatchConstants.userData = loginResponseModel.data;
+        HealingMatchConstants.numberOfEmployeeRegistered =
+            HealingMatchConstants.userData.numberOfEmp;
         ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
         print('Update response : ${loginResponseModel.toJson()}');
         DialogHelper.showProviderProfileUpdatedSuccessDialog(context);
