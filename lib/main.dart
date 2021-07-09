@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
-import 'package:gps_massageapp/utils/StripeTest/StripeNewPayment.dart';
 
-import 'initialScreens/splashScreen.dart';
+import 'utils/StripeTest/stripecheckdeeplink/DeepLinkTestStripeFlutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,6 +35,6 @@ class HealingMatchApp extends StatelessWidget {
         ],
         title: 'Healing Match',
         debugShowCheckedModeBanner: false,
-        home: SplashScreen());
+        home: DeepLinkTestFlutter());
   }
-} //TestPayment
+} //SplashScreen //FilePickerDemo //WebviewStripeTest //DeepLinkTestFlutter

@@ -889,4 +889,6 @@ class HealingMatchConstants {
     Curves.linearToEaseOut,
     Curves.slowMiddle
   ];
+
+  static String stripeRedirectURL;
 }
