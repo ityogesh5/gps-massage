@@ -146,6 +146,118 @@ class DialogHelper {
     )..show();
   }
 
+  // Block User
+  static void showUserBlockDialog(BuildContext context) {
+    AwesomeDialog dialog;
+    dialog = AwesomeDialog(
+      dismissOnTouchOutside: false,
+      useRootNavigator: true,
+      context: context,
+      headerAnimationLoop: false,
+      dialogType: DialogType.NO_HEADER,
+      body: Stack(
+        children: [
+          Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                    width: 80.0,
+                    height: 80.0,
+                    decoration: new BoxDecoration(
+                      border: Border.all(color: Colors.black12),
+                      shape: BoxShape.circle,
+                      image: new DecorationImage(
+                          fit: BoxFit.fill,
+                          image:
+                              new AssetImage('assets/images_gps/appIcon.png')),
+                    )),
+                SizedBox(height: 10),
+                Text('”大変申し訳ありませんが、\n利用規約に抵触した等により現在アカウントを\n利用できません。”',
+                    textAlign: TextAlign.center,
+                    style: new TextStyle(
+                      fontSize: 12,
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      fontWeight: FontWeight.bold,
+                    )),
+                SizedBox(height: 10),
+                Text('”詳細を確認したい場合は、お手数ですがinfo@sir-inc.co.jpまでご連絡ください。”',
+                    textAlign: TextAlign.center,
+                    style: new TextStyle(
+                      fontSize: 12,
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      fontWeight: FontWeight.bold,
+                    )),
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Expanded(
+                      child: new Container(
+                          margin:
+                              const EdgeInsets.only(left: 10.0, right: 15.0),
+                          child: Divider(
+                            //  height: 50,
+                            color: Colors.grey,
+                          )),
+                    ),
+                    Text(
+                      "または",
+                      style: TextStyle(
+                        color: Colors.grey,
+                      ),
+                    ),
+                    Expanded(
+                      child: new Container(
+                          margin:
+                              const EdgeInsets.only(left: 15.0, right: 10.0),
+                          child: Divider(
+                            color: Colors.grey,
+                            //height: 50,
+                          )),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                InkWell(
+                  onTap: () {
+                    dialog.dissmiss();
+                    NavigationRouter.switchToServiceUserBottomBarViewProfile(
+                        context);
+                  },
+                  child: Text('プロフィール写真の変更する',
+                      style: new TextStyle(
+                          fontSize: 12,
+                          color: Colors.black,
+                          fontFamily: 'NotoSansJP',
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline)),
+                ),
+                SizedBox(height: 5),
+              ],
+            ),
+          ),
+        ],
+      ),
+      btnOkOnPress: () {
+        debugPrint('OnClcik');
+      },
+      btnOk: AnimatedButton(
+          color: Color.fromRGBO(200, 217, 33, 1),
+          text: 'OK',
+          pressEvent: () {
+            dialog.dissmiss();
+            NavigationRouter.switchToServiceUserBottomBar(context);
+          }),
+    )..show();
+  }
+
   //Add address SkipPopup
 
   static void showUserAddAddressDialog(BuildContext context) {
