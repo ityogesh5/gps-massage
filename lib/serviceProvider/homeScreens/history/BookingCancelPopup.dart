@@ -153,9 +153,9 @@ class _CancelBookingState extends State<CancelBooking> {
                     ServiceProviderApi.updateStatusUpdate(
                             widget.bookingDetail, false, false, true)
                         .then((value) {
-                      ProgressDialogBuilder.hideCommonProgressDialog(context);
+                    //  ProgressDialogBuilder.hideCommonProgressDialog(context);
                       if (value) {
-                        NavigationRouter.switchToServiceProviderBottomBar(
+                        NavigationRouter.switchToProviderCancelledHistoryScreen(
                             context);
                       }
                     });

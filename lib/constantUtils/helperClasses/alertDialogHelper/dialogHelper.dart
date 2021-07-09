@@ -912,9 +912,17 @@ class DialogHelper {
                         border: Border.all(color: Colors.grey[300]),
                         shape: BoxShape.circle,
                         color: Colors.white,
-                        image: DecorationImage(
+                        /*  image: DecorationImage(
                           image: AssetImage('assets/images_gps/correct.png'),
                           fit: BoxFit.none,
+                        ), */
+                      ),
+                      child: Center(
+                        child: SizedBox(
+                          width: 40.0,
+                          height: 40.0,
+                          child: Image.asset('assets/images_gps/tick.png',
+                              fit: BoxFit.scaleDown),
                         ),
                       ),
                     ),
@@ -944,7 +952,7 @@ class DialogHelper {
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
                           width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height * 0.2,
+                          height: MediaQuery.of(context).size.height * 0.1,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
                           )),
@@ -1005,9 +1013,17 @@ class DialogHelper {
                         border: Border.all(color: Colors.grey[300]),
                         shape: BoxShape.circle,
                         color: Colors.white,
-                        image: DecorationImage(
+                        /*  image: DecorationImage(
                           image: AssetImage('assets/images_gps/tick.png'),
                           fit: BoxFit.none,
+                        ), */
+                      ),
+                      child: Center(
+                        child: SizedBox(
+                          width: 40.0,
+                          height: 40.0,
+                          child: Image.asset('assets/images_gps/tick.png',
+                              fit: BoxFit.scaleDown),
                         ),
                       ),
                     ),

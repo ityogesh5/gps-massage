@@ -128,6 +128,26 @@ class NavigationRouter {
         }));
   }
 
+  //Provider WeeklySchedule
+  static void refreshWeeklySchedule(BuildContext context) {
+    Navigator.of(context).pushReplacement(PageRouteBuilder(
+        pageBuilder: (context, animation, anotherAnimation) {
+          return WeeklySchedule();
+        },
+        transitionDuration: Duration(milliseconds: 2000),
+        transitionsBuilder: (context, animation, anotherAnimation, child) {
+          animation = CurvedAnimation(
+              curve: HealingMatchConstants.curveList[2], parent: animation);
+          return Align(
+            child: SizeTransition(
+              sizeFactor: animation,
+              child: child,
+              axisAlignment: 0.0,
+            ),
+          );
+        }));
+  }
+
 // Terms and conditions screen
   static void switchToTermsAndConditions(BuildContext context) {
     Navigator.of(context).pushReplacement(
@@ -527,24 +547,23 @@ class NavigationRouter {
 
 // Provider bottom bar homescreen
   static void switchToServiceProviderBottomBar(BuildContext context) {
-    Navigator.of(context).pushAndRemoveUntil(
-        PageRouteBuilder(
-            pageBuilder: (context, animation, anotherAnimation) {
-              return BottomBarProvider(0);
-            },
-            transitionDuration: Duration(milliseconds: 2000),
-            transitionsBuilder: (context, animation, anotherAnimation, child) {
-              animation = CurvedAnimation(
-                  curve: HealingMatchConstants.curveList[2], parent: animation);
-              return Align(
-                child: SizeTransition(
-                  sizeFactor: animation,
-                  child: child,
-                  axisAlignment: 0.0,
-                ),
-              );
-            }),
-        (Route<dynamic> route) => false);
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    Navigator.of(context).pushReplacement(PageRouteBuilder(
+        pageBuilder: (context, animation, anotherAnimation) {
+          return BottomBarProvider(0);
+        },
+        transitionDuration: Duration(milliseconds: 2000),
+        transitionsBuilder: (context, animation, anotherAnimation, child) {
+          animation = CurvedAnimation(
+              curve: HealingMatchConstants.curveList[2], parent: animation);
+          return Align(
+            child: SizeTransition(
+              sizeFactor: animation,
+              child: child,
+              axisAlignment: 0.0,
+            ),
+          );
+        }));
   }
 
   // Provider bottom bar myAccount
@@ -588,6 +607,28 @@ class NavigationRouter {
             builder: (BuildContext context) => BottomBarProvider(
                   2,
                   historyPage: 2,
+                )));
+  }
+
+  static void switchToProviderApprovedHistoryScreen(BuildContext context) {
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => BottomBarProvider(
+                  2,
+                  historyPage: 1,
+                )));
+  }
+
+  static void switchToProviderCancelledHistoryScreen(BuildContext context) {
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => BottomBarProvider(
+                  2,
+                  historyPage: 3,
                 )));
   }
 

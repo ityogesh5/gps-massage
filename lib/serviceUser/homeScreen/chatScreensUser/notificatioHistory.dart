@@ -394,13 +394,13 @@ class _NotificationHistoryScreenState extends State<NotificationHistoryScreen> {
                                             ),
                                           )
                                         : Text(
-                                            'セラピストが予約をキャンセルしました',
-                                            style: TextStyle(
-                                              fontSize: 10.0,
-                                              color: Color.fromRGBO(
-                                                  153, 153, 153, 1),
-                                            ),
+                                          'セラピストが予約を\nキャンセルしました',
+                                          style: TextStyle(
+                                            fontSize: 10.0,
+                                            color: Color.fromRGBO(
+                                                153, 153, 153, 1),
                                           ),
+                                        ),
                             SizedBox(
                               width: 10,
                             ),

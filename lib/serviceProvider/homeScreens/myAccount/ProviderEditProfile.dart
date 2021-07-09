@@ -988,10 +988,12 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                           onChanged: (value) {
                             setState(() {
                               bussinessForm = value;
-                              if (value == "施術店舗なし 施術従業員あり（出張のみ)") {
+                              if (value == "施術店舗なし 施術従業員あり（出張のみ)" ||
+                                  value == "施術店舗なし 施術従業員なし（個人)") {
                                 serviceBusinessTrips = "はい";
                                 businessTripEnabled = false;
                               } else {
+                                serviceBusinessTrips = "";
                                 businessTripEnabled = true;
                               }
 

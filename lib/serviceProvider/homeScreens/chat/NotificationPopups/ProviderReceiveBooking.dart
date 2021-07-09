@@ -987,7 +987,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
           .then((value) {
         ProgressDialogBuilder.hideCommonProgressDialog(context);
         if (value) {
-          NavigationRouter.switchToServiceProviderBottomBar(context);
+          NavigationRouter.switchToProviderCancelledHistoryScreen(context);
         }
       });
       //  }
@@ -1055,13 +1055,11 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
           newStartTime.hour,
           newStartTime.minute,
           newStartTime.second);
-      widget.bookingDetail.newEndTime = DateTime(
-          newEndTime.year,
-          newEndTime.month,
-          startTime.day,
-          newEndTime.hour,
-          newEndTime.minute,
-          newEndTime.second);
+      widget.bookingDetail.newEndTime = newEndTime.hour == 0
+          ? DateTime(newEndTime.year, newEndTime.month, startTime.day+1,
+              newEndTime.hour, newEndTime.minute, newEndTime.second)
+          : DateTime(newEndTime.year, newEndTime.month, startTime.day,
+              newEndTime.hour, newEndTime.minute, newEndTime.second);
       widget.bookingDetail.therapistComments = providerCommentsController.text;
     }
     if (proposeAdditionalCosts) {
@@ -1147,10 +1145,10 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
         db.addToPeerContacts(widget.bookingDetail.bookingUserId.firebaseUdid,
             HealingMatchConstants.fbUserId);
         ProgressDialogBuilder.hideCommonProgressDialog(context);
-        NavigationRouter.switchToServiceProviderBottomBar(context);
+        NavigationRouter.switchToProviderApprovedHistoryScreen(context);
       } else {
         ProgressDialogBuilder.hideCommonProgressDialog(context);
-        NavigationRouter.switchToServiceProviderBottomBar(context);
+        NavigationRouter.switchToProviderApprovedHistoryScreen(context);
       }
     });
   }
