@@ -3676,7 +3676,7 @@ class _AddAddressState extends State<AddAddress> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('登録する地点のカテゴリーを入力してください。',
+              child: Text('登録する地点名を入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -3696,6 +3696,37 @@ class _AddAddressState extends State<AddAddress> {
         ),
       ));
       return;
+    }
+
+    if ((_myCategoryPlaceForMassage.contains("その他（直接入力）")) &&
+        (otherController.text.length > 10)) {
+      ProgressDialogBuilder.hideLoader(context);
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('登録する地点名を10文字以内で記入ください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
     }
 
     if (addedAddressType[_myCategoryPlaceForMassage] ==

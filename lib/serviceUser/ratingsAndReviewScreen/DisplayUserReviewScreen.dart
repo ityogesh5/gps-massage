@@ -226,7 +226,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                                                     child: Column(
                                                       children: [
                                                         Text(
-                                                          '今のところ、このセラピストの方にはレビューがありません。',
+                                                          'まだレビューはありません。',
                                                           style: TextStyle(
                                                               fontSize: 14,
                                                               fontFamily:

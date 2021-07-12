@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/auth.dart';
 import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
@@ -81,6 +82,7 @@ class _LogOutServiceUserState extends State<LogOutServiceUser> {
                     if (value == 'Y') {
                       print('User Logged out!!');
                       // Auth().signOut();
+                      HealingMatchConstants.isUserVerified = false;
                       ServiceUserAPIProvider.logOutApi().then((value) => {
                             if (value)
                               {
