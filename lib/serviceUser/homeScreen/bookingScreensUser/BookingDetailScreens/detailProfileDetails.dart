@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
+import 'package:intl/intl.dart';
 import 'package:readmore/readmore.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 
@@ -20,6 +21,8 @@ class _DetailProfileDetailsState extends State<DetailProfileDetails> {
   Map<int, String> serviceType;
   Map<String, String> certificateImages = Map<String, String>();
   String genderOfService;
+  String startTime = "00:00";
+  String endTime = "24:00";
 
   @override
   void initState() {
@@ -473,7 +476,7 @@ class _DetailProfileDetailsState extends State<DetailProfileDetails> {
               ),
               SizedBox(width: 5),
               new Text(
-                '10:30 ～ 11:30',
+                '$startTime ～ $endTime',
                 style: TextStyle(
                     color: Colors.grey[400],
                     fontSize: 12,
@@ -487,6 +490,9 @@ class _DetailProfileDetailsState extends State<DetailProfileDetails> {
   }
 
   getProfileDetails() {
+    DateTime minSTime;
+    DateTime minETime;
+
     //Get avail. Service Types
     var split = widget.therapistDetails.data.storeType.split(',');
     serviceType = {for (int i = 0; i < split.length; i++) i: split[i]};
@@ -538,6 +544,40 @@ class _DetailProfileDetailsState extends State<DetailProfileDetails> {
     });
     if (certificateImages.length == 0) {
       certificateImages["無資格"] = "無資格";
+    }
+
+    //Get Business Time
+    if (widget.therapistDetails.storeServiceTiming.isNotEmpty) {
+      for (int i = 0;
+          i < widget.therapistDetails.storeServiceTiming.length;
+          i++) {
+        DateTime startTime =
+            widget.therapistDetails.storeServiceTiming[i].startTime.toLocal();
+        DateTime endTime =
+            widget.therapistDetails.storeServiceTiming[i].endTime.toLocal();
+        DateTime currentSTime = DateTime(startTime.year, startTime.month, 1,
+            startTime.hour, startTime.minute, startTime.second);
+        DateTime currentETime = endTime.hour == 0
+            ? DateTime(endTime.year, endTime.month, 2, endTime.hour,
+                endTime.minute, endTime.second)
+            : DateTime(endTime.year, endTime.month, 1, endTime.hour,
+                endTime.minute, endTime.second);
+        if (i == 0) {
+          minSTime = currentSTime;
+          minETime = currentETime;
+        } else {
+          if (currentSTime.compareTo(minSTime) < 0) {
+            minSTime = currentSTime;
+          }
+          if (currentETime.compareTo(minETime) > 0) {
+            minETime = currentETime;
+          }
+        }
+      }
+      this.startTime = minSTime.hour == 0
+          ? DateFormat('KK:mm').format(minSTime)
+          : DateFormat('kk:mm').format(minSTime);
+      this.endTime = DateFormat('kk:mm').format(minETime);
     }
   }
 

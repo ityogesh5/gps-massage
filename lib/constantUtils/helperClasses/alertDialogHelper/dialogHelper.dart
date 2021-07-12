@@ -947,7 +947,7 @@ class DialogHelper {
 // User Profile Details Update success popup
   static void showUserProfileUpdatedSuccessDialog(BuildContext context) {
     showDialog(
-        barrierDismissible: true,
+        barrierDismissible: false,
         context: context,
         builder: (context) {
           return Dialog(
@@ -1024,9 +1024,17 @@ class DialogHelper {
                         border: Border.all(color: Colors.grey[300]),
                         shape: BoxShape.circle,
                         color: Colors.white,
-                        image: DecorationImage(
+                        /*  image: DecorationImage(
                           image: AssetImage('assets/images_gps/correct.png'),
                           fit: BoxFit.none,
+                        ), */
+                      ),
+                      child: Center(
+                        child: SizedBox(
+                          width: 40.0,
+                          height: 40.0,
+                          child: Image.asset('assets/images_gps/tick.png',
+                              fit: BoxFit.scaleDown),
                         ),
                       ),
                     ),
@@ -1065,7 +1073,7 @@ class DialogHelper {
                   ),
                 ),
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.38,
+                  height: 250.0,//MediaQuery.of(context).size.height * 0.38,
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
@@ -1103,7 +1111,7 @@ class DialogHelper {
                   ),
                 ),
                 Positioned(
-                  top: 50,
+                  top: 30,
                   right: 50,
                   left: 50,
                   child: CircleAvatar(
@@ -1117,9 +1125,17 @@ class DialogHelper {
                         border: Border.all(color: Colors.grey[300]),
                         shape: BoxShape.circle,
                         color: Colors.white,
-                        image: DecorationImage(
+                        /*  image: DecorationImage(
                           image: AssetImage('assets/images_gps/tick.png'),
                           fit: BoxFit.none,
+                        ), */
+                      ),
+                      child: Center(
+                        child: SizedBox(
+                          width: 40.0,
+                          height: 40.0,
+                          child: Image.asset('assets/images_gps/tick.png',
+                              fit: BoxFit.scaleDown),
                         ),
                       ),
                     ),
@@ -1558,7 +1574,7 @@ class HeaderCurvedContainer extends CustomPainter {
     Paint paint = Paint()..color = Colors.lime;
     Path path = Path()
       ..relativeLineTo(-12, 0)
-      ..quadraticBezierTo(size.width / 2, 190.0, size.width, 12)
+      ..quadraticBezierTo(size.width / 2, 160.0, size.width, 12)
       ..relativeLineTo(0, -12)
       ..close();
 

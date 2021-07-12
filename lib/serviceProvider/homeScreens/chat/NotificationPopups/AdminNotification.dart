@@ -52,9 +52,8 @@ class _AdminNotificationState extends State<AdminNotification> {
                       child: CircleAvatar(
                         radius: 28.0,
                         backgroundColor: Colors.white,
-                        child: Image.network(
-                          HealingMatchConstants.userData.uploadProfileImgUrl,
-                          //User Profile Pic
+                        child: Image.asset(
+                          'assets/images_gps/logo.png',
                           fit: BoxFit.cover,
                           width: 100.0,
                           height: 100.0,

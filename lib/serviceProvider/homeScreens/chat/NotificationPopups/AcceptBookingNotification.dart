@@ -1037,7 +1037,7 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
           .then((value) {
         ProgressDialogBuilder.hideCommonProgressDialog(context);
         if (value) {
-          NavigationRouter.switchToServiceProviderBottomBar(context);
+          NavigationRouter.switchToProviderCancelledHistoryScreen(context);
         }
       });
       //  }
@@ -1210,10 +1210,10 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
                 .firebaseUdid,
             HealingMatchConstants.fbUserId);
         ProgressDialogBuilder.hideCommonProgressDialog(context);
-        NavigationRouter.switchToServiceProviderBottomBar(context);
+        NavigationRouter.switchToProviderApprovedHistoryScreen(context);
       } else {
         ProgressDialogBuilder.hideCommonProgressDialog(context);
-        NavigationRouter.switchToServiceProviderBottomBar(context);
+        NavigationRouter.switchToProviderApprovedHistoryScreen(context);
       }
     });
   }

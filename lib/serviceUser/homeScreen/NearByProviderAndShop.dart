@@ -984,15 +984,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                           child: Row(
                             children: [
                               SizedBox(width: 5),
-                              therapistUsers[index]
-                                          .businessForm
-                                          .contains('施術店舗あり 施術従業員あり') ||
-                                      therapistUsers[index]
-                                          .businessForm
-                                          .contains('施術店舗あり 施術従業員なし（個人経営）') ||
-                                      therapistUsers[index]
-                                          .businessForm
-                                          .contains('施術店舗なし 施術従業員なし（個人)')
+                              therapistUsers[index].isShop == 1
                                   ? Visibility(
                                       visible: true,
                                       child: Container(
@@ -1693,14 +1685,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               SizedBox(width: 5),
-                              widget.getTherapistByType[index].businessForm
-                                          .contains('施術店舗あり 施術従業員あり') ||
-                                      widget.getTherapistByType[index]
-                                          .businessForm
-                                          .contains('施術店舗あり 施術従業員なし（個人経営）') ||
-                                      widget.getTherapistByType[index]
-                                          .businessForm
-                                          .contains('施術店舗なし 施術従業員なし（個人)')
+                              widget.getTherapistByType[index].isShop == 1
                                   ? Visibility(
                                       visible: true,
                                       child: Container(
@@ -2123,7 +2108,7 @@ class _MassageTypeChipsState extends State<MassageTypeChips>
     for (int i = 0; i < _options.length; i++) {
       ChoiceChip choiceChip = ChoiceChip(
         selected: _selectedIndex == i,
-        padding: EdgeInsets.only(left:4.0,right:4.0),
+        padding: EdgeInsets.only(left: 4.0, right: 4.0),
         labelPadding: EdgeInsets.all(0.0),
         label: Text(_options[i],
             textAlign: TextAlign.center,

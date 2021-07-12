@@ -491,7 +491,7 @@ class ServiceProviderApi {
         return true;
       }); */
     } catch (e) {
-      log('Error creating event $e');
+      log('Error updating event $e');
       return false;
     }
   }

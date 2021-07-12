@@ -221,6 +221,11 @@ class _PastReservationsState extends State<PastReservations> {
                                       child: WidgetAnimator(
                                         InkWell(
                                           onTap: () {
+                                            HealingMatchConstants
+                                                    .serviceDistanceRadius =
+                                                double.parse(
+                                                    bookingDetailsList[index]
+                                                        .locationDistance);
                                             NavigationRouter
                                                 .switchToServiceUserBookingDetailsCompletedScreenOne(
                                                     context,

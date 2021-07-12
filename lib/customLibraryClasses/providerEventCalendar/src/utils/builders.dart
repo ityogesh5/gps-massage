@@ -72,14 +72,17 @@ class DefaultBuilders {
     Calendar.Event googleApiEvent = event.events;
     var split = googleApiEvent.summary.split(',');
     var difference = event.end.difference(event.start).inMinutes;
-    var splitGender = split[3].split('(');
-    String name = HealingMatchConstants.isProvider
-        ? splitGender[0].length > 10
-            ? splitGender[0].substring(0, 10) + "(" + splitGender[1]
-            : split[3]
-        : split[1].length > 10
-            ? split[1].substring(0, 10) + "..."
-            : split[1];
+    var splitGender =
+        googleApiEvent.description != "unavailable" ? split[3].split('(') : [];
+    String name = googleApiEvent.description != "unavailable"
+        ? HealingMatchConstants.isProvider
+            ? splitGender[0].length > 10
+                ? splitGender[0].substring(0, 10) + "(" + splitGender[1]
+                : split[3]
+            : split[1].length > 10
+                ? split[1].substring(0, 10) + "..."
+                : split[1]
+        : "";
     String sTime = event.start.hour == 0
         ? DateFormat('KK:mm').format(event.start)
         : DateFormat('kk:mm').format(event.start);

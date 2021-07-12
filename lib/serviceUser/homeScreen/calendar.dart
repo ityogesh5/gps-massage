@@ -539,11 +539,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                       child: DayView(
                                         controller: dayViewController,
                                         initialTime: const HourMinute(
-                                            hour: 2, minute: 55),
+                                            hour: 0, minute: 0),
                                         minimumTime:
-                                            HourMinute(hour: 2, minute: 55),
-                                        maximumTime:
-                                            HourMinute(hour: 17, minute: 10),
+                                            HourMinute(hour: 0, minute: 0),
+                                        maximumTime: HourMinute.MAX,
                                         date: displayDay,
                                         inScrollableWidget: true,
                                         hoursColumnStyle: HoursColumnStyle(
@@ -624,8 +623,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
   Map<DateTime, List<dynamic>> eventBuilder() {
     eventDotHandler = Map<DateTime, List<dynamic>>();
     for (var event in events) {
-      DateTime eventDate = DateTime(event.events.start.dateTime.year,
-          event.events.start.dateTime.month, event.events.start.dateTime.day);
+      DateTime startEvent = event.events.start.dateTime.toLocal();
+      DateTime eventDate = DateTime(startEvent.year,
+          startEvent.month, startEvent.day);
 
       var value = eventDotHandler[eventDate];
       if (value == null) {

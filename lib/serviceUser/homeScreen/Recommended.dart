@@ -809,15 +809,7 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               SizedBox(width: 5),
-                              widget.getRecommendedTherapists[index]
-                                          .businessForm
-                                          .contains('施術店舗あり 施術従業員あり') ||
-                                      widget.getRecommendedTherapists[index]
-                                          .businessForm
-                                          .contains('施術店舗あり 施術従業員なし（個人経営）') ||
-                                      widget.getRecommendedTherapists[index]
-                                          .businessForm
-                                          .contains('施術店舗なし 施術従業員なし（個人)')
+                              widget.getRecommendedTherapists[index].isShop == 1
                                   ? Visibility(
                                       visible: true,
                                       child: Container(

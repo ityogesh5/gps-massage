@@ -44,20 +44,27 @@ class _NotificationScreenState extends State<NotificationScreen> {
               onEndOfPage: () => _getMoreData(),
               child: SingleChildScrollView(
                 primary: true,
-                child: ListView.builder(
-                    primary: false,
-                    padding: EdgeInsets.all(0.0),
-                    shrinkWrap: true,
-                    physics: BouncingScrollPhysics(),
-                    itemCount: requestBookingDetailsList.length,
-                    itemBuilder: (context, index) {
-                      return requestBookingDetailsList[index].adminInfoId ==
-                              null
-                          ? buildNotificationCard(
-                              index, requestBookingDetailsList[index])
-                          : buildAdminCard(
-                              index, requestBookingDetailsList[index]);
-                    }),
+                child: Column(
+                  children: [
+                    ListView.builder(
+                        primary: false,
+                        padding: EdgeInsets.all(0.0),
+                        shrinkWrap: true,
+                        physics: BouncingScrollPhysics(),
+                        itemCount: requestBookingDetailsList.length,
+                        itemBuilder: (context, index) {
+                          return requestBookingDetailsList[index].adminInfoId ==
+                                  null
+                              ? buildNotificationCard(
+                                  index, requestBookingDetailsList[index])
+                              : buildAdminCard(
+                                  index, requestBookingDetailsList[index]);
+                        }),
+                    SizedBox(
+                        height:
+                            requestBookingDetailsList.length > 4 ? 50.0 : 0.0),
+                  ],
+                ),
               ),
             ),
     );
@@ -103,11 +110,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: ClipOval(
-                      child: SvgPicture.asset(
-                          'assets/images_gps/profile_pic_user.svg',
-                          height: 35,
-                          width: 35,
-                          color: Colors.black),
+                      child: Image.asset('assets/images_gps/logo.png',
+                          height: 35, width: 35, color: Colors.black),
                     ),
                   ),
                   SizedBox(
@@ -246,41 +250,40 @@ class _NotificationScreenState extends State<NotificationScreen> {
             }
           },
           child: Row(
-            //  crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
             children: [
               Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: ClipOval(
-                      child: requestBookingDetailsList.bookingDetail
-                                  .bookingUserId.uploadProfileImgUrl !=
-                              null
-                          ? CachedNetworkImage(
-                              width: 35.0,
-                              height: 35.0,
-                              fit: BoxFit.cover,
-                              imageUrl: requestBookingDetailsList.bookingDetail
-                                  .bookingUserId.uploadProfileImgUrl,
-                              placeholder: (context, url) => SpinKitWave(
-                                  size: 20.0,
-                                  color: ColorConstants.buttonColor),
-                              errorWidget: (context, url, error) => Column(
-                                    children: [
-                                      SvgPicture.asset(
-                                          'assets/images_gps/profile_pic_user.svg',
-                                          height: 18,
-                                          width: 18,
-                                          color: Colors.black),
-                                    ],
-                                  ))
-                          : SvgPicture.asset(
-                              'assets/images_gps/profile_pic_user.svg',
-                              height: 35,
-                              width: 35,
-                              color: Colors.black),
-                    ),
+                  ClipOval(
+                    child: requestBookingDetailsList.bookingDetail.bookingUserId
+                                .uploadProfileImgUrl !=
+                            null
+                        ? CachedNetworkImage(
+                            width: 35.0,
+                            height: 35.0,
+                            fit: BoxFit.cover,
+                            imageUrl: requestBookingDetailsList.bookingDetail
+                                .bookingUserId.uploadProfileImgUrl,
+                            placeholder: (context, url) => SpinKitWave(
+                                size: 20.0, color: ColorConstants.buttonColor),
+                            errorWidget: (context, url, error) => Column(
+                                  children: [
+                                    SvgPicture.asset(
+                                        'assets/images_gps/profile_pic_user.svg',
+                                        height: 18,
+                                        width: 18,
+                                        color: Colors.black),
+                                  ],
+                                ))
+                        : SvgPicture.asset(
+                            'assets/images_gps/profile_pic_user.svg',
+                            height: 35,
+                            width: 35,
+                            color: Colors.black),
                   ),
                   SizedBox(
                     height: 4.0,
@@ -300,56 +303,131 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 width: 10.0,
               ),
               requestBookingDetailsList.adminInfoId != null
-                  ? Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '管理者',
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          requestBookingDetailsList
-                                      .information.infoMessage.length >
-                                  15
-                              ? requestBookingDetailsList
-                                      .information.infoMessage
-                                      .substring(0, 15) +
-                                  "..."
-                              : requestBookingDetailsList
-                                  .information.infoMessage,
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
-                    )
-                  : Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        requestBookingDetailsList.bookingStatus == 7 ||
-                                requestBookingDetailsList.bookingStatus == 8
-                            ? Text(
-                                '設定した希望時間が締め切れましたので、$nameさんのご\n予約は自動的にキャンセルされました。',
+                  ? Expanded(
+                      child: Row(
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '管理者',
                                 style: TextStyle(
-                                  fontSize: 10.0,
-                                  color: Color.fromRGBO(153, 153, 153, 1),
+                                  fontSize: 14.0,
+                                  color: Colors.black,
                                   fontWeight: FontWeight.bold,
                                 ),
-                              )
-                            : Row(
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              Text(
+                                requestBookingDetailsList
+                                            .information.infoMessage.length >
+                                        15
+                                    ? requestBookingDetailsList
+                                            .information.infoMessage
+                                            .substring(0, 15) +
+                                        "..."
+                                    : requestBookingDetailsList
+                                        .information.infoMessage,
+                                style: TextStyle(
+                                  fontSize: 12.0,
+                                  color: Color.fromRGBO(102, 102, 102, 1),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Spacer(),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: Color.fromRGBO(242, 242, 242, 1),
+                            size: 20.0,
+                          ),
+                        ],
+                      ),
+                    )
+                  : Expanded(
+                      child: Row(
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              requestBookingDetailsList.bookingStatus == 7 ||
+                                      requestBookingDetailsList.bookingStatus ==
+                                          8
+                                  ? Text(
+                                      '設定した希望時間が締め切れましたので、$nameさんのご\n予約は自動的にキャンセルされました。',
+                                      style: TextStyle(
+                                        fontSize: 10.0,
+                                        color: Color.fromRGBO(153, 153, 153, 1),
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )
+                                  : Row(
+                                      children: [
+                                        Text(
+                                          '$name さん',
+                                          style: TextStyle(
+                                            fontSize: 14.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 6.0,
+                                        ),
+                                        requestBookingDetailsList
+                                                    .bookingStatus ==
+                                                0
+                                            ? Text(
+                                                'からご予約依頼がありました。',
+                                                style: TextStyle(
+                                                  fontSize: 10.0,
+                                                  color: Color.fromRGBO(
+                                                      153, 153, 153, 1),
+                                                ),
+                                              )
+                                            : requestBookingDetailsList
+                                                        .bookingStatus ==
+                                                    5
+                                                ? Text(
+                                                    'がご予約をキャンセルしました。',
+                                                    style: TextStyle(
+                                                      fontSize: 10.0,
+                                                      color: Color.fromRGBO(
+                                                          153, 153, 153, 1),
+                                                    ),
+                                                  )
+                                                : Text(
+                                                    'はご予約を確定しました。',
+                                                    style: TextStyle(
+                                                      fontSize: 10.0,
+                                                      color: Color.fromRGBO(
+                                                          153, 153, 153, 1),
+                                                    ),
+                                                  ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                      ],
+                                    ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              Row(
                                 children: [
+                                  SvgPicture.asset(
+                                    "assets/images_gps/calendar.svg",
+                                    height: 14.77,
+                                    width: 16.0,
+                                  ),
+                                  SizedBox(
+                                    width: 8,
+                                  ),
                                   Text(
-                                    '$name さん',
+                                    '$dateFormat',
                                     style: TextStyle(
                                       fontSize: 14.0,
                                       color: Colors.black,
@@ -357,135 +435,81 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                     ),
                                   ),
                                   SizedBox(
-                                    width: 6.0,
+                                    width: 8,
                                   ),
-                                  requestBookingDetailsList.bookingStatus == 0
-                                      ? Text(
-                                          'からご予約依頼がありました。',
-                                          style: TextStyle(
-                                            fontSize: 10.0,
-                                            color: Color.fromRGBO(
-                                                153, 153, 153, 1),
-                                          ),
-                                        )
-                                      : requestBookingDetailsList
-                                                  .bookingStatus ==
-                                              5
-                                          ? Text(
-                                              'がご予約をキャンセルしました。',
-                                              style: TextStyle(
-                                                fontSize: 10.0,
-                                                color: Color.fromRGBO(
-                                                    153, 153, 153, 1),
-                                              ),
-                                            )
-                                          : Text(
-                                              'はご予約を確定しました。',
-                                              style: TextStyle(
-                                                fontSize: 10.0,
-                                                color: Color.fromRGBO(
-                                                    153, 153, 153, 1),
-                                              ),
-                                            ),
+                                  Text(
+                                    ' $jaName ',
+                                    style: TextStyle(
+                                      fontSize: 12.0,
+                                      color: Color.fromRGBO(102, 102, 102, 1),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    "assets/images_gps/clock.svg",
+                                    height: 14.77,
+                                    width: 16.0,
+                                  ),
                                   SizedBox(
-                                    width: 10,
+                                    width: 8,
+                                  ),
+                                  Text(
+                                    '$sTime ~ $eTime',
+                                    style: TextStyle(
+                                      fontSize: 14.0,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    ' $serviceDifference分 ',
+                                    style: TextStyle(
+                                      fontSize: 12.0,
+                                      color: Color.fromRGBO(102, 102, 102, 1),
+                                    ),
                                   ),
                                 ],
                               ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          children: [
-                            SvgPicture.asset(
-                              "assets/images_gps/calendar.svg",
-                              height: 14.77,
-                              width: 16.0,
-                            ),
-                            SizedBox(
-                              width: 8,
-                            ),
-                            Text(
-                              '$dateFormat',
-                              style: TextStyle(
-                                fontSize: 14.0,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
+                              SizedBox(
+                                height: 8,
                               ),
-                            ),
-                            SizedBox(
-                              width: 8,
-                            ),
-                            Text(
-                              ' $jaName ',
-                              style: TextStyle(
-                                fontSize: 12.0,
-                                color: Color.fromRGBO(102, 102, 102, 1),
+                              Container(
+                                decoration: BoxDecoration(
+                                    color: Color.fromRGBO(242, 242, 242, 1),
+                                    border: Border.all(
+                                      color: Colors.transparent,
+                                    ),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5))),
+                                padding: EdgeInsets.all(4),
+                                child: Text(
+                                  '${requestBookingDetailsList.bookingDetail.nameOfService}',
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                    color: Colors.black,
+                                  ),
+                                ),
                               ),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          children: [
-                            SvgPicture.asset(
-                              "assets/images_gps/clock.svg",
-                              height: 14.77,
-                              width: 16.0,
-                            ),
-                            SizedBox(
-                              width: 8,
-                            ),
-                            Text(
-                              '$sTime ~ $eTime',
-                              style: TextStyle(
-                                fontSize: 14.0,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
+                              SizedBox(
+                                height: 2,
                               ),
-                            ),
-                            Text(
-                              ' $serviceDifference分 ',
-                              style: TextStyle(
-                                fontSize: 12.0,
-                                color: Color.fromRGBO(102, 102, 102, 1),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                              color: Color.fromRGBO(242, 242, 242, 1),
-                              border: Border.all(
-                                color: Colors.transparent,
-                              ),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5))),
-                          padding: EdgeInsets.all(4),
-                          child: Text(
-                            '${requestBookingDetailsList.bookingDetail.nameOfService}',
-                            style: TextStyle(
-                              fontSize: 12.0,
-                              color: Colors.black,
-                            ),
+                            ],
                           ),
-                        ),
-                        SizedBox(
-                          height: 2,
-                        ),
-                      ],
+                          Spacer(),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: Color.fromRGBO(242, 242, 242, 1),
+                            size: 20.0,
+                          ),
+                        ],
+                      ),
                     ),
-              Spacer(),
-              Icon(
-                Icons.arrow_forward_ios,
-                color: Color.fromRGBO(242, 242, 242, 1),
-                size: 20.0,
-              ),
             ],
           ),
         ),
