@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
-import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 
 final flutterWebViewPlugin = FlutterWebviewPlugin();
 // ignore: prefer_collection_literals
@@ -12,7 +10,7 @@ final Set<JavascriptChannel> jsChannels = [
   JavascriptChannel(
       name: 'Print',
       onMessageReceived: (JavascriptMessage message) {
-        print('JS Message : ${message.message}');
+        print('JScriptWeb Message : ${message.message}');
       }),
 ].toSet();
 
@@ -33,20 +31,16 @@ final _scaffoldKey = GlobalKey<ScaffoldState>();
 
 final _history = [];
 
-class DeepLinkTestFlutter extends StatefulWidget {
+class StripeRegisterPage extends StatefulWidget {
   @override
-  State createState() {
-    return _DeepLinkTestFlutterState();
-  }
+  createState() => _StripeRegisterPageState();
 }
 
-class _DeepLinkTestFlutterState extends State<DeepLinkTestFlutter> {
-  final _key = UniqueKey();
-  var redirectUrl;
-
+class _StripeRegisterPageState extends State<StripeRegisterPage> {
   @override
   void initState() {
     super.initState();
+
     flutterWebViewPlugin.close();
 
     // Add a listener to on destroy WebView, so you can make came actions.
@@ -112,49 +106,8 @@ class _DeepLinkTestFlutterState extends State<DeepLinkTestFlutter> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      body: Container(
-        child: Center(
-          child: RaisedButton(
-            child: Text('Click me !!'),
-            onPressed: () {
-              _getStripeRegisterURL(context);
-            },
-          ),
-        ),
-      ),
-    );
-  }
-
-  void _getStripeRegisterURL(BuildContext context) async {
-    ProgressDialogBuilder.showOverlayLoader(context);
-    try {
-      ServiceUserAPIProvider.getStripeRegisterURL(context).then((value) {
-        if (value.status == 'success') {
-          HealingMatchConstants.stripeRedirectURL = value.message.url;
-          ProgressDialogBuilder.hideLoader(context);
-        }
-      }).catchError((onError) {
-        print('Stripe register error : ${onError.toString()}');
-        ProgressDialogBuilder.hideLoader(context);
-      });
-    } catch (e) {
-      print('Stripe redirect URL Exception : ${e.toString()}');
-      ProgressDialogBuilder.hideLoader(context);
-    }
-  }
-}
-
-class WebViewContainer extends StatefulWidget {
-  @override
-  createState() => _WebViewContainerState();
-}
-
-class _WebViewContainerState extends State<WebViewContainer> {
-  @override
-  Widget build(BuildContext context) {
     return WebviewScaffold(
+      key: _scaffoldKey,
       url: HealingMatchConstants.stripeRedirectURL,
       javascriptChannels: jsChannels,
       mediaPlaybackRequiresUserGesture: false,

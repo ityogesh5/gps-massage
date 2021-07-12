@@ -18,8 +18,11 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/Se
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+
+import 'helperClasses/progressDialogsHelper.dart';
 
 enum MessageType {
   Text,
@@ -891,4 +894,26 @@ class HealingMatchConstants {
   ];
 
   static String stripeRedirectURL;
+
+  static void getStripeRegisterURL(BuildContext context) async {
+    ProgressDialogBuilder.showOverlayLoader(context);
+    try {
+      ServiceUserAPIProvider.getStripeRegisterURL(context).then((value) {
+        if (value != null) {
+          //HealingMatchConstants.stripeRedirectURL = value.message.url;
+          ProgressDialogBuilder.hideLoader(context);
+          NavigationRouter.switchToStripeRegisterPage(context);
+        } else {
+          ProgressDialogBuilder.hideLoader(context);
+          return null;
+        }
+      }).catchError((onError) {
+        print('Stripe register error : ${onError.toString()}');
+        ProgressDialogBuilder.hideLoader(context);
+      });
+    } catch (e) {
+      print('Stripe redirect URL Exception : ${e.toString()}');
+      ProgressDialogBuilder.hideLoader(context);
+    }
+  }
 }

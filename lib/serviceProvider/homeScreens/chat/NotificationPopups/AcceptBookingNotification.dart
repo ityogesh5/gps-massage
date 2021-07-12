@@ -6,18 +6,21 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/db.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
+import 'package:gps_massageapp/customLibraryClasses/cardToolTips/timeSpinnerToolTip.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/firebaseNotificationTherapistListModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
 import 'package:intl/intl.dart';
-import 'package:gps_massageapp/customLibraryClasses/cardToolTips/timeSpinnerToolTip.dart';
 
 class AcceptBookingNotification extends StatefulWidget {
   final NotificationList requestBookingDetailsList;
+
   AcceptBookingNotification(this.requestBookingDetailsList);
+
   @override
   _AcceptBookingNotificationState createState() =>
       _AcceptBookingNotificationState();
@@ -32,6 +35,7 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
   String eTime;
   bool proposeAdditionalCosts = false;
   bool suggestAnotherTime = false;
+  bool isStripeVerified = true;
   bool onCancel = false;
   ScrollController scrollController = ScrollController();
   GlobalKey startKey = new GlobalKey();
@@ -1038,32 +1042,37 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
   }
 
   void validateFields() {
-    if (proposeAdditionalCosts) {
-      if (price == null && addedpriceReason == null) {
-        displaySnackBar("追加の費用と理由を選択してください。");
-        return null;
+    // Check stripe user validation
+    if (isStripeVerified) {
+      //_getStripeRegisterURL(context);
+      DialogHelper.showStripeNotVerifiedDialog(context);
+    } else {
+      if (proposeAdditionalCosts) {
+        if (price == null && addedpriceReason == null) {
+          displaySnackBar("追加の費用と理由を選択してください。");
+          return null;
+        }
+        if (price != null && addedpriceReason == null) {
+          displaySnackBar("費用の追加の理由をご選択ください。");
+          return null;
+        }
+        if (price == null && addedpriceReason != null) {
+          displaySnackBar("追加料金を選択してください。");
+          return null;
+        }
       }
-      if (price != null && addedpriceReason == null) {
-        displaySnackBar("費用の追加の理由をご選択ください。");
-        return null;
-      }
-      if (price == null && addedpriceReason != null) {
-        displaySnackBar("追加料金を選択してください。");
-        return null;
-      }
-    }
-    if (suggestAnotherTime) {
-      if (newStartTime != null &&
-          (providerCommentsController.text == null ||
-              providerCommentsController.text == "")) {
-        displaySnackBar("別の時間を提案した理由をご記入ください。");
-        return null;
-      }
-      if (newStartTime == null) {
-        displaySnackBar("新しい時間を選択してください。");
-        return null;
-      }
-      /*  if (newStartTime != null) {
+      if (suggestAnotherTime) {
+        if (newStartTime != null &&
+            (providerCommentsController.text == null ||
+                providerCommentsController.text == "")) {
+          displaySnackBar("別の時間を提案した理由をご記入ください。");
+          return null;
+        }
+        if (newStartTime == null) {
+          displaySnackBar("新しい時間を選択してください。");
+          return null;
+        }
+        /*  if (newStartTime != null) {
         if (newStartTime.day !=
                 widget.requestBookingDetailsList.bookingDetail.startTime.day ||
             newEndTime.day !=
@@ -1072,18 +1081,19 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
           return null;
         }
       } */
-    }
-    if (HealingMatchConstants.numberOfEmployeeRegistered < 2) {
-      ServiceProviderApi.searchEventByTime(startTime, endTime).then((value) {
-        if (value.length == 0) {
-          acceptBooking();
-        } else {
-          displaySnackBar("この時点ですでに予約されています。");
-          return null;
-        }
-      });
-    } else {
-      acceptBooking();
+      }
+      if (HealingMatchConstants.numberOfEmployeeRegistered < 2) {
+        ServiceProviderApi.searchEventByTime(startTime, endTime).then((value) {
+          if (value.length == 0) {
+            acceptBooking();
+          } else {
+            displaySnackBar("この時点ですでに予約されています。");
+            return null;
+          }
+        });
+      } else {
+        acceptBooking();
+      }
     }
   }
 
@@ -1176,7 +1186,8 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
         isStart: isStart,
         textStyle: TextStyle(color: Colors.black),
         height: 110,
-        width: MediaQuery.of(context).size.width * 0.73, //180,
+        width: MediaQuery.of(context).size.width * 0.73,
+        //180,
         backgroundColor: Colors.white,
         padding: EdgeInsets.all(8.0),
         borderRadius: BorderRadius.circular(10.0));

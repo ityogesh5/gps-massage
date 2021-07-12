@@ -1375,6 +1375,27 @@ class DialogHelper {
       ..show();
   }
 
+  // show StripeNotVerified dialog
+  static void showStripeNotVerifiedDialog(BuildContext context) {
+    AwesomeDialog dialog;
+    dialog = AwesomeDialog(
+        dismissOnTouchOutside: false,
+        context: context,
+        dialogType: DialogType.INFO,
+        headerAnimationLoop: false,
+        animType: AnimType.TOPSLIDE,
+        showCloseIcon: false,
+        closeIcon: Icon(Icons.close),
+        title: '情報',
+        desc: 'ストライプで確認していないようです。予約の支払いを受け取るには、ストライプで登録してください。',
+        btnOkOnPress: () {
+          print('Ok pressed!!');
+          dialog.dissmiss();
+          HealingMatchConstants.getStripeRegisterURL(context);
+        })
+      ..show();
+  }
+
   // Report / Block User
   static openReportBlockUserDialog(BuildContext context) {
     AwesomeDialog dialog;
