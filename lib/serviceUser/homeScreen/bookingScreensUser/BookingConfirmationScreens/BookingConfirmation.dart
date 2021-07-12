@@ -174,14 +174,22 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                               HealingMatchConstants.confShopName != "" &&
                                       HealingMatchConstants.confShopName != null
                                   ? Text(
-                                      '${HealingMatchConstants.confShopName}',
+                                      HealingMatchConstants
+                                                  .confShopName.length >
+                                              12
+                                          ? '${HealingMatchConstants.confShopName.substring(0, 12)}...'
+                                          : '${HealingMatchConstants.confShopName}',
                                       style: TextStyle(
                                           fontSize: 14,
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold),
                                     )
                                   : Text(
-                                      '${HealingMatchConstants.confUserName}',
+                                      HealingMatchConstants
+                                                  .confUserName.length >
+                                              10
+                                          ? '${HealingMatchConstants.confUserName.substring(0, 10)}...'
+                                          : '${HealingMatchConstants.confUserName}',
                                       style: TextStyle(
                                           fontSize: 14,
                                           color: Colors.black,

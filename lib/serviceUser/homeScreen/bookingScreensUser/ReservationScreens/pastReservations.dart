@@ -800,36 +800,27 @@ class _PastReservationsState extends State<PastReservations> {
                                                             ),
                                                           )),
                                                       SizedBox(
-                                                        width: 7,
+                                                        width: 2,
                                                       ),
-                                                      Text(
-                                                        '¥${bookingDetailsList[index].totalCost}',
-                                                        style: TextStyle(
-                                                            color:
-                                                                Color.fromRGBO(
-                                                                    0, 0, 0, 1),
+                                                      Flexible(
+                                                        child: Text(
+                                                          bookingDetailsList[index]
+                                                                          .travelAmount ==
+                                                                      0 ||
+                                                                  bookingDetailsList[
+                                                                              index]
+                                                                          .travelAmount ==
+                                                                      null
+                                                              ? '¥${bookingDetailsList[index].priceOfService}'
+                                                              : '¥${bookingDetailsList[index].priceOfService + bookingDetailsList[index].travelAmount} (交通費込み - ¥${bookingDetailsList[index].travelAmount})',
+                                                          style: TextStyle(
+                                                            fontSize: 14.0,
+                                                            color: Colors.black,
                                                             fontWeight:
-                                                                FontWeight
-                                                                    .bold),
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
                                                       ),
-                                                      SizedBox(
-                                                        width: 8,
-                                                      ),
-                                                      bookingDetailsList[index]
-                                                                  .addedPrice !=
-                                                              null
-                                                          ? Text(
-                                                              '(${bookingDetailsList[index].addedPrice})',
-                                                              style: TextStyle(
-                                                                color: Color
-                                                                    .fromRGBO(
-                                                                        153,
-                                                                        153,
-                                                                        153,
-                                                                        1),
-                                                              ),
-                                                            )
-                                                          : SizedBox.shrink(),
                                                     ],
                                                   ),
                                                   bookingDetailsList[index]

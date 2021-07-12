@@ -110,8 +110,8 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                             Text(
                               HealingMatchConstants
                                           .serviceProviderUserName.length >
-                                      15
-                                  ? '${HealingMatchConstants.serviceProviderUserName.substring(0, 14)}...についてのレビュー'
+                                      10
+                                  ? '${HealingMatchConstants.serviceProviderUserName.substring(0, 10)}...についてのレビュー'
                                   : '${HealingMatchConstants.serviceProviderUserName}についてのレビュー',
                               style: TextStyle(
                                   fontFamily: 'NotoSansJP',

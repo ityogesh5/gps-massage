@@ -387,12 +387,20 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                     SizedBox(
                       width: 2,
                     ),
-                    Text(
-                      '¥${therapistDetails.bookingDataResponse[0].totalCost}',
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
+                    Flexible(
+                      child: Text(
+                        therapistDetails.bookingDataResponse[0].travelAmount ==
+                                    0 ||
+                                therapistDetails
+                                        .bookingDataResponse[0].travelAmount ==
+                                    null
+                            ? '¥${therapistDetails.bookingDataResponse[0].priceOfService}'
+                            : '¥${therapistDetails.bookingDataResponse[0].priceOfService + therapistDetails.bookingDataResponse[0].travelAmount} (交通費込み - ¥${therapistDetails.bookingDataResponse[0].travelAmount})',
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ],
@@ -673,18 +681,20 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                     SizedBox(
                       width: 2,
                     ),
-                    Text(
-                      therapistDetails.bookingDataResponse[0].travelAmount ==
-                                  0 ||
-                              therapistDetails
-                                      .bookingDataResponse[0].travelAmount ==
-                                  null
-                          ? '¥${therapistDetails.bookingDataResponse[0].priceOfService}'
-                          : '¥${therapistDetails.bookingDataResponse[0].priceOfService + therapistDetails.bookingDataResponse[0].travelAmount} (交通費込み - ¥${therapistDetails.bookingDataResponse[0].travelAmount})',
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
+                    Flexible(
+                      child: Text(
+                        therapistDetails.bookingDataResponse[0].travelAmount ==
+                                    0 ||
+                                therapistDetails
+                                        .bookingDataResponse[0].travelAmount ==
+                                    null
+                            ? '¥${therapistDetails.bookingDataResponse[0].priceOfService}'
+                            : '¥${therapistDetails.bookingDataResponse[0].priceOfService + therapistDetails.bookingDataResponse[0].travelAmount} (交通費込み - ¥${therapistDetails.bookingDataResponse[0].travelAmount})',
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ],
