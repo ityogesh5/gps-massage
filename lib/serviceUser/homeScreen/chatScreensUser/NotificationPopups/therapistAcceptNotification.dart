@@ -116,7 +116,7 @@ class _TherapistAcceptNotificationState
                 height: 18.0,
               ),
               Text(
-                'セラピストからリクエストがありました。',
+                'セラピストがご予約を承認しました。',
                 style: TextStyle(
                   fontSize: 14.0,
                 ),
