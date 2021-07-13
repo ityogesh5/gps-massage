@@ -1020,20 +1020,42 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
         displaySnackBar("新しい時間を選択してください。");
         return null;
       }
-      /* if (newStartTime != null) {
-        if ((newStartTime.day != widget.bookingDetail.startTime.day ||
-                newEndTime.day !=
-                    widget.bookingDetail.endTime
-                        .day) /*  &&
-            !(newEndTime.hour == 0 && newEndTime.minute == 0) */
-            ) {
+      if (newStartTime != null && suggestAnotherTime) {
+        DateTime bookingSTime = DateTime(
+            newStartTime.year,
+            newStartTime.month,
+            startTime.day,
+            newStartTime.hour,
+            newStartTime.minute,
+            newStartTime.second);
+
+        DateTime bookingETime = newEndTime.hour < newStartTime.hour
+            ? DateTime(newEndTime.year, newEndTime.month, startTime.day + 1,
+                newEndTime.hour, newEndTime.minute, newEndTime.second)
+            : DateTime(newEndTime.year, newEndTime.month, startTime.day,
+                newEndTime.hour, newEndTime.minute, newEndTime.second);
+
+        if (bookingSTime.day != bookingETime.day &&
+            !(bookingETime.hour == 0 && bookingETime.minute == 0)) {
           displaySnackBar("同じ日の有効な時間を選択してください。");
           return null;
         }
-      } */
+      }
     }
     if (HealingMatchConstants.numberOfEmployeeRegistered < 2) {
-      ServiceProviderApi.searchEventByTime(startTime, endTime).then((value) {
+      DateTime bookingSTime = suggestAnotherTime
+          ? DateTime(newStartTime.year, newStartTime.month, startTime.day,
+              newStartTime.hour, newStartTime.minute, newStartTime.second)
+          : startTime;
+      DateTime bookingETime = suggestAnotherTime
+          ? newEndTime.hour == 0
+              ? DateTime(newEndTime.year, newEndTime.month, startTime.day + 1,
+                  newEndTime.hour, newEndTime.minute, newEndTime.second)
+              : DateTime(newEndTime.year, newEndTime.month, startTime.day,
+                  newEndTime.hour, newEndTime.minute, newEndTime.second)
+          : endTime;
+      ServiceProviderApi.searchEventByTime(bookingSTime, bookingETime)
+          .then((value) {
         if (value.length == 0) {
           acceptBooking();
         } else {
@@ -1056,7 +1078,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
           newStartTime.minute,
           newStartTime.second);
       widget.bookingDetail.newEndTime = newEndTime.hour == 0
-          ? DateTime(newEndTime.year, newEndTime.month, startTime.day+1,
+          ? DateTime(newEndTime.year, newEndTime.month, startTime.day + 1,
               newEndTime.hour, newEndTime.minute, newEndTime.second)
           : DateTime(newEndTime.year, newEndTime.month, startTime.day,
               newEndTime.hour, newEndTime.minute, newEndTime.second);

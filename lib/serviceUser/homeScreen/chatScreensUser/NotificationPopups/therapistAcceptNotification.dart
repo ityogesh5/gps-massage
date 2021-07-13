@@ -116,7 +116,9 @@ class _TherapistAcceptNotificationState
                 height: 18.0,
               ),
               Text(
-                'セラピストからリクエストがありました。',
+                widget.requestBookingDetailsList.bookingStatus == 1
+                    ? "セラピストがご予約を承認しました。"
+                    : 'セラピストからリクエストがありました。',
                 style: TextStyle(
                   fontSize: 14.0,
                 ),
