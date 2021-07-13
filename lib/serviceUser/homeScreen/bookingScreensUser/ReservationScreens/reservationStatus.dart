@@ -440,7 +440,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                           waitingForApprovalList.length != 0
                               ? Container(
                                   // height: MediaQuery.of(context).size.height * 0.37,
-                                  height: 277,
+                                  height: 280,
                                   width:
                                       MediaQuery.of(context).size.width * 0.95,
                                   child: ListView.builder(
@@ -1111,7 +1111,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                           approvedWithConditionsList.length != 0
                               ? Container(
                                   // height: MediaQuery.of(context).size.height *
-                                  height: 282,
+                                  height: 284,
                                   width:
                                       MediaQuery.of(context).size.width * 0.95,
                                   child: ListView.builder(
@@ -2821,7 +2821,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                           confirmedPaymentList.length != 0
                               ? Container(
                                   // height: MediaQuery.of(context).size.height * 0.39,
-                                  height: 282,
+                                  height: 284,
                                   width:
                                       MediaQuery.of(context).size.width * 0.95,
                                   child: ListView.builder(
@@ -3580,7 +3580,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                           canceledReservationList.length != 0
                               ? Container(
                                   // height: MediaQuery.of(context).size.height * 0.35,
-                                  height: 277,
+                                  height: 280,
                                   width:
                                       MediaQuery.of(context).size.width * 0.95,
                                   child: ListView.builder(

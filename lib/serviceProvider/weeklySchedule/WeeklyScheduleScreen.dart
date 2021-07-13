@@ -310,7 +310,13 @@ class _WeeklyScheduleState extends State<WeeklySchedule> {
                     Row(
                       children: [
                         Text(
-                          '${requestBookingDetailsList[index].bookingUserId.userName}',
+                          requestBookingDetailsList[index]
+                                      .bookingUserId
+                                      .userName
+                                      .length >
+                                  10
+                              ? '${requestBookingDetailsList[index].bookingUserId.userName.substring(0, 9)}...'
+                              : '${requestBookingDetailsList[index].bookingUserId.userName}',
                           style: TextStyle(
                             fontSize: 16.0,
                             color: Colors.black,
