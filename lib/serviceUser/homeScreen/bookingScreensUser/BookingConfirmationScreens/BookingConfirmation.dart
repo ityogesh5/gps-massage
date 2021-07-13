@@ -10,7 +10,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart' as GeoLocater;
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
-import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
+import 'package:gps_massageapp/customLibraryClasses/cardToolTips/providerHomeCardToolTip.dart';
 import 'package:gps_massageapp/customLibraryClasses/customRadioButtonList/roundedRadioButton.dart';
 import 'package:gps_massageapp/models/customModels/calendarEventCreateReqModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/booking/createBooking.dart';
@@ -957,7 +957,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
     ShowToolTip popup = ShowToolTip(context,
         text: text,
         textStyle: TextStyle(color: Colors.black),
-        height: 100,
+        height: 130,
         width: 190,
         backgroundColor: Colors.white,
         padding: EdgeInsets.all(8.0),
