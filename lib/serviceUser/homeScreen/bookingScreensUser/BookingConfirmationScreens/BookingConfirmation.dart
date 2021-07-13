@@ -987,7 +987,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
       isBookingLoading = false;
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('施術を受ける建物を8文字以内で入力してください。',
+        content: Text('施術を受ける建物を10文字以内で入力してください。',
             style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
@@ -1001,12 +1001,12 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
       return null;
     }
     if ((selectedBuildingType == 'その他') &&
-        (_otherBuildingController.text.length > 20)) {
+        (_otherBuildingController.text.length > 10)) {
       currentLoading();
       isBookingLoading = false;
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text("建物名を20文字以内で入力してください。",
+        content: Text("建物名を10文字以内で入力してください。",
             style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
