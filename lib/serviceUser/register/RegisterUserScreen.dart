@@ -1957,7 +1957,7 @@ class _RegisterUserState extends State<RegisterUser> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('登録する地点のカテゴリーを10文字数以内にする必要があります。',
+              child: Text('登録する地点名を10文字以内で記入ください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),

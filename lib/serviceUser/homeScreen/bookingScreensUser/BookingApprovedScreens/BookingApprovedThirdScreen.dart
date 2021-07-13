@@ -168,7 +168,7 @@ class _BookingApproveThirdScreenState extends State<BookingApproveThirdScreen> {
                       )),
                   SizedBox(height: 10),
                   Text(
-                    'セラピストからリクエストがありました。',
+                    'セラピストがご予約を承認しました。',
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 16.0,

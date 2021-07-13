@@ -33,12 +33,6 @@ List<String> massageBuildingTypeValues = [
 bool isOtherSelected = false;
 final _otherBuildingController = new TextEditingController();
 final _queriesAskController = new TextEditingController();
-Map<String, dynamic> _formData = {
-  'text': null,
-  'category': null,
-  'date': null,
-  'time': null,
-};
 
 List<String> selectedBuildingTypeValues = List<String>();
 
@@ -62,7 +56,14 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
   String selectedBuildingType = '';
   var currentLoading;
   bool isBookingLoading = false;
+  bool newChoosenVal = false;
   String currentPrefecture;
+  Map<String, dynamic> _formData = {
+    'text': null,
+    'category': null,
+    'date': null,
+    'time': null,
+  };
 
   @override
   void initState() {
@@ -174,14 +175,22 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                               HealingMatchConstants.confShopName != "" &&
                                       HealingMatchConstants.confShopName != null
                                   ? Text(
-                                      '${HealingMatchConstants.confShopName}',
+                                      HealingMatchConstants
+                                                  .confShopName.length >
+                                              12
+                                          ? '${HealingMatchConstants.confShopName.substring(0, 12)}...'
+                                          : '${HealingMatchConstants.confShopName}',
                                       style: TextStyle(
                                           fontSize: 14,
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold),
                                     )
                                   : Text(
-                                      '${HealingMatchConstants.confUserName}',
+                                      HealingMatchConstants
+                                                  .confUserName.length >
+                                              10
+                                          ? '${HealingMatchConstants.confUserName.substring(0, 10)}...'
+                                          : '${HealingMatchConstants.confUserName}',
                                       style: TextStyle(
                                           fontSize: 14,
                                           color: Colors.black,
@@ -816,7 +825,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
   }
 
   Widget massageBuildTypeDisplayContent() {
-    bool newChoosenVal = false;
+    newChoosenVal = false;
     return Padding(
       padding: const EdgeInsets.only(left: 20.0),
       child: Column(

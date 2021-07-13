@@ -164,8 +164,7 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
                                 if (value == 'Y') {
                                   cancelBooking();
                                 } else if (value == 'N') {
-                                  Navigator.of(context, rootNavigator: true)
-                                      .pop(context);
+                                  Navigator.pop(context);
                                 }
                               },
                               selectedColor: Colors.lime,
