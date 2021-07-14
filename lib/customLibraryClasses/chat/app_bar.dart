@@ -126,7 +126,9 @@ class _MyAppBarState extends State<MyAppBar>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        widget.peer.username,
+                        widget.peer.username.length > 10
+                            ? widget.peer.username.substring(0, 9) + "..."
+                            : widget.peer.username,
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 16,

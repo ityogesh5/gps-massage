@@ -32,6 +32,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/db.dart';
 
 import 'package:geocoding/geocoding.dart';
 import 'package:toast/toast.dart';
@@ -2754,6 +2756,25 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
             HealingMatchConstants.userData.numberOfEmp;
         ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
         print('Update response : ${loginResponseModel.toJson()}');
+        FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+        String firebaseUserId = firebaseAuth.currentUser.uid;
+        Map<String, dynamic> updateProviderDetails = {
+          "imageUrl": loginResponseModel.data.uploadProfileImgUrl,
+          "username": HealingMatchConstants.serviceProviderBusinessForm ==
+                      "施術店舗あり 施術従業員あり" ||
+                  HealingMatchConstants.serviceProviderBusinessForm ==
+                      "施術店舗あり 施術従業員なし（個人経営）"
+              ? loginResponseModel.data.storeName
+              : loginResponseModel.data.userName,
+          'searchKey': HealingMatchConstants.serviceProviderBusinessForm ==
+                      "施術店舗あり 施術従業員あり" ||
+                  HealingMatchConstants.serviceProviderBusinessForm ==
+                      "施術店舗あり 施術従業員なし（個人経営）"
+              ? loginResponseModel.data.storeName.toLowerCase()
+              : loginResponseModel.data.userName.toLowerCase(),
+        };
+        DB db = DB();
+        db.updateUserOnlineInfo(firebaseUserId, updateProviderDetails);
         DialogHelper.showProviderProfileUpdatedSuccessDialog(context);
       } else {
         ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);

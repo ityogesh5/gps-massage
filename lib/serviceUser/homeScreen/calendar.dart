@@ -523,49 +523,44 @@ class _CalendarScreenState extends State<CalendarScreen> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                      top: 15.0,
-                                      left: 5.0,
-                                      right: 5.0,
-                                      bottom: 15.0),
-                                  child: InkWell(
-                                    // onTap: () => NavigationRouter
-                                    //     .switchToWeeklySchedule(context),
-                                    child: Container(
-                                      height: calendarStatus == 0
-                                          ? MediaQuery.of(context).size.height /
-                                              2
-                                          : MediaQuery.of(context).size.height -
-                                              150.0, //350.0,
-                                      child: DayView(
-                                        controller: dayViewController,
-                                        initialTime: const HourMinute(
-                                            hour: 0, minute: 0),
-                                        minimumTime:
-                                            HourMinute(hour: 0, minute: 0),
-                                        maximumTime: HourMinute.MAX,
-                                        date: displayDay,
-                                        inScrollableWidget: true,
-                                        hoursColumnStyle: HoursColumnStyle(
-                                          color:
-                                              Color.fromRGBO(255, 255, 255, 1),
-                                          textStyle: TextStyle(
-                                              fontSize: 10.0,
-                                              color: Color.fromRGBO(
-                                                  158, 158, 158, 1)),
-                                        ),
-                                        style: DayViewStyle(
-                                            hourRowHeight: 85.0,
-                                            backgroundColor: Color.fromRGBO(
-                                                255, 255, 255, 1),
-                                            currentTimeCircleColor:
-                                                Colors.transparent,
-                                            backgroundRulesColor:
-                                                Colors.transparent,
-                                            currentTimeRuleColor:
-                                                Colors.transparent,
-                                            headerSize: 0.0),
-                                        events: events,
+                                    left: 5.0,
+                                    right: 5.0,
+                                  ),
+                                  child: Container(
+                                    height: calendarStatus == 0
+                                        ? MediaQuery.of(context).size.height / 2
+                                        : MediaQuery.of(context).size.height -
+                                            260.0, //350.0,
+                                    padding: const EdgeInsets.only(
+                                        top: 15.0, bottom: 15.0),
+                                    child: DayView(
+                                      controller: dayViewController,
+                                      initialTime:
+                                          const HourMinute(hour: 0, minute: 0),
+                                      minimumTime:
+                                          HourMinute(hour: 0, minute: 0),
+                                      maximumTime: HourMinute.MAX,
+                                      date: displayDay,
+                                      inScrollableWidget: true,
+                                      hoursColumnStyle: HoursColumnStyle(
+                                        color: Color.fromRGBO(255, 255, 255, 1),
+                                        textStyle: TextStyle(
+                                            fontSize: 10.0,
+                                            color: Color.fromRGBO(
+                                                158, 158, 158, 1)),
                                       ),
+                                      style: DayViewStyle(
+                                          hourRowHeight: 85.0,
+                                          backgroundColor:
+                                              Color.fromRGBO(255, 255, 255, 1),
+                                          currentTimeCircleColor:
+                                              Colors.transparent,
+                                          backgroundRulesColor:
+                                              Colors.transparent,
+                                          currentTimeRuleColor:
+                                              Colors.transparent,
+                                          headerSize: 0.0),
+                                      events: events,
                                     ),
                                   ),
                                 ),
@@ -624,8 +619,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
     eventDotHandler = Map<DateTime, List<dynamic>>();
     for (var event in events) {
       DateTime startEvent = event.events.start.dateTime.toLocal();
-      DateTime eventDate = DateTime(startEvent.year,
-          startEvent.month, startEvent.day);
+      DateTime eventDate =
+          DateTime(startEvent.year, startEvent.month, startEvent.day);
 
       var value = eventDotHandler[eventDate];
       if (value == null) {

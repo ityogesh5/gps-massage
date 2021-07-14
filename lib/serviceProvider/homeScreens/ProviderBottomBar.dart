@@ -8,12 +8,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/db.dart';
 import 'package:gps_massageapp/customLibraryClasses/bottomNavigationBar/curved_Naviagtion_Bar.dart';
-import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/ChatTabBar.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/notification.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/history/History.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/notificationOnResume.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'HomeScreen.dart';

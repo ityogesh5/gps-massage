@@ -30,6 +30,7 @@ class _ChatUserListState extends State<ChatUserList>
   DB db = DB();
   UserDetail userDetail;
   List<UserDetail> contactList = List<UserDetail>();
+  List<String> userContacts = List<String>();
   int status = 0;
   List<ChatData> chatData = List<ChatData>();
   var userName, userEmail, userChat;
@@ -103,6 +104,7 @@ class _ChatUserListState extends State<ChatUserList>
         status = 1;
       });
     });
+   // chatData.sort((a,b)=>a.messages.)
   }
 
   void loadMoreChats() {
@@ -386,7 +388,7 @@ class _ChatUserListState extends State<ChatUserList>
       lastMessage = chatData[index].messages[0];
       lastMessageDate =
           DateTime.fromMillisecondsSinceEpoch(int.parse(lastMessage.timeStamp));
-      _stream = db.getSnapshotsWithLimit(chatData[index].groupId, 2);
+      //_stream = db.getSnapshotsWithLimit(chatData[index].groupId, 2);
     }
 
     return InkWell(
@@ -526,102 +528,90 @@ class _ChatUserListState extends State<ChatUserList>
                     ],
                   ),
                   SizedBox(height: 4),
-                  _stream != null
-                      ? StreamBuilder(
-                          stream: _stream,
-                          builder: (context, snapshots) {
-                            if (snapshots.connectionState ==
-                                ConnectionState.waiting)
-                              return Container(height: 0, width: 0);
-                            else {
-                              if (snapshots.data.documents.isNotEmpty) {
-                                if (snapshots.data.documents.length > 1) {
-                                  final snapshot1 = snapshots.data.documents[1];
-                                  Message newMsg1 =
-                                      Message.fromMap(snapshot1.data());
-                                  _addNewMessages(newMsg1, chatData[index]);
-                                }
-                                final snapshot = snapshots.data.documents[0];
-                                Message newMsg =
-                                    Message.fromMap(snapshot.data());
-                                _addNewMessages(newMsg, chatData[index]);
+                  StreamBuilder(
+                    stream:
+                        db.getSnapshotsWithLimit(chatData[index].groupId, 2),
+                    builder: (context, snapshots) {
+                      if (snapshots.connectionState == ConnectionState.waiting)
+                        return Container(height: 0, width: 0);
+                      else {
+                        if (snapshots.data.documents.isNotEmpty) {
+                          if (snapshots.data.documents.length > 1) {
+                            final snapshot1 = snapshots.data.documents[1];
+                            Message newMsg1 = Message.fromMap(snapshot1.data());
+                            _addNewMessages(newMsg1, chatData[index]);
+                          }
+                          final snapshot = snapshots.data.documents[0];
+                          Message newMsg = Message.fromMap(snapshot.data());
+                          _addNewMessages(newMsg, chatData[index]);
 
-                                return Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    newMsg.type == MessageType.Media
-                                        ? Container(
-                                            child: Row(
-                                              children: [
-                                                Icon(
-                                                  newMsg.mediaType ==
-                                                          MediaType.Photo
-                                                      ? Icons.photo_camera
-                                                      : Icons.videocam,
-                                                  size: newMsg.mediaType ==
-                                                          MediaType.Photo
-                                                      ? 15
-                                                      : 20,
-                                                  color: Colors.white
-                                                      .withOpacity(0.45),
-                                                ),
-                                                SizedBox(width: 8),
-                                                Text(
-                                                    newMsg.mediaType ==
-                                                            MediaType.Photo
-                                                        ? 'Photo'
-                                                        : 'Video',
-                                                    style:
-                                                        kChatItemSubtitleStyle)
-                                              ],
-                                            ),
-                                          )
-                                        : Text(
-                                            newMsg.content.length < 20
-                                                ? newMsg.content
-                                                : newMsg.content
-                                                        .substring(0, 20) +
-                                                    "...",
-                                            style: TextStyle(
-                                                color: Color.fromRGBO(
-                                                    153, 153, 153, 1),
-                                                fontSize: 10),
-                                            textAlign: TextAlign.left),
-                                    Spacer(),
-                                    Expanded(
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              newMsg.type == MessageType.Media
+                                  ? Container(
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
                                         children: [
-                                          lastMessageDate != null
-                                              ? chatData[index].unreadCount != 0
-                                                  ? CircleAvatar(
-                                                      radius: 12,
-                                                      backgroundColor:
-                                                          Colors.lime,
-                                                      child: Text(
-                                                        '${chatData[index].unreadCount}',
-                                                        style: TextStyle(
-                                                            fontSize: 12,
-                                                            color: Colors.white,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ))
-                                                  : Container()
-                                              : Container(),
+                                          Icon(
+                                            newMsg.mediaType == MediaType.Photo
+                                                ? Icons.photo_camera
+                                                : Icons.videocam,
+                                            size: newMsg.mediaType ==
+                                                    MediaType.Photo
+                                                ? 15
+                                                : 20,
+                                            color:
+                                                Colors.white.withOpacity(0.45),
+                                          ),
+                                          SizedBox(width: 8),
+                                          Text(
+                                              newMsg.mediaType ==
+                                                      MediaType.Photo
+                                                  ? 'Photo'
+                                                  : 'Video',
+                                              style: kChatItemSubtitleStyle)
                                         ],
                                       ),
                                     )
+                                  : Text(
+                                      newMsg.content.length < 20
+                                          ? newMsg.content
+                                          : newMsg.content.substring(0, 20) +
+                                              "...",
+                                      style: TextStyle(
+                                          color:
+                                              Color.fromRGBO(153, 153, 153, 1),
+                                          fontSize: 10),
+                                      textAlign: TextAlign.left),
+                              Spacer(),
+                              Expanded(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    chatData[index].unreadCount != 0
+                                        ? CircleAvatar(
+                                            radius: 12,
+                                            backgroundColor: Colors.lime,
+                                            child: Text(
+                                              '${chatData[index].unreadCount}',
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold),
+                                            ))
+                                        : Container()
+                                    // : Container(),
                                   ],
-                                );
-                              } else
-                                return Container(height: 0, width: 0);
-                            }
-                          },
-                        )
-                      : Container()
+                                ),
+                              )
+                            ],
+                          );
+                        } else
+                          return Container(height: 0, width: 0);
+                      }
+                    },
+                  )
+                  /*  : Container() */
                   /* chatData[index].messages.length != 0
                       ? Text("${lastMessage.content}",
                           style: TextStyle(
@@ -683,8 +673,9 @@ class _ChatUserListState extends State<ChatUserList>
         // else Utils.playSound('mp3/notificationAndroid.mp3');
 
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          Provider.of<Chat>(context, listen: false)
-              .bringChatToTop(chatData.groupId);
+          /*  Provider.of<Chat>(context, listen: false)
+              .bringChatToTop(chatData.groupId); */
+          bringChatToTop(chatData.groupId);
           setState(() {});
         });
       }
@@ -696,13 +687,38 @@ class _ChatUserListState extends State<ChatUserList>
 
       if (newMsg.fromId != chatData.userId) {
         chatData.unreadCount++;
+        bringChatToTop(chatData.groupId);
 
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          Provider.of<Chat>(context, listen: false)
-              .bringChatToTop(chatData.groupId);
+          /*  Provider.of<Chat>(context, listen: false)
+              .bringChatToTop(chatData.groupId); */
+          bringChatToTop(chatData.groupId);
           setState(() {});
         });
       }
+    }
+  }
+
+  // updates the order of chats when a new message is recieved
+  void bringChatToTop(String groupId) {
+    if (chatData.isNotEmpty && chatData[0].groupId != groupId) {
+      // bring latest interacted contact and chat to top
+      var ids = groupId.split('-');
+      var peerId = ids
+          .firstWhere((element) => element != HealingMatchConstants.fbUserId);
+
+      var cIndex = contactList.indexWhere((element) => element.id == peerId);
+      userDetail = contactList[cIndex];
+      contactList.removeAt(cIndex);
+      contactList.insert(0, userDetail);
+
+      db.updateUserInfoViaTransactions(HealingMatchConstants.fbUserId, peerId);
+
+      var index = chatData.indexWhere((element) => element.groupId == groupId);
+      var temp = chatData[index];
+      chatData.removeAt(index);
+      chatData.insert(0, temp);
+      //setState(() {});
     }
   }
 }
