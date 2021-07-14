@@ -21,6 +21,7 @@ String selectedBuildingType;
 
 class BookingCancelScreen extends StatefulWidget {
   final int bookingId;
+
   BookingCancelScreen(this.bookingId);
   @override
   State<StatefulWidget> createState() {

@@ -1111,7 +1111,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                           approvedWithConditionsList.length != 0
                               ? Container(
                                   // height: MediaQuery.of(context).size.height *
-                                  height: 284,
+                                  height: 300,
                                   width:
                                       MediaQuery.of(context).size.width * 0.95,
                                   child: ListView.builder(
@@ -1205,7 +1205,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 ),
                                                 child: Stack(
                                                   children: [
-                                                    Positioned(
+                                                    /*  Positioned(
                                                       top: 142.0,
                                                       // bottom: 5.0,
                                                       right: 55.0,
@@ -1237,8 +1237,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                           ),
                                                         ),
                                                       ),
-                                                    ),
-                                                    Positioned(
+                                                    ),*/
+                                                    /*Positioned(
                                                       top: 142.0,
                                                       // bottom: 5.0,
                                                       right: 10.0,
@@ -1283,7 +1283,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                           ),
                                                         ),
                                                       ),
-                                                    ),
+                                                    ),*/
                                                     Padding(
                                                       padding:
                                                           const EdgeInsets.all(
@@ -1704,7 +1704,80 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                 ),
                                                               ),
                                                               Expanded(
-                                                                child: Text(''),
+                                                                child: Row(
+                                                                  children: [
+                                                                    InkWell(
+                                                                      onTap:
+                                                                          () {
+                                                                        ProgressDialogBuilder.showCommonProgressDialog(
+                                                                            context);
+                                                                        getChatDetails(approvedWithConditionsList[index]
+                                                                            .bookingTherapistId
+                                                                            .firebaseUdid);
+                                                                      },
+                                                                      child:
+                                                                          Card(
+                                                                        elevation:
+                                                                            4.0,
+                                                                        shape:
+                                                                            CircleBorder(),
+                                                                        margin:
+                                                                            EdgeInsets.all(0.0),
+                                                                        child:
+                                                                            Padding(
+                                                                          padding:
+                                                                              const EdgeInsets.all(12.0),
+                                                                          child: SvgPicture.asset(
+                                                                              'assets/images_gps/chat.svg',
+                                                                              height: 20,
+                                                                              width: 20),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width:
+                                                                          5.0,
+                                                                    ),
+                                                                    InkWell(
+                                                                      onTap:
+                                                                          () {
+                                                                        HealingMatchConstants
+                                                                            .bookingIdPay = approvedWithConditionsList[
+                                                                                index]
+                                                                            .id;
+                                                                        HealingMatchConstants
+                                                                            .therapistIdPay = approvedWithConditionsList[
+                                                                                index]
+                                                                            .therapistId;
+                                                                        HealingMatchConstants
+                                                                            .confServiceCost = approvedWithConditionsList[
+                                                                                index]
+                                                                            .totalCost;
+                                                                        NavigationRouter.switchToUserBookingApprovedThirdScreen(
+                                                                            context,
+                                                                            approvedWithConditionsList[index].therapistId);
+                                                                      },
+                                                                      child:
+                                                                          Card(
+                                                                        elevation:
+                                                                            4.0,
+                                                                        shape:
+                                                                            CircleBorder(),
+                                                                        margin:
+                                                                            EdgeInsets.all(0.0),
+                                                                        child:
+                                                                            Padding(
+                                                                          padding:
+                                                                              const EdgeInsets.all(12.0),
+                                                                          child: SvgPicture.asset(
+                                                                              'assets/images_gps/accept.svg',
+                                                                              height: 20,
+                                                                              width: 20),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
                                                               )
                                                             ],
                                                           ),
@@ -2821,7 +2894,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                           confirmedPaymentList.length != 0
                               ? Container(
                                   // height: MediaQuery.of(context).size.height * 0.39,
-                                  height: 284,
+                                  height: 300,
                                   width:
                                       MediaQuery.of(context).size.width * 0.95,
                                   child: ListView.builder(
@@ -2892,7 +2965,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 ),
                                                 child: Stack(
                                                   children: [
-                                                    Positioned(
+                                                    /*Positioned(
                                                       top: 148.0,
                                                       // bottom: 5.0,
                                                       right: 60.0,
@@ -2924,8 +2997,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                           ),
                                                         ),
                                                       ),
-                                                    ),
-                                                    Positioned(
+                                                    ),*/
+                                                    /*  Positioned(
                                                       top: 148.0,
                                                       // bottom: 5.0,
                                                       right: 10.0,
@@ -2971,7 +3044,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                           ),
                                                         ),
                                                       ),
-                                                    ),
+                                                    ),*/
                                                     Padding(
                                                       padding:
                                                           const EdgeInsets.all(
@@ -3392,7 +3465,73 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                 ),
                                                               ),
                                                               Expanded(
-                                                                child: Text(''),
+                                                                child: Row(
+                                                                  children: [
+                                                                    InkWell(
+                                                                      onTap:
+                                                                          () {
+                                                                        ProgressDialogBuilder.showCommonProgressDialog(
+                                                                            context);
+                                                                        getChatDetails(confirmedPaymentList[index]
+                                                                            .bookingTherapistId
+                                                                            .firebaseUdid);
+                                                                      },
+                                                                      child:
+                                                                          Card(
+                                                                        elevation:
+                                                                            4.0,
+                                                                        shape:
+                                                                            CircleBorder(),
+                                                                        margin:
+                                                                            EdgeInsets.all(0.0),
+                                                                        child:
+                                                                            Padding(
+                                                                          padding:
+                                                                              const EdgeInsets.all(12.0),
+                                                                          child: SvgPicture.asset(
+                                                                              'assets/images_gps/chat.svg',
+                                                                              height: 20,
+                                                                              width: 20),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    InkWell(
+                                                                      onTap:
+                                                                          () {
+                                                                        HealingMatchConstants
+                                                                            .bookingIdPay = confirmedPaymentList[
+                                                                                index]
+                                                                            .id;
+                                                                        HealingMatchConstants
+                                                                            .calEventId = confirmedPaymentList[
+                                                                                index]
+                                                                            .eventId;
+                                                                        NavigationRouter.switchToServiceUserBookingCancelScreen(
+                                                                            context,
+                                                                            confirmedPaymentList[index].id);
+                                                                      },
+                                                                      child:
+                                                                          Card(
+                                                                        elevation:
+                                                                            4.0,
+                                                                        shape:
+                                                                            CircleBorder(),
+                                                                        margin:
+                                                                            EdgeInsets.all(0.0),
+                                                                        child:
+                                                                            Padding(
+                                                                          padding:
+                                                                              const EdgeInsets.all(12.0),
+                                                                          child: SvgPicture.asset(
+                                                                              'assets/images_gps/cancel.svg',
+                                                                              color: Color.fromRGBO(217, 217, 217, 1),
+                                                                              height: 20,
+                                                                              width: 20),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
                                                               )
                                                             ],
                                                           ),

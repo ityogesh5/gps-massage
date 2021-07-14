@@ -745,6 +745,14 @@ class _AddAddressState extends State<SearchAddAddress> {
 
       return;
     }
+    if (_myCategoryPlaceForMassage == 'その他（直接入力）' &&
+        otherController.text.length > 10) {
+      stopLoading();
+      print('Manual address empty fields');
+      displaySnackBar("登録する地点名を10文字以内で記入ください。");
+
+      return;
+    }
 
     saveNewAddress();
   }
