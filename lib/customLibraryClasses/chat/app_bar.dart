@@ -29,6 +29,7 @@ class _MyAppBarState extends State<MyAppBar>
   bool collapsed = false;
   var stream;
   String userStatus;
+  bool isOnline = false;
 
   @override
   void initState() {
@@ -102,38 +103,41 @@ class _MyAppBarState extends State<MyAppBar>
           Navigator.pop(context);
         },
       ),
-      leadingWidth: 20.0,
+      //leadingWidth: 20.0,
+      titleSpacing: 0,
       centerTitle: false,
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Avatar(
-              imageUrl: widget.peer.imageUrl, radius: kToolbarHeight / 2 - 5),
-          SizedBox(width: 7),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                widget.peer.username,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold),
-              ),
-              if (collapsed)
-                StreamBuilder(
-                    stream: stream,
-                    builder: (ctx, snapshot) {
-                      if (!snapshot.hasData)
-                        return Container(width: 0, height: 0);
-                      else {
-                        print(
-                            'Typing status appbar : ${widget.isTyping}\n${widget.peer.id}');
-                        return AnimatedContainer(
+      title: StreamBuilder(
+          stream: stream,
+          builder: (ctx, snapshot) {
+            if (!snapshot.hasData)
+              return Container(width: 0, height: 0);
+            else {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Avatar(
+                    imageUrl: widget.peer.imageUrl,
+                    radius: kToolbarHeight / 2 - 5,
+                    isOnline: snapshot.data['isOnline'],
+                  ),
+                  SizedBox(width: 7),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        widget.peer.username,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      if (collapsed)
+                        AnimatedContainer(
                             duration: Duration(milliseconds: 300),
                             height: snapshot.data['isOnline'] ? 20 : 20,
-                            child: snapshot.data['isTyping'] != null &&
+                            child:
+                                /*  snapshot.data['isTyping'] != null &&
                                     snapshot.data['isTyping']
                                 ? Text(
                                     'タイピング...',
@@ -143,7 +147,8 @@ class _MyAppBarState extends State<MyAppBar>
                                       color: Colors.grey[400],
                                     ),
                                   )
-                                : snapshot.data['isOnline'] != null &&
+                                :  */
+                                snapshot.data['isOnline'] != null &&
                                         snapshot.data['isOnline']
                                     ? Text(
                                         'オンライン',
@@ -160,30 +165,31 @@ class _MyAppBarState extends State<MyAppBar>
                                           fontWeight: FontWeight.w400,
                                           color: Colors.grey[400],
                                         ),
-                                      ));
-                        // return Container();
-                      }
-                    }),
-              AnimatedContainer(
-                duration: Duration(milliseconds: 200),
-                curve: Curves.easeIn,
-                height: collapsed ? 0 : 20,
-                child: FadeTransition(
-                  opacity: _animation,
-                  child: Text(
-                    'ユーザーステータスの取得...',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.grey[400],
-                    ),
+                                      )),
+                      // return Container();
+
+                      AnimatedContainer(
+                        duration: Duration(milliseconds: 200),
+                        curve: Curves.easeIn,
+                        height: collapsed ? 0 : 20,
+                        child: FadeTransition(
+                          opacity: _animation,
+                          child: Text(
+                            'ユーザーステータスの取得...',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.grey[400],
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
-                ),
-              )
-            ],
-          ),
-        ],
-      ),
+                ],
+              );
+            }
+          }),
     );
   }
 

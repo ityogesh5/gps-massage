@@ -13,6 +13,8 @@ import 'package:gps_massageapp/serviceUser/homeScreen/notificationScreenOnTap.da
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/ViewProfileScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/db.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'HomeScreenUser.dart';
 
@@ -29,19 +31,24 @@ class BottomBarUser extends StatefulWidget {
   _BottomBarUserState createState() => _BottomBarUserState();
 }
 
-class _BottomBarUserState extends State<BottomBarUser> {
+class _BottomBarUserState extends State<BottomBarUser>
+    with WidgetsBindingObserver {
   int selectedpage;
   int skippedPage;
   var _pageOptions;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   static var fcmMessageid;
+  static String firebaseUserId;
+  DB db = DB();
 
   @override
   void initState() {
+    updateOnlineStatus();
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
     _getNotificationStatus(context);
     selectedpage = widget.page; //initial Page
     skippedPage = widget.page;
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
     _pageOptions = [
       HomeScreen(),
@@ -60,6 +67,25 @@ class _BottomBarUserState extends State<BottomBarUser> {
         print('No prefs value found !!');
       }
     });
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      Map<String, dynamic> isonline = {"isOnline": true};
+
+      db.updateUserOnlineInfo(firebaseUserId, isonline);
+    } else {
+      Map<String, dynamic> isonline = {"isOnline": false};
+
+      db.updateUserOnlineInfo(firebaseUserId, isonline);
+    }
   }
 
   @override
@@ -154,6 +180,14 @@ class _BottomBarUserState extends State<BottomBarUser> {
         },
       ),
     );
+  }
+
+  updateOnlineStatus() async {
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    firebaseUserId = firebaseAuth.currentUser.uid;
+    Map<String, dynamic> isonline = {"isOnline": true};
+
+    db.updateUserOnlineInfo(firebaseUserId, isonline);
   }
 
   void _getNotificationStatus(BuildContext context) async {

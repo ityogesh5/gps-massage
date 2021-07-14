@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -5,11 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/db.dart';
 import 'package:gps_massageapp/customLibraryClasses/bottomNavigationBar/curved_Naviagtion_Bar.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/ChatTabBar.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/notification.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/history/History.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/notificationOnResume.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'HomeScreen.dart';
 import 'myAccount/MyAccount.dart';
@@ -26,23 +31,22 @@ class BottomBarProvider extends StatefulWidget {
   _BottomBarProviderPageState createState() => _BottomBarProviderPageState();
 }
 
-class _BottomBarProviderPageState extends State<BottomBarProvider> {
+class _BottomBarProviderPageState extends State<BottomBarProvider>
+    with WidgetsBindingObserver {
   int selectedpage; //initial value
 
   var _pageOptions; // listing of all 3 pages index wise
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  static String firebaseUserId;
   static var fcmMessageid;
-  /*final bgcolor = [
-    Colors.orange,
-    Colors.pink,
-    Colors.greenAccent
-  ];*/ // changing color as per active index value
+  DB db = DB();
 
   @override
   void initState() {
+    updateOnlineStatus();
     _getNotificationStatus(context);
 
- //   FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
+    //   FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
     selectedpage = widget.page; //initial Page
     _pageOptions = [
       ProviderHomeScreen(),
@@ -53,6 +57,26 @@ class _BottomBarProviderPageState extends State<BottomBarProvider> {
       ChatTabBar(),
     ];
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      Map<String, dynamic> isonline = {"isOnline": true};
+
+      db.updateUserOnlineInfo(firebaseUserId, isonline);
+    } else {
+      Map<String, dynamic> isonline = {"isOnline": false};
+
+      db.updateUserOnlineInfo(firebaseUserId, isonline);
+    }
   }
 
   @override
@@ -148,6 +172,14 @@ class _BottomBarProviderPageState extends State<BottomBarProvider> {
         print("onMessage: $message");
       },
     );
+  }
+
+  updateOnlineStatus() async {
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    firebaseUserId = firebaseAuth.currentUser.uid;
+    Map<String, dynamic> isonline = {"isOnline": true};
+
+    db.updateUserOnlineInfo(firebaseUserId, isonline);
   }
 
   /*  static Future<dynamic> myBackgroundMessageHandler(

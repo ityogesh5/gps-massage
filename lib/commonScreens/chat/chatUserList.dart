@@ -13,6 +13,7 @@ import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/mo
 import 'package:gps_massageapp/customLibraryClasses/searchDelegateClass/CustomSearchPage.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ChatUserList extends StatefulWidget {
   @override
@@ -337,7 +338,7 @@ class _ChatUserListState extends State<ChatUserList>
                               physics: NeverScrollableScrollPhysics(),
                               itemCount: contactList.length,
                               itemBuilder: (context, index) {
-                                isOnline = contactList[index].isOnline;
+                                //  isOnline = contactList[index].isOnline;
                                 HealingMatchConstants.isUserOnline = isOnline;
                                 return buildChatDetails(index);
                               }),
@@ -438,7 +439,41 @@ class _ChatUserListState extends State<ChatUserList>
                             ),
                     ),
                   ),
-                  Visibility(
+                  StreamBuilder<DocumentSnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection('USERS')
+                          .doc(contactList[index].id)
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting)
+                          return Container(height: 0, width: 0);
+                        else if (snapshot.data['isOnline'] != null &&
+                            snapshot.data['isOnline']) {
+                          return Visibility(
+                            visible: snapshot.data['isOnline'],
+                            child: Positioned(
+                              right: -20.0,
+                              top: 35,
+                              left: 10.0,
+                              child: InkWell(
+                                onTap: () {},
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.white,
+                                  radius: 8,
+                                  child: CircleAvatar(
+                                    backgroundColor: Colors.green[400],
+                                    radius: 6,
+                                    child: Container(),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        } else
+                          return Container();
+                      }),
+
+                  /*  Visibility(
                     visible: isOnline,
                     child: Positioned(
                       right: -20.0,
@@ -457,7 +492,7 @@ class _ChatUserListState extends State<ChatUserList>
                         ),
                       ),
                     ),
-                  )
+                  ) */
                 ],
               ),
             ),

@@ -247,4 +247,15 @@ class DB {
       throw error;
     }
   }
+
+  void updateUserOnlineInfo(String userId, Map<String, dynamic> data) async {
+    try {
+      _usersCollection.doc(userId).set(data, SetOptions(merge: true));
+    } catch (error) {
+      print(
+          '****************** DB updateUserOnlineInfo error **********************');
+      print(error);
+      throw error;
+    }
+  }
 }
