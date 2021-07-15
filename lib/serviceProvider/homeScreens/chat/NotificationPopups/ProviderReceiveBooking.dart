@@ -15,7 +15,6 @@ import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUse
 import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
-import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:intl/intl.dart';
 
 final flutterWebViewPlugin = FlutterWebviewPlugin();
@@ -1009,9 +1008,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
 
   void validateFields() {
     // Check stripe user validation
-    if (!HealingMatchConstants.isStripeVerified) {
-      getStripeRedirectURL();
-    } else {
+    if (HealingMatchConstants.isStripeVerified) {
       ProgressDialogBuilder.showCommonProgressDialog(context);
       if (proposeAdditionalCosts) {
         if (price == null && addedpriceReason == null) {
@@ -1062,6 +1059,8 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
       } else {
         acceptBooking();
       }
+    } else {
+      getStripeRedirectURL();
     }
   }
 

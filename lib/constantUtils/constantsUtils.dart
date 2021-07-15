@@ -830,6 +830,7 @@ class HealingMatchConstants {
       };
       _stripePayment.addPaymentMethod().then((paymentResponse) {
         if (paymentResponse.status == PaymentResponseStatus.succeeded) {
+          var paymentIntentID = paymentResponse.paymentIntentId;
           _paymentMethodId = paymentResponse.paymentMethodId;
           debugPrint('Payment Response : ${paymentResponse.paymentMethodId}');
           Future.delayed(Duration(seconds: 2), () {
