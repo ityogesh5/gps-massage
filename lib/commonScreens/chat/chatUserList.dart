@@ -39,7 +39,6 @@ class _ChatUserListState extends State<ChatUserList>
   int totalContactLength = 0;
   int initialLoadedPage = 0;
   bool isLoading = false;
-  bool isMounted = false;
 
   @override
   void initState() {
@@ -96,49 +95,56 @@ class _ChatUserListState extends State<ChatUserList>
     Chat().fetchChats(value).then((value) {
       chatData.addAll(value);
       for (int i = 0; i < chatData.length; i++) {
-        userName = chatData[i].peer.username;
-        userEmail = chatData[i].peer.email;
-        userChat = contactList[i];
+        try {
+          userName = chatData[i].peer.username;
+          userEmail = chatData[i].peer.email;
+          userChat = contactList[i];
+        } catch (e) {
+          print("abc");
+        }
       }
       setState(() {
         status = 1;
       });
     });
-   // chatData.sort((a,b)=>a.messages.)
+    // chatData.sort((a,b)=>a.messages.)
   }
 
-  void loadMoreChats() {
+  void loadMoreChats() async {
     try {
       if (!isLoading) {
         setState(() {
           isLoading = true;
-          if (totalContactLength != initialLoadedPage && !isMounted) {
-            isMounted = true;
+          if (totalContactLength != initialLoadedPage) {
             if (totalContactLength >= initialLoadedPage + 10) {
               db
                   .getUserDetilsOfContacts(userDetail.contacts
                       .sublist(initialLoadedPage, initialLoadedPage + 10))
                   .then((value) {
-                if (this.mounted) {
-                  initialLoadedPage = initialLoadedPage + 10;
-                  fetchChatDetails(value);
-                }
+                setState(() {
+                  isLoading = false;
+
+                  if (this.mounted) {
+                    initialLoadedPage = initialLoadedPage + 10;
+                    fetchChatDetails(value);
+                  }
+                });
               });
             } else {
               db
                   .getUserDetilsOfContacts(
                       userDetail.contacts.sublist(initialLoadedPage))
                   .then((value) {
-                if (this.mounted) {
-                  initialLoadedPage = totalContactLength;
-                  fetchChatDetails(value);
-                }
+                setState(() {
+                  isLoading = false;
+
+                  if (this.mounted) {
+                    initialLoadedPage = totalContactLength;
+                    fetchChatDetails(value);
+                  }
+                });
               });
             }
-            setState(() {
-              isLoading = false;
-              isMounted = false;
-            });
           }
         });
       }
@@ -252,6 +258,10 @@ class _ChatUserListState extends State<ChatUserList>
                                     delegate: CustomSearchPage<ChatData>(
                                       onQueryUpdate: (s) => print(s),
                                       items: chatData,
+                                      barTheme: ThemeData(
+                                          primaryColor:
+                                              ColorConstants.buttonColor,
+                                          buttonColor: Colors.white),
                                       searchLabel: 'チャットユーザーを検索',
                                       suggestion: Center(
                                         child: Text('ユーザー名で検索します。'),
@@ -338,7 +348,7 @@ class _ChatUserListState extends State<ChatUserList>
                               shrinkWrap: true,
                               scrollDirection: Axis.vertical,
                               physics: NeverScrollableScrollPhysics(),
-                              itemCount: contactList.length,
+                              itemCount: chatData.length,
                               itemBuilder: (context, index) {
                                 //  isOnline = contactList[index].isOnline;
                                 HealingMatchConstants.isUserOnline = isOnline;
