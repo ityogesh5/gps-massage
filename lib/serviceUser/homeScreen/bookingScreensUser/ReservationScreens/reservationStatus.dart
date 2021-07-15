@@ -3860,10 +3860,14 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                               'Is Favorite : $_isFavorite');
                                                                           if (_isFavorite != null &&
                                                                               _isFavorite) {
+                                                                            canceledReservationList[index].favouriteToTherapist =
+                                                                                1;
                                                                             // call favorite therapist API
 
                                                                             ServiceUserAPIProvider.favouriteTherapist(canceledReservationList[index].therapistId);
                                                                           } else {
+                                                                            canceledReservationList[index].favouriteToTherapist =
+                                                                                0;
                                                                             // call un-favorite therapist API
                                                                             ServiceUserAPIProvider.unFavouriteTherapist(canceledReservationList[index].therapistId);
                                                                           }

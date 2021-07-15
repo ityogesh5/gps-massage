@@ -20,6 +20,7 @@ import 'package:gps_massageapp/models/responseModels/serviceProvider/ProviderDet
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProviderHomeScreen extends StatefulWidget {
@@ -52,6 +53,8 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
   int _counter = 0;
   int daysToDisplay;
   int status = 0;
+  String startTime = "00:00";
+  String endTime = "24:00";
   Map<int, String> childrenMeasure;
   Map<String, String> certificateImages = Map<String, String>();
 
@@ -477,12 +480,11 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                     ),
                                                     SizedBox(width: 5.0),
                                                     RatingBar.builder(
-                                                      initialRating: 3.5
-                                                      /*  double.parse(
+                                                      initialRating:
+                                                          double.parse(
                                                               therapistDetails
                                                                   .reviewData
-                                                                  .ratingAvg) */
-                                                      ,
+                                                                  .ratingAvg),
                                                       minRating: 1,
                                                       direction:
                                                           Axis.horizontal,
@@ -1124,7 +1126,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Center(
                                           child: Text(
-                                        "営業時間 - 00: 00~24: 00",
+                                        "営業時間 - $startTime ~ $endTime",
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 12.0,
@@ -1373,7 +1375,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
 
   List<DateTime> getEventDateTime() {
     eventDateTime.clear();
-    for (var event in  HealingMatchConstants.calEvents) {
+    for (var event in HealingMatchConstants.calEvents) {
       DateTime startTime = event.events.start.dateTime.toLocal();
       DateTime eventDate =
           DateTime(startTime.year, startTime.month, startTime.day);
@@ -1560,6 +1562,9 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
   void getProviderDetails() async {
     // showOverlayLoader();
 
+    DateTime minSTime;
+    DateTime minETime;
+
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setBool('isProviderRegister', true);
     userData =
@@ -1614,6 +1619,43 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
 
     ServiceProviderApi.getProfitandRatingApi().then((value) {
       therapistDetails = value;
+      if (therapistDetails.data.storeServiceTimes.isNotEmpty) {
+        for (int i = 0;
+            i < therapistDetails.data.storeServiceTimes.length;
+            i++) {
+          if (therapistDetails.data.storeServiceTimes[i].shopOpen) {
+            DateTime startTime =
+                therapistDetails.data.storeServiceTimes[i].startTime.toLocal();
+            DateTime endTime =
+                therapistDetails.data.storeServiceTimes[i].endTime.toLocal();
+            DateTime currentSTime = DateTime(startTime.year, startTime.month, 1,
+                startTime.hour, startTime.minute, startTime.second);
+            DateTime currentETime = endTime.hour == 0
+                ? DateTime(endTime.year, endTime.month, 2, endTime.hour,
+                    endTime.minute, endTime.second)
+                : DateTime(endTime.year, endTime.month, 1, endTime.hour,
+                    endTime.minute, endTime.second);
+            if (i == 0) {
+              minSTime = currentSTime;
+              minETime = currentETime;
+            } else {
+              if (currentSTime.compareTo(minSTime) < 0) {
+                minSTime = currentSTime;
+              }
+              if (currentETime.compareTo(minETime) > 0) {
+                minETime = currentETime;
+              }
+            }
+          }
+        }
+        if (minSTime != null && minETime != null) {
+          this.startTime = minSTime.hour == 0
+              ? DateFormat('KK:mm').format(minSTime)
+              : DateFormat('kk:mm').format(minSTime);
+          this.endTime = DateFormat('kk:mm').format(minETime);
+        }
+      }
+
       setState(() {
         status = status + 1;
       });
@@ -1621,6 +1663,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
 
     ServiceProviderApi.getCalEvents().then((value) {
       flutterWeekEvents.addAll(value);
+
       setState(() {
         status = status + 1;
       });

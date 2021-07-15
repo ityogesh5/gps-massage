@@ -174,7 +174,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                         Row(
                           children: [
                             Expanded(
-                              flex: 3,
+                              flex: 4,
                               child: Container(
                                 width: MediaQuery.of(context).size.width * 0.2,
                                 color: Colors.white,
@@ -218,6 +218,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                               width: 10.0,
                             ),
                             Expanded(
+                              flex: 2,
                               child: Container(
                                 width: MediaQuery.of(context).size.width * 0.2,
                                 color: Colors.white,
