@@ -616,7 +616,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                               "..."
                           : '${widget.bookingDetail.bookingUserId.userName}',
                       style: TextStyle(
-                        fontSize: 16.0,
+                        fontSize: 14.0,
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                       ),
@@ -624,7 +624,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                     Text(
                       '(${widget.bookingDetail.bookingUserId.gender})',
                       style: TextStyle(
-                        fontSize: 12.0,
+                        fontSize: 10.0,
                         color: Color.fromRGBO(181, 181, 181, 1),
                       ),
                     ),

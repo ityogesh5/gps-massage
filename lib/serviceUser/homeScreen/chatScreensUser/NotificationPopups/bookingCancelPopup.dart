@@ -323,7 +323,7 @@ class _BookingCancelPopupState extends State<BookingCancelPopup> {
                     ),
                     requestBookingDetailsList.bookingDetail.travelAmount > 0
                         ? Text(
-                            ' (${requestBookingDetailsList.bookingDetail.addedPrice} - ${requestBookingDetailsList.bookingDetail.travelAmount}) ',
+                            ' (${requestBookingDetailsList.bookingDetail.addedPrice}込み  - ¥${requestBookingDetailsList.bookingDetail.travelAmount}) ',
                             style: TextStyle(
                               fontSize: 10.0,
                               color: Color.fromRGBO(102, 102, 102, 1),
@@ -423,7 +423,7 @@ class _BookingCancelPopupState extends State<BookingCancelPopup> {
             bottom: 4.0,
           ),
           child: Text(
-            "リクエストの理由",
+            " キャンセルの理由",
             style: TextStyle(fontSize: 14.0),
           ),
         ),

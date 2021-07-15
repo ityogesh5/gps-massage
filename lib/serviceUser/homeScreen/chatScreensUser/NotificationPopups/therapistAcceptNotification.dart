@@ -202,7 +202,7 @@ class _TherapistAcceptNotificationState
                   });
                 } else {
                   setState(() {
-                    isCancelSelected = !isCancelSelected;
+                    isCancelSelected = false;
                   });
                   HealingMatchConstants.bookingIdPay =
                       widget.requestBookingDetailsList.bookingDetail.id;
@@ -933,6 +933,36 @@ class _TherapistAcceptNotificationState
     String otherCategory = _cancelReasonController.text;
     String cancelReason =
         selectedBuildingType == "その他" ? otherCategory : selectedBuildingType;
+    if ((cancelReason == null || cancelReason == '') &&
+        selectedBuildingType == "その他") {
+      ProgressDialogBuilder.hideLoader(context);
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('キャンセルの理由を入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
     if (cancelReason == null || cancelReason == '') {
       ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
