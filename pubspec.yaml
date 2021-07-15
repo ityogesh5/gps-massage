@@ -67,6 +67,7 @@ dependencies:
   path_provider: any
   infinite_listview: ^1.0.0
   horizontal_center_date_picker: any
+  flutter_native_image: any #Aswin image compression
 
 
   sign_in_with_apple: any 
