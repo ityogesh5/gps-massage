@@ -5,6 +5,8 @@ import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomTog
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/db.dart';
 
 class ProviderLogout extends StatefulWidget {
   @override
@@ -89,6 +91,11 @@ class _ProviderLogoutState extends State<ProviderLogout> {
                             value.setBool('isUserLoggedOut', false);
                             value.setBool('isProviderRegister', false);
                           });
+                          Map<String, dynamic> isonline = {"isOnline": false};
+                          FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+                          String firebaseUserId = firebaseAuth.currentUser.uid;
+                          DB db = DB();
+                          db.updateUserOnlineInfo(firebaseUserId, isonline);
                           ProgressDialogBuilder.hideCommonProgressDialog(
                               context);
                           NavigationRouter.switchToProviderLogin(context);
