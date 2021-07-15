@@ -51,6 +51,7 @@ class DB {
   Future<List<UserDetail>> getUserDetilsOfContacts(
       List<String> contacts) async {
     List<UserDetail> userDetail = List<UserDetail>();
+    List<UserDetail> sortedUserDetail = List<UserDetail>();
     try {
       QuerySnapshot querySnapShot =
           await _usersCollection.where("id", whereIn: contacts).get();
@@ -58,8 +59,12 @@ class DB {
       for (var documentSnapShot in querySnapShot.docs) {
         userDetail.add(UserDetail.fromJson(documentSnapShot.data()));
       }
+      for (String contact in contacts) {
+        var index = userDetail.indexWhere((element) => element.id == contact);
+        sortedUserDetail.add(userDetail[index]);
+      }
       print(userDetail);
-      return userDetail;
+      return sortedUserDetail;
     } catch (error) {
       print(
           '****************** DB getUSerDetails error **********************');
@@ -243,6 +248,41 @@ class DB {
     } catch (error) {
       print(
           '****************** DB updateUserInfo error **********************');
+      print(error);
+      throw error;
+    }
+  }
+
+  void updateUserInfoViaTransactions(String userId, String peerId) async {
+    try {
+      // _usersCollection.doc(userId).set(data, SetOptions(merge: true));
+
+      await FirebaseFirestore.instance.runTransaction((transaction) async {
+        DocumentReference postRef = _usersCollection.doc(userId);
+        DocumentSnapshot snapshot = await transaction.get(postRef);
+        UserDetail userDetail = UserDetail.fromJson(snapshot.data());
+
+        var ucindex =
+            userDetail.contacts.indexWhere((element) => element == peerId);
+        var ctemp = userDetail.contacts[ucindex];
+        userDetail.contacts.removeAt(ucindex);
+        userDetail.contacts.insert(0, ctemp);
+        transaction.update(postRef, {'contacts': userDetail.contacts});
+      });
+    } catch (error) {
+      print(
+          '****************** DB updateUserInfo error **********************');
+      print(error);
+      throw error;
+    }
+  }
+
+  void updateUserOnlineInfo(String userId, Map<String, dynamic> data) async {
+    try {
+      _usersCollection.doc(userId).set(data, SetOptions(merge: true));
+    } catch (error) {
+      print(
+          '****************** DB updateUserOnlineInfo error **********************');
       print(error);
       throw error;
     }

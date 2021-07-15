@@ -30,6 +30,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/db.dart';
 
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 List<UpdateAddress> updateAddress = new List<UpdateAddress>();
@@ -2596,6 +2598,19 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           updateAddress.clear();
           constantUserAddressValuesList.clear();
           HealingMatchConstants.userAddressesList.clear();
+          FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+          String firebaseUserId = firebaseAuth.currentUser.uid;
+          Map<String, dynamic> updateProviderDetails = {
+            "imageUrl": profileUpdateResponseModel.data.uploadProfileImgUrl ==
+                        "" ||
+                    profileUpdateResponseModel.data.uploadProfileImgUrl == null
+                ? ""
+                : profileUpdateResponseModel.data.uploadProfileImgUrl,
+            "username": profileUpdateResponseModel.data.userName,
+            'searchKey': profileUpdateResponseModel.data.userName.toLowerCase(),
+          };
+          DB db = DB();
+          db.updateUserOnlineInfo(firebaseUserId, updateProviderDetails);
           currentLoading();
           ProgressDialogBuilder.hideLoader(context);
           DialogHelper.showUserProfileUpdatedSuccessDialog(context);

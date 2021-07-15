@@ -125,104 +125,115 @@ class _BannerImageState extends State<BannerImage> {
                 ),
                 /*  SizedBox(height: sizedBoxFormHeight),
                */
-                Container(
-                  width: containerWidth,
-                  child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      primary: false,
-                      padding: EdgeInsets.only(
-                          top: sizedBoxFormHeight,
-                          bottom: bannerImages.length != 0
-                              ? 0
-                              : sizedBoxFormHeight),
-                      shrinkWrap: true,
-                      itemCount: oldBannerImages.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        String key = oldBannerImages.keys.elementAt(index);
-                        return buildShiftImage(key, index);
-                      }),
-                ),
-                bannerImages.length != 0
-                    ? Container(
-                        width: containerWidth,
-                        child: ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            padding:
-                                EdgeInsets.only(bottom: sizedBoxFormHeight),
-                            primary: false,
-                            shrinkWrap: true,
-                            itemCount: bannerImages.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              String key = bannerImages[index];
-                              return buildNewBannerImage(key, index);
-                            }),
-                      )
-                    : Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Center(
-                              child: Container(
-                                padding: EdgeInsets.all(8.0),
-                                height:
-                                    MediaQuery.of(context).size.height * 0.22,
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                  color: Color.fromRGBO(255, 255, 255, 1),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(16.0)),
-                                  border: Border.all(
-                                      color: Color.fromRGBO(217, 217, 217, 1)),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        InkWell(
-                                          onTap: () {},
-                                          child: new Container(
-                                              width: 80.0,
-                                              height: 80.0,
-                                              decoration: new BoxDecoration(
-                                                border: Border.all(
-                                                    color: Colors.black12),
-                                                shape: BoxShape.circle,
-                                                image: new DecorationImage(
-                                                    fit: BoxFit.fill,
-                                                    image: new AssetImage(
-                                                        'assets/images_gps/appIcon.png')),
-                                              )),
-                                        ),
-                                        Expanded(
-                                          child: Column(
-                                            children: [
-                                              Text(
-                                                '+ボタンをクリックして掲載写真を\nアップロードしてください。',
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    fontFamily: 'NotoSansJP',
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ],
+                bannerImages.length == 0 && oldBannerImages.length == 0
+                    ? Center(
+                      child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(
+                                child: Container(
+                                  padding: EdgeInsets.all(8.0),
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.22,
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                    color: Color.fromRGBO(255, 255, 255, 1),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(16.0)),
+                                    border: Border.all(
+                                        color: Color.fromRGBO(217, 217, 217, 1)),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          InkWell(
+                                            onTap: () {},
+                                            child: new Container(
+                                                width: 80.0,
+                                                height: 80.0,
+                                                decoration: new BoxDecoration(
+                                                  border: Border.all(
+                                                      color: Colors.black12),
+                                                  shape: BoxShape.circle,
+                                                  image: new DecorationImage(
+                                                      fit: BoxFit.fill,
+                                                      image: new AssetImage(
+                                                          'assets/images_gps/appIcon.png')),
+                                                )),
                                           ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
+                                          Expanded(
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  '+ボタンをクリックして掲載写真を\nアップロードしてください。',
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontFamily: 'NotoSansJP',
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
+                    )
+                    : Column(
+                        children: [
+                          Container(
+                            width: containerWidth,
+                            child: ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                primary: false,
+                                padding: EdgeInsets.only(
+                                    top: sizedBoxFormHeight,
+                                    bottom: bannerImages.length != 0
+                                        ? 0
+                                        : sizedBoxFormHeight),
+                                shrinkWrap: true,
+                                itemCount: oldBannerImages.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  String key =
+                                      oldBannerImages.keys.elementAt(index);
+                                  return buildShiftImage(key, index);
+                                }),
+                          ),
+                          bannerImages.length != 0
+                              ? Container(
+                                  width: containerWidth,
+                                  child: ListView.builder(
+                                      scrollDirection: Axis.vertical,
+                                      padding: EdgeInsets.only(
+                                          bottom: sizedBoxFormHeight),
+                                      primary: false,
+                                      shrinkWrap: true,
+                                      itemCount: bannerImages.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        String key = bannerImages[index];
+                                        return buildNewBannerImage(key, index);
+                                      }),
+                                )
+                              : Container(),
+                        ],
                       ),
+
                 //      SizedBox(height: 0.5),
                 /*  ( oldBannerImages.length != 0 || bannerImages.length != 0)  */
                 bannerImages.length != 0

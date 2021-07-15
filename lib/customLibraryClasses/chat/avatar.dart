@@ -5,12 +5,14 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 class Avatar extends StatelessWidget {
   const Avatar({
     @required this.imageUrl,
+    @required this.isOnline,
     this.radius = 15,
     Key key,
     this.color,
   }) : super(key: key);
 
   final String imageUrl;
+  final bool isOnline;
   final double radius;
   final Color color;
 
@@ -36,7 +38,7 @@ class Avatar extends StatelessWidget {
           radius: radius,
         ),
         Visibility(
-          visible: HealingMatchConstants.isUserOnline,
+          visible: isOnline,
           child: Positioned(
             right: -20.0,
             top: 35,
