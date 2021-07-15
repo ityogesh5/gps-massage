@@ -916,10 +916,10 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                             SizedBox(width: 5),
                             therapistUsers[index].isShop != 0
                                 ? Text(
-                                    therapistUsers[index].storeName.length > 15
+                                    therapistUsers[index].storeName.length > 10
                                         ? therapistUsers[index]
                                                 .storeName
-                                                .substring(0, 15) +
+                                                .substring(0, 10) +
                                             "..."
                                         : therapistUsers[index].storeName,
                                     style: TextStyle(
@@ -928,10 +928,10 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                         fontWeight: FontWeight.bold),
                                   )
                                 : Text(
-                                    therapistUsers[index].userName.length > 15
+                                    therapistUsers[index].userName.length > 10
                                         ? therapistUsers[index]
                                                 .userName
-                                                .substring(0, 15) +
+                                                .substring(0, 10) +
                                             "..."
                                         : therapistUsers[index].userName,
                                     style: TextStyle(
@@ -1606,10 +1606,10 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                 ? Text(
                                     widget.getTherapistByType[index].storeName
                                                 .length >
-                                            15
+                                            10
                                         ? widget.getTherapistByType[index]
                                                 .storeName
-                                                .substring(0, 15) +
+                                                .substring(0, 10) +
                                             "..."
                                         : widget.getTherapistByType[index]
                                             .storeName,
@@ -1621,10 +1621,10 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                 : Text(
                                     widget.getTherapistByType[index].userName
                                                 .length >
-                                            15
+                                            10
                                         ? widget.getTherapistByType[index]
                                                 .userName
-                                                .substring(0, 15) +
+                                                .substring(0, 10) +
                                             "..."
                                         : widget
                                             .getTherapistByType[index].userName,
@@ -2175,7 +2175,7 @@ class _MassageTypeChipsState extends State<MassageTypeChips>
     }
     return Container(
       child: Padding(
-          padding: const EdgeInsets.all(6.0),
+          padding: const EdgeInsets.all(0.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
