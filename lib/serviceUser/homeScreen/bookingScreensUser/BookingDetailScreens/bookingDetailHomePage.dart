@@ -24,6 +24,7 @@ import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/Booking
 import 'package:intl/intl.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:toast/toast.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class BookingDetailHomePage extends StatefulWidget {
   final int id;
@@ -167,7 +168,10 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
   @override
   Widget build(BuildContext context) {
     return status == 0
-        ? Container()
+        ? Container(
+            color: Colors.white,
+            child: Center(child: SpinKitThreeBounce(color: Colors.lime)),
+          )
         : Scaffold(
             key: _scaffoldKey,
             floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
