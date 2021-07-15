@@ -20,6 +20,7 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/Get
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 
 enum MessageType {
   Text,
@@ -824,6 +825,7 @@ class HealingMatchConstants {
         if (paymentResponse.status == PaymentResponseStatus.succeeded) {
           _paymentMethodId = paymentResponse.paymentMethodId;
           debugPrint('Payment Response : ${paymentResponse.paymentMethodId}');
+          ProgressDialogBuilder.showOverlayLoader(context);
           Future.delayed(Duration(seconds: 2), () {
             createCustomer(_paymentMethodId, context);
           });
@@ -844,6 +846,7 @@ class HealingMatchConstants {
   }
 
   static void createCustomer(var paymentID, BuildContext context) async {
+    ProgressDialogBuilder.hideLoader(context);
     NavigationRouter.switchToPaymentProcessingScreen(context, paymentID);
   }
 
