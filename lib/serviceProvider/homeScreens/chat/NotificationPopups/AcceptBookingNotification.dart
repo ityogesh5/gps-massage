@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
@@ -15,6 +16,18 @@ import 'package:gps_massageapp/models/responseModels/serviceProvider/firebaseNot
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
 import 'package:intl/intl.dart';
+
+final flutterWebViewPlugin = FlutterWebviewPlugin();
+// ignore: prefer_collection_literals
+final Set<JavascriptChannel> jsChannels = [
+  JavascriptChannel(
+      name: 'Print',
+      onMessageReceived: (JavascriptMessage message) {
+        print('JScriptWeb Message : ${message.message}');
+      }),
+].toSet();
+
+final _scaffoldStripeKey = GlobalKey<ScaffoldState>();
 
 class AcceptBookingNotification extends StatefulWidget {
   final NotificationList requestBookingDetailsList;
@@ -992,7 +1005,6 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
               if (widget.requestBookingDetailsList.bookingStatus ==
                   widget
                       .requestBookingDetailsList.bookingDetail.bookingStatus) {
-                ProgressDialogBuilder.showCommonProgressDialog(context);
                 validateFields();
               }
             },
@@ -1043,10 +1055,10 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
 
   void validateFields() {
     // Check stripe user validation
-    if (isStripeVerified) {
-      //_getStripeRegisterURL(context);
-      DialogHelper.showStripeNotVerifiedDialog(context);
+    if (!HealingMatchConstants.isStripeVerified) {
+      getStripeRedirectURL();
     } else {
+      ProgressDialogBuilder.showCommonProgressDialog(context);
       if (proposeAdditionalCosts) {
         if (price == null && addedpriceReason == null) {
           displaySnackBar("追加の費用と理由を選択してください。");
@@ -1250,5 +1262,18 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
       ),
     ));
     ProgressDialogBuilder.hideCommonProgressDialog(context);
+  }
+
+  getStripeRedirectURL() {
+    ServiceProviderApi.getStripeRegisterURL(context).then((value) {
+      if (value.status == 'success') {
+        print('URL Success !!');
+        DialogHelper.showStripeNotVerifiedDialog(context);
+      } else {
+        return;
+      }
+    }).catchError((onError) {
+      print('Stripe Redirect Exception : $onError');
+    });
   }
 }

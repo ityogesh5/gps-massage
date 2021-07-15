@@ -1381,17 +1381,18 @@ class DialogHelper {
     dialog = AwesomeDialog(
         dismissOnTouchOutside: false,
         context: context,
-        dialogType: DialogType.INFO,
-        headerAnimationLoop: false,
+        dialogType: DialogType.WARNING,
+        headerAnimationLoop: true,
         animType: AnimType.TOPSLIDE,
         showCloseIcon: false,
+        btnOkColor: Color.fromRGBO(200, 217, 33, 1),
         closeIcon: Icon(Icons.close),
-        title: '情報',
-        desc: 'ストライプで確認していないようです。予約の支払いを受け取るには、ストライプで登録してください。',
+        title: 'ストライプ検証が必要です！',
+        desc: 'ストライプで確認していないようです。\n予約の支払いを受け取るには、ストライプで登録してください。',
         btnOkOnPress: () {
           print('Ok pressed!!');
           dialog.dissmiss();
-          HealingMatchConstants.getStripeRegisterURL(context);
+          NavigationRouter.switchToStripeRegisterPage(context);
         })
       ..show();
   }

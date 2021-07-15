@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
@@ -28,73 +26,66 @@ class WebviewStripeTest extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter WebView Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return Scaffold(
+      body: Container(
+        child: WebviewScaffold(
+          url: selectedUrl,
+          javascriptChannels: jsChannels,
+          mediaPlaybackRequiresUserGesture: false,
+          withJavascript: true,
+          enableAppScheme: true,
+          appBar: AppBar(
+            title: const Text('Widget WebView'),
+          ),
+          withZoom: true,
+          withLocalStorage: true,
+          hidden: true,
+          initialChild: Container(
+            color: Colors.redAccent,
+            child: const Center(
+              child: Text('Waiting.....'),
+            ),
+          ),
+          bottomNavigationBar: BottomAppBar(
+            child: Row(
+              children: <Widget>[
+                IconButton(
+                  icon: const Icon(Icons.arrow_back_ios),
+                  onPressed: () {
+                    flutterWebViewPlugin.goBack();
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.arrow_forward_ios),
+                  onPressed: () {
+                    flutterWebViewPlugin.goForward();
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.autorenew),
+                  onPressed: () {
+                    flutterWebViewPlugin.reload();
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
-      routes: {
-        '/': (_) => const MyHomePage(title: 'Flutter WebView Demo'),
-        '/widget': (_) {
-          return WebviewScaffold(
-            url: selectedUrl,
-            javascriptChannels: jsChannels,
-            mediaPlaybackRequiresUserGesture: false,
-            withJavascript: true,
-            enableAppScheme: true,
-            appBar: AppBar(
-              title: const Text('Widget WebView'),
-            ),
-            withZoom: true,
-            withLocalStorage: true,
-            hidden: true,
-            initialChild: Container(
-              color: Colors.redAccent,
-              child: const Center(
-                child: Text('Waiting.....'),
-              ),
-            ),
-            bottomNavigationBar: BottomAppBar(
-              child: Row(
-                children: <Widget>[
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back_ios),
-                    onPressed: () {
-                      flutterWebViewPlugin.goBack();
-                    },
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.arrow_forward_ios),
-                    onPressed: () {
-                      flutterWebViewPlugin.goForward();
-                    },
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.autorenew),
-                    onPressed: () {
-                      flutterWebViewPlugin.reload();
-                    },
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      },
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key key, @required this.title}) : super(key: key);
+/*class MyStripeHomePage extends StatefulWidget {
+  const MyStripeHomePage(this.title);
 
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _MyStripeHomePageState createState() => _MyStripeHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyStripeHomePageState extends State<MyStripeHomePage> {
   // Instance of WebView plugin
   final flutterWebViewPlugin = FlutterWebviewPlugin();
 
@@ -137,8 +128,8 @@ class _MyHomePageState extends State<MyHomePage> {
     _onDestroy = flutterWebViewPlugin.onDestroy.listen((_) {
       if (mounted) {
         // Actions like show a info toast.
-        /*ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Webview Destroyed')));*/
+        */ /*ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Webview Destroyed')));*/ /*
         print('Webview destroyed..!!');
       }
     });
@@ -225,7 +216,8 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
+            WebviewStripeTest(),
+            */ /*Container(
               padding: const EdgeInsets.all(24.0),
               child: TextField(controller: _urlCtrl),
             ),
@@ -256,7 +248,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pushNamed('/widget');
+
               },
               child: const Text('Open widget webview'),
             ),
@@ -307,10 +299,10 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: const Text('Cookies'),
             ),
-            Text(_history.join('\n'))
+            Text(_history.join('\n'))*/ /*
           ],
         ),
       ),
     );
   }
-}
+}*/

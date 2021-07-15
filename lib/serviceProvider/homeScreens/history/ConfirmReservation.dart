@@ -32,10 +32,12 @@ class _ProviderConfirmReservationScreenState
   void getConfirmedDetails() {
     ServiceProviderApi.getConfirmedBookingDetails(_pageNumber, _pageSize)
         .then((value) {
-      setState(() {
-        requestBookingDetailsList.addAll(value.data.bookingDetailsList);
-        status = 1;
-      });
+      if (this.mounted) {
+        setState(() {
+          requestBookingDetailsList.addAll(value.data.bookingDetailsList);
+          status = 1;
+        });
+      }
     });
   }
 

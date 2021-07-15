@@ -18,11 +18,8 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/Se
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
-
-import 'helperClasses/progressDialogsHelper.dart';
 
 enum MessageType {
   Text,
@@ -239,13 +236,21 @@ class HealingMatchConstants {
   static const String CREATE_CUSTOMER_FOR_PAYMENT_URL =
       ON_PREMISE_USER_BASE_URL + '/user/customerCreation';
 
-  // handle guest user
+  // handle paymentCharge
   static const String CHARGE_CUSTOMER_URL =
       ON_PREMISE_USER_BASE_URL + '/user/paymentCharge';
 
-  // handle guest user
+  // handle paymentConfirm
   static const String PAYMENT_SUCCESS_CALL_URL =
       ON_PREMISE_USER_BASE_URL + '/user/paymentConfirm';
+
+  // handle guest user
+  static const String STRIPE_ONBOARD_REGISTER_URL =
+      ON_PREMISE_USER_BASE_URL + '/user/paymentOutAccounts';
+
+  // get therapist details
+  static const String GET_THERAPIST_DETAILS_URL =
+      ON_PREMISE_USER_BASE_URL + '/user/therapistById';
 
   // add user address
   static const String USER_ADD_ADDRESS =
@@ -893,27 +898,9 @@ class HealingMatchConstants {
     Curves.slowMiddle
   ];
 
+  // get stripe redirect url
   static String stripeRedirectURL;
 
-  static void getStripeRegisterURL(BuildContext context) async {
-    ProgressDialogBuilder.showOverlayLoader(context);
-    try {
-      ServiceUserAPIProvider.getStripeRegisterURL(context).then((value) {
-        if (value != null) {
-          //HealingMatchConstants.stripeRedirectURL = value.message.url;
-          ProgressDialogBuilder.hideLoader(context);
-          NavigationRouter.switchToStripeRegisterPage(context);
-        } else {
-          ProgressDialogBuilder.hideLoader(context);
-          return null;
-        }
-      }).catchError((onError) {
-        print('Stripe register error : ${onError.toString()}');
-        ProgressDialogBuilder.hideLoader(context);
-      });
-    } catch (e) {
-      print('Stripe redirect URL Exception : ${e.toString()}');
-      ProgressDialogBuilder.hideLoader(context);
-    }
-  }
+  // get user stripe verified or not value
+  static bool isStripeVerified = false;
 }

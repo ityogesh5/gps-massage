@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:googleapis/calendar/v3.dart';
 import 'package:googleapis_auth/auth_io.dart';
@@ -893,9 +894,9 @@ class ServiceUserAPIProvider {
 
   static Future<StripePayOutVerifyFieldsModel> getStripeRegisterURL(
       BuildContext context) async {
-    ProgressDialogBuilder.showOverlayLoader(context);
+    //ProgressDialogBuilder.showOverlayLoader(context);
     try {
-      final url = 'http://106.51.49.160:9094/api/user/paymentOutAccounts';
+      final url = '${HealingMatchConstants.STRIPE_ONBOARD_REGISTER_URL}';
       Map<String, String> headers = {
         'Content-Type': 'application/json',
         'x-access-token':
@@ -905,8 +906,9 @@ class ServiceUserAPIProvider {
           headers: headers,
           body: json.encode({
             "email": 'anistan@nexware-global.com',
-            "refresh_url": 'http://106.51.49.160:9094/reauth',
-            "return_url": 'http://106.51.49.160:9094/api/user/successOnboard'
+            "refresh_url": 'http://106.51.49.160:9094/api/user/returnpage',
+            "return_url": 'http://106.51.49.160:9094/api/user/successOnboard',
+            "userId": '${HealingMatchConstants.userId}'
           }));
       final getTherapists = json.decode(response.body);
       _stripePayoutModel =
@@ -915,11 +917,12 @@ class ServiceUserAPIProvider {
       if (response.statusCode == 200) {
         HealingMatchConstants.stripeRedirectURL =
             _stripePayoutModel.message.url;
-        ProgressDialogBuilder.hideLoader(context);
+        print('Entering.. : ${HealingMatchConstants.stripeRedirectURL}');
+        //ProgressDialogBuilder.hideLoader(context);
       }
     } catch (e) {
-      print('Stripe redirect URL : ${e.toString()}');
-      ProgressDialogBuilder.hideLoader(context);
+      print('Stripe redirect URL exception : ${e.toString()}');
+      //ProgressDialogBuilder.hideLoader(context);
     }
 
     return _stripePayoutModel;
