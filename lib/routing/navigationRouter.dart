@@ -4,6 +4,7 @@ import 'package:gps_massageapp/constantUtils/helperClasses/networkHelper/socketE
 import 'package:gps_massageapp/customLibraryClasses/PaymentAnimations/PaymentFailedPage.dart';
 import 'package:gps_massageapp/customLibraryClasses/PaymentAnimations/PaymentProcessingPage.dart';
 import 'package:gps_massageapp/customLibraryClasses/PaymentAnimations/PaymentSuccessPage.dart';
+import 'package:gps_massageapp/initialScreens/StripeRedirectPage.dart';
 import 'package:gps_massageapp/initialScreens/notificationPopup.dart';
 import 'package:gps_massageapp/initialScreens/providerTutorial.dart';
 import 'package:gps_massageapp/initialScreens/termsAndConditions.dart';
@@ -58,7 +59,6 @@ import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/Booking
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/chooseDate.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/sampleBookingScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/ReservationScreens/CalendarEventPopup.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/ReservationScreens/reservationAndFavourites.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/bookingCancelScreens/CancelDetailsScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/calendar.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/NoticeScreenUser.dart';
@@ -547,23 +547,25 @@ class NavigationRouter {
 
 // Provider bottom bar homescreen
   static void switchToServiceProviderBottomBar(BuildContext context) {
-    Navigator.of(context).popUntil((route) => route.isFirst);
-    Navigator.of(context).pushReplacement(PageRouteBuilder(
-        pageBuilder: (context, animation, anotherAnimation) {
-          return BottomBarProvider(0);
-        },
-        transitionDuration: Duration(milliseconds: 2000),
-        transitionsBuilder: (context, animation, anotherAnimation, child) {
-          animation = CurvedAnimation(
-              curve: HealingMatchConstants.curveList[2], parent: animation);
-          return Align(
-            child: SizeTransition(
-              sizeFactor: animation,
-              child: child,
-              axisAlignment: 0.0,
-            ),
-          );
-        }));
+    Navigator.of(context).pushAndRemoveUntil(
+        PageRouteBuilder(
+            pageBuilder: (context, animation, anotherAnimation) {
+              return BottomBarProvider(0);
+            },
+            transitionDuration: Duration(milliseconds: 2000),
+            transitionsBuilder: (context, animation, anotherAnimation, child) {
+              animation = CurvedAnimation(
+                  curve: HealingMatchConstants.curveList[11],
+                  parent: animation);
+              return Align(
+                child: SizeTransition(
+                  sizeFactor: animation,
+                  child: child,
+                  axisAlignment: 0.0,
+                ),
+              );
+            }),
+        (Route<dynamic> route) => false);
   }
 
   // Provider bottom bar myAccount
@@ -1759,5 +1761,27 @@ class NavigationRouter {
             ),
           );
         }));
+  }
+
+  // payment failure page
+  static void switchToStripeRegisterPage(BuildContext context) {
+    Navigator.of(context).pushReplacement(
+      PageRouteBuilder(
+          pageBuilder: (context, animation, anotherAnimation) {
+            return StripeRegisterPage();
+          },
+          transitionDuration: Duration(milliseconds: 2000),
+          transitionsBuilder: (context, animation, anotherAnimation, child) {
+            animation = CurvedAnimation(
+                curve: HealingMatchConstants.curveList[15], parent: animation);
+            return Align(
+              child: SizeTransition(
+                sizeFactor: animation,
+                child: child,
+                axisAlignment: 0.0,
+              ),
+            );
+          }),
+    );
   }
 }

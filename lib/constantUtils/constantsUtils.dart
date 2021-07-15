@@ -236,13 +236,21 @@ class HealingMatchConstants {
   static const String CREATE_CUSTOMER_FOR_PAYMENT_URL =
       ON_PREMISE_USER_BASE_URL + '/user/customerCreation';
 
-  // handle guest user
+  // handle paymentCharge
   static const String CHARGE_CUSTOMER_URL =
       ON_PREMISE_USER_BASE_URL + '/user/paymentCharge';
 
-  // handle guest user
+  // handle paymentConfirm
   static const String PAYMENT_SUCCESS_CALL_URL =
       ON_PREMISE_USER_BASE_URL + '/user/paymentConfirm';
+
+  // handle guest user
+  static const String STRIPE_ONBOARD_REGISTER_URL =
+      ON_PREMISE_USER_BASE_URL + '/user/paymentOutAccounts';
+
+  // get therapist details
+  static const String GET_THERAPIST_DETAILS_URL =
+      ON_PREMISE_USER_BASE_URL + '/user/therapistById';
 
   // add user address
   static const String USER_ADD_ADDRESS =
@@ -889,4 +897,10 @@ class HealingMatchConstants {
     Curves.linearToEaseOut,
     Curves.slowMiddle
   ];
+
+  // get stripe redirect url
+  static String stripeRedirectURL;
+
+  // get user stripe verified or not value
+  static bool isStripeVerified = false;
 }
