@@ -277,13 +277,13 @@ class _BannerImageState extends State<BannerImage> {
                 children: <Widget>[
                   new ListTile(
                       leading: new Icon(Icons.photo_library),
-                      title: new Text('プロフィール画像を選択してください。'),
+                      title: new Text('既存の写真から選択する'),
                       onTap: () {
                         _imgFromGallery();
                       }),
                   new ListTile(
                     leading: new Icon(Icons.photo_camera),
-                    title: new Text('プロフィール写真を撮ってください。'),
+                    title: new Text('カメラで撮影する'),
                     onTap: () {
                       _imgFromCamera();
                     },

@@ -168,6 +168,10 @@ class _ShiftDescriptionState extends State<ShiftDescription> {
       displaySnackBarError("コメントは2000文字以内にする必要がありますのでもう一度やり直してください。");
       return;
     }
+    if (storeDescription.length == 0) {
+      displaySnackBarError("コメントを入力してください。");
+      return;
+    }
 
     updateStoreDescription();
   }

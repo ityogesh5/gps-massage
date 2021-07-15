@@ -2325,7 +2325,6 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       ProgressDialogBuilder.hideCommonProgressDialog(context);
       NavigationRouter.switchToServiceProviderSecondScreen(context);
     } catch (e) {
-      ProgressDialogBuilder.hideCommonProgressDialog(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('アドレスを確認して、もう一度お試しください。',
@@ -2337,6 +2336,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
             label: 'はい',
             textColor: Colors.white),
       ));
+
+      ProgressDialogBuilder.hideCommonProgressDialog(context);
       return;
     }
   }
