@@ -369,6 +369,8 @@ class _ChatItemScreenState extends State<ChatItemScreen>
           return false;
         }).then((value) {
           // Update isSeen of the message only if message is from peer
+          print(
+              "From id: ${snapshot['fromId']} - Message seen: ${snapshot['isSeen']}");
           if (snapshot['fromId'] == peerId && !snapshot['isSeen']) {
             db.updateMessageField(snapshot, 'isSeen', true);
           }

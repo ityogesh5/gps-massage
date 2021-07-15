@@ -73,7 +73,7 @@ class DB {
     }
   }
 
-  Future<QuerySnapshot> getChatItem(String groupId, [int limit = 20]) async {
+  Future<QuerySnapshot> getChatItem(String groupId, [int limit = 10]) async {
     try {
       QuerySnapshot querySnapShot = await _messagesCollection
           .doc(groupId)
