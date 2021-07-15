@@ -2680,6 +2680,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                             .calEventId = approvedList[
                                                                                 index]
                                                                             .eventId;
+                                                                        HealingMatchConstants
+                                                                            .bookingCancelStatus = approvedList[
+                                                                                index]
+                                                                            .bookingStatus;
 
                                                                         NavigationRouter.switchToServiceUserBookingCancelScreen(
                                                                             context,
@@ -3506,6 +3510,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                             .calEventId = confirmedPaymentList[
                                                                                 index]
                                                                             .eventId;
+                                                                        HealingMatchConstants
+                                                                            .bookingCancelStatus = confirmedPaymentList[
+                                                                                index]
+                                                                            .bookingStatus;
                                                                         NavigationRouter.switchToServiceUserBookingCancelScreen(
                                                                             context,
                                                                             confirmedPaymentList[index].id);

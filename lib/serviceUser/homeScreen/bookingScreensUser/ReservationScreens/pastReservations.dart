@@ -812,7 +812,7 @@ class _PastReservationsState extends State<PastReservations> {
                                                                           .travelAmount ==
                                                                       null
                                                               ? '¥${bookingDetailsList[index].priceOfService}'
-                                                              : '¥${bookingDetailsList[index].priceOfService + bookingDetailsList[index].travelAmount} (交通費込み - ¥${bookingDetailsList[index].travelAmount})',
+                                                              : '¥${bookingDetailsList[index].priceOfService + bookingDetailsList[index].travelAmount} (${bookingDetailsList[index].addedPrice} - ¥${bookingDetailsList[index].travelAmount})',
                                                           style: TextStyle(
                                                             fontSize: 14.0,
                                                             color: Colors.black,

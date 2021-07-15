@@ -527,6 +527,8 @@ class HealingMatchConstants {
   static var userPhoneNumber = '';
   static const String forgetPasswordTxt =
       "パスワードを再設定するための認証コードを送信します。\n ご登録の電話番号を入力の上「送信」ボタンを\n クリックしてください。";
+//bookingCancelStatus
+  static var bookingCancelStatus = 0;
 
   //Change Password
   static const String changePasswordNewpass = "新しいパスワード *";

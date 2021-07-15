@@ -128,7 +128,9 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        '${HealingMatchConstants.cancellationFeeCost}',
+                        HealingMatchConstants.bookingCancelStatus == 6
+                            ? '${HealingMatchConstants.cancellationFeeCost}'
+                            : '',
                         style: TextStyle(
                             fontSize: 14,
                             color: Colors.black,

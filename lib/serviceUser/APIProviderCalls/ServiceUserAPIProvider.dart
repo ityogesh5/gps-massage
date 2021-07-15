@@ -831,6 +831,7 @@ class ServiceUserAPIProvider {
   // chargePaymentForCustomer
   static Future<PaymentCustomerCharge> chargePaymentForCustomer(
       BuildContext context, var userID, var cardID, var amount) async {
+    print('paymentCardId:$cardID');
     try {
       final url = '${HealingMatchConstants.CHARGE_CUSTOMER_URL}';
       final response = await http.post(url,
@@ -865,6 +866,7 @@ class ServiceUserAPIProvider {
   // paymentSuccess
   static Future<PaymentSuccessModel> paymentSuccess(
       BuildContext context, var paymentID, var cardID) async {
+    print('paymentCardId2:$cardID');
     try {
       final url = '${HealingMatchConstants.PAYMENT_SUCCESS_CALL_URL}';
       final response = await http.post(url,

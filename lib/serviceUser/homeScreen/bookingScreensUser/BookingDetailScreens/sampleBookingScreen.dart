@@ -395,7 +395,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                                         .bookingDataResponse[0].travelAmount ==
                                     null
                             ? '¥${therapistDetails.bookingDataResponse[0].priceOfService}'
-                            : '¥${therapistDetails.bookingDataResponse[0].priceOfService + therapistDetails.bookingDataResponse[0].travelAmount} (交通費込み - ¥${therapistDetails.bookingDataResponse[0].travelAmount})',
+                            : '¥${therapistDetails.bookingDataResponse[0].priceOfService + therapistDetails.bookingDataResponse[0].travelAmount} (${therapistDetails.bookingDataResponse[0].addedPrice} - ¥${therapistDetails.bookingDataResponse[0].travelAmount})',
                         style: TextStyle(
                           fontSize: 14.0,
                           color: Colors.black,
@@ -563,6 +563,9 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                     Spacer(),
                     InkWell(
                       onTap: () {
+                        HealingMatchConstants.bookingCancelStatus =
+                            therapistDetails
+                                .bookingDataResponse[0].bookingStatus;
                         HealingMatchConstants.calEventId =
                             therapistDetails.bookingDataResponse[0].eventId;
                         therapistDetails.bookingDataResponse[0].bookingStatus ==
@@ -689,7 +692,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                                         .bookingDataResponse[0].travelAmount ==
                                     null
                             ? '¥${therapistDetails.bookingDataResponse[0].priceOfService}'
-                            : '¥${therapistDetails.bookingDataResponse[0].priceOfService + therapistDetails.bookingDataResponse[0].travelAmount} (交通費込み - ¥${therapistDetails.bookingDataResponse[0].travelAmount})',
+                            : '¥${therapistDetails.bookingDataResponse[0].priceOfService + therapistDetails.bookingDataResponse[0].travelAmount} (${therapistDetails.bookingDataResponse[0].addedPrice} - ¥${therapistDetails.bookingDataResponse[0].travelAmount})',
                         style: TextStyle(
                           fontSize: 14.0,
                           color: Colors.black,
