@@ -277,6 +277,28 @@ class DB {
     }
   }
 
+  void updatePeerInfoViaTransactions(String userId, String peerId) async {
+    try {
+      await FirebaseFirestore.instance.runTransaction((transaction) async {
+        DocumentReference postRef = _usersCollection.doc(peerId);
+        DocumentSnapshot snapshot = await transaction.get(postRef);
+        UserDetail userDetail = UserDetail.fromJson(snapshot.data());
+
+        var ucindex =
+            userDetail.contacts.indexWhere((element) => element == userId);
+        var ctemp = userDetail.contacts[ucindex];
+        userDetail.contacts.removeAt(ucindex);
+        userDetail.contacts.insert(0, ctemp);
+        transaction.update(postRef, {'contacts': userDetail.contacts});
+      });
+    } catch (error) {
+      print(
+          '****************** DB updateUserInfo error **********************');
+      print(error);
+      throw error;
+    }
+  }
+
   void updateUserOnlineInfo(String userId, Map<String, dynamic> data) async {
     try {
       _usersCollection.doc(userId).set(data, SetOptions(merge: true));

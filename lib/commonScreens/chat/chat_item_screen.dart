@@ -28,8 +28,9 @@ enum LoaderStatus {
 
 class ChatItemScreen extends StatefulWidget {
   final ChatData chatData;
+  var bringChatToTop;
 
-  ChatItemScreen(this.chatData);
+  ChatItemScreen(this.chatData, {this.bringChatToTop});
 
   @override
   _ChatItemScreenState createState() => _ChatItemScreenState();
@@ -50,6 +51,8 @@ class _ChatItemScreenState extends State<ChatItemScreen>
   String peerId;
   String groupChatId;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+  int mCount = 0; //for updating peer contact for the firstTime
 
   // for handling media selection
   File _selectedMedia;
@@ -150,6 +153,7 @@ class _ChatItemScreenState extends State<ChatItemScreen>
     widget.chatData.messages.insert(0, newMessage);
 
     //add messageId to List
+
     widget.chatData.messageId.add(newMessage.fromId + newMessage.timeStamp);
 
     // set media message
@@ -163,6 +167,16 @@ class _ChatItemScreenState extends State<ChatItemScreen>
         time,
         Message.toMap(newMessage),
       );
+    }
+
+    mCount = mCount + 1;
+
+    if (mCount <= 1) {
+      db.updatePeerInfoViaTransactions(HealingMatchConstants.fbUserId, peerId);
+    }
+
+    if (widget.bringChatToTop != null) {
+      widget.bringChatToTop(groupChatId);
     }
 
     /*  final userContacts = Provider.of<Chat>(context, listen: false).getContacts;

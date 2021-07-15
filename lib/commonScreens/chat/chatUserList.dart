@@ -90,7 +90,7 @@ class _ChatUserListState extends State<ChatUserList>
 
   void fetchChatDetails(List<UserDetail> value) {
     contactList.addAll(value);
-    // final chats = Provider.of<Chat>(context).chats;
+    //final chats = Provider.of<Chat>(context).chats;
 
     Chat().fetchChats(value).then((value) {
       chatData.addAll(value);
@@ -100,7 +100,7 @@ class _ChatUserListState extends State<ChatUserList>
           userEmail = chatData[i].peer.email;
           userChat = contactList[i];
         } catch (e) {
-          print("abc");
+          print("exception in chatData");
         }
       }
       setState(() {
@@ -278,7 +278,9 @@ class _ChatUserListState extends State<ChatUserList>
                                               Navigator.of(context).push(
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                      ChatItemScreen(chatData),
+                                                      ChatItemScreen(chatData,
+                                                          bringChatToTop:
+                                                              updateFromChatItemScreen),
                                                 ),
                                               );
                                             },
@@ -411,7 +413,8 @@ class _ChatUserListState extends State<ChatUserList>
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => ChatItemScreen(chatData[index])));
+                builder: (context) => ChatItemScreen(chatData[index],
+                    bringChatToTop: updateFromChatItemScreen)));
       },
       child: Card(
         elevation: 0.0,
@@ -682,13 +685,13 @@ class _ChatUserListState extends State<ChatUserList>
         //   Utils.playSound('mp3/notificationIphone.mp3');
         // else Utils.playSound('mp3/notificationAndroid.mp3');
 
-        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          /*  Provider.of<Chat>(context, listen: false)
-              .bringChatToTop(chatData.groupId); */
-          bringChatToTop(chatData.groupId);
-          setState(() {});
-        });
       }
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        /*   Provider.of<Chat>(context, listen: false)
+              .bringChatToTop(chatData.groupId); */
+        bringChatToTop(chatData.groupId);
+        setState(() {});
+      });
     } else if (!chatData.messageId.contains(newMsg.fromId + newMsg.timeStamp) &&
         newMsg.fromId != HealingMatchConstants.fbUserId) {
       //  chatData.addMessage(newMsg);
@@ -698,15 +701,23 @@ class _ChatUserListState extends State<ChatUserList>
       if (newMsg.fromId != chatData.userId) {
         chatData.unreadCount++;
         bringChatToTop(chatData.groupId);
-
-        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          /*  Provider.of<Chat>(context, listen: false)
-              .bringChatToTop(chatData.groupId); */
-          bringChatToTop(chatData.groupId);
-          setState(() {});
-        });
       }
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        /*  Provider.of<Chat>(context, listen: false)
+              .bringChatToTop(chatData.groupId); */
+        bringChatToTop(chatData.groupId);
+        setState(() {});
+      });
     }
+  }
+
+  updateFromChatItemScreen(String groupId) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      /*  Provider.of<Chat>(context, listen: false)
+              .bringChatToTop(chatData.groupId); */
+      bringChatToTop(groupId);
+      setState(() {});
+    });
   }
 
   // updates the order of chats when a new message is recieved
@@ -718,7 +729,7 @@ class _ChatUserListState extends State<ChatUserList>
           .firstWhere((element) => element != HealingMatchConstants.fbUserId);
 
       var cIndex = contactList.indexWhere((element) => element.id == peerId);
-      userDetail = contactList[cIndex];
+      var userDetail = contactList[cIndex];
       contactList.removeAt(cIndex);
       contactList.insert(0, userDetail);
 
