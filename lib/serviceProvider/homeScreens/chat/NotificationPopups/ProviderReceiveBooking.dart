@@ -722,7 +722,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                       ),
                       SizedBox(width: 5.0),
                       Text(
-                        '${widget.bookingDetail.noOfReviewsMembers}',
+                        '${widget.bookingDetail.noOfReviewsMembers}  レビュー',
                         style: TextStyle(
                             decoration: TextDecoration.underline,
                             decorationColor: Colors.black,
@@ -987,6 +987,10 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
     if (cancellationReasonController.text == null ||
         cancellationReasonController.text == "") {
       displaySnackBar("キャンセルする理由を入力してください。");
+      return null;
+    }
+    if (cancellationReasonController.text.length > 125) {
+      displaySnackBar("キャンセルの理由を25文字以内で入力してください。");
       return null;
     }
     cancelBooking(context);

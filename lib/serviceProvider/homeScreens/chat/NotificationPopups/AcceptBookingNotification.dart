@@ -184,7 +184,7 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
                         Row(
                           children: [
                             Expanded(
-                              flex: 3,
+                              flex: 4,
                               child: Container(
                                 width: MediaQuery.of(context).size.width * 0.2,
                                 color: Colors.white,
@@ -228,6 +228,7 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
                               width: 10.0,
                             ),
                             Expanded(
+                              flex: 2,
                               child: Container(
                                 width: MediaQuery.of(context).size.width * 0.2,
                                 color: Colors.white,
@@ -755,7 +756,7 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
                       ),
                       SizedBox(width: 5.0),
                       Text(
-                        '${widget.requestBookingDetailsList.noOfReviewsMembers}',
+                        '${widget.requestBookingDetailsList.noOfReviewsMembers}  レビュー',
                         style: TextStyle(
                             decoration: TextDecoration.underline,
                             decorationColor: Colors.black,
@@ -1035,6 +1036,10 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
     if (cancellationReasonController.text == null ||
         cancellationReasonController.text == "") {
       displaySnackBar("キャンセルする理由を入力してください。");
+      return null;
+    }
+    if (cancellationReasonController.text.length > 125) {
+      displaySnackBar("キャンセルの理由を25文字以内で入力してください。");
       return null;
     }
     cancelBooking(context);
