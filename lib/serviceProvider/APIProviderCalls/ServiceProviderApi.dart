@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 import "package:googleapis/calendar/v3.dart";
 import "package:googleapis_auth/auth_io.dart";
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/event.dart';
+import 'package:gps_massageapp/models/responseModels/paymentModels/PayoutModel.dart';
+import 'package:gps_massageapp/models/responseModels/paymentModels/StripePayOutVerifyErrorModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/ProviderDetailsResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/TherapistDetailsModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/currentBookingRatingResponseModel.dart';
@@ -15,7 +18,6 @@ import 'package:gps_massageapp/models/responseModels/serviceProvider/providerRev
 import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/userReviewCreateResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/userReviewandRatingsResponseModel.dart';
-import 'package:gps_massageapp/models/responseModels/paymentModels/PayoutModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 
@@ -24,6 +26,10 @@ class ServiceProviderApi {
 
   static StripePayOutVerifyFieldsModel _stripePayoutModel =
       new StripePayOutVerifyFieldsModel();
+
+  //stripeErrorResponse
+  static StripePayOutVerifyErrorModel _stripeErrorResponse =
+      new StripePayOutVerifyErrorModel();
 
   static TherapistDetailsModel _therapistDetailsModel =
       new TherapistDetailsModel();
@@ -1126,21 +1132,47 @@ class ServiceProviderApi {
           }));
       final getTherapists = json.decode(response.body);
       print('More Response body : ${response.body}');
-      _stripePayoutModel =
-          StripePayOutVerifyFieldsModel.fromJson(getTherapists);
-      print('Model objects Response body : ${_stripePayoutModel.toJson()}');
       if (response.statusCode == 200) {
+        _stripePayoutModel =
+            StripePayOutVerifyFieldsModel.fromJson(getTherapists);
+        print('Model objects Response body : ${_stripePayoutModel.toJson()}');
         HealingMatchConstants.stripeRedirectURL =
             _stripePayoutModel.message.url;
         print('Entering.. : ${HealingMatchConstants.stripeRedirectURL}');
         ProgressDialogBuilder.hideLoader(context);
+      } else {
+        getStripeErrorMessage(context, getTherapists);
       }
     } catch (e) {
-      print('Stripe redirect URL exception : ${e.toString()}');
+      print('Stripe redirect API exception : ${e.toString()}');
       ProgressDialogBuilder.hideLoader(context);
     }
 
     return _stripePayoutModel;
+  }
+
+  static Future<StripePayOutVerifyErrorModel> getStripeErrorMessage(
+      BuildContext context, var getTherapists) async {
+    _stripeErrorResponse = StripePayOutVerifyErrorModel.fromJson(getTherapists);
+    if (_stripeErrorResponse.message
+        .contains('User already registered with stripe')) {
+      HealingMatchConstants.stripeErrorMessage = 'ユーザーはすでにストライプに登録しました、\n'
+          'ストライプ検証が進行中です...';
+      print(
+          'Error in Stripe Register Response in progress : ${_stripeErrorResponse.message}');
+      ProgressDialogBuilder.hideLoader(context);
+      DialogHelper.showStripeVerificationStatusDialog(
+          context, HealingMatchConstants.stripeErrorMessage);
+    } else {
+      HealingMatchConstants.stripeErrorMessage = 'ユーザーはすでにストライプに登録しています。';
+      print(
+          'Error in Stripe Register Response failed : ${_stripeErrorResponse.message}');
+      ProgressDialogBuilder.hideLoader(context);
+      DialogHelper.showStripeVerificationStatusDialog(
+          context, HealingMatchConstants.stripeErrorMessage);
+    }
+
+    return _stripeErrorResponse;
   }
 
   //_therapistDetailsModel

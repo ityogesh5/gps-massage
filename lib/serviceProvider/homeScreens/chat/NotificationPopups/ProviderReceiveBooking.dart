@@ -27,7 +27,7 @@ final Set<JavascriptChannel> jsChannels = [
       }),
 ].toSet();
 
-final _scaffoldStripeKey = GlobalKey<ScaffoldState>();
+GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
 class ProviderReceiveBooking extends StatefulWidget {
   final BookingDetailsList bookingDetail;
@@ -52,7 +52,6 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
   ScrollController scrollController = ScrollController();
   GlobalKey startKey = new GlobalKey();
   GlobalKey endKey = new GlobalKey();
-  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   DateTime newStartTime;
   DateTime newEndTime;
   DateTime startTime;
@@ -1206,14 +1205,18 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
 
   getStripeRedirectURL() {
     ServiceProviderApi.getStripeRegisterURL(context).then((value) {
-      if (value.status == 'success') {
+      if (value != null && value.status == 'success') {
         print('URL Success !!');
         DialogHelper.showStripeNotVerifiedDialog(context);
+      } else if (value != null && value.status == 'error') {
+        print('URL Failed !!');
       } else {
+        print('Unknown Error Occured..Please Try again :${value.status}');
         return;
       }
     }).catchError((onError) {
       print('Stripe Redirect Exception : $onError');
+      return;
     });
   }
 }

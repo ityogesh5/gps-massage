@@ -238,7 +238,7 @@ class HealingMatchConstants {
 
   // handle paymentCharge
   static const String CHARGE_CUSTOMER_URL =
-      ON_PREMISE_USER_BASE_URL + '/user/paymentCharge';
+      ON_PREMISE_USER_BASE_URL + '/user/paymentChargeShare';
 
   // handle paymentConfirm
   static const String PAYMENT_SUCCESS_CALL_URL =
@@ -830,7 +830,6 @@ class HealingMatchConstants {
       };
       _stripePayment.addPaymentMethod().then((paymentResponse) {
         if (paymentResponse.status == PaymentResponseStatus.succeeded) {
-          var paymentIntentID = paymentResponse.paymentIntentId;
           _paymentMethodId = paymentResponse.paymentMethodId;
           debugPrint('Payment Response : ${paymentResponse.paymentMethodId}');
           Future.delayed(Duration(seconds: 2), () {
@@ -853,7 +852,9 @@ class HealingMatchConstants {
   }
 
   static void createCustomer(var paymentID, BuildContext context) async {
-    NavigationRouter.switchToPaymentProcessingScreen(context, paymentID);
+    print('Payment card id : $paymentID');
+    return;
+    //NavigationRouter.switchToPaymentProcessingScreen(context, paymentID);
   }
 
   static List<Curve> curveList = [
@@ -904,4 +905,6 @@ class HealingMatchConstants {
 
   // get user stripe verified or not value
   static bool isStripeVerified = false;
+
+  static var stripeErrorMessage;
 }

@@ -1629,7 +1629,8 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
 
     ServiceProviderApi.getTherapistDetails(context).then((value) {
       if (value.status == 'success') {
-        print('This User is Stripe Verified !!');
+        print(
+            'User Stripe Verification status : ${value.data.isStripeVerified} !!');
       } else {
         print('This User is not Stripe Verified !!');
         return;
