@@ -151,7 +151,8 @@ class _AddAddressState extends State<SearchAddAddress> {
                                                 0.85,
                                         child: WidgetAnimator(
                                           DropDownFormField(
-                                            hintText: '登録する地点のカテゴリー *',
+                                            requiredField: true,
+                                            hintText: '登録する地点のカテゴリー ',
                                             value: _myCategoryPlaceForMassage,
                                             onSaved: (value) {
                                               setState(() {
@@ -261,6 +262,8 @@ class _AddAddressState extends State<SearchAddAddress> {
                                                             child:
                                                                 WidgetAnimator(
                                                               DropDownFormField(
+                                                                  requiredField:
+                                                                      true,
                                                                   hintText:
                                                                       '都道府県',
                                                                   value:
@@ -355,6 +358,8 @@ class _AddAddressState extends State<SearchAddAddress> {
                                                             child:
                                                                 WidgetAnimator(
                                                               DropDownFormField(
+                                                                  requiredField:
+                                                                      true,
                                                                   hintText:
                                                                       '市区町村',
                                                                   value:
