@@ -151,6 +151,7 @@ class DialogHelper {
     AwesomeDialog dialog;
     dialog = AwesomeDialog(
       dismissOnTouchOutside: false,
+      dismissOnBackKeyPress: false,
       useRootNavigator: true,
       context: context,
       headerAnimationLoop: false,
@@ -252,8 +253,7 @@ class DialogHelper {
           color: Color.fromRGBO(200, 217, 33, 1),
           text: 'OK',
           pressEvent: () {
-            dialog.dissmiss();
-            NavigationRouter.switchToServiceUserBottomBar(context);
+            return;
           }),
     )..show();
   }
@@ -1073,7 +1073,7 @@ class DialogHelper {
                   ),
                 ),
                 Container(
-                  height: 250.0,//MediaQuery.of(context).size.height * 0.38,
+                  height: 250.0, //MediaQuery.of(context).size.height * 0.38,
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Column(

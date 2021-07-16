@@ -238,7 +238,7 @@ class HealingMatchConstants {
 
   // handle paymentCharge
   static const String CHARGE_CUSTOMER_URL =
-      ON_PREMISE_USER_BASE_URL + '/user/paymentCharge';
+      ON_PREMISE_USER_BASE_URL + '/user/paymentChargeShare';
 
   // handle paymentConfirm
   static const String PAYMENT_SUCCESS_CALL_URL =
@@ -558,6 +558,7 @@ class HealingMatchConstants {
   //Provider Home
   static providerLogin.Data userData;
   static bool isProvider = false;
+  static bool isActive = true;
   static bool isProviderHomePage;
 
   static String accessToken;

@@ -3,6 +3,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/ReservationScreens/favorite.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/ReservationScreens/pastReservations.dart';
@@ -19,6 +21,7 @@ class ReservationAndFavourite extends StatefulWidget {
 class _ReservationAndFavouriteState extends State<ReservationAndFavourite>
     with SingleTickerProviderStateMixin {
   int _tabIndex = 0;
+  int _state = 0;
   TabController _tabController;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -71,6 +74,17 @@ class _ReservationAndFavouriteState extends State<ReservationAndFavourite>
 
   @override
   Widget build(BuildContext context) {
+    if (_state == 0) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _state = 1;
+        if (HealingMatchConstants.isActive != null &&
+            HealingMatchConstants.isActive == false) {
+          DialogHelper.showUserBlockDialog(context);
+        } else {
+          return;
+        }
+      });
+    }
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Color.fromRGBO(255, 255, 255, 1),

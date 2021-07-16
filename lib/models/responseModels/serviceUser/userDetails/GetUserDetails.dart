@@ -32,6 +32,7 @@ class Data {
   int age;
   bool isTherapist;
   bool isVerified;
+  bool isActive;
   String userOccupation;
   String uploadProfileImgUrl;
   dynamic userSearchRadiusDistance;
@@ -50,6 +51,7 @@ class Data {
       this.age,
       this.isTherapist,
       this.isVerified,
+      this.isActive,
       this.userOccupation,
       this.uploadProfileImgUrl,
       this.userSearchRadiusDistance,
@@ -68,6 +70,7 @@ class Data {
     age = json['age'];
     isTherapist = json['isTherapist'];
     isVerified = json['isVerified'];
+    isActive = json['isActive'];
     userOccupation = json['userOccupation'];
     uploadProfileImgUrl = json['uploadProfileImgUrl'];
     userSearchRadiusDistance = json['userSearchRadiusDistance'];
@@ -93,6 +96,7 @@ class Data {
     data['age'] = this.age;
     data['isTherapist'] = this.isTherapist;
     data['isVerified'] = this.isVerified;
+    data['isActive'] = this.isActive;
     data['userOccupation'] = this.userOccupation;
     data['uploadProfileImgUrl'] = this.uploadProfileImgUrl;
     data['userSearchRadiusDistance'] = this.userSearchRadiusDistance;
