@@ -5,14 +5,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
-import 'package:gps_massageapp/customLibraryClasses/customSwitch/custom_switch.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
-import 'package:gps_massageapp/customLibraryClasses/flutterTimePickerSpinner/flutter_time_picker_spinner.dart';
 import 'package:gps_massageapp/customLibraryClasses/lazyTable/lazy_data_table.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/event.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
-import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:intl/intl.dart';
 
@@ -46,7 +42,6 @@ class _ChooseDateState extends State<ChooseDate> {
   bool status = false;
   bool isSeleted = false;
   GlobalKey key = new GlobalKey();
-  OverlayEntry _overlayEntry;
   Size buttonSize;
   Offset buttonPosition;
   LazyDataTable lazyDataTable;
@@ -461,7 +456,24 @@ class _ChooseDateState extends State<ChooseDate> {
             DateFormat('EEEE').format(DateTime(_cyear, _cmonth, j + 1));
         //Get Japanese Day Name
         int dayIndex = getJaIndex(dayName);
-        if (storeServiceTime[dayIndex].shopOpen) {
+        DateTime startTime = storeServiceTime[dayIndex].startTime.toLocal();
+        DateTime endTime = storeServiceTime[dayIndex].endTime.toLocal();
+        int endHour = endTime.hour == 0 ? 24 : endTime.hour;
+        bool checkStartMinute = true;
+        bool checkEndMinute = true;
+
+        if ((timeRow[i].hour == startTime.hour)) {
+          checkStartMinute = timeRow[i].minute >= startTime.minute;
+        }
+        if ((timeRow[i].hour == endHour)) {
+          checkStartMinute = timeRow[i].minute <= endTime.minute;
+        }
+
+        if (storeServiceTime[dayIndex].shopOpen &&
+            ((timeRow[i].hour >= startTime.hour) &&
+                (timeRow[i].hour <= endHour)) &&
+            checkStartMinute &&
+            checkEndMinute) {
           if (bookEvents.containsKey(timeRow[i]) &&
               bookEvents[timeRow[i]].contains(j)) {
             return InkWell(
