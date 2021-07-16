@@ -446,6 +446,7 @@ class ServiceUserAPIProvider {
       //handle socket Exception
       print('Socket Exception...Occurred');
       ProgressDialogBuilder.hideLoader(context);
+      NavigationRouter.switchToNetworkHandler(context);
     } catch (e) {
       print('Therapist Details Exception caught : ${e.toString()}');
       ProgressDialogBuilder.hideLoader(context);

@@ -550,6 +550,7 @@ class HealingMatchConstants {
   static providerLogin.Data userData;
   static bool isProvider = false;
   static bool isProviderHomePage;
+  static bool isLoggedin = false;
 
   static String accessToken;
   static String providerName;

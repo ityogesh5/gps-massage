@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 class SocketExceptionHandler extends StatefulWidget {
   @override
@@ -35,10 +37,7 @@ class _SocketExceptionHandlerState extends State<SocketExceptionHandler> {
                       size: 50,
                     ),
                     Text('インターネット接続を確認してください。',
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: 'Open Sans',
-                            color: Colors.black)),
+                        style: TextStyle(fontSize: 16, color: Colors.black)),
                     InkWell(
                       splashColor: Colors.deepOrangeAccent,
                       highlightColor: Colors.limeAccent,
@@ -51,14 +50,26 @@ class _SocketExceptionHandlerState extends State<SocketExceptionHandler> {
                           IconButton(
                             icon: Icon(MaterialIcons.refresh),
                             onPressed: () {
-                              Navigator.pop(context);
+                              print("a");
+                              if (HealingMatchConstants.isInternetAvailable) {
+                                HealingMatchConstants.isLoggedin &&
+                                        HealingMatchConstants.isProvider
+                                    ? NavigationRouter
+                                        .switchToServiceProviderBottomBar(
+                                            context)
+                                    : HealingMatchConstants.isLoggedin &&
+                                            !HealingMatchConstants.isProvider
+                                        ? NavigationRouter
+                                            .switchToServiceUserBottomBar(
+                                                context)
+                                        : Navigator.pop(context);
+                              }
                             },
                           ),
                           Text(
                             'もう一度試してください。',
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
-                                fontFamily: 'Open Sans',
                                 color: Colors.black),
                             textAlign: TextAlign.center,
                           )
