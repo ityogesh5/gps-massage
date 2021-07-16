@@ -1187,10 +1187,10 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                 : Text(
                                     widget.getTherapistByType[index].userName
                                                 .length >
-                                            10
+                                            8
                                         ? widget.getTherapistByType[index]
                                                 .userName
-                                                .substring(0, 10) +
+                                                .substring(0, 7) +
                                             "..."
                                         : widget
                                             .getTherapistByType[index].userName,
@@ -2124,11 +2124,11 @@ class _ReservationListState extends State<ReservationList> {
                                                       .bookingTherapistId
                                                       .storeName
                                                       .length >
-                                                  10
+                                                  8
                                               ? bookingDetailsList[0]
                                                       .bookingTherapistId
                                                       .storeName
-                                                      .substring(0, 10) +
+                                                      .substring(0, 7) +
                                                   "..."
                                               : bookingDetailsList[0]
                                                   .bookingTherapistId
