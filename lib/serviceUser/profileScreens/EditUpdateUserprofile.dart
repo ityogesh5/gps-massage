@@ -32,6 +32,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/db.dart';
+import 'package:gps_massageapp/customLibraryClasses/customTextField/text_field_custom.dart';
 
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 List<UpdateAddress> updateAddress = new List<UpdateAddress>();
@@ -3018,7 +3019,8 @@ class _AddAddressState extends State<AddAddress> {
                                                 0.85,
                                         child: WidgetAnimator(
                                           DropDownFormField(
-                                            hintText: '登録する地点のカテゴリー *',
+                                            requiredField: true,
+                                            hintText: '登録する地点のカテゴリー ',
                                             value: _myCategoryPlaceForMassage,
                                             onSaved: (value) {
                                               setState(() {
@@ -3144,6 +3146,8 @@ class _AddAddressState extends State<AddAddress> {
                                                             child:
                                                                 WidgetAnimator(
                                                               DropDownFormField(
+                                                                  requiredField:
+                                                                      true,
                                                                   hintText:
                                                                       '都道府県',
                                                                   value:
@@ -3195,6 +3199,8 @@ class _AddAddressState extends State<AddAddress> {
                                                             child:
                                                                 WidgetAnimator(
                                                               DropDownFormField(
+                                                                  requiredField:
+                                                                      true,
                                                                   hintText:
                                                                       '都道府県',
                                                                   value:
@@ -3232,6 +3238,8 @@ class _AddAddressState extends State<AddAddress> {
                                                             child:
                                                                 WidgetAnimator(
                                                               DropDownFormField(
+                                                                  requiredField:
+                                                                      true,
                                                                   hintText:
                                                                       '市区町村',
                                                                   value:
@@ -3271,6 +3279,8 @@ class _AddAddressState extends State<AddAddress> {
                                                             child:
                                                                 WidgetAnimator(
                                                               DropDownFormField(
+                                                                  requiredField:
+                                                                      true,
                                                                   hintText:
                                                                       '市区町村',
                                                                   value:
@@ -3316,29 +3326,19 @@ class _AddAddressState extends State<AddAddress> {
                                                   0.39,
                                               height: containerHeight,
                                               child: WidgetAnimator(
-                                                TextFormField(
-                                                  //enableInteractiveSelection: false,
-                                                  autofocus: false,
+                                                TextFieldCustom(
                                                   controller:
                                                       addedUserAreaController,
+                                                  maxLength: 25,
+                                                  autofocus: false,
                                                   decoration:
                                                       new InputDecoration(
+                                                    counterText: '',
                                                     contentPadding:
-                                                        EdgeInsets.fromLTRB(
-                                                            6, 3, 6, 3),
+                                                        EdgeInsets.all(12.0),
                                                     filled: true,
                                                     fillColor: ColorConstants
                                                         .formFieldFillColor,
-                                                    labelText: '丁目, 番地',
-                                                    /*hintText: '都、県選 *',
-                                                    hintStyle: TextStyle(
-                                                      color: Colors.grey[400],
-                                                    ),*/
-                                                    labelStyle: TextStyle(
-                                                        color: Colors.grey[400],
-                                                        fontFamily:
-                                                            'NotoSansJP',
-                                                        fontSize: 14),
                                                     focusColor:
                                                         Colors.grey[100],
                                                     border: HealingMatchConstants
@@ -3352,8 +3352,27 @@ class _AddAddressState extends State<AddAddress> {
                                                     enabledBorder:
                                                         HealingMatchConstants
                                                             .textFormInputBorder,
+                                                    // labelText: 'お名前',
                                                   ),
-                                                  // validator: (value) => _validateEmail(value),
+                                                  labelText: Text.rich(
+                                                    TextSpan(
+                                                      text: '丁目, 番地 ',
+                                                      children: <InlineSpan>[
+                                                        TextSpan(
+                                                          text: '*',
+                                                          style: TextStyle(
+                                                              color: Colors.red,
+                                                              fontSize: 16),
+                                                        ),
+                                                      ],
+                                                      style: TextStyle(
+                                                          color:
+                                                              Colors.grey[400],
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontSize: 14),
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
                                             ),

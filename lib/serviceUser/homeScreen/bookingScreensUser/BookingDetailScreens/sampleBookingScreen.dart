@@ -398,7 +398,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                             : '¥${therapistDetails.bookingDataResponse[0].priceOfService + therapistDetails.bookingDataResponse[0].travelAmount} (${therapistDetails.bookingDataResponse[0].addedPrice} - ¥${therapistDetails.bookingDataResponse[0].travelAmount})',
                         style: TextStyle(
                           fontSize: 14.0,
-                          color: Colors.black,
+                          color: Colors.grey,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -695,7 +695,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                             : '¥${therapistDetails.bookingDataResponse[0].priceOfService + therapistDetails.bookingDataResponse[0].travelAmount} (${therapistDetails.bookingDataResponse[0].addedPrice} - ¥${therapistDetails.bookingDataResponse[0].travelAmount})',
                         style: TextStyle(
                           fontSize: 14.0,
-                          color: Colors.black,
+                          color: Colors.grey,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

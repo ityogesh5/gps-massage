@@ -214,6 +214,7 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
           context, HealingMatchConstants.serviceUserID);
       userDetails.then((value) {
         HealingMatchConstants.isActive = value.data.isActive;
+        print('isActiveUser:${value.data.isActive}');
         HealingMatchConstants.userProfileImage = value.data.uploadProfileImgUrl;
         HealingMatchConstants.serviceUserName = value.data.userName;
         HealingMatchConstants.userEditUserOccupation =
