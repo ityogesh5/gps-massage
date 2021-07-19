@@ -6,6 +6,8 @@ import 'package:gps_massageapp/serviceProvider/homeScreens/history/Approved.dart
 import 'package:gps_massageapp/serviceProvider/homeScreens/history/Cancel.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/history/ConfirmReservation.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/history/Request.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 
 class History extends StatefulWidget {
   final int tabindex;
@@ -16,6 +18,7 @@ class History extends StatefulWidget {
 
 class _HistoryState extends State<History> with SingleTickerProviderStateMixin {
   int _tabIndex;
+  int _state = 0;
   TabController _tabController;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -60,6 +63,18 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    if (_state == 0) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _state = 1;
+        if (HealingMatchConstants.isActive != null &&
+            HealingMatchConstants.isActive == false) {
+          DialogHelper.showProviderBlockDialog(context);
+        } else {
+          return;
+        }
+      });
+    }
+
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,

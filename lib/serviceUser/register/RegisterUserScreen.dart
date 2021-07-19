@@ -2204,6 +2204,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
           value.setString('userAge', serviceUserDetails.data.age.toString());
           value.setString('userGender', serviceUserDetails.data.gender);
+          value.setBool('isActive', serviceUserDetails.data.isActive);
 
           value.setString(
               'userOccupation', serviceUserDetails.data.userOccupation);

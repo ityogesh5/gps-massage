@@ -1385,8 +1385,12 @@ class _RegistrationSecondPageState
         sharedPreferences.setString("userData", json.encode(userData));
         sharedPreferences.setString(
             "accessToken", registerResponseModel.accessToken);
+        sharedPreferences.setBool(
+            "isActive", registerResponseModel.data.isActive);
         sharedPreferences.setString("providerPhoneNumer",
             registerResponseModel.data.phoneNumber.toString());
+        sharedPreferences.setBool(
+            'isActive', registerResponseModel.data.isActive);
         /*   sharedPreferences.setBool('isProviderRegister', true); */
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         print('Login response : ${registerResponseModel.toJson()}');

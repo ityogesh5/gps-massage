@@ -505,7 +505,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
         loginResponseModel = LoginResponseModel.fromJson(loginResponse);
         Data userData = loginResponseModel.data;
         instances.setString("userData", json.encode(userData));
-
+        instances.setBool('isActive', loginResponseModel.data.isActive);
         instances.setString("accessToken", loginResponseModel.accessToken);
         print('Login response : ${loginResponseModel.toJson()}');
         print('Login token : ${loginResponseModel.accessToken}');

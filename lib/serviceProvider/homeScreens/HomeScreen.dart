@@ -11,6 +11,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/cardToolTips/providerHomeCardToolTip.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/customLibraryClasses/numberpicker.dart';
@@ -45,6 +46,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
   DateTime displayDay;
 
   NumberPicker dayPicker;
+  int _state = 0;
   int _cyear;
   int _cmonth;
   int _currentDay;
@@ -64,6 +66,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
 
   void initState() {
     super.initState();
+
     HealingMatchConstants.isProvider = true;
     HealingMatchConstants.isProviderHomePage = true;
     FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -86,6 +89,17 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (_state == 0) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _state = 1;
+        if (HealingMatchConstants.isActive != null &&
+            HealingMatchConstants.isActive == false) {
+          DialogHelper.showProviderBlockDialog(context);
+        } else {
+          return;
+        }
+      });
+    }
     return Scaffold(
       body: status != 3
           ? Container(
@@ -1566,6 +1580,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
         Data.fromJson(json.decode(sharedPreferences.getString("userData")));
     HealingMatchConstants.accessToken =
         sharedPreferences.getString("accessToken");
+    // HealingMatchConstants.isActive = sharedPreferences.getBool("isActive");
     HealingMatchConstants.userData = userData;
 
     HealingMatchConstants.userId = userData.id;
@@ -1615,6 +1630,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
 
     ServiceProviderApi.getProfitandRatingApi().then((value) {
       therapistDetails = value;
+      HealingMatchConstants.isActive = value.data.isActive;
       setState(() {
         status = status + 1;
       });

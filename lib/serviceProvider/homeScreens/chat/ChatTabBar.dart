@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:gps_massageapp/commonScreens/chat/chatUserList.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/notification.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 
 class ChatTabBar extends StatefulWidget {
   @override
@@ -13,6 +15,7 @@ class ChatTabBar extends StatefulWidget {
 class _ChatTabBarState extends State<ChatTabBar>
     with SingleTickerProviderStateMixin {
   int _tabIndex = 0;
+  int _state = 0;
   TabController _tabController;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -55,6 +58,17 @@ class _ChatTabBarState extends State<ChatTabBar>
 
   @override
   Widget build(BuildContext context) {
+    if (_state == 0) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _state = 1;
+        if (HealingMatchConstants.isActive != null &&
+            HealingMatchConstants.isActive == false) {
+          DialogHelper.showProviderBlockDialog(context);
+        } else {
+          return;
+        }
+      });
+    }
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,

@@ -95,6 +95,8 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
       therapistDetails =
           await ServiceUserAPIProvider.getTherapistDetails(context, widget.id);
       HealingMatchConstants.therapistProfileDetails = therapistDetails;
+      HealingMatchConstants.isActive = therapistDetails.data.isActive;
+
       //append all Service Types for General View
 
       //add Banner Images
@@ -168,81 +170,159 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
   Widget build(BuildContext context) {
     return status == 0
         ? Container()
-        : Scaffold(
-            key: _scaffoldKey,
-            floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
-            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-            floatingActionButton: therapistDetails.bookingDataResponse.length !=
-                        0 &&
-                    (therapistDetails.bookingDataResponse[0].bookingStatus ==
-                            1 ||
-                        therapistDetails.bookingDataResponse[0].bookingStatus ==
-                            2)
-                ? InkWell(
-                    onTap: () {
-                      ProgressDialogBuilder.showCommonProgressDialog(context);
-                      getChatDetails(therapistDetails.data.firebaseUdid);
-                    },
-                    child: Card(
-                      elevation: 3,
-                      shape: CircleBorder(),
-                      child: CircleAvatar(
-                          maxRadius: 20,
-                          backgroundColor: Colors.white,
-                          child: SvgPicture.asset('assets/images_gps/chat.svg',
-                              height: 15, width: 15)),
-                    ),
-                  )
-                : Container(
-                    height: 0.0,
-                  ),
-            body: WillPopScope(
-              onWillPop: _willPopCallback,
-              child: SafeArea(
-                child: SingleChildScrollView(
-                  controller: mainScrollController,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      DetailCarouselWithIndicator(therapistDetails, widget.id),
-                      DetailPeofileDetailsHome(therapistDetails, widget.id),
-                      therapistDetails.bookingDataResponse.isEmpty ||
-                              (therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus !=
-                                      0 &&
-                                  therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus !=
-                                      1 &&
-                                  therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus !=
-                                      2 &&
-                                  therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus !=
-                                      3 &&
-                                  therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus !=
-                                      6)
-                          ? Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 8.0,
-                                  left: 12.0,
-                                  bottom: 8.0,
-                                  right: 8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "施術を受ける場所",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
+        : (HealingMatchConstants.isActive != null &&
+                HealingMatchConstants.isActive == false)
+            ? Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: Container(
+                            padding: EdgeInsets.all(8.0),
+                            height: MediaQuery.of(context).size.height * 0.22,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              color: Color.fromRGBO(255, 255, 255, 1),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(16.0)),
+                              border: Border.all(
+                                  color: Color.fromRGBO(217, 217, 217, 1)),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    InkWell(
+                                      onTap: () {},
+                                      child: new Container(
+                                          width: 80.0,
+                                          height: 80.0,
+                                          decoration: new BoxDecoration(
+                                            border: Border.all(
+                                                color: Colors.black12),
+                                            shape: BoxShape.circle,
+                                            image: new DecorationImage(
+                                                fit: BoxFit.fill,
+                                                image: new AssetImage(
+                                                    'assets/images_gps/appIcon.png')),
+                                          )),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Container(
-                                    /* decoration: BoxDecoration(
+                                    Expanded(
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            '予約はありません。',
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                fontFamily: 'NotoSansJP',
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              )
+            : Scaffold(
+                key: _scaffoldKey,
+                floatingActionButtonAnimator:
+                    FloatingActionButtonAnimator.scaling,
+                floatingActionButtonLocation:
+                    FloatingActionButtonLocation.endFloat,
+                floatingActionButton: therapistDetails
+                                .bookingDataResponse.length !=
+                            0 &&
+                        (therapistDetails
+                                    .bookingDataResponse[0].bookingStatus ==
+                                1 ||
+                            therapistDetails
+                                    .bookingDataResponse[0].bookingStatus ==
+                                2)
+                    ? InkWell(
+                        onTap: () {
+                          ProgressDialogBuilder.showCommonProgressDialog(
+                              context);
+                          getChatDetails(therapistDetails.data.firebaseUdid);
+                        },
+                        child: Card(
+                          elevation: 3,
+                          shape: CircleBorder(),
+                          child: CircleAvatar(
+                              maxRadius: 20,
+                              backgroundColor: Colors.white,
+                              child: SvgPicture.asset(
+                                  'assets/images_gps/chat.svg',
+                                  height: 15,
+                                  width: 15)),
+                        ),
+                      )
+                    : Container(
+                        height: 0.0,
+                      ),
+                body: WillPopScope(
+                  onWillPop: _willPopCallback,
+                  child: SafeArea(
+                    child: SingleChildScrollView(
+                      controller: mainScrollController,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          DetailCarouselWithIndicator(
+                              therapistDetails, widget.id),
+                          DetailPeofileDetailsHome(therapistDetails, widget.id),
+                          therapistDetails.bookingDataResponse.isEmpty ||
+                                  (therapistDetails.bookingDataResponse[0]
+                                              .bookingStatus !=
+                                          0 &&
+                                      therapistDetails.bookingDataResponse[0]
+                                              .bookingStatus !=
+                                          1 &&
+                                      therapistDetails.bookingDataResponse[0]
+                                              .bookingStatus !=
+                                          2 &&
+                                      therapistDetails.bookingDataResponse[0]
+                                              .bookingStatus !=
+                                          3 &&
+                                      therapistDetails.bookingDataResponse[0]
+                                              .bookingStatus !=
+                                          6)
+                              ? Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 8.0,
+                                      left: 12.0,
+                                      bottom: 8.0,
+                                      right: 8.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "施術を受ける場所",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Container(
+                                        /* decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                       begin: Alignment.topCenter,
                                       end: Alignment.bottomCenter,
@@ -256,250 +336,282 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                                   ),
                                   borderRadius: BorderRadius.circular(5.0),
                                   color: Colors.grey[200]),*/
-                                    width: MediaQuery.of(context).size.width *
-                                        0.90,
-                                    height: 50.0,
-                                    child: WidgetAnimator(TextFormField(
-                                      //display the address
-                                      readOnly: true,
-                                      autofocus: false,
-                                      decoration: new InputDecoration(
-                                        hintText: HealingMatchConstants
-                                            .userRegisteredAddressDetail,
-                                        filled: true,
-                                        fillColor: Colors.white,
-                                        hintStyle: TextStyle(
-                                            fontSize: 12,
-                                            fontFamily: 'NotoSansJP',
-                                            color: Colors.black),
-                                        focusColor: Colors.grey[100],
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          borderSide: BorderSide(
-                                            color: Colors.grey[400],
-                                          ),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          borderSide: BorderSide(
-                                            color: Colors.grey[400],
-                                          ),
-                                        ),
-                                        disabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          borderSide: BorderSide(
-                                            color: Colors.grey[400],
-                                          ),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          borderSide: BorderSide(
-                                            color: Colors.grey[400],
-                                          ),
-                                        ),
-                                        prefixIcon: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Row(
-                                            children: [
-                                              SvgPicture.asset(
-                                                  'assets/images_gps/gps.svg'),
-                                              SizedBox(width: 10),
-                                              Container(
-                                                  padding: EdgeInsets.only(
-                                                      left: 8.0,
-                                                      top: 4.0,
-                                                      bottom: 4.0,
-                                                      right: 8.0),
-                                                  decoration: BoxDecoration(
-                                                      gradient: LinearGradient(
-                                                          begin: Alignment
-                                                              .topCenter,
-                                                          end: Alignment
-                                                              .bottomCenter,
-                                                          colors: [
-                                                            Color.fromRGBO(255,
-                                                                255, 255, 1),
-                                                            Color.fromRGBO(255,
-                                                                255, 255, 1),
-                                                          ]),
-                                                      shape: BoxShape.rectangle,
-                                                      border: Border.all(
-                                                        color: Colors.grey[300],
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5.0),
-                                                      color: Colors.grey[200]),
-                                                  child: shopLocationSelected
-                                                      ? Text(
-                                                          '店舗',
-                                                          style: TextStyle(
-                                                            color:
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.90,
+                                        height: 50.0,
+                                        child: WidgetAnimator(TextFormField(
+                                          //display the address
+                                          readOnly: true,
+                                          autofocus: false,
+                                          decoration: new InputDecoration(
+                                            hintText: HealingMatchConstants
+                                                .userRegisteredAddressDetail,
+                                            filled: true,
+                                            fillColor: Colors.white,
+                                            hintStyle: TextStyle(
+                                                fontSize: 12,
+                                                fontFamily: 'NotoSansJP',
+                                                color: Colors.black),
+                                            focusColor: Colors.grey[100],
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                              borderSide: BorderSide(
+                                                color: Colors.grey[400],
+                                              ),
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                              borderSide: BorderSide(
+                                                color: Colors.grey[400],
+                                              ),
+                                            ),
+                                            disabledBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                              borderSide: BorderSide(
+                                                color: Colors.grey[400],
+                                              ),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                              borderSide: BorderSide(
+                                                color: Colors.grey[400],
+                                              ),
+                                            ),
+                                            prefixIcon: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Row(
+                                                children: [
+                                                  SvgPicture.asset(
+                                                      'assets/images_gps/gps.svg'),
+                                                  SizedBox(width: 10),
+                                                  Container(
+                                                      padding: EdgeInsets.only(
+                                                          left: 8.0,
+                                                          top: 4.0,
+                                                          bottom: 4.0,
+                                                          right: 8.0),
+                                                      decoration: BoxDecoration(
+                                                          gradient: LinearGradient(
+                                                              begin: Alignment
+                                                                  .topCenter,
+                                                              end: Alignment
+                                                                  .bottomCenter,
+                                                              colors: [
                                                                 Color.fromRGBO(
-                                                                    0, 0, 0, 1),
-                                                            fontSize: 12,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontFamily:
-                                                                'NotoSansJP',
+                                                                    255,
+                                                                    255,
+                                                                    255,
+                                                                    1),
+                                                                Color.fromRGBO(
+                                                                    255,
+                                                                    255,
+                                                                    255,
+                                                                    1),
+                                                              ]),
+                                                          shape: BoxShape
+                                                              .rectangle,
+                                                          border: Border.all(
+                                                            color: Colors
+                                                                .grey[300],
+                                                          ),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      5.0),
+                                                          color:
+                                                              Colors.grey[200]),
+                                                      child:
+                                                          shopLocationSelected
+                                                              ? Text(
+                                                                  '店舗',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Color
+                                                                        .fromRGBO(
+                                                                            0,
+                                                                            0,
+                                                                            0,
+                                                                            1),
+                                                                    fontSize:
+                                                                        12,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    fontFamily:
+                                                                        'NotoSansJP',
+                                                                  ),
+                                                                )
+                                                              : Text(
+                                                                  '$userPlaceForMassage',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Color
+                                                                        .fromRGBO(
+                                                                            0,
+                                                                            0,
+                                                                            0,
+                                                                            1),
+                                                                    fontSize:
+                                                                        12,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    fontFamily:
+                                                                        'NotoSansJP',
+                                                                  ),
+                                                                )),
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.03),
+                                                  shopLocationSelected
+                                                      ? Flexible(
+                                                          child: new Text(
+                                                            '${therapistDetails.data.addresses[0].address}',
+                                                            maxLines: 2,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .visible,
+                                                            style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                color: Colors
+                                                                    .grey[500]),
                                                           ),
                                                         )
-                                                      : Text(
-                                                          '$userPlaceForMassage',
-                                                          style: TextStyle(
-                                                            color:
-                                                                Color.fromRGBO(
-                                                                    0, 0, 0, 1),
-                                                            fontSize: 12,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontFamily:
-                                                                'NotoSansJP',
+                                                      : Flexible(
+                                                          child: new Text(
+                                                            '$userRegisteredAddress',
+                                                            maxLines: 2,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .visible,
+                                                            style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                color: Colors
+                                                                    .grey[500]),
                                                           ),
-                                                        )),
-                                              SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.03),
-                                              shopLocationSelected
-                                                  ? Flexible(
-                                                      child: new Text(
-                                                        '${therapistDetails.data.addresses[0].address}',
-                                                        maxLines: 2,
-                                                        overflow: TextOverflow
-                                                            .visible,
-                                                        style: TextStyle(
-                                                            fontSize: 14,
-                                                            fontFamily:
-                                                                'NotoSansJP',
-                                                            color: Colors
-                                                                .grey[500]),
-                                                      ),
-                                                    )
-                                                  : Flexible(
-                                                      child: new Text(
-                                                        '$userRegisteredAddress',
-                                                        maxLines: 2,
-                                                        overflow: TextOverflow
-                                                            .visible,
-                                                        style: TextStyle(
-                                                            fontSize: 14,
-                                                            fontFamily:
-                                                                'NotoSansJP',
-                                                            color: Colors
-                                                                .grey[500]),
-                                                      ),
-                                                    ),
-                                              Spacer(),
-                                              GestureDetector(
-                                                onTap: () =>
-                                                    openUserLocationSelectionDialog(),
-                                                child: Icon(
-                                                    Icons
-                                                        .keyboard_arrow_down_sharp,
-                                                    size: 35,
-                                                    color: Colors.black),
+                                                        ),
+                                                  Spacer(),
+                                                  GestureDetector(
+                                                    onTap: () =>
+                                                        openUserLocationSelectionDialog(),
+                                                    child: Icon(
+                                                        Icons
+                                                            .keyboard_arrow_down_sharp,
+                                                        size: 35,
+                                                        color: Colors.black),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
+                                            ),
                                           ),
-                                        ),
+                                          style:
+                                              TextStyle(color: Colors.black54),
+                                        )),
                                       ),
-                                      style: TextStyle(color: Colors.black54),
-                                    )),
-                                  ),
-                                ],
-                              ))
-                          : Container(),
+                                    ],
+                                  ))
+                              : Container(),
 
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.15),
-                      therapistDetails.bookingDataResponse.length != 0 &&
-                              (therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus ==
-                                      9 ||
-                                  therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus ==
-                                      4 ||
-                                  therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus ==
-                                      5 ||
-                                  therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus ==
-                                      7 ||
-                                  therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus ==
-                                      8)
-                          ? buildOldBookingDetails(context)
-                          : Container(),
-                      therapistDetails.bookingDataResponse.length != 0 &&
-                              !(therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus ==
-                                      9 ||
-                                  therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus ==
-                                      4 ||
-                                  therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus ==
-                                      5 ||
-                                  therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus ==
-                                      7 ||
-                                  therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus ==
-                                      8)
-                          ? buildBookingDetails(context)
-                          : buildServiceTypeDatas(context),
-                      // : buildServiceTypeDatas
-                      therapistDetails.bookingDataResponse.length == 0 ||
-                              (therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus ==
-                                      9 ||
-                                  therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus ==
-                                      4 ||
-                                  therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus ==
-                                      5 ||
-                                  therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus ==
-                                      7 ||
-                                  therapistDetails.bookingDataResponse[0]
-                                          .bookingStatus ==
-                                      8)
-                          ? dateTimeInfoBuilder(context)
-                          : Container()
-                    ],
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.15),
+                          therapistDetails.bookingDataResponse.length != 0 &&
+                                  (therapistDetails.bookingDataResponse[0]
+                                              .bookingStatus ==
+                                          9 ||
+                                      therapistDetails.bookingDataResponse[0]
+                                              .bookingStatus ==
+                                          4 ||
+                                      therapistDetails.bookingDataResponse[0]
+                                              .bookingStatus ==
+                                          5 ||
+                                      therapistDetails.bookingDataResponse[0]
+                                              .bookingStatus ==
+                                          7 ||
+                                      therapistDetails.bookingDataResponse[0]
+                                              .bookingStatus ==
+                                          8)
+                              ? buildOldBookingDetails(context)
+                              : Container(),
+                          therapistDetails.bookingDataResponse.length != 0 &&
+                                  !(therapistDetails.bookingDataResponse[0]
+                                              .bookingStatus ==
+                                          9 ||
+                                      therapistDetails.bookingDataResponse[0]
+                                              .bookingStatus ==
+                                          4 ||
+                                      therapistDetails.bookingDataResponse[0]
+                                              .bookingStatus ==
+                                          5 ||
+                                      therapistDetails.bookingDataResponse[0]
+                                              .bookingStatus ==
+                                          7 ||
+                                      therapistDetails.bookingDataResponse[0]
+                                              .bookingStatus ==
+                                          8)
+                              ? buildBookingDetails(context)
+                              : buildServiceTypeDatas(context),
+                          // : buildServiceTypeDatas
+                          therapistDetails.bookingDataResponse.length == 0 ||
+                                  (therapistDetails.bookingDataResponse[0]
+                                              .bookingStatus ==
+                                          9 ||
+                                      therapistDetails.bookingDataResponse[0]
+                                              .bookingStatus ==
+                                          4 ||
+                                      therapistDetails.bookingDataResponse[0]
+                                              .bookingStatus ==
+                                          5 ||
+                                      therapistDetails.bookingDataResponse[0]
+                                              .bookingStatus ==
+                                          7 ||
+                                      therapistDetails.bookingDataResponse[0]
+                                              .bookingStatus ==
+                                          8)
+                              ? dateTimeInfoBuilder(context)
+                              : Container()
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-            bottomNavigationBar: therapistDetails.bookingDataResponse.length ==
-                    0
-                ? book() //initial booking
-                : therapistDetails.bookingDataResponse[0].bookingStatus == 0
-                    ? waitingForApproval()
-                    : therapistDetails.bookingDataResponse[0].bookingStatus ==
-                                1 ||
-                            therapistDetails
-                                    .bookingDataResponse[0].bookingStatus ==
-                                3
-                        ? proceedToPayment()
+                bottomNavigationBar: therapistDetails
+                            .bookingDataResponse.length ==
+                        0
+                    ? book() //initial booking
+                    : therapistDetails.bookingDataResponse[0].bookingStatus == 0
+                        ? waitingForApproval()
                         : therapistDetails
-                                    .bookingDataResponse[0].bookingStatus ==
-                                2
-                            ? acceptConditions()
+                                        .bookingDataResponse[0].bookingStatus ==
+                                    1 ||
+                                therapistDetails
+                                        .bookingDataResponse[0].bookingStatus ==
+                                    3
+                            ? proceedToPayment()
                             : therapistDetails
                                         .bookingDataResponse[0].bookingStatus ==
-                                    6
-                                ? Container(
-                                    height: 0.0,
-                                  )
-                                : bookAgain(),
-          );
+                                    2
+                                ? acceptConditions()
+                                : therapistDetails.bookingDataResponse[0]
+                                            .bookingStatus ==
+                                        6
+                                    ? Container(
+                                        height: 0.0,
+                                      )
+                                    : bookAgain(),
+              );
   }
 
   Widget book() {

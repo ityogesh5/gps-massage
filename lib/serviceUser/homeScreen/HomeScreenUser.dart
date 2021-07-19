@@ -171,7 +171,7 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
     }
     _sharedPreferences.then((value) {
       accessToken = value.getString('accessToken');
-      isActive = value.getBool('isActive');
+      // isActive = value.getBool('isActive');
       var fcmToken = value.getString('deviceToken');
       HealingMatchConstants.userAddressId = value.getString('addressID');
       HealingMatchConstants.serviceUserID = value.getString('userID');
