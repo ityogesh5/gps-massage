@@ -741,7 +741,7 @@ class _BuildCertificatesListsState extends State<BuildCertificatesLists> {
   Widget build(BuildContext context) {
     //padding: const EdgeInsets.all(8.0),
     return Container(
-      height: MediaQuery.of(context).size.height * 0.35,
+      height: MediaQuery.of(context).size.height * 0.25,
       width: MediaQuery.of(context).size.width * 0.99,
       child: ListView.builder(
           shrinkWrap: true,
