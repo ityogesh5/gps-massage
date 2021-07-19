@@ -910,4 +910,6 @@ class HealingMatchConstants {
 
   // get user stripe verified or not value
   static bool isStripeVerified = false;
+
+  static var stripeErrorMessage;
 }

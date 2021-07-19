@@ -1509,9 +1509,9 @@ class DialogHelper {
     dialog = AwesomeDialog(
         dismissOnTouchOutside: false,
         context: context,
-        dialogType: DialogType.WARNING,
+        dialogType: DialogType.INFO,
         headerAnimationLoop: true,
-        animType: AnimType.TOPSLIDE,
+        animType: AnimType.SCALE,
         showCloseIcon: false,
         btnOkColor: Color.fromRGBO(200, 217, 33, 1),
         closeIcon: Icon(Icons.close),
@@ -1521,6 +1521,28 @@ class DialogHelper {
           print('Ok pressed!!');
           dialog.dissmiss();
           NavigationRouter.switchToStripeRegisterPage(context);
+        })
+      ..show();
+  }
+
+  // show StripeNotVerified dialog
+  static void showStripeVerificationStatusDialog(
+      BuildContext context, var message) {
+    AwesomeDialog dialog;
+    dialog = AwesomeDialog(
+        dismissOnTouchOutside: false,
+        context: context,
+        dialogType: DialogType.INFO,
+        headerAnimationLoop: true,
+        animType: AnimType.SCALE,
+        showCloseIcon: false,
+        btnOkColor: Color.fromRGBO(200, 217, 33, 1),
+        closeIcon: Icon(Icons.close),
+        title: 'ストライプ検証ステータス！',
+        desc: '$message',
+        btnOkOnPress: () {
+          print('Ok pressed!!');
+          dialog.dissmiss();
         })
       ..show();
   }

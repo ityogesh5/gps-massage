@@ -102,46 +102,46 @@ class DefaultBuilders {
             ),
           )
         : Container(
-            padding: EdgeInsets.all(2.0),
-            width: MediaQuery.of(context).size.width - 120.0,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      name,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 16.0),
-                    ),
-                    googleApiEvent.status == 'tentative'
-                        ? Row(
-                            children: [
-                              SvgPicture.asset(
-                                "assets/images_gps/processing.svg",
-                                height: 20.0,
-                                width: 20.0,
-                              ),
-                              /*  Icon(
-                Icons.hourglass_top_outlined,
-                color: Color.fromRGBO(255, 193, 7, 1),
-              ), */
-                              Text("承認待ち",
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(255, 193, 7, 1),
-                                  ))
-                            ],
-                          )
-                        : Row(
-                            children: [
-                              Text("承認済み",
-                                  style: TextStyle(color: Colors.black))
-                            ],
-                          )
-                  ],
+                Expanded(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        name,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16.0),
+                      ),
+                      googleApiEvent.status == 'tentative'
+                          ? Row(
+                              children: [
+                                SvgPicture.asset(
+                                  "assets/images_gps/processing.svg",
+                                  height: 20.0,
+                                  width: 20.0,
+                                ),
+                                /*  Icon(
+              Icons.hourglass_top_outlined,
+              color: Color.fromRGBO(255, 193, 7, 1),
+            ), */
+                                Text("承認待ち",
+                                    style: TextStyle(
+                                      color: Color.fromRGBO(255, 193, 7, 1),
+                                    ))
+                              ],
+                            )
+                          : Row(
+                              children: [
+                                Text("承認済み",
+                                    style: TextStyle(color: Colors.black))
+                              ],
+                            )
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: 10,
@@ -178,7 +178,8 @@ class DefaultBuilders {
                   ],
                 ),
               ],
-            ));
+            ),
+          );
 
     /*  return RichText(
       text: TextSpan(

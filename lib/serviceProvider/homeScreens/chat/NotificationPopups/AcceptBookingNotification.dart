@@ -1060,9 +1060,7 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
 
   void validateFields() {
     // Check stripe user validation
-    if (!HealingMatchConstants.isStripeVerified) {
-      getStripeRedirectURL();
-    } else {
+    if (HealingMatchConstants.isStripeVerified) {
       ProgressDialogBuilder.showCommonProgressDialog(context);
       if (proposeAdditionalCosts) {
         if (price == null && addedpriceReason == null) {
@@ -1111,6 +1109,8 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
       } else {
         acceptBooking();
       }
+    } else {
+      getStripeRedirectURL();
     }
   }
 
@@ -1271,14 +1271,18 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
 
   getStripeRedirectURL() {
     ServiceProviderApi.getStripeRegisterURL(context).then((value) {
-      if (value.status == 'success') {
+      if (value != null && value.status == 'success') {
         print('URL Success !!');
         DialogHelper.showStripeNotVerifiedDialog(context);
+      } else if (value != null && value.status == 'error') {
+        print('URL Failed !!');
       } else {
+        print('Unknown Error Occured..Please Try again :${value.status}');
         return;
       }
     }).catchError((onError) {
       print('Stripe Redirect Exception : $onError');
+      return;
     });
   }
 }

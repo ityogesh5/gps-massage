@@ -15,7 +15,6 @@ import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUse
 import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
-import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:intl/intl.dart';
 
 final flutterWebViewPlugin = FlutterWebviewPlugin();
@@ -28,7 +27,7 @@ final Set<JavascriptChannel> jsChannels = [
       }),
 ].toSet();
 
-final _scaffoldStripeKey = GlobalKey<ScaffoldState>();
+GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
 class ProviderReceiveBooking extends StatefulWidget {
   final BookingDetailsList bookingDetail;
@@ -53,7 +52,6 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
   ScrollController scrollController = ScrollController();
   GlobalKey startKey = new GlobalKey();
   GlobalKey endKey = new GlobalKey();
-  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   DateTime newStartTime;
   DateTime newEndTime;
   DateTime startTime;
@@ -1014,9 +1012,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
 
   void validateFields() {
     // Check stripe user validation
-    if (!HealingMatchConstants.isStripeVerified) {
-      getStripeRedirectURL();
-    } else {
+    if (HealingMatchConstants.isStripeVerified) {
       ProgressDialogBuilder.showCommonProgressDialog(context);
       if (proposeAdditionalCosts) {
         if (price == null && addedpriceReason == null) {
@@ -1067,6 +1063,8 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
       } else {
         acceptBooking();
       }
+    } else {
+      getStripeRedirectURL();
     }
   }
 
@@ -1212,14 +1210,18 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
 
   getStripeRedirectURL() {
     ServiceProviderApi.getStripeRegisterURL(context).then((value) {
-      if (value.status == 'success') {
+      if (value != null && value.status == 'success') {
         print('URL Success !!');
         DialogHelper.showStripeNotVerifiedDialog(context);
+      } else if (value != null && value.status == 'error') {
+        print('URL Failed !!');
       } else {
+        print('Unknown Error Occured..Please Try again :${value.status}');
         return;
       }
     }).catchError((onError) {
       print('Stripe Redirect Exception : $onError');
+      return;
     });
   }
 }

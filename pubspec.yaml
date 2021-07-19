@@ -127,6 +127,7 @@ dependencies:
   flutter_document_picker: any
   flutter_file_dialog: any
   flutter_webview_plugin: any
+  translator: any
 
 
 

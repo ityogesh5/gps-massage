@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 import "package:googleapis/calendar/v3.dart";
 import "package:googleapis_auth/auth_io.dart";
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/event.dart';
+import 'package:gps_massageapp/models/responseModels/paymentModels/PayoutModel.dart';
+import 'package:gps_massageapp/models/responseModels/paymentModels/StripePayOutVerifyErrorModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/ProviderDetailsResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/TherapistDetailsModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/currentBookingRatingResponseModel.dart';
@@ -15,7 +18,6 @@ import 'package:gps_massageapp/models/responseModels/serviceProvider/providerRev
 import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/userReviewCreateResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/userReviewandRatingsResponseModel.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/payment/PayoutModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 
@@ -23,13 +25,17 @@ class ServiceProviderApi {
   static const _scopes = const [CalendarApi.calendarScope];
 
   static StripePayOutVerifyFieldsModel _stripePayoutModel =
-  new StripePayOutVerifyFieldsModel();
+      new StripePayOutVerifyFieldsModel();
+
+  //stripeErrorResponse
+  static StripePayOutVerifyErrorModel _stripeErrorResponse =
+      new StripePayOutVerifyErrorModel();
 
   static TherapistDetailsModel _therapistDetailsModel =
-  new TherapistDetailsModel();
+      new TherapistDetailsModel();
 
   static Future<ProviderReviewandRatingsViewResponseModel>
-  getTherapistReviewById(int pageNumber, int pageSize) async {
+      getTherapistReviewById(int pageNumber, int pageSize) async {
     try {
       final url = HealingMatchConstants.ON_PREMISE_USER_BASE_URL +
           '/mobileReview/therapistReviewListById?page=$pageNumber&size=$pageSize';
@@ -46,7 +52,7 @@ class ServiceProviderApi {
       if (response.statusCode == 200) {
         var therapistData = json.decode(response.body);
         ProviderReviewandRatingsViewResponseModel therapistUsers =
-        ProviderReviewandRatingsViewResponseModel.fromJson(therapistData);
+            ProviderReviewandRatingsViewResponseModel.fromJson(therapistData);
         print('Types list:  $therapistData');
         return therapistUsers;
       } else {
@@ -73,13 +79,11 @@ class ServiceProviderApi {
             "userId": HealingMatchConstants.serviceUserId, //'20',
           }));
       print(
-          'Therapist repo token :${HealingMatchConstants
-              .accessToken} : UserId  : ${HealingMatchConstants
-              .serviceUserId}');
+          'Therapist repo token :${HealingMatchConstants.accessToken} : UserId  : ${HealingMatchConstants.serviceUserId}');
       if (response.statusCode == 200) {
         var userData = json.decode(response.body);
         UserReviewandRatingsViewResponseModel usersReview =
-        UserReviewandRatingsViewResponseModel.fromJson(userData);
+            UserReviewandRatingsViewResponseModel.fromJson(userData);
         print('Types list:  $userData');
         return usersReview;
       } else {
@@ -91,8 +95,8 @@ class ServiceProviderApi {
     }
   }
 
-  static Future<UserReviewCreateResponseModel> giveUserReview(double rating,
-      String review, int bookingId) async {
+  static Future<UserReviewCreateResponseModel> giveUserReview(
+      double rating, String review, int bookingId) async {
     try {
       final url = HealingMatchConstants.ON_PREMISE_USER_BASE_URL +
           '/mobileReview/createUserReview';
@@ -112,7 +116,7 @@ class ServiceProviderApi {
       if (response.statusCode == 200) {
         var userData = json.decode(response.body);
         UserReviewCreateResponseModel usersReview =
-        UserReviewCreateResponseModel.fromJson(userData);
+            UserReviewCreateResponseModel.fromJson(userData);
         print('Types list:  $userData');
         return usersReview;
       } else {
@@ -142,7 +146,7 @@ class ServiceProviderApi {
       if (response.statusCode == 200) {
         var userData = json.decode(response.body);
         CurrentOrderReviewResponseModel usersReview =
-        CurrentOrderReviewResponseModel.fromJson(userData);
+            CurrentOrderReviewResponseModel.fromJson(userData);
         print('Types list:  $userData');
         return usersReview;
       } else {
@@ -157,17 +161,17 @@ class ServiceProviderApi {
   static Future<List<FlutterWeekViewEvent>> getCalEvents() async {
     List<FlutterWeekViewEvent> flutterEvents = List<FlutterWeekViewEvent>();
     List<FlutterWeekViewEvent> unavailableCalendarEvents =
-    List<FlutterWeekViewEvent>();
+        List<FlutterWeekViewEvent>();
     var accountCredentials = ServiceAccountCredentials.fromJson({
       "private_key_id": "ea91c6540fdc102720f699c56f692d25d4aefeec",
       "private_key":
-      "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC916/Vmhw+wpgw\nYjtvKWWnoVFJqz4sXXu5DRWaB9dSxWhIebQv0n+UdTRz8MT3ipOMz8Z4u9ziw2/J\n6tLJTU82iCk7afMEjSGypAK7osXZW5JvLkAohtamTPYSSKc7oeRfNLLCBZFHoVqQ\nvoQLnBTZbk8HSAwUBu4LFTGdSj226R7VoPeFFcdybA7tKNdM4nk/GTdnJUabTWXQ\nISRgD4ZK2SxJDlWqCkyZ1+6x/d6DEYvZX9QgGczMu8rkReNBpN+AOwZjUQ1sByhA\nhzlQXS+UX7KvJW4kfUCTvRDOr952M5J4aAvGpQzy9B3Hhm91fMsPSrdPtklDceJj\n62JfhVztAgMBAAECggEAGPleXtXCwHjeB4NsuS9zeY1twai+6Zw0sf/oJxa/+1oP\n4XTtQNtKwE944oW6i6wVxBDzVZ+1K7m1I5V6PFQoxw47il7iQueEFtmfqGp95521\n0l19wDcY1tDKEFaxdVVTUzj+CSstVQSDgwYlHdffIEl0KQuP1zSgLSIRIFWLb9vZ\ntpKl0VFrbB6W9NRIzcupHIFdhzvTbZPv/Kd0fHh49zL6oAxfFq8kzRci/jhld/Wz\n1oWlvOne1NSMiZWbltr/iI+YsNMcQdEudWPsw1Wvbnj8YEn9bdFUVb5IS0bc7XP9\n3G6TwHpJMZutSvtlqSIJF7PfvwZJQXeTr+G3EMcGywKBgQD3rUBd9o2ad7W8aKZv\nvErKr1TX9C1rZpadnabGPo5CGSx/tUzwUTpf6FxtTqgvjMhUw8HWGM0iJpf2B7Gc\nef+1w5mMaPz9WV9XeC2//0S9f0QGkPiXDEC9raud6uJQ41hYW6yJp7nrahZ9dFog\nnL0w5HEJ/eSWYwlijtOi+AUZiwKBgQDEOOQR3Bz9rUlrlMJf5s7LlO80TUq12s6U\nRqBmiUiwGBSioQ7gUdedlWjL1Ukh6KMLCvFgwbIEYDsZnL/Uzbb/Qkp3yGuEmyRm\na15iMWJ6TYNGxEw7+6nw7LsVwV528/DRyZQVyJHLPAYG3Zytfi2nRRXSeAS7qIQF\nNyweaG8CZwKBgHAdCr/99Udw3OE2dfCqSSjKiRtgOpcdTxx12qJuerLM9mmwxe0a\nt9PmOMB6FIPBtIU6P6oMe/7zfWIvRWTRjMDYk88NT0fXhuLvUbZRdOpai451XTHy\np/O0g7TuOBfpcXo9tTJyrCQ2V4veeVW93Z4eKlUdirXQitUEViS1JInVAoGAXkb3\nTZ10UG3x2L6gpXM/6JCmXXrFapq2podIiftr8S+guoKnox+veQdQUp8nhCNCMwwO\n7W4jGfcibivh/1zXj81J+kNRZWUlGBB+SK9xoVGcwWOPPUKtZBRZzxoZSQ3rpuAz\nRkQXyI4OVz4jCTiWtsd6tKT1oTRWOitIB1QmAgECgYEAw8Q6oLV4Iq4oKTYJpmha\nvPb4BH+df8lvv9hCGviFBk48ZsY4ImRDb//KlknDmiTgGlW+kLWOFY8+a8NhAMB+\nb/AdpUK2tuYg09RM66bneCBU6wCaSBvUMxZHt469tWboam1i74BCQpDdIDd0A1uL\nb7GwDGIB8mLkOwQXOvKRqBY=\n-----END PRIVATE KEY-----\n",
+          "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC916/Vmhw+wpgw\nYjtvKWWnoVFJqz4sXXu5DRWaB9dSxWhIebQv0n+UdTRz8MT3ipOMz8Z4u9ziw2/J\n6tLJTU82iCk7afMEjSGypAK7osXZW5JvLkAohtamTPYSSKc7oeRfNLLCBZFHoVqQ\nvoQLnBTZbk8HSAwUBu4LFTGdSj226R7VoPeFFcdybA7tKNdM4nk/GTdnJUabTWXQ\nISRgD4ZK2SxJDlWqCkyZ1+6x/d6DEYvZX9QgGczMu8rkReNBpN+AOwZjUQ1sByhA\nhzlQXS+UX7KvJW4kfUCTvRDOr952M5J4aAvGpQzy9B3Hhm91fMsPSrdPtklDceJj\n62JfhVztAgMBAAECggEAGPleXtXCwHjeB4NsuS9zeY1twai+6Zw0sf/oJxa/+1oP\n4XTtQNtKwE944oW6i6wVxBDzVZ+1K7m1I5V6PFQoxw47il7iQueEFtmfqGp95521\n0l19wDcY1tDKEFaxdVVTUzj+CSstVQSDgwYlHdffIEl0KQuP1zSgLSIRIFWLb9vZ\ntpKl0VFrbB6W9NRIzcupHIFdhzvTbZPv/Kd0fHh49zL6oAxfFq8kzRci/jhld/Wz\n1oWlvOne1NSMiZWbltr/iI+YsNMcQdEudWPsw1Wvbnj8YEn9bdFUVb5IS0bc7XP9\n3G6TwHpJMZutSvtlqSIJF7PfvwZJQXeTr+G3EMcGywKBgQD3rUBd9o2ad7W8aKZv\nvErKr1TX9C1rZpadnabGPo5CGSx/tUzwUTpf6FxtTqgvjMhUw8HWGM0iJpf2B7Gc\nef+1w5mMaPz9WV9XeC2//0S9f0QGkPiXDEC9raud6uJQ41hYW6yJp7nrahZ9dFog\nnL0w5HEJ/eSWYwlijtOi+AUZiwKBgQDEOOQR3Bz9rUlrlMJf5s7LlO80TUq12s6U\nRqBmiUiwGBSioQ7gUdedlWjL1Ukh6KMLCvFgwbIEYDsZnL/Uzbb/Qkp3yGuEmyRm\na15iMWJ6TYNGxEw7+6nw7LsVwV528/DRyZQVyJHLPAYG3Zytfi2nRRXSeAS7qIQF\nNyweaG8CZwKBgHAdCr/99Udw3OE2dfCqSSjKiRtgOpcdTxx12qJuerLM9mmwxe0a\nt9PmOMB6FIPBtIU6P6oMe/7zfWIvRWTRjMDYk88NT0fXhuLvUbZRdOpai451XTHy\np/O0g7TuOBfpcXo9tTJyrCQ2V4veeVW93Z4eKlUdirXQitUEViS1JInVAoGAXkb3\nTZ10UG3x2L6gpXM/6JCmXXrFapq2podIiftr8S+guoKnox+veQdQUp8nhCNCMwwO\n7W4jGfcibivh/1zXj81J+kNRZWUlGBB+SK9xoVGcwWOPPUKtZBRZzxoZSQ3rpuAz\nRkQXyI4OVz4jCTiWtsd6tKT1oTRWOitIB1QmAgECgYEAw8Q6oLV4Iq4oKTYJpmha\nvPb4BH+df8lvv9hCGviFBk48ZsY4ImRDb//KlknDmiTgGlW+kLWOFY8+a8NhAMB+\nb/AdpUK2tuYg09RM66bneCBU6wCaSBvUMxZHt469tWboam1i74BCQpDdIDd0A1uL\nb7GwDGIB8mLkOwQXOvKRqBY=\n-----END PRIVATE KEY-----\n",
       "client_email": "healing-match@appspot.gserviceaccount.com",
       "client_id": "109325874687014297008",
       "type": "service_account"
     });
     final httpClient =
-    await clientViaServiceAccount(accountCredentials, _scopes);
+        await clientViaServiceAccount(accountCredentials, _scopes);
     var calendar = CalendarApi(httpClient);
     var calEvents = calendar.events.list(
       "sugyo.sumihiko@gmail.com",
@@ -202,7 +206,7 @@ class ServiceProviderApi {
           ),
         );
       } else if (unavailableCalendarEvents[unavailableCalendarEvents.length - 1]
-          .end ==
+              .end ==
           unavailableEvent.start.dateTime.toLocal()) {
         unavailableCalendarEvents[unavailableCalendarEvents.length - 1].end =
             unavailableEvent.end.dateTime.toLocal();
@@ -230,17 +234,17 @@ class ServiceProviderApi {
   static Future<List<FlutterWeekViewEvent>> getCalXOEvents() async {
     List<FlutterWeekViewEvent> flutterEvents = List<FlutterWeekViewEvent>();
     List<FlutterWeekViewEvent> unavailableCalendarEvents =
-    List<FlutterWeekViewEvent>();
+        List<FlutterWeekViewEvent>();
     var accountCredentials = ServiceAccountCredentials.fromJson({
       "private_key_id": "ea91c6540fdc102720f699c56f692d25d4aefeec",
       "private_key":
-      "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC916/Vmhw+wpgw\nYjtvKWWnoVFJqz4sXXu5DRWaB9dSxWhIebQv0n+UdTRz8MT3ipOMz8Z4u9ziw2/J\n6tLJTU82iCk7afMEjSGypAK7osXZW5JvLkAohtamTPYSSKc7oeRfNLLCBZFHoVqQ\nvoQLnBTZbk8HSAwUBu4LFTGdSj226R7VoPeFFcdybA7tKNdM4nk/GTdnJUabTWXQ\nISRgD4ZK2SxJDlWqCkyZ1+6x/d6DEYvZX9QgGczMu8rkReNBpN+AOwZjUQ1sByhA\nhzlQXS+UX7KvJW4kfUCTvRDOr952M5J4aAvGpQzy9B3Hhm91fMsPSrdPtklDceJj\n62JfhVztAgMBAAECggEAGPleXtXCwHjeB4NsuS9zeY1twai+6Zw0sf/oJxa/+1oP\n4XTtQNtKwE944oW6i6wVxBDzVZ+1K7m1I5V6PFQoxw47il7iQueEFtmfqGp95521\n0l19wDcY1tDKEFaxdVVTUzj+CSstVQSDgwYlHdffIEl0KQuP1zSgLSIRIFWLb9vZ\ntpKl0VFrbB6W9NRIzcupHIFdhzvTbZPv/Kd0fHh49zL6oAxfFq8kzRci/jhld/Wz\n1oWlvOne1NSMiZWbltr/iI+YsNMcQdEudWPsw1Wvbnj8YEn9bdFUVb5IS0bc7XP9\n3G6TwHpJMZutSvtlqSIJF7PfvwZJQXeTr+G3EMcGywKBgQD3rUBd9o2ad7W8aKZv\nvErKr1TX9C1rZpadnabGPo5CGSx/tUzwUTpf6FxtTqgvjMhUw8HWGM0iJpf2B7Gc\nef+1w5mMaPz9WV9XeC2//0S9f0QGkPiXDEC9raud6uJQ41hYW6yJp7nrahZ9dFog\nnL0w5HEJ/eSWYwlijtOi+AUZiwKBgQDEOOQR3Bz9rUlrlMJf5s7LlO80TUq12s6U\nRqBmiUiwGBSioQ7gUdedlWjL1Ukh6KMLCvFgwbIEYDsZnL/Uzbb/Qkp3yGuEmyRm\na15iMWJ6TYNGxEw7+6nw7LsVwV528/DRyZQVyJHLPAYG3Zytfi2nRRXSeAS7qIQF\nNyweaG8CZwKBgHAdCr/99Udw3OE2dfCqSSjKiRtgOpcdTxx12qJuerLM9mmwxe0a\nt9PmOMB6FIPBtIU6P6oMe/7zfWIvRWTRjMDYk88NT0fXhuLvUbZRdOpai451XTHy\np/O0g7TuOBfpcXo9tTJyrCQ2V4veeVW93Z4eKlUdirXQitUEViS1JInVAoGAXkb3\nTZ10UG3x2L6gpXM/6JCmXXrFapq2podIiftr8S+guoKnox+veQdQUp8nhCNCMwwO\n7W4jGfcibivh/1zXj81J+kNRZWUlGBB+SK9xoVGcwWOPPUKtZBRZzxoZSQ3rpuAz\nRkQXyI4OVz4jCTiWtsd6tKT1oTRWOitIB1QmAgECgYEAw8Q6oLV4Iq4oKTYJpmha\nvPb4BH+df8lvv9hCGviFBk48ZsY4ImRDb//KlknDmiTgGlW+kLWOFY8+a8NhAMB+\nb/AdpUK2tuYg09RM66bneCBU6wCaSBvUMxZHt469tWboam1i74BCQpDdIDd0A1uL\nb7GwDGIB8mLkOwQXOvKRqBY=\n-----END PRIVATE KEY-----\n",
+          "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC916/Vmhw+wpgw\nYjtvKWWnoVFJqz4sXXu5DRWaB9dSxWhIebQv0n+UdTRz8MT3ipOMz8Z4u9ziw2/J\n6tLJTU82iCk7afMEjSGypAK7osXZW5JvLkAohtamTPYSSKc7oeRfNLLCBZFHoVqQ\nvoQLnBTZbk8HSAwUBu4LFTGdSj226R7VoPeFFcdybA7tKNdM4nk/GTdnJUabTWXQ\nISRgD4ZK2SxJDlWqCkyZ1+6x/d6DEYvZX9QgGczMu8rkReNBpN+AOwZjUQ1sByhA\nhzlQXS+UX7KvJW4kfUCTvRDOr952M5J4aAvGpQzy9B3Hhm91fMsPSrdPtklDceJj\n62JfhVztAgMBAAECggEAGPleXtXCwHjeB4NsuS9zeY1twai+6Zw0sf/oJxa/+1oP\n4XTtQNtKwE944oW6i6wVxBDzVZ+1K7m1I5V6PFQoxw47il7iQueEFtmfqGp95521\n0l19wDcY1tDKEFaxdVVTUzj+CSstVQSDgwYlHdffIEl0KQuP1zSgLSIRIFWLb9vZ\ntpKl0VFrbB6W9NRIzcupHIFdhzvTbZPv/Kd0fHh49zL6oAxfFq8kzRci/jhld/Wz\n1oWlvOne1NSMiZWbltr/iI+YsNMcQdEudWPsw1Wvbnj8YEn9bdFUVb5IS0bc7XP9\n3G6TwHpJMZutSvtlqSIJF7PfvwZJQXeTr+G3EMcGywKBgQD3rUBd9o2ad7W8aKZv\nvErKr1TX9C1rZpadnabGPo5CGSx/tUzwUTpf6FxtTqgvjMhUw8HWGM0iJpf2B7Gc\nef+1w5mMaPz9WV9XeC2//0S9f0QGkPiXDEC9raud6uJQ41hYW6yJp7nrahZ9dFog\nnL0w5HEJ/eSWYwlijtOi+AUZiwKBgQDEOOQR3Bz9rUlrlMJf5s7LlO80TUq12s6U\nRqBmiUiwGBSioQ7gUdedlWjL1Ukh6KMLCvFgwbIEYDsZnL/Uzbb/Qkp3yGuEmyRm\na15iMWJ6TYNGxEw7+6nw7LsVwV528/DRyZQVyJHLPAYG3Zytfi2nRRXSeAS7qIQF\nNyweaG8CZwKBgHAdCr/99Udw3OE2dfCqSSjKiRtgOpcdTxx12qJuerLM9mmwxe0a\nt9PmOMB6FIPBtIU6P6oMe/7zfWIvRWTRjMDYk88NT0fXhuLvUbZRdOpai451XTHy\np/O0g7TuOBfpcXo9tTJyrCQ2V4veeVW93Z4eKlUdirXQitUEViS1JInVAoGAXkb3\nTZ10UG3x2L6gpXM/6JCmXXrFapq2podIiftr8S+guoKnox+veQdQUp8nhCNCMwwO\n7W4jGfcibivh/1zXj81J+kNRZWUlGBB+SK9xoVGcwWOPPUKtZBRZzxoZSQ3rpuAz\nRkQXyI4OVz4jCTiWtsd6tKT1oTRWOitIB1QmAgECgYEAw8Q6oLV4Iq4oKTYJpmha\nvPb4BH+df8lvv9hCGviFBk48ZsY4ImRDb//KlknDmiTgGlW+kLWOFY8+a8NhAMB+\nb/AdpUK2tuYg09RM66bneCBU6wCaSBvUMxZHt469tWboam1i74BCQpDdIDd0A1uL\nb7GwDGIB8mLkOwQXOvKRqBY=\n-----END PRIVATE KEY-----\n",
       "client_email": "healing-match@appspot.gserviceaccount.com",
       "client_id": "109325874687014297008",
       "type": "service_account"
     });
     final httpClient =
-    await clientViaServiceAccount(accountCredentials, _scopes);
+        await clientViaServiceAccount(accountCredentials, _scopes);
     var calendar = CalendarApi(httpClient);
     var calEvents = calendar.events.list(
       "sugyo.sumihiko@gmail.com",
@@ -275,7 +279,7 @@ class ServiceProviderApi {
           ),
         );
       } else if (unavailableCalendarEvents[unavailableCalendarEvents.length - 1]
-          .end ==
+              .end ==
           unavailableEvent.start.dateTime.toLocal()) {
         unavailableCalendarEvents[unavailableCalendarEvents.length - 1].end =
             unavailableEvent.end.dateTime.toLocal();
@@ -305,17 +309,17 @@ class ServiceProviderApi {
       DateTime startTime, DateTime endTime) async {
     List<FlutterWeekViewEvent> flutterEvents = List<FlutterWeekViewEvent>();
     List<FlutterWeekViewEvent> unavailableCalendarEvents =
-    List<FlutterWeekViewEvent>();
+        List<FlutterWeekViewEvent>();
     var accountCredentials = ServiceAccountCredentials.fromJson({
       "private_key_id": "ea91c6540fdc102720f699c56f692d25d4aefeec",
       "private_key":
-      "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC916/Vmhw+wpgw\nYjtvKWWnoVFJqz4sXXu5DRWaB9dSxWhIebQv0n+UdTRz8MT3ipOMz8Z4u9ziw2/J\n6tLJTU82iCk7afMEjSGypAK7osXZW5JvLkAohtamTPYSSKc7oeRfNLLCBZFHoVqQ\nvoQLnBTZbk8HSAwUBu4LFTGdSj226R7VoPeFFcdybA7tKNdM4nk/GTdnJUabTWXQ\nISRgD4ZK2SxJDlWqCkyZ1+6x/d6DEYvZX9QgGczMu8rkReNBpN+AOwZjUQ1sByhA\nhzlQXS+UX7KvJW4kfUCTvRDOr952M5J4aAvGpQzy9B3Hhm91fMsPSrdPtklDceJj\n62JfhVztAgMBAAECggEAGPleXtXCwHjeB4NsuS9zeY1twai+6Zw0sf/oJxa/+1oP\n4XTtQNtKwE944oW6i6wVxBDzVZ+1K7m1I5V6PFQoxw47il7iQueEFtmfqGp95521\n0l19wDcY1tDKEFaxdVVTUzj+CSstVQSDgwYlHdffIEl0KQuP1zSgLSIRIFWLb9vZ\ntpKl0VFrbB6W9NRIzcupHIFdhzvTbZPv/Kd0fHh49zL6oAxfFq8kzRci/jhld/Wz\n1oWlvOne1NSMiZWbltr/iI+YsNMcQdEudWPsw1Wvbnj8YEn9bdFUVb5IS0bc7XP9\n3G6TwHpJMZutSvtlqSIJF7PfvwZJQXeTr+G3EMcGywKBgQD3rUBd9o2ad7W8aKZv\nvErKr1TX9C1rZpadnabGPo5CGSx/tUzwUTpf6FxtTqgvjMhUw8HWGM0iJpf2B7Gc\nef+1w5mMaPz9WV9XeC2//0S9f0QGkPiXDEC9raud6uJQ41hYW6yJp7nrahZ9dFog\nnL0w5HEJ/eSWYwlijtOi+AUZiwKBgQDEOOQR3Bz9rUlrlMJf5s7LlO80TUq12s6U\nRqBmiUiwGBSioQ7gUdedlWjL1Ukh6KMLCvFgwbIEYDsZnL/Uzbb/Qkp3yGuEmyRm\na15iMWJ6TYNGxEw7+6nw7LsVwV528/DRyZQVyJHLPAYG3Zytfi2nRRXSeAS7qIQF\nNyweaG8CZwKBgHAdCr/99Udw3OE2dfCqSSjKiRtgOpcdTxx12qJuerLM9mmwxe0a\nt9PmOMB6FIPBtIU6P6oMe/7zfWIvRWTRjMDYk88NT0fXhuLvUbZRdOpai451XTHy\np/O0g7TuOBfpcXo9tTJyrCQ2V4veeVW93Z4eKlUdirXQitUEViS1JInVAoGAXkb3\nTZ10UG3x2L6gpXM/6JCmXXrFapq2podIiftr8S+guoKnox+veQdQUp8nhCNCMwwO\n7W4jGfcibivh/1zXj81J+kNRZWUlGBB+SK9xoVGcwWOPPUKtZBRZzxoZSQ3rpuAz\nRkQXyI4OVz4jCTiWtsd6tKT1oTRWOitIB1QmAgECgYEAw8Q6oLV4Iq4oKTYJpmha\nvPb4BH+df8lvv9hCGviFBk48ZsY4ImRDb//KlknDmiTgGlW+kLWOFY8+a8NhAMB+\nb/AdpUK2tuYg09RM66bneCBU6wCaSBvUMxZHt469tWboam1i74BCQpDdIDd0A1uL\nb7GwDGIB8mLkOwQXOvKRqBY=\n-----END PRIVATE KEY-----\n",
+          "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC916/Vmhw+wpgw\nYjtvKWWnoVFJqz4sXXu5DRWaB9dSxWhIebQv0n+UdTRz8MT3ipOMz8Z4u9ziw2/J\n6tLJTU82iCk7afMEjSGypAK7osXZW5JvLkAohtamTPYSSKc7oeRfNLLCBZFHoVqQ\nvoQLnBTZbk8HSAwUBu4LFTGdSj226R7VoPeFFcdybA7tKNdM4nk/GTdnJUabTWXQ\nISRgD4ZK2SxJDlWqCkyZ1+6x/d6DEYvZX9QgGczMu8rkReNBpN+AOwZjUQ1sByhA\nhzlQXS+UX7KvJW4kfUCTvRDOr952M5J4aAvGpQzy9B3Hhm91fMsPSrdPtklDceJj\n62JfhVztAgMBAAECggEAGPleXtXCwHjeB4NsuS9zeY1twai+6Zw0sf/oJxa/+1oP\n4XTtQNtKwE944oW6i6wVxBDzVZ+1K7m1I5V6PFQoxw47il7iQueEFtmfqGp95521\n0l19wDcY1tDKEFaxdVVTUzj+CSstVQSDgwYlHdffIEl0KQuP1zSgLSIRIFWLb9vZ\ntpKl0VFrbB6W9NRIzcupHIFdhzvTbZPv/Kd0fHh49zL6oAxfFq8kzRci/jhld/Wz\n1oWlvOne1NSMiZWbltr/iI+YsNMcQdEudWPsw1Wvbnj8YEn9bdFUVb5IS0bc7XP9\n3G6TwHpJMZutSvtlqSIJF7PfvwZJQXeTr+G3EMcGywKBgQD3rUBd9o2ad7W8aKZv\nvErKr1TX9C1rZpadnabGPo5CGSx/tUzwUTpf6FxtTqgvjMhUw8HWGM0iJpf2B7Gc\nef+1w5mMaPz9WV9XeC2//0S9f0QGkPiXDEC9raud6uJQ41hYW6yJp7nrahZ9dFog\nnL0w5HEJ/eSWYwlijtOi+AUZiwKBgQDEOOQR3Bz9rUlrlMJf5s7LlO80TUq12s6U\nRqBmiUiwGBSioQ7gUdedlWjL1Ukh6KMLCvFgwbIEYDsZnL/Uzbb/Qkp3yGuEmyRm\na15iMWJ6TYNGxEw7+6nw7LsVwV528/DRyZQVyJHLPAYG3Zytfi2nRRXSeAS7qIQF\nNyweaG8CZwKBgHAdCr/99Udw3OE2dfCqSSjKiRtgOpcdTxx12qJuerLM9mmwxe0a\nt9PmOMB6FIPBtIU6P6oMe/7zfWIvRWTRjMDYk88NT0fXhuLvUbZRdOpai451XTHy\np/O0g7TuOBfpcXo9tTJyrCQ2V4veeVW93Z4eKlUdirXQitUEViS1JInVAoGAXkb3\nTZ10UG3x2L6gpXM/6JCmXXrFapq2podIiftr8S+guoKnox+veQdQUp8nhCNCMwwO\n7W4jGfcibivh/1zXj81J+kNRZWUlGBB+SK9xoVGcwWOPPUKtZBRZzxoZSQ3rpuAz\nRkQXyI4OVz4jCTiWtsd6tKT1oTRWOitIB1QmAgECgYEAw8Q6oLV4Iq4oKTYJpmha\nvPb4BH+df8lvv9hCGviFBk48ZsY4ImRDb//KlknDmiTgGlW+kLWOFY8+a8NhAMB+\nb/AdpUK2tuYg09RM66bneCBU6wCaSBvUMxZHt469tWboam1i74BCQpDdIDd0A1uL\nb7GwDGIB8mLkOwQXOvKRqBY=\n-----END PRIVATE KEY-----\n",
       "client_email": "healing-match@appspot.gserviceaccount.com",
       "client_id": "109325874687014297008",
       "type": "service_account"
     });
     final httpClient =
-    await clientViaServiceAccount(accountCredentials, _scopes);
+        await clientViaServiceAccount(accountCredentials, _scopes);
     var calendar = CalendarApi(httpClient);
     var calEvents = calendar.events.list(
       "sugyo.sumihiko@gmail.com",
@@ -354,8 +358,8 @@ class ServiceProviderApi {
             ),
           );
         } else if (unavailableCalendarEvents[
-        unavailableCalendarEvents.length - 1]
-            .end ==
+                    unavailableCalendarEvents.length - 1]
+                .end ==
             unavailableEvent.start.dateTime.toLocal()) {
           unavailableCalendarEvents[unavailableCalendarEvents.length - 1].end =
               unavailableEvent.end.dateTime.toLocal();
@@ -385,18 +389,18 @@ class ServiceProviderApi {
   }
 
   //mark unavailable from xo calendar
-  static Future<Event> createEvent(DateTime eventTime,
-      BuildContext context) async {
+  static Future<Event> createEvent(
+      DateTime eventTime, BuildContext context) async {
     var accountCredentials = ServiceAccountCredentials.fromJson({
       "private_key_id": "ea91c6540fdc102720f699c56f692d25d4aefeec",
       "private_key":
-      "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC916/Vmhw+wpgw\nYjtvKWWnoVFJqz4sXXu5DRWaB9dSxWhIebQv0n+UdTRz8MT3ipOMz8Z4u9ziw2/J\n6tLJTU82iCk7afMEjSGypAK7osXZW5JvLkAohtamTPYSSKc7oeRfNLLCBZFHoVqQ\nvoQLnBTZbk8HSAwUBu4LFTGdSj226R7VoPeFFcdybA7tKNdM4nk/GTdnJUabTWXQ\nISRgD4ZK2SxJDlWqCkyZ1+6x/d6DEYvZX9QgGczMu8rkReNBpN+AOwZjUQ1sByhA\nhzlQXS+UX7KvJW4kfUCTvRDOr952M5J4aAvGpQzy9B3Hhm91fMsPSrdPtklDceJj\n62JfhVztAgMBAAECggEAGPleXtXCwHjeB4NsuS9zeY1twai+6Zw0sf/oJxa/+1oP\n4XTtQNtKwE944oW6i6wVxBDzVZ+1K7m1I5V6PFQoxw47il7iQueEFtmfqGp95521\n0l19wDcY1tDKEFaxdVVTUzj+CSstVQSDgwYlHdffIEl0KQuP1zSgLSIRIFWLb9vZ\ntpKl0VFrbB6W9NRIzcupHIFdhzvTbZPv/Kd0fHh49zL6oAxfFq8kzRci/jhld/Wz\n1oWlvOne1NSMiZWbltr/iI+YsNMcQdEudWPsw1Wvbnj8YEn9bdFUVb5IS0bc7XP9\n3G6TwHpJMZutSvtlqSIJF7PfvwZJQXeTr+G3EMcGywKBgQD3rUBd9o2ad7W8aKZv\nvErKr1TX9C1rZpadnabGPo5CGSx/tUzwUTpf6FxtTqgvjMhUw8HWGM0iJpf2B7Gc\nef+1w5mMaPz9WV9XeC2//0S9f0QGkPiXDEC9raud6uJQ41hYW6yJp7nrahZ9dFog\nnL0w5HEJ/eSWYwlijtOi+AUZiwKBgQDEOOQR3Bz9rUlrlMJf5s7LlO80TUq12s6U\nRqBmiUiwGBSioQ7gUdedlWjL1Ukh6KMLCvFgwbIEYDsZnL/Uzbb/Qkp3yGuEmyRm\na15iMWJ6TYNGxEw7+6nw7LsVwV528/DRyZQVyJHLPAYG3Zytfi2nRRXSeAS7qIQF\nNyweaG8CZwKBgHAdCr/99Udw3OE2dfCqSSjKiRtgOpcdTxx12qJuerLM9mmwxe0a\nt9PmOMB6FIPBtIU6P6oMe/7zfWIvRWTRjMDYk88NT0fXhuLvUbZRdOpai451XTHy\np/O0g7TuOBfpcXo9tTJyrCQ2V4veeVW93Z4eKlUdirXQitUEViS1JInVAoGAXkb3\nTZ10UG3x2L6gpXM/6JCmXXrFapq2podIiftr8S+guoKnox+veQdQUp8nhCNCMwwO\n7W4jGfcibivh/1zXj81J+kNRZWUlGBB+SK9xoVGcwWOPPUKtZBRZzxoZSQ3rpuAz\nRkQXyI4OVz4jCTiWtsd6tKT1oTRWOitIB1QmAgECgYEAw8Q6oLV4Iq4oKTYJpmha\nvPb4BH+df8lvv9hCGviFBk48ZsY4ImRDb//KlknDmiTgGlW+kLWOFY8+a8NhAMB+\nb/AdpUK2tuYg09RM66bneCBU6wCaSBvUMxZHt469tWboam1i74BCQpDdIDd0A1uL\nb7GwDGIB8mLkOwQXOvKRqBY=\n-----END PRIVATE KEY-----\n",
+          "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC916/Vmhw+wpgw\nYjtvKWWnoVFJqz4sXXu5DRWaB9dSxWhIebQv0n+UdTRz8MT3ipOMz8Z4u9ziw2/J\n6tLJTU82iCk7afMEjSGypAK7osXZW5JvLkAohtamTPYSSKc7oeRfNLLCBZFHoVqQ\nvoQLnBTZbk8HSAwUBu4LFTGdSj226R7VoPeFFcdybA7tKNdM4nk/GTdnJUabTWXQ\nISRgD4ZK2SxJDlWqCkyZ1+6x/d6DEYvZX9QgGczMu8rkReNBpN+AOwZjUQ1sByhA\nhzlQXS+UX7KvJW4kfUCTvRDOr952M5J4aAvGpQzy9B3Hhm91fMsPSrdPtklDceJj\n62JfhVztAgMBAAECggEAGPleXtXCwHjeB4NsuS9zeY1twai+6Zw0sf/oJxa/+1oP\n4XTtQNtKwE944oW6i6wVxBDzVZ+1K7m1I5V6PFQoxw47il7iQueEFtmfqGp95521\n0l19wDcY1tDKEFaxdVVTUzj+CSstVQSDgwYlHdffIEl0KQuP1zSgLSIRIFWLb9vZ\ntpKl0VFrbB6W9NRIzcupHIFdhzvTbZPv/Kd0fHh49zL6oAxfFq8kzRci/jhld/Wz\n1oWlvOne1NSMiZWbltr/iI+YsNMcQdEudWPsw1Wvbnj8YEn9bdFUVb5IS0bc7XP9\n3G6TwHpJMZutSvtlqSIJF7PfvwZJQXeTr+G3EMcGywKBgQD3rUBd9o2ad7W8aKZv\nvErKr1TX9C1rZpadnabGPo5CGSx/tUzwUTpf6FxtTqgvjMhUw8HWGM0iJpf2B7Gc\nef+1w5mMaPz9WV9XeC2//0S9f0QGkPiXDEC9raud6uJQ41hYW6yJp7nrahZ9dFog\nnL0w5HEJ/eSWYwlijtOi+AUZiwKBgQDEOOQR3Bz9rUlrlMJf5s7LlO80TUq12s6U\nRqBmiUiwGBSioQ7gUdedlWjL1Ukh6KMLCvFgwbIEYDsZnL/Uzbb/Qkp3yGuEmyRm\na15iMWJ6TYNGxEw7+6nw7LsVwV528/DRyZQVyJHLPAYG3Zytfi2nRRXSeAS7qIQF\nNyweaG8CZwKBgHAdCr/99Udw3OE2dfCqSSjKiRtgOpcdTxx12qJuerLM9mmwxe0a\nt9PmOMB6FIPBtIU6P6oMe/7zfWIvRWTRjMDYk88NT0fXhuLvUbZRdOpai451XTHy\np/O0g7TuOBfpcXo9tTJyrCQ2V4veeVW93Z4eKlUdirXQitUEViS1JInVAoGAXkb3\nTZ10UG3x2L6gpXM/6JCmXXrFapq2podIiftr8S+guoKnox+veQdQUp8nhCNCMwwO\n7W4jGfcibivh/1zXj81J+kNRZWUlGBB+SK9xoVGcwWOPPUKtZBRZzxoZSQ3rpuAz\nRkQXyI4OVz4jCTiWtsd6tKT1oTRWOitIB1QmAgECgYEAw8Q6oLV4Iq4oKTYJpmha\nvPb4BH+df8lvv9hCGviFBk48ZsY4ImRDb//KlknDmiTgGlW+kLWOFY8+a8NhAMB+\nb/AdpUK2tuYg09RM66bneCBU6wCaSBvUMxZHt469tWboam1i74BCQpDdIDd0A1uL\nb7GwDGIB8mLkOwQXOvKRqBY=\n-----END PRIVATE KEY-----\n",
       "client_email": "healing-match@appspot.gserviceaccount.com",
       "client_id": "109325874687014297008",
       "type": "service_account"
     });
     final httpClient =
-    await clientViaServiceAccount(accountCredentials, _scopes);
+        await clientViaServiceAccount(accountCredentials, _scopes);
 
     var calendar = CalendarApi(httpClient);
     String calendarId = "sugyo.sumihiko@gmail.com";
@@ -435,7 +439,8 @@ class ServiceProviderApi {
     }
   }
 
-  static Future<bool> updateEvent(String eventID,
+  static Future<bool> updateEvent(
+      String eventID,
       bool isCancel,
       bool isPriceChanged,
       bool isDateChanged,
@@ -443,13 +448,13 @@ class ServiceProviderApi {
     var accountCredentials = ServiceAccountCredentials.fromJson({
       "private_key_id": "ea91c6540fdc102720f699c56f692d25d4aefeec",
       "private_key":
-      "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC916/Vmhw+wpgw\nYjtvKWWnoVFJqz4sXXu5DRWaB9dSxWhIebQv0n+UdTRz8MT3ipOMz8Z4u9ziw2/J\n6tLJTU82iCk7afMEjSGypAK7osXZW5JvLkAohtamTPYSSKc7oeRfNLLCBZFHoVqQ\nvoQLnBTZbk8HSAwUBu4LFTGdSj226R7VoPeFFcdybA7tKNdM4nk/GTdnJUabTWXQ\nISRgD4ZK2SxJDlWqCkyZ1+6x/d6DEYvZX9QgGczMu8rkReNBpN+AOwZjUQ1sByhA\nhzlQXS+UX7KvJW4kfUCTvRDOr952M5J4aAvGpQzy9B3Hhm91fMsPSrdPtklDceJj\n62JfhVztAgMBAAECggEAGPleXtXCwHjeB4NsuS9zeY1twai+6Zw0sf/oJxa/+1oP\n4XTtQNtKwE944oW6i6wVxBDzVZ+1K7m1I5V6PFQoxw47il7iQueEFtmfqGp95521\n0l19wDcY1tDKEFaxdVVTUzj+CSstVQSDgwYlHdffIEl0KQuP1zSgLSIRIFWLb9vZ\ntpKl0VFrbB6W9NRIzcupHIFdhzvTbZPv/Kd0fHh49zL6oAxfFq8kzRci/jhld/Wz\n1oWlvOne1NSMiZWbltr/iI+YsNMcQdEudWPsw1Wvbnj8YEn9bdFUVb5IS0bc7XP9\n3G6TwHpJMZutSvtlqSIJF7PfvwZJQXeTr+G3EMcGywKBgQD3rUBd9o2ad7W8aKZv\nvErKr1TX9C1rZpadnabGPo5CGSx/tUzwUTpf6FxtTqgvjMhUw8HWGM0iJpf2B7Gc\nef+1w5mMaPz9WV9XeC2//0S9f0QGkPiXDEC9raud6uJQ41hYW6yJp7nrahZ9dFog\nnL0w5HEJ/eSWYwlijtOi+AUZiwKBgQDEOOQR3Bz9rUlrlMJf5s7LlO80TUq12s6U\nRqBmiUiwGBSioQ7gUdedlWjL1Ukh6KMLCvFgwbIEYDsZnL/Uzbb/Qkp3yGuEmyRm\na15iMWJ6TYNGxEw7+6nw7LsVwV528/DRyZQVyJHLPAYG3Zytfi2nRRXSeAS7qIQF\nNyweaG8CZwKBgHAdCr/99Udw3OE2dfCqSSjKiRtgOpcdTxx12qJuerLM9mmwxe0a\nt9PmOMB6FIPBtIU6P6oMe/7zfWIvRWTRjMDYk88NT0fXhuLvUbZRdOpai451XTHy\np/O0g7TuOBfpcXo9tTJyrCQ2V4veeVW93Z4eKlUdirXQitUEViS1JInVAoGAXkb3\nTZ10UG3x2L6gpXM/6JCmXXrFapq2podIiftr8S+guoKnox+veQdQUp8nhCNCMwwO\n7W4jGfcibivh/1zXj81J+kNRZWUlGBB+SK9xoVGcwWOPPUKtZBRZzxoZSQ3rpuAz\nRkQXyI4OVz4jCTiWtsd6tKT1oTRWOitIB1QmAgECgYEAw8Q6oLV4Iq4oKTYJpmha\nvPb4BH+df8lvv9hCGviFBk48ZsY4ImRDb//KlknDmiTgGlW+kLWOFY8+a8NhAMB+\nb/AdpUK2tuYg09RM66bneCBU6wCaSBvUMxZHt469tWboam1i74BCQpDdIDd0A1uL\nb7GwDGIB8mLkOwQXOvKRqBY=\n-----END PRIVATE KEY-----\n",
+          "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC916/Vmhw+wpgw\nYjtvKWWnoVFJqz4sXXu5DRWaB9dSxWhIebQv0n+UdTRz8MT3ipOMz8Z4u9ziw2/J\n6tLJTU82iCk7afMEjSGypAK7osXZW5JvLkAohtamTPYSSKc7oeRfNLLCBZFHoVqQ\nvoQLnBTZbk8HSAwUBu4LFTGdSj226R7VoPeFFcdybA7tKNdM4nk/GTdnJUabTWXQ\nISRgD4ZK2SxJDlWqCkyZ1+6x/d6DEYvZX9QgGczMu8rkReNBpN+AOwZjUQ1sByhA\nhzlQXS+UX7KvJW4kfUCTvRDOr952M5J4aAvGpQzy9B3Hhm91fMsPSrdPtklDceJj\n62JfhVztAgMBAAECggEAGPleXtXCwHjeB4NsuS9zeY1twai+6Zw0sf/oJxa/+1oP\n4XTtQNtKwE944oW6i6wVxBDzVZ+1K7m1I5V6PFQoxw47il7iQueEFtmfqGp95521\n0l19wDcY1tDKEFaxdVVTUzj+CSstVQSDgwYlHdffIEl0KQuP1zSgLSIRIFWLb9vZ\ntpKl0VFrbB6W9NRIzcupHIFdhzvTbZPv/Kd0fHh49zL6oAxfFq8kzRci/jhld/Wz\n1oWlvOne1NSMiZWbltr/iI+YsNMcQdEudWPsw1Wvbnj8YEn9bdFUVb5IS0bc7XP9\n3G6TwHpJMZutSvtlqSIJF7PfvwZJQXeTr+G3EMcGywKBgQD3rUBd9o2ad7W8aKZv\nvErKr1TX9C1rZpadnabGPo5CGSx/tUzwUTpf6FxtTqgvjMhUw8HWGM0iJpf2B7Gc\nef+1w5mMaPz9WV9XeC2//0S9f0QGkPiXDEC9raud6uJQ41hYW6yJp7nrahZ9dFog\nnL0w5HEJ/eSWYwlijtOi+AUZiwKBgQDEOOQR3Bz9rUlrlMJf5s7LlO80TUq12s6U\nRqBmiUiwGBSioQ7gUdedlWjL1Ukh6KMLCvFgwbIEYDsZnL/Uzbb/Qkp3yGuEmyRm\na15iMWJ6TYNGxEw7+6nw7LsVwV528/DRyZQVyJHLPAYG3Zytfi2nRRXSeAS7qIQF\nNyweaG8CZwKBgHAdCr/99Udw3OE2dfCqSSjKiRtgOpcdTxx12qJuerLM9mmwxe0a\nt9PmOMB6FIPBtIU6P6oMe/7zfWIvRWTRjMDYk88NT0fXhuLvUbZRdOpai451XTHy\np/O0g7TuOBfpcXo9tTJyrCQ2V4veeVW93Z4eKlUdirXQitUEViS1JInVAoGAXkb3\nTZ10UG3x2L6gpXM/6JCmXXrFapq2podIiftr8S+guoKnox+veQdQUp8nhCNCMwwO\n7W4jGfcibivh/1zXj81J+kNRZWUlGBB+SK9xoVGcwWOPPUKtZBRZzxoZSQ3rpuAz\nRkQXyI4OVz4jCTiWtsd6tKT1oTRWOitIB1QmAgECgYEAw8Q6oLV4Iq4oKTYJpmha\nvPb4BH+df8lvv9hCGviFBk48ZsY4ImRDb//KlknDmiTgGlW+kLWOFY8+a8NhAMB+\nb/AdpUK2tuYg09RM66bneCBU6wCaSBvUMxZHt469tWboam1i74BCQpDdIDd0A1uL\nb7GwDGIB8mLkOwQXOvKRqBY=\n-----END PRIVATE KEY-----\n",
       "client_email": "healing-match@appspot.gserviceaccount.com",
       "client_id": "109325874687014297008",
       "type": "service_account"
     });
     final httpClient =
-    await clientViaServiceAccount(accountCredentials, _scopes);
+        await clientViaServiceAccount(accountCredentials, _scopes);
 
     var calendar = CalendarApi(httpClient);
     String calendarId = "sugyo.sumihiko@gmail.com";
@@ -458,14 +463,11 @@ class ServiceProviderApi {
     event.status = isCancel ? "cancelled" : "confirmed";
 
     event.summary =
-    "SP${bookingDetailsList.therapistId},${HealingMatchConstants
-        .providerName},SU${bookingDetailsList.userId},${bookingDetailsList
-        .bookingUserId.userName}(${bookingDetailsList.bookingUserId.gender})";
+        "SP${bookingDetailsList.therapistId},${HealingMatchConstants.providerName},SU${bookingDetailsList.userId},${bookingDetailsList.bookingUserId.userName}(${bookingDetailsList.bookingUserId.gender})";
     event.description =
-    "${bookingDetailsList.nameOfService},¥${bookingDetailsList.priceOfService +
-        bookingDetailsList.travelAmount}";
+        "${bookingDetailsList.nameOfService},¥${bookingDetailsList.priceOfService + bookingDetailsList.travelAmount}";
     event.location =
-    "${bookingDetailsList.locationType},${bookingDetailsList.location}";
+        "${bookingDetailsList.locationType},${bookingDetailsList.location}";
 
     if (isDateChanged) {
       EventDateTime start = new EventDateTime();
@@ -508,7 +510,8 @@ class ServiceProviderApi {
     }
   }
 
-  static Future<bool> updateNotificationEvent(String eventID,
+  static Future<bool> updateNotificationEvent(
+      String eventID,
       bool isCancel,
       bool isPriceChanged,
       bool isDateChanged,
@@ -516,13 +519,13 @@ class ServiceProviderApi {
     var accountCredentials = ServiceAccountCredentials.fromJson({
       "private_key_id": "ea91c6540fdc102720f699c56f692d25d4aefeec",
       "private_key":
-      "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC916/Vmhw+wpgw\nYjtvKWWnoVFJqz4sXXu5DRWaB9dSxWhIebQv0n+UdTRz8MT3ipOMz8Z4u9ziw2/J\n6tLJTU82iCk7afMEjSGypAK7osXZW5JvLkAohtamTPYSSKc7oeRfNLLCBZFHoVqQ\nvoQLnBTZbk8HSAwUBu4LFTGdSj226R7VoPeFFcdybA7tKNdM4nk/GTdnJUabTWXQ\nISRgD4ZK2SxJDlWqCkyZ1+6x/d6DEYvZX9QgGczMu8rkReNBpN+AOwZjUQ1sByhA\nhzlQXS+UX7KvJW4kfUCTvRDOr952M5J4aAvGpQzy9B3Hhm91fMsPSrdPtklDceJj\n62JfhVztAgMBAAECggEAGPleXtXCwHjeB4NsuS9zeY1twai+6Zw0sf/oJxa/+1oP\n4XTtQNtKwE944oW6i6wVxBDzVZ+1K7m1I5V6PFQoxw47il7iQueEFtmfqGp95521\n0l19wDcY1tDKEFaxdVVTUzj+CSstVQSDgwYlHdffIEl0KQuP1zSgLSIRIFWLb9vZ\ntpKl0VFrbB6W9NRIzcupHIFdhzvTbZPv/Kd0fHh49zL6oAxfFq8kzRci/jhld/Wz\n1oWlvOne1NSMiZWbltr/iI+YsNMcQdEudWPsw1Wvbnj8YEn9bdFUVb5IS0bc7XP9\n3G6TwHpJMZutSvtlqSIJF7PfvwZJQXeTr+G3EMcGywKBgQD3rUBd9o2ad7W8aKZv\nvErKr1TX9C1rZpadnabGPo5CGSx/tUzwUTpf6FxtTqgvjMhUw8HWGM0iJpf2B7Gc\nef+1w5mMaPz9WV9XeC2//0S9f0QGkPiXDEC9raud6uJQ41hYW6yJp7nrahZ9dFog\nnL0w5HEJ/eSWYwlijtOi+AUZiwKBgQDEOOQR3Bz9rUlrlMJf5s7LlO80TUq12s6U\nRqBmiUiwGBSioQ7gUdedlWjL1Ukh6KMLCvFgwbIEYDsZnL/Uzbb/Qkp3yGuEmyRm\na15iMWJ6TYNGxEw7+6nw7LsVwV528/DRyZQVyJHLPAYG3Zytfi2nRRXSeAS7qIQF\nNyweaG8CZwKBgHAdCr/99Udw3OE2dfCqSSjKiRtgOpcdTxx12qJuerLM9mmwxe0a\nt9PmOMB6FIPBtIU6P6oMe/7zfWIvRWTRjMDYk88NT0fXhuLvUbZRdOpai451XTHy\np/O0g7TuOBfpcXo9tTJyrCQ2V4veeVW93Z4eKlUdirXQitUEViS1JInVAoGAXkb3\nTZ10UG3x2L6gpXM/6JCmXXrFapq2podIiftr8S+guoKnox+veQdQUp8nhCNCMwwO\n7W4jGfcibivh/1zXj81J+kNRZWUlGBB+SK9xoVGcwWOPPUKtZBRZzxoZSQ3rpuAz\nRkQXyI4OVz4jCTiWtsd6tKT1oTRWOitIB1QmAgECgYEAw8Q6oLV4Iq4oKTYJpmha\nvPb4BH+df8lvv9hCGviFBk48ZsY4ImRDb//KlknDmiTgGlW+kLWOFY8+a8NhAMB+\nb/AdpUK2tuYg09RM66bneCBU6wCaSBvUMxZHt469tWboam1i74BCQpDdIDd0A1uL\nb7GwDGIB8mLkOwQXOvKRqBY=\n-----END PRIVATE KEY-----\n",
+          "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC916/Vmhw+wpgw\nYjtvKWWnoVFJqz4sXXu5DRWaB9dSxWhIebQv0n+UdTRz8MT3ipOMz8Z4u9ziw2/J\n6tLJTU82iCk7afMEjSGypAK7osXZW5JvLkAohtamTPYSSKc7oeRfNLLCBZFHoVqQ\nvoQLnBTZbk8HSAwUBu4LFTGdSj226R7VoPeFFcdybA7tKNdM4nk/GTdnJUabTWXQ\nISRgD4ZK2SxJDlWqCkyZ1+6x/d6DEYvZX9QgGczMu8rkReNBpN+AOwZjUQ1sByhA\nhzlQXS+UX7KvJW4kfUCTvRDOr952M5J4aAvGpQzy9B3Hhm91fMsPSrdPtklDceJj\n62JfhVztAgMBAAECggEAGPleXtXCwHjeB4NsuS9zeY1twai+6Zw0sf/oJxa/+1oP\n4XTtQNtKwE944oW6i6wVxBDzVZ+1K7m1I5V6PFQoxw47il7iQueEFtmfqGp95521\n0l19wDcY1tDKEFaxdVVTUzj+CSstVQSDgwYlHdffIEl0KQuP1zSgLSIRIFWLb9vZ\ntpKl0VFrbB6W9NRIzcupHIFdhzvTbZPv/Kd0fHh49zL6oAxfFq8kzRci/jhld/Wz\n1oWlvOne1NSMiZWbltr/iI+YsNMcQdEudWPsw1Wvbnj8YEn9bdFUVb5IS0bc7XP9\n3G6TwHpJMZutSvtlqSIJF7PfvwZJQXeTr+G3EMcGywKBgQD3rUBd9o2ad7W8aKZv\nvErKr1TX9C1rZpadnabGPo5CGSx/tUzwUTpf6FxtTqgvjMhUw8HWGM0iJpf2B7Gc\nef+1w5mMaPz9WV9XeC2//0S9f0QGkPiXDEC9raud6uJQ41hYW6yJp7nrahZ9dFog\nnL0w5HEJ/eSWYwlijtOi+AUZiwKBgQDEOOQR3Bz9rUlrlMJf5s7LlO80TUq12s6U\nRqBmiUiwGBSioQ7gUdedlWjL1Ukh6KMLCvFgwbIEYDsZnL/Uzbb/Qkp3yGuEmyRm\na15iMWJ6TYNGxEw7+6nw7LsVwV528/DRyZQVyJHLPAYG3Zytfi2nRRXSeAS7qIQF\nNyweaG8CZwKBgHAdCr/99Udw3OE2dfCqSSjKiRtgOpcdTxx12qJuerLM9mmwxe0a\nt9PmOMB6FIPBtIU6P6oMe/7zfWIvRWTRjMDYk88NT0fXhuLvUbZRdOpai451XTHy\np/O0g7TuOBfpcXo9tTJyrCQ2V4veeVW93Z4eKlUdirXQitUEViS1JInVAoGAXkb3\nTZ10UG3x2L6gpXM/6JCmXXrFapq2podIiftr8S+guoKnox+veQdQUp8nhCNCMwwO\n7W4jGfcibivh/1zXj81J+kNRZWUlGBB+SK9xoVGcwWOPPUKtZBRZzxoZSQ3rpuAz\nRkQXyI4OVz4jCTiWtsd6tKT1oTRWOitIB1QmAgECgYEAw8Q6oLV4Iq4oKTYJpmha\nvPb4BH+df8lvv9hCGviFBk48ZsY4ImRDb//KlknDmiTgGlW+kLWOFY8+a8NhAMB+\nb/AdpUK2tuYg09RM66bneCBU6wCaSBvUMxZHt469tWboam1i74BCQpDdIDd0A1uL\nb7GwDGIB8mLkOwQXOvKRqBY=\n-----END PRIVATE KEY-----\n",
       "client_email": "healing-match@appspot.gserviceaccount.com",
       "client_id": "109325874687014297008",
       "type": "service_account"
     });
     final httpClient =
-    await clientViaServiceAccount(accountCredentials, _scopes);
+        await clientViaServiceAccount(accountCredentials, _scopes);
 
     var calendar = CalendarApi(httpClient);
     String calendarId = "sugyo.sumihiko@gmail.com";
@@ -531,17 +534,11 @@ class ServiceProviderApi {
     event.status = isCancel ? "cancelled" : "confirmed";
 
     event.summary =
-    "SP${bookingDetailsList.bookingDetail.therapistId},${HealingMatchConstants
-        .providerName},SU${bookingDetailsList.userId},${bookingDetailsList
-        .bookingDetail.bookingUserId.userName}(${bookingDetailsList
-        .bookingDetail.bookingUserId.gender})";
+        "SP${bookingDetailsList.bookingDetail.therapistId},${HealingMatchConstants.providerName},SU${bookingDetailsList.userId},${bookingDetailsList.bookingDetail.bookingUserId.userName}(${bookingDetailsList.bookingDetail.bookingUserId.gender})";
     event.description =
-    "${bookingDetailsList.bookingDetail.nameOfService},¥${bookingDetailsList
-        .bookingDetail.priceOfService +
-        bookingDetailsList.bookingDetail.travelAmount}";
+        "${bookingDetailsList.bookingDetail.nameOfService},¥${bookingDetailsList.bookingDetail.priceOfService + bookingDetailsList.bookingDetail.travelAmount}";
     event.location =
-    "${bookingDetailsList.bookingDetail.locationType},${bookingDetailsList
-        .bookingDetail.location}";
+        "${bookingDetailsList.bookingDetail.locationType},${bookingDetailsList.bookingDetail.location}";
 
     if (isDateChanged) {
       EventDateTime start = new EventDateTime();
@@ -588,13 +585,13 @@ class ServiceProviderApi {
     var accountCredentials = ServiceAccountCredentials.fromJson({
       "private_key_id": "ea91c6540fdc102720f699c56f692d25d4aefeec",
       "private_key":
-      "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC916/Vmhw+wpgw\nYjtvKWWnoVFJqz4sXXu5DRWaB9dSxWhIebQv0n+UdTRz8MT3ipOMz8Z4u9ziw2/J\n6tLJTU82iCk7afMEjSGypAK7osXZW5JvLkAohtamTPYSSKc7oeRfNLLCBZFHoVqQ\nvoQLnBTZbk8HSAwUBu4LFTGdSj226R7VoPeFFcdybA7tKNdM4nk/GTdnJUabTWXQ\nISRgD4ZK2SxJDlWqCkyZ1+6x/d6DEYvZX9QgGczMu8rkReNBpN+AOwZjUQ1sByhA\nhzlQXS+UX7KvJW4kfUCTvRDOr952M5J4aAvGpQzy9B3Hhm91fMsPSrdPtklDceJj\n62JfhVztAgMBAAECggEAGPleXtXCwHjeB4NsuS9zeY1twai+6Zw0sf/oJxa/+1oP\n4XTtQNtKwE944oW6i6wVxBDzVZ+1K7m1I5V6PFQoxw47il7iQueEFtmfqGp95521\n0l19wDcY1tDKEFaxdVVTUzj+CSstVQSDgwYlHdffIEl0KQuP1zSgLSIRIFWLb9vZ\ntpKl0VFrbB6W9NRIzcupHIFdhzvTbZPv/Kd0fHh49zL6oAxfFq8kzRci/jhld/Wz\n1oWlvOne1NSMiZWbltr/iI+YsNMcQdEudWPsw1Wvbnj8YEn9bdFUVb5IS0bc7XP9\n3G6TwHpJMZutSvtlqSIJF7PfvwZJQXeTr+G3EMcGywKBgQD3rUBd9o2ad7W8aKZv\nvErKr1TX9C1rZpadnabGPo5CGSx/tUzwUTpf6FxtTqgvjMhUw8HWGM0iJpf2B7Gc\nef+1w5mMaPz9WV9XeC2//0S9f0QGkPiXDEC9raud6uJQ41hYW6yJp7nrahZ9dFog\nnL0w5HEJ/eSWYwlijtOi+AUZiwKBgQDEOOQR3Bz9rUlrlMJf5s7LlO80TUq12s6U\nRqBmiUiwGBSioQ7gUdedlWjL1Ukh6KMLCvFgwbIEYDsZnL/Uzbb/Qkp3yGuEmyRm\na15iMWJ6TYNGxEw7+6nw7LsVwV528/DRyZQVyJHLPAYG3Zytfi2nRRXSeAS7qIQF\nNyweaG8CZwKBgHAdCr/99Udw3OE2dfCqSSjKiRtgOpcdTxx12qJuerLM9mmwxe0a\nt9PmOMB6FIPBtIU6P6oMe/7zfWIvRWTRjMDYk88NT0fXhuLvUbZRdOpai451XTHy\np/O0g7TuOBfpcXo9tTJyrCQ2V4veeVW93Z4eKlUdirXQitUEViS1JInVAoGAXkb3\nTZ10UG3x2L6gpXM/6JCmXXrFapq2podIiftr8S+guoKnox+veQdQUp8nhCNCMwwO\n7W4jGfcibivh/1zXj81J+kNRZWUlGBB+SK9xoVGcwWOPPUKtZBRZzxoZSQ3rpuAz\nRkQXyI4OVz4jCTiWtsd6tKT1oTRWOitIB1QmAgECgYEAw8Q6oLV4Iq4oKTYJpmha\nvPb4BH+df8lvv9hCGviFBk48ZsY4ImRDb//KlknDmiTgGlW+kLWOFY8+a8NhAMB+\nb/AdpUK2tuYg09RM66bneCBU6wCaSBvUMxZHt469tWboam1i74BCQpDdIDd0A1uL\nb7GwDGIB8mLkOwQXOvKRqBY=\n-----END PRIVATE KEY-----\n",
+          "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC916/Vmhw+wpgw\nYjtvKWWnoVFJqz4sXXu5DRWaB9dSxWhIebQv0n+UdTRz8MT3ipOMz8Z4u9ziw2/J\n6tLJTU82iCk7afMEjSGypAK7osXZW5JvLkAohtamTPYSSKc7oeRfNLLCBZFHoVqQ\nvoQLnBTZbk8HSAwUBu4LFTGdSj226R7VoPeFFcdybA7tKNdM4nk/GTdnJUabTWXQ\nISRgD4ZK2SxJDlWqCkyZ1+6x/d6DEYvZX9QgGczMu8rkReNBpN+AOwZjUQ1sByhA\nhzlQXS+UX7KvJW4kfUCTvRDOr952M5J4aAvGpQzy9B3Hhm91fMsPSrdPtklDceJj\n62JfhVztAgMBAAECggEAGPleXtXCwHjeB4NsuS9zeY1twai+6Zw0sf/oJxa/+1oP\n4XTtQNtKwE944oW6i6wVxBDzVZ+1K7m1I5V6PFQoxw47il7iQueEFtmfqGp95521\n0l19wDcY1tDKEFaxdVVTUzj+CSstVQSDgwYlHdffIEl0KQuP1zSgLSIRIFWLb9vZ\ntpKl0VFrbB6W9NRIzcupHIFdhzvTbZPv/Kd0fHh49zL6oAxfFq8kzRci/jhld/Wz\n1oWlvOne1NSMiZWbltr/iI+YsNMcQdEudWPsw1Wvbnj8YEn9bdFUVb5IS0bc7XP9\n3G6TwHpJMZutSvtlqSIJF7PfvwZJQXeTr+G3EMcGywKBgQD3rUBd9o2ad7W8aKZv\nvErKr1TX9C1rZpadnabGPo5CGSx/tUzwUTpf6FxtTqgvjMhUw8HWGM0iJpf2B7Gc\nef+1w5mMaPz9WV9XeC2//0S9f0QGkPiXDEC9raud6uJQ41hYW6yJp7nrahZ9dFog\nnL0w5HEJ/eSWYwlijtOi+AUZiwKBgQDEOOQR3Bz9rUlrlMJf5s7LlO80TUq12s6U\nRqBmiUiwGBSioQ7gUdedlWjL1Ukh6KMLCvFgwbIEYDsZnL/Uzbb/Qkp3yGuEmyRm\na15iMWJ6TYNGxEw7+6nw7LsVwV528/DRyZQVyJHLPAYG3Zytfi2nRRXSeAS7qIQF\nNyweaG8CZwKBgHAdCr/99Udw3OE2dfCqSSjKiRtgOpcdTxx12qJuerLM9mmwxe0a\nt9PmOMB6FIPBtIU6P6oMe/7zfWIvRWTRjMDYk88NT0fXhuLvUbZRdOpai451XTHy\np/O0g7TuOBfpcXo9tTJyrCQ2V4veeVW93Z4eKlUdirXQitUEViS1JInVAoGAXkb3\nTZ10UG3x2L6gpXM/6JCmXXrFapq2podIiftr8S+guoKnox+veQdQUp8nhCNCMwwO\n7W4jGfcibivh/1zXj81J+kNRZWUlGBB+SK9xoVGcwWOPPUKtZBRZzxoZSQ3rpuAz\nRkQXyI4OVz4jCTiWtsd6tKT1oTRWOitIB1QmAgECgYEAw8Q6oLV4Iq4oKTYJpmha\nvPb4BH+df8lvv9hCGviFBk48ZsY4ImRDb//KlknDmiTgGlW+kLWOFY8+a8NhAMB+\nb/AdpUK2tuYg09RM66bneCBU6wCaSBvUMxZHt469tWboam1i74BCQpDdIDd0A1uL\nb7GwDGIB8mLkOwQXOvKRqBY=\n-----END PRIVATE KEY-----\n",
       "client_email": "healing-match@appspot.gserviceaccount.com",
       "client_id": "109325874687014297008",
       "type": "service_account"
     });
     final httpClient =
-    await clientViaServiceAccount(accountCredentials, _scopes);
+        await clientViaServiceAccount(accountCredentials, _scopes);
 
     var calendar = CalendarApi(httpClient);
     String calendarId = "sugyo.sumihiko@gmail.com";
@@ -631,7 +628,7 @@ class ServiceProviderApi {
       if (response.statusCode == 200) {
         var therapistData = json.decode(response.body);
         ProviderDetailsResponseModel therapistDetails =
-        ProviderDetailsResponseModel.fromJson(therapistData);
+            ProviderDetailsResponseModel.fromJson(therapistData);
         print('a');
         HealingMatchConstants.therapistDetails =
             therapistDetails.data.storeServiceTimes;
@@ -647,8 +644,8 @@ class ServiceProviderApi {
     }
   }
 
-  static saveShiftServiceTime(List<StoreServiceTime> storeServiceTime,
-      BuildContext context) async {
+  static saveShiftServiceTime(
+      List<StoreServiceTime> storeServiceTime, BuildContext context) async {
     try {
       final url = HealingMatchConstants.THERAPIST_SHIFT_TIME_SAVE;
       Map<String, String> headers = {
@@ -673,7 +670,7 @@ class ServiceProviderApi {
         /*  shiftTimeUpdate.ShiftTimeUpdateResponse shiftTimeUpdateResponse =
             shiftTimeUpdate.ShiftTimeUpdateResponse.fromJson(data); */
         ProviderDetailsResponseModel therapistDetails =
-        ProviderDetailsResponseModel.fromJson(data);
+            ProviderDetailsResponseModel.fromJson(data);
         HealingMatchConstants.therapistDetails.clear();
         HealingMatchConstants.therapistDetails =
             therapistDetails.data.storeServiceTimes;
@@ -689,8 +686,8 @@ class ServiceProviderApi {
     }
   }
 
-  static Future<bool> saveFirebaseUserID(String firebaseID,
-      BuildContext context) async {
+  static Future<bool> saveFirebaseUserID(
+      String firebaseID, BuildContext context) async {
     try {
       final url = HealingMatchConstants.FIREBASE_UPDATE_USERID;
       Map<String, String> headers = {
@@ -775,7 +772,7 @@ class ServiceProviderApi {
   }
 
   static Future<TherapistBookingHistoryResponseModel>
-  getConfirmedBookingDetails(int pageNumber, int pageSize) async {
+      getConfirmedBookingDetails(int pageNumber, int pageSize) async {
     TherapistBookingHistoryResponseModel therapistBookingHistoryResponseModel;
     try {
       final url = HealingMatchConstants.THERAPIST_BOOKING_CONFIRMED +
@@ -857,7 +854,7 @@ class ServiceProviderApi {
           "travelAmount": bookingDetail.travelAmount.toString(),
           "therapistComments": bookingDetail.therapistComments,
           "totalCost":
-          bookingDetail.priceOfService + bookingDetail.travelAmount,
+              bookingDetail.priceOfService + bookingDetail.travelAmount,
         };
       } else if (isAddedPrice) {
         body = {
@@ -867,7 +864,7 @@ class ServiceProviderApi {
           "travelAmount": bookingDetail.travelAmount.toString(),
           "therapistComments": bookingDetail.therapistComments,
           "totalCost":
-          bookingDetail.priceOfService + bookingDetail.travelAmount,
+              bookingDetail.priceOfService + bookingDetail.travelAmount,
         };
       } else if (isTimeChange) {
         body = {
@@ -888,7 +885,7 @@ class ServiceProviderApi {
       }
 
       final response =
-      await http.post(url, headers: headers, body: json.encode(body));
+          await http.post(url, headers: headers, body: json.encode(body));
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
 
@@ -956,14 +953,14 @@ class ServiceProviderApi {
           "bookingId": bookingDetail.bookingDetail.id.toString(),
           "bookingStatus": "1",
           "therapistComments":
-          bookingDetail.bookingDetail.therapistComments != null
-              ? bookingDetail.bookingDetail.therapistComments
-              : '',
+              bookingDetail.bookingDetail.therapistComments != null
+                  ? bookingDetail.bookingDetail.therapistComments
+                  : '',
         };
       }
 
       final response =
-      await http.post(url, headers: headers, body: json.encode(body));
+          await http.post(url, headers: headers, body: json.encode(body));
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
 
@@ -978,7 +975,8 @@ class ServiceProviderApi {
   }
 
   static Future<bool> updateBookingCompeted(
-      BookingDetailsList bookingDetail,) async {
+    BookingDetailsList bookingDetail,
+  ) async {
     try {
       final url = HealingMatchConstants.THERAPIST_BOOKING_STATUS_UPDATE;
       Map<String, dynamic> body;
@@ -993,7 +991,7 @@ class ServiceProviderApi {
       };
 
       final response =
-      await http.post(url, headers: headers, body: json.encode(body));
+          await http.post(url, headers: headers, body: json.encode(body));
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
 
@@ -1008,7 +1006,7 @@ class ServiceProviderApi {
   }
 
   static Future<TherapistBookingHistoryResponseModel>
-  getWeeklyBookingCardDetails(int pageNumber, int pageSize) async {
+      getWeeklyBookingCardDetails(int pageNumber, int pageSize) async {
     TherapistBookingHistoryResponseModel therapistBookingHistoryResponseModel;
     try {
       final url = HealingMatchConstants.THERAPIST_WEEKLY_BOOKING +
@@ -1037,7 +1035,7 @@ class ServiceProviderApi {
   }
 
   static Future<FirebaseNotificationTherapistListModel>
-  getProviderNotifications(int pageNumber, int pageSize) async {
+      getProviderNotifications(int pageNumber, int pageSize) async {
     FirebaseNotificationTherapistListModel therapistBookingHistoryResponseModel;
     try {
       final url = HealingMatchConstants.PROVIDER_FIREBASE_NOTIFICATION_HISTORY +
@@ -1128,26 +1126,53 @@ class ServiceProviderApi {
           body: json.encode({
             "email": '${HealingMatchConstants.serviceProviderEmailAddress}',
             "refresh_url":
-            'http://106.51.49.160:9094/api/user/returnpage', //returnpage
+                'http://106.51.49.160:9094/api/user/returnpage', //returnpage
             "return_url": 'http://106.51.49.160:9094/api/user/successOnboard',
             "userId": '${HealingMatchConstants.userId}'
           }));
       final getTherapists = json.decode(response.body);
-      _stripePayoutModel =
-          StripePayOutVerifyFieldsModel.fromJson(getTherapists);
       print('More Response body : ${response.body}');
       if (response.statusCode == 200) {
+        _stripePayoutModel =
+            StripePayOutVerifyFieldsModel.fromJson(getTherapists);
+        print('Model objects Response body : ${_stripePayoutModel.toJson()}');
         HealingMatchConstants.stripeRedirectURL =
             _stripePayoutModel.message.url;
         print('Entering.. : ${HealingMatchConstants.stripeRedirectURL}');
         ProgressDialogBuilder.hideLoader(context);
+      } else {
+        getStripeErrorMessage(context, getTherapists);
       }
     } catch (e) {
-      print('Stripe redirect URL exception : ${e.toString()}');
+      print('Stripe redirect API exception : ${e.toString()}');
       ProgressDialogBuilder.hideLoader(context);
     }
 
     return _stripePayoutModel;
+  }
+
+  static Future<StripePayOutVerifyErrorModel> getStripeErrorMessage(
+      BuildContext context, var getTherapists) async {
+    _stripeErrorResponse = StripePayOutVerifyErrorModel.fromJson(getTherapists);
+    if (_stripeErrorResponse.message
+        .contains('User already registered with stripe')) {
+      HealingMatchConstants.stripeErrorMessage = 'ユーザーはすでにストライプに登録しました、\n'
+          'ストライプ検証が進行中です...';
+      print(
+          'Error in Stripe Register Response in progress : ${_stripeErrorResponse.message}');
+      ProgressDialogBuilder.hideLoader(context);
+      DialogHelper.showStripeVerificationStatusDialog(
+          context, HealingMatchConstants.stripeErrorMessage);
+    } else {
+      HealingMatchConstants.stripeErrorMessage = 'ユーザーはすでにストライプに登録しています。';
+      print(
+          'Error in Stripe Register Response failed : ${_stripeErrorResponse.message}');
+      ProgressDialogBuilder.hideLoader(context);
+      DialogHelper.showStripeVerificationStatusDialog(
+          context, HealingMatchConstants.stripeErrorMessage);
+    }
+
+    return _stripeErrorResponse;
   }
 
   //_therapistDetailsModel
@@ -1163,8 +1188,9 @@ class ServiceProviderApi {
       };
       final response = await http.post(url,
           headers: headers,
-          body:
-          json.encode({"therapistId": '9'})); //'${HealingMatchConstants.userId}'}
+          body: json.encode({
+            "therapistId": '${HealingMatchConstants.userId}'
+          })); //'${HealingMatchConstants.userId}'}
       final getTherapists = json.decode(response.body);
       _therapistDetailsModel = TherapistDetailsModel.fromJson(getTherapists);
       print('More Response body : ${response.body}');

@@ -625,6 +625,10 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
           HealingMatchConstants.confServiceCost =
               therapistDetails.bookingDataResponse[0].priceOfService;
           HealingMatchConstants.initiatePayment(context);
+
+          print(
+              'Booking details : ${HealingMatchConstants.bookingIdPay} && ${HealingMatchConstants.confServiceCost} \n'
+              '&& ${HealingMatchConstants.therapistIdPay}');
         },
         child: new Text(
           '支払いに進む',
