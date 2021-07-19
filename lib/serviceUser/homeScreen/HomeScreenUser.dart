@@ -33,6 +33,7 @@ import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapi
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 
 List<String> userBannerImages = [];
 List<String> _options = ['エステ', 'フィットネス', '整骨・整体', 'リラクゼーション'];
@@ -59,6 +60,7 @@ var accessToken, deviceToken;
 var userID;
 List<UserAddresses> constantUserAddressValuesList = new List<UserAddresses>();
 bool isRecommended = true;
+bool isActive;
 int status = 0;
 
 String result = '';
@@ -118,6 +120,7 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
   var _pageNumber = 0;
   var _pageSize = 10;
   final fireBaseMessaging = new FirebaseMessaging();
+  int _state = 0;
   String fcmToken;
 
   @override
@@ -168,6 +171,7 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
     }
     _sharedPreferences.then((value) {
       accessToken = value.getString('accessToken');
+      isActive = value.getBool('isActive');
       var fcmToken = value.getString('deviceToken');
       HealingMatchConstants.userAddressId = value.getString('addressID');
       HealingMatchConstants.serviceUserID = value.getString('userID');
@@ -179,6 +183,7 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
         print(
             'Address ID VALUE : ${HealingMatchConstants.userAddressId} && ${HealingMatchConstants.serviceUserID}');
         HealingMatchConstants.accessToken = accessToken;
+        HealingMatchConstants.isActive = isActive;
         HealingMatchConstants.userDeviceToken = fcmToken;
         initBlocCall();
         getBannerImages();
@@ -208,6 +213,8 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
       var userDetails = ServiceUserAPIProvider.getUserDetails(
           context, HealingMatchConstants.serviceUserID);
       userDetails.then((value) {
+        HealingMatchConstants.isActive = value.data.isActive;
+        print('isActiveUser:${value.data.isActive}');
         HealingMatchConstants.userProfileImage = value.data.uploadProfileImgUrl;
         HealingMatchConstants.serviceUserName = value.data.userName;
         HealingMatchConstants.userEditUserOccupation =
@@ -321,6 +328,17 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (_state == 0) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _state = 1;
+        if (HealingMatchConstants.isActive != null &&
+            HealingMatchConstants.isActive == false) {
+          DialogHelper.showUserBlockDialog(context);
+        } else {
+          return;
+        }
+      });
+    }
     return Scaffold(
       body: Center(
         child: Container(

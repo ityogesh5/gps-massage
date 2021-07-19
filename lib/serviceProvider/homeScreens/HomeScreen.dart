@@ -1574,6 +1574,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     HealingMatchConstants.userData = userData;
 
     HealingMatchConstants.userId = userData.id;
+    HealingMatchConstants.serviceProviderEmailAddress = userData.email;
 
     HealingMatchConstants.providerName =
         userData.storeName != null && userData.storeName != ''
@@ -1667,6 +1668,17 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
       setState(() {
         status = status + 1;
       });
+    });
+
+    ServiceProviderApi.getTherapistDetails(context).then((value) {
+      if (value.status == 'success') {
+        print('This User is Stripe Verified !!');
+      } else {
+        print('This User is not Stripe Verified !!');
+        return;
+      }
+    }).catchError((onError) {
+      print('Get Therapist Details Exception : $onError');
     });
     // hideLoader();
   }

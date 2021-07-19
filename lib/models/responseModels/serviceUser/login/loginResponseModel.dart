@@ -49,6 +49,7 @@ class Data {
     this.age,
     this.isTherapist,
     this.isVerified,
+    this.isActive,
     this.userOccupation,
     this.uploadProfileImgUrl,
     this.userSearchRadiusDistance,
@@ -67,6 +68,7 @@ class Data {
   int age;
   bool isTherapist;
   bool isVerified;
+  bool isActive;
   String userOccupation;
   String uploadProfileImgUrl;
   int userSearchRadiusDistance;
@@ -85,6 +87,7 @@ class Data {
         age: json["age"],
         isTherapist: json["isTherapist"],
         isVerified: json["isVerified"],
+        isActive: json["isActive"],
         userOccupation: json["userOccupation"],
         uploadProfileImgUrl: json["uploadProfileImgUrl"],
         userSearchRadiusDistance: json["userSearchRadiusDistance"],
@@ -106,6 +109,7 @@ class Data {
         "age": age,
         "isTherapist": isTherapist,
         "isVerified": isVerified,
+        "isActive": isActive,
         "userOccupation": userOccupation,
         "uploadProfileImgUrl": uploadProfileImgUrl,
         "userSearchRadiusDistance": userSearchRadiusDistance,

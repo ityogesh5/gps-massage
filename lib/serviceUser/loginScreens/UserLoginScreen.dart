@@ -474,6 +474,7 @@ class _UserLoginState extends State<UserLogin> {
           value.clear();
           value.setString('accessToken', loginResponseModel.accessToken);
           value.setString('did', loginResponseModel.data.id.toString());
+          value.setBool('isActive', loginResponseModel.data.isActive);
           value.setString(
               'profileImage', loginResponseModel.data.uploadProfileImgUrl);
           value.setString('userName', loginResponseModel.data.userName);

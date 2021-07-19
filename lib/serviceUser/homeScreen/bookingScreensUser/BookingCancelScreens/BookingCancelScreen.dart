@@ -21,6 +21,7 @@ String selectedBuildingType;
 
 class BookingCancelScreen extends StatefulWidget {
   final int bookingId;
+
   BookingCancelScreen(this.bookingId);
   @override
   State<StatefulWidget> createState() {
@@ -127,7 +128,9 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        '${HealingMatchConstants.cancellationFeeCost}',
+                        HealingMatchConstants.bookingCancelStatus == 6
+                            ? '${HealingMatchConstants.cancellationFeeCost}'
+                            : '',
                         style: TextStyle(
                             fontSize: 14,
                             color: Colors.black,

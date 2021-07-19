@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:googleapis/calendar/v3.dart';
 import 'package:googleapis_auth/auth_io.dart';
@@ -23,6 +24,7 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/Ther
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UpComingReservationModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UserBannerImagesModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/notification/firebaseNotificationUserListModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/payment/PayoutModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/DeleteSubAddressModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/EditUserSubAddressModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/ratings/ratingList.dart';
@@ -81,6 +83,8 @@ class ServiceUserAPIProvider {
   static PaymentCustomerCharge _paymentCustomerCharge =
       new PaymentCustomerCharge();
   static PaymentSuccessModel _paymentSuccessModel = new PaymentSuccessModel();
+  static StripePayOutVerifyFieldsModel _stripePayoutModel =
+      new StripePayOutVerifyFieldsModel();
   static BookingStatusModel _bookingStatusModel = new BookingStatusModel();
   static UpComingBookingModel _upComingBookingStatusModel =
       new UpComingBookingModel();
@@ -828,6 +832,7 @@ class ServiceUserAPIProvider {
   // chargePaymentForCustomer
   static Future<PaymentCustomerCharge> chargePaymentForCustomer(
       BuildContext context, var userID, var cardID, var amount) async {
+    print('paymentCardId:$cardID');
     try {
       final url = '${HealingMatchConstants.CHARGE_CUSTOMER_URL}';
       final response = await http.post(url,
@@ -862,6 +867,7 @@ class ServiceUserAPIProvider {
   // paymentSuccess
   static Future<PaymentSuccessModel> paymentSuccess(
       BuildContext context, var paymentID, var cardID) async {
+    print('paymentCardId2:$cardID');
     try {
       final url = '${HealingMatchConstants.PAYMENT_SUCCESS_CALL_URL}';
       final response = await http.post(url,
@@ -887,6 +893,42 @@ class ServiceUserAPIProvider {
       print('Exception paymentSuccess API : ${e.toString()}');
     }
     return _paymentSuccessModel;
+  }
+
+  static Future<StripePayOutVerifyFieldsModel> getStripeRegisterURL(
+      BuildContext context) async {
+    //ProgressDialogBuilder.showOverlayLoader(context);
+    try {
+      final url = '${HealingMatchConstants.STRIPE_ONBOARD_REGISTER_URL}';
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token':
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTMwNTkyODZ9.vbtFi4s8AJiysPLNvyk-y8hrGWadZh7PMpD6Ab9Q3bA'
+      };
+      final response = await http.post(url,
+          headers: headers,
+          body: json.encode({
+            "email": 'anistan@nexware-global.com',
+            "refresh_url": 'http://106.51.49.160:9094/api/user/returnpage',
+            "return_url": 'http://106.51.49.160:9094/api/user/successOnboard',
+            "userId": '${HealingMatchConstants.userId}'
+          }));
+      final getTherapists = json.decode(response.body);
+      _stripePayoutModel =
+          StripePayOutVerifyFieldsModel.fromJson(getTherapists);
+      print('More Response body : ${response.body}');
+      if (response.statusCode == 200) {
+        HealingMatchConstants.stripeRedirectURL =
+            _stripePayoutModel.message.url;
+        print('Entering.. : ${HealingMatchConstants.stripeRedirectURL}');
+        //ProgressDialogBuilder.hideLoader(context);
+      }
+    } catch (e) {
+      print('Stripe redirect URL exception : ${e.toString()}');
+      //ProgressDialogBuilder.hideLoader(context);
+    }
+
+    return _stripePayoutModel;
   }
 
   // Get calendar events

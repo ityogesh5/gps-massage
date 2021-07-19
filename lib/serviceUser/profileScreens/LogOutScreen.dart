@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/auth.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
@@ -81,6 +82,7 @@ class _LogOutServiceUserState extends State<LogOutServiceUser> {
                   ],
                   radioButtonValue: (value) {
                     if (value == 'Y') {
+                      ProgressDialogBuilder.showCommonProgressDialog(context);
                       print('User Logged out!!');
                       // Auth().signOut();
                       HealingMatchConstants.isUserVerified = false;
@@ -111,6 +113,8 @@ class _LogOutServiceUserState extends State<LogOutServiceUser> {
                                   db.updateUserOnlineInfo(
                                       firebaseUserId, isonline);
 
+                                  ProgressDialogBuilder
+                                      .hideCommonProgressDialog(context);
                                   NavigationRouter.switchToUserLogin(context);
                                 })
                               }

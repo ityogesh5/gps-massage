@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/db.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/cardToolTips/timeSpinnerToolTip.dart';
@@ -13,11 +15,26 @@ import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUse
 import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
+import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:intl/intl.dart';
+
+final flutterWebViewPlugin = FlutterWebviewPlugin();
+// ignore: prefer_collection_literals
+final Set<JavascriptChannel> jsChannels = [
+  JavascriptChannel(
+      name: 'Print',
+      onMessageReceived: (JavascriptMessage message) {
+        print('JScriptWeb Message : ${message.message}');
+      }),
+].toSet();
+
+final _scaffoldStripeKey = GlobalKey<ScaffoldState>();
 
 class ProviderReceiveBooking extends StatefulWidget {
   final BookingDetailsList bookingDetail;
+
   ProviderReceiveBooking(this.bookingDetail);
+
   @override
   _ProviderReceiveBookingState createState() => _ProviderReceiveBookingState();
 }
@@ -31,6 +48,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
   String eTime;
   bool proposeAdditionalCosts = false;
   bool suggestAnotherTime = false;
+  bool isStripeVerified = true;
   bool onCancel = false;
   ScrollController scrollController = ScrollController();
   GlobalKey startKey = new GlobalKey();
@@ -351,15 +369,8 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                                 },
                                 child: InkWell(
                                   onTap: () {
-                                    scrollController
-                                        .animateTo(
-                                            scrollController
-                                                .position.maxScrollExtent,
-                                            duration:
-                                                Duration(milliseconds: 500),
-                                            curve: Curves.ease)
-                                        .then((value) => showToolTip(startKey,
-                                            newStartTime, context, 2, true));
+                                    showToolTip(startKey, newStartTime, context,
+                                        2, true);
                                   },
                                   child: Container(
                                     height: 50.0,
@@ -396,14 +407,8 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                             Expanded(
                               child: InkWell(
                                 onTap: () {
-                                  scrollController
-                                      .animateTo(
-                                          scrollController
-                                              .position.maxScrollExtent,
-                                          duration: Duration(milliseconds: 500),
-                                          curve: Curves.ease)
-                                      .then((value) => showToolTip(endKey,
-                                          newEndTime, context, 2, false));
+                                  showToolTip(
+                                      endKey, newEndTime, context, 2, false);
                                 },
                                 child: Container(
                                   height: 50.0,
@@ -610,11 +615,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                       width: 5.0,
                     ),
                     Text(
-                      widget.bookingDetail.bookingUserId.userName.length > 10
-                          ? widget.bookingDetail.bookingUserId.userName
-                                  .substring(0, 9) +
-                              "..."
-                          : '${widget.bookingDetail.bookingUserId.userName}',
+                      '${widget.bookingDetail.bookingUserId.userName}',
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.black,
@@ -961,7 +962,6 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
               borderRadius: BorderRadius.circular(10.0),
             ),
             onPressed: () {
-              ProgressDialogBuilder.showCommonProgressDialog(context);
               validateFields();
             },
             //   minWidth: MediaQuery.of(context).size.width * 0.38,
@@ -1005,7 +1005,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
           .then((value) {
         ProgressDialogBuilder.hideCommonProgressDialog(context);
         if (value) {
-          NavigationRouter.switchToProviderCancelledHistoryScreen(context);
+          NavigationRouter.switchToServiceProviderBottomBar(context);
         }
       });
       //  }
@@ -1013,76 +1013,60 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
   }
 
   void validateFields() {
-    if (proposeAdditionalCosts) {
-      if (price == null && addedpriceReason == null) {
-        displaySnackBar("追加の費用と理由を選択してください。");
-        return null;
+    // Check stripe user validation
+    if (!HealingMatchConstants.isStripeVerified) {
+      getStripeRedirectURL();
+    } else {
+      ProgressDialogBuilder.showCommonProgressDialog(context);
+      if (proposeAdditionalCosts) {
+        if (price == null && addedpriceReason == null) {
+          displaySnackBar("追加の費用と理由を選択してください。");
+          return null;
+        }
+        if (price != null && addedpriceReason == null) {
+          displaySnackBar("費用の追加の理由をご選択ください。");
+          return null;
+        }
+        if (price == null && addedpriceReason != null) {
+          displaySnackBar("追加料金を選択してください。");
+          return null;
+        }
       }
-      if (price != null && addedpriceReason == null) {
-        displaySnackBar("費用の追加の理由をご選択ください。");
-        return null;
-      }
-      if (price == null && addedpriceReason != null) {
-        displaySnackBar("追加料金を選択してください。");
-        return null;
-      }
-    }
-    if (suggestAnotherTime) {
-      if (newStartTime != null &&
-          (providerCommentsController.text == null ||
-              providerCommentsController.text == "")) {
-        displaySnackBar("別の時間を提案した理由をご記入ください。");
-        return null;
-      }
-      if (newStartTime == null) {
-        displaySnackBar("新しい時間を選択してください。");
-        return null;
-      }
-      if (newStartTime != null && suggestAnotherTime) {
-        DateTime bookingSTime = DateTime(
-            newStartTime.year,
-            newStartTime.month,
-            startTime.day,
-            newStartTime.hour,
-            newStartTime.minute,
-            newStartTime.second);
-
-        DateTime bookingETime = newEndTime.hour < newStartTime.hour
-            ? DateTime(newEndTime.year, newEndTime.month, startTime.day + 1,
-                newEndTime.hour, newEndTime.minute, newEndTime.second)
-            : DateTime(newEndTime.year, newEndTime.month, startTime.day,
-                newEndTime.hour, newEndTime.minute, newEndTime.second);
-
-        if (bookingSTime.day != bookingETime.day &&
-            !(bookingETime.hour == 0 && bookingETime.minute == 0)) {
+      if (suggestAnotherTime) {
+        if (newStartTime != null &&
+            (providerCommentsController.text == null ||
+                providerCommentsController.text == "")) {
+          displaySnackBar("別の時間を提案した理由をご記入ください。");
+          return null;
+        }
+        if (newStartTime == null) {
+          displaySnackBar("新しい時間を選択してください。");
+          return null;
+        }
+        /* if (newStartTime != null) {
+        if ((newStartTime.day != widget.bookingDetail.startTime.day ||
+                newEndTime.day !=
+                    widget.bookingDetail.endTime
+                        .day) /*  &&
+            !(newEndTime.hour == 0 && newEndTime.minute == 0) */
+            ) {
           displaySnackBar("同じ日の有効な時間を選択してください。");
           return null;
         }
+      } */
       }
-    }
-    if (HealingMatchConstants.numberOfEmployeeRegistered < 2) {
-      DateTime bookingSTime = suggestAnotherTime
-          ? DateTime(newStartTime.year, newStartTime.month, startTime.day,
-              newStartTime.hour, newStartTime.minute, newStartTime.second)
-          : startTime;
-      DateTime bookingETime = suggestAnotherTime
-          ? newEndTime.hour == 0
-              ? DateTime(newEndTime.year, newEndTime.month, startTime.day + 1,
-                  newEndTime.hour, newEndTime.minute, newEndTime.second)
-              : DateTime(newEndTime.year, newEndTime.month, startTime.day,
-                  newEndTime.hour, newEndTime.minute, newEndTime.second)
-          : endTime;
-      ServiceProviderApi.searchEventByTime(bookingSTime, bookingETime)
-          .then((value) {
-        if (value.length == 0) {
-          acceptBooking();
-        } else {
-          displaySnackBar("この時間にもう予約が入っています。");
-          return null;
-        }
-      });
-    } else {
-      acceptBooking();
+      if (HealingMatchConstants.numberOfEmployeeRegistered < 2) {
+        ServiceProviderApi.searchEventByTime(startTime, endTime).then((value) {
+          if (value.length == 0) {
+            acceptBooking();
+          } else {
+            displaySnackBar("この時点ですでに予約されています。");
+            return null;
+          }
+        });
+      } else {
+        acceptBooking();
+      }
     }
   }
 
@@ -1095,11 +1079,13 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
           newStartTime.hour,
           newStartTime.minute,
           newStartTime.second);
-      widget.bookingDetail.newEndTime = newEndTime.hour == 0
-          ? DateTime(newEndTime.year, newEndTime.month, startTime.day + 1,
-              newEndTime.hour, newEndTime.minute, newEndTime.second)
-          : DateTime(newEndTime.year, newEndTime.month, startTime.day,
-              newEndTime.hour, newEndTime.minute, newEndTime.second);
+      widget.bookingDetail.newEndTime = DateTime(
+          newEndTime.year,
+          newEndTime.month,
+          startTime.day,
+          newEndTime.hour,
+          newEndTime.minute,
+          newEndTime.second);
       widget.bookingDetail.therapistComments = providerCommentsController.text;
     }
     if (proposeAdditionalCosts) {
@@ -1161,7 +1147,8 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
         isStart: isStart,
         textStyle: TextStyle(color: Colors.black),
         height: 110,
-        width: MediaQuery.of(context).size.width * 0.73, //180,
+        width: MediaQuery.of(context).size.width * 0.73,
+        //180,
         backgroundColor: Colors.white,
         padding: EdgeInsets.all(8.0),
         borderRadius: BorderRadius.circular(10.0));
@@ -1185,10 +1172,10 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
         db.addToPeerContacts(widget.bookingDetail.bookingUserId.firebaseUdid,
             HealingMatchConstants.fbUserId);
         ProgressDialogBuilder.hideCommonProgressDialog(context);
-        NavigationRouter.switchToProviderApprovedHistoryScreen(context);
+        NavigationRouter.switchToServiceProviderBottomBar(context);
       } else {
         ProgressDialogBuilder.hideCommonProgressDialog(context);
-        NavigationRouter.switchToProviderApprovedHistoryScreen(context);
+        NavigationRouter.switchToServiceProviderBottomBar(context);
       }
     });
   }
@@ -1221,5 +1208,18 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
       ),
     ));
     ProgressDialogBuilder.hideCommonProgressDialog(context);
+  }
+
+  getStripeRedirectURL() {
+    ServiceProviderApi.getStripeRegisterURL(context).then((value) {
+      if (value.status == 'success') {
+        print('URL Success !!');
+        DialogHelper.showStripeNotVerifiedDialog(context);
+      } else {
+        return;
+      }
+    }).catchError((onError) {
+      print('Stripe Redirect Exception : $onError');
+    });
   }
 }

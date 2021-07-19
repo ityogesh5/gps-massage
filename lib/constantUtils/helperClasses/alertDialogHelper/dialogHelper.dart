@@ -151,6 +151,7 @@ class DialogHelper {
     AwesomeDialog dialog;
     dialog = AwesomeDialog(
       dismissOnTouchOutside: false,
+      dismissOnBackKeyPress: false,
       useRootNavigator: true,
       context: context,
       headerAnimationLoop: false,
@@ -252,8 +253,7 @@ class DialogHelper {
           color: Color.fromRGBO(200, 217, 33, 1),
           text: 'OK',
           pressEvent: () {
-            dialog.dissmiss();
-            NavigationRouter.switchToServiceUserBottomBar(context);
+            return;
           }),
     )..show();
   }
@@ -1073,7 +1073,7 @@ class DialogHelper {
                   ),
                 ),
                 Container(
-                  height: 250.0,//MediaQuery.of(context).size.height * 0.38,
+                  height: 250.0, //MediaQuery.of(context).size.height * 0.38,
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
@@ -1499,6 +1499,28 @@ class DialogHelper {
           return Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => classWidget),
               (Route<dynamic> route) => false);
+        })
+      ..show();
+  }
+
+  // show StripeNotVerified dialog
+  static void showStripeNotVerifiedDialog(BuildContext context) {
+    AwesomeDialog dialog;
+    dialog = AwesomeDialog(
+        dismissOnTouchOutside: false,
+        context: context,
+        dialogType: DialogType.WARNING,
+        headerAnimationLoop: true,
+        animType: AnimType.TOPSLIDE,
+        showCloseIcon: false,
+        btnOkColor: Color.fromRGBO(200, 217, 33, 1),
+        closeIcon: Icon(Icons.close),
+        title: 'ストライプ検証が必要です！',
+        desc: 'ストライプで確認していないようです。\n予約の支払いを受け取るには、ストライプで登録してください。',
+        btnOkOnPress: () {
+          print('Ok pressed!!');
+          dialog.dissmiss();
+          NavigationRouter.switchToStripeRegisterPage(context);
         })
       ..show();
   }

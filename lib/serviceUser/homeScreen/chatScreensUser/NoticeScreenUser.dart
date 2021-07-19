@@ -5,6 +5,8 @@ import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gps_massageapp/commonScreens/chat/chatUserList.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/notificatioHistory.dart';
 
 class NotifyScreenUser extends StatefulWidget {
@@ -19,6 +21,7 @@ class _NoticeScreenUserState extends State<NotifyScreenUser>
   TabController _tabController;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool userIsOnline = true;
+  int _state = 0;
   List<dynamic> notificationUsersList = new List();
 
   @override
@@ -68,6 +71,17 @@ class _NoticeScreenUserState extends State<NotifyScreenUser>
 
   @override
   Widget build(BuildContext context) {
+    if (_state == 0) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _state = 1;
+        if (HealingMatchConstants.isActive != null &&
+            HealingMatchConstants.isActive == false) {
+          DialogHelper.showUserBlockDialog(context);
+        } else {
+          return;
+        }
+      });
+    }
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Color.fromRGBO(255, 255, 255, 1),

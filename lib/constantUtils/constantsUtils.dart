@@ -237,13 +237,21 @@ class HealingMatchConstants {
   static const String CREATE_CUSTOMER_FOR_PAYMENT_URL =
       ON_PREMISE_USER_BASE_URL + '/user/customerCreation';
 
-  // handle guest user
+  // handle paymentCharge
   static const String CHARGE_CUSTOMER_URL =
-      ON_PREMISE_USER_BASE_URL + '/user/paymentCharge';
+      ON_PREMISE_USER_BASE_URL + '/user/paymentChargeShare';
 
-  // handle guest user
+  // handle paymentConfirm
   static const String PAYMENT_SUCCESS_CALL_URL =
       ON_PREMISE_USER_BASE_URL + '/user/paymentConfirm';
+
+  // handle guest user
+  static const String STRIPE_ONBOARD_REGISTER_URL =
+      ON_PREMISE_USER_BASE_URL + '/user/paymentOutAccounts';
+
+  // get therapist details
+  static const String GET_THERAPIST_DETAILS_URL =
+      ON_PREMISE_USER_BASE_URL + '/user/therapistById';
 
   // add user address
   static const String USER_ADD_ADDRESS =
@@ -520,6 +528,8 @@ class HealingMatchConstants {
   static var userPhoneNumber = '';
   static const String forgetPasswordTxt =
       "パスワードを再設定するための認証コードを送信します。\n ご登録の電話番号を入力の上「送信」ボタンを\n クリックしてください。";
+//bookingCancelStatus
+  static var bookingCancelStatus = 0;
 
   //Change Password
   static const String changePasswordNewpass = "新しいパスワード *";
@@ -549,6 +559,7 @@ class HealingMatchConstants {
   //Provider Home
   static providerLogin.Data userData;
   static bool isProvider = false;
+  static bool isActive = true;
   static bool isProviderHomePage;
   static bool isLoggedin = false;
 
@@ -893,4 +904,10 @@ class HealingMatchConstants {
     Curves.linearToEaseOut,
     Curves.slowMiddle
   ];
+
+  // get stripe redirect url
+  static String stripeRedirectURL;
+
+  // get user stripe verified or not value
+  static bool isStripeVerified = false;
 }

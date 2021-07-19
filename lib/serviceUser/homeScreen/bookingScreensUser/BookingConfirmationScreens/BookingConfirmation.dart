@@ -69,6 +69,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    print('service Name:${HealingMatchConstants.confServiceName}');
     getProfileDetails();
     selectedBuildingType = '';
 

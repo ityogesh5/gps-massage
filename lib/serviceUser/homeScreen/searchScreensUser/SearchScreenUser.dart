@@ -45,6 +45,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   int _selectedMonthIndex = 0;
   int _yearChangedNumber = 0;
   int _monthChangedNumber = 0;
+  int _state = 0;
   int bookingAddressId;
   bool _isVisible = true;
   bool readonly = false;
@@ -101,6 +102,17 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
 
   @override
   Widget build(BuildContext context) {
+    if (_state == 0) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _state = 1;
+        if (HealingMatchConstants.isActive != null &&
+            HealingMatchConstants.isActive == false) {
+          DialogHelper.showUserBlockDialog(context);
+        } else {
+          return;
+        }
+      });
+    }
     return Scaffold(
       key: _searchKey,
       backgroundColor: Color.fromRGBO(255, 255, 255, 1),
