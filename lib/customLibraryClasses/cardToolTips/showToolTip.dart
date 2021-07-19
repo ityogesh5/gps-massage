@@ -99,7 +99,7 @@ class ShowToolTip {
     if (dy <= MediaQuery.of(context).padding.top + 10) {
       // not enough space above, show popup under the widget.
       dy = arrowHeight + _showRect.height + _showRect.top;
-      _isDownArrow = true;
+      _isDownArrow = false;
     } else {
       dy -= arrowHeight;
       _isDownArrow = true;

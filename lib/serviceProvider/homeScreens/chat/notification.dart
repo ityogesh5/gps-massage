@@ -430,7 +430,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     )
-                                  : Row(
+                                  : Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           '$name さん',
@@ -441,7 +445,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                           ),
                                         ),
                                         SizedBox(
-                                          width: 6.0,
+                                          height: 8,
                                         ),
                                         requestBookingDetailsList
                                                     .bookingStatus ==

@@ -1733,6 +1733,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
         print("serviceName:${serviceSelection[allTherapistList[index].name]}");
 
         selectedTime = null;
+        HealingMatchConstants.selectedDateTime = null;
         endTime = null;
       } else {
         visibility[index] = false;

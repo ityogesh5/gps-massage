@@ -20,6 +20,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:gps_massageapp/customLibraryClasses/customTextField/text_field_custom.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
 
 import 'package:toast/toast.dart';
 
@@ -2324,7 +2325,6 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       ProgressDialogBuilder.hideCommonProgressDialog(context);
       NavigationRouter.switchToServiceProviderSecondScreen(context);
     } catch (e) {
-      ProgressDialogBuilder.hideCommonProgressDialog(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('アドレスを確認して、もう一度お試しください。',
@@ -2336,6 +2336,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
             label: 'はい',
             textColor: Colors.white),
       ));
+
+      ProgressDialogBuilder.hideCommonProgressDialog(context);
       return;
     }
   }

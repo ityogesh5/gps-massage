@@ -20,6 +20,7 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/Get
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 
 enum MessageType {
   Text,
@@ -560,6 +561,7 @@ class HealingMatchConstants {
   static bool isProvider = false;
   static bool isActive = true;
   static bool isProviderHomePage;
+  static bool isLoggedin = false;
 
   static String accessToken;
   static String providerName;
@@ -835,6 +837,7 @@ class HealingMatchConstants {
         if (paymentResponse.status == PaymentResponseStatus.succeeded) {
           _paymentMethodId = paymentResponse.paymentMethodId;
           debugPrint('Payment Response : ${paymentResponse.paymentMethodId}');
+          ProgressDialogBuilder.showOverlayLoader(context);
           Future.delayed(Duration(seconds: 2), () {
             createCustomer(_paymentMethodId, context);
           });
@@ -855,6 +858,7 @@ class HealingMatchConstants {
   }
 
   static void createCustomer(var paymentID, BuildContext context) async {
+    ProgressDialogBuilder.hideLoader(context);
     NavigationRouter.switchToPaymentProcessingScreen(context, paymentID);
   }
 
@@ -906,4 +910,6 @@ class HealingMatchConstants {
 
   // get user stripe verified or not value
   static bool isStripeVerified = false;
+
+  static var stripeErrorMessage;
 }

@@ -24,7 +24,7 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/Ther
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UpComingReservationModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UserBannerImagesModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/notification/firebaseNotificationUserListModel.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/payment/PayoutModel.dart';
+import 'package:gps_massageapp/models/responseModels/paymentModels/PayoutModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/DeleteSubAddressModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/EditUserSubAddressModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/ratings/ratingList.dart';
@@ -450,6 +450,7 @@ class ServiceUserAPIProvider {
       //handle socket Exception
       print('Socket Exception...Occurred');
       ProgressDialogBuilder.hideLoader(context);
+      NavigationRouter.switchToNetworkHandler(context);
     } catch (e) {
       print('Therapist Details Exception caught : ${e.toString()}');
       ProgressDialogBuilder.hideLoader(context);

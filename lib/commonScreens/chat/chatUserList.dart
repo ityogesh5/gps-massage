@@ -39,7 +39,6 @@ class _ChatUserListState extends State<ChatUserList>
   int totalContactLength = 0;
   int initialLoadedPage = 0;
   bool isLoading = false;
-  bool isMounted = false;
 
   @override
   void initState() {
@@ -91,54 +90,61 @@ class _ChatUserListState extends State<ChatUserList>
 
   void fetchChatDetails(List<UserDetail> value) {
     contactList.addAll(value);
-    // final chats = Provider.of<Chat>(context).chats;
+    //final chats = Provider.of<Chat>(context).chats;
 
     Chat().fetchChats(value).then((value) {
       chatData.addAll(value);
       for (int i = 0; i < chatData.length; i++) {
-        userName = chatData[i].peer.username;
-        userEmail = chatData[i].peer.email;
-        userChat = contactList[i];
+        try {
+          userName = chatData[i].peer.username;
+          userEmail = chatData[i].peer.email;
+          userChat = contactList[i];
+        } catch (e) {
+          print("exception in chatData");
+        }
       }
       setState(() {
         status = 1;
       });
     });
-   // chatData.sort((a,b)=>a.messages.)
+    // chatData.sort((a,b)=>a.messages.)
   }
 
-  void loadMoreChats() {
+  void loadMoreChats() async {
     try {
       if (!isLoading) {
         setState(() {
           isLoading = true;
-          if (totalContactLength != initialLoadedPage && !isMounted) {
-            isMounted = true;
+          if (totalContactLength != initialLoadedPage) {
             if (totalContactLength >= initialLoadedPage + 10) {
               db
                   .getUserDetilsOfContacts(userDetail.contacts
                       .sublist(initialLoadedPage, initialLoadedPage + 10))
                   .then((value) {
-                if (this.mounted) {
-                  initialLoadedPage = initialLoadedPage + 10;
-                  fetchChatDetails(value);
-                }
+                setState(() {
+                  isLoading = false;
+
+                  if (this.mounted) {
+                    initialLoadedPage = initialLoadedPage + 10;
+                    fetchChatDetails(value);
+                  }
+                });
               });
             } else {
               db
                   .getUserDetilsOfContacts(
                       userDetail.contacts.sublist(initialLoadedPage))
                   .then((value) {
-                if (this.mounted) {
-                  initialLoadedPage = totalContactLength;
-                  fetchChatDetails(value);
-                }
+                setState(() {
+                  isLoading = false;
+
+                  if (this.mounted) {
+                    initialLoadedPage = totalContactLength;
+                    fetchChatDetails(value);
+                  }
+                });
               });
             }
-            setState(() {
-              isLoading = false;
-              isMounted = false;
-            });
           }
         });
       }
@@ -252,6 +258,10 @@ class _ChatUserListState extends State<ChatUserList>
                                     delegate: CustomSearchPage<ChatData>(
                                       onQueryUpdate: (s) => print(s),
                                       items: chatData,
+                                      barTheme: ThemeData(
+                                          primaryColor:
+                                              ColorConstants.buttonColor,
+                                          buttonColor: Colors.white),
                                       searchLabel: 'チャットユーザーを検索',
                                       suggestion: Center(
                                         child: Text('ユーザー名で検索します。'),
@@ -268,7 +278,9 @@ class _ChatUserListState extends State<ChatUserList>
                                               Navigator.of(context).push(
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                      ChatItemScreen(chatData),
+                                                      ChatItemScreen(chatData,
+                                                          bringChatToTop:
+                                                              updateFromChatItemScreen),
                                                 ),
                                               );
                                             },
@@ -338,7 +350,7 @@ class _ChatUserListState extends State<ChatUserList>
                               shrinkWrap: true,
                               scrollDirection: Axis.vertical,
                               physics: NeverScrollableScrollPhysics(),
-                              itemCount: contactList.length,
+                              itemCount: chatData.length,
                               itemBuilder: (context, index) {
                                 //  isOnline = contactList[index].isOnline;
                                 HealingMatchConstants.isUserOnline = isOnline;
@@ -401,7 +413,8 @@ class _ChatUserListState extends State<ChatUserList>
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => ChatItemScreen(chatData[index])));
+                builder: (context) => ChatItemScreen(chatData[index],
+                    bringChatToTop: updateFromChatItemScreen)));
       },
       child: Card(
         elevation: 0.0,
@@ -672,13 +685,13 @@ class _ChatUserListState extends State<ChatUserList>
         //   Utils.playSound('mp3/notificationIphone.mp3');
         // else Utils.playSound('mp3/notificationAndroid.mp3');
 
-        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          /*  Provider.of<Chat>(context, listen: false)
-              .bringChatToTop(chatData.groupId); */
-          bringChatToTop(chatData.groupId);
-          setState(() {});
-        });
       }
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        /*   Provider.of<Chat>(context, listen: false)
+              .bringChatToTop(chatData.groupId); */
+        bringChatToTop(chatData.groupId);
+        setState(() {});
+      });
     } else if (!chatData.messageId.contains(newMsg.fromId + newMsg.timeStamp) &&
         newMsg.fromId != HealingMatchConstants.fbUserId) {
       //  chatData.addMessage(newMsg);
@@ -688,15 +701,23 @@ class _ChatUserListState extends State<ChatUserList>
       if (newMsg.fromId != chatData.userId) {
         chatData.unreadCount++;
         bringChatToTop(chatData.groupId);
-
-        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          /*  Provider.of<Chat>(context, listen: false)
-              .bringChatToTop(chatData.groupId); */
-          bringChatToTop(chatData.groupId);
-          setState(() {});
-        });
       }
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        /*  Provider.of<Chat>(context, listen: false)
+              .bringChatToTop(chatData.groupId); */
+        bringChatToTop(chatData.groupId);
+        setState(() {});
+      });
     }
+  }
+
+  updateFromChatItemScreen(String groupId) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      /*  Provider.of<Chat>(context, listen: false)
+              .bringChatToTop(chatData.groupId); */
+      bringChatToTop(groupId);
+      setState(() {});
+    });
   }
 
   // updates the order of chats when a new message is recieved
@@ -708,7 +729,7 @@ class _ChatUserListState extends State<ChatUserList>
           .firstWhere((element) => element != HealingMatchConstants.fbUserId);
 
       var cIndex = contactList.indexWhere((element) => element.id == peerId);
-      userDetail = contactList[cIndex];
+      var userDetail = contactList[cIndex];
       contactList.removeAt(cIndex);
       contactList.insert(0, userDetail);
 

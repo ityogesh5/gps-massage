@@ -543,6 +543,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.5.2"
+  flutter_native_image:
+    dependency: "direct main"
+    description:
+      name: flutter_native_image
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.5+3"
   flutter_overlay_loader:
     dependency: "direct main"
     description:
@@ -1276,6 +1283,13 @@ packages:
     dependency: "direct main"
     description:
       name: toast
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.5"
+  translator:
+    dependency: "direct main"
+    description:
+      name: translator
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.5"

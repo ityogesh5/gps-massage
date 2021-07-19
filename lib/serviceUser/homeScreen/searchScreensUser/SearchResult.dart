@@ -472,8 +472,12 @@ class _SearchResultState extends State<SearchResult> {
             widget.getTherapistsSearchResults[index].id;
         HealingMatchConstants.serviceDistanceRadius = distance;
         print("Distance:${HealingMatchConstants.serviceDistanceRadius}");
-        NavigationRouter.switchToUserSearchDetailPageOne(
-            context, HealingMatchConstants.therapistId);
+        HealingMatchConstants.searchType == 1
+            ? NavigationRouter
+                .switchToServiceUserBookingDetailsCompletedScreenOne(
+                    context, HealingMatchConstants.therapistId)
+            : NavigationRouter.switchToUserSearchDetailPageOne(
+                context, HealingMatchConstants.therapistId);
       },
       child: Container(
         // height: MediaQuery.of(context).size.height * 0.22,
@@ -1548,8 +1552,12 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
             widget.getTherapistsSearchResults[index].id;
         HealingMatchConstants.serviceDistanceRadius = distance;
         print("Distance:${HealingMatchConstants.serviceDistanceRadius}");
-        NavigationRouter.switchToUserSearchDetailPageOne(
-            context, HealingMatchConstants.therapistId);
+        HealingMatchConstants.searchType == 1
+            ? NavigationRouter
+                .switchToServiceUserBookingDetailsCompletedScreenOne(
+                    context, HealingMatchConstants.therapistId)
+            : NavigationRouter.switchToUserSearchDetailPageOne(
+                context, HealingMatchConstants.therapistId);
       },
       child: Container(
         // height: MediaQuery.of(context).size.height * 0.22,
@@ -2370,7 +2378,7 @@ class _SearchResultChipsState extends State<SearchResultChips> {
   Widget build(BuildContext context) {
     return Container(
       child: Padding(
-          padding: const EdgeInsets.all(6.0),
+          padding: const EdgeInsets.all(0.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[

@@ -73,7 +73,7 @@ class DB {
     }
   }
 
-  Future<QuerySnapshot> getChatItem(String groupId, [int limit = 20]) async {
+  Future<QuerySnapshot> getChatItem(String groupId, [int limit = 10]) async {
     try {
       QuerySnapshot querySnapShot = await _messagesCollection
           .doc(groupId)
@@ -264,6 +264,28 @@ class DB {
 
         var ucindex =
             userDetail.contacts.indexWhere((element) => element == peerId);
+        var ctemp = userDetail.contacts[ucindex];
+        userDetail.contacts.removeAt(ucindex);
+        userDetail.contacts.insert(0, ctemp);
+        transaction.update(postRef, {'contacts': userDetail.contacts});
+      });
+    } catch (error) {
+      print(
+          '****************** DB updateUserInfo error **********************');
+      print(error);
+      throw error;
+    }
+  }
+
+  void updatePeerInfoViaTransactions(String userId, String peerId) async {
+    try {
+      await FirebaseFirestore.instance.runTransaction((transaction) async {
+        DocumentReference postRef = _usersCollection.doc(peerId);
+        DocumentSnapshot snapshot = await transaction.get(postRef);
+        UserDetail userDetail = UserDetail.fromJson(snapshot.data());
+
+        var ucindex =
+            userDetail.contacts.indexWhere((element) => element == userId);
         var ctemp = userDetail.contacts[ucindex];
         userDetail.contacts.removeAt(ucindex);
         userDetail.contacts.insert(0, ctemp);

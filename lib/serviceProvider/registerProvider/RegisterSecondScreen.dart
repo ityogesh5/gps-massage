@@ -6,6 +6,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/auth.dart';
@@ -1160,13 +1161,56 @@ class _RegistrationSecondPageState
       }
     }
     print("Success");
-    registerProvider();
+    compressImages();
+    //  registerProvider();
+  }
+
+  compressImages() async {
+    ProgressDialogBuilder.showProviderRegisterProgressDialog(context);
+
+    File profileImageUrl = await FlutterNativeImage.compressImage(
+        HealingMatchConstants.profileImage.path,
+        quality: 50);
+
+    File idProofImageUrl = await FlutterNativeImage.compressImage(
+        _idProfileImage.path,
+        quality: 50);
+
+    List<File> bannerImages = List<File>();
+    List<File> privateQualificationImages = List<File>();
+    Map<String, String> compressedCertificateImages = Map<String, String>();
+
+    // Banner Images
+    for (var file in files) {
+      File banner =
+          await FlutterNativeImage.compressImage(file.path, quality: 50);
+      bannerImages.add(banner);
+    }
+
+    certificateImages.forEach((key, value) async {
+      File certificateUrl = await FlutterNativeImage.compressImage(
+          certificateImages[key],
+          quality: 50);
+      compressedCertificateImages[key] = certificateUrl.path;
+    });
+
+    for (var certificate in privateQualification) {
+      File certificateUrl =
+          await FlutterNativeImage.compressImage(certificate, quality: 50);
+      privateQualificationImages.add(certificateUrl);
+    }
+    registerProvider(profileImageUrl, idProofImageUrl, bannerImages,
+        compressedCertificateImages, privateQualificationImages);
   }
 
   //Registration Api
-  registerProvider() async {
+  registerProvider(
+      File compressedProfileImageUrl,
+      File compressedIdProofImageUrl,
+      List<File> compressedBannerImages,
+      Map<String, String> compressedCertificateImages,
+      List<File> compressedPrivateQualificationImages) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    ProgressDialogBuilder.showProviderRegisterProgressDialog(context);
     String qualification = '';
     int i = 0;
     if (this.qualification == "無資格") {
@@ -1226,7 +1270,7 @@ class _RegistrationSecondPageState
     }
 
     List<MultipartFile> multipartList = new List<MultipartFile>();
-    certificateImages.forEach((key, value) async {
+    compressedCertificateImages.forEach((key, value) async {
       multipartList.add(await http.MultipartFile.fromPath(key, value));
     });
 
@@ -1328,24 +1372,25 @@ class _RegistrationSecondPageState
 
     //Upload Proof of ID
     request.files.add(await http.MultipartFile.fromPath(
-        'proofOfIdentityImgUrl', _idProfileImage.path));
+        'proofOfIdentityImgUrl', compressedIdProofImageUrl.path));
 
     //Upload Profile Image if not null
     if (HealingMatchConstants.profileImage != null) {
       request.files.add(await http.MultipartFile.fromPath(
-          'uploadProfileImgUrl', HealingMatchConstants.profileImage.path));
+          'uploadProfileImgUrl', compressedProfileImageUrl.path));
     }
 
     //Upload Certificate Files
     request.files.addAll(multipartList);
 
     //Upload Private Qualification Images
-    for (var certificate in privateQualification) {
-      request.files.add(await http.MultipartFile.fromPath('民間資格', certificate));
+    for (var certificate in compressedPrivateQualificationImages) {
+      request.files
+          .add(await http.MultipartFile.fromPath('民間資格', certificate.path));
     }
 
     //Upload Banner Images
-    for (var file in files) {
+    for (var file in compressedBannerImages) {
       request.files
           .add(await http.MultipartFile.fromPath('bannerImage', file.path));
     }
@@ -1422,14 +1467,14 @@ class _RegistrationSecondPageState
                 children: <Widget>[
                   new ListTile(
                       leading: new Icon(Icons.photo_library),
-                      title: new Text('プロフィール画像を選択してください。'),
+                      title: new Text('既存の写真から選択する'),
                       onTap: () {
                         _imgFromGallery(index);
                         Navigator.of(context).pop();
                       }),
                   new ListTile(
                     leading: new Icon(Icons.photo_camera),
-                    title: new Text('プロフィール写真を撮ってください。'),
+                    title: new Text('カメラで撮影する'),
                     onTap: () {
                       _imgFromCamera(index);
                       Navigator.of(context).pop();
@@ -1879,14 +1924,14 @@ class _BannerImageUploadState extends State<BannerImageUpload> {
                 children: <Widget>[
                   new ListTile(
                       leading: new Icon(Icons.photo_library),
-                      title: new Text('プロフィール画像を選択してください。'),
+                      title: new Text('既存の写真から選択する'),
                       onTap: () {
                         loadAssets();
                         Navigator.of(context).pop();
                       }),
                   new ListTile(
                     leading: new Icon(Icons.photo_camera),
-                    title: new Text('プロフィール写真を撮ってください。'),
+                    title: new Text('カメラで撮影する'),
                     onTap: () {
                       _imgFromCamera();
                       Navigator.of(context).pop();

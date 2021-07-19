@@ -15,7 +15,6 @@ import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUse
 import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
-import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:intl/intl.dart';
 
 final flutterWebViewPlugin = FlutterWebviewPlugin();
@@ -28,7 +27,7 @@ final Set<JavascriptChannel> jsChannels = [
       }),
 ].toSet();
 
-final _scaffoldStripeKey = GlobalKey<ScaffoldState>();
+GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
 class ProviderReceiveBooking extends StatefulWidget {
   final BookingDetailsList bookingDetail;
@@ -53,7 +52,6 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
   ScrollController scrollController = ScrollController();
   GlobalKey startKey = new GlobalKey();
   GlobalKey endKey = new GlobalKey();
-  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   DateTime newStartTime;
   DateTime newEndTime;
   DateTime startTime;
@@ -192,7 +190,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                         Row(
                           children: [
                             Expanded(
-                              flex: 3,
+                              flex: 4,
                               child: Container(
                                 width: MediaQuery.of(context).size.width * 0.2,
                                 color: Colors.white,
@@ -236,6 +234,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                               width: 10.0,
                             ),
                             Expanded(
+                              flex: 2,
                               child: Container(
                                 width: MediaQuery.of(context).size.width * 0.2,
                                 color: Colors.white,
@@ -616,7 +615,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                     Text(
                       '${widget.bookingDetail.bookingUserId.userName}',
                       style: TextStyle(
-                        fontSize: 16.0,
+                        fontSize: 14.0,
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                       ),
@@ -624,7 +623,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                     Text(
                       '(${widget.bookingDetail.bookingUserId.gender})',
                       style: TextStyle(
-                        fontSize: 12.0,
+                        fontSize: 10.0,
                         color: Color.fromRGBO(181, 181, 181, 1),
                       ),
                     ),
@@ -722,7 +721,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                       ),
                       SizedBox(width: 5.0),
                       Text(
-                        '${widget.bookingDetail.noOfReviewsMembers}',
+                        '${widget.bookingDetail.noOfReviewsMembers}  レビュー',
                         style: TextStyle(
                             decoration: TextDecoration.underline,
                             decorationColor: Colors.black,
@@ -988,6 +987,10 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
       displaySnackBar("キャンセルする理由を入力してください。");
       return null;
     }
+    if (cancellationReasonController.text.length > 125) {
+      displaySnackBar("キャンセルの理由を25文字以内で入力してください。");
+      return null;
+    }
     cancelBooking(context);
   }
 
@@ -1009,9 +1012,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
 
   void validateFields() {
     // Check stripe user validation
-    if (!HealingMatchConstants.isStripeVerified) {
-      getStripeRedirectURL();
-    } else {
+    if (HealingMatchConstants.isStripeVerified) {
       ProgressDialogBuilder.showCommonProgressDialog(context);
       if (proposeAdditionalCosts) {
         if (price == null && addedpriceReason == null) {
@@ -1062,6 +1063,8 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
       } else {
         acceptBooking();
       }
+    } else {
+      getStripeRedirectURL();
     }
   }
 
@@ -1207,14 +1210,18 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
 
   getStripeRedirectURL() {
     ServiceProviderApi.getStripeRegisterURL(context).then((value) {
-      if (value.status == 'success') {
+      if (value != null && value.status == 'success') {
         print('URL Success !!');
         DialogHelper.showStripeNotVerifiedDialog(context);
+      } else if (value != null && value.status == 'error') {
+        print('URL Failed !!');
       } else {
+        print('Unknown Error Occured..Please Try again :${value.status}');
         return;
       }
     }).catchError((onError) {
       print('Stripe Redirect Exception : $onError');
+      return;
     });
   }
 }

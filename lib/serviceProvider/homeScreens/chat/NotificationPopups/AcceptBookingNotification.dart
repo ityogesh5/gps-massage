@@ -201,7 +201,7 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
                         Row(
                           children: [
                             Expanded(
-                              flex: 3,
+                              flex: 4,
                               child: Container(
                                 width: MediaQuery.of(context).size.width * 0.2,
                                 color: Colors.white,
@@ -245,6 +245,7 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
                               width: 10.0,
                             ),
                             Expanded(
+                              flex: 2,
                               child: Container(
                                 width: MediaQuery.of(context).size.width * 0.2,
                                 color: Colors.white,
@@ -636,7 +637,7 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
                     Text(
                       '${widget.requestBookingDetailsList.bookingDetail.bookingUserId.userName}',
                       style: TextStyle(
-                        fontSize: 16.0,
+                        fontSize: 14.0,
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                       ),
@@ -644,7 +645,7 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
                     Text(
                       '(${widget.requestBookingDetailsList.bookingDetail.bookingUserId.gender})',
                       style: TextStyle(
-                        fontSize: 12.0,
+                        fontSize: 10.0,
                         color: Color.fromRGBO(181, 181, 181, 1),
                       ),
                     ),
@@ -752,7 +753,7 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
                       ),
                       SizedBox(width: 5.0),
                       Text(
-                        '${widget.requestBookingDetailsList.noOfReviewsMembers}',
+                        '${widget.requestBookingDetailsList.noOfReviewsMembers}  レビュー',
                         style: TextStyle(
                             decoration: TextDecoration.underline,
                             decorationColor: Colors.black,
@@ -1033,6 +1034,10 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
       displaySnackBar("キャンセルする理由を入力してください。");
       return null;
     }
+    if (cancellationReasonController.text.length > 125) {
+      displaySnackBar("キャンセルの理由を25文字以内で入力してください。");
+      return null;
+    }
     cancelBooking(context);
   }
 
@@ -1055,9 +1060,7 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
 
   void validateFields() {
     // Check stripe user validation
-    if (!HealingMatchConstants.isStripeVerified) {
-      getStripeRedirectURL();
-    } else {
+    if (HealingMatchConstants.isStripeVerified) {
       ProgressDialogBuilder.showCommonProgressDialog(context);
       if (proposeAdditionalCosts) {
         if (price == null && addedpriceReason == null) {
@@ -1106,6 +1109,8 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
       } else {
         acceptBooking();
       }
+    } else {
+      getStripeRedirectURL();
     }
   }
 
@@ -1266,14 +1271,18 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
 
   getStripeRedirectURL() {
     ServiceProviderApi.getStripeRegisterURL(context).then((value) {
-      if (value.status == 'success') {
+      if (value != null && value.status == 'success') {
         print('URL Success !!');
         DialogHelper.showStripeNotVerifiedDialog(context);
+      } else if (value != null && value.status == 'error') {
+        print('URL Failed !!');
       } else {
+        print('Unknown Error Occured..Please Try again :${value.status}');
         return;
       }
     }).catchError((onError) {
       print('Stripe Redirect Exception : $onError');
+      return;
     });
   }
 }

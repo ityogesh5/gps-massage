@@ -126,9 +126,13 @@ class _SplashScreenPageState extends State<SplashScreen>
         print('Is Guest User : $isGuestUser !!');
       } else if (userLoggedIn != null && userLoggedIn) {
         print('Entering 1 loop !!');
+        HealingMatchConstants.isLoggedin =
+            true; // added for scoket exception ref.
         NavigationRouter.switchToServiceUserBottomBar(context);
       } else if (providerLoggedIn != null && providerLoggedIn) {
         print('Entering 2 loop !!');
+        HealingMatchConstants.isLoggedin =
+            true; // added for scoket exception ref.
         NavigationRouter.switchToServiceProviderBottomBar(context);
       } else if (userVerified != null && !userVerified) {
         NavigationRouter.switchToUserOtpScreen(context);
@@ -137,6 +141,8 @@ class _SplashScreenPageState extends State<SplashScreen>
       } else {
         if (userRegistered != null && userRegistered) {
           print('Entering 3 loop !!');
+          HealingMatchConstants.isLoggedin =
+              true; // added for scoket exception ref.
           NavigationRouter.switchToServiceUserBottomBar(context);
         } else if (userLoggedOut != null && userLoggedOut) {
           NavigationRouter.switchToUserLogin(context);
@@ -144,6 +150,8 @@ class _SplashScreenPageState extends State<SplashScreen>
           NavigationRouter.switchToProviderLogin(context);
         } else if (providerRegistered != null && providerRegistered) {
           print('Entering 4 loop !!');
+          HealingMatchConstants.isLoggedin =
+              true; // added for scoket exception ref.
           NavigationRouter.switchToServiceProviderBottomBar(context);
         } else if (userLoggedIn == null ||
             !userLoggedIn && providerLoggedIn == null ||

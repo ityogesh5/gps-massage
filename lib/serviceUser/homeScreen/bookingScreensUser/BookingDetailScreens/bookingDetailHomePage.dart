@@ -24,6 +24,7 @@ import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/Booking
 import 'package:intl/intl.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:toast/toast.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class BookingDetailHomePage extends StatefulWidget {
   final int id;
@@ -733,6 +734,10 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
           HealingMatchConstants.confServiceCost =
               therapistDetails.bookingDataResponse[0].priceOfService;
           HealingMatchConstants.initiatePayment(context);
+
+          print(
+              'Booking details : ${HealingMatchConstants.bookingIdPay} && ${HealingMatchConstants.confServiceCost} \n'
+              '&& ${HealingMatchConstants.therapistIdPay}');
         },
         child: new Text(
           '支払いに進む',
@@ -2898,6 +2903,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
               "serviceName:${serviceSelection[allTherapistList[index].name]}");
 
           selectedTime = null;
+          HealingMatchConstants.selectedDateTime = null;
           endTime = null;
         } else {
           visibility[index] = false;
