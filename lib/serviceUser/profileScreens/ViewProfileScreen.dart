@@ -621,6 +621,7 @@ class _ViewUserProfileState extends State<ViewUserProfile>
       userListApiProvider.then((value) {
         print('userProfileImage: ${value.data.uploadProfileImgUrl}');
         setState(() {
+          HealingMatchConstants.isActive = value.data.isActive;
           HealingMatchConstants.userProfileImage =
               value.data.uploadProfileImgUrl;
           HealingMatchConstants.serviceUserById = value.data.id.toString();

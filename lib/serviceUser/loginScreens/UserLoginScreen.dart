@@ -521,6 +521,7 @@ class _UserLoginState extends State<UserLogin> {
             print(
                 'Address place : ${userAddressData.userPlaceForMassage} : ${userAddressData.otherAddressType}');
           }
+          HealingMatchConstants.isActive = loginResponseModel.data.isActive;
 
           print('ID: ${loginResponseModel.data.id}');
           print(loginResponseModel.data.userName);

@@ -510,6 +510,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
         print('Login response : ${loginResponseModel.toJson()}');
         print('Login token : ${loginResponseModel.accessToken}');
         print('Is Provider verified : ${loginResponseModel.data.isVerified}');
+        HealingMatchConstants.isActive = loginResponseModel.data.isActive;
         if (loginResponseModel.data.isVerified) {
           instances.setBool('isProviderLoggedIn', true);
           instances.setBool('isUserLoggedIn', false);
