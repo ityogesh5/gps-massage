@@ -226,7 +226,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                               roundLoadingShape: true,
                               height: 65,
                               width: 65,
-                              borderRadius: 5.0,
+                              borderRadius: 30.0,
                               elevation: 0.0,
                               color: Colors.transparent,
                               child: CircleAvatar(
@@ -246,6 +246,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: Color.fromRGBO(200, 217, 33, 1),
+
                                   // borderRadius: BorderRadius.circular(25.0),
                                 ),
                                 padding: EdgeInsets.all(10),
@@ -261,33 +262,13 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                   setState(() {
                                     isGPSLoading = true;
                                     gpsColor = 1;
+                                    addressTypeValues = 0;
+                                    userAddress = "";
                                   });
                                   _getCurrentLocation(context);
                                 }
                               },
                             ),
-                            /*  GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  gpsColor = 1;
-                                });
-                                _showLoadingIndicator(context, "現在地の取得");
-                                _getCurrentLocation(context);
-                              },
-                              child: CircleAvatar(
-                                maxRadius: 32,
-                                backgroundColor: gpsColor == 0
-                                    ? Colors.grey[200]
-                                    : Color.fromRGBO(200, 217, 33, 1),
-                                child: SvgPicture.asset(
-                                    'assets/images_gps/current_location.svg',
-                                    color: gpsColor == 0
-                                        ? Colors.black
-                                        : Color.fromRGBO(255, 255, 255, 1),
-                                    height: 30,
-                                    width: 30),
-                              ),
-                            ), */
                             SizedBox(
                               height: 8,
                             ),
@@ -963,6 +944,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           InkWell(
+            customBorder: CircleBorder(),
             onTap: () {
               saveSelectedAddress(addressType, index);
             },
@@ -1583,12 +1565,11 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
           displaySnackBar("有効なさがすすエリアを選択してください。");
           return;
         }
+        if (_value == 0) {
+          displaySnackBar("有効なマッサージサービスの種類を選択してください。");
+          return;
+        }
       }
-      /* else if (_value == 0) {
-        displaySnackBar("有効なマッサージサービスの種類を選択してください。");
-
-        return;
-      } */
       getAddressType();
     } catch (e) {
       print('Exception in search criteria : ${e.toString()}');
