@@ -25,6 +25,7 @@ import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 
 import 'ChooseServiceScreen.dart';
 //import 'package:dio/dio.dart';
@@ -953,7 +954,8 @@ class _RegistrationSecondPageState
                       color: ColorConstants.buttonColor,
                       onPressed: () {
                         /* DialogHelper.showProviderRegisterSuccessDialog(context); */
-                        _providerRegistrationDetails();
+                        validateServicePriceDialog();
+                        //_providerRegistrationDetails();
                         //  registerProvider();
                       },
                       shape: RoundedRectangleBorder(
@@ -988,6 +990,109 @@ class _RegistrationSecondPageState
           ),
         ),
       ),
+    );
+  }
+
+  validateServicePriceDialog() {
+    if (HealingMatchConstants.estheticServicePriceModel.isEmpty &&
+        HealingMatchConstants.relaxationServicePriceModel.isEmpty &&
+        HealingMatchConstants.treatmentServicePriceModel.isEmpty &&
+        HealingMatchConstants.fitnessServicePriceModel.isEmpty) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return Dialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0)), //this right here
+              child: buildDialogContent(context),
+            );
+          });
+    } else {
+      _providerRegistrationDetails();
+    }
+  }
+
+  buildDialogContent(BuildContext context) {
+    return Container(
+      width: 350.0, // MediaQuery.of(context).size.width,
+      //margin: const EdgeInsets.all(15.0),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              "サービス料金の設定まで入力完了\nしていない場合は利用者の検索結果に\n表示されません。 \n(利用者への情報展開はされません)",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 14.0),
+            ),
+            SizedBox(
+              height: 8.0,
+            ),
+            buildButton(context)
+          ],
+        ),
+      ),
+    );
+  }
+
+  buildButton(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Expanded(
+          child: MaterialButton(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+              _providerRegistrationDetails();
+            },
+            color: Color.fromRGBO(217, 217, 217, 1),
+            padding: EdgeInsets.symmetric(
+              vertical: 10.0,
+            ),
+            child: Text(
+              '登録完了',
+              style: TextStyle(
+                  fontSize: 14.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+        SizedBox(
+          width: 15.0,
+        ),
+        Expanded(
+          child: MaterialButton(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          ChooseServiceScreen()));
+            },
+            color: Color.fromRGBO(200, 217, 33, 1),
+            padding: EdgeInsets.symmetric(
+              vertical: 10.0,
+            ),
+            child: Text(
+              '料金を設定する',
+              style: TextStyle(
+                  fontSize: 14.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -1845,9 +1950,17 @@ class _BannerImageUploadState extends State<BannerImageUpload> {
                 ),
                 FlatButton(
                   onPressed: () {
-                    HealingMatchConstants.bannerImages.clear();
-                    HealingMatchConstants.bannerImages.addAll(images);
-                    getFilePath();
+                    if (images.length > 0) {
+                      HealingMatchConstants.bannerImages.clear();
+                      HealingMatchConstants.bannerImages.addAll(images);
+                      getFilePath();
+                    } else {
+                      Toast.show("掲載写真を選択してください。", context,
+                          duration: 4,
+                          gravity: Toast.BOTTOM,
+                          backgroundColor: Colors.redAccent,
+                          textColor: Colors.white);
+                    }
                   },
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
