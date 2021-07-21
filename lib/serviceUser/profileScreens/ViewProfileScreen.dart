@@ -500,19 +500,19 @@ class _ViewUserProfileState extends State<ViewUserProfile>
                                                         .searchDistanceRadius !=
                                                     null
                                                 ? Text(
-                                                    'セラピスト検索範囲${HealingMatchConstants.searchDistanceRadius}Km距離。',
+                                                    'セラピスト＆店舗検索範囲：${HealingMatchConstants.searchDistanceRadius}ｋｍ圏内。',
                                                     style: TextStyle(
                                                         fontFamily:
                                                             'NotoSansJP',
-                                                        fontSize: 14.0,
+                                                        fontSize: 12.0,
                                                         color: Colors.black,
                                                         fontWeight:
                                                             FontWeight.w500))
-                                                : Text('セラピスト検索範囲10Km距離。',
+                                                : Text('セラピスト＆店舗検索範囲：10ｋｍ圏内。',
                                                     style: TextStyle(
                                                         fontFamily:
                                                             'NotoSansJP',
-                                                        fontSize: 14.0,
+                                                        fontSize: 12.0,
                                                         color: Colors.black,
                                                         fontWeight:
                                                             FontWeight.w500)),

@@ -1562,7 +1562,13 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
           'User address proceed : ${HealingMatchConstants.searchUserAddress}');
       if (keywordController.text == "" || keywordController.text == null) {
         if (userAddress == null || userAddress.isEmpty) {
-          displaySnackBar("有効なさがすすエリアを選択してください。");
+          displaySnackBar("さがすエリアを選択してください。");
+          return;
+        }
+      }
+      if (keywordController.text == "" || keywordController.text == null) {
+        if (_value == 0) {
+          displaySnackBar("受けたい施術を選択してください。");
           return;
         }
         if (_value == 0) {

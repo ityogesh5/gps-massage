@@ -917,12 +917,6 @@ class ServiceUserAPIProvider {
       _stripePayoutModel =
           StripePayOutVerifyFieldsModel.fromJson(getTherapists);
       print('More Response body : ${response.body}');
-      if (response.statusCode == 200) {
-        HealingMatchConstants.stripeRedirectURL =
-            _stripePayoutModel.message.url;
-        print('Entering.. : ${HealingMatchConstants.stripeRedirectURL}');
-        //ProgressDialogBuilder.hideLoader(context);
-      }
     } catch (e) {
       print('Stripe redirect URL exception : ${e.toString()}');
       //ProgressDialogBuilder.hideLoader(context);
