@@ -8,7 +8,6 @@ import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomTog
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 
 bool isOtherSelected = false;
-final _cancelReasonController = new TextEditingController();
 
 GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 Map<String, dynamic> _formData = {
@@ -53,6 +52,7 @@ class ConfirmCancelScreen extends StatefulWidget {
 }
 
 class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
+  final _cancelReasonController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return CancelPopupScreen();
