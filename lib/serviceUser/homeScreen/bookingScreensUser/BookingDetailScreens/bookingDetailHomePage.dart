@@ -2835,7 +2835,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('予約するサービスと金額を選択してください。',
+              child: Text('施術メニューを選択してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 3,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -3018,7 +3018,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('予約するサービスと日時を選択してください。',
+              child: Text('施術メニューと日時を選択してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 3,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -3051,7 +3051,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('予約日時を選択してください。',
+              child: Text('予約を受ける日時を選択してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 3,
                   style: TextStyle(fontFamily: 'NotoSansJP')),

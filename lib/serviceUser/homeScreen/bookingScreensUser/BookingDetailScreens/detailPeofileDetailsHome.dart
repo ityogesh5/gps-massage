@@ -750,11 +750,11 @@ class _DetailPeofileDetailsHomeState extends State<DetailPeofileDetailsHome> {
     if (widget.therapistDetails.data.genderOfService != null &&
         widget.therapistDetails.data.genderOfService != '') {
       if (widget.therapistDetails.data.genderOfService == "男性女性両方") {
-        genderOfService = "男性と女性の両方が予約できます"; //both men and women
+        genderOfService = "男女共に予約可"; //both men and women
       } else if (widget.therapistDetails.data.genderOfService == "女性のみ") {
         genderOfService = "女性のみ予約可"; //only women
       } else {
-        genderOfService = "男性のみ予約可能"; //only men
+        genderOfService = "男性のみ予約可"; //only men
       }
     }
 
