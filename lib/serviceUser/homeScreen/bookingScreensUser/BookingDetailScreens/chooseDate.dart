@@ -33,6 +33,7 @@ class _ChooseDateState extends State<ChooseDate> {
   int endTime;
   int loadingStatus = 0;
   int selectedMin;
+  int startingDay = 0;
   List<DateTime> timeRow = List<DateTime>();
   List<String> dayNames = ["月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日", "日曜日"];
   List<StoreServiceTiming> storeServiceTime = List<StoreServiceTiming>();
@@ -50,6 +51,7 @@ class _ChooseDateState extends State<ChooseDate> {
   void initState() {
     super.initState();
     startTime = 0;
+    startingDay = today.day;
     endTime = 23;
     dateString = '';
     getSelectedDate();
@@ -418,12 +420,25 @@ class _ChooseDateState extends State<ChooseDate> {
         columnHeaderHeight: 50,
         rowHeaderWidth: 50,
       ),
-      columnHeaderBuilder: (i) => Center(
-        child: Text(
-          "${i + 1}",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-      ),
+      columnHeaderBuilder: (i) {
+        String dayName =
+            DateFormat('E', 'ja_JP').format(DateTime(_cyear, _cmonth, i + 1));
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "${i + 1}",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text(
+                "$dayName",
+                style: TextStyle(fontWeight: FontWeight.normal, fontSize: 12.0),
+              ),
+            ],
+          ),
+        );
+      },
       rowHeaderBuilder: (i) {
         return Center(
           child: Row(
