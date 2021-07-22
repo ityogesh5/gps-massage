@@ -99,26 +99,6 @@ class _CancelBookingState extends State<CancelBooking> {
                 height: widget.bookingDetail.bookingStatus == 6 ? 15.0 : 0.0,
               ),
               buildButton()
-              /*  Container(
-                height: 45,
-                width: MediaQuery.of(context).size.width * 0.9,
-                //margin: EdgeInsets.only(top: 1.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.lime,
-                ),
-                child: RaisedButton(
-                  child: Text(
-                    'アップロードする',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                  ),
-                  color: Colors.lime,
-                  textColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(10.0)),
-                  onPressed: () {},
-                ),
-              ), */
             ],
           ),
         ),

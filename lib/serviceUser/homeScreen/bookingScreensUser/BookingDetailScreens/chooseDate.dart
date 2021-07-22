@@ -34,6 +34,7 @@ class _ChooseDateState extends State<ChooseDate> {
   int loadingStatus = 0;
   int selectedMin;
   int startingDay = 0;
+  int state = 0;
   List<DateTime> timeRow = List<DateTime>();
   List<String> dayNames = ["月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日", "日曜日"];
   List<StoreServiceTiming> storeServiceTime = List<StoreServiceTiming>();
@@ -166,6 +167,12 @@ class _ChooseDateState extends State<ChooseDate> {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (state == 0 && lazyDataTable != null) {
+        lazyDataTable.jumpToCell(startingDay - 1, 0);
+        state = 1;
+      }
+    });
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
@@ -268,6 +275,14 @@ class _ChooseDateState extends State<ChooseDate> {
           _currentDay = 1;
           displayDay = DateTime(_cyear, _cmonth, _currentDay);
           daysToDisplay = totalDays(_cmonth, _cyear);
+          //state = 0;
+          if (_cyear == today.year &&
+              _cmonth == today.month &&
+              _currentDay == today.day) {
+            startingDay = today.day;
+          } else {
+            startingDay = 1;
+          }
           timeBuilder(_cyear, _cmonth);
         });
       },
@@ -276,6 +291,14 @@ class _ChooseDateState extends State<ChooseDate> {
         yearString = value;
         _cyear = int.parse(value);
         _currentDay = 1;
+        // state = 0;
+        if (_cyear == today.year &&
+            _cmonth == today.month &&
+            _currentDay == today.day) {
+          startingDay = today.day;
+        } else {
+          startingDay = 1;
+        }
         setState(() {
           displayDay = DateTime(_cyear, _cmonth, _currentDay);
           daysToDisplay = totalDays(_cmonth, _cyear);
@@ -316,6 +339,14 @@ class _ChooseDateState extends State<ChooseDate> {
           displayDay = DateTime(_cyear, _cmonth, _currentDay);
           daysToDisplay = totalDays(_cmonth, _cyear);
           _currentDay = 1;
+          //   state = 0;
+          if (_cyear == today.year &&
+              _cmonth == today.month &&
+              _currentDay == today.day) {
+            startingDay = today.day;
+          } else {
+            startingDay = 1;
+          }
           timeBuilder(_cyear, _cmonth);
         });
       },
@@ -327,6 +358,14 @@ class _ChooseDateState extends State<ChooseDate> {
         setState(() {
           daysToDisplay = totalDays(_cmonth, _cyear);
           _currentDay = 1;
+          //   state = 0;
+          if (_cyear == today.year &&
+              _cmonth == today.month &&
+              _currentDay == today.day) {
+            startingDay = today.day;
+          } else {
+            startingDay = 1;
+          }
           timeBuilder(_cyear, _cmonth);
         });
       },
@@ -520,11 +559,14 @@ class _ChooseDateState extends State<ChooseDate> {
               onTap: () {
                 bool isTimeAvailable = checkTimeAvailable(i, j);
 
-                if (!isSeleted && isTimeAvailable) {
+                if (/* !isSeleted && */ isTimeAvailable) {
+                  bookEvents.clear();
+
                   saveSelectedTime(j, i);
-                } else if (isSeleted) {
+                } /* else if (isSeleted) {
                   showAlreadySelectedTimeError();
-                } else if (!isTimeAvailable) {
+                }  */
+                else if (!isTimeAvailable) {
                   showProviderTimeUnavailble();
                 }
               },

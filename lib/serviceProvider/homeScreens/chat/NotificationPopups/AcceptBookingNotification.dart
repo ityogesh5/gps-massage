@@ -382,8 +382,15 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
                                 },
                                 child: InkWell(
                                   onTap: () {
-                                    showToolTip(startKey, newStartTime, context,
-                                        2, true);
+                                    scrollController
+                                        .animateTo(
+                                            scrollController
+                                                .position.maxScrollExtent,
+                                            duration:
+                                                Duration(milliseconds: 500),
+                                            curve: Curves.ease)
+                                        .then((value) => showToolTip(startKey,
+                                            newStartTime, context, 2, true));
                                   },
                                   child: Container(
                                     height: 50.0,
@@ -420,8 +427,14 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
                             Expanded(
                               child: InkWell(
                                 onTap: () {
-                                  showToolTip(
-                                      endKey, newEndTime, context, 2, false);
+                                  scrollController
+                                      .animateTo(
+                                          scrollController
+                                              .position.maxScrollExtent,
+                                          duration: Duration(milliseconds: 500),
+                                          curve: Curves.ease)
+                                      .then((value) => showToolTip(endKey,
+                                          newEndTime, context, 2, false));
                                 },
                                 child: Container(
                                   height: 50.0,
