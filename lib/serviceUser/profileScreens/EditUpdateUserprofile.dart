@@ -2510,7 +2510,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     }
 
     print('Id: ${HealingMatchConstants.accessToken}');
-    print('Id: $HealingMatchConstants.serviceUserById');
+    print('Id: ${HealingMatchConstants.serviceUserById}');
     print('Address ID : $_userAddressID');
     print('UserId: $rUserID');
     print('Name: $userName');
@@ -2523,7 +2523,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       if (this.mounted) {
         setState(() {
           addUpdateAddress = UpdateAddress(
-            id: HealingMatchConstants.userAddressId,
+            id: HealingMatchConstants.userRegAddressId,
             userId: HealingMatchConstants.serviceUserID,
             addressTypeSelection: _myAddressInputType,
             address: HealingMatchConstants.userEditAddress,
