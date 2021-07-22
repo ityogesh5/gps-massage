@@ -8,16 +8,7 @@ import 'package:gps_massageapp/customLibraryClasses/customRadioButtonList/rounde
 import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 
-bool isOtherSelected = false;
-final _cancelReasonController = new TextEditingController();
 GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-Map<String, dynamic> _formData = {
-  'text': null,
-  'category': null,
-  'date': null,
-  'time': null,
-};
-String selectedBuildingType;
 
 class BookingCancelScreen extends StatefulWidget {
   final int bookingId;
@@ -54,6 +45,15 @@ class ConfirmCancelScreen extends StatefulWidget {
 }
 
 class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
+  Map<String, dynamic> _formData = {
+    'text': null,
+    'category': null,
+    'date': null,
+    'time': null,
+  };
+  String selectedBuildingType;
+  bool isOtherSelected = false;
+  final _cancelReasonController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return CancelPopupScreen();

@@ -2010,6 +2010,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     // user perfecture validation
     if ((_myPrefecture == null || _myPrefecture.isEmpty)) {
       currentLoading();
+      isBookingLoading = false;
       ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -2042,6 +2043,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     // user city validation
     if ((_myCity == null || _myCity.isEmpty)) {
       currentLoading();
+      isBookingLoading = false;
       ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -2074,6 +2076,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     // user area validation
     if ((userArea == null || userArea.isEmpty)) {
       currentLoading();
+      isBookingLoading = false;
       ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -2106,6 +2109,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     // user area validation
     if (userArea == null || userArea.isEmpty) {
       currentLoading();
+      isBookingLoading = false;
       ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -2140,6 +2144,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     }
     if (userName.length == 0 || userName.isEmpty || userName == null) {
       currentLoading();
+      isBookingLoading = false;
+
       ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -2170,6 +2176,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     }
     if (userName.length > 20) {
       currentLoading();
+      isBookingLoading = false;
       ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -2202,6 +2209,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     // user DOB validation
     if (userDOB == null || userDOB.isEmpty) {
       currentLoading();
+      isBookingLoading = false;
       ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -2233,6 +2241,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     //age validation
     if (ageOfUser < 18) {
       currentLoading();
+      isBookingLoading = false;
       ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -2274,6 +2283,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         userPhoneNumber.isNotEmpty &&
         userPhoneNumber.length < 10) {
       currentLoading();
+      isBookingLoading = false;
       ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -2342,6 +2352,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     // Email Validation
     if (email.isNotEmpty && !(email.contains(regexMail))) {
       currentLoading();
+      isBookingLoading = false;
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -2371,6 +2382,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     }
     if (email.isNotEmpty && email.length > 50) {
       currentLoading();
+      isBookingLoading = false;
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -2400,6 +2412,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     }
     if (email.isNotEmpty && (email.contains(regexEmojis))) {
       currentLoading();
+      isBookingLoading = false;
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -2538,6 +2551,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     print('UserId: $rUserID');
 
     try {
+      print('Name: $userName');
       Uri updateProfile =
           Uri.parse(HealingMatchConstants.UPDATE_USER_DETAILS_URL);
       var request = http.MultipartRequest('POST', updateProfile);
@@ -2613,6 +2627,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           DB db = DB();
           db.updateUserOnlineInfo(firebaseUserId, updateProviderDetails);
           currentLoading();
+          isBookingLoading = false;
           ProgressDialogBuilder.hideLoader(context);
           DialogHelper.showUserProfileUpdatedSuccessDialog(context);
         } else if (value.statusCode == 400) {
@@ -2622,6 +2637,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               UpdateErrorModel.fromJson(errorResponse);
           print('Error Message : ${editErrorUpdateResponse.message}');
           currentLoading();
+          isBookingLoading = false;
           ProgressDialogBuilder.hideLoader(context);
 
           _scaffoldKey.currentState.showSnackBar(SnackBar(
