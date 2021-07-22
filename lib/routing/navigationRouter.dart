@@ -89,6 +89,11 @@ class NavigationRouter {
         MaterialPageRoute(builder: (context) => SocketExceptionHandler()));
   }
 
+  static void switchToNetworkHandlerReplace(BuildContext context) {
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) => SocketExceptionHandler()));
+  }
+
   static void switchToServiceUserRegistration(BuildContext context) {
     Navigator.of(context).push(PageRouteBuilder(
         pageBuilder: (context, animation, anotherAnimation) {

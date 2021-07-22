@@ -1048,7 +1048,7 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
       return null;
     }
     if (cancellationReasonController.text.length > 125) {
-      displaySnackBar("キャンセルの理由を25文字以内で入力してください。");
+      displaySnackBar("キャンセルの理由を125文字以内で入力してください。");
       return null;
     }
     cancelBooking(context);

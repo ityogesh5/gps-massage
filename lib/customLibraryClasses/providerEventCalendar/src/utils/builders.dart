@@ -107,6 +107,7 @@ class DefaultBuilders {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Expanded(
+                  flex: 0,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

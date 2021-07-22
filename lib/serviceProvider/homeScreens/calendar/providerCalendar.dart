@@ -541,7 +541,8 @@ class _ProviderCalendarState extends State<ProviderCalendar> {
                                     child: Container(
                                       height: calendarStatus == 0
                                           ? MediaQuery.of(context).size.height /
-                                              2
+                                                  2 -
+                                              50.0
                                           : MediaQuery.of(context).size.height -
                                               260.0, //350.0,
                                       padding: const EdgeInsets.only(
