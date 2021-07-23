@@ -401,12 +401,28 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                 columnHeaderHeight: 50,
                                 rowHeaderWidth: 50,
                               ),
-                              columnHeaderBuilder: (i) => Center(
-                                child: Text(
-                                  "${i + 1}",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
+                              columnHeaderBuilder: (i) {
+                                String dayName = DateFormat('E', 'ja_JP')
+                                    .format(DateTime(_cyear, _cmonth, i + 1));
+                                return Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "${i + 1}",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        "$dayName",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 12.0),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
                               rowHeaderBuilder: (i) {
                                 return Center(
                                   child: Row(
