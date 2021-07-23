@@ -1271,19 +1271,21 @@ class _RegistrationSecondPageState
   }
 
   compressImages() async {
-    ProgressDialogBuilder.showProviderRegisterProgressDialog(context);
-
-    File profileImageUrl = await FlutterNativeImage.compressImage(
-        HealingMatchConstants.profileImage.path,
-        quality: 50);
-
-    File idProofImageUrl = await FlutterNativeImage.compressImage(
-        _idProfileImage.path,
-        quality: 50);
+     ProgressDialogBuilder.showProviderRegisterProgressDialog(context);
 
     List<File> bannerImages = List<File>();
     List<File> privateQualificationImages = List<File>();
     Map<String, String> compressedCertificateImages = Map<String, String>();
+    File profileImageUrl;
+    File idProofImageUrl;
+
+    profileImageUrl = await FlutterNativeImage.compressImage(
+        HealingMatchConstants.profileImage.path,
+        quality: 50);
+
+    idProofImageUrl = await FlutterNativeImage.compressImage(
+        _idProfileImage.path,
+        quality: 50);
 
     // Banner Images
     for (var file in files) {
@@ -1304,8 +1306,20 @@ class _RegistrationSecondPageState
           await FlutterNativeImage.compressImage(certificate, quality: 50);
       privateQualificationImages.add(certificateUrl);
     }
-    registerProvider(profileImageUrl, idProofImageUrl, bannerImages,
-        compressedCertificateImages, privateQualificationImages);
+
+    Future.delayed(Duration(seconds: 1), () {
+      print('a');
+      print(profileImageUrl.path +
+          idProofImageUrl.path +
+          bannerImages.length.toString() +
+          compressedCertificateImages.length.toString() +
+          privateQualificationImages.length.toString());
+      registerProvider(profileImageUrl, idProofImageUrl, bannerImages,
+          compressedCertificateImages, privateQualificationImages);
+    });
+
+    /*  registerProvider(profileImageUrl, idProofImageUrl, bannerImages,
+        compressedCertificateImages, privateQualificationImages); */
   }
 
   //Registration Api
