@@ -212,6 +212,8 @@ class _RegisterUserState extends State<RegisterUser> {
 
   @override
   void initState() {
+    userNameController.text = HealingMatchConstants.appleUserName;
+    emailController.text = HealingMatchConstants.appleEmailId;
     super.initState();
     _getStates();
   }
@@ -2140,7 +2142,10 @@ class _RegisterUserState extends State<RegisterUser> {
           "addressTypeSelection": _myAddressInputTypeVal,
           "lat": HealingMatchConstants.currentLatitude.toString(),
           "lon": HealingMatchConstants.currentLongitude.toString(),
-          "fcmToken": fcmToken
+          "fcmToken": fcmToken,
+          "appleUserId": HealingMatchConstants.appleTokenId != null
+              ? HealingMatchConstants.appleTokenId
+              : ''
         });
       } else {
         print('Profile image  null');
@@ -2167,7 +2172,10 @@ class _RegisterUserState extends State<RegisterUser> {
           "addressTypeSelection": _myAddressInputTypeVal,
           "lat": HealingMatchConstants.currentLatitude.toString(),
           "lon": HealingMatchConstants.currentLongitude.toString(),
-          "fcmToken": fcmToken
+          "fcmToken": fcmToken,
+          "appleUserId": HealingMatchConstants.appleTokenId != null
+              ? HealingMatchConstants.appleTokenId
+              : ''
         });
       }
 

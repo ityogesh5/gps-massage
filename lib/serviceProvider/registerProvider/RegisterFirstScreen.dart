@@ -165,6 +165,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
   FocusNode _storePhoneNumberFocus = new FocusNode();
 
   void initState() {
+    providerNameController.text = HealingMatchConstants.appleUserName;
+    mailAddressController.text = HealingMatchConstants.appleEmailId;
     super.initState();
     myState = '';
     myCity = '';

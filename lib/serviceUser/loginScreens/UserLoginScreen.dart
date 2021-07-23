@@ -600,10 +600,33 @@ class _UserLoginState extends State<UserLogin> {
 
   _initiateAppleSignIn() async {
     if (await SignInWithApple.isAvailable()) {
-      final credential = await SignInWithApple.getAppleIDCredential(scopes: [
-        AppleIDAuthorizationScopes.email,
-        AppleIDAuthorizationScopes.fullName,
-      ]);
+      try {
+        var redirectURL = HealingMatchConstants.appleIDRedirectUrl;
+
+        AuthorizationCredentialAppleID appleIdCredential =
+            await SignInWithApple.getAppleIDCredential(
+                scopes: [
+              AppleIDAuthorizationScopes.email,
+              AppleIDAuthorizationScopes.fullName,
+            ],
+                webAuthenticationOptions: WebAuthenticationOptions(
+                    clientId: '', redirectUri: Uri.parse(redirectURL)));
+        HealingMatchConstants.appleUserName = appleIdCredential.givenName;
+        HealingMatchConstants.appleEmailId = appleIdCredential.email;
+        HealingMatchConstants.appleTokenId = appleIdCredential.userIdentifier;
+        final oAuthProvider = OAuthProvider('apple.com');
+        final credential = oAuthProvider.credential(
+          idToken: appleIdCredential.identityToken,
+          accessToken: appleIdCredential.authorizationCode,
+        );
+        FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+        final authResult = await _firebaseAuth.signInWithCredential(credential);
+        NavigationRouter.switchToServiceUserRegistration(context);
+        print("Apple Sign in Success");
+        return authResult.user;
+      } on Exception catch (e) {
+        print("Apple Sign in Exception : $e");
+      }
     } else {
       print('Apple SignIn is not available for your device');
     }

@@ -1475,7 +1475,8 @@ class _RegistrationSecondPageState
               HealingMatchConstants.serviceProviderBusinessForm ==
                   "施術店舗あり 施術従業員なし（個人経営）"
           ? "true"
-          : "false"
+          : "false",
+      "appleUserId": HealingMatchConstants.appleTokenId != null ? HealingMatchConstants.appleTokenId :''
     });
 
     if (HealingMatchConstants.serviceProviderBusinessForm == "施術店舗あり 施術従業員あり" ||

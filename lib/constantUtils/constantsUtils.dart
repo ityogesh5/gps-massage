@@ -58,9 +58,9 @@ class HealingMatchConstants {
 
       //   "http://106.51.49.160:9087/api"; // Development data URL
 
-       "http://106.51.49.160:9094/api"; // Testing data URL
+      "http://106.51.49.160:9094/api"; // Testing data URL
 
-     // "http://103.92.19.158:9094/api"; //Temp URL
+  // "http://103.92.19.158:9094/api"; //Temp URL
 
 // get therapist list By ID
   static const String THERAPIST_USER_BY_ID_URL =
@@ -630,6 +630,13 @@ class HealingMatchConstants {
   static String lineUserProfileDetails;
 
   static String lineUserEmail;
+
+  //Apple Login ID & Credentials
+  static const String appleIDRedirectUrl =
+      "https://healing-match.firebaseapp.com/__/auth/handler";
+  static String appleUserName;
+  static String appleEmailId;
+  static String appleTokenId;
 
   // Profile Edit screen user
   static Uint8List userEditProfile;

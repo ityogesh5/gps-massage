@@ -294,7 +294,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               CircleAvatar(
-                                maxRadius: 32,
+                                maxRadius: 31,
                                 backgroundColor: Color.fromRGBO(0, 0, 0, 1),
                                 child: CircleAvatar(
                                   maxRadius: 30,
@@ -875,7 +875,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                     roundLoadingShape: true,
                     height: 40,
                     width: 40,
-                    borderRadius: 5.0,
+                    borderRadius: 25.0,
                     elevation: 0.0,
                     color: Colors.transparent,
                     child: CircleAvatar(
@@ -946,7 +946,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
           InkWell(
             customBorder: CircleBorder(),
             onTap: () {
-              saveSelectedAddress(addressType, index);
+              if (!isGPSLoading) {
+                saveSelectedAddress(addressType, index);
+              }
             },
             child: Container(
               decoration: BoxDecoration(
