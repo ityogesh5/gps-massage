@@ -91,13 +91,13 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
   ];
 
   List<String> serviceBusinessTripDropDownValues = [
-    "はい",
-    "いいえ",
+    "出張可能",
+    "出張不可",
   ];
 
   List<String> coronaMeasuresDropDownValues = [
-    "はい",
-    "いいえ",
+    "実施",
+    "未実施",
   ];
 
   List<String> childrenMeasuresDropDownValues = [
@@ -992,7 +992,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                               bussinessForm = value;
                               if (value == "施術店舗なし 施術従業員あり（出張のみ)" ||
                                   value == "施術店舗なし 施術従業員なし（個人)") {
-                                serviceBusinessTrips = "はい";
+                                serviceBusinessTrips = "出張可能";
                                 businessTripEnabled = false;
                               } else {
                                 serviceBusinessTrips = "";
@@ -2645,11 +2645,11 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
           ? HealingMatchConstants.serviceProviderNumberOfEmpl
           : '0',
       'businessTrip':
-          HealingMatchConstants.serviceProviderBusinessTripService == "はい"
+          HealingMatchConstants.serviceProviderBusinessTripService == "出張可能"
               ? '1'
               : '0',
       'coronaMeasure':
-          HealingMatchConstants.serviceProviderCoronaMeasure == "はい"
+          HealingMatchConstants.serviceProviderCoronaMeasure == "実施"
               ? '1'
               : '0',
 
@@ -3369,8 +3369,8 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       numberOfEmployees = userData.numberOfEmp.toString();
     }
     selectedStoreTypeDisplayValues = userData.storeType.split(',');
-    serviceBusinessTrips = userData.businessTrip ? 'はい' : 'いいえ';
-    coronaMeasures = userData.coronaMeasure ? 'はい' : 'いいえ';
+    serviceBusinessTrips = userData.businessTrip ? '出張可能' : '出張不可';
+    coronaMeasures = userData.coronaMeasure ? '実施' : '未実施';
     if (userData.childrenMeasure != null && userData.childrenMeasure != '') {
       childrenMeasuresDropDownValuesSelected =
           userData.childrenMeasure.split(',');

@@ -1434,11 +1434,11 @@ class _RegistrationSecondPageState
           ? HealingMatchConstants.serviceProviderNumberOfEmpl
           : '0',
       'businessTrip':
-          HealingMatchConstants.serviceProviderBusinessTripService == "はい"
+          HealingMatchConstants.serviceProviderBusinessTripService == "出張可能"
               ? '1'
               : '0',
       'coronaMeasure':
-          HealingMatchConstants.serviceProviderCoronaMeasure == "はい"
+          HealingMatchConstants.serviceProviderCoronaMeasure == "実施"
               ? '1'
               : '0',
       'childrenMeasure': childrenMeasure,

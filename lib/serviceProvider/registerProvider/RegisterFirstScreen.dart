@@ -75,13 +75,13 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
   ];
 
   List<String> serviceBusinessTripDropDownValues = [
-    "はい",
-    "いいえ",
+    "出張可能",
+    "出張不可",
   ];
 
   List<String> coronaMeasuresDropDownValues = [
-    "はい",
-    "いいえ",
+    "実施",
+    "未実施",
   ];
 
   List<String> childrenMeasuresDropDownValues = [
@@ -1120,7 +1120,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                       setState(() {
                         if (value == "施術店舗なし 施術従業員あり（出張のみ)" ||
                             value == "施術店舗なし 施術従業員なし（個人)") {
-                          serviceBusinessTrips = "はい";
+                          serviceBusinessTrips = "出張可能";
                           businessTripEnabled = false;
                         } else {
                           serviceBusinessTrips = "";
