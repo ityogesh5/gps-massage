@@ -577,7 +577,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                   } else if (jKey == "国家資格取得予定（学生）") {
                     certificateUploaded["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
                   } else if (jKey == "民間資格") {
-                    certificateUploaded["民間資格"] = "民間資格";
+                    certificateUploaded["民間資格保有"] = "民間資格保有";
                   } else if (jKey == "無資格") {
                     certificateUploaded["無資格"] = "無資格";
                   }
@@ -1967,7 +1967,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                   } else if (jKey == "国家資格取得予定（学生）") {
                     certificateUploaded["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
                   } else if (jKey == "民間資格") {
-                    certificateUploaded["民間資格"] = "民間資格";
+                    certificateUploaded["民間資格保有"] = "民間資格保有";
                   } else if (jKey == "無資格") {
                     certificateUploaded["無資格"] = "無資格";
                   }

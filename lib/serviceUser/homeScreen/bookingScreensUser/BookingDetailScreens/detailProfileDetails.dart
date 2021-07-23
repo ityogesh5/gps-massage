@@ -536,7 +536,7 @@ class _DetailProfileDetailsState extends State<DetailProfileDetails> {
         } else if (jKey == "国家資格取得予定（学生）") {
           certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
         } else if (jKey == "民間資格") {
-          certificateImages["民間資格"] = "民間資格";
+          certificateImages["民間資格保有"] = "民間資格保有";
         } else if (jKey == "無資格") {
           certificateImages["無資格"] = "無資格";
         }
