@@ -643,7 +643,7 @@ class HealingMatchConstants {
   static String userEditToken = '';
 
   static var userEditUserId;
-  static var userAddressId;
+  static String userAddressId;
   static var userDeviceToken = '';
 
   static String userEditUserName = '';
