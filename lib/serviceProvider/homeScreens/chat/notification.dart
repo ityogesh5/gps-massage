@@ -32,6 +32,21 @@ class _NotificationScreenState extends State<NotificationScreen> {
         status = 1;
       });
     });
+    getProviderDetails();
+  }
+
+  getProviderDetails() {
+    ServiceProviderApi.getTherapistDetails(context).then((value) {
+      if (value.status == 'success') {
+        print(
+            'User Stripe Verification status : ${value.data.isStripeVerified} !!');
+      } else {
+        print('This User is not Stripe Verified !!');
+        return;
+      }
+    }).catchError((onError) {
+      print('Get Therapist Details Exception : $onError');
+    });
   }
 
   @override

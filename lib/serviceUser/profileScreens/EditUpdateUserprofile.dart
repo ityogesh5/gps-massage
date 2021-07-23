@@ -2523,7 +2523,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       if (this.mounted) {
         setState(() {
           addUpdateAddress = UpdateAddress(
-            id: HealingMatchConstants.userRegAddressId,
+            id: HealingMatchConstants.userRegAddressId.toString(),
             userId: HealingMatchConstants.serviceUserID,
             addressTypeSelection: _myAddressInputType,
             address: HealingMatchConstants.userEditAddress,
