@@ -998,8 +998,7 @@ class _TherapistAcceptNotificationState
           .then((value) {
         if (value) {
           ServiceUserAPIProvider.updateBookingCompeted(
-              widget.requestBookingDetailsList.bookingDetail.id,
-              selectedBuildingType);
+              widget.requestBookingDetailsList.bookingDetail.id, cancelReason);
         }
       });
       var cancelBooking = DialogHelper.showUserBookingCancelDialog(context);
