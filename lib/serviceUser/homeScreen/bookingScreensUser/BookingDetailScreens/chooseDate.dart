@@ -520,7 +520,7 @@ class _ChooseDateState extends State<ChooseDate> {
           checkStartMinute = timeRow[i].minute >= startTime.minute;
         }
         if ((timeRow[i].hour == endHour)) {
-          checkStartMinute = timeRow[i].minute <= endTime.minute;
+          checkEndMinute = timeRow[i].minute <= endTime.minute;
         }
 
         if (storeServiceTime[dayIndex].shopOpen &&
@@ -557,7 +557,8 @@ class _ChooseDateState extends State<ChooseDate> {
           } else {
             return InkWell(
               onTap: () {
-                bool isTimeAvailable = checkTimeAvailable(i, j);
+                bool isTimeAvailable =
+                    checkTimeAvailable(i, j, startTime, endTime);
 
                 if (/* !isSeleted && */ isTimeAvailable) {
                   bookEvents.clear();
@@ -660,13 +661,34 @@ class _ChooseDateState extends State<ChooseDate> {
     }
   }
 
-  bool checkTimeAvailable(int i, int j) {
+  bool checkTimeAvailable(
+    int i,
+    int j,
+    DateTime startTime,
+    DateTime endTime,
+  ) {
     // bookEvents[timeRow[i]] = [j];
     int iterationLength = selectedMin ~/ 15;
+    int endHour = endTime.hour == 0 ? 24 : endTime.hour;
+
     try {
       for (int k = 1; k < iterationLength; k++) {
         if (events.containsKey(timeRow[i + k]) &&
             events[timeRow[i + k]].contains(j)) {
+          return false;
+        }
+        bool checkStartMinute = true;
+        bool checkEndMinute = true;
+        if ((timeRow[i+k].hour == startTime.hour)) {
+          checkStartMinute = timeRow[i+k].minute >= startTime.minute;
+        }
+        if ((timeRow[i+k].hour == endHour)) {
+          checkEndMinute = timeRow[i+k].minute <= endTime.minute;
+        }
+        if (!(((timeRow[i + k].hour >= startTime.hour) &&
+                (timeRow[i + k].hour <= endHour)) &&
+            checkStartMinute &&
+            checkEndMinute)) {
           return false;
         }
       }
