@@ -1026,6 +1026,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
   void validateFields() {
     // Check stripe user validation
     if (HealingMatchConstants.isStripeVerified) {
+      ProgressDialogBuilder.showCommonProgressDialog(context);
       if (proposeAdditionalCosts) {
         if (price == null && addedpriceReason == null) {
           displaySnackBar("追加の費用と理由を選択してください。");

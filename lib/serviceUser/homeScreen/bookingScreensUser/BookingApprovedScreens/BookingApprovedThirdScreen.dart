@@ -391,7 +391,7 @@ class _BookingApproveThirdScreenState extends State<BookingApproveThirdScreen> {
                           });
                         } else {
                           setState(() {
-                            isCancelSelected = !isCancelSelected;
+                            isCancelSelected = false;
                           });
                           HealingMatchConstants.initiatePayment(context);
                         }
