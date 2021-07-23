@@ -1197,6 +1197,7 @@ class ServiceProviderApi {
       if (response.statusCode == 200) {
         HealingMatchConstants.isStripeVerified =
             _therapistDetailsModel.data.isStripeVerified;
+        print('isStripe:${_therapistDetailsModel.data.isStripeVerified}');
         ProgressDialogBuilder.hideLoader(context);
       } else {
         ProgressDialogBuilder.hideLoader(context);

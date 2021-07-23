@@ -201,7 +201,7 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
                         Row(
                           children: [
                             Expanded(
-                              flex: 4,
+                              flex: 3,
                               child: Container(
                                 width: MediaQuery.of(context).size.width * 0.2,
                                 color: Colors.white,
@@ -245,7 +245,6 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
                               width: 10.0,
                             ),
                             Expanded(
-                              flex: 2,
                               child: Container(
                                 width: MediaQuery.of(context).size.width * 0.2,
                                 color: Colors.white,
@@ -382,15 +381,8 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
                                 },
                                 child: InkWell(
                                   onTap: () {
-                                    scrollController
-                                        .animateTo(
-                                            scrollController
-                                                .position.maxScrollExtent,
-                                            duration:
-                                                Duration(milliseconds: 500),
-                                            curve: Curves.ease)
-                                        .then((value) => showToolTip(startKey,
-                                            newStartTime, context, 2, true));
+                                    showToolTip(startKey, newStartTime, context,
+                                        2, true);
                                   },
                                   child: Container(
                                     height: 50.0,
@@ -427,14 +419,8 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
                             Expanded(
                               child: InkWell(
                                 onTap: () {
-                                  scrollController
-                                      .animateTo(
-                                          scrollController
-                                              .position.maxScrollExtent,
-                                          duration: Duration(milliseconds: 500),
-                                          curve: Curves.ease)
-                                      .then((value) => showToolTip(endKey,
-                                          newEndTime, context, 2, false));
+                                  showToolTip(
+                                      endKey, newEndTime, context, 2, false);
                                 },
                                 child: Container(
                                   height: 50.0,
@@ -650,7 +636,7 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
                     Text(
                       '${widget.requestBookingDetailsList.bookingDetail.bookingUserId.userName}',
                       style: TextStyle(
-                        fontSize: 14.0,
+                        fontSize: 16.0,
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                       ),
@@ -658,7 +644,7 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
                     Text(
                       '(${widget.requestBookingDetailsList.bookingDetail.bookingUserId.gender})',
                       style: TextStyle(
-                        fontSize: 10.0,
+                        fontSize: 12.0,
                         color: Color.fromRGBO(181, 181, 181, 1),
                       ),
                     ),
@@ -766,7 +752,7 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
                       ),
                       SizedBox(width: 5.0),
                       Text(
-                        '${widget.requestBookingDetailsList.noOfReviewsMembers}  レビュー',
+                        '${widget.requestBookingDetailsList.noOfReviewsMembers}',
                         style: TextStyle(
                             decoration: TextDecoration.underline,
                             decorationColor: Colors.black,
@@ -1045,10 +1031,6 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
     if (cancellationReasonController.text == null ||
         cancellationReasonController.text == "") {
       displaySnackBar("キャンセルする理由を入力してください。");
-      return null;
-    }
-    if (cancellationReasonController.text.length > 125) {
-      displaySnackBar("キャンセルの理由を25文字以内で入力してください。");
       return null;
     }
     cancelBooking(context);
