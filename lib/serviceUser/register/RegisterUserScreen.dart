@@ -2145,6 +2145,12 @@ class _RegisterUserState extends State<RegisterUser> {
           "fcmToken": fcmToken,
           "appleUserId": HealingMatchConstants.appleTokenId != null
               ? HealingMatchConstants.appleTokenId
+              : '',
+          "lineUserToken": HealingMatchConstants.lineAccessToken != null
+              ? HealingMatchConstants.lineAccessToken
+              : '',
+          "lineBotUserId": HealingMatchConstants.lineUserID != null
+              ? HealingMatchConstants.lineUserID
               : ''
         });
       } else {
@@ -2175,7 +2181,13 @@ class _RegisterUserState extends State<RegisterUser> {
           "fcmToken": fcmToken,
           "appleUserId": HealingMatchConstants.appleTokenId != null
               ? HealingMatchConstants.appleTokenId
-              : ''
+              : '',
+          "lineUserToken": HealingMatchConstants.lineAccessToken != null
+        ? HealingMatchConstants.lineAccessToken
+            : '',
+        "lineBotUserId": HealingMatchConstants.lineUserID != null
+        ? HealingMatchConstants.lineUserID
+            : ''
         });
       }
 
