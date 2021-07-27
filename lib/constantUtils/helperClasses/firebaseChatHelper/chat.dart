@@ -102,7 +102,9 @@ class Chat with ChangeNotifier {
   }
 
   // updates the order of chats when a new message is recieved
-  void bringChatToTop(String groupId,) {
+  void bringChatToTop(
+    String groupId,
+  ) {
     if (_chats.isNotEmpty && _chats[0].groupId != groupId) {
       // bring latest interacted contact and chat to top
       var ids = groupId.split('-');

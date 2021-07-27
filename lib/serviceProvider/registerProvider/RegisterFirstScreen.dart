@@ -10,6 +10,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
+import 'package:gps_massageapp/customLibraryClasses/customTextField/text_field_custom.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/cityList.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/stateList.dart';
@@ -18,11 +19,7 @@ import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:gps_massageapp/customLibraryClasses/customTextField/text_field_custom.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
-import 'package:flutter_native_image/flutter_native_image.dart';
-
-import 'package:toast/toast.dart';
 
 class RegisterProviderFirstScreen extends StatefulWidget {
   @override

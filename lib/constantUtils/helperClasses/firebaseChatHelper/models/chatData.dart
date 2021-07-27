@@ -15,16 +15,16 @@ class ChatData {
   DocumentSnapshot lastDoc;
   int unreadCount;
   final List<String> messageId;
-  ChatData({
-    @required this.groupId,
-    @required this.userId,
-    @required this.peerId,
-   @required this.peer,
-    @required this.messages,
-    this.lastDoc,
-    this.unreadCount = 0,
-    @required this.messageId
-  });
+
+  ChatData(
+      {@required this.groupId,
+      @required this.userId,
+      @required this.peerId,
+      @required this.peer,
+      @required this.messages,
+      this.lastDoc,
+      this.unreadCount = 0,
+      @required this.messageId});
 
   void setLastDoc(DocumentSnapshot doc) {
     lastDoc = doc;

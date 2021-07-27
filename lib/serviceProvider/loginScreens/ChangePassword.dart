@@ -14,8 +14,6 @@ import 'package:http/http.dart' as http;
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-import 'ForgetPassword.dart';
-
 class ChangePassword extends StatefulWidget {
   @override
   _ChangePasswordState createState() => _ChangePasswordState();

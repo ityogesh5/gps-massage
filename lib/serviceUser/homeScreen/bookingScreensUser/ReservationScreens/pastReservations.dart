@@ -663,7 +663,8 @@ class _PastReservationsState extends State<PastReservations> {
                                                                                     padding: EdgeInsets.all(5),
                                                                                     decoration: boxDecoration,
                                                                                     child: Text(
-                                                                                      key, //Qualififcation
+                                                                                      key,
+                                                                                      //Qualififcation
                                                                                       style: TextStyle(
                                                                                         fontSize: 14,
                                                                                         color: Colors.black,

@@ -10,7 +10,9 @@ import 'package:toast/toast.dart';
 
 class CancelBooking extends StatefulWidget {
   final BookingDetailsList bookingDetail;
+
   CancelBooking(this.bookingDetail);
+
   _CancelBookingState createState() => _CancelBookingState();
 }
 

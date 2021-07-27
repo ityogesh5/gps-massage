@@ -1762,12 +1762,12 @@ class _ShiftServiceState extends State<ShiftService> {
     return;
   }
 
-   //show the SnackBar Length >15 Error
+  //show the SnackBar Length >15 Error
   void showLengthErrorMessage() {
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       backgroundColor: ColorConstants.snackBarColor,
-      content:
-          Text('サービスの名前を15文字以内で入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+      content: Text('サービスの名前を15文字以内で入力してください。',
+          style: TextStyle(fontFamily: 'Open Sans')),
       action: SnackBarAction(
           onPressed: () {
             _scaffoldKey.currentState.hideCurrentSnackBar();

@@ -51,7 +51,9 @@ class OverlayUtils {
 
 class ToastMessageAnimation extends StatelessWidget {
   final Widget child;
+
   ToastMessageAnimation(this.child);
+
   @override
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarColor(kBlackColor2);

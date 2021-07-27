@@ -81,21 +81,21 @@ class _MyAppState extends State<FilePickerDemo> {
       FlutterDocumentPickerParams params = FlutterDocumentPickerParams(
         allowedFileExtensions: _checkByCustomExtension
             ? _extensionController.text
-            .split(' ')
-            .where((x) => x.isNotEmpty)
-            .toList()
+                .split(' ')
+                .where((x) => x.isNotEmpty)
+                .toList()
             : null,
         allowedUtiTypes: _iosPublicDataUTI
             ? null
             : _utiController.text
-            .split(' ')
-            .where((x) => x.isNotEmpty)
-            .toList(),
+                .split(' ')
+                .where((x) => x.isNotEmpty)
+                .toList(),
         allowedMimeTypes: _checkByMimeType
             ? _mimeTypeController.text
-            .split(' ')
-            .where((x) => x.isNotEmpty)
-            .toList()
+                .split(' ')
+                .where((x) => x.isNotEmpty)
+                .toList()
             : null,
       );
 
@@ -125,7 +125,7 @@ class _MyAppState extends State<FilePickerDemo> {
         Param(
           isEnabled: !_iosPublicDataUTI,
           description:
-          'Allow pick all documents("public.data" UTI will be used).',
+              'Allow pick all documents("public.data" UTI will be used).',
           controller: _utiController,
           onEnabledChanged: (value) {
             setState(() {
@@ -164,7 +164,7 @@ class _MyAppState extends State<FilePickerDemo> {
         Param(
           isEnabled: _checkByCustomExtension,
           description:
-          'Check file by extension - if picked file does not have wantent extension - return "extension_mismatch" error',
+              'Check file by extension - if picked file does not have wantent extension - return "extension_mismatch" error',
           controller: _extensionController,
           onEnabledChanged: (value) {
             setState(() {

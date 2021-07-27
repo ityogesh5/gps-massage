@@ -7,6 +7,7 @@ class DismssibleBubble extends StatelessWidget {
   final Message message;
   final Widget child;
   final Function onDismissed;
+
   const DismssibleBubble({
     this.isMe,
     this.message,

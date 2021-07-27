@@ -680,8 +680,8 @@ class _ShiftTimingState extends State<ShiftTiming> {
               child: SingleChildScrollView(
                 child: Container(
                   decoration: BoxDecoration(
-                    color:
-                        containerColor, //Colors.grey[100],//Color.fromRGBO(255, 255, 255, 1),
+                    color: containerColor,
+                    //Colors.grey[100],//Color.fromRGBO(255, 255, 255, 1),
                     borderRadius: BorderRadius.circular(20),
                     // boxShadow: Color.fromRGBO(0, 0, 0, 0.16),
                   ),
@@ -1651,7 +1651,8 @@ class _ShiftTimingState extends State<ShiftTiming> {
         isStart: isStart,
         textStyle: TextStyle(color: Colors.black),
         height: 110,
-        width: MediaQuery.of(context).size.width * 0.73, //180,
+        width: MediaQuery.of(context).size.width * 0.73,
+        //180,
         backgroundColor: Colors.white,
         padding: EdgeInsets.all(8.0),
         borderRadius: BorderRadius.circular(10.0));

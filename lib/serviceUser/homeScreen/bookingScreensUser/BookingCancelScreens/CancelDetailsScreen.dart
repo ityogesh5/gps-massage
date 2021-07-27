@@ -20,7 +20,9 @@ String selectedBuildingType;
 
 class CancelDetailsScreen extends StatefulWidget {
   final int bookingId;
+
   CancelDetailsScreen(this.bookingId);
+
   @override
   State<StatefulWidget> createState() {
     return _CancelDetailsScreenState();
@@ -44,7 +46,9 @@ class _CancelDetailsScreenState extends State<CancelDetailsScreen> {
 
 class ConfirmCancelScreen extends StatefulWidget {
   final int bookingId;
+
   ConfirmCancelScreen(this.bookingId);
+
   @override
   State<StatefulWidget> createState() {
     return _ConfirmCancelScreenState();
@@ -53,6 +57,7 @@ class ConfirmCancelScreen extends StatefulWidget {
 
 class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
   final _cancelReasonController = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return CancelPopupScreen();

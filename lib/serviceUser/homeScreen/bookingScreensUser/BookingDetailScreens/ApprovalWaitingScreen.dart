@@ -37,6 +37,7 @@ class ApprovalWaitingScreen extends StatefulWidget {
 
 class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
   var therapisId;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

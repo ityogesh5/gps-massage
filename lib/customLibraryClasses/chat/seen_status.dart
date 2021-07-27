@@ -4,6 +4,7 @@ class SeenStatus extends StatelessWidget {
   final bool isMe;
   final bool isSeen;
   final DateTime timestamp;
+
   const SeenStatus({
     this.isSeen,
     this.isMe,

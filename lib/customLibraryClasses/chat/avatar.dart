@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 
 class Avatar extends StatelessWidget {
   const Avatar({

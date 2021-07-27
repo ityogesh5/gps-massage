@@ -21,6 +21,7 @@ import 'package:intl/intl.dart';
 
 class TherapistAcceptNotification extends StatefulWidget {
   final NotificationList requestBookingDetailsList;
+
   TherapistAcceptNotification(this.requestBookingDetailsList);
 
   @override

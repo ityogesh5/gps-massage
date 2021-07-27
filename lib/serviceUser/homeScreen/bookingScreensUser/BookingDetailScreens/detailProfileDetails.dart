@@ -11,7 +11,9 @@ import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 class DetailProfileDetails extends StatefulWidget {
   final TherapistByIdModel therapistDetails;
+
   DetailProfileDetails(this.therapistDetails);
+
   @override
   _DetailProfileDetailsState createState() => _DetailProfileDetailsState();
 }

@@ -14,6 +14,7 @@ import 'package:gps_massageapp/models/responseModels/guestUserModel/GuestUserRes
 import 'package:gps_massageapp/models/responseModels/paymentModels/CustomerCreation.dart';
 import 'package:gps_massageapp/models/responseModels/paymentModels/PaymentCustomerCharge.dart';
 import 'package:gps_massageapp/models/responseModels/paymentModels/PaymentSuccessModel.dart';
+import 'package:gps_massageapp/models/responseModels/paymentModels/PayoutModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingCompletedList.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingStatus.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/booking/createBooking.dart';
@@ -24,7 +25,6 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/Ther
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UpComingReservationModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UserBannerImagesModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/notification/firebaseNotificationUserListModel.dart';
-import 'package:gps_massageapp/models/responseModels/paymentModels/PayoutModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/DeleteSubAddressModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/EditUserSubAddressModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/ratings/ratingList.dart';

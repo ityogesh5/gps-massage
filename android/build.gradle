@@ -12,7 +12,7 @@ buildscript {
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.7.0'
         classpath 'com.google.firebase:perf-plugin:1.4.0'
         // Replace the standard Performance Monitoring plugin dependency line, as follows:
-        classpath ('com.google.firebase:perf-plugin:1.1.0') {
+        classpath('com.google.firebase:perf-plugin:1.1.0') {
             exclude group: 'com.google.guava', module: 'guava-jdk5'
         }
     }

@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gps_massageapp/commonScreens/chat/chat_item_screen.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/chat.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/db.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/chatData.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/user.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/bookingTimeToolTip/bookingTimeToolTip.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
@@ -13,15 +18,12 @@ import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/Booking
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/detailProfileDetails.dart';
 import 'package:intl/intl.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:gps_massageapp/commonScreens/chat/chat_item_screen.dart';
-import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/chat.dart';
-import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/db.dart';
-import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/chatData.dart';
-import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/user.dart';
 
 class SampleBookingScreen extends StatefulWidget {
   final int id;
+
   SampleBookingScreen(this.id);
+
   @override
   _SampleBookingScreenState createState() => _SampleBookingScreenState();
 }
@@ -1751,7 +1753,8 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
         timePrice: serviceSelection[allTherapistList[index].name],
         textStyle: TextStyle(color: Colors.black),
         height: 90,
-        width: MediaQuery.of(context).size.width - 20.0, //180,
+        width: MediaQuery.of(context).size.width - 20.0,
+        //180,
         backgroundColor: Colors.white,
         padding: EdgeInsets.all(8.0),
         borderRadius: BorderRadius.circular(10.0));

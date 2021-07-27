@@ -2183,11 +2183,11 @@ class _RegisterUserState extends State<RegisterUser> {
               ? HealingMatchConstants.appleTokenId
               : '',
           "lineUserToken": HealingMatchConstants.lineAccessToken != null
-        ? HealingMatchConstants.lineAccessToken
-            : '',
-        "lineBotUserId": HealingMatchConstants.lineUserID != null
-        ? HealingMatchConstants.lineUserID
-            : ''
+              ? HealingMatchConstants.lineAccessToken
+              : '',
+          "lineBotUserId": HealingMatchConstants.lineUserID != null
+              ? HealingMatchConstants.lineUserID
+              : ''
         });
       }
 

@@ -1271,7 +1271,7 @@ class _RegistrationSecondPageState
   }
 
   compressImages() async {
-     ProgressDialogBuilder.showProviderRegisterProgressDialog(context);
+    ProgressDialogBuilder.showProviderRegisterProgressDialog(context);
 
     List<File> bannerImages = List<File>();
     List<File> privateQualificationImages = List<File>();
@@ -1476,7 +1476,9 @@ class _RegistrationSecondPageState
                   "施術店舗あり 施術従業員なし（個人経営）"
           ? "true"
           : "false",
-      "appleUserId": HealingMatchConstants.appleTokenId != null ? HealingMatchConstants.appleTokenId :''
+      "appleUserId": HealingMatchConstants.appleTokenId != null
+          ? HealingMatchConstants.appleTokenId
+          : ''
     });
 
     if (HealingMatchConstants.serviceProviderBusinessForm == "施術店舗あり 施術従業員あり" ||

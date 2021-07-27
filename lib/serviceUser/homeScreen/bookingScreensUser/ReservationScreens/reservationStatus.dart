@@ -203,7 +203,6 @@ class _ReservationStatusState extends State<ReservationStatus> {
                   certificateUploaded["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
                 } else if (jKey == "民間資格") {
                   certificateUploaded["民間資格保有"] = "民間資格保有";
-
                 } else if (jKey == "無資格") {
                   certificateUploaded["無資格"] = "無資格";
                 }
@@ -1708,7 +1707,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                 child: Row(
                                                                   children: [
                                                                     InkWell(
-                                                                      customBorder: CircleBorder(),
+                                                                      customBorder:
+                                                                          CircleBorder(),
                                                                       onTap:
                                                                           () {
                                                                         ProgressDialogBuilder.showCommonProgressDialog(
@@ -1741,7 +1741,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                           5.0,
                                                                     ),
                                                                     InkWell(
-                                                                      customBorder: CircleBorder(),
+                                                                      customBorder:
+                                                                          CircleBorder(),
                                                                       onTap:
                                                                           () {
                                                                         HealingMatchConstants
@@ -2598,7 +2599,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                 child: Row(
                                                                   children: [
                                                                     InkWell(
-                                                                      customBorder: CircleBorder(),
+                                                                      customBorder:
+                                                                          CircleBorder(),
                                                                       onTap:
                                                                           () {
                                                                         ProgressDialogBuilder.showCommonProgressDialog(
@@ -2609,7 +2611,6 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                       },
                                                                       child:
                                                                           Card(
-
                                                                         elevation:
                                                                             4.0,
                                                                         shape:
@@ -2631,7 +2632,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         width:
                                                                             5),
                                                                     InkWell(
-                                                                      customBorder: CircleBorder(),
+                                                                      customBorder:
+                                                                          CircleBorder(),
                                                                       onTap:
                                                                           () {
                                                                         HealingMatchConstants
@@ -2676,7 +2678,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         width:
                                                                             5),
                                                                     InkWell(
-                                                                      customBorder: CircleBorder(),
+                                                                      customBorder:
+                                                                          CircleBorder(),
                                                                       onTap:
                                                                           () {
                                                                         HealingMatchConstants
@@ -3419,7 +3422,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                             padding:
                                                                                 EdgeInsets.only(top: 5.0),
                                                                             width:
-                                                                                MediaQuery.of(context).size.width - 130.0, //200.0,
+                                                                                MediaQuery.of(context).size.width - 130.0,
+                                                                            //200.0,
                                                                             child: ListView.builder(
                                                                                 shrinkWrap: true,
                                                                                 scrollDirection: Axis.horizontal,
@@ -3478,7 +3482,9 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                               Expanded(
                                                                 child: Row(
                                                                   children: [
-                                                                    InkWell( customBorder: CircleBorder(),
+                                                                    InkWell(
+                                                                      customBorder:
+                                                                          CircleBorder(),
                                                                       onTap:
                                                                           () {
                                                                         ProgressDialogBuilder.showCommonProgressDialog(
@@ -3506,7 +3512,9 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         ),
                                                                       ),
                                                                     ),
-                                                                    InkWell( customBorder: CircleBorder(),
+                                                                    InkWell(
+                                                                      customBorder:
+                                                                          CircleBorder(),
                                                                       onTap:
                                                                           () {
                                                                         HealingMatchConstants

@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 
 class BookingCancelPopup extends StatefulWidget {
   final NotificationList requestBookingDetailsList;
+
   BookingCancelPopup(this.requestBookingDetailsList);
 
   @override

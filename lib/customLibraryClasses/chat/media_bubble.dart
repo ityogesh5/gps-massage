@@ -10,6 +10,7 @@ import 'package:gps_massageapp/customLibraryClasses/chat/seen_status.dart';
 import 'package:gps_massageapp/customLibraryClasses/chat/widgets/media_view.dart';
 import 'package:gps_massageapp/customLibraryClasses/chat/widgets/video_player.dart';
 import 'package:provider/provider.dart';
+
 import 'bubble_text.dart';
 import 'dismissible_bubble.dart';
 

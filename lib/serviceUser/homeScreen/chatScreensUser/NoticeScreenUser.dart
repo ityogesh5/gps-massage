@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gps_massageapp/commonScreens/chat/chatUserList.dart';
-import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/notificatioHistory.dart';
 
 class NotifyScreenUser extends StatefulWidget {

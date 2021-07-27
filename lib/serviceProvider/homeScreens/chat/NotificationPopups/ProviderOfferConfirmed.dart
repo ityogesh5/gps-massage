@@ -13,7 +13,9 @@ import 'package:intl/intl.dart';
 
 class ProviderOfferConfirmed extends StatefulWidget {
   final NotificationList requestBookingDetailsList;
+
   ProviderOfferConfirmed(this.requestBookingDetailsList);
+
   @override
   _ProviderOfferConfirmedState createState() => _ProviderOfferConfirmedState();
 }
@@ -241,8 +243,12 @@ class _ProviderOfferConfirmedState extends State<ProviderOfferConfirmed> {
                   height: 15,
                 ),
                 InkWell(
-                  onTap: () { 
-                     HealingMatchConstants.serviceUserName = widget.requestBookingDetailsList.bookingDetail.bookingUserId.userName;
+                  onTap: () {
+                    HealingMatchConstants.serviceUserName = widget
+                        .requestBookingDetailsList
+                        .bookingDetail
+                        .bookingUserId
+                        .userName;
                     NavigationRouter.switchToProviderSideUserReviewScreen(
                         context,
                         requestBookingDetailsList

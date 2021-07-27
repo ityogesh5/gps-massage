@@ -70,7 +70,7 @@ dependencies:
   flutter_native_image: any #Aswin image compression
 
 
-  sign_in_with_apple: any 
+  sign_in_with_apple: any
 
 
   date_util: ^0.1.4
@@ -91,7 +91,7 @@ dependencies:
   flutter_overlay_loader: ^0.0.2
   lazy_load_scrollview: 1.1.0
   cached_network_image: any
-#  stripe_payment:
+  #  stripe_payment:
   super_tooltip: any
   time: any
 

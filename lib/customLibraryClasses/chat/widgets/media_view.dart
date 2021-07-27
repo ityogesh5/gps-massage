@@ -6,10 +6,12 @@ import 'package:gps_massageapp/customLibraryClasses/chat/widgets/video_player.da
 class MediaView extends StatelessWidget {
   final String url;
   final MediaType type;
+
   MediaView({
     @required this.url,
     @required this.type,
   });
+
   @override
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context);

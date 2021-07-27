@@ -10,13 +10,15 @@ import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
-import 'package:readmore/readmore.dart';
 import 'package:intl/intl.dart';
+import 'package:readmore/readmore.dart';
 
 class DetailPeofileDetailsHome extends StatefulWidget {
   final TherapistByIdModel therapistDetails;
   final int id;
+
   DetailPeofileDetailsHome(this.therapistDetails, this.id);
+
   @override
   _DetailPeofileDetailsHomeState createState() =>
       _DetailPeofileDetailsHomeState();
@@ -34,6 +36,7 @@ class _DetailPeofileDetailsHomeState extends State<DetailPeofileDetailsHome> {
   bool shopLocationSelected = false;
   var userPlaceForMassage, therapistAddress, userRegisteredAddress;
   GlobalKey<FormState> _userDetailsFormKey = new GlobalKey<FormState>();
+
   @override
   void initState() {
     super.initState();

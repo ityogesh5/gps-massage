@@ -622,8 +622,8 @@ class _AddAddressState extends State<SearchAddAddress> {
                           width: MediaQuery.of(context).size.width * 0.85,
                           child: ArgonButton(
                             height: 45,
-                            width:
-                                MediaQuery.of(context).size.width - 20.0, //350,
+                            width: MediaQuery.of(context).size.width - 20.0,
+                            //350,
                             borderRadius: 5.0,
                             color: ColorConstants.buttonColor,
                             child: new Text(
