@@ -33,6 +33,7 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/Se
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/login/snsAndAppleResponse.dart';
 import 'package:http/http.dart' as http;
 
 class ServiceUserAPIProvider {
@@ -88,8 +89,9 @@ class ServiceUserAPIProvider {
   static BookingStatusModel _bookingStatusModel = new BookingStatusModel();
   static UpComingBookingModel _upComingBookingStatusModel =
       new UpComingBookingModel();
-  static BookingCompletedList _bookingCompletedList =
-      new BookingCompletedList();
+  static BookingCompletedList _bookingCompletedList = new BookingCompletedList();
+
+  static SnsAndAppleLogin snsAndAppleLoginRes = new SnsAndAppleLogin();
 
   // get all therapist users
   static Future<TherapistUsersModel> getAllTherapistUsers(
@@ -1262,8 +1264,9 @@ class ServiceUserAPIProvider {
     }
   }
   //SNS and Apple login
-/*  static Future<UserReviewListById> snsAndAppleLogin(
-      BuildContext context, int lineBotUserId,appleUserId,isTherapist,String fcmToken) async {
+  static Future<SnsAndAppleLogin> snsAndAppleLogin(
+      BuildContext context, String lineBotUserId,String appleUserId,int isTherapist,String fcmToken) async {
+
     ProgressDialogBuilder.showOverlayLoader(context);
     try {
       final url = HealingMatchConstants.SNS_APPLE_USER_URL;
@@ -1274,14 +1277,14 @@ class ServiceUserAPIProvider {
           },
           body: json.encode({
             "lineBotUserId": lineBotUserId,
-            "appleUserId": appleUserId,
+            "appleUserId": Platform.isIOS? appleUserId:'',
             "isTherapist": isTherapist,
             "fcmToken": fcmToken,
           }));
       print(response.body);
       if (response.statusCode == 200) {
-        _userReviewListById =
-            UserReviewListById.fromJson(json.decode(response.body));
+        snsAndAppleLoginRes =
+            SnsAndAppleLogin.fromJson(json.decode(response.body));
       }
       ProgressDialogBuilder.hideLoader(context);
       print('Status code : ${response.statusCode}');
@@ -1290,6 +1293,6 @@ class ServiceUserAPIProvider {
       print('Ratings and review exception : ${e.toString()}');
     }
 
-    return _userReviewListById;
-  }*/
+    return snsAndAppleLoginRes;
+  }
 }

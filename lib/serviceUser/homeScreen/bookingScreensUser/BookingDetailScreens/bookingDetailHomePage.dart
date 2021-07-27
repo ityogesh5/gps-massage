@@ -61,6 +61,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
   int serviceSubId;
   var finalAmount;
   bool isLoading = false;
+  bool addressColor = false;
 
   String defaultBannerUrl =
       "https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80";
@@ -1814,118 +1815,162 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                         Column(
                           children: [
                             Container(
-                              width: MediaQuery.of(context).size.width * 0.86,
+                              width: MediaQuery.of(context).size.width * 0.55,
                               child: WidgetAnimator(
-                                TextFormField(
-                                  //display the address
-                                  readOnly: true,
-                                  autofocus: false,
-                                  enableInteractiveSelection: true,
-                                  initialValue: HealingMatchConstants
-                                      .userAddressDetailsList[index].address,
-                                  decoration: new InputDecoration(
-                                      filled: true,
-                                      fillColor:
-                                          ColorConstants.formFieldFillColor,
-                                      hintText:
-                                          '${HealingMatchConstants.userAddressDetailsList[index]}',
-                                      hintStyle: TextStyle(
-                                          color: Colors.grey[400],
-                                          fontSize: 14),
-                                      focusColor: Colors.grey[100],
-                                      border: HealingMatchConstants
-                                          .textFormInputBorder,
-                                      focusedBorder: HealingMatchConstants
-                                          .textFormInputBorder,
-                                      disabledBorder: HealingMatchConstants
-                                          .textFormInputBorder,
-                                      enabledBorder: HealingMatchConstants
-                                          .textFormInputBorder,
-                                      prefixIcon: GestureDetector(
-                                        onTap: () {
-                                          print(
-                                              'Address Type Container selected...');
-                                          _userDetailsFormKey.currentState
-                                              .save();
-                                          if (this.mounted) {
-                                            setState(() {
-                                              address = HealingMatchConstants
-                                                  .userAddressDetailsList[index]
-                                                  .address;
-                                              HealingMatchConstants
-                                                      .bookingAddressId =
-                                                  HealingMatchConstants
-                                                      .userAddressDetailsList[
-                                                          index]
-                                                      .id;
-                                              placeForMassage =
-                                                  HealingMatchConstants
-                                                      .userAddressDetailsList[
-                                                          index]
-                                                      .userPlaceForMassage;
-                                              shopLocationSelected = false;
-                                              userRegisteredAddress = address;
-                                              userPlaceForMassage =
-                                                  placeForMassage;
-                                            });
-                                          }
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Container(
-                                              padding: EdgeInsets.all(8.0),
-                                              decoration: BoxDecoration(
-                                                gradient: LinearGradient(
-                                                    begin: Alignment.topCenter,
-                                                    end: Alignment.bottomCenter,
-                                                    colors: [
-                                                      Color.fromRGBO(
-                                                          255, 255, 255, 1),
-                                                      Color.fromRGBO(
-                                                          255, 255, 255, 1),
-                                                    ]),
-                                                shape: BoxShape.rectangle,
-                                                border: Border.all(
-                                                  color: Colors.grey[100],
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(6.0),
-                                                color: Color.fromRGBO(
-                                                    255, 255, 255, 1),
-                                              ),
-                                              child: Text(
-                                                '${HealingMatchConstants.userAddressDetailsList[index].userPlaceForMassage}',
-                                                style: TextStyle(
-                                                  color: Color.fromRGBO(
-                                                      0, 0, 0, 1),
-                                                ),
-                                              )),
-                                        ),
-                                      ),
-                                      suffixIcon: IconButton(
-                                          icon: Icon(
-                                              Icons
-                                                  .check_circle_outline_outlined,
-                                              size: 30),
-                                          onPressed: () {
-                                            if (this.mounted) {
-                                              setState(() {
-                                                address = HealingMatchConstants
-                                                    .userAddressDetailsList[
-                                                        index]
-                                                    .address;
-                                                placeForMassage =
-                                                    HealingMatchConstants
-                                                        .userAddressDetailsList[
-                                                            index]
-                                                        .userPlaceForMassage;
-
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 3,
+                                      child: TextFormField(
+                                        //display the address
+                                        readOnly: true,
+                                        autofocus: false,
+                                        enableInteractiveSelection: true,
+                                        initialValue: HealingMatchConstants
+                                            .userAddressDetailsList[index].address,
+                                        decoration: new InputDecoration(
+                                            filled: true,
+                                            fillColor:
+                                                ColorConstants.formFieldFillColor,
+                                            hintText:
+                                                '${HealingMatchConstants.userAddressDetailsList[index]}',
+                                            hintStyle: TextStyle(
+                                                color: Colors.grey[400],
+                                                fontSize: 14),
+                                            focusColor: Colors.grey[100],
+                                            border: HealingMatchConstants
+                                                .textFormInputBorder,
+                                            focusedBorder: HealingMatchConstants
+                                                .textFormInputBorder,
+                                            disabledBorder: HealingMatchConstants
+                                                .textFormInputBorder,
+                                            enabledBorder: HealingMatchConstants
+                                                .textFormInputBorder,
+                                            prefixIcon: GestureDetector(
+                                              onTap: () {
                                                 print(
-                                                    'Selected Place and Address : $address\n$placeForMassage');
-                                              });
-                                            }
-                                          })),
-                                  style: TextStyle(color: Colors.black54),
+                                                    'Address Type Container selected...');
+                                                _userDetailsFormKey.currentState
+                                                    .save();
+                                                if (this.mounted) {
+                                                  setState(() {
+                                                    address = HealingMatchConstants
+                                                        .userAddressDetailsList[index]
+                                                        .address;
+                                                    HealingMatchConstants
+                                                            .bookingAddressId =
+                                                        HealingMatchConstants
+                                                            .userAddressDetailsList[
+                                                                index]
+                                                            .id;
+                                                    placeForMassage =
+                                                        HealingMatchConstants
+                                                            .userAddressDetailsList[
+                                                                index]
+                                                            .userPlaceForMassage;
+                                                    shopLocationSelected = false;
+                                                    userRegisteredAddress = address;
+                                                    userPlaceForMassage =
+                                                        placeForMassage;
+                                                  });
+                                                }
+                                              },
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Container(
+                                                    padding: EdgeInsets.all(8.0),
+                                                    decoration: BoxDecoration(
+                                                      gradient: LinearGradient(
+                                                          begin: Alignment.topCenter,
+                                                          end: Alignment.bottomCenter,
+                                                          colors: [
+                                                            Color.fromRGBO(
+                                                                255, 255, 255, 1),
+                                                            Color.fromRGBO(
+                                                                255, 255, 255, 1),
+                                                          ]),
+                                                      shape: BoxShape.rectangle,
+                                                      border: Border.all(
+                                                        color: Colors.grey[100],
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(6.0),
+                                                      color: Color.fromRGBO(
+                                                          255, 255, 255, 1),
+                                                    ),
+                                                    child: Text(
+                                                      '${HealingMatchConstants.userAddressDetailsList[index].userPlaceForMassage}',
+                                                      style: TextStyle(
+                                                        color: Color.fromRGBO(
+                                                            0, 0, 0, 1),
+                                                      ),
+                                                    )),
+                                              ),
+                                            ),
+                                           /* suffixIcon: IconButton(
+                                                icon: Icon(
+                                                    Icons
+                                                        .check_circle_outline_outlined,
+                                                    size: 30),
+                                                onPressed: () {
+                                                  if (this.mounted) {
+                                                    setState(() {
+                                                      address = HealingMatchConstants
+                                                          .userAddressDetailsList[
+                                                              index]
+                                                          .address;
+                                                      placeForMassage =
+                                                          HealingMatchConstants
+                                                              .userAddressDetailsList[
+                                                                  index]
+                                                              .userPlaceForMassage;
+
+                                                      print(
+                                                          'Selected Place and Address : $address\n$placeForMassage');
+                                                    });
+                                                  }
+                                                })*/),
+                                        style: TextStyle(color: Colors.black54),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ), Expanded(
+                                      child: InkWell(
+                                        onTap:(){
+                                          setState(() {
+                                            addressColor = !addressColor;
+                                          });
+                                        },
+                                        child: IconButton(
+                                            icon: Icon(
+                                                Icons
+                                                    .check_circle_outline_outlined,
+
+                                                color:  addressColor == true ?Colors.blue:  Colors.black,
+                                                size: 30),
+                                            onPressed: () {
+                                              if (this.mounted) {
+                                                setState(() {
+                                                  addressColor = true;
+                                                  address = HealingMatchConstants
+                                                      .userAddressDetailsList[
+                                                  index]
+                                                      .address;
+                                                  placeForMassage =
+                                                      HealingMatchConstants
+                                                          .userAddressDetailsList[
+                                                      index]
+                                                          .userPlaceForMassage;
+
+                                                  print(
+                                                      'Selected Place and Address : $address\n$placeForMassage');
+                                                });
+                                              }
+                                            }),
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ),
                             ),
