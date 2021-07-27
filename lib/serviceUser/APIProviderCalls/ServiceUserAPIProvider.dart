@@ -1261,4 +1261,35 @@ class ServiceUserAPIProvider {
       return false;
     }
   }
+  //SNS and Apple login
+/*  static Future<UserReviewListById> snsAndAppleLogin(
+      BuildContext context, int lineBotUserId,appleUserId,isTherapist,String fcmToken) async {
+    ProgressDialogBuilder.showOverlayLoader(context);
+    try {
+      final url = HealingMatchConstants.SNS_APPLE_USER_URL;
+      final response = await http.post(url,
+          headers: {
+            "Content-Type": "application/json",
+
+          },
+          body: json.encode({
+            "lineBotUserId": lineBotUserId,
+            "appleUserId": appleUserId,
+            "isTherapist": isTherapist,
+            "fcmToken": fcmToken,
+          }));
+      print(response.body);
+      if (response.statusCode == 200) {
+        _userReviewListById =
+            UserReviewListById.fromJson(json.decode(response.body));
+      }
+      ProgressDialogBuilder.hideLoader(context);
+      print('Status code : ${response.statusCode}');
+    } catch (e) {
+      ProgressDialogBuilder.hideLoader(context);
+      print('Ratings and review exception : ${e.toString()}');
+    }
+
+    return _userReviewListById;
+  }*/
 }

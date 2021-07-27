@@ -107,8 +107,10 @@ class HealingMatchConstants {
       ON_PREMISE_USER_BASE_URL + '/user' + '/registerUser';
 
   // login service user
-  static const String LOGIN_USER_URL =
-      ON_PREMISE_USER_BASE_URL + '/user' + '/signin';
+  static const String LOGIN_USER_URL = ON_PREMISE_USER_BASE_URL + '/user' + '/signin';
+
+  //SNS AND APPLE LOGIN
+  static const String SNS_APPLE_USER_URL = ON_PREMISE_USER_BASE_URL + '/user' + '/signinSSO';
 
   //Ratings and Review
   static const String RATING_USER_URL =

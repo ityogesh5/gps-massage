@@ -32,6 +32,7 @@ class UserLogin extends StatefulWidget {
 }
 
 class _UserLoginState extends State<UserLogin> {
+  String lineBotId;
   var loginResponseModel = new LoginResponseModel();
   var addressResponse = new Address();
   bool passwordVisibility = true;
@@ -684,6 +685,9 @@ class _UserLoginState extends State<UserLogin> {
       }
     }).catchError((onError) {
       print('FCM Skip Token Exception : ${onError.toString()}');
+    });
+    _sharedPreferences.then((value) {
+      lineBotId = value.getString('lineBotUserId;');
     });
   }
 
