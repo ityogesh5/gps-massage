@@ -640,7 +640,8 @@ class _UserLoginState extends State<UserLogin> {
 
   void _initiateLineLogin() async {
     print('Entering line login...');
-    ProgressDialogBuilder.showOverlayLoader(context);
+    // ProgressDialogBuilder.showOverlayLoader(context);
+    String password;
     try{
     if(lineBotId !=null&&lineBotId.isNotEmpty ){
      var snsAndApple =  ServiceUserAPIProvider.snsAndAppleLogin(context, lineBotId, appleUserId, isTherapist, fcmToken);
@@ -715,7 +716,8 @@ snsAndApple.then((snsValue) {
       value.setBool('isUserLoggedIn', true);
       value.setBool('userLoginSkipped', false);
       value.setBool('isProviderLoggedIn', false);
-      // firebaseChatLogin(snsValue.data, password);
+
+      firebaseChatSnsLogin(snsValue.data, password);
     } else {
       HealingMatchConstants.fbUserid =
           snsValue.data.phoneNumber.toString() +
@@ -743,7 +745,34 @@ snsAndApple.then((snsValue) {
       print(e);
     }
   }
-
+  void firebaseChatSnsLogin(snsLogin.Data userData, String password) {
+    Auth()
+        .signIn(
+        userData.phoneNumber.toString() +
+            userData.id.toString() +
+            "@nexware.global.com",
+        password)
+        .then((value) {
+      ProgressDialogBuilder.hideLoader(context);
+      if (value) {
+        Toast.show("正常にログインしました。", context,
+            duration: Toast.LENGTH_LONG,
+            gravity: Toast.CENTER,
+            backgroundColor: Colors.lime,
+            textColor: Colors.white);
+        NavigationRouter.switchToServiceUserBottomBar(context);
+      } else {
+        ProgressDialogBuilder.hideLoader(context);
+        Toast.show("許可されていないユーザー。", context,
+            duration: 4,
+            gravity: Toast.CENTER,
+            backgroundColor: Colors.redAccent,
+            textColor: Colors.white);
+        print('Unverified User!!');
+        return;
+      }
+    });
+  }
   _getFCMLoginToken() async {
     fireBaseMessaging.getToken().then((fcmTokenValue) {
       if (fcmTokenValue != null) {

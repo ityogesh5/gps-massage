@@ -47,6 +47,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
   ItemScrollController scrollController = ItemScrollController();
   ScrollController mainScrollController = ScrollController();
   List<bool> visibility = List<bool>();
+  List<bool> addressColor = List<bool>();
   List<TherapistList> allTherapistList = List<TherapistList>();
   List<GlobalKey> globalKeyList = List<GlobalKey>();
   List<String> bannerImages = List<String>();
@@ -61,7 +62,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
   int serviceSubId;
   var finalAmount;
   bool isLoading = false;
-  bool addressColor = false;
+  Color _iconColor = Colors.black;
 
   String defaultBannerUrl =
       "https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80";
@@ -1815,7 +1816,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                         Column(
                           children: [
                             Container(
-                              width: MediaQuery.of(context).size.width * 0.55,
+                              width: MediaQuery.of(context).size.width * 0.70,
                               child: WidgetAnimator(
                                 Row(
                                   children: [
@@ -1936,23 +1937,20 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                                     SizedBox(
                                       width: 5,
                                     ), Expanded(
-                                      child: InkWell(
-                                        onTap:(){
-                                          setState(() {
-                                            addressColor = !addressColor;
-                                          });
-                                        },
+                                      flex:1,
+                                      child: Container(
                                         child: IconButton(
                                             icon: Icon(
                                                 Icons
                                                     .check_circle_outline_outlined,
 
-                                                color:  addressColor == true ?Colors.blue:  Colors.black,
+                                                color:   Colors.black,
                                                 size: 30),
                                             onPressed: () {
                                               if (this.mounted) {
                                                 setState(() {
-                                                  addressColor = true;
+                                                  // addressColor = true;
+
                                                   address = HealingMatchConstants
                                                       .userAddressDetailsList[
                                                   index]
@@ -1963,10 +1961,15 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                                                       index]
                                                           .userPlaceForMassage;
 
+                                                  shopLocationSelected = false;
+                                                  userRegisteredAddress = address;
+                                                  userPlaceForMassage = placeForMassage;
+
                                                   print(
                                                       'Selected Place and Address : $address\n$placeForMassage');
                                                 });
                                               }
+                                              dialog.dissmiss();
                                             }),
                                       ),
                                     )
@@ -1980,7 +1983,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                       );
                     }),
               ),
-              SizedBox(
+             /* SizedBox(
                 height: 10,
               ),
               AnimatedButton(
@@ -2011,7 +2014,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
 
                       return;
                     }
-                  })
+                  })*/
             ],
           ),
         ),
