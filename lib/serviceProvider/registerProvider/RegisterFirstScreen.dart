@@ -31,6 +31,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
   bool passwordVisibility = true;
   bool passwordConfirmVisibility = true;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  var lineUserImage;
 
   //Regex validation for emojis in text
   RegExp regexEmojis = RegExp(
@@ -2405,8 +2406,22 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       setState(() {});
       // print('prefID : ${stateDropDownValues.indexOf(_mystate).toString()}');
     });
+    _setLineCredentialsForUser();
   }
+  _setLineCredentialsForUser() async {
+    setState(() {
+      if (HealingMatchConstants.lineUserProfileURL != null) {
+        lineUserImage = HealingMatchConstants.lineUserProfileURL;
+      }
+      if (HealingMatchConstants.lineUsername != null) {
+        providerNameController.text = HealingMatchConstants.lineUsername;
+      }
+      if (HealingMatchConstants.lineUserEmail != null) {
+        mailAddressController.text = HealingMatchConstants.lineUserEmail;
+      }
+    });
 
+  }
   // CityList cityResponse;
   _getCityDropDown(var prefid) async {
     ProgressDialogBuilder.showGetCitiesProgressDialog(context);

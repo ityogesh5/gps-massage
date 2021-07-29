@@ -67,6 +67,8 @@ class _UserLoginState extends State<UserLogin> {
   @override
   void initState() {
     super.initState();
+    HealingMatchConstants.snsLoginFlag = 0;
+    print('snsFlag:   ${HealingMatchConstants.snsLoginFlag}');
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
     _getFCMToken();
   }

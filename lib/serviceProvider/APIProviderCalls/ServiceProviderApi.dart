@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import "package:googleapis/calendar/v3.dart";
@@ -19,6 +20,7 @@ import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBo
 import 'package:gps_massageapp/models/responseModels/serviceProvider/userReviewCreateResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/userReviewandRatingsResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/login/snsAndAppleResponse.dart';
 import 'package:http/http.dart' as http;
 
 class ServiceProviderApi {
@@ -33,6 +35,7 @@ class ServiceProviderApi {
 
   static TherapistDetailsModel _therapistDetailsModel =
       new TherapistDetailsModel();
+  static SnsAndAppleLogin snsAndAppleLoginRes = new SnsAndAppleLogin();
 
   static Future<ProviderReviewandRatingsViewResponseModel>
       getTherapistReviewById(int pageNumber, int pageSize) async {
@@ -1208,5 +1211,36 @@ class ServiceProviderApi {
     }
 
     return _therapistDetailsModel;
+  }
+  static Future<SnsAndAppleLogin> snsAndAppleLoginProvider(
+      BuildContext context, String lineBotUserId,String appleUserId,int isTherapist,String fcmToken) async {
+
+    ProgressDialogBuilder.showOverlayLoader(context);
+    try {
+      final url = HealingMatchConstants.SNS_APPLE_USER_URL;
+      final response = await http.post(url,
+          headers: {
+            "Content-Type": "application/json",
+
+          },
+          body: json.encode({
+            "lineBotUserId": lineBotUserId,
+            "appleUserId": Platform.isIOS? appleUserId:'',
+            "isTherapist": isTherapist,
+            "fcmToken": fcmToken,
+          }));
+      print(response.body);
+      if (response.statusCode == 200) {
+        snsAndAppleLoginRes =
+            SnsAndAppleLogin.fromJson(json.decode(response.body));
+      }
+      ProgressDialogBuilder.hideLoader(context);
+      print('Status code : ${response.statusCode}');
+    } catch (e) {
+      ProgressDialogBuilder.hideLoader(context);
+      print('Ratings and review exception : ${e.toString()}');
+    }
+
+    return snsAndAppleLoginRes;
   }
 }

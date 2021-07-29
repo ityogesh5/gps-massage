@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:gps_massageapp/customLibraryClasses/customRadioButtonList/roundedRadioButton.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:keyboard_service/keyboard_service.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 
@@ -135,14 +136,21 @@ class _ReportUserScreenView extends State<ReportUserScreen> {
                     text: '報告する',
                     width: 350,
                     pressEvent: () {
-                      NavigationRouter.switchToServiceUserBottomBar(context);
+                      emailLaunch();
+                      // NavigationRouter.switchToServiceUserBottomBar(context);
                     })
               ]),
         ),
       ),
     );
   }
-
+  emailLaunch() {
+    final Uri _emailLaunchUri = Uri(
+        scheme: 'mailto',
+        path: 'healingMatch@yopmail.com',
+        queryParameters: {'subject': '$selectedBuildingType'});
+    launch(_emailLaunchUri.toString());
+  }
   Future<void> _reportUser() async {}
 
   void _handleCategoryChange(bool newVal, ReportCategory category) {
