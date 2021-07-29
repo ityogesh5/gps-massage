@@ -892,18 +892,15 @@ class _FavoriteState extends State<Favorite> {
                                                           'assets/images_gps/appIcon.png')),
                                                 )),
                                           ),
-                                          Expanded(
-                                            child: Column(
-                                              children: [
-                                                Text(
-                                                  'お気に入りに登録したセラピスト・店舗はありません。',
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontFamily: 'NotoSansJP',
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                              ],
+                                          SizedBox(width: 15,),
+                                          Flexible(
+                                            child: Text(
+                                              'お気に入りに登録したセラピスト・\n店舗はありません。',
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontFamily: 'NotoSansJP',
+                                                  fontWeight:
+                                                      FontWeight.bold),
                                             ),
                                           ),
                                         ],

@@ -1084,18 +1084,17 @@ class _PastReservationsState extends State<PastReservations> {
                                                           'assets/images_gps/appIcon.png')),
                                                 )),
                                           ),
-                                          Expanded(
-                                            child: Column(
-                                              children: [
-                                                Text(
-                                                  '今までに受けたサービスはありません。',
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontFamily: 'NotoSansJP',
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                              ],
+                                          SizedBox(
+                                            width: 20,
+                                          ),
+                                          Flexible(
+                                            child: Text(
+                                              '今までに受けたサービスは\nありません。',
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontFamily: 'NotoSansJP',
+                                                  fontWeight:
+                                                      FontWeight.bold),
                                             ),
                                           ),
                                         ],

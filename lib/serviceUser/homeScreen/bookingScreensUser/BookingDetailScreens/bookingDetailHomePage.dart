@@ -506,7 +506,9 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                                                                     .grey[500]),
                                                           ),
                                                         ),
-                                                  Spacer(),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
                                                   GestureDetector(
                                                     onTap: () =>
                                                         openUserLocationSelectionDialog(),
