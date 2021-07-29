@@ -1010,16 +1010,16 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
   void cancelBooking(BuildContext context) {
     ServiceProviderApi.removeEvent(widget.bookingDetail.eventId, context)
         .then((value) {
-      //    if (value) {
-      ServiceProviderApi.updateStatusUpdate(
-              widget.bookingDetail, false, false, onCancel)
-          .then((value) {
-        ProgressDialogBuilder.hideCommonProgressDialog(context);
-        if (value) {
-          NavigationRouter.switchToServiceProviderBottomBar(context);
-        }
-      });
-      //  }
+      if (value) {
+        ServiceProviderApi.updateStatusUpdate(
+                widget.bookingDetail, false, false, onCancel)
+            .then((value) {
+          ProgressDialogBuilder.hideCommonProgressDialog(context);
+          if (value) {
+            NavigationRouter.switchToServiceProviderBottomBar(context);
+          }
+        });
+      }
     });
   }
 

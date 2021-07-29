@@ -509,8 +509,11 @@ class HealingMatchConstants {
   static const String registrationBankName = '銀行名';
   static const String registrationBankBranchCode = '支店名';
   static const String registrationBankBranchNumber = '支店番号';
+  static const String registrationBankNumber = '銀行番号';
   static const String registrationBankAccountNumber = '口座番号';
+  static const String registrationHolderName = '銀行口座名義';
   static const String registrationBankAccountType = '口座種類';
+  static const String registrationBankAccountHolderType = '口座名義人の業種';
   static const String registrationCompleteBtn = '登録完了';
   static const String registrationAlreadyActTxt = 'すでにアカウントをお持ちの方';
   static const String registrationBankOtherDropdownFiled = "その他";

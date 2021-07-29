@@ -488,7 +488,7 @@ class ServiceUserAPIProvider {
 
 //cancel Booking status
   static Future<bool> updateBookingCompeted(
-      int bookingDetail, String cancelReason) async {
+      int bookingId,int exsitingBookingStatus, String cancelReason) async {
     try {
       final url = HealingMatchConstants.THERAPIST_BOOKING_STATUS_UPDATE;
       Map<String, dynamic> body;
@@ -498,8 +498,9 @@ class ServiceUserAPIProvider {
       };
 
       body = {
-        "bookingId": bookingDetail.toString(),
+        "bookingId": bookingId.toString(),
         "cancellationReason": cancelReason,
+        "exsitingBookingStatus": exsitingBookingStatus.toString(),
         "bookingStatus": "5",
       };
 
@@ -678,34 +679,62 @@ class ServiceUserAPIProvider {
             "Content-Type": "application/json",
             "x-access-token": HealingMatchConstants.accessToken
           },
-          body: json.encode({
-            "therapistId": therapistId,
-            "startTime": startTime,
-            "endTime": endTime,
-            "paymentStatus": paymentStatus,
-            "subCategoryId": subCategoryId,
-            "categoryId": categoryId,
-            "nameOfService": nameOfService,
-            "totalMinOfService": totalMinOfService,
-            "priceOfService": priceOfService,
-            "bookingStatus": bookingStatus,
-            "locationType": locationType,
-            "location": location,
-            "locationDistance": locationDistance,
-            "totalCost": totalCost,
-            "userReviewStatus": userReviewStatus,
-            "userComments": userCommands,
-            "travelAmount": 0,
-            "eventId": eventId,
-            "addressId": bookingAddressId,
-            "currentPrefecture": currentPrefecture,
-            "lat": bookingAddressId == 0
-                ? HealingMatchConstants.currentLatitude
-                : 0,
-            "lon": bookingAddressId == 0
-                ? HealingMatchConstants.currentLongitude
-                : 0,
-          }));
+          body: bookingAddressId == 0 || bookingAddressId == null
+              ? json.encode({
+                  "therapistId": therapistId,
+                  "startTime": startTime,
+                  "endTime": endTime,
+                  "paymentStatus": paymentStatus,
+                  "subCategoryId": subCategoryId,
+                  "categoryId": categoryId,
+                  "nameOfService": nameOfService,
+                  "totalMinOfService": totalMinOfService,
+                  "priceOfService": priceOfService,
+                  "bookingStatus": bookingStatus,
+                  "locationType": locationType,
+                  "location": location,
+                  "locationDistance": locationDistance,
+                  "totalCost": totalCost,
+                  "userReviewStatus": userReviewStatus,
+                  "userComments": userCommands,
+                  "travelAmount": 0,
+                  "eventId": eventId,
+                  "currentPrefecture": currentPrefecture,
+                  "lat": bookingAddressId == 0
+                      ? HealingMatchConstants.currentLatitude
+                      : 0,
+                  "lon": bookingAddressId == 0
+                      ? HealingMatchConstants.currentLongitude
+                      : 0,
+                })
+              : json.encode({
+                  "therapistId": therapistId,
+                  "startTime": startTime,
+                  "endTime": endTime,
+                  "paymentStatus": paymentStatus,
+                  "subCategoryId": subCategoryId,
+                  "categoryId": categoryId,
+                  "nameOfService": nameOfService,
+                  "totalMinOfService": totalMinOfService,
+                  "priceOfService": priceOfService,
+                  "bookingStatus": bookingStatus,
+                  "locationType": locationType,
+                  "location": location,
+                  "locationDistance": locationDistance,
+                  "totalCost": totalCost,
+                  "userReviewStatus": userReviewStatus,
+                  "userComments": userCommands,
+                  "travelAmount": 0,
+                  "eventId": eventId,
+                  "addressId": bookingAddressId,
+                  "currentPrefecture": currentPrefecture,
+                  "lat": bookingAddressId == 0
+                      ? HealingMatchConstants.currentLatitude
+                      : 0,
+                  "lon": bookingAddressId == 0
+                      ? HealingMatchConstants.currentLongitude
+                      : 0,
+                }));
 
       print('booking results Body : ${response.body}');
       if (response.statusCode == 200) {

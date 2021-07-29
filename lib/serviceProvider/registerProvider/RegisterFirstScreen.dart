@@ -518,42 +518,70 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: sizedBoxFormHeight,
+                  height: sizedBoxFormHeight - 8.0,
                 ),
-                Container(
-                  height: containerHeight,
-                  width: containerWidth,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Center(
-                        child: Container(
-                          height: containerHeight,
-                          child: DropDownFormField(
-                            requiredField: true,
-                            hintText: '性別',
-                            value: gender,
-                            onSaved: (value) {
-                              setState(() {
-                                gender = value;
-                              });
-                            },
-                            onChanged: (value) {
-                              setState(() {
-                                gender = value;
-                                FocusScope.of(context)
-                                    .requestFocus(new FocusNode());
-                              });
-                            },
-                            dataSource: genderDropDownValues,
-                            isList: true,
-                            textField: 'display',
-                            valueField: 'value',
+                Stack(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(top: 8.0),
+                      height: containerHeight,
+                      width: containerWidth,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Center(
+                            child: Container(
+                              height: containerHeight,
+                              child: DropDownFormField(
+                                requiredField: true,
+                                hintText: '性別',
+                                value: gender,
+                                onSaved: (value) {
+                                  setState(() {
+                                    gender = value;
+                                  });
+                                },
+                                onChanged: (value) {
+                                  setState(() {
+                                    gender = value;
+                                    FocusScope.of(context)
+                                        .requestFocus(new FocusNode());
+                                  });
+                                },
+                                dataSource: genderDropDownValues,
+                                isList: true,
+                                textField: 'display',
+                                valueField: 'value',
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    gender != null && gender != ''
+                        ? Positioned(
+                            left: 12.0,
+                            child: Row(
+                              children: [
+                                Text(
+                                  "性別",
+                                  style: TextStyle(
+                                      color: ColorConstants.formHintTextColor,
+                                      fontFamily: 'NotoSansJP',
+                                      fontSize: 10.0),
+                                ),
+                                Text(
+                                  "*",
+                                  style: TextStyle(
+                                      color: Colors.redAccent.shade700,
+                                      fontFamily: 'NotoSansJP',
+                                      fontSize: 10.0),
+                                ),
+                              ],
+                            ),
+                          )
+                        : Text(''),
+                  ],
                 ),
                 SizedBox(
                   height: sizedBoxFormHeight,
@@ -848,83 +876,133 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                     SizedBox(
                       height: sizedBoxFormHeight,
                     ),
-                    Form(
-                      key: statekey,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Center(
-                            child: Container(
-                              margin: EdgeInsets.all(0.0),
-                              width: containerWidth,
-                              child: DropDownFormField(
-                                titleText: null,
-                                hintText: readonly ? myState : '都道府県',
-                                onSaved: (value) {
-                                  setState(() {
-                                    myState = value;
-                                  });
-                                },
-                                requiredField: true,
-                                value: myState,
-                                onChanged: (value) {
-                                  setState(() {
-                                    myState = value;
+                    Stack(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 8.0),
+                          width: containerWidth,
+                          child: DropDownFormField(
+                            titleText: null,
+                            hintText: readonly ? myState : '都道府県',
+                            onSaved: (value) {
+                              setState(() {
+                                myState = value;
+                              });
+                            },
+                            requiredField: true,
+                            value: myState,
+                            onChanged: (value) {
+                              setState(() {
+                                myState = value;
 
-                                    _prefid =
-                                        stateDropDownValues.indexOf(value) + 1;
-                                    print('prefID : ${_prefid.toString()}');
-                                    cityDropDownValues.clear();
-                                    myCity = '';
-                                    _getCityDropDown(_prefid);
-                                    FocusScope.of(context)
-                                        .requestFocus(new FocusNode());
-                                  });
-                                },
-                                dataSource: stateDropDownValues,
-                                isList: true,
-                                textField: 'display',
-                                valueField: 'value',
-                              ),
-                            ),
+                                _prefid =
+                                    stateDropDownValues.indexOf(value) + 1;
+                                print('prefID : ${_prefid.toString()}');
+                                cityDropDownValues.clear();
+                                myCity = '';
+                                _getCityDropDown(_prefid);
+                                FocusScope.of(context)
+                                    .requestFocus(new FocusNode());
+                              });
+                            },
+                            dataSource: stateDropDownValues,
+                            isList: true,
+                            textField: 'display',
+                            valueField: 'value',
                           ),
-                        ],
-                      ),
+                        ),
+                        myState != null && myState != ''
+                            ? Positioned(
+                                left: 12.0,
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "都道府県",
+                                      style: TextStyle(
+                                          color:
+                                              ColorConstants.formHintTextColor,
+                                          fontFamily: 'NotoSansJP',
+                                          fontSize: 10.0),
+                                    ),
+                                    Text(
+                                      "*",
+                                      style: TextStyle(
+                                          color: Colors.redAccent.shade700,
+                                          fontFamily: 'NotoSansJP',
+                                          fontSize: 10.0),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : Text(''),
+                      ],
                     ),
                     Column(
                       children: [
                         SizedBox(
-                          height: sizedBoxFormHeight,
+                          height: sizedBoxFormHeight - 8.0,
                         ),
                         Container(
                             width: containerWidth,
                             child: Row(
                               children: [
                                 Expanded(
-                                  child: Container(
-                                    margin: EdgeInsets.all(0.0),
-                                    child: DropDownFormField(
-                                      titleText: null,
-                                      requiredField: true,
-                                      hintText: readonly ? myCity : '市区町村',
-                                      onSaved: (value) {
-                                        setState(() {
-                                          myCity = value;
-                                        });
-                                      },
-                                      value: myCity,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          myCity = value;
-                                          FocusScope.of(context)
-                                              .requestFocus(new FocusNode());
-                                        });
-                                      },
-                                      dataSource: cityDropDownValues,
-                                      isList: true,
-                                      textField: 'display',
-                                      valueField: 'value',
-                                    ),
+                                  child: Stack(
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.only(top: 8.0),
+                                        child: DropDownFormField(
+                                          titleText: null,
+                                          requiredField: true,
+                                          hintText: readonly ? myCity : '市区町村',
+                                          onSaved: (value) {
+                                            setState(() {
+                                              myCity = value;
+                                            });
+                                          },
+                                          value: myCity,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              myCity = value;
+                                              FocusScope.of(context)
+                                                  .requestFocus(
+                                                      new FocusNode());
+                                            });
+                                          },
+                                          dataSource: cityDropDownValues,
+                                          isList: true,
+                                          textField: 'display',
+                                          valueField: 'value',
+                                        ),
+                                      ),
+                                      myCity != null && myCity != ''
+                                          ? Positioned(
+                                              left: 12.0,
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    "市区町村",
+                                                    style: TextStyle(
+                                                        color: ColorConstants
+                                                            .formHintTextColor,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontSize: 10.0),
+                                                  ),
+                                                  Text(
+                                                    "*",
+                                                    style: TextStyle(
+                                                        color: Colors
+                                                            .redAccent.shade700,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontSize: 10.0),
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                          : Text(''),
+                                    ],
                                   ),
                                 ),
                                 SizedBox(
@@ -932,6 +1010,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                 ),
                                 Expanded(
                                   child: Container(
+                                      margin: EdgeInsets.only(top: 8.0),
                                       height: containerHeight,
                                       width: containerWidth,
                                       child: Theme(
@@ -1100,46 +1179,75 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                 SizedBox(
                   height: sizedBoxFormHeight,
                 ),
-                Container(
-                  height: containerHeight,
-                  width: containerWidth,
-                  /*  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                   // color: Colors.black12,
-                                    border: Border.all(color: Colors.transparent)), */
-                  child: DropDownFormField(
-                    requiredField: true,
-                    hintText: '事業形態',
-                    value: bussinessForm,
-                    onSaved: (value) {
-                      setState(() {
-                        bussinessForm = value;
-                      });
-                    },
-                    onChanged: (value) {
-                      setState(() {
-                        if (value == "施術店舗なし 施術従業員あり（出張のみ)" ||
-                            value == "施術店舗なし 施術従業員なし（個人)") {
-                          serviceBusinessTrips = "出張可能";
-                          businessTripEnabled = false;
-                        } else {
-                          serviceBusinessTrips = "";
-                          businessTripEnabled = true;
-                        }
-                        /*  if (bussinessForm != "施術店舗なし 施術従業員あり（出張のみ)") {
-                          serviceBusinessTrips = "";
-                          businessTripEnabled = true;
-                        } */
-                        bussinessForm = value;
+                Stack(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(top: 8.0),
+                      height: containerHeight,
+                      width: containerWidth,
+                      /*  decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10.0),
+                                       // color: Colors.black12,
+                                        border: Border.all(color: Colors.transparent)), */
+                      child: DropDownFormField(
+                        requiredField: true,
+                        hintText: '事業形態',
+                        value: bussinessForm,
+                        onSaved: (value) {
+                          setState(() {
+                            bussinessForm = value;
+                          });
+                        },
+                        onChanged: (value) {
+                          setState(() {
+                            if (value == "施術店舗なし 施術従業員あり（出張のみ)" ||
+                                value == "施術店舗なし 施術従業員なし（個人)") {
+                              serviceBusinessTrips = "出張可能";
+                              businessTripEnabled = false;
+                            } else {
+                              serviceBusinessTrips = "";
+                              businessTripEnabled = true;
+                            }
+                            /*  if (bussinessForm != "施術店舗なし 施術従業員あり（出張のみ)") {
+                              serviceBusinessTrips = "";
+                              businessTripEnabled = true;
+                            } */
+                            bussinessForm = value;
 
-                        FocusScope.of(context).requestFocus(new FocusNode());
-                      });
-                    },
-                    dataSource: businessFormDropDownValues,
-                    isList: true,
-                    textField: 'display',
-                    valueField: 'value',
-                  ),
+                            FocusScope.of(context)
+                                .requestFocus(new FocusNode());
+                          });
+                        },
+                        dataSource: businessFormDropDownValues,
+                        isList: true,
+                        textField: 'display',
+                        valueField: 'value',
+                      ),
+                    ),
+                    bussinessForm != null && bussinessForm != ''
+                        ? Positioned(
+                            left: 12.0,
+                            child: Row(
+                              children: [
+                                Text(
+                                  "事業形態",
+                                  style: TextStyle(
+                                      color: ColorConstants.formHintTextColor,
+                                      fontFamily: 'NotoSansJP',
+                                      fontSize: 10.0),
+                                ),
+                                Text(
+                                  "*",
+                                  style: TextStyle(
+                                      color: Colors.redAccent.shade700,
+                                      fontFamily: 'NotoSansJP',
+                                      fontSize: 10.0),
+                                ),
+                              ],
+                            ),
+                          )
+                        : Text(''),
+                  ],
                 ),
                 bussinessForm == "施術店舗あり 施術従業員あり" ||
                         bussinessForm == "施術店舗あり 施術従業員なし（個人経営）"
@@ -1254,38 +1362,60 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                 SizedBox(
                   height: bussinessForm == "施術店舗あり 施術従業員あり" ||
                           bussinessForm == "施術店舗なし 施術従業員あり（出張のみ)"
-                      ? sizedBoxFormHeight
+                      ? sizedBoxFormHeight - 8.0
                       : 0.0,
                 ),
                 bussinessForm == "施術店舗あり 施術従業員あり" ||
                         bussinessForm == "施術店舗なし 施術従業員あり（出張のみ)"
-                    ? Container(
-                        height: containerHeight,
-                        width: containerWidth,
-                        /*  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                   // color: Colors.black12,
-                                    border: Border.all(color: Colors.black12)), */
-                        child: DropDownFormField(
-                          hintText: '従業員数',
-                          value: numberOfEmployees,
-                          onSaved: (value) {
-                            setState(() {
-                              numberOfEmployees = value;
-                            });
-                          },
-                          onChanged: (value) {
-                            setState(() {
-                              numberOfEmployees = value;
-                              FocusScope.of(context)
-                                  .requestFocus(new FocusNode());
-                            });
-                          },
-                          dataSource: numberOfEmployeesDropDownValues,
-                          isList: true,
-                          textField: 'display',
-                          valueField: 'value',
-                        ),
+                    ? Stack(
+                        children: [
+                          Container(
+                            height: containerHeight,
+                            width: containerWidth,
+                            margin: EdgeInsets.only(top: 8.0),
+                            /*  decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10.0),
+                                       // color: Colors.black12,
+                                        border: Border.all(color: Colors.black12)), */
+                            child: DropDownFormField(
+                              hintText: '従業員数',
+                              value: numberOfEmployees,
+                              onSaved: (value) {
+                                setState(() {
+                                  numberOfEmployees = value;
+                                });
+                              },
+                              onChanged: (value) {
+                                setState(() {
+                                  numberOfEmployees = value;
+                                  FocusScope.of(context)
+                                      .requestFocus(new FocusNode());
+                                });
+                              },
+                              dataSource: numberOfEmployeesDropDownValues,
+                              isList: true,
+                              textField: 'display',
+                              valueField: 'value',
+                            ),
+                          ),
+                          numberOfEmployees != null && numberOfEmployees != ''
+                              ? Positioned(
+                                  left: 12.0,
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "従業員数",
+                                        style: TextStyle(
+                                            color: ColorConstants
+                                                .formHintTextColor,
+                                            fontFamily: 'NotoSansJP',
+                                            fontSize: 10.0),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : Text(''),
+                        ],
                       )
                     : Container(),
                 SizedBox(
@@ -1404,85 +1534,128 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                         ),
                       ),
                 SizedBox(
-                  height: sizedBoxFormHeight,
+                  height: sizedBoxFormHeight - 8.0,
                 ),
-                Container(
-                  height: containerHeight,
-                  width: containerWidth,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Center(
-                        child: Container(
-                          height: containerHeight,
-                          /* decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10.0),
-                                            color: Colors.black12,
-                                            border: Border.all(color: Colors.black12)), */
-                          child: DropDownFormField(
-                            enabled: businessTripEnabled,
-                            hintText:
-                                HealingMatchConstants.registrationBuisnessTrip,
-                            value: serviceBusinessTrips,
-                            onSaved: (value) {
-                              setState(() {
-                                serviceBusinessTrips = value;
-                              });
-                            },
-                            onChanged: (value) {
-                              setState(() {
-                                serviceBusinessTrips = value;
-                                FocusScope.of(context)
-                                    .requestFocus(new FocusNode());
-                              });
-                            },
-                            dataSource: serviceBusinessTripDropDownValues,
-                            isList: true,
-                            textField: 'display',
-                            valueField: 'value',
+                Stack(
+                  children: [
+                    Container(
+                      height: containerHeight + 8.0,
+                      width: containerWidth,
+                      margin: EdgeInsets.only(top: 8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Center(
+                            child: Container(
+                              height: containerHeight,
+                              /* decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(10.0),
+                                                color: Colors.black12,
+                                                border: Border.all(color: Colors.black12)), */
+                              child: DropDownFormField(
+                                enabled: businessTripEnabled,
+                                hintText: HealingMatchConstants
+                                    .registrationBuisnessTrip,
+                                value: serviceBusinessTrips,
+                                onSaved: (value) {
+                                  setState(() {
+                                    serviceBusinessTrips = value;
+                                  });
+                                },
+                                onChanged: (value) {
+                                  setState(() {
+                                    serviceBusinessTrips = value;
+                                    FocusScope.of(context)
+                                        .requestFocus(new FocusNode());
+                                  });
+                                },
+                                dataSource: serviceBusinessTripDropDownValues,
+                                isList: true,
+                                textField: 'display',
+                                valueField: 'value',
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    serviceBusinessTrips != null && serviceBusinessTrips != ''
+                        ? Positioned(
+                            left: 12.0,
+                            child: Row(
+                              children: [
+                                Text(
+                                  HealingMatchConstants
+                                      .registrationBuisnessTrip,
+                                  style: TextStyle(
+                                      color: ColorConstants.formHintTextColor,
+                                      fontFamily: 'NotoSansJP',
+                                      fontSize: 10.0),
+                                ),
+                              ],
+                            ),
+                          )
+                        : Text(''),
+                  ],
                 ),
                 SizedBox(
-                  height: sizedBoxFormHeight,
+                  height: sizedBoxFormHeight - 8.0,
                 ),
-                Container(
-                  height: containerHeight,
-                  width: containerWidth,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Center(
-                        child: Container(
-                          height: containerHeight,
-                          child: DropDownFormField(
-                            hintText:
-                                HealingMatchConstants.registrationCoronaTxt,
-                            value: coronaMeasures,
-                            onSaved: (value) {
-                              setState(() {
-                                coronaMeasures = value;
-                              });
-                            },
-                            onChanged: (value) {
-                              setState(() {
-                                coronaMeasures = value;
-                                FocusScope.of(context)
-                                    .requestFocus(new FocusNode());
-                              });
-                            },
-                            dataSource: coronaMeasuresDropDownValues,
-                            isList: true,
-                            textField: 'display',
-                            valueField: 'value',
+                Stack(
+                  children: [
+                    Container(
+                      height: containerHeight + 8.0,
+                      width: containerWidth,
+                      margin: EdgeInsets.only(top: 8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Center(
+                            child: Container(
+                              height: containerHeight,
+                              child: DropDownFormField(
+                                hintText:
+                                    HealingMatchConstants.registrationCoronaTxt,
+                                value: coronaMeasures,
+                                onSaved: (value) {
+                                  setState(() {
+                                    coronaMeasures = value;
+                                  });
+                                },
+                                onChanged: (value) {
+                                  setState(() {
+                                    coronaMeasures = value;
+                                    FocusScope.of(context)
+                                        .requestFocus(new FocusNode());
+                                  });
+                                },
+                                dataSource: coronaMeasuresDropDownValues,
+                                isList: true,
+                                textField: 'display',
+                                valueField: 'value',
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    coronaMeasures != null && coronaMeasures != ''
+                        ? Positioned(
+                            left: 12.0,
+                            child: Row(
+                              children: [
+                                Text(
+                                  HealingMatchConstants.registrationCoronaTxt,
+                                  style: TextStyle(
+                                      color: ColorConstants.formHintTextColor,
+                                      fontFamily: 'NotoSansJP',
+                                      fontSize: 10.0),
+                                ),
+                              ],
+                            ),
+                          )
+                        : Text(''),
+                  ],
                 ),
                 SizedBox(
                   height: sizedBoxFormHeight,
@@ -1624,34 +1797,48 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   ),
                 ),
                 SizedBox(height: 8.0),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                Stack(
                   children: [
-                    Center(
-                      child: Container(
-                        width: containerWidth,
-                        child: DropDownFormField(
-                          hintText: '予約可能な利用者の性別',
-                          value: genderTreatment,
-                          onSaved: (value) {
-                            setState(() {
-                              genderTreatment = value;
-                            });
-                          },
-                          onChanged: (value) {
-                            setState(() {
-                              genderTreatment = value;
-                              FocusScope.of(context)
-                                  .requestFocus(new FocusNode());
-                            });
-                          },
-                          dataSource: genderTreatmentDropDownValues,
-                          isList: true,
-                          textField: 'display',
-                          valueField: 'value',
-                        ),
+                    Container(
+                      margin: EdgeInsets.only(top: 8.0),
+                      width: containerWidth,
+                      child: DropDownFormField(
+                        hintText: '予約可能な利用者の性別',
+                        value: genderTreatment,
+                        onSaved: (value) {
+                          setState(() {
+                            genderTreatment = value;
+                          });
+                        },
+                        onChanged: (value) {
+                          setState(() {
+                            genderTreatment = value;
+                            FocusScope.of(context)
+                                .requestFocus(new FocusNode());
+                          });
+                        },
+                        dataSource: genderTreatmentDropDownValues,
+                        isList: true,
+                        textField: 'display',
+                        valueField: 'value',
                       ),
                     ),
+                    genderTreatment != null && genderTreatment != ''
+                        ? Positioned(
+                            left: 12.0,
+                            child: Row(
+                              children: [
+                                Text(
+                                  "予約可能な利用者の性別",
+                                  style: TextStyle(
+                                      color: ColorConstants.formHintTextColor,
+                                      fontFamily: 'NotoSansJP',
+                                      fontSize: 10.0),
+                                ),
+                              ],
+                            ),
+                          )
+                        : Text(''),
                   ],
                 ),
                 SizedBox(

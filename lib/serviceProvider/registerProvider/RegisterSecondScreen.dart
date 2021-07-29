@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
@@ -51,13 +52,16 @@ class _RegistrationSecondPageState
   bool uploadVisible = false;
   var identificationVerify, bankName, accountType;
   String qualification;
+  String accountHolderType;
   ProgressDialog _progressDialog = ProgressDialog();
   Map<String, String> certificateImages = Map<String, String>();
   PickedFile _profileImage;
   PickedFile _idProfileImage;
-  TextEditingController branchCodeController = TextEditingController();
+  TextEditingController branchNameController = TextEditingController();
+  TextEditingController bankNumberController = TextEditingController();
   TextEditingController branchNumberController = TextEditingController();
   TextEditingController accountnumberController = TextEditingController();
+  TextEditingController accountHolderNameController = TextEditingController();
   TextEditingController bankOtherFieldController = TextEditingController();
   Bank.BankNameDropDownModel bankNameDropDownModel;
   List<String> bankNameDropDownList = List<String>();
@@ -88,7 +92,7 @@ class _RegistrationSecondPageState
     HealingMatchConstants.branchNumber = branchNumberController.text;
     HealingMatchConstants.accountNumber = accountnumberController.text;
     HealingMatchConstants.accountType = accountType;
-    HealingMatchConstants.branchCode = branchCodeController.text;
+    HealingMatchConstants.branchCode = branchNameController.text;
     HealingMatchConstants.qualification = qualification.toString().trim();
     HealingMatchConstants.idProfileImage = _idProfileImage;
     HealingMatchConstants.privateQualification.clear();
@@ -109,7 +113,7 @@ class _RegistrationSecondPageState
       branchNumberController.text = HealingMatchConstants.branchNumber;
       accountnumberController.text = HealingMatchConstants.accountNumber;
       accountType = HealingMatchConstants.accountType;
-      branchCodeController.text = HealingMatchConstants.branchCode;
+      branchNameController.text = HealingMatchConstants.branchCode;
       qualification = HealingMatchConstants.qualification;
       _idProfileImage = HealingMatchConstants.idProfileImage;
       privateQualification.addAll(HealingMatchConstants.privateQualification);
@@ -200,11 +204,10 @@ class _RegistrationSecondPageState
                   ),
                   Form(
                     key: identityverification,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                    child: Stack(
                       children: [
                         Container(
-                          margin: EdgeInsets.all(0.0),
+                          margin: EdgeInsets.only(top: 8.0),
                           child: DropDownFormField(
                             autovalidate: false,
                             titleText: null,
@@ -278,6 +281,32 @@ class _RegistrationSecondPageState
                             valueField: 'value',
                           ),
                         ),
+                        identificationVerify != null &&
+                                identificationVerify != ''
+                            ? Positioned(
+                                left: 12.0,
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      HealingMatchConstants
+                                          .registrationIdentityVerification,
+                                      style: TextStyle(
+                                          color:
+                                              ColorConstants.formHintTextColor,
+                                          fontFamily: 'NotoSansJP',
+                                          fontSize: 10.0),
+                                    ),
+                                    Text(
+                                      "*",
+                                      style: TextStyle(
+                                          color: Colors.redAccent.shade700,
+                                          fontFamily: 'NotoSansJP',
+                                          fontSize: 10.0),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : Text(''),
                       ],
                     ),
                   ),
@@ -420,11 +449,10 @@ class _RegistrationSecondPageState
                     visible: visible,
                     child: Form(
                       key: qualificationupload,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                      child: Stack(
                         children: [
                           Container(
-                            margin: EdgeInsets.all(0.0),
+                            margin: EdgeInsets.only(top: 8.0),
                             child: DropDownFormField(
                               titleText: null,
                               requiredField: true,
@@ -521,6 +549,31 @@ class _RegistrationSecondPageState
                               valueField: 'value',
                             ),
                           ),
+                          qualification != null && qualification != ''
+                              ? Positioned(
+                                  left: 12.0,
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        HealingMatchConstants
+                                            .registrationQualificationDropdown,
+                                        style: TextStyle(
+                                            color: ColorConstants
+                                                .formHintTextColor,
+                                            fontFamily: 'NotoSansJP',
+                                            fontSize: 10.0),
+                                      ),
+                                      Text(
+                                        "*",
+                                        style: TextStyle(
+                                            color: Colors.redAccent.shade700,
+                                            fontFamily: 'NotoSansJP',
+                                            fontSize: 10.0),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : Text(''),
                         ],
                       ),
                     ),
@@ -715,70 +768,91 @@ class _RegistrationSecondPageState
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Form(
-                              key: bankkey,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Center(
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.8,
-                                      child: DropDownFormField(
-                                        titleText: null,
-                                        hintText: readonly
-                                            ? bankName
-                                            : HealingMatchConstants
-                                                .registrationBankName,
-                                        onSaved: (value) {
-                                          setState(() {
-                                            bankName = value;
-                                          });
-                                        },
-                                        value: bankName,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            bankName = value;
-                                            FocusScope.of(context)
-                                                .requestFocus(new FocusNode());
-                                          });
-                                        },
-                                        dataSource: bankNameDropDownList,
-                                        isList: true,
-                                        textField: 'display',
-                                        valueField: 'value',
-                                      ),
-                                    ),
+                            Stack(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(top: 8.0),
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.8,
+                                  child: DropDownFormField(
+                                    titleText: null,
+                                    requiredField: true,
+                                    hintText: readonly
+                                        ? bankName
+                                        : HealingMatchConstants
+                                            .registrationBankName,
+                                    onSaved: (value) {
+                                      setState(() {
+                                        bankName = value;
+                                      });
+                                    },
+                                    value: bankName,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        bankName = value;
+                                        FocusScope.of(context)
+                                            .requestFocus(new FocusNode());
+                                      });
+                                    },
+                                    dataSource: bankNameDropDownList,
+                                    isList: true,
+                                    textField: 'display',
+                                    valueField: 'value',
                                   ),
-                                ],
-                              ),
+                                ),
+                                bankName != null && bankName != ''
+                                    ? Positioned(
+                                        left: 12.0,
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              HealingMatchConstants
+                                                  .registrationBankName,
+                                              style: TextStyle(
+                                                  color: ColorConstants
+                                                      .formHintTextColor,
+                                                  fontFamily: 'NotoSansJP',
+                                                  fontSize: 10.0),
+                                            ),
+                                            Text(
+                                              "*",
+                                              style: TextStyle(
+                                                  color:
+                                                      Colors.redAccent.shade700,
+                                                  fontFamily: 'NotoSansJP',
+                                                  fontSize: 10.0),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    : Text(''),
+                              ],
                             ),
                             SizedBox(
-                              height: 10,
+                              height: 3,
                             ),
                             bankName ==
                                     HealingMatchConstants
                                         .registrationBankOtherDropdownFiled
                                 ? Padding(
                                     padding: const EdgeInsets.only(
-                                        left: 8.0, right: 8.0),
+                                        top: 8.0, left: 8.0, right: 8.0),
                                     child: Column(
                                       children: [
                                         SizedBox(
                                           height: 50.0,
-                                          child: TextFormField(
+                                          child: TextFieldCustom(
                                             style: HealingMatchConstants
                                                 .formTextStyle,
                                             controller:
                                                 bankOtherFieldController,
                                             decoration: InputDecoration(
                                                 contentPadding:
-                                                    EdgeInsets.fromLTRB(
-                                                        5, 5, 5, 0),
-                                                hintText: "銀行名",
+                                                    EdgeInsets.all(16.0),
+
+                                                /* hintText: "銀行名",
                                                 hintStyle: HealingMatchConstants
-                                                    .formHintTextStyle,
+                                                    .formHintTextStyle, */
                                                 filled: true,
                                                 fillColor: Colors.white,
                                                 enabledBorder: HealingMatchConstants
@@ -790,10 +864,24 @@ class _RegistrationSecondPageState
                                                         .otherFiledTextFormInputBorder,
                                                 border: HealingMatchConstants
                                                     .otherFiledTextFormInputBorder),
+                                            labelText: Text.rich(
+                                              TextSpan(
+                                                text: "銀行名",
+                                                children: <InlineSpan>[
+                                                  TextSpan(
+                                                    text: '*',
+                                                    style: HealingMatchConstants
+                                                        .formHintTextStyleStar,
+                                                  ),
+                                                ],
+                                                style: HealingMatchConstants
+                                                    .formLabelTextStyle,
+                                              ),
+                                            ),
                                           ),
                                         ),
                                         SizedBox(
-                                          height: 20,
+                                          height: 10,
                                         ),
                                       ],
                                     ),
@@ -802,69 +890,91 @@ class _RegistrationSecondPageState
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Form(
-                                  key: accountnumberkey,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.38,
-                                        child: DropDownFormField(
-                                          titleText: null,
-                                          hintText: readonly
-                                              ? accountType
-                                              : HealingMatchConstants
-                                                  .registrationBankAccountType,
-                                          onSaved: (value) {
-                                            setState(() {
-                                              accountType = value;
-                                            });
+                                Stack(
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.only(top: 6.0),
+                                      width: MediaQuery.of(context).size.width *
+                                          0.38,
+                                      child: DropDownFormField(
+                                        titleText: null,
+                                        requiredField: true,
+                                        hintText: readonly
+                                            ? accountType
+                                            : HealingMatchConstants
+                                                .registrationBankAccountType,
+                                        onSaved: (value) {
+                                          setState(() {
+                                            accountType = value;
+                                          });
+                                        },
+                                        value: accountType,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            accountType = value;
+                                            FocusScope.of(context)
+                                                .requestFocus(new FocusNode());
+                                          });
+                                        },
+                                        dataSource: [
+                                          {
+                                            "display": "普通",
+                                            "value": "普通",
                                           },
-                                          value: accountType,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              accountType = value;
-                                              FocusScope.of(context)
-                                                  .requestFocus(
-                                                      new FocusNode());
-                                            });
+                                          {
+                                            "display": "当座",
+                                            "value": "当座",
                                           },
-                                          dataSource: [
-                                            {
-                                              "display": "普通",
-                                              "value": "普通",
-                                            },
-                                            {
-                                              "display": "当座",
-                                              "value": "当座",
-                                            },
-                                            {
-                                              "display": "貯蓄",
-                                              "value": "貯蓄",
-                                            },
-                                          ],
-                                          textField: 'display',
-                                          valueField: 'value',
-                                        ),
+                                          {
+                                            "display": "貯蓄",
+                                            "value": "貯蓄",
+                                          },
+                                        ],
+                                        textField: 'display',
+                                        valueField: 'value',
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                    accountType != null && accountType != ''
+                                        ? Positioned(
+                                            left: 12.0,
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  HealingMatchConstants
+                                                      .registrationBankAccountType,
+                                                  style: TextStyle(
+                                                      color: ColorConstants
+                                                          .formHintTextColor,
+                                                      fontFamily: 'NotoSansJP',
+                                                      fontSize: 10.0),
+                                                ),
+                                                Text(
+                                                  "*",
+                                                  style: TextStyle(
+                                                      color: Colors
+                                                          .redAccent.shade700,
+                                                      fontFamily: 'NotoSansJP',
+                                                      fontSize: 10.0),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        : Text(''),
+                                  ],
                                 ),
                                 Container(
                                   width:
                                       MediaQuery.of(context).size.width * 0.38,
-                                  child: TextFormField(
+                                  margin: EdgeInsets.only(top: 8.0),
+                                  child: TextFieldCustom(
                                     style: HealingMatchConstants.formTextStyle,
-                                    controller: branchCodeController,
+                                    controller: branchNameController,
                                     decoration: new InputDecoration(
-                                      labelText: HealingMatchConstants
+                                      /*  labelText: HealingMatchConstants
                                           .registrationBankBranchCode,
                                       labelStyle: HealingMatchConstants
-                                          .formLabelTextStyle,
-                                      contentPadding:
-                                          EdgeInsets.fromLTRB(5, 5, 5, 0),
+                                          .formLabelTextStyle, */
+                                      contentPadding: EdgeInsets.all(16.0),
                                       border: HealingMatchConstants
                                           .textFormInputBorder,
                                       focusedBorder: HealingMatchConstants
@@ -874,6 +984,21 @@ class _RegistrationSecondPageState
                                       filled: true,
                                       fillColor:
                                           ColorConstants.formFieldFillColor,
+                                    ),
+                                    labelText: Text.rich(
+                                      TextSpan(
+                                        text: HealingMatchConstants
+                                            .registrationBankBranchCode,
+                                        children: <InlineSpan>[
+                                          TextSpan(
+                                            text: '*',
+                                            style: HealingMatchConstants
+                                                .formHintTextStyleStar,
+                                          ),
+                                        ],
+                                        style: HealingMatchConstants
+                                            .formLabelTextStyle,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -888,16 +1013,15 @@ class _RegistrationSecondPageState
                                 Container(
                                   width:
                                       MediaQuery.of(context).size.width * 0.38,
-                                  child: TextFormField(
+                                  child: TextFieldCustom(
                                     controller: branchNumberController,
                                     style: HealingMatchConstants.formTextStyle,
                                     decoration: new InputDecoration(
-                                      labelText: HealingMatchConstants
+                                      /*  labelText: HealingMatchConstants
                                           .registrationBankBranchNumber,
                                       labelStyle: HealingMatchConstants
-                                          .formLabelTextStyle,
-                                      contentPadding:
-                                          EdgeInsets.fromLTRB(5, 5, 5, 0),
+                                          .formLabelTextStyle, */
+                                      contentPadding: EdgeInsets.all(16.0),
                                       border: HealingMatchConstants
                                           .textFormInputBorder,
                                       focusedBorder: HealingMatchConstants
@@ -907,22 +1031,36 @@ class _RegistrationSecondPageState
                                       filled: true,
                                       fillColor:
                                           ColorConstants.formFieldFillColor,
+                                    ),
+                                    labelText: Text.rich(
+                                      TextSpan(
+                                        text: HealingMatchConstants
+                                            .registrationBankBranchNumber,
+                                        children: <InlineSpan>[
+                                          TextSpan(
+                                            text: '*',
+                                            style: HealingMatchConstants
+                                                .formHintTextStyleStar,
+                                          ),
+                                        ],
+                                        style: HealingMatchConstants
+                                            .formLabelTextStyle,
+                                      ),
                                     ),
                                   ),
                                 ),
                                 Container(
                                   width:
                                       MediaQuery.of(context).size.width * 0.38,
-                                  child: TextFormField(
+                                  child: TextFieldCustom(
                                     controller: accountnumberController,
                                     style: HealingMatchConstants.formTextStyle,
                                     decoration: new InputDecoration(
-                                      labelText: HealingMatchConstants
+                                      /* labelText: HealingMatchConstants
                                           .registrationBankAccountNumber,
                                       labelStyle: HealingMatchConstants
-                                          .formLabelTextStyle,
-                                      contentPadding:
-                                          EdgeInsets.fromLTRB(5, 5, 5, 0),
+                                          .formLabelTextStyle, */
+                                      contentPadding: EdgeInsets.all(16.0),
                                       border: HealingMatchConstants
                                           .textFormInputBorder,
                                       focusedBorder: HealingMatchConstants
@@ -933,8 +1071,180 @@ class _RegistrationSecondPageState
                                       fillColor:
                                           ColorConstants.formFieldFillColor,
                                     ),
+                                    labelText: Text.rich(
+                                      TextSpan(
+                                        text: HealingMatchConstants
+                                            .registrationBankAccountNumber,
+                                        children: <InlineSpan>[
+                                          TextSpan(
+                                            text: '*',
+                                            style: HealingMatchConstants
+                                                .formHintTextStyleStar,
+                                          ),
+                                        ],
+                                        style: HealingMatchConstants
+                                            .formLabelTextStyle,
+                                      ),
+                                    ),
                                   ),
                                 ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.38,
+                                  child: TextFieldCustom(
+                                    controller: bankNumberController,
+                                    style: HealingMatchConstants.formTextStyle,
+                                    decoration: new InputDecoration(
+                                      /*  labelText: HealingMatchConstants
+                                          .registrationBankNumber,
+                                      labelStyle: HealingMatchConstants
+                                          .formLabelTextStyle, */
+                                      contentPadding: EdgeInsets.all(16.0),
+                                      border: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      focusedBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      enabledBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      filled: true,
+                                      fillColor:
+                                          ColorConstants.formFieldFillColor,
+                                    ),
+                                    labelText: Text.rich(
+                                      TextSpan(
+                                        text: HealingMatchConstants
+                                            .registrationBankNumber,
+                                        children: <InlineSpan>[
+                                          TextSpan(
+                                            text: '*',
+                                            style: HealingMatchConstants
+                                                .formHintTextStyleStar,
+                                          ),
+                                        ],
+                                        style: HealingMatchConstants
+                                            .formLabelTextStyle,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.38,
+                                  child: TextFieldCustom(
+                                    controller: accountHolderNameController,
+                                    style: HealingMatchConstants.formTextStyle,
+                                    decoration: new InputDecoration(
+                                      labelText: HealingMatchConstants
+                                          .registrationHolderName,
+                                      labelStyle: HealingMatchConstants
+                                          .formLabelTextStyle,
+                                      contentPadding: EdgeInsets.all(16.0),
+                                      border: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      focusedBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      enabledBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      filled: true,
+                                      fillColor:
+                                          ColorConstants.formFieldFillColor,
+                                    ),
+                                    labelText: Text.rich(
+                                      TextSpan(
+                                        text: HealingMatchConstants
+                                            .registrationHolderName,
+                                        children: <InlineSpan>[
+                                          TextSpan(
+                                            text: '*',
+                                            style: HealingMatchConstants
+                                                .formHintTextStyleStar,
+                                          ),
+                                        ],
+                                        style: HealingMatchConstants
+                                            .formLabelTextStyle,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 7,
+                            ),
+                            Stack(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(top: 8.0),
+                                  // width: MediaQuery.of(context).size.width * 0.38,
+                                  child: DropDownFormField(
+                                    titleText: null,
+                                    requiredField: true,
+                                    hintText: readonly
+                                        ? accountHolderType
+                                        : HealingMatchConstants
+                                            .registrationBankAccountHolderType,
+                                    onSaved: (value) {
+                                      setState(() {
+                                        accountHolderType = value;
+                                      });
+                                    },
+                                    value: accountHolderType,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        accountHolderType = value;
+                                        FocusScope.of(context)
+                                            .requestFocus(new FocusNode());
+                                      });
+                                    },
+                                    dataSource: [
+                                      {
+                                        "display": "個人",
+                                        "value": "individual",
+                                      },
+                                      {
+                                        "display": "会社",
+                                        "value": "company",
+                                      },
+                                    ],
+                                    textField: 'display',
+                                    valueField: 'value',
+                                  ),
+                                ),
+                                accountHolderType != null &&
+                                        accountHolderType != ''
+                                    ? Positioned(
+                                        left: 12.0,
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              HealingMatchConstants
+                                                  .registrationBankAccountHolderType,
+                                              style: TextStyle(
+                                                  color: ColorConstants
+                                                      .formHintTextColor,
+                                                  fontFamily: 'NotoSansJP',
+                                                  fontSize: 10.0),
+                                            ),
+                                            Text(
+                                              "*",
+                                              style: TextStyle(
+                                                  color:
+                                                      Colors.redAccent.shade700,
+                                                  fontFamily: 'NotoSansJP',
+                                                  fontSize: 10.0),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    : Text(''),
                               ],
                             ),
                           ],
@@ -1215,8 +1525,8 @@ class _RegistrationSecondPageState
       return;
     }
 
-    if (branchCodeController.text != null || branchCodeController.text != '') {
-      if (branchCodeController.text.length > 20) {
+    if (branchNameController.text != null || branchNameController.text != '') {
+      if (branchNameController.text.length > 20) {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
           backgroundColor: ColorConstants.snackBarColor,
           content: Text('支店名は20文字以内で入力してください。',
@@ -1271,7 +1581,7 @@ class _RegistrationSecondPageState
   }
 
   compressImages() async {
-     ProgressDialogBuilder.showProviderRegisterProgressDialog(context);
+    ProgressDialogBuilder.showProviderRegisterProgressDialog(context);
 
     List<File> bannerImages = List<File>();
     List<File> privateQualificationImages = List<File>();
@@ -1451,10 +1761,13 @@ class _RegistrationSecondPageState
           bankName == HealingMatchConstants.registrationBankOtherDropdownFiled
               ? bankOtherFieldController.text
               : bankName,
-      'branchCode': branchCodeController.text,
+      'bankCode': bankNumberController.text,
+      'branchName': branchNameController.text,
       'branchNumber': branchNumberController.text,
       'accountNumber': accountnumberController.text,
       'accountType': accountType,
+      "accountHolderType": accountHolderType,
+      'accountHolderName': accountHolderNameController.text,
       'proofOfIdentityType': identificationVerify,
       'estheticList':
           json.encode(HealingMatchConstants.estheticServicePriceModel),
@@ -1476,7 +1789,9 @@ class _RegistrationSecondPageState
                   "施術店舗あり 施術従業員なし（個人経営）"
           ? "true"
           : "false",
-      "appleUserId": HealingMatchConstants.appleTokenId != null ? HealingMatchConstants.appleTokenId :''
+      "appleUserId": HealingMatchConstants.appleTokenId != null
+          ? HealingMatchConstants.appleTokenId
+          : '',
     });
 
     if (HealingMatchConstants.serviceProviderBusinessForm == "施術店舗あり 施術従業員あり" ||

@@ -1529,6 +1529,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
       addressTypeValues = 5;
       addressTypeName = "現在地";
       bookingAddressId = 0;
+      HealingMatchConstants.locality = currentLocationPlaceMark.locality;
 
       _currentAddress =
           '${currentLocationPlaceMark.locality},${currentLocationPlaceMark.subAdministrativeArea},${currentLocationPlaceMark.administrativeArea},${currentLocationPlaceMark.postalCode}'
@@ -1633,8 +1634,10 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
       HealingMatchConstants.searchKeyWordValue = keywordController.text;
       HealingMatchConstants.searchType = 1;
     }
-    HealingMatchConstants.searchAddressLatitude = searchAddressLatitude;
-    HealingMatchConstants.searchAddressLongitude = searchAddressLongitude;
+    HealingMatchConstants.searchAddressLatitude =
+        searchAddressLatitude;
+    HealingMatchConstants.searchAddressLongitude =
+        searchAddressLongitude;
     _getSearchResults();
   }
 

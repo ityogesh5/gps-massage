@@ -1441,10 +1441,10 @@ class NavigationRouter {
 
   //BookingCancelScreen
   static void switchToServiceUserBookingCancelScreen(
-      BuildContext context, int bookingId) {
+      BuildContext context, int bookingId, int bookingStatus) {
     Navigator.of(context).push(PageRouteBuilder(
         pageBuilder: (context, animation, anotherAnimation) {
-          return BookingCancelScreen(bookingId);
+          return BookingCancelScreen(bookingId, bookingStatus);
         },
         transitionDuration: Duration(milliseconds: 2000),
         transitionsBuilder: (context, animation, anotherAnimation, child) {
@@ -1462,10 +1462,10 @@ class NavigationRouter {
 
   //CancelPopupScreen
   static void switchToServiceUserBookingCancelScreenPopup(
-      BuildContext context, int bookingId) {
+      BuildContext context, int bookingId,int bookingStatus) {
     Navigator.of(context).push(PageRouteBuilder(
         pageBuilder: (context, animation, anotherAnimation) {
-          return CancelDetailsScreen(bookingId);
+          return CancelDetailsScreen(bookingId,bookingStatus);
         },
         transitionDuration: Duration(milliseconds: 2000),
         transitionsBuilder: (context, animation, anotherAnimation, child) {

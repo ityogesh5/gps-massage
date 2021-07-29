@@ -696,6 +696,8 @@ class _BookingApproveThirdScreenState extends State<BookingApproveThirdScreen> {
           ServiceUserAPIProvider.updateBookingCompeted(
               HealingMatchConstants
                   .therapistProfileDetails.bookingDataResponse[0].id,
+              HealingMatchConstants
+                  .therapistProfileDetails.bookingDataResponse[0].bookingStatus,
               cancelReason);
           DialogHelper.showUserBookingCancelDialog(context);
         }
