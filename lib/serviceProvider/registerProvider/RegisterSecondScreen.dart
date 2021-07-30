@@ -1970,6 +1970,12 @@ class _RegistrationSecondPageState
         sharedPreferences.setBool(
             'isActive', registerResponseModel.data.isActive);
         /*   sharedPreferences.setBool('isProviderRegister', true); */
+        HealingMatchConstants.estheticServicePriceModel.clear();
+        HealingMatchConstants.relaxationServicePriceModel.clear();
+        HealingMatchConstants.treatmentServicePriceModel.clear();
+        HealingMatchConstants.fitnessServicePriceModel.clear();
+        HealingMatchConstants.serviceProviderStoreType.clear();
+
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         print('Login response : ${registerResponseModel.toJson()}');
         print('Login token : ${registerResponseModel.accessToken}');

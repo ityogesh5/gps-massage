@@ -293,9 +293,14 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              CircleAvatar(
-                                maxRadius: 31,
-                                backgroundColor: Color.fromRGBO(0, 0, 0, 1),
+                              Card(
+                                margin: EdgeInsets.only(top: 3.5),
+                                elevation: 0.0,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    side: BorderSide(
+                                        color:
+                                            Color.fromRGBO(102, 102, 102, 1))),
                                 child: CircleAvatar(
                                   maxRadius: 30,
                                   backgroundColor: Colors.white,
@@ -930,7 +935,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   Container buildUserRegisteredAddressCard(int addressType, int index) {
     return Container(
       margin: EdgeInsets.only(left: 6.0, right: 4.0),
-      decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [
+      /*  decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [
         BoxShadow(
           offset: Offset.zero,
           color: addressTypeValues == addressType && userAddress != null
@@ -938,7 +943,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
               : Colors.white,
           blurRadius: 7.0,
         ),
-      ]),
+      ]), */
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -950,10 +955,14 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                 saveSelectedAddress(addressType, index);
               }
             },
-            child: Container(
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
+            child: Card(
+              margin: EdgeInsets.all(0.0),
+              elevation: addressTypeValues == addressType && userAddress != null
+                  ? 4.0
+                  : 0.0,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  side: BorderSide(
                       color: addressTypeValues == addressType &&
                               userAddress != null
                           ? Color.fromRGBO(102, 102, 102, 1)
@@ -1634,10 +1643,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
       HealingMatchConstants.searchKeyWordValue = keywordController.text;
       HealingMatchConstants.searchType = 1;
     }
-    HealingMatchConstants.searchAddressLatitude =
-        searchAddressLatitude;
-    HealingMatchConstants.searchAddressLongitude =
-        searchAddressLongitude;
+    HealingMatchConstants.searchAddressLatitude = searchAddressLatitude;
+    HealingMatchConstants.searchAddressLongitude = searchAddressLongitude;
     _getSearchResults();
   }
 

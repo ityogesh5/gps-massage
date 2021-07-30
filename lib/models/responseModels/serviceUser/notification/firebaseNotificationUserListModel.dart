@@ -190,7 +190,7 @@ class BookingDetail {
   String yearOfBooking;
   DateTime newStartTime;
   DateTime newEndTime;
-  int paymentId;
+  dynamic paymentId;
   int paymentStatus;
   dynamic paymentRefId;
   int subCategoryId;
@@ -198,21 +198,21 @@ class BookingDetail {
   String nameOfService;
   int totalMinOfService;
   int priceOfService;
-  dynamic addedPrice;
+  String addedPrice;
   int bookingStatus;
   DateTime statusUpdatedAt;
   int travelAmount;
   String locationType;
   String location;
   String locationDistance;
-  int lat;
-  int lon;
+  double lat;
+  double lon;
   Geomet geomet;
   int totalCost;
   int userReviewStatus;
   dynamic therapistReviewStatus;
   String therapistComments;
-  dynamic userComments;
+  String userComments;
   String cancellationReason;
   dynamic cancellationFee;
   dynamic cancelledUserId;
@@ -227,7 +227,7 @@ class BookingDetail {
         id: json["id"],
         userId: json["userId"],
         therapistId: json["therapistId"],
-        addressId: json["addressId"],
+        addressId: json["addressId"] == null ? null : json["addressId"],
         eventId: json["eventId"],
         currentPrefecture: json["currentPrefecture"],
         startTime: DateTime.parse(json["startTime"]),
@@ -240,7 +240,7 @@ class BookingDetail {
         newEndTime: json["newEndTime"] == null
             ? null
             : DateTime.parse(json["newEndTime"]),
-        paymentId: json["paymentId"] == null ? null : json["paymentId"],
+        paymentId: json["paymentId"],
         paymentStatus: json["paymentStatus"],
         paymentRefId: json["paymentRefId"],
         subCategoryId: json["subCategoryId"],
@@ -248,15 +248,15 @@ class BookingDetail {
         nameOfService: json["nameOfService"],
         totalMinOfService: json["totalMinOfService"],
         priceOfService: json["priceOfService"],
-        addedPrice: json["addedPrice"],
+        addedPrice: json["addedPrice"] == null ? null : json["addedPrice"],
         bookingStatus: json["bookingStatus"],
         statusUpdatedAt: DateTime.parse(json["statusUpdatedAt"]),
         travelAmount: json["travelAmount"],
         locationType: json["locationType"],
         location: json["location"],
         locationDistance: json["locationDistance"],
-        lat: json["lat"],
-        lon: json["lon"],
+        lat: json["lat"].toDouble(),
+        lon: json["lon"].toDouble(),
         geomet: Geomet.fromJson(json["geomet"]),
         totalCost: json["totalCost"],
         userReviewStatus: json["userReviewStatus"],
@@ -265,7 +265,9 @@ class BookingDetail {
             ? null
             : json["therapistComments"],
         userComments: json["userComments"],
-        cancellationReason: json["cancellationReason"],
+        cancellationReason: json["cancellationReason"] == null
+            ? null
+            : json["cancellationReason"],
         cancellationFee: json["cancellationFee"],
         cancelledUserId: json["cancelledUserId"],
         orderCompletion: json["orderCompletion"],
@@ -281,7 +283,7 @@ class BookingDetail {
         "id": id,
         "userId": userId,
         "therapistId": therapistId,
-        "addressId": addressId,
+        "addressId": addressId == null ? null : addressId,
         "eventId": eventId,
         "currentPrefecture": currentPrefecture,
         "startTime": startTime.toIso8601String(),
@@ -291,7 +293,7 @@ class BookingDetail {
         "newStartTime":
             newStartTime == null ? null : newStartTime.toIso8601String(),
         "newEndTime": newEndTime == null ? null : newEndTime.toIso8601String(),
-        "paymentId": paymentId == null ? null : paymentId,
+        "paymentId": paymentId,
         "paymentStatus": paymentStatus,
         "paymentRefId": paymentRefId,
         "subCategoryId": subCategoryId,
@@ -299,7 +301,7 @@ class BookingDetail {
         "nameOfService": nameOfService,
         "totalMinOfService": totalMinOfService,
         "priceOfService": priceOfService,
-        "addedPrice": addedPrice,
+        "addedPrice": addedPrice == null ? null : addedPrice,
         "bookingStatus": bookingStatus,
         "statusUpdatedAt": statusUpdatedAt.toIso8601String(),
         "travelAmount": travelAmount,
@@ -315,7 +317,8 @@ class BookingDetail {
         "therapistComments":
             therapistComments == null ? null : therapistComments,
         "userComments": userComments,
-        "cancellationReason": cancellationReason,
+        "cancellationReason":
+            cancellationReason == null ? null : cancellationReason,
         "cancellationFee": cancellationFee,
         "cancelledUserId": cancelledUserId,
         "orderCompletion": orderCompletion,
@@ -370,7 +373,7 @@ class BookingTherapistId {
         businessForm: json["businessForm"],
         businessTrip: json["businessTrip"],
         coronaMeasure: json["coronaMeasure"],
-        storeName: json["storeName"],
+        storeName: json["storeName"] == null ? null : json["storeName"],
         storeType: json["storeType"],
         isShop: json["isShop"],
         qulaificationCertImgUrl: json["qulaificationCertImgUrl"],
@@ -389,7 +392,7 @@ class BookingTherapistId {
         "businessForm": businessForm,
         "businessTrip": businessTrip,
         "coronaMeasure": coronaMeasure,
-        "storeName": storeName,
+        "storeName": storeName == null ? null : storeName,
         "storeType": storeType,
         "isShop": isShop,
         "qulaificationCertImgUrl": qulaificationCertImgUrl,
@@ -421,14 +424,14 @@ class CertificationUpload {
 
   int id;
   int userId;
-  dynamic acupuncturist;
+  String acupuncturist;
   dynamic moxibutionist;
-  dynamic acupuncturistAndMoxibustion;
-  dynamic anmaMassageShiatsushi;
+  String acupuncturistAndMoxibustion;
+  String anmaMassageShiatsushi;
   dynamic judoRehabilitationTeacher;
-  String physicalTherapist;
-  dynamic acquireNationalQualifications;
-  dynamic privateQualification1;
+  dynamic physicalTherapist;
+  String acquireNationalQualifications;
+  String privateQualification1;
   dynamic privateQualification2;
   dynamic privateQualification3;
   dynamic privateQualification4;
@@ -440,14 +443,24 @@ class CertificationUpload {
       CertificationUpload(
         id: json["id"],
         userId: json["userId"],
-        acupuncturist: json["acupuncturist"],
+        acupuncturist:
+            json["acupuncturist"] == null ? null : json["acupuncturist"],
         moxibutionist: json["moxibutionist"],
-        acupuncturistAndMoxibustion: json["acupuncturistAndMoxibustion"],
-        anmaMassageShiatsushi: json["anmaMassageShiatsushi"],
+        acupuncturistAndMoxibustion: json["acupuncturistAndMoxibustion"] == null
+            ? null
+            : json["acupuncturistAndMoxibustion"],
+        anmaMassageShiatsushi: json["anmaMassageShiatsushi"] == null
+            ? null
+            : json["anmaMassageShiatsushi"],
         judoRehabilitationTeacher: json["judoRehabilitationTeacher"],
         physicalTherapist: json["physicalTherapist"],
-        acquireNationalQualifications: json["acquireNationalQualifications"],
-        privateQualification1: json["privateQualification1"],
+        acquireNationalQualifications:
+            json["acquireNationalQualifications"] == null
+                ? null
+                : json["acquireNationalQualifications"],
+        privateQualification1: json["privateQualification1"] == null
+            ? null
+            : json["privateQualification1"],
         privateQualification2: json["privateQualification2"],
         privateQualification3: json["privateQualification3"],
         privateQualification4: json["privateQualification4"],
@@ -459,14 +472,20 @@ class CertificationUpload {
   Map<String, dynamic> toJson() => {
         "id": id,
         "userId": userId,
-        "acupuncturist": acupuncturist,
+        "acupuncturist": acupuncturist == null ? null : acupuncturist,
         "moxibutionist": moxibutionist,
-        "acupuncturistAndMoxibustion": acupuncturistAndMoxibustion,
-        "anmaMassageShiatsushi": anmaMassageShiatsushi,
+        "acupuncturistAndMoxibustion": acupuncturistAndMoxibustion == null
+            ? null
+            : acupuncturistAndMoxibustion,
+        "anmaMassageShiatsushi":
+            anmaMassageShiatsushi == null ? null : anmaMassageShiatsushi,
         "judoRehabilitationTeacher": judoRehabilitationTeacher,
         "physicalTherapist": physicalTherapist,
-        "acquireNationalQualifications": acquireNationalQualifications,
-        "privateQualification1": privateQualification1,
+        "acquireNationalQualifications": acquireNationalQualifications == null
+            ? null
+            : acquireNationalQualifications,
+        "privateQualification1":
+            privateQualification1 == null ? null : privateQualification1,
         "privateQualification2": privateQualification2,
         "privateQualification3": privateQualification3,
         "privateQualification4": privateQualification4,
@@ -483,11 +502,12 @@ class Geomet {
   });
 
   String type;
-  List<int> coordinates;
+  List<double> coordinates;
 
   factory Geomet.fromJson(Map<String, dynamic> json) => Geomet(
         type: json["type"],
-        coordinates: List<int>.from(json["coordinates"].map((x) => x)),
+        coordinates:
+            List<double>.from(json["coordinates"].map((x) => x.toDouble())),
       );
 
   Map<String, dynamic> toJson() => {

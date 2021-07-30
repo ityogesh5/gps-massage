@@ -66,7 +66,7 @@ class ProviderCalendarDetailPopup {
                         Text(
                           name,
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16.0),
+                              fontWeight: FontWeight.bold, fontSize: 14.0),
                         ),
                         SizedBox(
                           width: 5.0,
@@ -102,6 +102,7 @@ class ProviderCalendarDetailPopup {
                                   ),
                                   Text("承認待ち",
                                       style: TextStyle(
+                                        fontSize: 11.0,
                                         color: Color.fromRGBO(255, 193, 7, 1),
                                       ))
                                 ],
@@ -109,7 +110,8 @@ class ProviderCalendarDetailPopup {
                             : Row(
                                 children: [
                                   Text("承認済み",
-                                      style: TextStyle(color: Colors.black))
+                                      style: TextStyle(
+                                          fontSize: 11.0, color: Colors.black))
                                 ],
                               )
                       ],
