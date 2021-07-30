@@ -2857,7 +2857,8 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       return;
     }
 
-    if (branchNumberController.text.length > 3) {
+    if (branchNumberController.text.length > 3 ||
+        branchNumberController.text.length < 3) {
       displaySnackBarError("支店番号は3文字以内で入力してください。");
 
       return;
@@ -2868,7 +2869,8 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       return;
     }
 
-    if (bankNumberController.text.length > 4) {
+    if (bankNumberController.text.length > 4 ||
+        bankNumberController.text.length < 4) {
       displaySnackBarError("銀行番号は4文字以内で入力してください。");
 
       return;

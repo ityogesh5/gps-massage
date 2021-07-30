@@ -1573,7 +1573,7 @@ class _RegistrationSecondPageState
       return;
     }
 
-    if (branchNumber.length > 3) {
+    if (branchNumber.length > 3 || branchNumber.length < 3) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('支店番号は3文字以内で入力してください。',
@@ -1588,14 +1588,14 @@ class _RegistrationSecondPageState
       return;
     }
 
-    if (bankNumberController.text == null ||
-        bankNumberController.text == '') {
+    if (bankNumberController.text == null || bankNumberController.text == '') {
       displaySnackBarError("必須項目ですので、銀行番号をお選びください。");
 
       return;
     }
 
-    if (bankNumberController.text.length > 4) {
+    if (bankNumberController.text.length > 4 ||
+        bankNumberController.text.length < 4) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('銀行番号は4文字以内で入力してください。',
@@ -1639,19 +1639,17 @@ class _RegistrationSecondPageState
       return;
     }
 
-    if (accountHolderNameController.text.length > 20 ) {
+    if (accountHolderNameController.text.length > 20) {
       displaySnackBarError("アカウント所有者の名前を20文字以内で入力してください。");
 
       return;
     }
 
-    if (accountHolderType== null ||
-        accountHolderType == '') {
+    if (accountHolderType == null || accountHolderType == '') {
       displaySnackBarError("アカウント所有者のタイプを選択してください。");
 
       return;
     }
-
 
     print("Success");
     compressImages();
@@ -1955,8 +1953,10 @@ class _RegistrationSecondPageState
           }
         });
         sharedPreferences.setString("userData", json.encode(userData));
-        sharedPreferences.setString("accessToken", registerResponseModel.accessToken);
-        sharedPreferences.setString("lineBotIdProvider", registerResponseModel.data.lineBotUserId);
+        sharedPreferences.setString(
+            "accessToken", registerResponseModel.accessToken);
+        sharedPreferences.setString(
+            "lineBotIdProvider", registerResponseModel.data.lineBotUserId);
         sharedPreferences.setBool(
             "isActive", registerResponseModel.data.isActive);
         sharedPreferences.setString("providerPhoneNumer",
