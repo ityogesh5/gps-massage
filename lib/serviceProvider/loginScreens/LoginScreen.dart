@@ -628,6 +628,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
   }
 
   void _initiateLineLogin() async {
+    showOverlayLoader();
     SharedPreferences instances = await SharedPreferences.getInstance();
     var password;
     print('Entering line login...');
@@ -668,6 +669,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
 
         });
       }else{
+        hideLoader();
         LineLoginHelper.startLineLogin(context);
       }
     } catch (e) {

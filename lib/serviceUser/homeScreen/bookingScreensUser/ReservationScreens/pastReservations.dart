@@ -1091,7 +1091,7 @@ class _PastReservationsState extends State<PastReservations> {
                                             child: Text(
                                               '今までに受けたサービスは\nまだありません。',
                                               style: TextStyle(
-                                                  fontSize: 16,
+                                                  fontSize: 14,
                                                   fontFamily: 'NotoSansJP',
                                                   fontWeight:
                                                       FontWeight.bold),

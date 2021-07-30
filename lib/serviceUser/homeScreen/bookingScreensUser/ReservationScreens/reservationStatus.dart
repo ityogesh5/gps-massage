@@ -4568,7 +4568,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                         Text(
                                           '予約はありません。',
                                           style: TextStyle(
-                                              fontSize: 16,
+                                              fontSize: 14,
                                               fontFamily: 'NotoSansJP',
                                               fontWeight:
                                                   FontWeight.bold),

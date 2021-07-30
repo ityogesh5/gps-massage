@@ -897,7 +897,7 @@ class _FavoriteState extends State<Favorite> {
                                             child: Text(
                                               'お気に入りに登録したセラピスト・\n店舗はありません。',
                                               style: TextStyle(
-                                                  fontSize: 16,
+                                                  fontSize: 14,
                                                   fontFamily: 'NotoSansJP',
                                                   fontWeight:
                                                       FontWeight.bold),

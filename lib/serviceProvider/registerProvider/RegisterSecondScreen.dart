@@ -1882,6 +1882,12 @@ class _RegistrationSecondPageState
       "appleUserId": HealingMatchConstants.appleTokenId != null
           ? HealingMatchConstants.appleTokenId
           : '',
+      "lineUserToken": HealingMatchConstants.lineAccessToken != null
+          ? HealingMatchConstants.lineAccessToken
+          : '',
+      "lineBotUserId": HealingMatchConstants.lineUserID != null
+          ? HealingMatchConstants.lineUserID
+          : ''
     });
 
     if (HealingMatchConstants.serviceProviderBusinessForm == "施術店舗あり 施術従業員あり" ||
