@@ -38,6 +38,7 @@ class BookingDetailsApprovedScreen extends StatefulWidget {
 class _BookingDetailsApprovedScreenState
     extends State<BookingDetailsApprovedScreen> {
   var therapistId;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

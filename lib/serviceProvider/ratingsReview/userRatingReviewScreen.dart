@@ -17,7 +17,9 @@ import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
 class UserRatingReviewScreen extends StatefulWidget {
   final int userId;
+
   UserRatingReviewScreen(this.userId);
+
   @override
   _UserRatingReviewScreenState createState() => _UserRatingReviewScreenState();
 }

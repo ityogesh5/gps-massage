@@ -144,7 +144,7 @@ class GetSearchResultsRepositoryImpl implements GetSearchResultsRepository {
     return searchResults;
   }
 
-  /*  @override
+/*  @override
   Future<List<SearchTherapistTypeList>> getSearchResultsBySortType(
       int pageNumber, int pageSize, int searchType) async {
     List<SearchTherapistTypeList> searchResults;

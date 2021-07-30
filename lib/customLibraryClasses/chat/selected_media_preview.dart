@@ -12,6 +12,7 @@ class SelectedMediaPreview extends StatelessWidget {
   final Function onSend;
   final Function onClosed;
   final MediaType pickedMediaType;
+
   SelectedMediaPreview({
     @required this.file,
     @required this.textEditingController,
@@ -79,6 +80,7 @@ class SelectedMediaPreview extends StatelessWidget {
 class _SelectedMedia extends StatelessWidget {
   final MediaType mediaType;
   final File file;
+
   const _SelectedMedia({
     Key key,
     @required this.mediaType,
@@ -107,6 +109,7 @@ class _SelectedMedia extends StatelessWidget {
 class _TextField extends StatelessWidget {
   final TextEditingController controller;
   final Function onSend;
+
   const _TextField({
     Key key,
     @required this.controller,

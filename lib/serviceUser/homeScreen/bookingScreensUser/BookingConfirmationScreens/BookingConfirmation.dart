@@ -794,7 +794,8 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
       margin: EdgeInsets.all(12),
       child: ArgonButton(
         height: 45,
-        width: MediaQuery.of(context).size.width - 20.0, //350,
+        width: MediaQuery.of(context).size.width - 20.0,
+        //350,
         borderRadius: 5.0,
         color: Color.fromRGBO(255, 0, 0, 1),
         child: new Text(

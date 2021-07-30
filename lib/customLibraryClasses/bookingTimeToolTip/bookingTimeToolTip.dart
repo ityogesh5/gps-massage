@@ -32,8 +32,8 @@ class ShowToolTip {
   EdgeInsetsGeometry _padding;
   Map<int, int> _timePrice = Map<int, int>();
 
-  ShowToolTip(this.context,
-      this._callBack, //Function(int index, DateTime newTime, bool isStart) refreshPage,
+  ShowToolTip(this.context, this._callBack,
+      //Function(int index, DateTime newTime, bool isStart) refreshPage,
       {double height,
       double width,
       TherapistList therapistListItem,

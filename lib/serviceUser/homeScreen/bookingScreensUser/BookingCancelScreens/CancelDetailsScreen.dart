@@ -55,6 +55,7 @@ class ConfirmCancelScreen extends StatefulWidget {
 
 class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
   final _cancelReasonController = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return CancelPopupScreen();

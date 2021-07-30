@@ -127,7 +127,7 @@ class _BannerImageState extends State<BannerImage> {
                */
                 bannerImages.length == 0 && oldBannerImages.length == 0
                     ? Center(
-                      child: Padding(
+                        child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -144,12 +144,14 @@ class _BannerImageState extends State<BannerImage> {
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(16.0)),
                                     border: Border.all(
-                                        color: Color.fromRGBO(217, 217, 217, 1)),
+                                        color:
+                                            Color.fromRGBO(217, 217, 217, 1)),
                                   ),
                                   child: Column(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         mainAxisAlignment:
@@ -193,7 +195,7 @@ class _BannerImageState extends State<BannerImage> {
                             ],
                           ),
                         ),
-                    )
+                      )
                     : Column(
                         children: [
                           Container(

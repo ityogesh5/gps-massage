@@ -107,8 +107,10 @@ class HealingMatchConstants {
       ON_PREMISE_USER_BASE_URL + '/user' + '/registerUser';
 
   // login service user
-  static const String LOGIN_USER_URL =
-      ON_PREMISE_USER_BASE_URL + '/user' + '/signin';
+  static const String LOGIN_USER_URL = ON_PREMISE_USER_BASE_URL + '/user' + '/signin';
+
+  //SNS AND APPLE LOGIN
+  static const String SNS_APPLE_USER_URL = ON_PREMISE_USER_BASE_URL + '/user' + '/signinSSO';
 
   //Ratings and Review
   static const String RATING_USER_URL =
@@ -308,6 +310,7 @@ class HealingMatchConstants {
   static bool isBottomBarVisible = true;
   static String currentDate;
   static var isUserOnline = false;
+  static var snsLoginFlag = 0;
 
   static var CLIENT_PUBLISHABLE_KEY_STRIPE =
       'pk_test_51HwMwNBL9ibeFzEEMHOV6az31lNurmBP3cvNPqaBQASqm4LrQhfJL5NHJ8fApM8twA1oxflxWUoatPKcef7ScZHS00WzhyrZFk';
@@ -533,6 +536,7 @@ class HealingMatchConstants {
   static var userPhoneNumber = '';
   static const String forgetPasswordTxt =
       "パスワードを再設定するための認証コードを送信します。\n ご登録の電話番号を入力の上「送信」ボタンを\n クリックしてください。";
+
 //bookingCancelStatus
   static var bookingCancelStatus = 0;
 

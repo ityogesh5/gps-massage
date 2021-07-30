@@ -6,14 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:gps_massageapp/customLibraryClasses/customRadioButtonList/roundedRadioButton.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:keyboard_service/keyboard_service.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-Map<String, dynamic> _formData = {
-  'text': null,
-  'category': null,
-  'date': null,
-  'time': null,
-};
-var selectedBuildingType;
+
 
 class ReportUserScreen extends StatefulWidget {
   @override
@@ -23,6 +18,13 @@ class ReportUserScreen extends StatefulWidget {
 }
 
 class _ReportUserScreenView extends State<ReportUserScreen> {
+  Map<String, dynamic> _formData = {
+    'text': null,
+    'category': null,
+    'date': null,
+    'time': null,
+  };
+  var selectedBuildingType;
   String reasonSelect = '報告の理由';
   String reportCategory;
   String reportComments;
@@ -80,7 +82,7 @@ class _ReportUserScreenView extends State<ReportUserScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       new Text(
-                        '報告する理由を選択してください',
+                        '事務局へ報告する理由を選択していください。',
                         style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.normal,
@@ -134,14 +136,21 @@ class _ReportUserScreenView extends State<ReportUserScreen> {
                     text: '報告する',
                     width: 350,
                     pressEvent: () {
-                      NavigationRouter.switchToServiceUserBottomBar(context);
+                      emailLaunch();
+                      // NavigationRouter.switchToServiceUserBottomBar(context);
                     })
               ]),
         ),
       ),
     );
   }
-
+  emailLaunch() {
+    final Uri _emailLaunchUri = Uri(
+        scheme: 'mailto',
+        path: 'healingMatch@yopmail.com',
+        queryParameters: {'subject': '$selectedBuildingType'});
+    launch(_emailLaunchUri.toString());
+  }
   Future<void> _reportUser() async {}
 
   void _handleCategoryChange(bool newVal, ReportCategory category) {
@@ -177,10 +186,10 @@ class ReportCategories {
   factory ReportCategories.initial() {
     return ReportCategories(
       <ReportCategory>[
-        ReportCategory(name: 'ヌードやポルノが含まれています'),
-        ReportCategory(name: '子供の危険（搾取）'),
-        ReportCategory(name: '嫌がらせや脅迫'),
-        ReportCategory(name: '不適切な画像'),
+        ReportCategory(name: '不適切な画像の掲載　'),
+        ReportCategory(name: '不適切なメッセージの送付（暴言、強要、脅迫、性的嫌がらせ）　'),
+        ReportCategory(name: 'サービス中の不適切な行為（販売行為、不必要なタッチ、盗難）'),
+        ReportCategory(name: '無断キャンセル・遅刻'),
       ],
     );
   }

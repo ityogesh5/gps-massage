@@ -44,7 +44,11 @@ class LineLoginHelper {
           HealingMatchConstants.lineUserProfileDetails =
               jsonEncode(userProfile.data);
           HealingMatchConstants.lineUserEmail = idTokenResponseModel.email;
-          NavigationRouter.switchToServiceUserRegistration(context);
+          if( HealingMatchConstants.snsLoginFlag == 0){
+          NavigationRouter.switchToServiceUserRegistration(context);}
+          else{
+            NavigationRouter.switchToServiceProviderFirstScreen(context);
+          }
         } else {
           print('Line Login Result null');
           return null;

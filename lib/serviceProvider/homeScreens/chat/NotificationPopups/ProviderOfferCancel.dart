@@ -13,7 +13,9 @@ import 'package:intl/intl.dart';
 
 class ProviderOfferCancel extends StatefulWidget {
   final NotificationList requestBookingDetailsList;
+
   ProviderOfferCancel(this.requestBookingDetailsList);
+
   @override
   _ProviderOfferCancelState createState() => _ProviderOfferCancelState();
 }
@@ -234,7 +236,11 @@ class _ProviderOfferCancelState extends State<ProviderOfferCancel> {
                 ),
                 InkWell(
                   onTap: () {
-                     HealingMatchConstants.serviceUserName = widget.requestBookingDetailsList.bookingDetail.bookingUserId.userName;
+                    HealingMatchConstants.serviceUserName = widget
+                        .requestBookingDetailsList
+                        .bookingDetail
+                        .bookingUserId
+                        .userName;
 
                     NavigationRouter.switchToProviderSideUserReviewScreen(
                         context,

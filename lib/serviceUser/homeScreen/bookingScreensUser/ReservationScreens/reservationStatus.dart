@@ -1707,6 +1707,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                 child: Row(
                                                                   children: [
                                                                     InkWell(
+                                                                      customBorder:
+                                                                          CircleBorder(),
                                                                       onTap:
                                                                           () {
                                                                         ProgressDialogBuilder.showCommonProgressDialog(
@@ -1739,6 +1741,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                           5.0,
                                                                     ),
                                                                     InkWell(
+                                                                      customBorder:
+                                                                          CircleBorder(),
                                                                       onTap:
                                                                           () {
                                                                         HealingMatchConstants
@@ -2595,6 +2599,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                 child: Row(
                                                                   children: [
                                                                     InkWell(
+                                                                      customBorder:
+                                                                          CircleBorder(),
                                                                       onTap:
                                                                           () {
                                                                         ProgressDialogBuilder.showCommonProgressDialog(
@@ -2626,6 +2632,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         width:
                                                                             5),
                                                                     InkWell(
+                                                                      customBorder:
+                                                                          CircleBorder(),
                                                                       onTap:
                                                                           () {
                                                                         HealingMatchConstants
@@ -2670,6 +2678,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         width:
                                                                             5),
                                                                     InkWell(
+                                                                      customBorder:
+                                                                          CircleBorder(),
                                                                       onTap:
                                                                           () {
                                                                         HealingMatchConstants
@@ -3413,7 +3423,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                             padding:
                                                                                 EdgeInsets.only(top: 5.0),
                                                                             width:
-                                                                                MediaQuery.of(context).size.width - 130.0, //200.0,
+                                                                                MediaQuery.of(context).size.width - 130.0,
+                                                                            //200.0,
                                                                             child: ListView.builder(
                                                                                 shrinkWrap: true,
                                                                                 scrollDirection: Axis.horizontal,
@@ -3473,6 +3484,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                 child: Row(
                                                                   children: [
                                                                     InkWell(
+                                                                      customBorder:
+                                                                          CircleBorder(),
                                                                       onTap:
                                                                           () {
                                                                         ProgressDialogBuilder.showCommonProgressDialog(
@@ -3501,6 +3514,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                       ),
                                                                     ),
                                                                     InkWell(
+                                                                      customBorder:
+                                                                          CircleBorder(),
                                                                       onTap:
                                                                           () {
                                                                         HealingMatchConstants

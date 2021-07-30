@@ -21,17 +21,21 @@ import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:toast/toast.dart';
-import 'package:keyboard_actions/keyboard_actions.dart';
-
+import 'package:gps_massageapp/models/responseModels/serviceUser/login/snsAndAppleResponse.dart' as snsLogin;
 class UserLogin extends StatefulWidget {
   @override
   _UserLoginState createState() => _UserLoginState();
 }
 
 class _UserLoginState extends State<UserLogin> {
+  String lineBotId;
+  String appleUserId;
+  int isTherapist=0;
+
   var loginResponseModel = new LoginResponseModel();
   var addressResponse = new Address();
   bool passwordVisibility = true;
@@ -63,6 +67,8 @@ class _UserLoginState extends State<UserLogin> {
   @override
   void initState() {
     super.initState();
+    HealingMatchConstants.snsLoginFlag = 0;
+    print('snsFlag:   ${HealingMatchConstants.snsLoginFlag}');
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
     _getFCMToken();
   }
@@ -477,6 +483,8 @@ class _UserLoginState extends State<UserLogin> {
           value.setBool('isActive', loginResponseModel.data.isActive);
           value.setString(
               'profileImage', loginResponseModel.data.uploadProfileImgUrl);
+          value.setString('lineBotUserId', loginResponseModel.data.lineBotUserId);
+          print('loginLineBotUser: ${loginResponseModel.data.lineBotUserId}');
           value.setString('userName', loginResponseModel.data.userName);
           value.setString('userPhoneNumber',
               loginResponseModel.data.phoneNumber.toString());
@@ -634,13 +642,139 @@ class _UserLoginState extends State<UserLogin> {
 
   void _initiateLineLogin() async {
     print('Entering line login...');
-    try {
+    // ProgressDialogBuilder.showOverlayLoader(context);
+    String password;
+    try{
+    if(lineBotId !=null&&lineBotId.isNotEmpty ){
+     var snsAndApple =  ServiceUserAPIProvider.snsAndAppleLogin(context, lineBotId, appleUserId, isTherapist, fcmToken);
+snsAndApple.then((snsValue) {
+  _sharedPreferences.then((value) {
+    value.clear();
+    value.setString('accessToken', snsValue.accessToken);
+    value.setString('did', snsValue.data.id.toString());
+    value.setBool('isActive', snsValue.data.isActive);
+    value.setString(
+        'profileImage', snsValue.data.uploadProfileImgUrl);
+    value.setString('lineBotUserId', snsValue.data.lineBotUserId);
+    value.setString('userName', snsValue.data.userName);
+    value.setString('userPhoneNumber',
+        snsValue.data.phoneNumber.toString());
+    value.setString('userEmailAddress', snsValue.data.email);
+    value.setString(
+        'userDOB',
+        DateFormat("yyyy-MM-dd")
+            .format(snsValue.data.dob)
+            .toString()
+            .toString());
+    value.setString('userAge', snsValue.data.age.toString());
+    value.setString('userGender', snsValue.data.gender);
+    value.setString(
+        'userOccupation', snsValue.data.userOccupation);
+    value.setString('deviceToken', snsValue.data.fcmToken);
+    /* value.setString(
+              'userAddress', json.encode(loginResponseModel.data.addresses));*/
+
+    print('DOB of user : ${snsValue.data.dob.toString()}');
+    for (var userAddressData in snsValue.data.addresses) {
+      print('Address of user : ${userAddressData.toJson()}');
+      print(
+          'Address of user : ${snsValue.data.addresses.length}');
+      value.setString('userAddress', userAddressData.address);
+      value.setString('buildingName', userAddressData.buildingName);
+      value.setString('roomNumber', userAddressData.userRoomNumber);
+      value.setString('area', userAddressData.area);
+      value.setString(
+          'addressType', userAddressData.addressTypeSelection);
+      value.setString('addressID', userAddressData.id.toString());
+      value.setString('userID', userAddressData.userId.toString());
+      value.setString(
+          'userPlaceForMassage', userAddressData.userPlaceForMassage);
+      value.setString('otherOption', userAddressData.otherAddressType);
+      value.setString('cityName', userAddressData.cityName);
+      value.setString(
+          'capitalAndPrefecture', userAddressData.capitalAndPrefecture);
+
+      HealingMatchConstants.isUserRegistrationSkipped = false;
+      value.setBool('isGuest', false);
+
+      print(
+          'Address place : ${userAddressData.userPlaceForMassage} : ${userAddressData.otherAddressType}');
+    }
+    HealingMatchConstants.isActive = snsValue.data.isActive;
+
+    print('ID: ${snsValue.data.id}');
+    print(snsValue.data.userName);
+    print(snsValue.data.phoneNumber.toString());
+    print(snsValue.data.email);
+    print(DateFormat("yyyy-MM-dd")
+        .format(snsValue.data.dob)
+        .toString()
+        .toString());
+    print(snsValue.data.age.toString());
+    print(snsValue.data.gender);
+    print(snsValue.data.userOccupation);
+    print('Is User verified : ${snsValue.data.isVerified}');
+    if (snsValue.data.isVerified) {
+      value.setBool('isUserLoggedIn', true);
+      value.setBool('userLoginSkipped', false);
+      value.setBool('isProviderLoggedIn', false);
+
+      firebaseChatSnsLogin(snsValue.data, password);
+    } else {
+      HealingMatchConstants.fbUserid =
+          snsValue.data.phoneNumber.toString() +
+              snsValue.data.id.toString() +
+              "@nexware.global.com";
+      HealingMatchConstants.isLoginRoute = true;
+      HealingMatchConstants.serviceUserPhoneNumber = snsValue.data.phoneNumber.toString();
+      Toast.show("許可されていないユーザー。", context,
+          duration: 4,
+          gravity: Toast.CENTER,
+          backgroundColor: Colors.redAccent,
+          textColor: Colors.white);
+      print('Unverified User!!');
+      ProgressDialogBuilder.hideLoader(context);
+      resendOtp();
+    }
+  });
+
+});
+    }else{
+
       LineLoginHelper.startLineLogin(context);
-    } catch (e) {
+  }}
+    catch (e) {
       print(e);
     }
   }
-
+  void firebaseChatSnsLogin(snsLogin.Data userData, String password) {
+    Auth()
+        .signIn(
+        userData.phoneNumber.toString() +
+            userData.id.toString() +
+            "@nexware.global.com",
+        password)
+        .then((value) {
+      ProgressDialogBuilder.hideLoader(context);
+      if (value) {
+        Toast.show("正常にログインしました。", context,
+            duration: Toast.LENGTH_LONG,
+            gravity: Toast.CENTER,
+            backgroundColor: Colors.lime,
+            textColor: Colors.white);
+        NavigationRouter.switchToServiceUserBottomBar(context);
+      } else {
+        ProgressDialogBuilder.hideLoader(context);
+        Toast.show("許可されていないユーザー。", context,
+            duration: 4,
+            gravity: Toast.CENTER,
+            backgroundColor: Colors.redAccent,
+            textColor: Colors.white);
+        print('Unverified User!!');
+        return;
+      }
+    });
+  }
   _getFCMLoginToken() async {
     fireBaseMessaging.getToken().then((fcmTokenValue) {
       if (fcmTokenValue != null) {
@@ -685,6 +819,11 @@ class _UserLoginState extends State<UserLogin> {
     }).catchError((onError) {
       print('FCM Skip Token Exception : ${onError.toString()}');
     });
+    _sharedPreferences.then((value) {
+      lineBotId = value.getString('lineBotUserId');
+      print('lineBotId Exception : ${value.getString('lineBotUserId')}');
+    });
+    print('lineBotId Exception : ${lineBotId}');
   }
 
   _getGuestUserAccessToken() async {

@@ -8,8 +8,11 @@ class EventScheduleModel {
   }
 
   int get day => _day;
+
   set day(int day) => _day = day;
+
   String get eventId => _eventId;
+
   set eventId(String eventId) => _eventId = eventId;
 
   EventScheduleModel.fromJson(Map<String, dynamic> json) {

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/commonScreens/chat/chat_item_screen.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/chat.dart';
@@ -8,7 +9,6 @@ import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/db
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/chatData.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/message.dart';
 import 'package:gps_massageapp/customLibraryClasses/chat/avatar.dart';
-import 'package:gps_massageapp/commonScreens/chat/chat_item_screen.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -26,6 +26,7 @@ class _ChatListItemState extends State<ChatListItem> {
   // GlobalKey key = GlobalKey<_ChatItemState>();
   DB db;
   List<dynamic> unreadMessages = [];
+
   // int unreadCount;
   Stream<QuerySnapshot> _stream;
 

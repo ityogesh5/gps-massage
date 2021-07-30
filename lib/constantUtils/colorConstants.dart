@@ -80,6 +80,7 @@ TextStyle kReplySubtitleStyle = TextStyle(
 class ReplyColorPair {
   final Color user;
   final Color peer;
+
   ReplyColorPair({this.user, this.peer});
 }
 

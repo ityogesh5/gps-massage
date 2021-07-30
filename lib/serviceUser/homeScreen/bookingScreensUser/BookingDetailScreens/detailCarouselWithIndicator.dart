@@ -11,7 +11,9 @@ import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvid
 class DetailCarouselWithIndicator extends StatefulWidget {
   final TherapistByIdModel therapistDetails;
   final int id;
+
   DetailCarouselWithIndicator(this.therapistDetails, this.id);
+
   @override
   _DetailCarouselWithIndicatorState createState() =>
       _DetailCarouselWithIndicatorState();

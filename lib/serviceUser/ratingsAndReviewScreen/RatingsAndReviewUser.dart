@@ -6,6 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+
 // import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/ratings/ratingList.dart';
@@ -22,7 +23,9 @@ Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 
 class RatingsAndReviewUser extends StatefulWidget {
   final BookingDetailsList bookingDetail;
+
   RatingsAndReviewUser(this.bookingDetail);
+
   @override
   _RatingsAndReviewUserState createState() => _RatingsAndReviewUserState();
 }
@@ -653,6 +656,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
       ],
     );
   }
+
   /* _providerRatingList() async {
     try {
       // ProgressDialogBuilder.showCommonProgressDialog(context);

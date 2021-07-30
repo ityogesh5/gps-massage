@@ -1,17 +1,17 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
+import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/FavouriteList.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherapist/FavouriteList.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
-import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:favorite_button/favorite_button.dart';
-import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
 
 var therapistId;
 
@@ -54,6 +54,7 @@ class _FavoriteState extends State<Favorite> {
   List<Map<String, String>> certificateUploadList = List<Map<String, String>>();
   var addressOfTherapists, distanceRadius;
   List<dynamic> distanceOfTherapist = new List();
+
   // List<GlobalKey<ScaffoldState>> _favformKeyList;
   List<GlobalKey> _favformKeyList = List<GlobalKey>();
   BoxDecoration boxDecoration = BoxDecoration(
@@ -759,7 +760,8 @@ class _FavoriteState extends State<Favorite> {
                                                                                     padding: EdgeInsets.all(5),
                                                                                     decoration: boxDecoration,
                                                                                     child: Text(
-                                                                                      key, //Qualififcation
+                                                                                      key,
+                                                                                      //Qualififcation
                                                                                       style: TextStyle(
                                                                                         fontSize: 14,
                                                                                         color: Colors.black,
@@ -890,18 +892,15 @@ class _FavoriteState extends State<Favorite> {
                                                           'assets/images_gps/appIcon.png')),
                                                 )),
                                           ),
-                                          Expanded(
-                                            child: Column(
-                                              children: [
-                                                Text(
-                                                  'お気に入りに登録したセラピスト・店舗はありません。',
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontFamily: 'NotoSansJP',
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                              ],
+                                          SizedBox(width: 15,),
+                                          Flexible(
+                                            child: Text(
+                                              'お気に入りに登録したセラピスト・\n店舗はありません。',
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontFamily: 'NotoSansJP',
+                                                  fontWeight:
+                                                      FontWeight.bold),
                                             ),
                                           ),
                                         ],

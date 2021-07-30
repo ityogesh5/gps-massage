@@ -22,11 +22,14 @@ import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHel
 import 'package:gps_massageapp/customLibraryClasses/keyboardDoneButton/keyboardActionConfig.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
+import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:http/http.dart' as http;
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:toast/toast.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/login/snsAndAppleResponse.dart' as snsLogin;
 
 class ProviderLogin extends StatefulWidget {
   @override
@@ -34,6 +37,9 @@ class ProviderLogin extends StatefulWidget {
 }
 
 class _ProviderLoginState extends State<ProviderLogin> {
+  String lineBotId;
+  String appleUserId;
+  int isTherapist=1;
   var loginResponseModel = new LoginResponseModel();
   bool passwordVisibility = true;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -60,6 +66,8 @@ class _ProviderLoginState extends State<ProviderLogin> {
   void initState() {
     super.initState();
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
+    HealingMatchConstants.snsLoginFlag = 1;
+    print('snsFlag:   ${HealingMatchConstants.snsLoginFlag}');
     _getFCMLoginToken();
     if (Platform.isIOS) {
       //check for ios if developing for both android & ios
@@ -87,6 +95,11 @@ class _ProviderLoginState extends State<ProviderLogin> {
     }).catchError((onError) {
       print('FCM Login Token Exception : ${onError.toString()}');
     });
+    _sharedPreferences.then((value) {
+      lineBotId = value.getString('lineBotIdProvider');
+      print('lineBotId  : ${value.getString('lineBotIdProvider')}');
+    });
+    print('lineBotId!!! : ${lineBotId}');
   }
 
   showOverlayLoader() {
@@ -508,6 +521,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
         instances.setString("userData", json.encode(userData));
         instances.setBool('isActive', loginResponseModel.data.isActive);
         instances.setString("accessToken", loginResponseModel.accessToken);
+        instances.setString("lineBotIdProvider", loginResponseModel.data.lineBotUserId);
         print('Login response : ${loginResponseModel.toJson()}');
         print('Login token : ${loginResponseModel.accessToken}');
         print('Is Provider verified : ${loginResponseModel.data.isVerified}');
@@ -544,7 +558,23 @@ class _ProviderLoginState extends State<ProviderLogin> {
       return;
     }
   }
-
+  void firebaseChatSnsLogin(snsLogin.Data userData, String password) {
+    Auth()
+        .signIn(
+        userData.phoneNumber.toString() +
+            userData.id.toString() +
+            "@nexware.global.com",
+        password)
+        .then((value) {
+      hideLoader();
+      if (value) {
+        NavigationRouter.switchToServiceProviderBottomBar(context);
+      } else {
+        hideLoader();
+        return;
+      }
+    });
+  }
   void firebaseChatLogin(Data userData, String password) {
     Auth()
         .signIn(
@@ -598,14 +628,79 @@ class _ProviderLoginState extends State<ProviderLogin> {
   }
 
   void _initiateLineLogin() async {
+    SharedPreferences instances = await SharedPreferences.getInstance();
+    var password;
     print('Entering line login...');
     try {
-      LineLoginHelper.startLineLogin(context);
+      if(lineBotId !=null&&lineBotId.isNotEmpty ){
+        var snsAndApple =  ServiceProviderApi.snsAndAppleLoginProvider(context, lineBotId, appleUserId, isTherapist, fcmToken);
+        print('Hi snsLogin Provider');
+        snsAndApple.then((value){
+          snsLogin.Data userData = value.data;
+          instances.setString("userData", json.encode(userData));
+          instances.setBool('isActive', value.data.isActive);
+          instances.setString("accessToken", value.accessToken);
+          print('Login response : ${value.toJson()}');
+          print('Login token : ${value.accessToken}');
+          print('Is Provider verified : ${value.data.isVerified}');
+          HealingMatchConstants.isActive = value.data.isActive;
+          if (value.data.isVerified) {
+            instances.setBool('isProviderLoggedIn', true);
+            instances.setBool('isUserLoggedIn', false);
+            firebaseChatSnsLogin(userData, password);
+          } else {
+            HealingMatchConstants.fbUserid =
+                value.data.phoneNumber.toString() +
+                    value.data.id.toString() +
+                    "@nexware.global.com";
+            HealingMatchConstants.isLoginRoute = true;
+            HealingMatchConstants.serviceProviderPassword = password;
+            HealingMatchConstants.serviceProviderPhoneNumber =   value.data.phoneNumber.toString();
+            hideLoader();
+            Toast.show("アカウントが確認されていません。", context,
+                duration: 4,
+                gravity: Toast.BOTTOM,
+                backgroundColor: Colors.redAccent,
+                textColor: Colors.white);
+            resendOtpSnsLogin(userData);
+            print('Unverified User!!');
+          }
+
+        });
+      }else{
+        LineLoginHelper.startLineLogin(context);
+      }
     } catch (e) {
       print(e);
     }
   }
+  resendOtpSnsLogin(snsLogin.Data userData) async {
+    try {
+      ProgressDialogBuilder.showForgetPasswordUserProgressDialog(context);
+      final url = HealingMatchConstants.SEND_VERIFY_USER_URL;
+      final response = await http.post(url,
+          headers: {"Content-Type": "application/json"},
+          body: json.encode(
+              {"phoneNumber": userData.phoneNumber, "isTherapist": "1"}));
+      print('Status code : ${response.statusCode}');
+      if (response.statusCode == 200) {
+        final sendVerify = json.decode(response.body);
+        //reSendVerifyResponse = SendVerifyResponseModel.fromJson(sendVerify);
 
+        ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
+        NavigationRouter.switchToProviderOtpScreen(context);
+        //     NavigationRouter.switchToUserChangePasswordScreen(context);
+      } else {
+        ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
+        print('Response Failure !!');
+        return;
+      }
+    } catch (e) {
+      ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
+      print('Response catch error : ${e.toString()}');
+      return;
+    }
+  }
   resendOtp(Data userData) async {
     try {
       ProgressDialogBuilder.showForgetPasswordUserProgressDialog(context);

@@ -1,5 +1,6 @@
 import 'dart:core';
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gps_massageapp/customLibraryClasses/flutterTimePickerSpinner/flutter_time_picker_spinner.dart';
@@ -28,8 +29,8 @@ class ShowToolTip {
   BorderRadius _borderRadius;
   EdgeInsetsGeometry _padding;
 
-  ShowToolTip(this.context,
-      this._callBack, //Function(int index, DateTime newTime, bool isStart) refreshPage,
+  ShowToolTip(this.context, this._callBack,
+      //Function(int index, DateTime newTime, bool isStart) refreshPage,
       {double height,
       double width,
       VoidCallback onDismiss,

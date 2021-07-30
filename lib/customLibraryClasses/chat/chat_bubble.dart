@@ -18,6 +18,7 @@ class ChatBubble extends StatelessWidget {
   final UserDetail peer;
   final bool withoutAvatar;
   final Function onReply;
+
   ChatBubble({
     @required this.message,
     @required this.isMe,

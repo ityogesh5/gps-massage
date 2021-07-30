@@ -16,6 +16,7 @@ class MediaUploadingBubble extends StatefulWidget {
   final Function onUploadFinished;
   final Message message;
   final MediaType mediaType;
+
   MediaUploadingBubble({
     @required this.groupId,
     @required this.file,
@@ -24,6 +25,7 @@ class MediaUploadingBubble extends StatefulWidget {
     @required this.message,
     @required this.mediaType,
   });
+
   @override
   _MediaUploadingBubbleState createState() => _MediaUploadingBubbleState();
 }
@@ -150,6 +152,7 @@ class _MediaUploadingBubbleState extends State<MediaUploadingBubble> {
 
 class _BottomDetails extends StatelessWidget {
   final Message message;
+
   const _BottomDetails({
     Key key,
     @required this.message,

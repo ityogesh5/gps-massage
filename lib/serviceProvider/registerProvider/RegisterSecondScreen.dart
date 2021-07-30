@@ -1955,8 +1955,8 @@ class _RegistrationSecondPageState
           }
         });
         sharedPreferences.setString("userData", json.encode(userData));
-        sharedPreferences.setString(
-            "accessToken", registerResponseModel.accessToken);
+        sharedPreferences.setString("accessToken", registerResponseModel.accessToken);
+        sharedPreferences.setString("lineBotIdProvider", registerResponseModel.data.lineBotUserId);
         sharedPreferences.setBool(
             "isActive", registerResponseModel.data.isActive);
         sharedPreferences.setString("providerPhoneNumer",

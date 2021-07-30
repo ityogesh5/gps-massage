@@ -14,6 +14,7 @@ import 'package:gps_massageapp/models/responseModels/guestUserModel/GuestUserRes
 import 'package:gps_massageapp/models/responseModels/paymentModels/CustomerCreation.dart';
 import 'package:gps_massageapp/models/responseModels/paymentModels/PaymentCustomerCharge.dart';
 import 'package:gps_massageapp/models/responseModels/paymentModels/PaymentSuccessModel.dart';
+import 'package:gps_massageapp/models/responseModels/paymentModels/PayoutModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingCompletedList.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/booking/BookingStatus.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/booking/createBooking.dart';
@@ -24,7 +25,6 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/Ther
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UpComingReservationModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UserBannerImagesModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/notification/firebaseNotificationUserListModel.dart';
-import 'package:gps_massageapp/models/responseModels/paymentModels/PayoutModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/DeleteSubAddressModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/EditUserSubAddressModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/ratings/ratingList.dart';
@@ -33,6 +33,7 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/Se
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/login/snsAndAppleResponse.dart';
 import 'package:http/http.dart' as http;
 
 class ServiceUserAPIProvider {
@@ -88,8 +89,9 @@ class ServiceUserAPIProvider {
   static BookingStatusModel _bookingStatusModel = new BookingStatusModel();
   static UpComingBookingModel _upComingBookingStatusModel =
       new UpComingBookingModel();
-  static BookingCompletedList _bookingCompletedList =
-      new BookingCompletedList();
+  static BookingCompletedList _bookingCompletedList = new BookingCompletedList();
+
+  static SnsAndAppleLogin snsAndAppleLoginRes = new SnsAndAppleLogin();
 
   // get all therapist users
   static Future<TherapistUsersModel> getAllTherapistUsers(
@@ -1349,5 +1351,37 @@ class ServiceUserAPIProvider {
       print('Exception : ${e.toString()}');
       return false;
     }
+  }
+  //SNS and Apple login
+  static Future<SnsAndAppleLogin> snsAndAppleLogin(
+      BuildContext context, String lineBotUserId,String appleUserId,int isTherapist,String fcmToken) async {
+
+    ProgressDialogBuilder.showOverlayLoader(context);
+    try {
+      final url = HealingMatchConstants.SNS_APPLE_USER_URL;
+      final response = await http.post(url,
+          headers: {
+            "Content-Type": "application/json",
+
+          },
+          body: json.encode({
+            "lineBotUserId": lineBotUserId,
+            "appleUserId": Platform.isIOS? appleUserId:'',
+            "isTherapist": isTherapist,
+            "fcmToken": fcmToken,
+          }));
+      print(response.body);
+      if (response.statusCode == 200) {
+        snsAndAppleLoginRes =
+            SnsAndAppleLogin.fromJson(json.decode(response.body));
+      }
+      ProgressDialogBuilder.hideLoader(context);
+      print('Status code : ${response.statusCode}');
+    } catch (e) {
+      ProgressDialogBuilder.hideLoader(context);
+      print('Ratings and review exception : ${e.toString()}');
+    }
+
+    return snsAndAppleLoginRes;
   }
 }

@@ -38,6 +38,7 @@ class ConditionsApplyBookingScreen extends StatefulWidget {
 class _ConditionsApplyBookingScreenState
     extends State<ConditionsApplyBookingScreen> {
   var therapistId;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

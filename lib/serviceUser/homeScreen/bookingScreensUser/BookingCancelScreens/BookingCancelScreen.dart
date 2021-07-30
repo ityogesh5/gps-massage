@@ -55,6 +55,7 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
   String selectedBuildingType;
   bool isOtherSelected = false;
   final _cancelReasonController = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return CancelPopupScreen();

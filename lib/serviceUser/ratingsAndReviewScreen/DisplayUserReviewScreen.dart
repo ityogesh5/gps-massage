@@ -11,7 +11,9 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 
 class DisplayUserReview extends StatefulWidget {
   final int id;
+
   DisplayUserReview(this.id);
+
   @override
   _DisplayUserReviewState createState() => _DisplayUserReviewState();
 }

@@ -564,7 +564,8 @@ class _ChooseDateState extends State<ChooseDate> {
                   bookEvents.clear();
 
                   saveSelectedTime(j, i);
-                } /* else if (isSeleted) {
+                }
+                /* else if (isSeleted) {
                   showAlreadySelectedTimeError();
                 }  */
                 else if (!isTimeAvailable) {
@@ -679,11 +680,11 @@ class _ChooseDateState extends State<ChooseDate> {
         }
         bool checkStartMinute = true;
         bool checkEndMinute = true;
-        if ((timeRow[i+k].hour == startTime.hour)) {
-          checkStartMinute = timeRow[i+k].minute >= startTime.minute;
+        if ((timeRow[i + k].hour == startTime.hour)) {
+          checkStartMinute = timeRow[i + k].minute >= startTime.minute;
         }
-        if ((timeRow[i+k].hour == endHour)) {
-          checkEndMinute = timeRow[i+k].minute <= endTime.minute;
+        if ((timeRow[i + k].hour == endHour)) {
+          checkEndMinute = timeRow[i + k].minute <= endTime.minute;
         }
         if (!(((timeRow[i + k].hour >= startTime.hour) &&
                 (timeRow[i + k].hour <= endHour)) &&

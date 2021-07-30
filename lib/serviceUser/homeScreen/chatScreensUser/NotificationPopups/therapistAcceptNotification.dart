@@ -21,6 +21,7 @@ import 'package:intl/intl.dart';
 
 class TherapistAcceptNotification extends StatefulWidget {
   final NotificationList requestBookingDetailsList;
+
   TherapistAcceptNotification(this.requestBookingDetailsList);
 
   @override
@@ -933,8 +934,37 @@ class _TherapistAcceptNotificationState
     String otherCategory = _cancelReasonController.text;
     String cancelReason =
         selectedBuildingType == "その他" ? otherCategory : selectedBuildingType;
-    if ((cancelReason == null || cancelReason == '') &&
-        selectedBuildingType == "その他") {
+    if (selectedBuildingType == null || selectedBuildingType == '') {
+      ProgressDialogBuilder.hideLoader(context);
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('キャンセルの理由を選択してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+    if ((selectedBuildingType == "その他") &&
+        (otherCategory == null || otherCategory == '')) {
       ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -963,7 +993,7 @@ class _TherapistAcceptNotificationState
       ));
       return null;
     }
-    if (cancelReason == null || cancelReason == '') {
+    if ((selectedBuildingType == "その他") && (otherCategory.length > 125)) {
       ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -972,7 +1002,7 @@ class _TherapistAcceptNotificationState
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('キャンセルの理由を選択してください。',
+              child: Text('キャンセル理由を125以内で入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),

@@ -23,6 +23,7 @@ class _CVideoPlayerState extends State<CVideoPlayer>
     with AutomaticKeepAliveClientMixin {
   VideoPlayerController _controller;
   Future<void> _initializedPlayerFuture;
+
   @override
   void initState() {
     super.initState();
