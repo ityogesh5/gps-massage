@@ -2475,17 +2475,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         buildingName +
         " " +
         roomNumber;
-    String queryAddress = roomNumber +
-        ',' +
-        buildingName +
-        ',' +
-        userArea +
-        ',' +
-        _myCity +
-        ',' +
-        _myPrefecture;
-    String address =
-        Platform.isIOS ? _myCity + ',' + _myPrefecture : manualUserAddress;
+
+    String address = _myCity + ',' + _myPrefecture;
     try {
       List<Location> userAddress =
           await locationFromAddress(address, localeIdentifier: "ja_JP");
@@ -2837,7 +2828,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     try {
       var splitAddress = subAddress.split(' ');
       List<Location> address = await locationFromAddress(
-          Platform.isIOS ? "${splitAddress[1]},${splitAddress[0]}" : subAddress,
+          "${splitAddress[1]},${splitAddress[0]}",
           localeIdentifier: "ja_JP");
 
       var searchAddressLatitude = address[0].latitude;
@@ -3902,18 +3893,8 @@ class _AddAddressState extends State<AddAddress> {
         addedBuildingNameController.text +
         " " +
         addedRoomNumberController.text;
-    String queryAddress = addedRoomNumberController.text.toString() +
-        ',' +
-        addedBuildingNameController.text.toString() +
-        ',' +
-        addedUserAreaController.text.toString() +
-        ',' +
-        _myAddedCity +
-        ',' +
-        _myAddedPrefecture;
     print('USER MANUAL ADDRESS : $manualAddedAddress');
-    String address =
-        Platform.isIOS ? _myAddedCity + ',' + _myAddedPrefecture : queryAddress;
+    String address = _myAddedCity + ',' + _myAddedPrefecture;
     List<Location> userManualAddress =
         await locationFromAddress(address, localeIdentifier: "ja_JP");
     HealingMatchConstants.manualAddressCurrentLatitude =

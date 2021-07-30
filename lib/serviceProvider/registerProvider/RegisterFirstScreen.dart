@@ -2479,17 +2479,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
             roomnumber
         : myState + ' ' + myCity + ' ' + manualAddresss + ' ' + roomnumber;
 
-    String query = Platform.isIOS
-        ? myCity + ',' + myState
-        : roomnumber +
-            ',' +
-            buildingname +
-            ',' +
-            manualAddresss +
-            ',' +
-            myCity +
-            ',' +
-            myState;
+    String query = myCity + ',' + myState;
+
     try {
       List<Location> locations =
           await locationFromAddress(query, localeIdentifier: "ja_JP");
@@ -2595,6 +2586,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     });
     _setLineCredentialsForUser();
   }
+
   _setLineCredentialsForUser() async {
     setState(() {
       if (HealingMatchConstants.lineUserProfileURL != null) {
@@ -2607,8 +2599,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
         mailAddressController.text = HealingMatchConstants.lineUserEmail;
       }
     });
-
   }
+
   // CityList cityResponse;
   _getCityDropDown(var prefid) async {
     ProgressDialogBuilder.showGetCitiesProgressDialog(context);
