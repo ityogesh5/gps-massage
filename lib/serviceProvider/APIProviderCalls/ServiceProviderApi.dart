@@ -273,7 +273,14 @@ class ServiceProviderApi {
     unavailableEvents
         .sort((a, b) => a.start.dateTime.compareTo(b.start.dateTime));
     for (var unavailableEvent in unavailableEvents) {
-      if (unavailableCalendarEvents.length == 0) {
+      unavailableCalendarEvents.add(
+        FlutterWeekViewEvent(
+          events: unavailableEvent,
+          start: unavailableEvent.start.dateTime.toLocal(),
+          end: unavailableEvent.end.dateTime.toLocal(),
+        ),
+      );
+      /* if (unavailableCalendarEvents.length == 0) {
         unavailableCalendarEvents.add(
           FlutterWeekViewEvent(
             events: unavailableEvent,
@@ -294,7 +301,7 @@ class ServiceProviderApi {
             end: unavailableEvent.end.dateTime.toLocal(),
           ),
         );
-      }
+      } */
     }
     if (HealingMatchConstants.numberOfEmployeeRegistered > 1) {
       flutterEvents.clear();
@@ -1223,20 +1230,23 @@ class ServiceProviderApi {
 
     return _therapistDetailsModel;
   }
-  static Future<SnsAndAppleLogin> snsAndAppleLoginProvider(
-      BuildContext context, String lineBotUserId,String appleUserId,int isTherapist,String fcmToken) async {
 
+  static Future<SnsAndAppleLogin> snsAndAppleLoginProvider(
+      BuildContext context,
+      String lineBotUserId,
+      String appleUserId,
+      int isTherapist,
+      String fcmToken) async {
     ProgressDialogBuilder.showOverlayLoader(context);
     try {
       final url = HealingMatchConstants.SNS_APPLE_USER_URL;
       final response = await http.post(url,
           headers: {
             "Content-Type": "application/json",
-
           },
           body: json.encode({
             "lineBotUserId": lineBotUserId,
-            "appleUserId": Platform.isIOS? appleUserId:'',
+            "appleUserId": Platform.isIOS ? appleUserId : '',
             "isTherapist": isTherapist,
             "fcmToken": fcmToken,
           }));
