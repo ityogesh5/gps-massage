@@ -892,7 +892,7 @@ class _FavoriteState extends State<Favorite> {
                                                           'assets/images_gps/appIcon.png')),
                                                 )),
                                           ),
-                                          SizedBox(width: 15,),
+                                          SizedBox(width: 20,),
                                           Flexible(
                                             child: Text(
                                               'お気に入りに登録したセラピスト・\n店舗はありません。',

@@ -4562,19 +4562,14 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                         'assets/images_gps/appIcon.png')),
                                               )),
                                         ),
-                                        Expanded(
-                                          child: Column(
-                                            children: [
-                                              Text(
-                                                '予約はありません。',
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    fontFamily: 'NotoSansJP',
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ],
-                                          ),
+                                        SizedBox(width: 20,),
+                                        Text(
+                                          '予約はありません。',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontFamily: 'NotoSansJP',
+                                              fontWeight:
+                                                  FontWeight.bold),
                                         ),
                                       ],
                                     )

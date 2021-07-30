@@ -419,18 +419,14 @@ class _SearchResultState extends State<SearchResult> {
                                                   'assets/images_gps/appIcon.png')),
                                         )),
                                   ),
-                                  SizedBox(width: 10),
-                                  Expanded(
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          '検索条件に合うセラピスト・店舗はありませんでした。',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontFamily: 'NotoSansJP',
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
+                                  SizedBox(width: 20),
+                                  Flexible(
+                                    child: Text(
+                                      '検索条件に合うセラピスト・店舗は\nありませんでした。',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontFamily: 'NotoSansJP',
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   ),
                                 ],

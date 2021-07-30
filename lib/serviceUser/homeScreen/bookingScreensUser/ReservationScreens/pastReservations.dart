@@ -1089,7 +1089,7 @@ class _PastReservationsState extends State<PastReservations> {
                                           ),
                                           Flexible(
                                             child: Text(
-                                              '今までに受けたサービスは\nありません。',
+                                              '今までに受けたサービスは\nまだありません。',
                                               style: TextStyle(
                                                   fontSize: 16,
                                                   fontFamily: 'NotoSansJP',
