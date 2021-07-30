@@ -2089,7 +2089,7 @@ class _RegisterUserState extends State<RegisterUser> {
         _myCity +
         ',' +
         _myPrefecture;
-    String query = Platform.isIOS ? _myCity + ',' + _myPrefecture : address;
+    String query = _myCity + ',' + _myPrefecture;
     try {
       List<Location> locations =
           await locationFromAddress(query, localeIdentifier: "ja_JP");
@@ -2214,7 +2214,8 @@ class _RegisterUserState extends State<RegisterUser> {
           value.setString('userPhoneNumber',
               serviceUserDetails.data.phoneNumber.toString());
           value.setString('userEmailAddress', serviceUserDetails.data.email);
-          value.setString('lineBotUserId', serviceUserDetails.data.lineBotUserId);
+          value.setString(
+              'lineBotUserId', serviceUserDetails.data.lineBotUserId);
           print('lineBotId:${serviceUserDetails.data.lineBotUserId}');
 
           value.setString(

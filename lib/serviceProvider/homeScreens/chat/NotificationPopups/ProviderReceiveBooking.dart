@@ -1008,17 +1008,18 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
   }
 
   void cancelBooking(BuildContext context) {
-    ServiceProviderApi.removeEvent(widget.bookingDetail.eventId, context)
+    ServiceProviderApi.updateStatusUpdate(
+            widget.bookingDetail, false, false, onCancel)
         .then((value) {
       if (value) {
-        ServiceProviderApi.updateStatusUpdate(
-                widget.bookingDetail, false, false, onCancel)
+        ServiceProviderApi.removeEvent(widget.bookingDetail.eventId, context)
             .then((value) {
           ProgressDialogBuilder.hideCommonProgressDialog(context);
-          if (value) {
-            NavigationRouter.switchToServiceProviderBottomBar(context);
-          }
+
+          NavigationRouter.switchToServiceProviderBottomBar(context);
         });
+      } else {
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
       }
     });
   }
@@ -1125,21 +1126,23 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
       widget.bookingDetail.addedPrice = addedpriceReason;
       widget.bookingDetail.travelAmount = int.parse(price);
     }
-    ServiceProviderApi.updateEvent(widget.bookingDetail.eventId, false,
-            proposeAdditionalCosts, suggestAnotherTime, widget.bookingDetail)
+
+    ServiceProviderApi.updateStatusUpdate(widget.bookingDetail,
+            proposeAdditionalCosts, suggestAnotherTime, false)
         .then((value) {
-      print("a");
-      /*   if (value) { */
-      ServiceProviderApi.updateStatusUpdate(widget.bookingDetail,
-              proposeAdditionalCosts, suggestAnotherTime, false)
-          .then((value) {
-        if (value) {
+      if (value) {
+        ServiceProviderApi.updateEvent(
+                widget.bookingDetail.eventId,
+                false,
+                proposeAdditionalCosts,
+                suggestAnotherTime,
+                widget.bookingDetail)
+            .then((value) {
           addFirebaseContacts();
-        } else {
-          ProgressDialogBuilder.hideCommonProgressDialog(context);
-        }
-      });
-      /* } */
+        });
+      } else {
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
+      }
     });
   }
 

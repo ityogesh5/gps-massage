@@ -1055,19 +1055,20 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
   }
 
   void cancelBooking(BuildContext context) {
-    ServiceProviderApi.removeEvent(
-            widget.requestBookingDetailsList.bookingDetail.eventId, context)
+    ServiceProviderApi.updateStatusUpdateNotification(
+            widget.requestBookingDetailsList, false, false, onCancel)
         .then((value) {
-      //    if (value) {
-      ServiceProviderApi.updateStatusUpdateNotification(
-              widget.requestBookingDetailsList, false, false, onCancel)
-          .then((value) {
-        ProgressDialogBuilder.hideCommonProgressDialog(context);
-        if (value) {
+      if (value) {
+        ServiceProviderApi.removeEvent(
+                widget.requestBookingDetailsList.bookingDetail.eventId, context)
+            .then((value) {
+          ProgressDialogBuilder.hideCommonProgressDialog(context);
+
           NavigationRouter.switchToServiceProviderBottomBar(context);
-        }
-      });
-      //  }
+        });
+      } else {
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
+      }
     });
   }
 
@@ -1177,28 +1178,26 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
       widget.requestBookingDetailsList.bookingDetail.travelAmount =
           int.parse(price);
     }
-    ServiceProviderApi.updateNotificationEvent(
-            widget.requestBookingDetailsList.bookingDetail.eventId,
-            false,
+
+    ServiceProviderApi.updateStatusUpdateNotification(
+            widget.requestBookingDetailsList,
             proposeAdditionalCosts,
             suggestAnotherTime,
-            widget.requestBookingDetailsList)
+            false)
         .then((value) {
-      print("a");
-      /*   if (value) { */
-      ServiceProviderApi.updateStatusUpdateNotification(
-              widget.requestBookingDetailsList,
-              proposeAdditionalCosts,
-              suggestAnotherTime,
-              false)
-          .then((value) {
-        if (value) {
+      if (value) {
+        ServiceProviderApi.updateNotificationEvent(
+                widget.requestBookingDetailsList.bookingDetail.eventId,
+                false,
+                proposeAdditionalCosts,
+                suggestAnotherTime,
+                widget.requestBookingDetailsList)
+            .then((value) {
           addFirebaseContacts();
-        } else {
-          ProgressDialogBuilder.hideCommonProgressDialog(context);
-        }
-      });
-      /* } */
+        });
+      } else {
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
+      }
     });
   }
 

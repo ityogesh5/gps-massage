@@ -2962,17 +2962,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
             roomnumber
         : myState + ' ' + myCity + ' ' + manualAddresss + ' ' + roomnumber;
 
-    String query = Platform.isIOS
-        ? myCity + ',' + myState
-        : roomnumber +
-            ',' +
-            buildingname +
-            ',' +
-            manualAddresss +
-            ',' +
-            myCity +
-            ',' +
-            myState;
+    String query = myCity + ',' + myState;
     try {
       List<Location> locations =
           await locationFromAddress(query, localeIdentifier: "ja_JP");

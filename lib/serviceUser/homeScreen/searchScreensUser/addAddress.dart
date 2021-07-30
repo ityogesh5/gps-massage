@@ -773,18 +773,8 @@ class _AddAddressState extends State<SearchAddAddress> {
         addedBuildingNameController.text +
         " " +
         addedRoomNumberController.text;
-    String queryAddress = addedRoomNumberController.text.toString() +
-        ',' +
-        addedBuildingNameController.text.toString() +
-        ',' +
-        addedUserAreaController.text.toString() +
-        ',' +
-        _myAddedCity +
-        ',' +
-        _myAddedPrefecture;
     print('USER MANUAL ADDRESS : $manualAddedAddress');
-    String address =
-        Platform.isIOS ? _myAddedCity + ',' + _myAddedPrefecture : queryAddress;
+    String address = _myAddedCity + ',' + _myAddedPrefecture;
     List<Location> userManualAddress =
         await locationFromAddress(address, localeIdentifier: "ja_JP");
     HealingMatchConstants.manualAddressCurrentLatitude =

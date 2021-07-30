@@ -284,15 +284,17 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
 
     try {
       ProgressDialogBuilder.showOverlayLoader(context);
-      ServiceUserAPIProvider.removeEvent(
-              HealingMatchConstants.calEventId, context)
+
+      ServiceUserAPIProvider.updateBookingCompeted(
+              widget.bookingId, widget.bookingStatus, cancelReason)
           .then((value) {
         if (value) {
-          ServiceUserAPIProvider.updateBookingCompeted(
-              widget.bookingId, widget.bookingStatus, cancelReason);
-          ProgressDialogBuilder.hideLoader(context);
-
-          DialogHelper.showUserBookingCancelDialog(context);
+          ServiceUserAPIProvider.removeEvent(
+                  HealingMatchConstants.calEventId, context)
+              .then((value) {
+            ProgressDialogBuilder.hideLoader(context);
+            DialogHelper.showUserBookingCancelDialog(context);
+          });
         } else {
           ProgressDialogBuilder.hideLoader(context);
         }

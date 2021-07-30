@@ -1023,17 +1023,22 @@ class _TherapistAcceptNotificationState
       return null;
     }
     try {
-      ServiceUserAPIProvider.removeEvent(
-              widget.requestBookingDetailsList.bookingDetail.eventId, context)
-          .then((value) {
-        if (value) {
-          ServiceUserAPIProvider.updateBookingCompeted(
+      ServiceUserAPIProvider.updateBookingCompeted(
               widget.requestBookingDetailsList.bookingDetail.id,
               widget.requestBookingDetailsList.bookingDetail.bookingStatus,
-              cancelReason);
+              cancelReason)
+          .then((value) {
+        if (value) {
+          ServiceUserAPIProvider.removeEvent(
+                  widget.requestBookingDetailsList.bookingDetail.eventId,
+                  context)
+              .then((value) {
+            DialogHelper.showUserBookingCancelDialog(context);
+          });
+        } else {
+          //ProgressDialogBuilder.hideLoader(context);
         }
       });
-      var cancelBooking = DialogHelper.showUserBookingCancelDialog(context);
     } catch (e) {
       print('cancelException : ${e.toString()}');
     }
