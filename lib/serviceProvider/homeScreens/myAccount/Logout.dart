@@ -16,6 +16,7 @@ class ProviderLogout extends StatefulWidget {
 class _ProviderLogoutState extends State<ProviderLogout> {
   Future<SharedPreferences> sharedPreferences = SharedPreferences.getInstance();
 
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -85,11 +86,13 @@ class _ProviderLogoutState extends State<ProviderLogout> {
                         if (value) {
                           Auth().signOut();
                           sharedPreferences.then((value) {
+                            String snsId = value.getString('lineBotIdProvider');
                             value.clear();
                             value.setBool('isProviderLoggedOut', true);
                             value.setBool('isProviderLoggedIn', false);
                             value.setBool('isUserLoggedOut', false);
                             value.setBool('isProviderRegister', false);
+                            value.setString('lineBotIdProvider', snsId);
                           });
                           Map<String, dynamic> isonline = {"isOnline": false};
                           FirebaseAuth firebaseAuth = FirebaseAuth.instance;
