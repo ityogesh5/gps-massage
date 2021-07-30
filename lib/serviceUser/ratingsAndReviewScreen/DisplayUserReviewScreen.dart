@@ -223,21 +223,17 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                                                                   'assets/images_gps/appIcon.png')),
                                                         )),
                                                   ),
-                                                  SizedBox(width: 10),
-                                                  Expanded(
-                                                    child: Column(
-                                                      children: [
-                                                        Text(
-                                                          'まだレビューはありません。',
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontFamily:
-                                                                  'NotoSansJP',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
+                                                  SizedBox(width: 20),
+                                                  Flexible(
+                                                    child: Text(
+                                                      'まだレビューはありません。',
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontWeight:
+                                                              FontWeight
+                                                                  .bold),
                                                     ),
                                                   ),
                                                 ],

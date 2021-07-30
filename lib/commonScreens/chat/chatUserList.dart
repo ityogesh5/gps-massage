@@ -215,21 +215,17 @@ class _ChatUserListState extends State<ChatUserList>
                                                         'assets/images_gps/appIcon.png')),
                                               )),
                                         ),
-                                        SizedBox(width: 10),
-                                        Expanded(
-                                          child: Column(
-                                            children: [
-                                              Text(
-                                                HealingMatchConstants.isProvider
-                                                    ? "利用者からの予約リクエストを承認した後メッセージのやり取りができます。"
-                                                    : '予約が完了した後にメッセージのやり取りができます。',
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontFamily: 'NotoSansJP',
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ],
+                                        SizedBox(width: 20),
+                                        Flexible(
+                                          child: Text(
+                                            HealingMatchConstants.isProvider
+                                                ? "利用者からの予約リクエストを承認した後\nメッセージのやり取りができます。"
+                                                : '予約が完了した後にメッセージの\nやり取りができます。',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontFamily: 'NotoSansJP',
+                                                fontWeight:
+                                                    FontWeight.bold),
                                           ),
                                         ),
                                       ],
