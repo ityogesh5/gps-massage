@@ -1048,19 +1048,24 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
       currentLoading();
       return null;
     }
-    var splitAddress = HealingMatchConstants.confServiceAddress.split(' ');
-    currentPrefecture = splitAddress[0];
-    print(' CurrentLocality:${currentPrefecture}');
-    List<Location> address = await locationFromAddress(
-        Platform.isIOS
-            ? "${splitAddress[1]},${splitAddress[0]}"
-            : HealingMatchConstants.confServiceAddress,
-        localeIdentifier: "ja_JP");
+    if (HealingMatchConstants.addressTypeValues != 5) {
+      var splitAddress = HealingMatchConstants.confServiceAddress.split(' ');
+      currentPrefecture = splitAddress[0];
+      print(' CurrentLocality:${currentPrefecture}');
+      List<Location> address = await locationFromAddress(
+          Platform.isIOS
+              ? "${splitAddress[1]},${splitAddress[0]}"
+              : HealingMatchConstants.confServiceAddress,
+          localeIdentifier: "ja_JP");
 
-    var searchAddressLatitude = address[0].latitude;
-    var searchAddressLongitude = address[0].longitude;
+      var searchAddressLatitude = address[0].latitude;
+      var searchAddressLongitude = address[0].longitude;
 
-    _getAddressFromLatLng(searchAddressLatitude, searchAddressLongitude);
+      _getAddressFromLatLng(searchAddressLatitude, searchAddressLongitude);
+    } else {
+      currentPrefecture = HealingMatchConstants.locality;
+      _updateUserBookingDetails();
+    }
   }
 
   _getAddressFromLatLng(double lat, double long) async {

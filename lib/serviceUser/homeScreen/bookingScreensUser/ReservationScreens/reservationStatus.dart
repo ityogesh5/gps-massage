@@ -2697,7 +2697,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
 
                                                                         NavigationRouter.switchToServiceUserBookingCancelScreen(
                                                                             context,
-                                                                            approvedList[index].id);
+                                                                            approvedList[index].id,
+                                                                            approvedList[index].bookingStatus);
                                                                       },
                                                                       child:
                                                                           Card(
@@ -3531,7 +3532,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                             .bookingStatus;
                                                                         NavigationRouter.switchToServiceUserBookingCancelScreen(
                                                                             context,
-                                                                            confirmedPaymentList[index].id);
+                                                                            confirmedPaymentList[index].id,
+                                                                            confirmedPaymentList[index].bookingStatus);
                                                                       },
                                                                       child:
                                                                           Card(

@@ -575,10 +575,15 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                             ? NavigationRouter
                                 .switchToServiceUserBookingCancelScreenPopup(
                                     context,
-                                    therapistDetails.bookingDataResponse[0].id)
+                                    therapistDetails.bookingDataResponse[0].id,
+                                    therapistDetails
+                                        .bookingDataResponse[0].bookingStatus)
                             : NavigationRouter
-                                .switchToServiceUserBookingCancelScreen(context,
-                                    therapistDetails.bookingDataResponse[0].id);
+                                .switchToServiceUserBookingCancelScreen(
+                                    context,
+                                    therapistDetails.bookingDataResponse[0].id,
+                                    therapistDetails
+                                        .bookingDataResponse[0].bookingStatus);
                       },
                       child: Text(
                         "キャンセルする",

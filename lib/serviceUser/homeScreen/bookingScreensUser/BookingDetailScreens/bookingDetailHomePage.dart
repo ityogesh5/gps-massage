@@ -1156,10 +1156,15 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                             ? NavigationRouter
                                 .switchToServiceUserBookingCancelScreenPopup(
                                     context,
-                                    therapistDetails.bookingDataResponse[0].id)
+                                    therapistDetails.bookingDataResponse[0].id,
+                                    therapistDetails
+                                        .bookingDataResponse[0].bookingStatus)
                             : NavigationRouter
-                                .switchToServiceUserBookingCancelScreen(context,
-                                    therapistDetails.bookingDataResponse[0].id);
+                                .switchToServiceUserBookingCancelScreen(
+                                    context,
+                                    therapistDetails.bookingDataResponse[0].id,
+                                    therapistDetails
+                                        .bookingDataResponse[0].bookingStatus);
                       },
                       child: Text(
                         "キャンセルする",

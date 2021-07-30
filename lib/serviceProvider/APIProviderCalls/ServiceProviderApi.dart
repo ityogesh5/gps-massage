@@ -846,6 +846,7 @@ class ServiceProviderApi {
           "bookingId": bookingDetail.id.toString(),
           "cancellationReason": bookingDetail.cancellationReason,
           "bookingStatus": "4",
+          "exsitingBookingStatus": bookingDetail.bookingStatus.toString(),
         };
       } else if (isAddedPrice && isTimeChange) {
         body = {
@@ -858,6 +859,7 @@ class ServiceProviderApi {
           "therapistComments": bookingDetail.therapistComments,
           "totalCost":
               bookingDetail.priceOfService + bookingDetail.travelAmount,
+          "exsitingBookingStatus": bookingDetail.bookingStatus,
         };
       } else if (isAddedPrice) {
         body = {
@@ -868,6 +870,7 @@ class ServiceProviderApi {
           "therapistComments": bookingDetail.therapistComments,
           "totalCost":
               bookingDetail.priceOfService + bookingDetail.travelAmount,
+          "exsitingBookingStatus": bookingDetail.bookingStatus,
         };
       } else if (isTimeChange) {
         body = {
@@ -876,6 +879,7 @@ class ServiceProviderApi {
           "newStartTime": bookingDetail.newStartTime.toString(),
           "newEndTime": bookingDetail.newEndTime.toString(),
           "therapistComments": bookingDetail.therapistComments,
+          "exsitingBookingStatus": bookingDetail.bookingStatus,
         };
       } else {
         body = {
@@ -884,6 +888,7 @@ class ServiceProviderApi {
           "therapistComments": bookingDetail.therapistComments != null
               ? bookingDetail.therapistComments
               : '',
+          "exsitingBookingStatus": bookingDetail.bookingStatus,
         };
       }
 
@@ -919,6 +924,7 @@ class ServiceProviderApi {
           "bookingId": bookingDetail.bookingDetail.id.toString(),
           "cancellationReason": bookingDetail.bookingDetail.cancellationReason,
           "bookingStatus": "4",
+          "exsitingBookingStatus": bookingDetail.bookingDetail.bookingStatus,
         };
       } else if (isAddedPrice && isTimeChange) {
         body = {
@@ -931,6 +937,7 @@ class ServiceProviderApi {
           "therapistComments": bookingDetail.bookingDetail.therapistComments,
           "totalCost": bookingDetail.bookingDetail.priceOfService +
               bookingDetail.bookingDetail.travelAmount,
+          "exsitingBookingStatus": bookingDetail.bookingDetail.bookingStatus,
         };
       } else if (isAddedPrice) {
         body = {
@@ -941,6 +948,7 @@ class ServiceProviderApi {
           "therapistComments": bookingDetail.bookingDetail.therapistComments,
           "totalCost": bookingDetail.bookingDetail.priceOfService +
               bookingDetail.bookingDetail.travelAmount,
+          "exsitingBookingStatus": bookingDetail.bookingDetail.bookingStatus,
         };
       } else if (isTimeChange) {
         body = {
@@ -950,6 +958,7 @@ class ServiceProviderApi {
           "newEndTime": bookingDetail.bookingDetail.newEndTime.toString(),
           "therapistComments": bookingDetail.bookingDetail.therapistComments,
           "totalCost": bookingDetail.bookingDetail.priceOfService,
+          "exsitingBookingStatus": bookingDetail.bookingDetail.bookingStatus,
         };
       } else {
         body = {
@@ -959,6 +968,7 @@ class ServiceProviderApi {
               bookingDetail.bookingDetail.therapistComments != null
                   ? bookingDetail.bookingDetail.therapistComments
                   : '',
+          "exsitingBookingStatus": bookingDetail.bookingDetail.bookingStatus,
         };
       }
 
@@ -991,6 +1001,7 @@ class ServiceProviderApi {
       body = {
         "bookingId": bookingDetail.id.toString(),
         "bookingStatus": "9",
+        "exsitingBookingStatus": bookingDetail.bookingStatus,
       };
 
       final response =

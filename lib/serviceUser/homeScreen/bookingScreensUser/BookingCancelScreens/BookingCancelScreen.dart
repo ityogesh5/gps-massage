@@ -12,9 +12,8 @@ GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
 class BookingCancelScreen extends StatefulWidget {
   final int bookingId;
-
-  BookingCancelScreen(this.bookingId);
-
+  final int bookingStatus;
+  BookingCancelScreen(this.bookingId, this.bookingStatus);
   @override
   State<StatefulWidget> createState() {
     return _BookingCancelScreenState();
@@ -30,7 +29,7 @@ class _BookingCancelScreenState extends State<BookingCancelScreen> {
       body: ListView(
         physics: BouncingScrollPhysics(),
         shrinkWrap: true,
-        children: [ConfirmCancelScreen(widget.bookingId)],
+        children: [ConfirmCancelScreen(widget.bookingId, widget.bookingStatus)],
       ),
     );
   }
@@ -38,9 +37,8 @@ class _BookingCancelScreenState extends State<BookingCancelScreen> {
 
 class ConfirmCancelScreen extends StatefulWidget {
   final int bookingId;
-
-  ConfirmCancelScreen(this.bookingId);
-
+  final int bookingStatus;
+  ConfirmCancelScreen(this.bookingId, this.bookingStatus);
   @override
   State<StatefulWidget> createState() {
     return _ConfirmCancelScreenState();
@@ -291,7 +289,7 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
           .then((value) {
         if (value) {
           ServiceUserAPIProvider.updateBookingCompeted(
-              widget.bookingId, cancelReason);
+              widget.bookingId, widget.bookingStatus, cancelReason);
           ProgressDialogBuilder.hideLoader(context);
 
           DialogHelper.showUserBookingCancelDialog(context);

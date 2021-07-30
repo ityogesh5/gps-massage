@@ -326,10 +326,13 @@ class BankDetail {
     this.id,
     this.userId,
     this.bankName,
-    this.branchCode,
+    this.bankCode,
+    this.branchName,
     this.branchNumber,
     this.accountNumber,
     this.accountType,
+    this.accountHolderType,
+    this.accountHolderName,
     this.createdAt,
     this.updatedAt,
   });
@@ -337,10 +340,13 @@ class BankDetail {
   int id;
   int userId;
   String bankName;
-  String branchCode;
+  String bankCode;
+  String branchName;
   String branchNumber;
   String accountNumber;
   String accountType;
+  String accountHolderType;
+  String accountHolderName;
   DateTime createdAt;
   DateTime updatedAt;
 
@@ -348,10 +354,13 @@ class BankDetail {
         id: json["id"],
         userId: json["userId"],
         bankName: json["bankName"],
-        branchCode: json["branchCode"],
+        bankCode: json["bankCode"],
+        branchName: json["branchName"],
         branchNumber: json["branchNumber"],
         accountNumber: json["accountNumber"],
         accountType: json["accountType"],
+        accountHolderType: json["accountHolderType"],
+        accountHolderName: json["accountHolderName"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
       );
@@ -360,10 +369,13 @@ class BankDetail {
         "id": id,
         "userId": userId,
         "bankName": bankName,
-        "branchCode": branchCode,
+        "bankCode": bankCode,
+        "branchName": branchName,
         "branchNumber": branchNumber,
         "accountNumber": accountNumber,
         "accountType": accountType,
+        "accountHolderType": accountHolderType,
+        "accountHolderName": accountHolderName,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
       };

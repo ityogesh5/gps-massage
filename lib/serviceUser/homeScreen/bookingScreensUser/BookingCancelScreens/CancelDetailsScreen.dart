@@ -20,9 +20,8 @@ String selectedBuildingType;
 
 class CancelDetailsScreen extends StatefulWidget {
   final int bookingId;
-
-  CancelDetailsScreen(this.bookingId);
-
+  final int bookingStatus;
+  CancelDetailsScreen(this.bookingId,this.bookingStatus);
   @override
   State<StatefulWidget> createState() {
     return _CancelDetailsScreenState();
@@ -38,7 +37,7 @@ class _CancelDetailsScreenState extends State<CancelDetailsScreen> {
       body: ListView(
         physics: BouncingScrollPhysics(),
         shrinkWrap: true,
-        children: [ConfirmCancelScreen(widget.bookingId)],
+        children: [ConfirmCancelScreen(widget.bookingId, widget.bookingStatus)],
       ),
     );
   }
@@ -46,9 +45,8 @@ class _CancelDetailsScreenState extends State<CancelDetailsScreen> {
 
 class ConfirmCancelScreen extends StatefulWidget {
   final int bookingId;
-
-  ConfirmCancelScreen(this.bookingId);
-
+  final int bookingStatus;
+  ConfirmCancelScreen(this.bookingId, this.bookingStatus);
   @override
   State<StatefulWidget> createState() {
     return _ConfirmCancelScreenState();
@@ -268,7 +266,7 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
           .then((value) {
         if (value) {
           ServiceUserAPIProvider.updateBookingCompeted(
-              widget.bookingId, cancelReason);
+              widget.bookingId, widget.bookingStatus, cancelReason);
           /*   ProgressDialogBuilder.hideLoader(context); */
           DialogHelper.showUserBookingCancelDialog(context);
         } else {

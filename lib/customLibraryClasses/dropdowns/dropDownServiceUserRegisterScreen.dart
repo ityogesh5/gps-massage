@@ -108,6 +108,14 @@ class DropDownFormField extends FormField<dynamic> {
                                           style: HealingMatchConstants
                                               .formHintTextStyle,
                                         ),
+                                  /*  decoration: InputDecoration(
+                                    isDense: true,
+                                    alignLabelWithHint: true,
+                                    // floatingLabelBehavior:/* value == '' ? FloatingLabelBehavior.never : */ FloatingLabelBehavior.always ,
+                                    labelText: hintText,
+                                    //   hintText: hintText,
+                                    border: InputBorder.none,
+                                  ), */
                                   value: value == '' ? null : value,
                                   onChanged: (dynamic newValue) {
                                     state.didChange(newValue);
@@ -164,7 +172,6 @@ class DropDownFormField extends FormField<dynamic> {
                                   items: [],
                                 )),
                     ),
-                    //  ),
                     SizedBox(height: state.hasError ? 5.0 : 0.0),
                     Text(
                       state.hasError ? state.errorText : '',
