@@ -15,6 +15,7 @@ import 'package:gps_massageapp/models/responseModels/serviceProvider/ProviderDet
 import 'package:gps_massageapp/models/responseModels/serviceProvider/TherapistDetailsModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/currentBookingRatingResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/firebaseNotificationTherapistListModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/providerReviewandRatingsViewResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/therapistBookingHistoryResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/userReviewCreateResponseModel.dart';
@@ -35,7 +36,7 @@ class ServiceProviderApi {
 
   static TherapistDetailsModel _therapistDetailsModel =
       new TherapistDetailsModel();
-  static SnsAndAppleLogin snsAndAppleLoginRes = new SnsAndAppleLogin();
+  static LoginResponseModel snsAndAppleLoginRes = new LoginResponseModel();
 
   static Future<ProviderReviewandRatingsViewResponseModel>
       getTherapistReviewById(int pageNumber, int pageSize) async {
@@ -1223,7 +1224,7 @@ class ServiceProviderApi {
 
     return _therapistDetailsModel;
   }
-  static Future<SnsAndAppleLogin> snsAndAppleLoginProvider(
+  static Future<LoginResponseModel> snsAndAppleLoginProvider(
       BuildContext context, String lineBotUserId,String appleUserId,int isTherapist,String fcmToken) async {
 
     ProgressDialogBuilder.showOverlayLoader(context);
@@ -1243,7 +1244,7 @@ class ServiceProviderApi {
       print(response.body);
       if (response.statusCode == 200) {
         snsAndAppleLoginRes =
-            SnsAndAppleLogin.fromJson(json.decode(response.body));
+            LoginResponseModel.fromJson(json.decode(response.body));
       }
       ProgressDialogBuilder.hideLoader(context);
       print('Status code : ${response.statusCode}');

@@ -558,23 +558,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
       return;
     }
   }
-  void firebaseChatSnsLogin(snsLogin.Data userData, String password) {
-    Auth()
-        .signIn(
-        userData.phoneNumber.toString() +
-            userData.id.toString() +
-            "@nexware.global.com",
-        password)
-        .then((value) {
-      hideLoader();
-      if (value) {
-        NavigationRouter.switchToServiceProviderBottomBar(context);
-      } else {
-        hideLoader();
-        return;
-      }
-    });
-  }
+
   void firebaseChatLogin(Data userData, String password) {
     Auth()
         .signIn(
@@ -637,7 +621,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
         var snsAndApple =  ServiceProviderApi.snsAndAppleLoginProvider(context, lineBotId, appleUserId, isTherapist, fcmToken);
         print('Hi snsLogin Provider');
         snsAndApple.then((value){
-          snsLogin.Data userData = value.data;
+          Data userData = value.data;
           instances.setString("userData", json.encode(userData));
           instances.setBool('isActive', value.data.isActive);
           instances.setString("accessToken", value.accessToken);
@@ -648,7 +632,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
           if (value.data.isVerified) {
             instances.setBool('isProviderLoggedIn', true);
             instances.setBool('isUserLoggedIn', false);
-            firebaseChatSnsLogin(userData, password);
+            firebaseChatLogin(userData, password);
           } else {
             HealingMatchConstants.fbUserid =
                 value.data.phoneNumber.toString() +
@@ -663,7 +647,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
                 gravity: Toast.BOTTOM,
                 backgroundColor: Colors.redAccent,
                 textColor: Colors.white);
-            resendOtpSnsLogin(userData);
+            resendOtp(userData);
             print('Unverified User!!');
           }
 
@@ -676,33 +660,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
       print(e);
     }
   }
-  resendOtpSnsLogin(snsLogin.Data userData) async {
-    try {
-      ProgressDialogBuilder.showForgetPasswordUserProgressDialog(context);
-      final url = HealingMatchConstants.SEND_VERIFY_USER_URL;
-      final response = await http.post(url,
-          headers: {"Content-Type": "application/json"},
-          body: json.encode(
-              {"phoneNumber": userData.phoneNumber, "isTherapist": "1"}));
-      print('Status code : ${response.statusCode}');
-      if (response.statusCode == 200) {
-        final sendVerify = json.decode(response.body);
-        //reSendVerifyResponse = SendVerifyResponseModel.fromJson(sendVerify);
 
-        ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
-        NavigationRouter.switchToProviderOtpScreen(context);
-        //     NavigationRouter.switchToUserChangePasswordScreen(context);
-      } else {
-        ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
-        print('Response Failure !!');
-        return;
-      }
-    } catch (e) {
-      ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
-      print('Response catch error : ${e.toString()}');
-      return;
-    }
-  }
   resendOtp(Data userData) async {
     try {
       ProgressDialogBuilder.showForgetPasswordUserProgressDialog(context);

@@ -1642,7 +1642,7 @@ class DialogHelper {
         showCloseIcon: false,
         btnOkColor: Color.fromRGBO(200, 217, 33, 1),
         closeIcon: Icon(Icons.close),
-        title: 'ストライプ検証が必要です！',
+        title: 'ストライプ登録が必要です！',
         desc: 'ストライプで確認していないようです。\n予約の支払いを受け取るには、ストライプで登録してください。',
         btnOkOnPress: () {
           print('Ok pressed!!');
