@@ -601,25 +601,40 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                           child: Theme(
                             data: Theme.of(context)
                                 .copyWith(splashColor: Colors.black12),
-                            child: TextFormField(
-                                enabled: false,
-                                controller: phoneNumberController,
-                                keyboardType: TextInputType.phone,
-                                style: HealingMatchConstants.formTextStyle,
-                                decoration: InputDecoration(
-                                  labelText:
-                                      HealingMatchConstants.editProfilePhnNum,
-                                  labelStyle:
+                            child: TextFieldCustom(
+                              enabled: false,
+                              controller: phoneNumberController,
+                              keyboardType: TextInputType.phone,
+                              style: HealingMatchConstants.formTextStyle,
+                              decoration: InputDecoration(
+                                /* labelText:
+                                    HealingMatchConstants.editProfilePhnNum,
+                                labelStyle:
+                                    HealingMatchConstants.formLabelTextStyle, */
+                                filled: true,
+                                fillColor: ColorConstants.formFieldFillColor,
+                                disabledBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                focusedBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                enabledBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                              ),
+                              labelText: Text.rich(
+                                TextSpan(
+                                  text: HealingMatchConstants.editProfilePhnNum,
+                                  children: <InlineSpan>[
+                                    TextSpan(
+                                      text: '*',
+                                      style: HealingMatchConstants
+                                          .formHintTextStyleStar,
+                                    ),
+                                  ],
+                                  style:
                                       HealingMatchConstants.formLabelTextStyle,
-                                  filled: true,
-                                  fillColor: ColorConstants.formFieldFillColor,
-                                  disabledBorder:
-                                      HealingMatchConstants.textFormInputBorder,
-                                  focusedBorder:
-                                      HealingMatchConstants.textFormInputBorder,
-                                  enabledBorder:
-                                      HealingMatchConstants.textFormInputBorder,
-                                )),
+                                ),
+                              ),
+                            ),
                           )),
                       SizedBox(
                         height: sizedBoxFormHeight,
@@ -630,24 +645,40 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                           child: Theme(
                             data: Theme.of(context)
                                 .copyWith(splashColor: Colors.black12),
-                            child: TextFormField(
-                                enabled: true,
-                                controller: mailAddressController,
-                                style: HealingMatchConstants.formTextStyle,
-                                keyboardType: TextInputType.emailAddress,
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.all(16.0),
-                                  labelText: HealingMatchConstants
+                            child: TextFieldCustom(
+                              enabled: true,
+                              controller: mailAddressController,
+                              style: HealingMatchConstants.formTextStyle,
+                              keyboardType: TextInputType.emailAddress,
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(16.0),
+                                /*    labelText:
+                                    HealingMatchConstants.editProfileMailAdress,
+                                labelStyle:
+                                    HealingMatchConstants.formLabelTextStyle, */
+                                filled: true,
+                                fillColor: ColorConstants.formFieldFillColor,
+                                focusedBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                enabledBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                              ),
+                              labelText: Text.rich(
+                                TextSpan(
+                                  text: HealingMatchConstants
                                       .editProfileMailAdress,
-                                  labelStyle:
+                                  children: <InlineSpan>[
+                                    TextSpan(
+                                      text: '*',
+                                      style: HealingMatchConstants
+                                          .formHintTextStyleStar,
+                                    ),
+                                  ],
+                                  style:
                                       HealingMatchConstants.formLabelTextStyle,
-                                  filled: true,
-                                  fillColor: ColorConstants.formFieldFillColor,
-                                  focusedBorder:
-                                      HealingMatchConstants.textFormInputBorder,
-                                  enabledBorder:
-                                      HealingMatchConstants.textFormInputBorder,
-                                )),
+                                ),
+                              ),
+                            ),
                           )),
                       SizedBox(height: sizedBoxFormHeight),
                       Container(
@@ -749,7 +780,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                 child: DropDownFormField(
                                   requiredField: true,
                                   titleText: null,
-                                  hintText: readonly ? myState : '都、県選択',
+                                  hintText: readonly ? myState : '部道府県',
                                   onSaved: (value) {
                                     setState(() {
                                       myState = value;
@@ -783,7 +814,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                       child: Row(
                                         children: [
                                           Text(
-                                            "都、県選択",
+                                            "部道府県",
                                             style: TextStyle(
                                                 color: ColorConstants
                                                     .formHintTextColor,
@@ -1195,24 +1226,40 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                               child: Theme(
                                 data: Theme.of(context)
                                     .copyWith(splashColor: Colors.black12),
-                                child: TextFormField(
-                                    focusNode: storePhoneNumberFocus,
-                                    controller: storePhoneNumberController,
-                                    style: HealingMatchConstants.formTextStyle,
-                                    keyboardType: TextInputType.phone,
-                                    decoration: InputDecoration(
-                                      labelText: HealingMatchConstants
+                                child: TextFieldCustom(
+                                  focusNode: storePhoneNumberFocus,
+                                  controller: storePhoneNumberController,
+                                  style: HealingMatchConstants.formTextStyle,
+                                  keyboardType: TextInputType.phone,
+                                  decoration: InputDecoration(
+                                    /*   labelText: HealingMatchConstants
+                                        .editProfileStorePhnNum,
+                                    labelStyle: HealingMatchConstants
+                                        .formLabelTextStyle, */
+                                    filled: true,
+                                    fillColor:
+                                        ColorConstants.formFieldFillColor,
+                                    focusedBorder: HealingMatchConstants
+                                        .textFormInputBorder,
+                                    enabledBorder: HealingMatchConstants
+                                        .textFormInputBorder,
+                                  ),
+                                  labelText: Text.rich(
+                                    TextSpan(
+                                      text: HealingMatchConstants
                                           .editProfileStorePhnNum,
-                                      labelStyle: HealingMatchConstants
+                                      children: <InlineSpan>[
+                                        TextSpan(
+                                          text: '*',
+                                          style: HealingMatchConstants
+                                              .formHintTextStyleStar,
+                                        ),
+                                      ],
+                                      style: HealingMatchConstants
                                           .formLabelTextStyle,
-                                      filled: true,
-                                      fillColor:
-                                          ColorConstants.formFieldFillColor,
-                                      focusedBorder: HealingMatchConstants
-                                          .textFormInputBorder,
-                                      enabledBorder: HealingMatchConstants
-                                          .textFormInputBorder,
-                                    )),
+                                    ),
+                                  ),
+                                ),
                               ))
                           : Container(),
                       SizedBox(
@@ -2827,7 +2874,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     }
 
     if (bankname == 'その他' && bankOtherFieldController.text.length > 25) {
-      displaySnackBarError("有効な銀行名を入力してください。");
+      displaySnackBarError("正しい銀行名を入力してください。");
 
       return;
     }
@@ -2839,7 +2886,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     }
 
     if (branchNameController.text == null || branchNameController.text == '') {
-      displaySnackBarError("支店名は必須項目なので選択してください。");
+      displaySnackBarError("支店名を入力してください。");
 
       return;
     }
@@ -2852,40 +2899,40 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
 
     if (branchNumberController.text == null ||
         branchNumberController.text == '') {
-      displaySnackBarError("支店番号は必須項目なので選択してください。");
+      displaySnackBarError("支店番号を入力してください。");
 
       return;
     }
 
     if (branchNumberController.text.length > 3 ||
         branchNumberController.text.length < 3) {
-      displaySnackBarError("支店番号は3文字以内で入力してください。");
+      displaySnackBarError("3文字の支店番号を入力してください。");
 
       return;
     }
     if (bankNumberController.text == null || bankNumberController.text == '') {
-      displaySnackBarError("必須項目ですので、銀行番号をお選びください。");
+      displaySnackBarError("銀行番号を入力してください。");
 
       return;
     }
 
     if (bankNumberController.text.length > 4 ||
         bankNumberController.text.length < 4) {
-      displaySnackBarError("銀行番号は4文字以内で入力してください。");
+      displaySnackBarError("4文字の銀行番号を入力してください。");
 
       return;
     }
 
     if (accountnumberController.text == null ||
         accountnumberController.text == '') {
-      displaySnackBarError("口座番号は必須項目なので選択してください。");
+      displaySnackBarError("口座番号を入力してください。");
 
       return;
     }
 
     if (accountnumberController.text.length > 8 ||
         accountnumberController.text.length < 7) {
-      displaySnackBarError("アカウント番号は7-8文字以内で入力してください。");
+      displaySnackBarError("7-8文字の口座番号を入力してください。");
 
       return;
     }

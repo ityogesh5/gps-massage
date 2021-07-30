@@ -135,20 +135,18 @@ class _CancelBookingState extends State<CancelBooking> {
                     backgroundColor: Colors.redAccent,
                     textColor: Colors.white);
               } else {
-                ServiceProviderApi.removeEvent(
-                        widget.bookingDetail.eventId, context)
+                ServiceProviderApi.updateStatusUpdate(
+                        widget.bookingDetail, false, false, true)
                     .then((value) {
+                  //  ProgressDialogBuilder.hideCommonProgressDialog(context);
                   if (value) {
-                    ServiceProviderApi.updateStatusUpdate(
-                            widget.bookingDetail, false, false, true)
+                    ServiceProviderApi.removeEvent(
+                            widget.bookingDetail.eventId, context)
                         .then((value) {
-                      //  ProgressDialogBuilder.hideCommonProgressDialog(context);
-                      if (value) {
-                        NavigationRouter.switchToProviderCancelledHistoryScreen(
-                            context);
-                      }
+                      NavigationRouter.switchToProviderCancelledHistoryScreen(
+                          context);
                     });
-                  }
+                  } else {}
                 });
               }
             },
