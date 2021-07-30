@@ -3859,16 +3859,15 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       } else {
         bankname = HealingMatchConstants.registrationBankOtherDropdownFiled;
         bankOtherFieldController.text = userData.bankDetails[0].bankName;
-
-        accountType = userData.bankDetails[0].accountType;
-        accountnumberController.text = userData.bankDetails[0].accountNumber;
-        branchNameController.text = userData.bankDetails[0].branchName;
-        branchNumberController.text = userData.bankDetails[0].branchNumber;
-        accountHolderNameController.text =
-            userData.bankDetails[0].accountHolderName;
-        accountHolderType = userData.bankDetails[0].accountHolderType;
-        bankNumberController.text = userData.bankDetails[0].bankCode;
       }
+      accountType = userData.bankDetails[0].accountType;
+      accountnumberController.text = userData.bankDetails[0].accountNumber;
+      branchNameController.text = userData.bankDetails[0].branchName;
+      branchNumberController.text = userData.bankDetails[0].branchNumber;
+      accountHolderNameController.text =
+          userData.bankDetails[0].accountHolderName;
+      accountHolderType = userData.bankDetails[0].accountHolderType;
+      bankNumberController.text = userData.bankDetails[0].bankCode;
     }
 
     userData = HealingMatchConstants.userData;
