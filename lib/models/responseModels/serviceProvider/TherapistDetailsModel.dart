@@ -449,52 +449,63 @@ class CertificationUploads {
 }
 
 class BankDetails {
+  BankDetails({
+    this.id,
+    this.userId,
+    this.bankName,
+    this.bankCode,
+    this.branchName,
+    this.branchNumber,
+    this.accountNumber,
+    this.accountType,
+    this.accountHolderType,
+    this.accountHolderName,
+    this.createdAt,
+    this.updatedAt,
+  });
+
   int id;
   int userId;
   String bankName;
-  String branchCode;
+  String bankCode;
+  String branchName;
   String branchNumber;
   String accountNumber;
   String accountType;
-  String createdAt;
-  String updatedAt;
+  String accountHolderType;
+  String accountHolderName;
+  DateTime createdAt;
+  DateTime updatedAt;
 
-  BankDetails(
-      {this.id,
-      this.userId,
-      this.bankName,
-      this.branchCode,
-      this.branchNumber,
-      this.accountNumber,
-      this.accountType,
-      this.createdAt,
-      this.updatedAt});
+  factory BankDetails.fromJson(Map<String, dynamic> json) => BankDetails(
+        id: json["id"],
+        userId: json["userId"],
+        bankName: json["bankName"],
+        bankCode: json["bankCode"],
+        branchName: json["branchName"],
+        branchNumber: json["branchNumber"],
+        accountNumber: json["accountNumber"],
+        accountType: json["accountType"],
+        accountHolderType: json["accountHolderType"],
+        accountHolderName: json["accountHolderName"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+      );
 
-  BankDetails.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    userId = json['userId'];
-    bankName = json['bankName'];
-    branchCode = json['branchCode'];
-    branchNumber = json['branchNumber'];
-    accountNumber = json['accountNumber'];
-    accountType = json['accountType'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['userId'] = this.userId;
-    data['bankName'] = this.bankName;
-    data['branchCode'] = this.branchCode;
-    data['branchNumber'] = this.branchNumber;
-    data['accountNumber'] = this.accountNumber;
-    data['accountType'] = this.accountType;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "userId": userId,
+        "bankName": bankName,
+        "bankCode": bankCode,
+        "branchName": branchName,
+        "branchNumber": branchNumber,
+        "accountNumber": accountNumber,
+        "accountType": accountType,
+        "accountHolderType": accountHolderType,
+        "accountHolderName": accountHolderName,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
+      };
 }
 
 class Banners {

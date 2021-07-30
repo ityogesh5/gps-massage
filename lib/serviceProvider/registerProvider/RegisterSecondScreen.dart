@@ -1510,6 +1510,20 @@ class _RegistrationSecondPageState
       return;
     } */
 
+    if (bankName == null || bankName == '') {
+      displaySnackBarError("銀行名は必須項目なので選択してください。");
+
+      return;
+    }
+
+    if (bankName == 'その他' &&
+        (bankOtherFieldController.text == '' ||
+            bankOtherFieldController.text == null)) {
+      displaySnackBarError("銀行名は必須項目なので入力してください。");
+
+      return;
+    }
+
     if (bankName == 'その他' && bankOtherFieldController.text.length > 25) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -1525,59 +1539,137 @@ class _RegistrationSecondPageState
       return;
     }
 
-    if (branchNameController.text != null || branchNameController.text != '') {
-      if (branchNameController.text.length > 20) {
-        _scaffoldKey.currentState.showSnackBar(SnackBar(
-          backgroundColor: ColorConstants.snackBarColor,
-          content: Text('支店名は20文字以内で入力してください。',
-              style: TextStyle(fontFamily: 'NotoSansJP')),
-          action: SnackBarAction(
-              onPressed: () {
-                _scaffoldKey.currentState.hideCurrentSnackBar();
-              },
-              label: 'はい',
-              textColor: Colors.white),
-        ));
-        return;
-      }
+    if (accountType == null || accountType == '') {
+      displaySnackBarError("口座種類は必須項目なので選択してください。");
+
+      return;
     }
 
-    if (branchNumber != null) {
-      if (branchNumber.length > 5) {
-        _scaffoldKey.currentState.showSnackBar(SnackBar(
-          backgroundColor: ColorConstants.snackBarColor,
-          content: Text('支店番号は5文字以内で入力してください。',
-              style: TextStyle(fontFamily: 'NotoSansJP')),
-          action: SnackBarAction(
-              onPressed: () {
-                _scaffoldKey.currentState.hideCurrentSnackBar();
-              },
-              label: 'はい',
-              textColor: Colors.white),
-        ));
-        return;
-      }
+    if (branchNameController.text == null || branchNameController.text == '') {
+      displaySnackBarError("支店名は必須項目なので選択してください。");
+
+      return;
     }
 
-    if (accountNumber != null) {
-      if (accountNumber.length > 10) {
-        _scaffoldKey.currentState.showSnackBar(SnackBar(
-          backgroundColor: ColorConstants.snackBarColor,
-          content: Text('アカウント番号は10文字以内で入力してください。',
-              style: TextStyle(fontFamily: 'NotoSansJP')),
-          action: SnackBarAction(
-              onPressed: () {
-                _scaffoldKey.currentState.hideCurrentSnackBar();
-              },
-              label: 'はい',
-              textColor: Colors.white),
-        ));
-        return;
-      }
+    if (branchNameController.text.length > 20) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('支店名は20文字以内で入力してください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
     }
+
+    if (branchNumberController.text == null ||
+        branchNumberController.text == '') {
+      displaySnackBarError("支店番号は必須項目なので選択してください。");
+
+      return;
+    }
+
+    if (branchNumber.length > 3) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('支店番号は3文字以内で入力してください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    if (bankNumberController.text == null ||
+        bankNumberController.text == '') {
+      displaySnackBarError("必須項目ですので、銀行番号をお選びください。");
+
+      return;
+    }
+
+    if (bankNumberController.text.length > 4) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('銀行番号は4文字以内で入力してください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    if (accountnumberController.text == null ||
+        accountnumberController.text == '') {
+      displaySnackBarError("口座番号は必須項目なので選択してください。");
+
+      return;
+    }
+
+    if (accountNumber.length > 8 || accountNumber.length < 7) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('アカウント番号は7-8文字以内で入力してください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    if (accountHolderNameController.text == null ||
+        accountHolderNameController.text == '') {
+      displaySnackBarError("必須項目ですので、口座名義人の名前を入力してください。");
+
+      return;
+    }
+
+    if (accountHolderNameController.text.length > 20 ) {
+      displaySnackBarError("アカウント所有者の名前を20文字以内で入力してください。");
+
+      return;
+    }
+
+    if (accountHolderType== null ||
+        accountHolderType == '') {
+      displaySnackBarError("アカウント所有者のタイプを選択してください。");
+
+      return;
+    }
+
+
     print("Success");
     compressImages();
     //  registerProvider();
+  }
+
+  void displaySnackBarError(String text) {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      backgroundColor: ColorConstants.snackBarColor,
+      content: Text('$text', style: TextStyle(fontFamily: 'NotoSansJP')),
+      action: SnackBarAction(
+          onPressed: () {
+            _scaffoldKey.currentState.hideCurrentSnackBar();
+          },
+          label: 'はい',
+          textColor: Colors.white),
+    ));
+    ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
   }
 
   compressImages() async {

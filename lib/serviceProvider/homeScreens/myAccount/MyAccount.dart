@@ -442,7 +442,8 @@ class _MyAccountState extends State<MyAccount> {
                           ],
                         )
                       : Container(),
-                  userData.bankDetails[0].bankName != '' &&
+                  userData.bankDetails.isNotEmpty  &&
+                          userData.bankDetails[0].bankName != '' &&
                           userData.bankDetails[0].accountNumber != ''
                       ? Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -488,7 +489,7 @@ class _MyAccountState extends State<MyAccount> {
                                                 fontFamily: 'NotoSansJP',
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.bold)),
-                                        Text(userData.bankDetails[0].branchCode,
+                                        Text(userData.bankDetails[0].bankName,
                                             style: TextStyle(
                                               fontSize: 14.0,
                                               fontFamily: 'NotoSansJP',

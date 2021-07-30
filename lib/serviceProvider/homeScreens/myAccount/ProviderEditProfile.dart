@@ -197,12 +197,15 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
   bool idUploadVisible = true;
   bool uploadVisible = false;
   final bankkey = new GlobalKey<FormState>();
+  String accountHolderType;
   var qualification, bankname, accountType;
   List<String> bankNameDropDownList = List<String>();
   final accountnumberkey = new GlobalKey<FormState>();
-  TextEditingController branchCodeController = TextEditingController();
+  TextEditingController branchNameController = TextEditingController();
   TextEditingController branchNumberController = TextEditingController();
   TextEditingController accountnumberController = TextEditingController();
+  TextEditingController bankNumberController = TextEditingController();
+  TextEditingController accountHolderNameController = TextEditingController();
   BankNameDropDownModel bankNameDropDownModel;
   Map<String, String> certificateImages = Map<String, String>();
   final identityverification = new GlobalKey<FormState>();
@@ -537,33 +540,62 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                         ),
                       ),
                       SizedBox(
-                        height: sizedBoxFormHeight,
+                        height: sizedBoxFormHeight - 8.0,
                       ),
-                      Container(
-                        // height: containerHeight,
-                        width: containerWidth,
-                        child: DropDownFormField(
-                          requiredField: true,
-                          enabled: false,
-                          hintText: HealingMatchConstants.editProfileGender,
-                          value: gender,
-                          onSaved: (value) {
-                            setState(() {
-                              gender = value;
-                            });
-                          },
-                          onChanged: (value) {
-                            setState(() {
-                              gender = value;
-                              FocusScope.of(context)
-                                  .requestFocus(new FocusNode());
-                            });
-                          },
-                          dataSource: genderDropDownValues,
-                          isList: true,
-                          textField: 'display',
-                          valueField: 'value',
-                        ),
+                      Stack(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(top: 8.0),
+                            // height: containerHeight,
+                            width: containerWidth,
+                            child: DropDownFormField(
+                              requiredField: true,
+                              enabled: false,
+                              hintText: HealingMatchConstants.editProfileGender,
+                              value: gender,
+                              onSaved: (value) {
+                                setState(() {
+                                  gender = value;
+                                });
+                              },
+                              onChanged: (value) {
+                                setState(() {
+                                  gender = value;
+                                  FocusScope.of(context)
+                                      .requestFocus(new FocusNode());
+                                });
+                              },
+                              dataSource: genderDropDownValues,
+                              isList: true,
+                              textField: 'display',
+                              valueField: 'value',
+                            ),
+                          ),
+                          gender != null && gender != ''
+                              ? Positioned(
+                                  left: 12.0,
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        HealingMatchConstants.editProfileGender,
+                                        style: TextStyle(
+                                            color: ColorConstants
+                                                .formHintTextColor,
+                                            fontFamily: 'NotoSansJP',
+                                            fontSize: 10.0),
+                                      ),
+                                      Text(
+                                        "*",
+                                        style: TextStyle(
+                                            color: Colors.redAccent.shade700,
+                                            fontFamily: 'NotoSansJP',
+                                            fontSize: 10.0),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : Text(''),
+                        ],
                       ),
                       SizedBox(
                         height: sizedBoxFormHeight,
@@ -714,86 +746,137 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                           SizedBox(
                             height: sizedBoxFormHeight,
                           ),
-                          Form(
-                            key: statekey,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  width: containerWidth,
-                                  margin: EdgeInsets.all(0.0),
-                                  //    width: MediaQuery.of(context).size.width * 0.33,
+                          Stack(
+                            children: [
+                              Container(
+                                width: containerWidth,
+                                margin: EdgeInsets.only(top: 8.0),
+                                child: DropDownFormField(
+                                  requiredField: true,
+                                  titleText: null,
+                                  hintText: readonly ? myState : '都、県選択',
+                                  onSaved: (value) {
+                                    setState(() {
+                                      myState = value;
+                                    });
+                                  },
+                                  value: myState,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      myState = value;
 
-                                  child: DropDownFormField(
-                                    requiredField: true,
-                                    titleText: null,
-                                    hintText: readonly ? myState : '都、県選択',
-                                    onSaved: (value) {
-                                      setState(() {
-                                        myState = value;
-                                      });
-                                    },
-                                    value: myState,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        myState = value;
-
-                                        _prefid =
-                                            stateDropDownValues.indexOf(value) +
-                                                1;
-                                        print('prefID : ${_prefid.toString()}');
-                                        cityDropDownValues.clear();
-                                        myCity = '';
-                                        _getCityDropDown(_prefid);
-                                        FocusScope.of(context)
-                                            .requestFocus(new FocusNode());
-                                      });
-                                    },
-                                    dataSource: stateDropDownValues,
-                                    isList: true,
-                                    textField: 'display',
-                                    valueField: 'value',
-                                  ),
+                                      _prefid =
+                                          stateDropDownValues.indexOf(value) +
+                                              1;
+                                      print('prefID : ${_prefid.toString()}');
+                                      cityDropDownValues.clear();
+                                      myCity = '';
+                                      _getCityDropDown(_prefid);
+                                      FocusScope.of(context)
+                                          .requestFocus(new FocusNode());
+                                    });
+                                  },
+                                  dataSource: stateDropDownValues,
+                                  isList: true,
+                                  textField: 'display',
+                                  valueField: 'value',
                                 ),
-                              ],
-                            ),
+                              ),
+                              myState != null && myState != ''
+                                  ? Positioned(
+                                      left: 12.0,
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            "都、県選択",
+                                            style: TextStyle(
+                                                color: ColorConstants
+                                                    .formHintTextColor,
+                                                fontFamily: 'NotoSansJP',
+                                                fontSize: 10.0),
+                                          ),
+                                          Text(
+                                            "*",
+                                            style: TextStyle(
+                                                color:
+                                                    Colors.redAccent.shade700,
+                                                fontFamily: 'NotoSansJP',
+                                                fontSize: 10.0),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : Text(''),
+                            ],
                           ),
                           Column(
                             children: [
                               SizedBox(
-                                height: sizedBoxFormHeight,
+                                height: sizedBoxFormHeight - 8.0,
                               ),
                               Container(
                                   width: containerWidth,
                                   child: Row(
                                     children: [
                                       Expanded(
-                                        child: Container(
-                                          margin: EdgeInsets.all(0.0),
-                                          child: DropDownFormField(
-                                            requiredField: true,
-                                            titleText: null,
-                                            hintText:
-                                                readonly ? myCity : '市区町村',
-                                            onSaved: (value) {
-                                              setState(() {
-                                                myCity = value;
-                                              });
-                                            },
-                                            value: myCity,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                myCity = value;
-                                                FocusScope.of(context)
-                                                    .requestFocus(
-                                                        new FocusNode());
-                                              });
-                                            },
-                                            dataSource: cityDropDownValues,
-                                            isList: true,
-                                            textField: 'display',
-                                            valueField: 'value',
-                                          ),
+                                        child: Stack(
+                                          children: [
+                                            Container(
+                                              margin: EdgeInsets.only(top: 8.0),
+                                              child: DropDownFormField(
+                                                requiredField: true,
+                                                titleText: null,
+                                                hintText:
+                                                    readonly ? myCity : '市区町村',
+                                                onSaved: (value) {
+                                                  setState(() {
+                                                    myCity = value;
+                                                  });
+                                                },
+                                                value: myCity,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    myCity = value;
+                                                    FocusScope.of(context)
+                                                        .requestFocus(
+                                                            new FocusNode());
+                                                  });
+                                                },
+                                                dataSource: cityDropDownValues,
+                                                isList: true,
+                                                textField: 'display',
+                                                valueField: 'value',
+                                              ),
+                                            ),
+                                            myCity != null && myCity != ''
+                                                ? Positioned(
+                                                    left: 12.0,
+                                                    child: Row(
+                                                      children: [
+                                                        Text(
+                                                          "市区町村",
+                                                          style: TextStyle(
+                                                              color: ColorConstants
+                                                                  .formHintTextColor,
+                                                              fontFamily:
+                                                                  'NotoSansJP',
+                                                              fontSize: 10.0),
+                                                        ),
+                                                        Text(
+                                                          "*",
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .redAccent
+                                                                  .shade700,
+                                                              fontFamily:
+                                                                  'NotoSansJP',
+                                                              fontSize: 10.0),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  )
+                                                : Text(''),
+                                          ],
                                         ),
                                       ),
                                       SizedBox(
@@ -802,6 +885,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                       Expanded(
                                         child: Container(
                                             height: containerHeight,
+                                            margin: EdgeInsets.only(top: 8.0),
                                             width: containerWidth,
                                             child: Theme(
                                               data: Theme.of(context).copyWith(
@@ -971,43 +1055,73 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                           ],
                         ),
                       ),
-                      SizedBox(height: sizedBoxFormHeight),
-                      Container(
-                        height: containerHeight,
-                        width: containerWidth,
-                        /*  decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10.0),
-                                           // color: Colors.black12,
-                                            border: Border.all(color: Colors.transparent)), */
-                        child: DropDownFormField(
-                          hintText: '事業形態',
-                          value: bussinessForm,
-                          onSaved: (value) {
-                            setState(() {
-                              bussinessForm = value;
-                            });
-                          },
-                          onChanged: (value) {
-                            setState(() {
-                              bussinessForm = value;
-                              if (value == "施術店舗なし 施術従業員あり（出張のみ)" ||
-                                  value == "施術店舗なし 施術従業員なし（個人)") {
-                                serviceBusinessTrips = "出張可能";
-                                businessTripEnabled = false;
-                              } else {
-                                serviceBusinessTrips = "";
-                                businessTripEnabled = true;
-                              }
+                      SizedBox(height: sizedBoxFormHeight - 8.0),
+                      Stack(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(top: 8.0),
+                            height: containerHeight,
+                            width: containerWidth,
+                            /*  decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(10.0),
+                                               // color: Colors.black12,
+                                                border: Border.all(color: Colors.transparent)), */
+                            child: DropDownFormField(
+                              requiredField: true,
+                              hintText: '事業形態',
+                              value: bussinessForm,
+                              onSaved: (value) {
+                                setState(() {
+                                  bussinessForm = value;
+                                });
+                              },
+                              onChanged: (value) {
+                                setState(() {
+                                  bussinessForm = value;
+                                  if (value == "施術店舗なし 施術従業員あり（出張のみ)" ||
+                                      value == "施術店舗なし 施術従業員なし（個人)") {
+                                    serviceBusinessTrips = "出張可能";
+                                    businessTripEnabled = false;
+                                  } else {
+                                    serviceBusinessTrips = "";
+                                    businessTripEnabled = true;
+                                  }
 
-                              FocusScope.of(context)
-                                  .requestFocus(new FocusNode());
-                            });
-                          },
-                          dataSource: businessFormDropDownValues,
-                          isList: true,
-                          textField: 'display',
-                          valueField: 'value',
-                        ),
+                                  FocusScope.of(context)
+                                      .requestFocus(new FocusNode());
+                                });
+                              },
+                              dataSource: businessFormDropDownValues,
+                              isList: true,
+                              textField: 'display',
+                              valueField: 'value',
+                            ),
+                          ),
+                          bussinessForm != null && bussinessForm != ''
+                              ? Positioned(
+                                  left: 12.0,
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "事業形態",
+                                        style: TextStyle(
+                                            color: ColorConstants
+                                                .formHintTextColor,
+                                            fontFamily: 'NotoSansJP',
+                                            fontSize: 10.0),
+                                      ),
+                                      Text(
+                                        "*",
+                                        style: TextStyle(
+                                            color: Colors.redAccent.shade700,
+                                            fontFamily: 'NotoSansJP',
+                                            fontSize: 10.0),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : Text(''),
+                        ],
                       ),
                       bussinessForm == "施術店舗あり 施術従業員あり" ||
                               bussinessForm == "施術店舗あり 施術従業員なし（個人経営）"
@@ -1109,38 +1223,61 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                       SizedBox(
                         height: bussinessForm == "施術店舗あり 施術従業員あり" ||
                                 bussinessForm == "施術店舗なし 施術従業員あり（出張のみ)"
-                            ? sizedBoxFormHeight
+                            ? sizedBoxFormHeight - 8.0
                             : 0.0,
                       ),
                       bussinessForm == "施術店舗あり 施術従業員あり" ||
                               bussinessForm == "施術店舗なし 施術従業員あり（出張のみ)"
-                          ? Container(
-                              height: containerHeight,
-                              width: containerWidth,
-                              /*  decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10.0),
-                                           // color: Colors.black12,
-                                            border: Border.all(color: Colors.black12)), */
-                              child: DropDownFormField(
-                                hintText: '従業員数',
-                                value: numberOfEmployees,
-                                onSaved: (value) {
-                                  setState(() {
-                                    numberOfEmployees = value;
-                                  });
-                                },
-                                onChanged: (value) {
-                                  setState(() {
-                                    numberOfEmployees = value;
-                                    FocusScope.of(context)
-                                        .requestFocus(new FocusNode());
-                                  });
-                                },
-                                dataSource: numberOfEmployeesDropDownValues,
-                                isList: true,
-                                textField: 'display',
-                                valueField: 'value',
-                              ),
+                          ? Stack(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(top: 8.0),
+                                  height: containerHeight,
+                                  width: containerWidth,
+                                  /*  decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(10.0),
+                                               // color: Colors.black12,
+                                                border: Border.all(color: Colors.black12)), */
+                                  child: DropDownFormField(
+                                    hintText: '従業員数',
+                                    value: numberOfEmployees,
+                                    onSaved: (value) {
+                                      setState(() {
+                                        numberOfEmployees = value;
+                                      });
+                                    },
+                                    onChanged: (value) {
+                                      setState(() {
+                                        numberOfEmployees = value;
+                                        FocusScope.of(context)
+                                            .requestFocus(new FocusNode());
+                                      });
+                                    },
+                                    dataSource: numberOfEmployeesDropDownValues,
+                                    isList: true,
+                                    textField: 'display',
+                                    valueField: 'value',
+                                  ),
+                                ),
+                                numberOfEmployees != null &&
+                                        numberOfEmployees != ''
+                                    ? Positioned(
+                                        left: 12.0,
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              "従業員数",
+                                              style: TextStyle(
+                                                  color: ColorConstants
+                                                      .formHintTextColor,
+                                                  fontFamily: 'NotoSansJP',
+                                                  fontSize: 10.0),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    : Text(''),
+                              ],
                             )
                           : Container(),
                       SizedBox(
@@ -1262,63 +1399,111 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                               ),
                             ),
                       SizedBox(
-                        height: sizedBoxFormHeight,
+                        height: sizedBoxFormHeight - 8.0,
                       ),
-                      Container(
-                        // height: containerHeight,
-                        width: containerWidth,
-                        /* decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10.0),
-                                            color: Colors.black12,
-                                            border: Border.all(color: Colors.black12)), */
-                        child: DropDownFormField(
-                          enabled: businessTripEnabled,
-                          hintText:
-                              HealingMatchConstants.registrationBuisnessTrip,
-                          value: serviceBusinessTrips,
-                          onSaved: (value) {
-                            setState(() {
-                              serviceBusinessTrips = value;
-                            });
-                          },
-                          onChanged: (value) {
-                            setState(() {
-                              serviceBusinessTrips = value;
-                              FocusScope.of(context)
-                                  .requestFocus(new FocusNode());
-                            });
-                          },
-                          dataSource: serviceBusinessTripDropDownValues,
-                          isList: true,
-                          textField: 'display',
-                          valueField: 'value',
-                        ),
+                      Stack(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(top: 8.0),
+                            // height: containerHeight,
+                            width: containerWidth,
+                            /* decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(10.0),
+                                                color: Colors.black12,
+                                                border: Border.all(color: Colors.black12)), */
+                            child: DropDownFormField(
+                              enabled: businessTripEnabled,
+                              hintText: HealingMatchConstants
+                                  .registrationBuisnessTrip,
+                              value: serviceBusinessTrips,
+                              onSaved: (value) {
+                                setState(() {
+                                  serviceBusinessTrips = value;
+                                });
+                              },
+                              onChanged: (value) {
+                                setState(() {
+                                  serviceBusinessTrips = value;
+                                  FocusScope.of(context)
+                                      .requestFocus(new FocusNode());
+                                });
+                              },
+                              dataSource: serviceBusinessTripDropDownValues,
+                              isList: true,
+                              textField: 'display',
+                              valueField: 'value',
+                            ),
+                          ),
+                          serviceBusinessTrips != null &&
+                                  serviceBusinessTrips != ''
+                              ? Positioned(
+                                  left: 12.0,
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        HealingMatchConstants
+                                            .registrationBuisnessTrip,
+                                        style: TextStyle(
+                                            color: ColorConstants
+                                                .formHintTextColor,
+                                            fontFamily: 'NotoSansJP',
+                                            fontSize: 10.0),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : Text(''),
+                        ],
                       ),
                       SizedBox(
-                        height: sizedBoxFormHeight,
+                        height: sizedBoxFormHeight - 8.0,
                       ),
-                      Container(
-                        width: containerWidth,
-                        child: DropDownFormField(
-                          hintText: HealingMatchConstants.registrationCoronaTxt,
-                          value: coronaMeasures,
-                          onSaved: (value) {
-                            setState(() {
-                              coronaMeasures = value;
-                            });
-                          },
-                          onChanged: (value) {
-                            setState(() {
-                              coronaMeasures = value;
-                              FocusScope.of(context)
-                                  .requestFocus(new FocusNode());
-                            });
-                          },
-                          dataSource: coronaMeasuresDropDownValues,
-                          isList: true,
-                          textField: 'display',
-                          valueField: 'value',
-                        ),
+                      Stack(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(top: 8.0),
+                            width: containerWidth,
+                            child: DropDownFormField(
+                              hintText:
+                                  HealingMatchConstants.registrationCoronaTxt,
+                              value: coronaMeasures,
+                              onSaved: (value) {
+                                setState(() {
+                                  coronaMeasures = value;
+                                });
+                              },
+                              onChanged: (value) {
+                                setState(() {
+                                  coronaMeasures = value;
+                                  FocusScope.of(context)
+                                      .requestFocus(new FocusNode());
+                                });
+                              },
+                              dataSource: coronaMeasuresDropDownValues,
+                              isList: true,
+                              textField: 'display',
+                              valueField: 'value',
+                            ),
+                          ),
+                          coronaMeasures != null && coronaMeasures != ''
+                              ? Positioned(
+                                  left: 12.0,
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        HealingMatchConstants
+                                            .registrationCoronaTxt,
+                                        style: TextStyle(
+                                            color: ColorConstants
+                                                .formHintTextColor,
+                                            fontFamily: 'NotoSansJP',
+                                            fontSize: 10.0),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : Text(''),
+                        ],
                       ),
                       SizedBox(
                         height: sizedBoxFormHeight,
@@ -1451,120 +1636,164 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                               ),
                             ),
                       SizedBox(
-                        height: sizedBoxFormHeight,
+                        height: sizedBoxFormHeight - 8.0,
                       ),
-                      Container(
-                        height: containerHeight,
-                        width: containerWidth,
-                        child: DropDownFormField(
-                          hintText: '施術を提供できる利用者の性別',
-                          value: genderTreatment,
-                          onSaved: (value) {
-                            setState(() {
-                              genderTreatment = value;
-                            });
-                          },
-                          onChanged: (value) {
-                            setState(() {
-                              genderTreatment = value;
-                              FocusScope.of(context)
-                                  .requestFocus(new FocusNode());
-                            });
-                          },
-                          dataSource: genderTreatmentDropDownValues,
-                          isList: true,
-                          textField: 'display',
-                          valueField: 'value',
-                        ),
+                      Stack(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(top: 8.0),
+                            height: containerHeight,
+                            width: containerWidth,
+                            child: DropDownFormField(
+                              hintText: '施術を提供できる利用者の性別',
+                              value: genderTreatment,
+                              onSaved: (value) {
+                                setState(() {
+                                  genderTreatment = value;
+                                });
+                              },
+                              onChanged: (value) {
+                                setState(() {
+                                  genderTreatment = value;
+                                  FocusScope.of(context)
+                                      .requestFocus(new FocusNode());
+                                });
+                              },
+                              dataSource: genderTreatmentDropDownValues,
+                              isList: true,
+                              textField: 'display',
+                              valueField: 'value',
+                            ),
+                          ),
+                          genderTreatment != null && genderTreatment != ''
+                              ? Positioned(
+                                  left: 12.0,
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "施術を提供できる利用者の性別",
+                                        style: TextStyle(
+                                            color: ColorConstants
+                                                .formHintTextColor,
+                                            fontFamily: 'NotoSansJP',
+                                            fontSize: 10.0),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : Text(''),
+                        ],
                       ),
                       SizedBox(
-                        height: sizedBoxFormHeight,
+                        height: sizedBoxFormHeight - 8.0,
                       ),
-                      SizedBox(height: sizedBoxFormHeight),
                       Container(
                         width: containerWidth,
-                        child: Form(
-                          key: identityverification,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.all(0.0),
-                                child: DropDownFormField(
-                                  enabled: false,
-                                  autovalidate: false,
-                                  titleText: null,
-                                  hintText: readonly
-                                      ? identificationverify
-                                      : HealingMatchConstants
-                                          .registrationIdentityVerification,
-                                  onSaved: (value) {
-                                    if (_idProfileImage == null) {
-                                      setState(() {
-                                        identificationverify = value;
-                                        idUploadVisible = true;
-                                      });
-                                    } else {
-                                      showIdSelectError();
-                                    }
+                        child: Stack(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(top: 8.0),
+                              child: DropDownFormField(
+                                enabled: false,
+                                autovalidate: false,
+                                requiredField: true,
+                                titleText: null,
+                                hintText: readonly
+                                    ? identificationverify
+                                    : HealingMatchConstants
+                                        .registrationIdentityVerification,
+                                onSaved: (value) {
+                                  if (_idProfileImage == null) {
+                                    setState(() {
+                                      identificationverify = value;
+                                      idUploadVisible = true;
+                                    });
+                                  } else {
+                                    showIdSelectError();
+                                  }
+                                },
+                                value: identificationverify,
+                                onChanged: (value) {
+                                  if (_idProfileImage == null) {
+                                    setState(() {
+                                      identificationverify = value;
+                                      idUploadVisible = true;
+                                    });
+                                  } else {
+                                    showIdSelectError();
+                                  }
+                                  FocusScope.of(context)
+                                      .requestFocus(new FocusNode());
+                                },
+                                dataSource: [
+                                  {
+                                    "display": "運転免許証",
+                                    "value": "運転免許証",
                                   },
-                                  value: identificationverify,
-                                  onChanged: (value) {
-                                    if (_idProfileImage == null) {
-                                      setState(() {
-                                        identificationverify = value;
-                                        idUploadVisible = true;
-                                      });
-                                    } else {
-                                      showIdSelectError();
-                                    }
-                                    FocusScope.of(context)
-                                        .requestFocus(new FocusNode());
+                                  {
+                                    "display": "運転経歴証明書",
+                                    "value": "運転経歴証明書",
                                   },
-                                  dataSource: [
-                                    {
-                                      "display": "運転免許証",
-                                      "value": "運転免許証",
-                                    },
-                                    {
-                                      "display": "運転経歴証明書",
-                                      "value": "運転経歴証明書",
-                                    },
-                                    {
-                                      "display": "パスポート",
-                                      "value": "パスポート",
-                                    },
-                                    {
-                                      "display": "個人番号カード",
-                                      "value": "個人番号カード",
-                                    },
-                                    {
-                                      "display": "健康保険証",
-                                      "value": "健康保険証",
-                                    },
-                                    {
-                                      "display": "住民基本台帳カード",
-                                      "value": "住民基本台帳カード",
-                                    },
-                                    {
-                                      "display": "マイナンバーカード",
-                                      "value": "マイナンバーカード",
-                                    },
-                                    // {
-                                    //   "display": "運転経歴証明書",
-                                    //   "value": "運転経歴証明書",
-                                    // },
-                                    {
-                                      "display": "学生証",
-                                      "value": "学生証",
-                                    },
-                                  ],
-                                  textField: 'display',
-                                  valueField: 'value',
-                                ),
+                                  {
+                                    "display": "パスポート",
+                                    "value": "パスポート",
+                                  },
+                                  {
+                                    "display": "個人番号カード",
+                                    "value": "個人番号カード",
+                                  },
+                                  {
+                                    "display": "健康保険証",
+                                    "value": "健康保険証",
+                                  },
+                                  {
+                                    "display": "住民基本台帳カード",
+                                    "value": "住民基本台帳カード",
+                                  },
+                                  {
+                                    "display": "マイナンバーカード",
+                                    "value": "マイナンバーカード",
+                                  },
+                                  // {
+                                  //   "display": "運転経歴証明書",
+                                  //   "value": "運転経歴証明書",
+                                  // },
+                                  {
+                                    "display": "学生証",
+                                    "value": "学生証",
+                                  },
+                                ],
+                                textField: 'display',
+                                valueField: 'value',
                               ),
-                            ],
-                          ),
+                            ),
+                            identificationverify != null &&
+                                    identificationverify != ''
+                                ? Positioned(
+                                    left: 12.0,
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          HealingMatchConstants
+                                              .registrationIdentityVerification,
+                                          style: TextStyle(
+                                              color: ColorConstants
+                                                  .formHintTextColor,
+                                              fontFamily: 'NotoSansJP',
+                                              fontSize: 10.0),
+                                        ),
+                                        Text(
+                                          "*",
+                                          style: TextStyle(
+                                              color: Colors.redAccent.shade700,
+                                              fontFamily: 'NotoSansJP',
+                                              fontSize: 10.0),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : Text(''),
+                          ],
                         ),
                       ),
                       SizedBox(
@@ -1886,59 +2115,75 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Form(
-                                  key: bankkey,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Center(
-                                        child: Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.8,
-                                          child: DropDownFormField(
-                                            requiredField: true,
-                                            titleText: null,
-                                            hintText: readonly
-                                                ? bankname
-                                                : HealingMatchConstants
-                                                    .registrationBankName,
-                                            onSaved: (value) {
-                                              setState(() {
-                                                bankname = value;
-                                              });
-                                            },
-                                            value: bankname,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                bankname = value;
-                                                FocusScope.of(context)
-                                                    .requestFocus(
-                                                        new FocusNode());
-                                              });
-                                            },
-                                            dataSource: bankNameDropDownList,
-                                            isList: true,
-                                            textField: 'display',
-                                            valueField: 'value',
-                                          ),
-                                        ),
+                                Stack(
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.only(top: 8.0),
+                                      width: MediaQuery.of(context).size.width *
+                                          0.8,
+                                      child: DropDownFormField(
+                                        requiredField: true,
+                                        titleText: null,
+                                        hintText: readonly
+                                            ? bankname
+                                            : HealingMatchConstants
+                                                .registrationBankName,
+                                        onSaved: (value) {
+                                          setState(() {
+                                            bankname = value;
+                                          });
+                                        },
+                                        value: bankname,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            bankname = value;
+                                            FocusScope.of(context)
+                                                .requestFocus(new FocusNode());
+                                          });
+                                        },
+                                        dataSource: bankNameDropDownList,
+                                        isList: true,
+                                        textField: 'display',
+                                        valueField: 'value',
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                    bankname != null && bankname != ''
+                                        ? Positioned(
+                                            left: 12.0,
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  HealingMatchConstants
+                                                      .registrationBankName,
+                                                  style: TextStyle(
+                                                      color: ColorConstants
+                                                          .formHintTextColor,
+                                                      fontFamily: 'NotoSansJP',
+                                                      fontSize: 10.0),
+                                                ),
+                                                Text(
+                                                  "*",
+                                                  style: TextStyle(
+                                                      color: Colors
+                                                          .redAccent.shade700,
+                                                      fontFamily: 'NotoSansJP',
+                                                      fontSize: 10.0),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        : Text(''),
+                                  ],
                                 ),
                                 SizedBox(
-                                  height: 10,
+                                  height: 2,
                                 ),
                                 bankname ==
                                         HealingMatchConstants
                                             .registrationBankOtherDropdownFiled
                                     ? Padding(
                                         padding: const EdgeInsets.only(
-                                            left: 8.0, right: 8.0),
+                                            top: 8.0, left: 8.0, right: 8.0),
                                         child: Column(
                                           children: [
                                             SizedBox(
@@ -1987,7 +2232,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                               ),
                                             ),
                                             SizedBox(
-                                              height: 20,
+                                              height: 12,
                                             ),
                                           ],
                                         ),
@@ -1997,64 +2242,90 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Form(
-                                      key: accountnumberkey,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.38,
-                                            child: DropDownFormField(
-                                              requiredField: true,
-                                              titleText: null,
-                                              hintText: readonly
-                                                  ? accountType
-                                                  : HealingMatchConstants
-                                                      .registrationBankAccountType,
-                                              onSaved: (value) {
-                                                setState(() {
-                                                  accountType = value;
-                                                });
+                                    Stack(
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.only(top: 8.0),
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.38,
+                                          child: DropDownFormField(
+                                            requiredField: true,
+                                            titleText: null,
+                                            hintText: readonly
+                                                ? accountType
+                                                : HealingMatchConstants
+                                                    .registrationBankAccountType,
+                                            onSaved: (value) {
+                                              setState(() {
+                                                accountType = value;
+                                              });
+                                            },
+                                            value: accountType,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                accountType = value;
+                                                FocusScope.of(context)
+                                                    .requestFocus(
+                                                        new FocusNode());
+                                              });
+                                            },
+                                            dataSource: [
+                                              {
+                                                "display": "普通",
+                                                "value": "普通",
                                               },
-                                              value: accountType,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  accountType = value;
-                                                  FocusScope.of(context)
-                                                      .requestFocus(
-                                                          new FocusNode());
-                                                });
+                                              {
+                                                "display": "当座",
+                                                "value": "当座",
                                               },
-                                              dataSource: [
-                                                {
-                                                  "display": "普通",
-                                                  "value": "普通",
-                                                },
-                                                {
-                                                  "display": "当座",
-                                                  "value": "当座",
-                                                },
-                                                {
-                                                  "display": "貯蓄",
-                                                  "value": "貯蓄",
-                                                },
-                                              ],
-                                              textField: 'display',
-                                              valueField: 'value',
-                                            ),
+                                              {
+                                                "display": "貯蓄",
+                                                "value": "貯蓄",
+                                              },
+                                            ],
+                                            textField: 'display',
+                                            valueField: 'value',
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                        accountType != null && accountType != ''
+                                            ? Positioned(
+                                                left: 12.0,
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      HealingMatchConstants
+                                                          .registrationBankAccountType,
+                                                      style: TextStyle(
+                                                          color: ColorConstants
+                                                              .formHintTextColor,
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontSize: 10.0),
+                                                    ),
+                                                    Text(
+                                                      "*",
+                                                      style: TextStyle(
+                                                          color: Colors
+                                                              .redAccent
+                                                              .shade700,
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontSize: 10.0),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )
+                                            : Text(''),
+                                      ],
                                     ),
                                     Container(
+                                      margin: EdgeInsets.only(top: 8.0),
                                       width: MediaQuery.of(context).size.width *
                                           0.38,
                                       child: TextFieldCustom(
-                                        controller: branchCodeController,
+                                        controller: branchNameController,
                                         decoration: new InputDecoration(
                                           /*  labelText: HealingMatchConstants
                                               .registrationBankBranchCode,
@@ -2171,6 +2442,166 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                         ),
                                       ),
                                     ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.38,
+                                      child: TextFieldCustom(
+                                        controller: bankNumberController,
+                                        style:
+                                            HealingMatchConstants.formTextStyle,
+                                        decoration: new InputDecoration(
+                                          /*  labelText: HealingMatchConstants
+                                          .registrationBankNumber,
+                                      labelStyle: HealingMatchConstants
+                                          .formLabelTextStyle, */
+                                          contentPadding: EdgeInsets.all(16.0),
+                                          border: HealingMatchConstants
+                                              .textFormInputBorder,
+                                          focusedBorder: HealingMatchConstants
+                                              .textFormInputBorder,
+                                          enabledBorder: HealingMatchConstants
+                                              .textFormInputBorder,
+                                          filled: true,
+                                          fillColor:
+                                              ColorConstants.formFieldFillColor,
+                                        ),
+                                        labelText: Text.rich(
+                                          TextSpan(
+                                            text: HealingMatchConstants
+                                                .registrationBankNumber,
+                                            children: <InlineSpan>[
+                                              TextSpan(
+                                                text: '*',
+                                                style: HealingMatchConstants
+                                                    .formHintTextStyleStar,
+                                              ),
+                                            ],
+                                            style: HealingMatchConstants
+                                                .formLabelTextStyle,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.38,
+                                      child: TextFieldCustom(
+                                        controller: accountHolderNameController,
+                                        style:
+                                            HealingMatchConstants.formTextStyle,
+                                        decoration: new InputDecoration(
+                                          labelText: HealingMatchConstants
+                                              .registrationHolderName,
+                                          labelStyle: HealingMatchConstants
+                                              .formLabelTextStyle,
+                                          contentPadding: EdgeInsets.all(16.0),
+                                          border: HealingMatchConstants
+                                              .textFormInputBorder,
+                                          focusedBorder: HealingMatchConstants
+                                              .textFormInputBorder,
+                                          enabledBorder: HealingMatchConstants
+                                              .textFormInputBorder,
+                                          filled: true,
+                                          fillColor:
+                                              ColorConstants.formFieldFillColor,
+                                        ),
+                                        labelText: Text.rich(
+                                          TextSpan(
+                                            text: HealingMatchConstants
+                                                .registrationHolderName,
+                                            children: <InlineSpan>[
+                                              TextSpan(
+                                                text: '*',
+                                                style: HealingMatchConstants
+                                                    .formHintTextStyleStar,
+                                              ),
+                                            ],
+                                            style: HealingMatchConstants
+                                                .formLabelTextStyle,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 7,
+                                ),
+                                Stack(
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.only(top: 8.0),
+                                      // width: MediaQuery.of(context).size.width * 0.38,
+                                      child: DropDownFormField(
+                                        titleText: null,
+                                        requiredField: true,
+                                        hintText: readonly
+                                            ? accountHolderType
+                                            : HealingMatchConstants
+                                                .registrationBankAccountHolderType,
+                                        onSaved: (value) {
+                                          setState(() {
+                                            accountHolderType = value;
+                                          });
+                                        },
+                                        value: accountHolderType,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            accountHolderType = value;
+                                            FocusScope.of(context)
+                                                .requestFocus(new FocusNode());
+                                          });
+                                        },
+                                        dataSource: [
+                                          {
+                                            "display": "個人",
+                                            "value": "individual",
+                                          },
+                                          {
+                                            "display": "会社",
+                                            "value": "company",
+                                          },
+                                        ],
+                                        textField: 'display',
+                                        valueField: 'value',
+                                      ),
+                                    ),
+                                    accountHolderType != null &&
+                                            accountHolderType != ''
+                                        ? Positioned(
+                                            left: 12.0,
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  HealingMatchConstants
+                                                      .registrationBankAccountHolderType,
+                                                  style: TextStyle(
+                                                      color: ColorConstants
+                                                          .formHintTextColor,
+                                                      fontFamily: 'NotoSansJP',
+                                                      fontSize: 10.0),
+                                                ),
+                                                Text(
+                                                  "*",
+                                                  style: TextStyle(
+                                                      color: Colors
+                                                          .redAccent.shade700,
+                                                      fontFamily: 'NotoSansJP',
+                                                      fontSize: 10.0),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        : Text(''),
                                   ],
                                 ),
                               ],
@@ -2412,13 +2843,13 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       return;
     }
 
-    if (branchCodeController.text == null || branchCodeController.text == '') {
+    if (branchNameController.text == null || branchNameController.text == '') {
       displaySnackBarError("支店名は必須項目なので選択してください。");
 
       return;
     }
 
-    if (branchCodeController.text.length > 20) {
+    if (branchNameController.text.length > 20) {
       displaySnackBarError("支店名は20文字以内で入力してください。");
 
       return;
@@ -2431,8 +2862,19 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       return;
     }
 
-    if (branchNumberController.text.length > 5) {
-      displaySnackBarError("支店番号は5文字以内で入力してください。");
+    if (branchNumberController.text.length > 3) {
+      displaySnackBarError("支店番号は3文字以内で入力してください。");
+
+      return;
+    }
+    if (bankNumberController.text == null || bankNumberController.text == '') {
+      displaySnackBarError("必須項目ですので、銀行番号をお選びください。");
+
+      return;
+    }
+
+    if (bankNumberController.text.length > 4) {
+      displaySnackBarError("銀行番号は4文字以内で入力してください。");
 
       return;
     }
@@ -2444,8 +2886,28 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       return;
     }
 
-    if (accountnumberController.text.length > 10) {
-      displaySnackBarError("アカウント番号は10文字以内で入力してください。");
+    if (accountnumberController.text.length > 8 ||
+        accountnumberController.text.length < 7) {
+      displaySnackBarError("アカウント番号は7-8文字以内で入力してください。");
+
+      return;
+    }
+
+    if (accountHolderNameController.text == null ||
+        accountHolderNameController.text == '') {
+      displaySnackBarError("必須項目ですので、口座名義人の名前を入力してください。");
+
+      return;
+    }
+
+    if (accountHolderNameController.text.length > 20) {
+      displaySnackBarError("アカウント所有者の名前を20文字以内で入力してください。");
+
+      return;
+    }
+
+    if (accountHolderType == null || accountHolderType == '') {
+      displaySnackBarError("アカウント所有者のタイプを選択してください。");
 
       return;
     }
@@ -2798,10 +3260,14 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         bankname == HealingMatchConstants.registrationBankOtherDropdownFiled
             ? bankOtherFieldController.text
             : bankname;
-    userData.bankDetails[0].branchCode = branchCodeController.text;
+    userData.bankDetails[0].bankCode = bankNumberController.text;
+    userData.bankDetails[0].branchName = branchNameController.text;
     userData.bankDetails[0].branchNumber = branchNumberController.text;
     userData.bankDetails[0].accountNumber = accountnumberController.text;
     userData.bankDetails[0].accountType = accountType;
+    userData.bankDetails[0].accountHolderType = accountHolderType;
+    userData.bankDetails[0].accountHolderName =
+        accountHolderNameController.text;
     userData.bankDetails[0].updatedAt = DateTime.now();
   }
 
@@ -3402,19 +3868,24 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     }
     roomNumberController.text = userData.addresses[0].userRoomNumber;
     buildingNameController.text = userData.addresses[0].buildingName;
-    if (userData.bankDetails[0].bankName != '') {
+    if (userData.bankDetails.isNotEmpty) {
       if (bankNameDropDownList.contains(userData.bankDetails[0].bankName)) {
         bankname = userData.bankDetails[0].bankName;
       } else {
         bankname = HealingMatchConstants.registrationBankOtherDropdownFiled;
         bankOtherFieldController.text = userData.bankDetails[0].bankName;
+
+        accountType = userData.bankDetails[0].accountType;
+        accountnumberController.text = userData.bankDetails[0].accountNumber;
+        branchNameController.text = userData.bankDetails[0].branchName;
+        branchNumberController.text = userData.bankDetails[0].branchNumber;
+        accountHolderNameController.text =
+            userData.bankDetails[0].accountHolderName;
+        accountHolderType = userData.bankDetails[0].accountHolderType;
+        bankNumberController.text = userData.bankDetails[0].bankCode;
       }
     }
 
-    accountType = userData.bankDetails[0].accountType;
-    accountnumberController.text = userData.bankDetails[0].accountNumber;
-    branchCodeController.text = userData.bankDetails[0].branchCode;
-    branchNumberController.text = userData.bankDetails[0].branchNumber;
     userData = HealingMatchConstants.userData;
     certificateUpload = userData.certificationUploads[0].toJson();
     certificateUpload.remove('id');

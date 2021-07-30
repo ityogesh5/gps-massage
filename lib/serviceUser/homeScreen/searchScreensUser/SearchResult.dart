@@ -2262,7 +2262,7 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
             print('Page number : $_pageNumber Page Size : $_pageSize');
             var providerListApiProvider =
                 ServiceUserAPIProvider.getTherapistSearchResultsByType(
-                    context, _pageNumber, _pageSize);
+                    context, _pageNumber, _pageSize, _selectedIndex);
             providerListApiProvider.then((value) {
               if (value.data.searchList.isEmpty) {
                 setState(() {
