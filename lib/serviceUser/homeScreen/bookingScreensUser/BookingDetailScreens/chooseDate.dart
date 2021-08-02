@@ -41,6 +41,8 @@ class _ChooseDateState extends State<ChooseDate> {
   List<FlutterWeekViewEvent> calendarEvents = List<FlutterWeekViewEvent>();
   Map<DateTime, List<int>> bookEvents = Map<DateTime, List<int>>();
   Map<DateTime, List<int>> events = Map<DateTime, List<int>>();
+  List<String> yearDropDownValues = List<String>();
+  List<String> monthDropDownValues = List<String>();
   bool status = false;
   bool isSeleted = false;
   GlobalKey key = new GlobalKey();
@@ -55,6 +57,7 @@ class _ChooseDateState extends State<ChooseDate> {
     startingDay = today.day;
     endTime = 23;
     dateString = '';
+    buildYearDropDown();
     getSelectedDate();
     daysToDisplay = totalDays(_cmonth, _cyear);
     timeBuilder(_cyear, _cmonth);
@@ -136,6 +139,33 @@ class _ChooseDateState extends State<ChooseDate> {
     } else {
       converToLocalTime();
     }
+  }
+
+  buildYearDropDown() {
+    for (int i = today.year; i <= today.year + 1; i++) {
+      yearDropDownValues.add(i.toString());
+    }
+    buildMonthDropDown(today.year);
+  }
+
+  buildMonthDropDown(int _cyear) {
+    monthDropDownValues.clear();
+    if (_cyear == today.year && _cmonth <= today.month) {
+      _cmonth = today.month;
+
+      // _selectedMonthIndex = 0;
+    } else {
+      _cmonth = 1;
+      // _selectedMonthIndex = _cmonth - 1;
+    }
+
+    for (int i = _cyear == today.year ? today.month : 1; i <= 12; i++) {
+      monthDropDownValues.add(i.toString());
+    }
+
+    setState(() {
+      monthString = _cmonth.toString();
+    });
   }
 
   converToLocalTime() {
@@ -290,6 +320,7 @@ class _ChooseDateState extends State<ChooseDate> {
       onChanged: (value) {
         yearString = value;
         _cyear = int.parse(value);
+        buildMonthDropDown(_cyear);
         _currentDay = 1;
         // state = 0;
         if (_cyear == today.year &&
@@ -305,20 +336,8 @@ class _ChooseDateState extends State<ChooseDate> {
           timeBuilder(_cyear, _cmonth);
         });
       },
-      dataSource: [
-        {
-          "display": "2020",
-          "value": "2020",
-        },
-        {
-          "display": "2021",
-          "value": "2021",
-        },
-        {
-          "display": "2022",
-          "value": "2022",
-        },
-      ],
+      dataSource: yearDropDownValues,
+      isList: true,
       textField: 'display',
       valueField: 'value',
     );
@@ -369,56 +388,8 @@ class _ChooseDateState extends State<ChooseDate> {
           timeBuilder(_cyear, _cmonth);
         });
       },
-      dataSource: [
-        {
-          "display": "1月",
-          "value": "1",
-        },
-        {
-          "display": "2月",
-          "value": "2",
-        },
-        {
-          "display": "3月",
-          "value": "3",
-        },
-        {
-          "display": "4月",
-          "value": "4",
-        },
-        {
-          "display": "5月",
-          "value": "5",
-        },
-        {
-          "display": "6月",
-          "value": "6",
-        },
-        {
-          "display": "7月",
-          "value": "7",
-        },
-        {
-          "display": "8月",
-          "value": "8",
-        },
-        {
-          "display": "9月",
-          "value": "9",
-        },
-        {
-          "display": "10月",
-          "value": "10",
-        },
-        {
-          "display": "11月",
-          "value": "11",
-        },
-        {
-          "display": "12月",
-          "value": "12",
-        },
-      ],
+      dataSource: monthDropDownValues,
+      isList: true,
       textField: 'display',
       valueField: 'value',
     );

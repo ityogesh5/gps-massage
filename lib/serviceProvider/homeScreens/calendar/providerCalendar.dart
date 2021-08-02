@@ -633,7 +633,7 @@ class _ProviderCalendarState extends State<ProviderCalendar> {
 
   Map<DateTime, List<dynamic>> eventBuilder() {
     eventDotHandler = Map<DateTime, List<dynamic>>();
-    for (var event in events) {
+    for (var event in HealingMatchConstants.calEvents) {
       DateTime startTime = event.events.start.dateTime.toLocal();
       DateTime eventDate =
           DateTime(startTime.year, startTime.month, startTime.day);

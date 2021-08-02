@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/customRadioButtonList/roundedRadioButton.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:keyboard_service/keyboard_service.dart';
+import 'package:toast/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-
 
 class ReportUserScreen extends StatefulWidget {
   @override
@@ -136,7 +136,16 @@ class _ReportUserScreenView extends State<ReportUserScreen> {
                     text: '報告する',
                     width: 350,
                     pressEvent: () {
-                      emailLaunch();
+                      if (selectedBuildingType != null &&
+                          selectedBuildingType != '') {
+                        emailLaunch();
+                      } else {
+                        Toast.show("報告の理由を入力してください。", context,
+                            duration: 4,
+                            gravity: Toast.BOTTOM,
+                            backgroundColor: Colors.redAccent,
+                            textColor: Colors.white);
+                      }
                       // NavigationRouter.switchToServiceUserBottomBar(context);
                     })
               ]),
@@ -144,13 +153,19 @@ class _ReportUserScreenView extends State<ReportUserScreen> {
       ),
     );
   }
+
   emailLaunch() {
     final Uri _emailLaunchUri = Uri(
         scheme: 'mailto',
         path: 'healingMatch@yopmail.com',
-        queryParameters: {'subject': '$selectedBuildingType'});
+        queryParameters: {
+          'subject': 'レポートセラピスト',
+          'body':
+              'User id :${HealingMatchConstants.serviceUserID} \n Provider id :${HealingMatchConstants.therapistId} \n Reason :$selectedBuildingType'
+        });
     launch(_emailLaunchUri.toString());
   }
+
   Future<void> _reportUser() async {}
 
   void _handleCategoryChange(bool newVal, ReportCategory category) {

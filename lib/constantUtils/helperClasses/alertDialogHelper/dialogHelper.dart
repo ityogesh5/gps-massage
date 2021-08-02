@@ -1691,7 +1691,6 @@ class DialogHelper {
         message: Text(
           'このセラピストをブロック/報告しますか？',
           style: TextStyle(
-            fontFamily: 'Open Sans',
             fontSize: 14,
             fontWeight: FontWeight.bold,
           ),
@@ -1700,35 +1699,39 @@ class DialogHelper {
           CupertinoActionSheetAction(
             isDefaultAction: false,
             child: Text(
-              '報告する',
+              '報告とブロックする',
               style: TextStyle(
-                fontFamily: 'Open Sans',
-                color: Colors.redAccent,
-              ),
+                fontSize: 14,
+              ), 
             ),
             onPressed: () {
               dialog.dissmiss();
               NavigationRouter.switchToReportUserScreen(context);
             },
           ),
-          CupertinoActionSheetAction(
+          /*  CupertinoActionSheetAction(
             isDefaultAction: false,
             child: Text(
               'ブロックする',
               style: TextStyle(
                 fontFamily: 'Open Sans',
-                color: Colors.redAccent,
               ),
             ),
             onPressed: () {
               dialog.dissmiss();
               //_blockUser();
             },
-          ),
+          ), */
         ],
         cancelButton: CupertinoActionSheetAction(
           isDefaultAction: false,
-          child: Text('キャンセル'),
+          child: Text(
+            'キャンセル',
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.redAccent,
+            ),
+          ),
           onPressed: () {
             Navigator.of(context).pop(true);
           },
