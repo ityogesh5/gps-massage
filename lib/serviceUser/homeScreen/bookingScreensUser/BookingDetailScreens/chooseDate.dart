@@ -57,6 +57,9 @@ class _ChooseDateState extends State<ChooseDate> {
     startingDay = today.day;
     endTime = 23;
     dateString = '';
+    _cyear = DateTime.now().year;
+    _cmonth = DateTime.now().month;
+    _currentDay = DateTime.now().day;
     buildYearDropDown();
     getSelectedDate();
     daysToDisplay = totalDays(_cmonth, _cyear);

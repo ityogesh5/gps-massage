@@ -76,49 +76,23 @@ class _DetailProfileDetailsState extends State<DetailProfileDetails> {
                         Text(
                           widget.therapistDetails.data.isShop
                               ? widget.therapistDetails.data.storeName.length >
-                                      10
+                                      20
                                   ? widget.therapistDetails.data.storeName
-                                          .substring(0, 10) +
+                                          .substring(0, 19) +
                                       "..."
                                   : widget.therapistDetails.data.storeName
                               : widget.therapistDetails.data.userName.length >
-                                      10
+                                      20
                                   ? widget.therapistDetails.data.userName
-                                          .substring(0, 10) +
+                                          .substring(0, 19) +
                                       "..."
                                   : widget.therapistDetails.data.userName,
                           style: TextStyle(
-                            fontSize: 16.0,
+                            fontSize: 14.0,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         SizedBox(width: 5.0),
-
-                        //shop
-                        widget.therapistDetails.data.isShop
-                            ? Padding(
-                                padding: const EdgeInsets.only(top: 6.0),
-                                child: buildProileDetailCard("店舗", 9.0),
-                              )
-                            : Container(),
-                        SizedBox(width: 5.0),
-
-                        //BusinessTrip
-                        widget.therapistDetails.data.businessTrip
-                            ? Padding(
-                                padding: const EdgeInsets.only(top: 6.0),
-                                child: buildProileDetailCard("出張", 9.0),
-                              )
-                            : Container(),
-                        SizedBox(width: 5.0),
-
-                        //Corona Measures
-                        widget.therapistDetails.data.coronaMeasure
-                            ? Padding(
-                                padding: const EdgeInsets.only(top: 6.0),
-                                child: buildProileDetailCard("コロナ対策実施", 9.0),
-                              )
-                            : Container(),
                       ],
                     ),
                     SizedBox(height: 5.0),
@@ -194,6 +168,39 @@ class _DetailProfileDetailsState extends State<DetailProfileDetails> {
                   ],
                 ),
               )
+            ],
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
+
+          Row(
+            children: [
+              //shop
+              widget.therapistDetails.data.isShop
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 6.0),
+                      child: buildProileDetailCard("店舗", 12.0),
+                    )
+                  : Container(),
+              SizedBox(width: 5.0),
+
+              //BusinessTrip
+              widget.therapistDetails.data.businessTrip
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 6.0),
+                      child: buildProileDetailCard("出張", 12.0),
+                    )
+                  : Container(),
+              SizedBox(width: 5.0),
+
+              //Corona Measures
+              widget.therapistDetails.data.coronaMeasure
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 6.0),
+                      child: buildProileDetailCard("コロナ対策実施", 12.0),
+                    )
+                  : Container(),
             ],
           ),
           //Gender of Service
@@ -503,7 +510,7 @@ class _DetailProfileDetailsState extends State<DetailProfileDetails> {
     if (widget.therapistDetails.data.genderOfService != null &&
         widget.therapistDetails.data.genderOfService != '') {
       if (widget.therapistDetails.data.genderOfService == "男性女性両方") {
-        genderOfService = "男性と女性の両方が予約できます"; //both men and women
+        genderOfService = "男女共に予約可"; //both men and women
       } else if (widget.therapistDetails.data.genderOfService == "女性のみ") {
         genderOfService = "女性のみ予約可"; //only women
       } else {

@@ -88,49 +88,22 @@ class _DetailPeofileDetailsHomeState extends State<DetailPeofileDetailsHome> {
                         Text(
                           widget.therapistDetails.data.isShop
                               ? widget.therapistDetails.data.storeName.length >
-                                      10
+                                      20
                                   ? widget.therapistDetails.data.storeName
-                                          .substring(0, 10) +
+                                          .substring(0, 19) +
                                       "..."
                                   : widget.therapistDetails.data.storeName
                               : widget.therapistDetails.data.userName.length >
-                                      10
+                                      20
                                   ? widget.therapistDetails.data.userName
-                                          .substring(0, 10) +
+                                          .substring(0, 19) +
                                       "..."
                                   : widget.therapistDetails.data.userName,
                           style: TextStyle(
-                            fontSize: 16.0,
+                            fontSize: 14.0,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(width: 5.0),
-
-                        //shop
-                        widget.therapistDetails.data.isShop
-                            ? Padding(
-                                padding: const EdgeInsets.only(top: 6.0),
-                                child: buildProileDetailCard("店舗", 9.0),
-                              )
-                            : Container(),
-                        SizedBox(width: 5.0),
-
-                        //BusinessTrip
-                        widget.therapistDetails.data.businessTrip
-                            ? Padding(
-                                padding: const EdgeInsets.only(top: 6.0),
-                                child: buildProileDetailCard("出張", 9.0),
-                              )
-                            : Container(),
-                        SizedBox(width: 5.0),
-
-                        //Corona Measures
-                        widget.therapistDetails.data.coronaMeasure
-                            ? Padding(
-                                padding: const EdgeInsets.only(top: 6.0),
-                                child: buildProileDetailCard("コロナ対策実施", 9.0),
-                              )
-                            : Container(),
                       ],
                     ),
                     SizedBox(height: 5.0),
@@ -205,6 +178,39 @@ class _DetailPeofileDetailsHomeState extends State<DetailPeofileDetailsHome> {
                   ],
                 ),
               )
+            ],
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
+
+          Row(
+            children: [
+              //shop
+              widget.therapistDetails.data.isShop
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 6.0),
+                      child: buildProileDetailCard("店舗", 12.0),
+                    )
+                  : Container(),
+              SizedBox(width: 5.0),
+
+              //BusinessTrip
+              widget.therapistDetails.data.businessTrip
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 6.0),
+                      child: buildProileDetailCard("出張", 12.0),
+                    )
+                  : Container(),
+              SizedBox(width: 5.0),
+
+              //Corona Measures
+              widget.therapistDetails.data.coronaMeasure
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 6.0),
+                      child: buildProileDetailCard("コロナ対策実施", 12.0),
+                    )
+                  : Container(),
             ],
           ),
           //Gender of Service

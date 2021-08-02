@@ -52,7 +52,7 @@ class _ReportUserScreenView extends State<ReportUserScreen> {
         key: _snackBarKey,
         appBar: AppBar(
           title: Text(
-            'ユーザーを報告する', // Hint App bar text : 虐待ユーザーを報告する
+            'セラピストを報告する', // Hint App bar text : 虐待ユーザーを報告する
             style: TextStyle(
               fontSize: 16,
               fontFamily: 'NotoSansJP',
@@ -140,7 +140,7 @@ class _ReportUserScreenView extends State<ReportUserScreen> {
                           selectedBuildingType != '') {
                         emailLaunch();
                       } else {
-                        Toast.show("報告の理由を入力してください。", context,
+                        Toast.show("報告の理由を選択してください。", context,
                             duration: 4,
                             gravity: Toast.BOTTOM,
                             backgroundColor: Colors.redAccent,
@@ -159,7 +159,7 @@ class _ReportUserScreenView extends State<ReportUserScreen> {
         scheme: 'mailto',
         path: 'healingMatch@yopmail.com',
         queryParameters: {
-          'subject': 'レポートセラピスト',
+          'subject': 'セラピストを報告する',
           'body':
               'User id :${HealingMatchConstants.serviceUserID} \n Provider id :${HealingMatchConstants.therapistId} \n Reason :$selectedBuildingType'
         });
