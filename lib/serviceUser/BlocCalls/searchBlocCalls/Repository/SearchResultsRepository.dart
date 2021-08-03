@@ -38,8 +38,7 @@ class GetSearchResultsRepositoryImpl implements GetSearchResultsRepository {
                           HealingMatchConstants.isLocationCriteria,
                       "serviceTimeCriteria":
                           HealingMatchConstants.isTimeCriteria,
-                      "selectedTime":
-                          HealingMatchConstants.dateTime.toIso8601String(),
+                      "selectedTime": HealingMatchConstants.dateTime.toString(),
                       "searchDistanceRadius":
                           HealingMatchConstants.searchDistanceRadius,
                       "latitude": HealingMatchConstants.searchAddressLatitude,
@@ -51,8 +50,7 @@ class GetSearchResultsRepositoryImpl implements GetSearchResultsRepository {
                           HealingMatchConstants.isLocationCriteria,
                       "serviceTimeCriteria":
                           HealingMatchConstants.isTimeCriteria,
-                      "selectedTime":
-                          HealingMatchConstants.dateTime.toIso8601String(),
+                      "selectedTime": HealingMatchConstants.dateTime.toString(),
                       "searchDistanceRadius":
                           HealingMatchConstants.searchDistanceRadius,
                       "latitude": HealingMatchConstants.searchAddressLatitude,
@@ -104,8 +102,7 @@ class GetSearchResultsRepositoryImpl implements GetSearchResultsRepository {
                           HealingMatchConstants.isLocationCriteria,
                       "serviceTimeCriteria":
                           HealingMatchConstants.isTimeCriteria,
-                      "selectedTime":
-                          HealingMatchConstants.dateTime.toIso8601String(),
+                      "selectedTime": HealingMatchConstants.dateTime.toString(),
                       "searchDistanceRadius":
                           HealingMatchConstants.searchDistanceRadius,
                       "latitude": HealingMatchConstants.searchAddressLatitude,
@@ -118,8 +115,7 @@ class GetSearchResultsRepositoryImpl implements GetSearchResultsRepository {
                           HealingMatchConstants.isLocationCriteria,
                       "serviceTimeCriteria":
                           HealingMatchConstants.isTimeCriteria,
-                      "selectedTime":
-                          HealingMatchConstants.dateTime.toIso8601String(),
+                      "selectedTime": HealingMatchConstants.dateTime.toString(),
                       "searchDistanceRadius":
                           HealingMatchConstants.searchDistanceRadius,
                       "latitude": HealingMatchConstants.searchAddressLatitude,
