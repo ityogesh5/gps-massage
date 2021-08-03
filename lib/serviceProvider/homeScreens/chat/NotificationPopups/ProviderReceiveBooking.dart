@@ -580,6 +580,9 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
     DateTime updatedTime = widget.bookingDetail.updatedAt.toLocal();
     String updateTimeFormat = DateFormat('kk:mm').format(updatedTime);
     String dateFormat = DateFormat('MM月dd').format(startTime);
+    String name = widget.bookingDetail.bookingUserId.userName.length > 10
+        ? widget.bookingDetail.bookingUserId.userName.substring(0, 10) + "..."
+        : widget.bookingDetail.bookingUserId.userName;
 
     return Card(
       // margin: EdgeInsets.all(8.0),
@@ -626,7 +629,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                       width: 5.0,
                     ),
                     Text(
-                      '${widget.bookingDetail.bookingUserId.userName}',
+                      '$name',
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.black,

@@ -29,7 +29,8 @@ import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:toast/toast.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/login/snsAndAppleResponse.dart' as snsLogin;
+import 'package:gps_massageapp/models/responseModels/serviceUser/login/snsAndAppleResponse.dart'
+    as snsLogin;
 
 class ProviderLogin extends StatefulWidget {
   @override
@@ -39,7 +40,7 @@ class ProviderLogin extends StatefulWidget {
 class _ProviderLoginState extends State<ProviderLogin> {
   String lineBotId;
   String appleUserId;
-  int isTherapist=1;
+  int isTherapist = 1;
   var loginResponseModel = new LoginResponseModel();
   bool passwordVisibility = true;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -295,7 +296,8 @@ class _ProviderLoginState extends State<ProviderLogin> {
                       SizedBox(
                         width: 10,
                       ),*/
-                      InkWell(   customBorder: CircleBorder(),
+                      InkWell(
+                          customBorder: CircleBorder(),
                           onTap: () {
                             _initiateLineLogin();
                           },
@@ -324,7 +326,8 @@ class _ProviderLoginState extends State<ProviderLogin> {
                         width: Platform.isIOS ? 10 : 0,
                       ),
                       Platform.isIOS
-                          ? InkWell(   customBorder: CircleBorder(),
+                          ? InkWell(
+                              customBorder: CircleBorder(),
                               onTap: () {
                                 _initiateAppleSignIn();
                               },
@@ -522,8 +525,10 @@ class _ProviderLoginState extends State<ProviderLogin> {
         instances.setString("userData", json.encode(userData));
         instances.setBool('isActive', loginResponseModel.data.isActive);
         instances.setString("accessToken", loginResponseModel.accessToken);
-        instances.setString("lineBotIdProvider", loginResponseModel.data.lineBotUserId);
-        instances.setString("appleIdProvider", loginResponseModel.data.appleUserId);
+        instances.setString(
+            "lineBotIdProvider", loginResponseModel.data.lineBotUserId);
+        instances.setString(
+            "appleIdProvider", loginResponseModel.data.appleUserId);
         print('Login response : ${loginResponseModel.toJson()}');
         print('Login token : ${loginResponseModel.accessToken}');
         print('Is Provider verified : ${loginResponseModel.data.isVerified}');
@@ -583,10 +588,11 @@ class _ProviderLoginState extends State<ProviderLogin> {
     SharedPreferences instances = await SharedPreferences.getInstance();
     var password;
     try {
-      if(appleUserId !=null&&appleUserId.isNotEmpty ){
-        var snsAndApple =  ServiceProviderApi.snsAndAppleLoginProvider(context, lineBotId, appleUserId, isTherapist, fcmToken);
+      if (appleUserId != null && appleUserId.isNotEmpty) {
+        var snsAndApple = ServiceProviderApi.snsAndAppleLoginProvider(
+            context, lineBotId, appleUserId, isTherapist, fcmToken);
         print('Hi snsLogin Provider');
-        snsAndApple.then((value){
+        snsAndApple.then((value) {
           Data userData = value.data;
           instances.setString("userData", json.encode(userData));
           instances.setString("lineBotIdProvider", value.data.lineBotUserId);
@@ -602,13 +608,13 @@ class _ProviderLoginState extends State<ProviderLogin> {
             instances.setBool('isUserLoggedIn', false);
             firebaseChatLogin(userData, password);
           } else {
-            HealingMatchConstants.fbUserid =
-                value.data.phoneNumber.toString() +
-                    value.data.id.toString() +
-                    "@nexware.global.com";
+            HealingMatchConstants.fbUserid = value.data.phoneNumber.toString() +
+                value.data.id.toString() +
+                "@nexware.global.com";
             HealingMatchConstants.isLoginRoute = true;
             HealingMatchConstants.serviceProviderPassword = password;
-            HealingMatchConstants.serviceProviderPhoneNumber =   value.data.phoneNumber.toString();
+            HealingMatchConstants.serviceProviderPhoneNumber =
+                value.data.phoneNumber.toString();
             hideLoader();
             Toast.show("アカウントが確認されていません。", context,
                 duration: 4,
@@ -618,31 +624,32 @@ class _ProviderLoginState extends State<ProviderLogin> {
             resendOtp(userData);
             print('Unverified User!!');
           }
-
         });
-      }else{
+      } else {
         if (await SignInWithApple.isAvailable()) {
           try {
             var redirectURL = HealingMatchConstants.appleIDRedirectUrl;
 
             AuthorizationCredentialAppleID appleIdCredential =
-            await SignInWithApple.getAppleIDCredential(
-                scopes: [
+                await SignInWithApple.getAppleIDCredential(
+                    scopes: [
                   AppleIDAuthorizationScopes.email,
                   AppleIDAuthorizationScopes.fullName,
                 ],
-                webAuthenticationOptions: WebAuthenticationOptions(
-                    clientId: '', redirectUri: Uri.parse(redirectURL)));
+                    webAuthenticationOptions: WebAuthenticationOptions(
+                        clientId: '', redirectUri: Uri.parse(redirectURL)));
             HealingMatchConstants.appleUserName = appleIdCredential.givenName;
             HealingMatchConstants.appleEmailId = appleIdCredential.email;
-            HealingMatchConstants.appleTokenId = appleIdCredential.userIdentifier;
+            HealingMatchConstants.appleTokenId =
+                appleIdCredential.userIdentifier;
             final oAuthProvider = OAuthProvider('apple.com');
             final credential = oAuthProvider.credential(
               idToken: appleIdCredential.identityToken,
               accessToken: appleIdCredential.authorizationCode,
             );
             FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-            final authResult = await _firebaseAuth.signInWithCredential(credential);
+            final authResult =
+                await _firebaseAuth.signInWithCredential(credential);
             NavigationRouter.switchToServiceProviderFirstScreen(context);
             print("Apple Sign in Success");
             return authResult.user;
@@ -653,10 +660,9 @@ class _ProviderLoginState extends State<ProviderLogin> {
           print('Apple SignIn is not available for your device');
         }
       }
-    }on Exception catch (e) {
+    } on Exception catch (e) {
       print("Apple Sign in Exception : $e");
     }
-
   }
 
   void _initiateLineLogin() async {
@@ -665,10 +671,11 @@ class _ProviderLoginState extends State<ProviderLogin> {
     var password;
     print('Entering line login...');
     try {
-      if(lineBotId !=null&&lineBotId.isNotEmpty ){
-        var snsAndApple =  ServiceProviderApi.snsAndAppleLoginProvider(context, lineBotId, appleUserId, isTherapist, fcmToken);
+      if (lineBotId != null && lineBotId.isNotEmpty) {
+        var snsAndApple = ServiceProviderApi.snsAndAppleLoginProvider(
+            context, lineBotId, appleUserId, isTherapist, fcmToken);
         print('Hi snsLogin Provider');
-        snsAndApple.then((value){
+        snsAndApple.then((value) {
           Data userData = value.data;
           instances.setString("userData", json.encode(userData));
           instances.setBool('isActive', value.data.isActive);
@@ -684,13 +691,13 @@ class _ProviderLoginState extends State<ProviderLogin> {
             instances.setBool('isUserLoggedIn', false);
             firebaseChatLogin(userData, password);
           } else {
-            HealingMatchConstants.fbUserid =
-                value.data.phoneNumber.toString() +
-                    value.data.id.toString() +
-                    "@nexware.global.com";
+            HealingMatchConstants.fbUserid = value.data.phoneNumber.toString() +
+                value.data.id.toString() +
+                "@nexware.global.com";
             HealingMatchConstants.isLoginRoute = true;
             HealingMatchConstants.serviceProviderPassword = password;
-            HealingMatchConstants.serviceProviderPhoneNumber =   value.data.phoneNumber.toString();
+            HealingMatchConstants.serviceProviderPhoneNumber =
+                value.data.phoneNumber.toString();
             hideLoader();
             Toast.show("アカウントが確認されていません。", context,
                 duration: 4,
@@ -700,9 +707,8 @@ class _ProviderLoginState extends State<ProviderLogin> {
             resendOtp(userData);
             print('Unverified User!!');
           }
-
         });
-      }else{
+      } else {
         hideLoader();
         LineLoginHelper.startLineLogin(context);
       }

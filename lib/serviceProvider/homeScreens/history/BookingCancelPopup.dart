@@ -124,29 +124,32 @@ class _CancelBookingState extends State<CancelBooking> {
                   widget.bookingDetail.cancellationReason.length < 2) {
                 Toast.show("キャンセルの理由を入力してください。", context,
                     duration: 4,
-                    gravity: Toast.CENTER,
+                    gravity: Toast.BOTTOM,
                     backgroundColor: Colors.redAccent,
                     textColor: Colors.white);
               } else if (widget.bookingDetail.cancellationReason == null ||
                   widget.bookingDetail.cancellationReason.length > 120) {
                 Toast.show("キャンセル理由を120文字以内で入力してください。", context,
                     duration: 4,
-                    gravity: Toast.CENTER,
+                    gravity: Toast.BOTTOM,
                     backgroundColor: Colors.redAccent,
                     textColor: Colors.white);
               } else {
+                ProgressDialogBuilder.showCommonProgressDialog(context);
                 ServiceProviderApi.updateStatusUpdate(
                         widget.bookingDetail, false, false, true)
                     .then((value) {
-                  //  ProgressDialogBuilder.hideCommonProgressDialog(context);
                   if (value) {
                     ServiceProviderApi.removeEvent(
                             widget.bookingDetail.eventId, context)
                         .then((value) {
+                      ProgressDialogBuilder.hideCommonProgressDialog(context);
                       NavigationRouter.switchToProviderCancelledHistoryScreen(
                           context);
                     });
-                  } else {}
+                  } else {
+                    ProgressDialogBuilder.hideCommonProgressDialog(context);
+                  }
                 });
               }
             },

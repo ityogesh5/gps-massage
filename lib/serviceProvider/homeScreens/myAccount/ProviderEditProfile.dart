@@ -2801,6 +2801,15 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       return;
     }
 
+    if ((bussinessForm == "施術店舗あり 施術従業員あり" ||
+            bussinessForm == "施術店舗あり 施術従業員なし（個人経営）") &&
+        storenumber.substring(0, 1) == '0' &&
+        storenumber.length <= 10) {
+      displaySnackBarError("正しい店舗の電話番号を入力してください。");
+
+      return;
+    }
+
     //email validation
     if ((email == null || email.isEmpty)) {
       displaySnackBarError("メールアドレスを入力してください。");

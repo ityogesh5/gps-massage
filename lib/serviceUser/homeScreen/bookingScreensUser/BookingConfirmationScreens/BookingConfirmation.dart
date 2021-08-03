@@ -816,7 +816,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
           ),
         ),
         onTap: (startLoading, stopLoading, btnState) {
-           if (btnState == ButtonState.Idle && !isBookingLoading) {
+          if (btnState == ButtonState.Idle && !isBookingLoading) {
             this.currentLoading = stopLoading;
             startLoading();
             setState(() {
@@ -1161,7 +1161,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
             currentPref,
             HealingMatchConstants.bookingAddressId);
         selectedBuildingType = '';
-        popup.dismiss();
+        // popup.dismiss();
         NavigationRouter.switchToServiceUserReservationAndFavourite(context);
       });
     } catch (e) {

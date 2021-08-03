@@ -800,26 +800,43 @@ class _PastReservationsState extends State<PastReservations> {
                                                                       0, 0, 1),
                                                             ),
                                                           )),
-                                                      SizedBox(
-                                                        width: 2,
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    height: 8,
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      SvgPicture.asset(
+                                                        "assets/images_gps/cost.svg",
+                                                        height: 14.77,
+                                                        width: 16.0,
                                                       ),
-                                                      Flexible(
-                                                        child: Text(
-                                                          bookingDetailsList[index]
-                                                                          .travelAmount ==
-                                                                      0 ||
-                                                                  bookingDetailsList[
-                                                                              index]
-                                                                          .travelAmount ==
-                                                                      null
-                                                              ? '¥${bookingDetailsList[index].priceOfService}'
-                                                              : '¥${bookingDetailsList[index].priceOfService + bookingDetailsList[index].travelAmount} (${bookingDetailsList[index].addedPrice} - ¥${bookingDetailsList[index].travelAmount})',
-                                                          style: TextStyle(
-                                                            fontSize: 14.0,
-                                                            color: Colors.black,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                          ),
+                                                      SizedBox(
+                                                        width: 8,
+                                                      ),
+                                                      Text(
+                                                        '¥${bookingDetailsList[index].priceOfService}',
+                                                        style: TextStyle(
+                                                          fontSize: 14.0,
+                                                          color: Colors.black,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        bookingDetailsList[index]
+                                                                        .travelAmount ==
+                                                                    0 ||
+                                                                bookingDetailsList[
+                                                                            index]
+                                                                        .travelAmount ==
+                                                                    null
+                                                            ? ''
+                                                            : ' (${bookingDetailsList[index].addedPrice}  - ¥${bookingDetailsList[index].travelAmount})',
+                                                        style: TextStyle(
+                                                          fontSize: 12.0,
+                                                          color: Colors.grey,
                                                         ),
                                                       ),
                                                     ],
@@ -1093,8 +1110,7 @@ class _PastReservationsState extends State<PastReservations> {
                                               style: TextStyle(
                                                   fontSize: 14,
                                                   fontFamily: 'NotoSansJP',
-                                                  fontWeight:
-                                                      FontWeight.bold),
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                           ),
                                         ],

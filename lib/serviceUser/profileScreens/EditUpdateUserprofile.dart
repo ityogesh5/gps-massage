@@ -542,48 +542,63 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                     // Drop down gender user
                     Form(
                       key: _genderKey,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                      child: Stack(
                         children: [
-                          Center(
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.85,
-                              child: WidgetAnimator(
-                                DropDownFormField(
-                                  requiredField: true,
-                                  hintText: '性別',
-                                  value: _myGender,
-                                  onSaved: (value) {
-                                    setState(() {
-                                      _myGender = value;
-                                    });
+                          Container(
+                            margin: EdgeInsets.only(top: 8.0),
+                            width: MediaQuery.of(context).size.width * 0.85,
+                            child: WidgetAnimator(
+                              DropDownFormField(
+                                requiredField: true,
+                                hintText: '性別',
+                                value: _myGender,
+                                onSaved: (value) {
+                                  setState(() {
+                                    _myGender = value;
+                                  });
+                                },
+                                onChanged: (value) {
+                                  setState(() {
+                                    _myGender = value;
+                                    //print(_myBldGrp.toString());
+                                  });
+                                },
+                                dataSource: [
+                                  {
+                                    "display": "男性",
+                                    "value": "男性",
                                   },
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _myGender = value;
-                                      //print(_myBldGrp.toString());
-                                    });
+                                  {
+                                    "display": "女性",
+                                    "value": "女性",
                                   },
-                                  dataSource: [
-                                    {
-                                      "display": "男性",
-                                      "value": "男性",
-                                    },
-                                    {
-                                      "display": "女性",
-                                      "value": "女性",
-                                    },
-                                    {
-                                      "display": "どちらでもない",
-                                      "value": "どちらでもない",
-                                    },
-                                  ],
-                                  textField: 'display',
-                                  valueField: 'value',
-                                ),
+                                  {
+                                    "display": "どちらでもない",
+                                    "value": "どちらでもない",
+                                  },
+                                ],
+                                textField: 'display',
+                                valueField: 'value',
                               ),
                             ),
                           ),
+                          _myGender != null && _myGender != ''
+                              ? Positioned(
+                                  left: 12.0,
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "性別",
+                                        style: TextStyle(
+                                            color: ColorConstants
+                                                .formHintTextColor,
+                                            fontFamily: 'NotoSansJP',
+                                            fontSize: 10.0),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : Text(''),
                         ],
                       ),
                     ),
@@ -616,75 +631,90 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                     // Drop down occupation user
                     Form(
                       key: _occupationKey,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                      child: Stack(
                         children: <Widget>[
-                          Center(
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.85,
-                              child: WidgetAnimator(
-                                DropDownFormField(
-                                  hintText: '職業',
-                                  value: _myOccupation,
-                                  onSaved: (value) {
-                                    setState(() {
-                                      _myOccupation = value;
-                                    });
+                          Container(
+                            margin: EdgeInsets.only(top: 8.0),
+                            width: MediaQuery.of(context).size.width * 0.85,
+                            child: WidgetAnimator(
+                              DropDownFormField(
+                                hintText: '職業',
+                                value: _myOccupation,
+                                onSaved: (value) {
+                                  setState(() {
+                                    _myOccupation = value;
+                                  });
+                                },
+                                onChanged: (value) {
+                                  setState(() {
+                                    _myOccupation = value;
+                                    //print(_myBldGrp.toString());
+                                  });
+                                },
+                                dataSource: [
+                                  {
+                                    "display": "会社員",
+                                    "value": "会社員",
                                   },
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _myOccupation = value;
-                                      //print(_myBldGrp.toString());
-                                    });
+                                  {
+                                    "display": "公務員",
+                                    "value": "公務員",
                                   },
-                                  dataSource: [
-                                    {
-                                      "display": "会社員",
-                                      "value": "会社員",
-                                    },
-                                    {
-                                      "display": "公務員",
-                                      "value": "公務員",
-                                    },
-                                    {
-                                      "display": "自営業",
-                                      "value": "自営業",
-                                    },
-                                    {
-                                      "display": "会社役員",
-                                      "value": "会社役員",
-                                    },
-                                    {
-                                      "display": "会社経営",
-                                      "value": "会社経営",
-                                    },
-                                    {
-                                      "display": "自由業",
-                                      "value": "自由業",
-                                    },
-                                    {
-                                      "display": "専業主婦（夫）",
-                                      "value": "専業主婦（夫）",
-                                    },
-                                    {
-                                      "display": "学生",
-                                      "value": "学生",
-                                    },
-                                    {
-                                      "display": "パート・アルバイト",
-                                      "value": "パート・アルバイト",
-                                    },
-                                    {
-                                      "display": "無職",
-                                      "value": "無職",
-                                    },
-                                  ],
-                                  textField: 'display',
-                                  valueField: 'value',
-                                ),
+                                  {
+                                    "display": "自営業",
+                                    "value": "自営業",
+                                  },
+                                  {
+                                    "display": "会社役員",
+                                    "value": "会社役員",
+                                  },
+                                  {
+                                    "display": "会社経営",
+                                    "value": "会社経営",
+                                  },
+                                  {
+                                    "display": "自由業",
+                                    "value": "自由業",
+                                  },
+                                  {
+                                    "display": "専業主婦（夫）",
+                                    "value": "専業主婦（夫）",
+                                  },
+                                  {
+                                    "display": "学生",
+                                    "value": "学生",
+                                  },
+                                  {
+                                    "display": "パート・アルバイト",
+                                    "value": "パート・アルバイト",
+                                  },
+                                  {
+                                    "display": "無職",
+                                    "value": "無職",
+                                  },
+                                ],
+                                textField: 'display',
+                                valueField: 'value',
                               ),
                             ),
                           ),
+                          _myOccupation != null && _myOccupation != ''
+                              ? Positioned(
+                                  left: 12.0,
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "職業",
+                                        style: TextStyle(
+                                            color: ColorConstants
+                                                .formHintTextColor,
+                                            fontFamily: 'NotoSansJP',
+                                            fontSize: 10.0),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : Text(''),
                         ],
                       ),
                     ),
@@ -770,64 +800,79 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                       children: [
                         Form(
                           key: _placeOfAddressKey,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                          child: Stack(
                             children: <Widget>[
-                              Center(
-                                child: Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.85,
-                                  child: WidgetAnimator(
-                                    DropDownFormField(
-                                      filled: true,
-                                      hintText: '登録する地点のカテゴリー ',
-                                      value: _myCategoryPlaceForMassage,
-                                      onSaved: (value) {
-                                        setState(() {
-                                          _myCategoryPlaceForMassage = value;
-                                        });
+                              Container(
+                                margin: EdgeInsets.only(top: 8.0),
+                                width: MediaQuery.of(context).size.width * 0.85,
+                                child: WidgetAnimator(
+                                  DropDownFormField(
+                                    filled: true,
+                                    hintText: '登録する地点のカテゴリー ',
+                                    value: _myCategoryPlaceForMassage,
+                                    onSaved: (value) {
+                                      setState(() {
+                                        _myCategoryPlaceForMassage = value;
+                                      });
+                                    },
+                                    onChanged: (value) {
+                                      /*setState(() {
+                                        if (value == "その他（直接入力）") {
+                                          setState(() {
+                                            _myCategoryPlaceForMassage =
+                                                value;
+                                            visible = true; // !visible;
+                                          });
+                                        } else {
+                                          setState(() {
+                                            _myCategoryPlaceForMassage =
+                                                value;
+                                            visible = false;
+                                          });
+                                        }
+                                      });*/
+                                    },
+                                    dataSource: [
+                                      {
+                                        "display": "自宅",
+                                        "value": "自宅",
                                       },
-                                      onChanged: (value) {
-                                        /*setState(() {
-                                          if (value == "その他（直接入力）") {
-                                            setState(() {
-                                              _myCategoryPlaceForMassage =
-                                                  value;
-                                              visible = true; // !visible;
-                                            });
-                                          } else {
-                                            setState(() {
-                                              _myCategoryPlaceForMassage =
-                                                  value;
-                                              visible = false;
-                                            });
-                                          }
-                                        });*/
+                                      {
+                                        "display": "オフィス",
+                                        "value": "オフィス",
                                       },
-                                      dataSource: [
-                                        {
-                                          "display": "自宅",
-                                          "value": "自宅",
-                                        },
-                                        {
-                                          "display": "オフィス",
-                                          "value": "オフィス",
-                                        },
-                                        {
-                                          "display": "実家",
-                                          "value": "実家",
-                                        },
-                                        {
-                                          "display": "その他（直接入力）",
-                                          "value": "その他（直接入力）",
-                                        },
-                                      ],
-                                      textField: 'display',
-                                      valueField: 'value',
-                                    ),
+                                      {
+                                        "display": "実家",
+                                        "value": "実家",
+                                      },
+                                      {
+                                        "display": "その他（直接入力）",
+                                        "value": "その他（直接入力）",
+                                      },
+                                    ],
+                                    textField: 'display',
+                                    valueField: 'value',
                                   ),
                                 ),
                               ),
+                              _myCategoryPlaceForMassage != null &&
+                                      _myCategoryPlaceForMassage != ''
+                                  ? Positioned(
+                                      left: 12.0,
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            "登録する地点のカテゴリー",
+                                            style: TextStyle(
+                                                color: ColorConstants
+                                                    .formHintTextColor,
+                                                fontFamily: 'NotoSansJP',
+                                                fontSize: 10.0),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : Text(''),
                             ],
                           ),
                         ),
@@ -865,7 +910,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                 ),
                               )
                             : Container(),
-                        SizedBox(height: 10),
+                        SizedBox(height: 2),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.85,
                           child: Form(
@@ -876,42 +921,68 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                               children: <Widget>[
                                 Expanded(
                                   child: Center(
-                                      child:
-                                          /*stateDropDownValues != null
-                                                ? */
-                                          Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.39,
-                                    child: WidgetAnimator(
-                                      DropDownFormField(
-                                          hintText: '都道府県',
-                                          value: _myPrefecture,
-                                          onSaved: (value) {
-                                            setState(() {
-                                              _myPrefecture = value;
-                                            });
-                                          },
-                                          onChanged: (value) {
-                                            setState(() {
-                                              _myPrefecture = value;
-                                              print(
-                                                  'Prefecture value : ${_myPrefecture.toString()}');
-                                              _prefId = stateDropDownValues
-                                                      .indexOf(value) +
-                                                  1;
-                                              print(
-                                                  'prefID : ${_prefId.toString()}');
-                                              cityDropDownValues.clear();
-                                              _myCity = '';
-                                              getCities(_prefId);
-                                            });
-                                          },
-                                          dataSource: stateDropDownValues,
-                                          isList: true,
-                                          textField: 'display',
-                                          valueField: 'value'),
+                                    child: Stack(
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.only(top: 8.0),
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.39,
+                                          child: WidgetAnimator(
+                                            DropDownFormField(
+                                                hintText: '都道府県',
+                                                value: _myPrefecture,
+                                                onSaved: (value) {
+                                                  setState(() {
+                                                    _myPrefecture = value;
+                                                  });
+                                                },
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    _myPrefecture = value;
+                                                    print(
+                                                        'Prefecture value : ${_myPrefecture.toString()}');
+                                                    _prefId =
+                                                        stateDropDownValues
+                                                                .indexOf(
+                                                                    value) +
+                                                            1;
+                                                    print(
+                                                        'prefID : ${_prefId.toString()}');
+                                                    cityDropDownValues.clear();
+                                                    _myCity = '';
+                                                    getCities(_prefId);
+                                                  });
+                                                },
+                                                dataSource: stateDropDownValues,
+                                                isList: true,
+                                                textField: 'display',
+                                                valueField: 'value'),
+                                          ),
+                                        ),
+                                        _myPrefecture != null &&
+                                                _myPrefecture != ''
+                                            ? Positioned(
+                                                left: 12.0,
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      "都道府県",
+                                                      style: TextStyle(
+                                                          color: ColorConstants
+                                                              .formHintTextColor,
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontSize: 10.0),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )
+                                            : Text(''),
+                                      ],
                                     ),
-                                  )),
+                                  ),
                                 ),
                                 Expanded(
                                   child: Form(
@@ -919,30 +990,58 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                       child:
                                           /* cityDropDownValues != null
                                                 ?*/
-                                          Container(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.39,
-                                        child: WidgetAnimator(
-                                          DropDownFormField(
-                                              hintText:
-                                                  readonly ? _myCity : '市区町村',
-                                              value: _myCity,
-                                              onSaved: (value) {
-                                                setState(() {
-                                                  _myCity = value;
-                                                });
-                                              },
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  _myCity = value;
-                                                  //print(_myBldGrp.toString());
-                                                });
-                                              },
-                                              dataSource: cityDropDownValues,
-                                              isList: true,
-                                              textField: 'display',
-                                              valueField: 'value'),
+                                          Center(
+                                        child: Stack(
+                                          children: [
+                                            Container(
+                                              margin: EdgeInsets.only(top: 8.0),
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.42,
+                                              child: WidgetAnimator(
+                                                DropDownFormField(
+                                                    hintText: readonly
+                                                        ? _myCity
+                                                        : '市区町村',
+                                                    value: _myCity,
+                                                    onSaved: (value) {
+                                                      setState(() {
+                                                        _myCity = value;
+                                                      });
+                                                    },
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        _myCity = value;
+                                                        //print(_myBldGrp.toString());
+                                                      });
+                                                    },
+                                                    dataSource:
+                                                        cityDropDownValues,
+                                                    isList: true,
+                                                    textField: 'display',
+                                                    valueField: 'value'),
+                                              ),
+                                            ),
+                                            _myCity != null && _myCity != ''
+                                                ? Positioned(
+                                                    left: 12.0,
+                                                    child: Row(
+                                                      children: [
+                                                        Text(
+                                                          "市区町村",
+                                                          style: TextStyle(
+                                                              color: ColorConstants
+                                                                  .formHintTextColor,
+                                                              fontFamily:
+                                                                  'NotoSansJP',
+                                                              fontSize: 10.0),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  )
+                                                : Text(''),
+                                          ],
                                         ),
                                       )),
                                 ),

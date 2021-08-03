@@ -36,6 +36,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
   int endTime;
   int loadingStatus = 0;
   Map<DateTime, List<int>> events = Map<DateTime, List<int>>();
+  List<String> yearDropDownValues = List<String>();
   List<DateTime> timeRow = List<DateTime>();
   List<FlutterWeekViewEvent> calendarEvents = List<FlutterWeekViewEvent>();
   List<String> eventID = List<String>();
@@ -75,8 +76,15 @@ class _ShiftTimingState extends State<ShiftTiming> {
     yearString = _cyear.toString();
     monthString = _cmonth.toString();
     daysToDisplay = totalDays(_cmonth, _cyear);
+    buildYearDropDown();
     timeBuilder(_cyear, _cmonth);
     getEvents();
+  }
+
+  buildYearDropDown() {
+    for (int i = today.year; i <= today.year + 1; i++) {
+      yearDropDownValues.add(i.toString());
+    }
   }
 
   findButton(GlobalKey key) {
@@ -233,20 +241,8 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                     timeBuilder(_cyear, _cmonth);
                                   });
                                 },
-                                dataSource: [
-                                  {
-                                    "display": "2020",
-                                    "value": "2020",
-                                  },
-                                  {
-                                    "display": "2021",
-                                    "value": "2021",
-                                  },
-                                  {
-                                    "display": "2022",
-                                    "value": "2022",
-                                  },
-                                ],
+                                dataSource: yearDropDownValues,
+                                isList: true,
                                 textField: 'display',
                                 valueField: 'value',
                               ),

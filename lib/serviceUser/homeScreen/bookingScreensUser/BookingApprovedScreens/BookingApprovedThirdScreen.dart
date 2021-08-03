@@ -960,14 +960,26 @@ class _BookingApproveThirdScreenState extends State<BookingApproveThirdScreen> {
                             ),
                           ),
                         ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Row(
+                      children: [
+                        SvgPicture.asset(
+                          "assets/images_gps/cost.svg",
+                          height: 14.77,
+                          width: 16.0,
+                        ),
                         SizedBox(
-                          width: 2,
+                          width: 5,
                         ),
                         Text(
                           "¥${HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].priceOfService + HealingMatchConstants.therapistProfileDetails.bookingDataResponse[0].travelAmount}",
                           style: TextStyle(
                               color: Colors.black,
-                              fontSize: 12,
+                              fontSize: 14,
                               fontWeight: FontWeight.bold),
                         ),
                         HealingMatchConstants.therapistProfileDetails

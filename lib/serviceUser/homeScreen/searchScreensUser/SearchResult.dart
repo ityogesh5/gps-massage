@@ -370,7 +370,14 @@ class _SearchResultState extends State<SearchResult> {
                                 widget.getTherapistsSearchResults.length) {
                               return _buildProgressIndicator();
                             } else {
-                              return buildTherapistDetailCard(index, context);
+                              if (HealingMatchConstants.unavailableProviderIds[
+                                      widget.getTherapistsSearchResults[index]
+                                          .id] !=
+                                  null) {
+                                return Container();
+                              } else {
+                                return buildTherapistDetailCard(index, context);
+                              }
                             }
                           }),
                     )
@@ -1446,7 +1453,14 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                                 widget.getTherapistsSearchResults.length) {
                               return _buildProgressIndicator();
                             } else {
-                              return buildTherapistDetailCard(index, context);
+                              if (HealingMatchConstants.unavailableProviderIds[
+                                      widget.getTherapistsSearchResults[index]
+                                          .id] !=
+                                  null) {
+                                return Container();
+                              } else {
+                                return buildTherapistDetailCard(index, context);
+                              }
                             }
                           }),
                     )

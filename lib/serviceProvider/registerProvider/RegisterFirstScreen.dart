@@ -329,56 +329,56 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                   )),
                             ),
                           )
-                        :  lineUserImage != null
-                        ? CachedNetworkImage(
-                      imageUrl: lineUserImage,
-                      filterQuality: FilterQuality.high,
-                      fadeInCurve: Curves.easeInSine,
-                      imageBuilder: (context, imageProvider) =>
-                          Container(
-                            width: 95.0,
-                            height: 95.0,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                  image: imageProvider,
-                                  fit: BoxFit.cover),
-                            ),
-                          ),
-                      placeholder: (context, url) =>
-                          SpinKitDoubleBounce(
-                              color: Colors.lightGreenAccent),
-                      errorWidget: (context, url, error) =>
-                          Container(
-                            width: 95.0,
-                            height: 95.0,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border:
-                              Border.all(color: Colors.black12),
-                              image: DecorationImage(
-                                  image: new AssetImage(
-                                      'assets/images_gps/placeholder_image.png'),
-                                  fit: BoxFit.cover),
-                            ),
-                          ),
-                    ):InkWell(
-                            onTap: () {
-                              _showPicker(context);
-                            },
-                            child: new Container(
-                                width: 95.0,
-                                height: 95.0,
-                                decoration: new BoxDecoration(
-                                  border: Border.all(color: Colors.grey[200]),
-                                  shape: BoxShape.circle,
-                                  image: new DecorationImage(
-                                    fit: BoxFit.none,
-                                    image: new AssetImage(
-                                        'assets/images_gps/female.png'),
+                        : lineUserImage != null
+                            ? CachedNetworkImage(
+                                imageUrl: lineUserImage,
+                                filterQuality: FilterQuality.high,
+                                fadeInCurve: Curves.easeInSine,
+                                imageBuilder: (context, imageProvider) =>
+                                    Container(
+                                  width: 95.0,
+                                  height: 95.0,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover),
                                   ),
-                                )),
-                          ),
+                                ),
+                                placeholder: (context, url) =>
+                                    SpinKitDoubleBounce(
+                                        color: Colors.lightGreenAccent),
+                                errorWidget: (context, url, error) => Container(
+                                  width: 95.0,
+                                  height: 95.0,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: Colors.black12),
+                                    image: DecorationImage(
+                                        image: new AssetImage(
+                                            'assets/images_gps/placeholder_image.png'),
+                                        fit: BoxFit.cover),
+                                  ),
+                                ),
+                              )
+                            : InkWell(
+                                onTap: () {
+                                  _showPicker(context);
+                                },
+                                child: new Container(
+                                    width: 95.0,
+                                    height: 95.0,
+                                    decoration: new BoxDecoration(
+                                      border:
+                                          Border.all(color: Colors.grey[200]),
+                                      shape: BoxShape.circle,
+                                      image: new DecorationImage(
+                                        fit: BoxFit.none,
+                                        image: new AssetImage(
+                                            'assets/images_gps/female.png'),
+                                      ),
+                                    )),
+                              ),
                     /* _profileImage != null
                         ? Visibility(
                             visible: false,
@@ -2148,6 +2148,23 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       return;
     }
 
+    // user phone number validation
+    if (userPhoneNumber.substring(0, 1) == '0' &&
+        userPhoneNumber.length <= 10) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('正しい電話番号を入力してください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
     // store phone number validation
     if ((bussinessForm == "施術店舗あり 施術従業員あり" ||
             bussinessForm == "施術店舗あり 施術従業員なし（個人経営）") &&
@@ -2175,6 +2192,24 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('10文字の店舗の電話番号を入力してください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    if ((bussinessForm == "施術店舗あり 施術従業員あり" ||
+            bussinessForm == "施術店舗あり 施術従業員なし（個人経営）") &&
+        storenumber.substring(0, 1) == '0' &&
+        storenumber.length <= 10) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('正しい店舗の電話番号を入力してください。',
             style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {

@@ -59,7 +59,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
   String endTime = "24:00";
   Map<int, String> childrenMeasure;
   Map<String, String> certificateImages = Map<String, String>();
-
+  List<String> yearDropDownValues = List<String>();
   List<FlutterWeekViewEvent> flutterWeekEvents = List<FlutterWeekViewEvent>();
   List<DateTime> eventDateTime = List<DateTime>();
   BoxDecoration boxDecoration = BoxDecoration(
@@ -74,6 +74,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     HealingMatchConstants.isProviderHomePage = true;
     FirebaseAuth firebaseAuth = FirebaseAuth.instance;
     HealingMatchConstants.fbUserId = firebaseAuth.currentUser.uid;
+    buildYearDropDown();
     getProviderDetails();
 
     dateString = '';
@@ -88,6 +89,12 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     setState(() {
       print(daysToDisplay);
     });
+  }
+
+  buildYearDropDown() {
+    for (int i = today.year; i <= today.year + 1; i++) {
+      yearDropDownValues.add(i.toString());
+    }
   }
 
   @override
@@ -909,20 +916,8 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                       _cmonth, _currentDay);
                                                 });
                                               },
-                                              dataSource: [
-                                                {
-                                                  "display": "2020",
-                                                  "value": "2020",
-                                                },
-                                                {
-                                                  "display": "2021",
-                                                  "value": "2021",
-                                                },
-                                                {
-                                                  "display": "2022",
-                                                  "value": "2022",
-                                                },
-                                              ],
+                                              dataSource: yearDropDownValues,
+                                              isList: true,
                                               textField: 'display',
                                               valueField: 'value',
                                             ),

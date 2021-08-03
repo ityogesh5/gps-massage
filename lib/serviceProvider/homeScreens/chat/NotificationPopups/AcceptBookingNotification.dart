@@ -598,6 +598,13 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
         widget.requestBookingDetailsList.bookingDetail.updatedAt.toLocal();
     String updateTimeFormat = DateFormat('KK:mm').format(updatedTime);
     String dateFormat = DateFormat('MM月dd').format(startTime);
+    String name = widget.requestBookingDetailsList.bookingDetail.bookingUserId
+                .userName.length >
+            10
+        ? widget.requestBookingDetailsList.bookingDetail.bookingUserId.userName
+                .substring(0, 10) +
+            "..."
+        : widget.requestBookingDetailsList.bookingDetail.bookingUserId.userName;
 
     return Card(
       // margin: EdgeInsets.all(8.0),
@@ -648,7 +655,7 @@ class _AcceptBookingNotificationState extends State<AcceptBookingNotification> {
                       width: 5.0,
                     ),
                     Text(
-                      '${widget.requestBookingDetailsList.bookingDetail.bookingUserId.userName}',
+                      '$name',
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.black,
