@@ -2203,6 +2203,24 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       return;
     }
 
+    if ((bussinessForm == "施術店舗あり 施術従業員あり" ||
+            bussinessForm == "施術店舗あり 施術従業員なし（個人経営）") &&
+        storenumber.substring(0, 1) == '0' &&
+        storenumber.length <= 10) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('正しい店舗の電話番号を入力してください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
     //email validation
     if ((email == null || email.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(

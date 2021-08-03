@@ -314,11 +314,23 @@ class _BookingCancelPopupState extends State<BookingCancelPopup> {
                         ),
                       ),
                     ),
+                  ],
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  children: [
+                    SvgPicture.asset(
+                      "assets/images_gps/cost.svg",
+                      height: 14.77,
+                      width: 16.0,
+                    ),
                     SizedBox(
                       width: 8,
                     ),
                     Text(
-                      '¥${requestBookingDetailsList.bookingDetail.totalCost}',
+                      '¥${requestBookingDetailsList.bookingDetail.priceOfService + requestBookingDetailsList.bookingDetail.travelAmount}',
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.black,
@@ -326,11 +338,13 @@ class _BookingCancelPopupState extends State<BookingCancelPopup> {
                       ),
                     ),
                     requestBookingDetailsList.bookingDetail.travelAmount > 0
-                        ? Text(
-                            ' (${requestBookingDetailsList.bookingDetail.addedPrice}込み  - ¥${requestBookingDetailsList.bookingDetail.travelAmount}) ',
-                            style: TextStyle(
-                              fontSize: 10.0,
-                              color: Color.fromRGBO(102, 102, 102, 1),
+                        ? Flexible(
+                            child: Text(
+                              ' (${requestBookingDetailsList.bookingDetail.addedPrice}込み- ￥ ${requestBookingDetailsList.bookingDetail.travelAmount}) ',
+                              style: TextStyle(
+                                fontSize: 10.0,
+                                color: Color.fromRGBO(102, 102, 102, 1),
+                              ),
                             ),
                           )
                         : Container(),

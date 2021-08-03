@@ -1679,6 +1679,22 @@ class _RegisterUserState extends State<RegisterUser> {
       return null;
     }
 
+     if (userPhoneNumber.substring(0, 1) == '0' &&
+        userPhoneNumber.length <= 10) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('正しい電話番号を入力してください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return null;
+    }
+
     if (!(email.contains(regexMail))) {
       ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(

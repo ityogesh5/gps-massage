@@ -688,23 +688,40 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      width: 2,
+                  ],
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  children: [
+                    SvgPicture.asset(
+                      "assets/images_gps/cost.svg",
+                      height: 14.77,
+                      width: 16.0,
                     ),
-                    Flexible(
-                      child: Text(
-                        therapistDetails.bookingDataResponse[0].travelAmount ==
-                                    0 ||
-                                therapistDetails
-                                        .bookingDataResponse[0].travelAmount ==
-                                    null
-                            ? '¥${therapistDetails.bookingDataResponse[0].priceOfService}'
-                            : '¥${therapistDetails.bookingDataResponse[0].priceOfService + therapistDetails.bookingDataResponse[0].travelAmount} (${therapistDetails.bookingDataResponse[0].addedPrice} - ¥${therapistDetails.bookingDataResponse[0].travelAmount})',
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      '¥${therapistDetails.bookingDataResponse[0].priceOfService}',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      therapistDetails.bookingDataResponse[0].travelAmount ==
+                                  0 ||
+                              therapistDetails
+                                      .bookingDataResponse[0].travelAmount ==
+                                  null
+                          ? ''
+                          : ' (${therapistDetails.bookingDataResponse[0].addedPrice}  - ¥${therapistDetails.bookingDataResponse[0].travelAmount})',
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        color: Colors.grey,
                       ),
                     ),
                   ],

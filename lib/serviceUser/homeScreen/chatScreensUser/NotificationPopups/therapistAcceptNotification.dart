@@ -439,6 +439,18 @@ class _TherapistAcceptNotificationState
                             ),
                           ),
                         ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      children: [
+                        SvgPicture.asset(
+                          "assets/images_gps/cost.svg",
+                          height: 14.77,
+                          width: 16.0,
+                        ),
                         SizedBox(
                           width: 8,
                         ),
@@ -539,7 +551,7 @@ class _TherapistAcceptNotificationState
           ),
         ),
         Positioned(
-          top: 140.0,
+          top: 175.0,
           right: 10.0,
           child: InkWell(
             onTap: () {
