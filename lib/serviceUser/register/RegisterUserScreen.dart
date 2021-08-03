@@ -583,6 +583,8 @@ class _RegisterUserState extends State<RegisterUser> {
                       child: Center(
                         child: GestureDetector(
                           onTap: () {
+                            FocusScope.of(context)
+                                .requestFocus(new FocusNode());
                             _showPicker(context);
                           },
                           child: Container(

@@ -47,6 +47,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
   Map<String, String> certificateImages = Map<String, String>();
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String weekDays;
+  ShowToolTip popup;
   GlobalKey key = new GlobalKey();
   CreateBookingModel createBooking;
   double distance;
@@ -74,8 +75,10 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
     selectedBuildingType = '';
 
     distance = HealingMatchConstants.serviceDistanceRadius;
-    sTime =
-        DateFormat('kk:mm').format(HealingMatchConstants.confSelectedDateTime);
+    sTime = HealingMatchConstants.confSelectedDateTime.hour == 0
+        ? DateFormat('KK:mm').format(HealingMatchConstants.confSelectedDateTime)
+        : DateFormat('kk:mm')
+            .format(HealingMatchConstants.confSelectedDateTime);
     eTime = DateFormat('kk:mm').format(HealingMatchConstants.confEndDateTime);
   }
 
@@ -813,7 +816,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
           ),
         ),
         onTap: (startLoading, stopLoading, btnState) {
-          if (btnState == ButtonState.Idle && !isBookingLoading) {
+           if (btnState == ButtonState.Idle && !isBookingLoading) {
             this.currentLoading = stopLoading;
             startLoading();
             setState(() {
@@ -956,7 +959,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
   }
 
   void showToolTip(String text) {
-    ShowToolTip popup = ShowToolTip(context,
+    popup = ShowToolTip(context,
         text: text,
         textStyle: TextStyle(color: Colors.black),
         height: 130,
@@ -1158,6 +1161,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
             currentPref,
             HealingMatchConstants.bookingAddressId);
         selectedBuildingType = '';
+        popup.dismiss();
         NavigationRouter.switchToServiceUserReservationAndFavourite(context);
       });
     } catch (e) {
