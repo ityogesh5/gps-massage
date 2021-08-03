@@ -348,117 +348,126 @@ class _ChooseDateState extends State<ChooseDate> {
               color: Colors.white,
               child: Center(child: SpinKitThreeBounce(color: Colors.lime)),
             )
-          : Container(
-              padding: EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: 51.0,
-                        width: 100.0,
-                        child: InkWell(
-                          onTap: () {
-                            if (_isVisible) {
-                              buildYearPicker(context);
-                            }
-                          },
-                          child: TextFormField(
-                            enabled: false,
-                            controller: yearController,
-                            style: _isVisible
-                                ? HealingMatchConstants.formTextStyle
-                                : HealingMatchConstants.formHintTextStyle,
-                            decoration: new InputDecoration(
-                              contentPadding: EdgeInsets.only(
-                                  left: 7.0, top: 5.0, bottom: 5.0, right: 5.0),
-                              focusedBorder: HealingMatchConstants
-                                  .datePickerTextFormInputBorder,
-                              disabledBorder: HealingMatchConstants
-                                  .datePickerTextFormInputBorder,
-                              enabledBorder: HealingMatchConstants
-                                  .datePickerTextFormInputBorder,
-                              suffixIcon: IconButton(
-                                  padding: EdgeInsets.only(left: 8.0),
-                                  icon: Icon(
-                                    Icons.keyboard_arrow_down,
-                                    size: 30.0,
-                                    color: _isVisible
-                                        ? Colors.black
-                                        : Color.fromRGBO(200, 200, 200, 1),
-                                  ),
-                                  onPressed: () {
-                                    setState(() {});
-                                  }),
-                              filled: true,
-                              fillColor: Colors.white,
+          : WillPopScope(
+              onWillPop: () => Future.value(false),
+              child: Container(
+                padding: EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: 51.0,
+                          width: 100.0,
+                          child: InkWell(
+                            onTap: () {
+                              if (_isVisible) {
+                                buildYearPicker(context);
+                              }
+                            },
+                            child: TextFormField(
+                              enabled: false,
+                              controller: yearController,
+                              style: _isVisible
+                                  ? HealingMatchConstants.formTextStyle
+                                  : HealingMatchConstants.formHintTextStyle,
+                              decoration: new InputDecoration(
+                                contentPadding: EdgeInsets.only(
+                                    left: 7.0,
+                                    top: 5.0,
+                                    bottom: 5.0,
+                                    right: 5.0),
+                                focusedBorder: HealingMatchConstants
+                                    .datePickerTextFormInputBorder,
+                                disabledBorder: HealingMatchConstants
+                                    .datePickerTextFormInputBorder,
+                                enabledBorder: HealingMatchConstants
+                                    .datePickerTextFormInputBorder,
+                                suffixIcon: IconButton(
+                                    padding: EdgeInsets.only(left: 8.0),
+                                    icon: Icon(
+                                      Icons.keyboard_arrow_down,
+                                      size: 30.0,
+                                      color: _isVisible
+                                          ? Colors.black
+                                          : Color.fromRGBO(200, 200, 200, 1),
+                                    ),
+                                    onPressed: () {
+                                      setState(() {});
+                                    }),
+                                filled: true,
+                                fillColor: Colors.white,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 12.0,
-                      ),
-                      Container(
-                        height: 51.0,
-                        width: 100.0,
-                        child: InkWell(
-                          onTap: () {
-                            if (_isVisible) {
-                              buildMonthPicker(context);
-                            }
-                          },
-                          child: TextFormField(
-                            enabled: false,
-                            controller: monthController,
-                            style: _isVisible
-                                ? HealingMatchConstants.formTextStyle
-                                : HealingMatchConstants.formHintTextStyle,
-                            decoration: new InputDecoration(
-                              contentPadding: EdgeInsets.only(
-                                  left: 7.0, top: 5.0, bottom: 5.0, right: 5.0),
-                              focusedBorder: HealingMatchConstants
-                                  .datePickerTextFormInputBorder,
-                              disabledBorder: HealingMatchConstants
-                                  .datePickerTextFormInputBorder,
-                              enabledBorder: HealingMatchConstants
-                                  .datePickerTextFormInputBorder,
-                              suffixIcon: IconButton(
-                                  padding: EdgeInsets.only(left: 8.0),
-                                  icon: Icon(
-                                    Icons.keyboard_arrow_down,
-                                    size: 30.0,
-                                    color: _isVisible
-                                        ? Colors.black
-                                        : Color.fromRGBO(200, 200, 200, 1),
-                                  ),
-                                  onPressed: () {
-                                    setState(() {});
-                                  }),
-                              filled: true,
-                              fillColor: Colors.white,
+                        SizedBox(
+                          width: 12.0,
+                        ),
+                        Container(
+                          height: 51.0,
+                          width: 100.0,
+                          child: InkWell(
+                            onTap: () {
+                              if (_isVisible) {
+                                buildMonthPicker(context);
+                              }
+                            },
+                            child: TextFormField(
+                              enabled: false,
+                              controller: monthController,
+                              style: _isVisible
+                                  ? HealingMatchConstants.formTextStyle
+                                  : HealingMatchConstants.formHintTextStyle,
+                              decoration: new InputDecoration(
+                                contentPadding: EdgeInsets.only(
+                                    left: 7.0,
+                                    top: 5.0,
+                                    bottom: 5.0,
+                                    right: 5.0),
+                                focusedBorder: HealingMatchConstants
+                                    .datePickerTextFormInputBorder,
+                                disabledBorder: HealingMatchConstants
+                                    .datePickerTextFormInputBorder,
+                                enabledBorder: HealingMatchConstants
+                                    .datePickerTextFormInputBorder,
+                                suffixIcon: IconButton(
+                                    padding: EdgeInsets.only(left: 8.0),
+                                    icon: Icon(
+                                      Icons.keyboard_arrow_down,
+                                      size: 30.0,
+                                      color: _isVisible
+                                          ? Colors.black
+                                          : Color.fromRGBO(200, 200, 200, 1),
+                                    ),
+                                    onPressed: () {
+                                      setState(() {});
+                                    }),
+                                filled: true,
+                                fillColor: Colors.white,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 12.0, bottom: 8.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Flexible(
-                            fit: FlexFit.loose,
-                            child: buildLazyDataTable(),
-                          ),
-                        ],
+                      ],
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 12.0, bottom: 8.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Flexible(
+                              fit: FlexFit.loose,
+                              child: buildLazyDataTable(),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
     );

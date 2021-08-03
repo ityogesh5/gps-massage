@@ -820,6 +820,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   width: containerWidth,
                   child: InkWell(
                     onTap: () {
+                      FocusScope.of(context).requestFocus(new FocusNode());
                       _showPicker(context);
                     },
                     child: TextFieldCustom(
