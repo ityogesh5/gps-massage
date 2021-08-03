@@ -1961,8 +1961,8 @@ class _RegistrationSecondPageState
         sharedPreferences.setString("userData", json.encode(userData));
         sharedPreferences.setString(
             "accessToken", registerResponseModel.accessToken);
-        sharedPreferences.setString(
-            "lineBotIdProvider", registerResponseModel.data.lineBotUserId);
+        sharedPreferences.setString("lineBotIdProvider", registerResponseModel.data.lineBotUserId);
+        sharedPreferences.setString("appleIdProvider", registerResponseModel.data.appleUserId);
         sharedPreferences.setBool(
             "isActive", registerResponseModel.data.isActive);
         sharedPreferences.setString("providerPhoneNumer",

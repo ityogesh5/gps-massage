@@ -97,7 +97,8 @@ class _ProviderLoginState extends State<ProviderLogin> {
     });
     _sharedPreferences.then((value) {
       lineBotId = value.getString('lineBotIdProvider');
-      print('lineBotId  : ${value.getString('lineBotIdProvider')}');
+      appleUserId = value.getString('lineBotIdProvider');
+      print('lineBotId  : ${value.getString('appleIdProvider')}');
     });
     print('lineBotId!!! : ${lineBotId}');
   }
@@ -522,6 +523,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
         instances.setBool('isActive', loginResponseModel.data.isActive);
         instances.setString("accessToken", loginResponseModel.accessToken);
         instances.setString("lineBotIdProvider", loginResponseModel.data.lineBotUserId);
+        instances.setString("appleIdProvider", loginResponseModel.data.appleUserId);
         print('Login response : ${loginResponseModel.toJson()}');
         print('Login token : ${loginResponseModel.accessToken}');
         print('Is Provider verified : ${loginResponseModel.data.isVerified}');
@@ -578,37 +580,83 @@ class _ProviderLoginState extends State<ProviderLogin> {
   }
 
   _initiateAppleSignIn() async {
-    if (await SignInWithApple.isAvailable()) {
-      try {
-        var redirectURL = HealingMatchConstants.appleIDRedirectUrl;
+    SharedPreferences instances = await SharedPreferences.getInstance();
+    var password;
+    try {
+      if(appleUserId !=null&&appleUserId.isNotEmpty ){
+        var snsAndApple =  ServiceProviderApi.snsAndAppleLoginProvider(context, lineBotId, appleUserId, isTherapist, fcmToken);
+        print('Hi snsLogin Provider');
+        snsAndApple.then((value){
+          Data userData = value.data;
+          instances.setString("userData", json.encode(userData));
+          instances.setString("lineBotIdProvider", value.data.lineBotUserId);
+          instances.setString("appleIdProvider", value.data.appleUserId);
+          instances.setBool('isActive', value.data.isActive);
+          instances.setString("accessToken", value.accessToken);
+          print('Login response : ${value.toJson()}');
+          print('Login token : ${value.accessToken}');
+          print('Is Provider verified : ${value.data.isVerified}');
+          HealingMatchConstants.isActive = value.data.isActive;
+          if (value.data.isVerified) {
+            instances.setBool('isProviderLoggedIn', true);
+            instances.setBool('isUserLoggedIn', false);
+            firebaseChatLogin(userData, password);
+          } else {
+            HealingMatchConstants.fbUserid =
+                value.data.phoneNumber.toString() +
+                    value.data.id.toString() +
+                    "@nexware.global.com";
+            HealingMatchConstants.isLoginRoute = true;
+            HealingMatchConstants.serviceProviderPassword = password;
+            HealingMatchConstants.serviceProviderPhoneNumber =   value.data.phoneNumber.toString();
+            hideLoader();
+            Toast.show("アカウントが確認されていません。", context,
+                duration: 4,
+                gravity: Toast.BOTTOM,
+                backgroundColor: Colors.redAccent,
+                textColor: Colors.white);
+            resendOtp(userData);
+            print('Unverified User!!');
+          }
 
-        AuthorizationCredentialAppleID appleIdCredential =
+        });
+      }else{
+        if (await SignInWithApple.isAvailable()) {
+          try {
+            var redirectURL = HealingMatchConstants.appleIDRedirectUrl;
+
+            AuthorizationCredentialAppleID appleIdCredential =
             await SignInWithApple.getAppleIDCredential(
                 scopes: [
-              AppleIDAuthorizationScopes.email,
-              AppleIDAuthorizationScopes.fullName,
-            ],
+                  AppleIDAuthorizationScopes.email,
+                  AppleIDAuthorizationScopes.fullName,
+                ],
                 webAuthenticationOptions: WebAuthenticationOptions(
                     clientId: '', redirectUri: Uri.parse(redirectURL)));
-        HealingMatchConstants.appleUserName = appleIdCredential.givenName;
-        HealingMatchConstants.appleEmailId = appleIdCredential.email;
-        HealingMatchConstants.appleTokenId = appleIdCredential.userIdentifier;
-        final oAuthProvider = OAuthProvider('apple.com');
-        final credential = oAuthProvider.credential(
-          idToken: appleIdCredential.identityToken,
-          accessToken: appleIdCredential.authorizationCode,
-        );
-        FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-        final authResult = await _firebaseAuth.signInWithCredential(credential);
-        NavigationRouter.switchToServiceProviderFirstScreen(context);
-        print("Apple Sign in Success");
-        return authResult.user;
-      } on Exception catch (e) {
-        print("Apple Sign in Exception : $e");
+            HealingMatchConstants.appleUserName = appleIdCredential.givenName;
+            HealingMatchConstants.appleEmailId = appleIdCredential.email;
+            HealingMatchConstants.appleTokenId = appleIdCredential.userIdentifier;
+            final oAuthProvider = OAuthProvider('apple.com');
+            final credential = oAuthProvider.credential(
+              idToken: appleIdCredential.identityToken,
+              accessToken: appleIdCredential.authorizationCode,
+            );
+            FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+            final authResult = await _firebaseAuth.signInWithCredential(credential);
+            NavigationRouter.switchToServiceProviderFirstScreen(context);
+            print("Apple Sign in Success");
+            return authResult.user;
+          } on Exception catch (e) {
+            print("Apple Sign in Exception : $e");
+          }
+        } else {
+          print('Apple SignIn is not available for your device');
+        }
       }
-    } else {
-      print('Apple SignIn is not available for your device');
+    }on Exception catch (e) {
+      print("Apple Sign in Exception : $e");
     }
+
   }
 
   void _initiateLineLogin() async {
@@ -625,6 +673,8 @@ class _ProviderLoginState extends State<ProviderLogin> {
           instances.setString("userData", json.encode(userData));
           instances.setBool('isActive', value.data.isActive);
           instances.setString("accessToken", value.accessToken);
+          instances.setString("lineBotIdProvider", value.data.lineBotUserId);
+          instances.setString("appleIdProvider", value.data.appleUserId);
           print('Login response : ${value.toJson()}');
           print('Login token : ${value.accessToken}');
           print('Is Provider verified : ${value.data.isVerified}');

@@ -24,6 +24,7 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/favouriteTherap
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UpComingReservationModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UserBannerImagesModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/login/loginResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/notification/firebaseNotificationUserListModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/DeleteSubAddressModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/EditUserSubAddressModel.dart';
@@ -91,7 +92,7 @@ class ServiceUserAPIProvider {
       new UpComingBookingModel();
   static BookingCompletedList _bookingCompletedList = new BookingCompletedList();
 
-  static SnsAndAppleLogin snsAndAppleLoginRes = new SnsAndAppleLogin();
+  static LoginResponseModel snsAndAppleLoginRes = new LoginResponseModel();
 
   // get all therapist users
   static Future<TherapistUsersModel> getAllTherapistUsers(
@@ -1353,7 +1354,7 @@ class ServiceUserAPIProvider {
     }
   }
   //SNS and Apple login
-  static Future<SnsAndAppleLogin> snsAndAppleLogin(
+  static Future<LoginResponseModel> snsAndAppleLogin(
       BuildContext context, String lineBotUserId,String appleUserId,int isTherapist,String fcmToken) async {
 
     ProgressDialogBuilder.showOverlayLoader(context);
@@ -1373,7 +1374,7 @@ class ServiceUserAPIProvider {
       print(response.body);
       if (response.statusCode == 200) {
         snsAndAppleLoginRes =
-            SnsAndAppleLogin.fromJson(json.decode(response.body));
+            LoginResponseModel.fromJson(json.decode(response.body));
       }
       ProgressDialogBuilder.hideLoader(context);
       print('Status code : ${response.statusCode}');
