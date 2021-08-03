@@ -596,6 +596,7 @@ class _BookingApproveThirdScreenState extends State<BookingApproveThirdScreen> {
   }
 
   cancelBooking() {
+    ProgressDialogBuilder.showOverlayLoader(context);
     String otherCategory = _cancelReasonController.text;
     String cancelReason =
         selectedBuildingType == "その他" ? otherCategory : selectedBuildingType;
@@ -701,13 +702,15 @@ class _BookingApproveThirdScreenState extends State<BookingApproveThirdScreen> {
                       .therapistProfileDetails.bookingDataResponse[0].eventId,
                   context)
               .then((value) {
+            ProgressDialogBuilder.hideLoader(context);
             DialogHelper.showUserBookingCancelDialog(context);
           });
         } else {
-          //ProgressDialogBuilder.hideLoader(context);
+          ProgressDialogBuilder.hideLoader(context);
         }
       });
     } catch (e) {
+      ProgressDialogBuilder.hideLoader(context);
       print('cancelException : ${e.toString()}');
     }
   }
