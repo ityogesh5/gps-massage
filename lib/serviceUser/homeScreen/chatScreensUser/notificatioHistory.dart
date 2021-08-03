@@ -132,8 +132,7 @@ class _NotificationHistoryScreenState extends State<NotificationHistoryScreen> {
                                             style: TextStyle(
                                                 fontSize: 14,
                                                 fontFamily: 'NotoSansJP',
-                                                fontWeight:
-                                                    FontWeight.bold),
+                                                fontWeight: FontWeight.bold),
                                           ),
                                         ),
                                       ],
@@ -255,16 +254,18 @@ class _NotificationHistoryScreenState extends State<NotificationHistoryScreen> {
   buildNotificationCard(int index, NotificationList requestBookingDetailsList) {
     String jaName = DateFormat('EEEE', 'ja_JP')
         .format(requestBookingDetailsList.bookingDetail.startTime.toLocal());
-    String sTime = requestBookingDetailsList.bookingDetail.newStartTime == null
-        ? DateFormat('kk:mm')
-            .format(requestBookingDetailsList.bookingDetail.startTime.toLocal())
-        : DateFormat('kk:mm').format(
-            requestBookingDetailsList.bookingDetail.newStartTime.toLocal());
-    String eTime = requestBookingDetailsList.bookingDetail.newEndTime == null
-        ? DateFormat('kk:mm')
-            .format(requestBookingDetailsList.bookingDetail.endTime.toLocal())
-        : DateFormat('kk:mm').format(
-            requestBookingDetailsList.bookingDetail.newEndTime.toLocal());
+    DateTime localStartTime =
+        requestBookingDetailsList.bookingDetail.newStartTime == null
+            ? requestBookingDetailsList.bookingDetail.startTime.toLocal()
+            : requestBookingDetailsList.bookingDetail.newStartTime.toLocal();
+    DateTime localEndTime =
+        requestBookingDetailsList.bookingDetail.newEndTime == null
+            ? requestBookingDetailsList.bookingDetail.endTime.toLocal()
+            : requestBookingDetailsList.bookingDetail.newEndTime.toLocal();
+    String sTime = localStartTime.hour == 0
+        ? DateFormat('KK:mm').format(localStartTime)
+        : DateFormat('kk:mm').format(localStartTime);
+    String eTime = DateFormat('kk:mm').format(localEndTime);
     String dateFormat = DateFormat('MM月dd')
         .format(requestBookingDetailsList.bookingDetail.startTime.toLocal());
     var serviceDifference = requestBookingDetailsList.bookingDetail.endTime
@@ -277,19 +278,19 @@ class _NotificationHistoryScreenState extends State<NotificationHistoryScreen> {
         requestBookingDetailsList.bookingDetail.bookingTherapistId.isShop
             ? requestBookingDetailsList
                         .bookingDetail.bookingTherapistId.storeName.length >
-                    10
+                    16
                 ? requestBookingDetailsList
                         .bookingDetail.bookingTherapistId.storeName
-                        .substring(0, 10) +
+                        .substring(0, 15) +
                     "..."
                 : requestBookingDetailsList
                     .bookingDetail.bookingTherapistId.storeName
             : requestBookingDetailsList
                         .bookingDetail.bookingTherapistId.userName.length >
-                    10
+                    16
                 ? requestBookingDetailsList
                         .bookingDetail.bookingTherapistId.userName
-                        .substring(0, 10) +
+                        .substring(0, 15) +
                     "..."
                 : requestBookingDetailsList
                     .bookingDetail.bookingTherapistId.userName;
@@ -456,59 +457,53 @@ class _NotificationHistoryScreenState extends State<NotificationHistoryScreen> {
                                   SizedBox(
                                     width: 6.0,
                                   ),
-                                  requestBookingDetailsList.bookingStatus ==
-                                              7 ||
-                                          requestBookingDetailsList
-                                                  .bookingStatus ==
-                                              8
-                                      ? Text(
-                                          '承認が期限内にされなかったため \n 予約はキャンセルされました',
-                                          style: TextStyle(
-                                            fontSize: 10.0,
-                                            color: Color.fromRGBO(
-                                                153, 153, 153, 1),
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        )
-                                      : requestBookingDetailsList
-                                                  .bookingStatus ==
-                                              8
-                                          ? Text(
-                                              '支払いが時間通りに行われなかった \n 予約はキャンセルされました',
-                                              style: TextStyle(
-                                                fontSize: 10.0,
-                                                color: Color.fromRGBO(
-                                                    153, 153, 153, 1),
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            )
-                                          : requestBookingDetailsList
-                                                          .bookingStatus ==
-                                                      2 ||
-                                                  requestBookingDetailsList
-                                                          .bookingStatus ==
-                                                      1
-                                              ? Text(
-                                                  'セラピストが予約を承認しました',
-                                                  style: TextStyle(
-                                                    fontSize: 10.0,
-                                                    color: Color.fromRGBO(
-                                                        153, 153, 153, 1),
-                                                  ),
-                                                )
-                                              : Text(
-                                                  'セラピストが予約を\nキャンセルしました',
-                                                  style: TextStyle(
-                                                    fontSize: 10.0,
-                                                    color: Color.fromRGBO(
-                                                        153, 153, 153, 1),
-                                                  ),
-                                                ),
                                   SizedBox(
                                     width: 10,
                                   ),
                                 ],
                               ),
+                              SizedBox(
+                                height: 4,
+                              ),
+                              requestBookingDetailsList.bookingStatus == 7
+                                  ? Text(
+                                      '承認が期限内にされなかったため 予約はキャンセルされました',
+                                      style: TextStyle(
+                                        fontSize: 9.0,
+                                        color: Color.fromRGBO(153, 153, 153, 1),
+                                      ),
+                                    )
+                                  : requestBookingDetailsList.bookingStatus == 8
+                                      ? Text(
+                                          '支払いが時間通りに行われなかった 予約はキャンセルされました',
+                                          style: TextStyle(
+                                            fontSize: 9.0,
+                                            color: Color.fromRGBO(
+                                                153, 153, 153, 1),
+                                          ),
+                                        )
+                                      : requestBookingDetailsList
+                                                      .bookingStatus ==
+                                                  2 ||
+                                              requestBookingDetailsList
+                                                      .bookingStatus ==
+                                                  1
+                                          ? Text(
+                                              'セラピストが予約を承認しました',
+                                              style: TextStyle(
+                                                fontSize: 9.0,
+                                                color: Color.fromRGBO(
+                                                    153, 153, 153, 1),
+                                              ),
+                                            )
+                                          : Text(
+                                              'セラピストが予約をキャンセルしました',
+                                              style: TextStyle(
+                                                fontSize: 9.0,
+                                                color: Color.fromRGBO(
+                                                    153, 153, 153, 1),
+                                              ),
+                                            ),
                               SizedBox(
                                 height: 8,
                               ),
