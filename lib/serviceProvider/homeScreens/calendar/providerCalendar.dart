@@ -34,6 +34,7 @@ class _ProviderCalendarState extends State<ProviderCalendar> {
   int _initialProcess = 0;
   DateTime vdate;
   List<FlutterWeekViewEvent> events = List<FlutterWeekViewEvent>();
+  List<String> yearDropDownValues = List<String>();
   Map<DateTime, List<dynamic>> eventDotHandler;
 
   int totalDays(int month, int year) {
@@ -72,7 +73,14 @@ class _ProviderCalendarState extends State<ProviderCalendar> {
     _lastday = DateTime(today.year, today.month + 1, 0).day;
     yearString = _cyear.toString();
     monthString = _cmonth.toString();
+    buildYearDropDown();
     daysToDisplay = totalDays(_cmonth, _cyear);
+  }
+
+  buildYearDropDown() {
+    for (int i = today.year; i <= today.year + 1; i++) {
+      yearDropDownValues.add(i.toString());
+    }
   }
 
   @override
@@ -164,20 +172,8 @@ class _ProviderCalendarState extends State<ProviderCalendar> {
                                                   .setFocusedDay(displayDay);
                                             });
                                           },
-                                          dataSource: [
-                                            {
-                                              "display": "2020",
-                                              "value": "2020",
-                                            },
-                                            {
-                                              "display": "2021",
-                                              "value": "2021",
-                                            },
-                                            {
-                                              "display": "2022",
-                                              "value": "2022",
-                                            },
-                                          ],
+                                          dataSource: yearDropDownValues,
+                                          isList: true,
                                           textField: 'display',
                                           valueField: 'value',
                                         ),

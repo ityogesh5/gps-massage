@@ -34,6 +34,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   int _initialProcess = 0;
   DateTime vdate;
   List<FlutterWeekViewEvent> events = List<FlutterWeekViewEvent>();
+  List<String> yearDropDownValues = List<String>();
   Map<DateTime, List<dynamic>> eventDotHandler;
 
   int totalDays(int month, int year) {
@@ -78,6 +79,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
     yearString = _cyear.toString();
     monthString = _cmonth.toString();
     daysToDisplay = totalDays(_cmonth, _cyear);
+    buildYearDropDown();
+  }
+
+  buildYearDropDown() {
+    for (int i = today.year; i <= today.year + 1; i++) {
+      yearDropDownValues.add(i.toString());
+    }
   }
 
   @override
@@ -156,20 +164,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                                 .setFocusedDay(displayDay);
                                           });
                                         },
-                                        dataSource: [
-                                          {
-                                            "display": "2020",
-                                            "value": "2020",
-                                          },
-                                          {
-                                            "display": "2021",
-                                            "value": "2021",
-                                          },
-                                          {
-                                            "display": "2022",
-                                            "value": "2022",
-                                          },
-                                        ],
+                                        dataSource: yearDropDownValues,
+                                        isList: true,
                                         textField: 'display',
                                         valueField: 'value',
                                       ),
@@ -528,7 +524,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                   ),
                                   child: Container(
                                     height: calendarStatus == 0
-                                        ? MediaQuery.of(context).size.height / 2 - 50.0
+                                        ? MediaQuery.of(context).size.height /
+                                                2 -
+                                            50.0
                                         : MediaQuery.of(context).size.height -
                                             260.0, //350.0,
                                     padding: const EdgeInsets.only(
