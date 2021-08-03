@@ -253,16 +253,18 @@ class _NotificationScreenState extends State<NotificationScreen> {
   buildNotificationCard(int index, NotificationList requestBookingDetailsList) {
     String jaName = DateFormat('EEEE', 'ja_JP')
         .format(requestBookingDetailsList.bookingDetail.startTime.toLocal());
-    String sTime = requestBookingDetailsList.bookingDetail.newStartTime == null
-        ? DateFormat('kk:mm')
-            .format(requestBookingDetailsList.bookingDetail.startTime.toLocal())
-        : DateFormat('kk:mm').format(
-            requestBookingDetailsList.bookingDetail.newStartTime.toLocal());
-    String eTime = requestBookingDetailsList.bookingDetail.newEndTime == null
-        ? DateFormat('kk:mm')
-            .format(requestBookingDetailsList.bookingDetail.endTime.toLocal())
-        : DateFormat('kk:mm').format(
-            requestBookingDetailsList.bookingDetail.newEndTime.toLocal());
+    DateTime localStartTime =
+        requestBookingDetailsList.bookingDetail.newStartTime == null
+            ? requestBookingDetailsList.bookingDetail.startTime.toLocal()
+            : requestBookingDetailsList.bookingDetail.newStartTime.toLocal();
+    DateTime localEndTime =
+        requestBookingDetailsList.bookingDetail.newEndTime == null
+            ? requestBookingDetailsList.bookingDetail.endTime.toLocal()
+            : requestBookingDetailsList.bookingDetail.newEndTime.toLocal();
+    String sTime = localStartTime.hour == 0
+        ? DateFormat('KK:mm').format(localStartTime)
+        : DateFormat('kk:mm').format(localStartTime);
+    String eTime = DateFormat('kk:mm').format(localEndTime);
     String dateFormat = DateFormat('MM月dd')
         .format(requestBookingDetailsList.bookingDetail.startTime.toLocal());
     var serviceDifference = requestBookingDetailsList.bookingDetail.endTime
@@ -434,12 +436,20 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               requestBookingDetailsList.bookingStatus == 7 ||
                                       requestBookingDetailsList.bookingStatus ==
                                           8
-                                  ? Text(
-                                      '設定した希望時間が締め切れましたので、$nameさんのご\n予約は自動的にキャンセルされました。',
-                                      style: TextStyle(
-                                        fontSize: 10.0,
-                                        color: Color.fromRGBO(153, 153, 153, 1),
-                                        fontWeight: FontWeight.bold,
+                                  ? Container(
+                                      constraints: new BoxConstraints(
+                                          maxWidth: MediaQuery.of(context)
+                                                  .size
+                                                  .width -
+                                              110),
+                                      child: Text(
+                                        '設定した希望時間が締め切れましたので、$nameさんのご 予約は自動的にキャンセルされました。',
+                                        style: TextStyle(
+                                          fontSize: 10.0,
+                                          color:
+                                              Color.fromRGBO(153, 153, 153, 1),
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     )
                                   : Column(

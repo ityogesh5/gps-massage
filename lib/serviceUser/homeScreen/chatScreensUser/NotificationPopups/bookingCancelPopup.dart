@@ -105,16 +105,18 @@ class _BookingCancelPopupState extends State<BookingCancelPopup> {
   Card buildBookingCard(NotificationList requestBookingDetailsList) {
     String jaName = DateFormat('EEEE', 'ja_JP')
         .format(requestBookingDetailsList.bookingDetail.startTime.toLocal());
-    String sTime = requestBookingDetailsList.bookingDetail.newStartTime == null
-        ? DateFormat('kk:mm')
-            .format(requestBookingDetailsList.bookingDetail.startTime.toLocal())
-        : DateFormat('kk:mm').format(
-            requestBookingDetailsList.bookingDetail.newStartTime.toLocal());
-    String eTime = requestBookingDetailsList.bookingDetail.newEndTime == null
-        ? DateFormat('kk:mm')
-            .format(requestBookingDetailsList.bookingDetail.endTime.toLocal())
-        : DateFormat('kk:mm').format(
-            requestBookingDetailsList.bookingDetail.newEndTime.toLocal());
+    DateTime localStartTime =
+        requestBookingDetailsList.bookingDetail.newStartTime == null
+            ? requestBookingDetailsList.bookingDetail.startTime.toLocal()
+            : requestBookingDetailsList.bookingDetail.newStartTime.toLocal();
+    DateTime localEndTime =
+        requestBookingDetailsList.bookingDetail.newEndTime == null
+            ? requestBookingDetailsList.bookingDetail.endTime.toLocal()
+            : requestBookingDetailsList.bookingDetail.newEndTime.toLocal();
+    String sTime = localStartTime.hour == 0
+        ? DateFormat('KK:mm').format(localStartTime)
+        : DateFormat('kk:mm').format(localStartTime);
+    String eTime = DateFormat('kk:mm').format(localEndTime);
     DateTime createdAtTime = requestBookingDetailsList.createdAt.toLocal();
     String nTime = DateFormat('kk:mm').format(createdAtTime);
     String dateFormat = DateFormat('MM月dd')
