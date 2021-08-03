@@ -274,6 +274,8 @@ class _UserLoginState extends State<UserLogin> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         InkWell(
+                            customBorder:
+                            CircleBorder(),
                             onTap: () {
                               _initiateLineLogin();
                               print('Line login');
@@ -303,6 +305,7 @@ class _UserLoginState extends State<UserLogin> {
                         ),
                         Platform.isIOS
                             ? InkWell(
+                            customBorder: CircleBorder(),
                                 onTap: () {
                                   print('Apple login');
                                   _initiateAppleSignIn();

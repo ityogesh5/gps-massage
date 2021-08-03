@@ -295,7 +295,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
                       SizedBox(
                         width: 10,
                       ),*/
-                      InkWell(
+                      InkWell(   customBorder: CircleBorder(),
                           onTap: () {
                             _initiateLineLogin();
                           },
@@ -324,7 +324,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
                         width: Platform.isIOS ? 10 : 0,
                       ),
                       Platform.isIOS
-                          ? InkWell(
+                          ? InkWell(   customBorder: CircleBorder(),
                               onTap: () {
                                 _initiateAppleSignIn();
                               },
