@@ -612,6 +612,7 @@ class _UserLoginState extends State<UserLogin> {
   _initiateAppleSignIn() async {
     String password;
     try{
+      ProgressDialogBuilder.showOverlayLoader(context);
       if(appleUserId !=null&&appleUserId.isNotEmpty ){
         var snsAndApple =  ServiceUserAPIProvider.snsAndAppleLogin(context, lineBotId, appleUserId, isTherapist, fcmToken);
         snsAndApple.then((snsValue) {
@@ -686,7 +687,7 @@ class _UserLoginState extends State<UserLogin> {
               value.setBool('isUserLoggedIn', true);
               value.setBool('userLoginSkipped', false);
               value.setBool('isProviderLoggedIn', false);
-
+              ProgressDialogBuilder.hideLoader(context);
               firebaseChatLogin(snsValue.data, password);
             } else {
               HealingMatchConstants.fbUserid =
@@ -730,6 +731,7 @@ class _UserLoginState extends State<UserLogin> {
             );
             FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
             final authResult = await _firebaseAuth.signInWithCredential(credential);
+            ProgressDialogBuilder.hideLoader(context);
             NavigationRouter.switchToServiceUserRegistration(context);
             print("Apple Sign in Success");
             return authResult.user;
@@ -752,6 +754,7 @@ class _UserLoginState extends State<UserLogin> {
     // ProgressDialogBuilder.showOverlayLoader(context);
     String password;
     try{
+      ProgressDialogBuilder.showOverlayLoader(context);
     if(lineBotId !=null&&lineBotId.isNotEmpty ){
      var snsAndApple =  ServiceUserAPIProvider.snsAndAppleLogin(context, lineBotId, appleUserId, isTherapist, fcmToken);
 snsAndApple.then((snsValue) {
@@ -826,7 +829,7 @@ snsAndApple.then((snsValue) {
       value.setBool('isUserLoggedIn', true);
       value.setBool('userLoginSkipped', false);
       value.setBool('isProviderLoggedIn', false);
-
+      ProgressDialogBuilder.hideLoader(context);
       firebaseChatLogin(snsValue.data, password);
     } else {
       HealingMatchConstants.fbUserid =
@@ -848,7 +851,7 @@ snsAndApple.then((snsValue) {
 
 });
     }else{
-
+      ProgressDialogBuilder.hideLoader(context);
       LineLoginHelper.startLineLogin(context);
   }}
     catch (e) {

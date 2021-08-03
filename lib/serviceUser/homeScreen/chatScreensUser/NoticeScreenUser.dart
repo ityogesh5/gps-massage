@@ -87,7 +87,7 @@ class _NoticeScreenUserState extends State<NotifyScreenUser>
       backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       appBar: PreferredSize(
           preferredSize:
-              Size.fromHeight(MediaQuery.of(context).size.height * 0.12),
+              Size.fromHeight(MediaQuery.of(context).size.height * 0.13),
           child: Container(
             decoration: BoxDecoration(boxShadow: [
               BoxShadow(
@@ -98,7 +98,7 @@ class _NoticeScreenUserState extends State<NotifyScreenUser>
             ]),
             child: AppBar(
               backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-              elevation: 5.0,
+              elevation: 2.0,
               automaticallyImplyLeading: false,
               title: Text(
                 'メッセージ',

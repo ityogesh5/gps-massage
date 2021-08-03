@@ -120,7 +120,7 @@ class _DetailPeofileDetailsHomeState extends State<DetailPeofileDetailsHome> {
                                     color: Color.fromRGBO(153, 153, 153, 1),
                                     offset: Offset(0, -3))
                               ],
-                              fontSize: 14,
+                              fontSize: 12,
                               color: Colors.transparent,
                               fontWeight: FontWeight.bold),
                         ),
@@ -145,7 +145,7 @@ class _DetailPeofileDetailsHomeState extends State<DetailPeofileDetailsHome> {
                               fontWeight: FontWeight.bold),
                         ),
                         SizedBox(
-                          width: 15,
+                          width: 12,
                         ),
                         Container(
                           child: InkWell(
@@ -169,7 +169,7 @@ class _DetailPeofileDetailsHomeState extends State<DetailPeofileDetailsHome> {
                                   fontFamily: 'NotoSansJP',
                                   fontWeight: FontWeight.bold,
                                   decoration: TextDecoration.underline,
-                                  fontSize: 14),
+                                  fontSize: 12),
                             ),
                           ),
                         ),
@@ -850,7 +850,7 @@ class _DetailPeofileDetailsHomeState extends State<DetailPeofileDetailsHome> {
       direction: Axis.horizontal,
       allowHalfRating: true,
       itemCount: 5,
-      itemSize: 24.0,
+      itemSize: 23.0,
       ignoreGestures: true,
       itemPadding: new EdgeInsets.only(bottom: 3.0),
       itemBuilder: (context, index) => new SizedBox(

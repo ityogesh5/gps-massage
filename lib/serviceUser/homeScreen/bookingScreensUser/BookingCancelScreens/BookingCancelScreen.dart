@@ -190,6 +190,7 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
   }
 
   cancelBooking() {
+    ProgressDialogBuilder.showOverlayLoader(context);
     String otherCategory = _cancelReasonController.text;
     String cancelReason =
         selectedBuildingType == "その他" ? otherCategory : selectedBuildingType;
@@ -283,7 +284,7 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
     }
 
     try {
-      ProgressDialogBuilder.showOverlayLoader(context);
+
 
       ServiceUserAPIProvider.updateBookingCompeted(
               widget.bookingId, widget.bookingStatus, cancelReason)

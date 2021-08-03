@@ -2474,7 +2474,7 @@ class _ReservationListState extends State<ReservationList> {
             padding: const EdgeInsets.all(8.0),
             child: Container(
               padding: EdgeInsets.all(8.0),
-              height: MediaQuery.of(context).size.height * 0.22,
+              // height: MediaQuery.of(context).size.height * 0.22,
               width: MediaQuery.of(context).size.width * 0.80,
               decoration: BoxDecoration(
                 color: Color.fromRGBO(255, 255, 255, 1),
@@ -2562,7 +2562,7 @@ class _ReservationListState extends State<ReservationList> {
                           Text(
                             '頑張りすぎのあなた・・・。\nそろそろリフレッシュしませんか？',
                             style: TextStyle(
-                                fontSize: 14,
+                                fontSize: 12,
                                 fontFamily: 'NotoSansJP',
                                 fontWeight: FontWeight.bold),
                           ),

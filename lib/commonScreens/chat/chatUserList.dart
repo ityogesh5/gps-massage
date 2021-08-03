@@ -219,10 +219,10 @@ class _ChatUserListState extends State<ChatUserList>
                                         Flexible(
                                           child: Text(
                                             HealingMatchConstants.isProvider
-                                                ? "利用者からの予約リクエストを承認した後\nメッセージのやり取りができます。"
+                                                ? "利用者からの予約リクエストを承認した後メッセージのやり取りができます。"
                                                 : '予約が完了した後にメッセージの\nやり取りができます。',
                                             style: TextStyle(
-                                                fontSize: 14,
+                                                fontSize: 12,
                                                 fontFamily: 'NotoSansJP',
                                                 fontWeight:
                                                     FontWeight.bold),

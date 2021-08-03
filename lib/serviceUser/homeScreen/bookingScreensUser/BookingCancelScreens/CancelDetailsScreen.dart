@@ -199,6 +199,7 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
   }
 
   cancelBooking() {
+    ProgressDialogBuilder.showOverlayLoader(context);
     String cancelReason = _cancelReasonController.text;
     if (cancelReason == null || cancelReason == '') {
       ProgressDialogBuilder.hideLoader(context);
@@ -260,7 +261,7 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
     }
 
     try {
-      // ProgressDialogBuilder.showOverlayLoader(context);
+
       ServiceUserAPIProvider.updateBookingCompeted(
               widget.bookingId, widget.bookingStatus, cancelReason)
           .then((value) {
@@ -268,15 +269,15 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
           ServiceUserAPIProvider.removeEvent(
                   HealingMatchConstants.calEventId, context)
               .then((value) {
-            //  ProgressDialogBuilder.hideLoader(context);
+             ProgressDialogBuilder.hideLoader(context);
             DialogHelper.showUserBookingCancelDialog(context);
           });
         } else {
-          // ProgressDialogBuilder.hideLoader(context);
+           ProgressDialogBuilder.hideLoader(context);
         }
       });
     } catch (e) {
-      // ProgressDialogBuilder.hideLoader(context);
+      ProgressDialogBuilder.hideLoader(context);
       print('cancelException : ${e.toString()}');
       /*  ProgressDialogBuilder.hideLoader(context); */
     }
