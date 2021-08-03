@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
@@ -327,7 +329,40 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                   )),
                             ),
                           )
-                        : InkWell(
+                        :  lineUserImage != null
+                        ? CachedNetworkImage(
+                      imageUrl: lineUserImage,
+                      filterQuality: FilterQuality.high,
+                      fadeInCurve: Curves.easeInSine,
+                      imageBuilder: (context, imageProvider) =>
+                          Container(
+                            width: 95.0,
+                            height: 95.0,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.cover),
+                            ),
+                          ),
+                      placeholder: (context, url) =>
+                          SpinKitDoubleBounce(
+                              color: Colors.lightGreenAccent),
+                      errorWidget: (context, url, error) =>
+                          Container(
+                            width: 95.0,
+                            height: 95.0,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border:
+                              Border.all(color: Colors.black12),
+                              image: DecorationImage(
+                                  image: new AssetImage(
+                                      'assets/images_gps/placeholder_image.png'),
+                                  fit: BoxFit.cover),
+                            ),
+                          ),
+                    ):InkWell(
                             onTap: () {
                               _showPicker(context);
                             },
