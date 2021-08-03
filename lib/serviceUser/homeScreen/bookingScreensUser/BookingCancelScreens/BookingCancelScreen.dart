@@ -113,7 +113,7 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
                 ),
                 SizedBox(height: 7),
                 Text(
-                  'キャシセルする語を記入ください',
+                  'キャンセルする理由を選択してください。',
                   style: TextStyle(
                       fontSize: 16,
                       color: Colors.black,
@@ -394,7 +394,8 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
                       filled: false,
                       fillColor: Colors.white,
                       hintText: 'キャシセルする理由を記入ください',
-                      hintStyle: TextStyle(color: Colors.grey[300]),
+                      hintStyle:
+                          TextStyle(color: Colors.grey[300], fontSize: 12.0),
                       focusedBorder: OutlineInputBorder(
                         borderSide:
                             BorderSide(color: Colors.grey[300], width: 1.0),

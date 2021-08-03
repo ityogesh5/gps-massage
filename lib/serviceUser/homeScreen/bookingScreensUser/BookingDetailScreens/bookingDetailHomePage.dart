@@ -694,7 +694,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
           borderRadius: new BorderRadius.circular(10.0),
           //side: BorderSide(color: Colors.black),
         ),
-        color: Colors.lime,
+        color: Colors.red,
         onPressed: () {
           if (HealingMatchConstants.isUserRegistrationSkipped) {
             DialogHelper.showUserLoginOrRegisterDialog(context);

@@ -506,7 +506,7 @@ class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
                             padding: const EdgeInsets.all(5.0),
                             child: Container(
                               height: MediaQuery.of(context).size.height * 0.70,
-                              width: MediaQuery.of(context).size.width * 0.78,
+                              width: MediaQuery.of(context).size.width * 0.81,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -624,7 +624,7 @@ class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
                             padding: const EdgeInsets.all(5.0),
                             child: Container(
                               height: MediaQuery.of(context).size.height * 0.70,
-                              width: MediaQuery.of(context).size.width * 0.78,
+                              width: MediaQuery.of(context).size.width * 0.81,
                               child: Shimmer(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -1114,7 +1114,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
             padding: const EdgeInsets.all(10.0),
             child: Container(
               height: 125.0,
-              width: MediaQuery.of(context).size.width * 0.78,
+              width: MediaQuery.of(context).size.width * 0.81,
               child: Row(
                 children: [
                   Expanded(
@@ -2837,7 +2837,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
             padding: const EdgeInsets.all(10.0),
             child: Container(
               height: 125.0,
-              width: MediaQuery.of(context).size.width * 0.78,
+              width: MediaQuery.of(context).size.width * 0.81,
               child: Row(
                 children: [
                   Expanded(
@@ -3510,7 +3510,7 @@ class _RecommendListsState extends State<RecommendLists> {
             padding: const EdgeInsets.all(10.0),
             child: Container(
               height: 125.0,
-              width: MediaQuery.of(context).size.width * 0.78,
+              width: MediaQuery.of(context).size.width * 0.81,
               child: Row(
                 children: [
                   Expanded(

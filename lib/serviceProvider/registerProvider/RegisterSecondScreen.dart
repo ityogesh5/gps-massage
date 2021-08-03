@@ -1527,7 +1527,7 @@ class _RegistrationSecondPageState
     if (bankName == 'その他' && bankOtherFieldController.text.length > 25) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('有効な銀行名を入力してください。',
+        content: Text('正しい銀行名を入力してください。',
             style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
@@ -1546,7 +1546,7 @@ class _RegistrationSecondPageState
     }
 
     if (branchNameController.text == null || branchNameController.text == '') {
-      displaySnackBarError("支店名は必須項目なので選択してください。");
+      displaySnackBarError("支店名を入力してください。");
 
       return;
     }
@@ -1568,15 +1568,15 @@ class _RegistrationSecondPageState
 
     if (branchNumberController.text == null ||
         branchNumberController.text == '') {
-      displaySnackBarError("支店番号は必須項目なので選択してください。");
+      displaySnackBarError("支店番号を入力してください。");
 
       return;
     }
 
-    if (branchNumber.length > 3) {
+    if (branchNumber.length > 3 || branchNumber.length < 3) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('支店番号は3文字以内で入力してください。',
+        content: Text('3文字の支店番号を入力してください。',
             style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
@@ -1588,17 +1588,17 @@ class _RegistrationSecondPageState
       return;
     }
 
-    if (bankNumberController.text == null ||
-        bankNumberController.text == '') {
-      displaySnackBarError("必須項目ですので、銀行番号をお選びください。");
+    if (bankNumberController.text == null || bankNumberController.text == '') {
+      displaySnackBarError("銀行番号を入力してください。");
 
       return;
     }
 
-    if (bankNumberController.text.length > 4) {
+    if (bankNumberController.text.length > 4 ||
+        bankNumberController.text.length < 4) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('銀行番号は4文字以内で入力してください。',
+        content: Text('4文字の銀行番号を入力してください。',
             style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
@@ -1612,7 +1612,7 @@ class _RegistrationSecondPageState
 
     if (accountnumberController.text == null ||
         accountnumberController.text == '') {
-      displaySnackBarError("口座番号は必須項目なので選択してください。");
+      displaySnackBarError("口座番号を入力してください。");
 
       return;
     }
@@ -1620,7 +1620,7 @@ class _RegistrationSecondPageState
     if (accountNumber.length > 8 || accountNumber.length < 7) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('アカウント番号は7-8文字以内で入力してください。',
+        content: Text('7-8文字の口座番号を入力してください。',
             style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
@@ -1639,19 +1639,17 @@ class _RegistrationSecondPageState
       return;
     }
 
-    if (accountHolderNameController.text.length > 20 ) {
+    if (accountHolderNameController.text.length > 20) {
       displaySnackBarError("アカウント所有者の名前を20文字以内で入力してください。");
 
       return;
     }
 
-    if (accountHolderType== null ||
-        accountHolderType == '') {
+    if (accountHolderType == null || accountHolderType == '') {
       displaySnackBarError("アカウント所有者のタイプを選択してください。");
 
       return;
     }
-
 
     print("Success");
     compressImages();
@@ -1961,8 +1959,10 @@ class _RegistrationSecondPageState
           }
         });
         sharedPreferences.setString("userData", json.encode(userData));
-        sharedPreferences.setString("accessToken", registerResponseModel.accessToken);
-        sharedPreferences.setString("lineBotIdProvider", registerResponseModel.data.lineBotUserId);
+        sharedPreferences.setString(
+            "accessToken", registerResponseModel.accessToken);
+        sharedPreferences.setString(
+            "lineBotIdProvider", registerResponseModel.data.lineBotUserId);
         sharedPreferences.setBool(
             "isActive", registerResponseModel.data.isActive);
         sharedPreferences.setString("providerPhoneNumer",
@@ -1970,6 +1970,12 @@ class _RegistrationSecondPageState
         sharedPreferences.setBool(
             'isActive', registerResponseModel.data.isActive);
         /*   sharedPreferences.setBool('isProviderRegister', true); */
+        HealingMatchConstants.estheticServicePriceModel.clear();
+        HealingMatchConstants.relaxationServicePriceModel.clear();
+        HealingMatchConstants.treatmentServicePriceModel.clear();
+        HealingMatchConstants.fitnessServicePriceModel.clear();
+        HealingMatchConstants.serviceProviderStoreType.clear();
+
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         print('Login response : ${registerResponseModel.toJson()}');
         print('Login token : ${registerResponseModel.accessToken}');

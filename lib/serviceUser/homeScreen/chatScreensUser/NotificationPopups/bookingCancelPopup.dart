@@ -86,6 +86,7 @@ class _BookingCancelPopupState extends State<BookingCancelPopup> {
                 style: TextStyle(
                   fontSize: 14.0,
                 ),
+                textAlign: TextAlign.center,
               ),
               SizedBox(
                 height: 18.0,

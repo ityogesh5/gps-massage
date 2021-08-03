@@ -1577,7 +1577,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
           borderRadius: new BorderRadius.circular(10.0),
           //side: BorderSide(color: Colors.black),
         ),
-        color: Colors.lime,
+        color: Colors.red,
         onPressed: () {
           if (!isLoading) {
             setState(() {

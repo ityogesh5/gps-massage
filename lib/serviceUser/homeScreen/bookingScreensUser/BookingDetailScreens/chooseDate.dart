@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -35,12 +36,21 @@ class _ChooseDateState extends State<ChooseDate> {
   int selectedMin;
   int startingDay = 0;
   int state = 0;
+  int _selectedYearIndex = 0;
+  int _selectedMonthIndex = 0;
+  int _yearChangedNumber = 0;
+  int _monthChangedNumber = 0;
+  bool _isVisible = true;
+  TextEditingController yearController = new TextEditingController();
+  TextEditingController monthController = TextEditingController();
   List<DateTime> timeRow = List<DateTime>();
   List<String> dayNames = ["月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日", "日曜日"];
   List<StoreServiceTiming> storeServiceTime = List<StoreServiceTiming>();
   List<FlutterWeekViewEvent> calendarEvents = List<FlutterWeekViewEvent>();
   Map<DateTime, List<int>> bookEvents = Map<DateTime, List<int>>();
   Map<DateTime, List<int>> events = Map<DateTime, List<int>>();
+  List<String> yearDropDownValues = List<String>();
+  List<String> monthDropDownValues = List<String>();
   bool status = false;
   bool isSeleted = false;
   GlobalKey key = new GlobalKey();
@@ -55,6 +65,12 @@ class _ChooseDateState extends State<ChooseDate> {
     startingDay = today.day;
     endTime = 23;
     dateString = '';
+    _cyear = DateTime.now().year;
+    _cmonth = DateTime.now().month;
+    _currentDay = DateTime.now().day;
+    yearController.text = _cyear.toString();
+    monthController.text = _cmonth.toString();
+    buildYearDropDown();
     getSelectedDate();
     daysToDisplay = totalDays(_cmonth, _cyear);
     timeBuilder(_cyear, _cmonth);
@@ -138,6 +154,156 @@ class _ChooseDateState extends State<ChooseDate> {
     }
   }
 
+  buildYearDropDown() {
+    for (int i = today.year; i <= today.year + 1; i++) {
+      yearDropDownValues.add(i.toString());
+    }
+    buildMonthDropDown(today.year);
+  }
+
+  buildMonthDropDown(int _cyear) {
+    monthDropDownValues.clear();
+    if (_cyear == today.year && _cmonth <= today.month) {
+      monthController.text = today.month.toString();
+      _cmonth = today.month;
+      _selectedMonthIndex = 0;
+    } else {
+      _cmonth = 1;
+      _selectedMonthIndex = _cmonth - 1;
+    }
+
+    for (int i = _cyear == today.year ? today.month : 1; i <= 12; i++) {
+      monthDropDownValues.add(i.toString());
+    }
+
+    setState(() {});
+  }
+
+  Future buildYearPicker(BuildContext context) {
+    return showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            height: 200.0,
+            color: Colors.white,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                CupertinoButton(
+                  child: Text(
+                    "キャンセル",
+                    style: TextStyle(color: Colors.grey, fontSize: 12.0),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                Expanded(
+                  child: CupertinoPicker(
+                      scrollController: new FixedExtentScrollController(
+                        initialItem: _selectedYearIndex,
+                      ),
+                      itemExtent: 32.0,
+                      // magnification: 0.0,
+                      backgroundColor: Colors.white,
+                      onSelectedItemChanged: (int index) {
+                        _yearChangedNumber = index;
+                      },
+                      children: new List<Widget>.generate(
+                          yearDropDownValues.length, (int index) {
+                        return new Center(
+                          child: new Text('${yearDropDownValues[index]}'),
+                        );
+                      })),
+                ),
+                CupertinoButton(
+                  child: Text("完了", style: TextStyle(fontSize: 12.0)),
+                  onPressed: () {
+                    setState(() {
+                      _selectedYearIndex = _yearChangedNumber;
+                      yearController.text =
+                          yearDropDownValues[_selectedYearIndex];
+                      _cyear = int.parse(yearController.text);
+                      buildMonthDropDown(_cyear);
+                      _currentDay =
+                          (_cyear == today.year) && (_cmonth == today.month)
+                              ? today.day
+                              : 1;
+                      displayDay = DateTime(_cyear, _cmonth, _currentDay);
+                      daysToDisplay = totalDays(_cmonth, _cyear);
+                    });
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  Future buildMonthPicker(BuildContext context) {
+    return showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            height: 200.0,
+            color: Colors.white,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                CupertinoButton(
+                  child: Text(
+                    "キャンセル",
+                    style: TextStyle(color: Colors.grey, fontSize: 12.0),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                Expanded(
+                  child: CupertinoPicker(
+                      scrollController: new FixedExtentScrollController(
+                        initialItem: _selectedMonthIndex,
+                      ),
+                      itemExtent: 32.0,
+                      backgroundColor: Colors.white,
+                      onSelectedItemChanged: (int index) {
+                        _monthChangedNumber = index;
+                      },
+                      children: new List<Widget>.generate(
+                          monthDropDownValues.length, (int index) {
+                        return new Center(
+                          child: new Text('${monthDropDownValues[index]}月'),
+                        );
+                      })),
+                ),
+                CupertinoButton(
+                  child: Text("完了", style: TextStyle(fontSize: 12.0)),
+                  onPressed: () {
+                    setState(() {
+                      _selectedMonthIndex = _monthChangedNumber;
+                      monthController.text =
+                          monthDropDownValues[_selectedMonthIndex];
+                      _cmonth = int.parse(monthController.text);
+
+                      _currentDay =
+                          (_cyear == today.year) && (_cmonth == today.month)
+                              ? today.day
+                              : 1;
+                      displayDay = DateTime(_cyear, _cmonth, _currentDay);
+                      daysToDisplay = totalDays(_cmonth, _cyear);
+                    });
+
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
   converToLocalTime() {
     for (var serviceTime
         in HealingMatchConstants.therapistProfileDetails.storeServiceTiming) {
@@ -189,25 +355,91 @@ class _ChooseDateState extends State<ChooseDate> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width:
-                                  80.0, //MediaQuery.of(context).size.width * 0.2,
-                              color: Colors.transparent,
-                              child: buildYearDropDownFormField(),
+                      Container(
+                        height: 51.0,
+                        width: 100.0,
+                        child: InkWell(
+                          onTap: () {
+                            if (_isVisible) {
+                              buildYearPicker(context);
+                            }
+                          },
+                          child: TextFormField(
+                            enabled: false,
+                            controller: yearController,
+                            style: _isVisible
+                                ? HealingMatchConstants.formTextStyle
+                                : HealingMatchConstants.formHintTextStyle,
+                            decoration: new InputDecoration(
+                              contentPadding: EdgeInsets.only(
+                                  left: 7.0, top: 5.0, bottom: 5.0, right: 5.0),
+                              focusedBorder: HealingMatchConstants
+                                  .datePickerTextFormInputBorder,
+                              disabledBorder: HealingMatchConstants
+                                  .datePickerTextFormInputBorder,
+                              enabledBorder: HealingMatchConstants
+                                  .datePickerTextFormInputBorder,
+                              suffixIcon: IconButton(
+                                  padding: EdgeInsets.only(left: 8.0),
+                                  icon: Icon(
+                                    Icons.keyboard_arrow_down,
+                                    size: 30.0,
+                                    color: _isVisible
+                                        ? Colors.black
+                                        : Color.fromRGBO(200, 200, 200, 1),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {});
+                                  }),
+                              filled: true,
+                              fillColor: Colors.white,
                             ),
-                            SizedBox(
-                              width: 15.0,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 12.0,
+                      ),
+                      Container(
+                        height: 51.0,
+                        width: 100.0,
+                        child: InkWell(
+                          onTap: () {
+                            if (_isVisible) {
+                              buildMonthPicker(context);
+                            }
+                          },
+                          child: TextFormField(
+                            enabled: false,
+                            controller: monthController,
+                            style: _isVisible
+                                ? HealingMatchConstants.formTextStyle
+                                : HealingMatchConstants.formHintTextStyle,
+                            decoration: new InputDecoration(
+                              contentPadding: EdgeInsets.only(
+                                  left: 7.0, top: 5.0, bottom: 5.0, right: 5.0),
+                              focusedBorder: HealingMatchConstants
+                                  .datePickerTextFormInputBorder,
+                              disabledBorder: HealingMatchConstants
+                                  .datePickerTextFormInputBorder,
+                              enabledBorder: HealingMatchConstants
+                                  .datePickerTextFormInputBorder,
+                              suffixIcon: IconButton(
+                                  padding: EdgeInsets.only(left: 8.0),
+                                  icon: Icon(
+                                    Icons.keyboard_arrow_down,
+                                    size: 30.0,
+                                    color: _isVisible
+                                        ? Colors.black
+                                        : Color.fromRGBO(200, 200, 200, 1),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {});
+                                  }),
+                              filled: true,
+                              fillColor: Colors.white,
                             ),
-                            Container(
-                              width:
-                                  80.0, //MediaQuery.of(context).size.width * 0.2,
-                              child: buildMonthDropDownFormField(),
-                            ),
-                          ],
+                          ),
                         ),
                       ),
                     ],
@@ -256,171 +488,6 @@ class _ChooseDateState extends State<ChooseDate> {
         'カレンダー',
         style: TextStyle(color: Colors.black),
       ),
-    );
-  }
-
-  DropDownFormField buildYearDropDownFormField() {
-    return DropDownFormField(
-      fillColor: Colors.white,
-      borderColor: Color.fromRGBO(228, 228, 228, 1),
-      contentPadding: EdgeInsets.all(1.0),
-      titleText: null,
-      hintText: readonly
-          ? yearString
-          : HealingMatchConstants.registrationBankAccountType,
-      onSaved: (value) {
-        setState(() {
-          yearString = value;
-          _cyear = int.parse(value);
-          _currentDay = 1;
-          displayDay = DateTime(_cyear, _cmonth, _currentDay);
-          daysToDisplay = totalDays(_cmonth, _cyear);
-          //state = 0;
-          if (_cyear == today.year &&
-              _cmonth == today.month &&
-              _currentDay == today.day) {
-            startingDay = today.day;
-          } else {
-            startingDay = 1;
-          }
-          timeBuilder(_cyear, _cmonth);
-        });
-      },
-      value: yearString,
-      onChanged: (value) {
-        yearString = value;
-        _cyear = int.parse(value);
-        _currentDay = 1;
-        // state = 0;
-        if (_cyear == today.year &&
-            _cmonth == today.month &&
-            _currentDay == today.day) {
-          startingDay = today.day;
-        } else {
-          startingDay = 1;
-        }
-        setState(() {
-          displayDay = DateTime(_cyear, _cmonth, _currentDay);
-          daysToDisplay = totalDays(_cmonth, _cyear);
-          timeBuilder(_cyear, _cmonth);
-        });
-      },
-      dataSource: [
-        {
-          "display": "2020",
-          "value": "2020",
-        },
-        {
-          "display": "2021",
-          "value": "2021",
-        },
-        {
-          "display": "2022",
-          "value": "2022",
-        },
-      ],
-      textField: 'display',
-      valueField: 'value',
-    );
-  }
-
-  DropDownFormField buildMonthDropDownFormField() {
-    return DropDownFormField(
-      fillColor: Colors.white,
-      borderColor: Color.fromRGBO(228, 228, 228, 1),
-      titleText: null,
-      hintText: readonly
-          ? monthString
-          : HealingMatchConstants.registrationBankAccountType,
-      onSaved: (value) {
-        setState(() {
-          monthString = value;
-          _cmonth = int.parse(value);
-          displayDay = DateTime(_cyear, _cmonth, _currentDay);
-          daysToDisplay = totalDays(_cmonth, _cyear);
-          _currentDay = 1;
-          //   state = 0;
-          if (_cyear == today.year &&
-              _cmonth == today.month &&
-              _currentDay == today.day) {
-            startingDay = today.day;
-          } else {
-            startingDay = 1;
-          }
-          timeBuilder(_cyear, _cmonth);
-        });
-      },
-      value: monthString,
-      onChanged: (value) {
-        monthString = value;
-        _cmonth = int.parse(value);
-        displayDay = DateTime(_cyear, _cmonth, _currentDay);
-        setState(() {
-          daysToDisplay = totalDays(_cmonth, _cyear);
-          _currentDay = 1;
-          //   state = 0;
-          if (_cyear == today.year &&
-              _cmonth == today.month &&
-              _currentDay == today.day) {
-            startingDay = today.day;
-          } else {
-            startingDay = 1;
-          }
-          timeBuilder(_cyear, _cmonth);
-        });
-      },
-      dataSource: [
-        {
-          "display": "1月",
-          "value": "1",
-        },
-        {
-          "display": "2月",
-          "value": "2",
-        },
-        {
-          "display": "3月",
-          "value": "3",
-        },
-        {
-          "display": "4月",
-          "value": "4",
-        },
-        {
-          "display": "5月",
-          "value": "5",
-        },
-        {
-          "display": "6月",
-          "value": "6",
-        },
-        {
-          "display": "7月",
-          "value": "7",
-        },
-        {
-          "display": "8月",
-          "value": "8",
-        },
-        {
-          "display": "9月",
-          "value": "9",
-        },
-        {
-          "display": "10月",
-          "value": "10",
-        },
-        {
-          "display": "11月",
-          "value": "11",
-        },
-        {
-          "display": "12月",
-          "value": "12",
-        },
-      ],
-      textField: 'display',
-      valueField: 'value',
     );
   }
 

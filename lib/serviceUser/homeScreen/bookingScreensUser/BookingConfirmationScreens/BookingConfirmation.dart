@@ -27,7 +27,7 @@ List<String> massageBuildingTypeValues = [
   "アバート",
   "一軒家",
   "ホテル",
-  "施設",
+  "商業施設",
   "その他",
 ];
 bool isOtherSelected = false;
@@ -1186,7 +1186,7 @@ class BuildingCategories {
         BuildingCategory(name: 'アバート'),
         BuildingCategory(name: '一軒家'),
         BuildingCategory(name: 'ホテル'),
-        BuildingCategory(name: '施設'),
+        BuildingCategory(name: '商業施設'),
         BuildingCategory(name: 'その他'),
       ],
     );

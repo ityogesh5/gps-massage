@@ -489,7 +489,7 @@ class _MyAccountState extends State<MyAccount> {
                                                 fontFamily: 'NotoSansJP',
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.bold)),
-                                        Text(userData.bankDetails[0].bankName,
+                                        Text(userData.bankDetails[0].branchName,
                                             style: TextStyle(
                                               fontSize: 14.0,
                                               fontFamily: 'NotoSansJP',
