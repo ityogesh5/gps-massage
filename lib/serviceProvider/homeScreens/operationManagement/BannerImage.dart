@@ -172,18 +172,15 @@ class _BannerImageState extends State<BannerImage> {
                                                           'assets/images_gps/appIcon.png')),
                                                 )),
                                           ),
-                                          Expanded(
-                                            child: Column(
-                                              children: [
-                                                Text(
-                                                  '+ボタンをクリックして掲載写真を\nアップロードしてください。',
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontFamily: 'NotoSansJP',
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                              ],
+                                          SizedBox(width: 20,),
+                                          Flexible(
+                                            child: Text(
+                                              '+ボタンをクリックして掲載写真を\nアップロードしてください。',
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontFamily: 'NotoSansJP',
+                                                  fontWeight:
+                                                      FontWeight.bold),
                                             ),
                                           ),
                                         ],

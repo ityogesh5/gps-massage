@@ -117,17 +117,14 @@ class _ProviderCancelScreenState extends State<ProviderCancelScreen> {
                                                 'assets/images_gps/appIcon.png')),
                                       )),
                                 ),
-                                Expanded(
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        'キャンセルされた予約はありません。',
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontFamily: 'NotoSansJP',
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
+                                SizedBox(width: 20,),
+                                Flexible(
+                                  child: Text(
+                                    'キャンセルされた予約はありません。',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontFamily: 'NotoSansJP',
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ],
