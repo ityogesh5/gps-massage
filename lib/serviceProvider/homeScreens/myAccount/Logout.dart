@@ -87,12 +87,14 @@ class _ProviderLogoutState extends State<ProviderLogout> {
                           Auth().signOut();
                           sharedPreferences.then((value) {
                             String snsId = value.getString('lineBotIdProvider');
+                            String appleId = value.getString('appleIdProvider');
                             value.clear();
                             value.setBool('isProviderLoggedOut', true);
                             value.setBool('isProviderLoggedIn', false);
                             value.setBool('isUserLoggedOut', false);
                             value.setBool('isProviderRegister', false);
                             value.setString('lineBotIdProvider', snsId);
+                            value.setString('appleIdProvider', appleId);
                           });
                           Map<String, dynamic> isonline = {"isOnline": false};
                           FirebaseAuth firebaseAuth = FirebaseAuth.instance;

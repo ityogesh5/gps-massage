@@ -125,17 +125,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                                   'assets/images_gps/appIcon.png')),
                                         )),
                                   ),
-                                  Expanded(
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          'お知らせはありません。',
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontFamily: 'NotoSansJP',
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
+                                  SizedBox(width: 20,),
+                                  Flexible(
+                                    child: Text(
+                                      'お知らせはありません。',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontFamily: 'NotoSansJP',
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   ),
                                 ],

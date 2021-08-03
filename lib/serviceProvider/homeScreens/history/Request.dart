@@ -128,17 +128,14 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
                                                 'assets/images_gps/appIcon.png')),
                                       )),
                                 ),
-                                Expanded(
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        '承認作業が必要な利用者からの予約リクエストはありません。',
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontFamily: 'NotoSansJP',
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
+                                SizedBox(width: 20,),
+                                Flexible(
+                                  child: Text(
+                                    '承認作業が必要な利用者からの予約リクエストはありません。',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontFamily: 'NotoSansJP',
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ],
