@@ -670,7 +670,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
           HealingMatchConstants.therapistIdPay =
               therapistDetails.bookingDataResponse[0].therapistId;
           HealingMatchConstants.confServiceCost =
-              therapistDetails.bookingDataResponse[0].priceOfService;
+              therapistDetails.bookingDataResponse[0].totalCost;
           HealingMatchConstants.initiatePayment(context);
         },
         child: new Text(
@@ -736,7 +736,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
           HealingMatchConstants.therapistIdPay =
               therapistDetails.bookingDataResponse[0].therapistId;
           HealingMatchConstants.confServiceCost =
-              therapistDetails.bookingDataResponse[0].priceOfService;
+              therapistDetails.bookingDataResponse[0].totalCost;
           HealingMatchConstants.initiatePayment(context);
 
           print(
