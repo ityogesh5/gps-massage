@@ -113,8 +113,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                   InkWell(
                                     onTap: () {},
                                     child: new Container(
-                                        width: 80.0,
-                                        height: 80.0,
+                                        width: 60.0,
+                                        height: 60.0,
                                         decoration: new BoxDecoration(
                                           border:
                                               Border.all(color: Colors.black12),
@@ -125,12 +125,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                                   'assets/images_gps/appIcon.png')),
                                         )),
                                   ),
-                                  SizedBox(width: 20,),
+                                  SizedBox(
+                                    width: 15,
+                                  ),
                                   Flexible(
                                     child: Text(
                                       'お知らせはありません。',
                                       style: TextStyle(
-                                          fontSize: 16,
+                                          fontSize: 14,
                                           fontFamily: 'NotoSansJP',
                                           fontWeight: FontWeight.bold),
                                     ),
@@ -187,8 +189,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: ClipOval(
-                      child: Image.asset('assets/images_gps/logo.png',
-                          height: 35, width: 35, color: Colors.black),
+                      child: Image.asset(
+                        'assets/images_gps/logo.png',
+                        height: 35,
+                        width: 35,
+                      ),
                     ),
                   ),
                   SizedBox(

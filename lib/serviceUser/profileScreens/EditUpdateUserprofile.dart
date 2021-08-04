@@ -278,7 +278,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double containerHeight =
-    48.0; //height of Every TextFormField wrapped with container
+        48.0; //height of Every TextFormField wrapped with container
     double containerWidth =
         size.width * 0.9; //width of Every TextFormField wrapped with container
     return Scaffold(
@@ -418,40 +418,40 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                       // height: MediaQuery.of(context).size.height * 0.07,
                       width: MediaQuery.of(context).size.width * 0.85,
                       child: WidgetAnimator(
-                          TextFieldCustom(
-                            controller: userNameController,
-                            autofocus: false,
-                            decoration: new InputDecoration(
-                              contentPadding: EdgeInsets.all(16.0),
-                              filled: true,
-                              fillColor: ColorConstants.formFieldFillColor,
-                              focusColor: Colors.grey[100],
-                              border: HealingMatchConstants.textFormInputBorder,
-                              focusedBorder:
-                              HealingMatchConstants.textFormInputBorder,
-                              disabledBorder:
-                              HealingMatchConstants.textFormInputBorder,
-                              enabledBorder:
-                              HealingMatchConstants.textFormInputBorder,
-                              //       labelText: 'お名前*',
-                            ),
-                            labelText: Text.rich(
-                              TextSpan(
-                                text: 'お名前',
-                                children: <InlineSpan>[
-                                  TextSpan(
-                                    text: '*',
-                                    style:
-                                    TextStyle(color: Colors.red, fontSize: 16),
-                                  ),
-                                ],
-                                style: TextStyle(
-                                    color: Color.fromRGBO(197, 197, 197, 1),
-                                    fontFamily: 'NotoSansJP',
-                                    fontSize: 16),
-                              ),
+                        TextFieldCustom(
+                          controller: userNameController,
+                          autofocus: false,
+                          decoration: new InputDecoration(
+                            contentPadding: EdgeInsets.all(16.0),
+                            filled: true,
+                            fillColor: ColorConstants.formFieldFillColor,
+                            focusColor: Colors.grey[100],
+                            border: HealingMatchConstants.textFormInputBorder,
+                            focusedBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            disabledBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            enabledBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            //       labelText: 'お名前*',
+                          ),
+                          labelText: Text.rich(
+                            TextSpan(
+                              text: 'お名前',
+                              children: <InlineSpan>[
+                                TextSpan(
+                                  text: '*',
+                                  style: TextStyle(
+                                      color: Colors.red, fontSize: 16),
+                                ),
+                              ],
+                              style: TextStyle(
+                                  color: Color.fromRGBO(197, 197, 197, 1),
+                                  fontFamily: 'NotoSansJP',
+                                  fontSize: 16),
                             ),
                           ),
+                        ),
                       ),
                     ),
                     SizedBox(height: 15),
@@ -480,7 +480,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                         contentPadding: EdgeInsets.all(16.0),
                                         filled: true,
                                         fillColor:
-                                        ColorConstants.formFieldFillColor,
+                                            ColorConstants.formFieldFillColor,
                                         focusColor: Colors.grey[100],
                                         border: HealingMatchConstants
                                             .textFormInputBorder,
@@ -622,6 +622,13 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                             fontFamily: 'NotoSansJP',
                                             fontSize: 10.0),
                                       ),
+                                      Text(
+                                        "*",
+                                        style: TextStyle(
+                                            color: Colors.redAccent.shade700,
+                                            fontFamily: 'NotoSansJP',
+                                            fontSize: 10.0),
+                                      ),
                                     ],
                                   ),
                                 )
@@ -735,6 +742,13 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                         style: TextStyle(
                                             color: ColorConstants
                                                 .formHintTextColor,
+                                            fontFamily: 'NotoSansJP',
+                                            fontSize: 10.0),
+                                      ),
+                                      Text(
+                                        "*",
+                                        style: TextStyle(
+                                            color: Colors.redAccent.shade700,
                                             fontFamily: 'NotoSansJP',
                                             fontSize: 10.0),
                                       ),
@@ -896,6 +910,14 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                 fontFamily: 'NotoSansJP',
                                                 fontSize: 10.0),
                                           ),
+                                          Text(
+                                            "*",
+                                            style: TextStyle(
+                                                color:
+                                                    Colors.redAccent.shade700,
+                                                fontFamily: 'NotoSansJP',
+                                                fontSize: 10.0),
+                                          ),
                                         ],
                                       ),
                                     )
@@ -1003,6 +1025,16 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                               'NotoSansJP',
                                                           fontSize: 10.0),
                                                     ),
+                                                    Text(
+                                                      "*",
+                                                      style: TextStyle(
+                                                          color: Colors
+                                                              .redAccent
+                                                              .shade700,
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontSize: 10.0),
+                                                    ),
                                                   ],
                                                 ),
                                               )
@@ -1064,6 +1096,16 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                                   'NotoSansJP',
                                                               fontSize: 10.0),
                                                         ),
+                                                        Text(
+                                                          "*",
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .redAccent
+                                                                  .shade700,
+                                                              fontFamily:
+                                                                  'NotoSansJP',
+                                                              fontSize: 10.0),
+                                                        ),
                                                       ],
                                                     ),
                                                   )
@@ -1090,45 +1132,45 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                     width: MediaQuery.of(context).size.width *
                                         0.39,
                                     child: WidgetAnimator(
-                                        TextFieldCustom(
-                                          controller: userAreaController,
-                                          maxLength: 25,
-                                          autofocus: false,
-                                          decoration: new InputDecoration(
-                                            counterText: '',
-                                            contentPadding: EdgeInsets.all(16.0),
-                                            filled: true,
-                                            fillColor:
-                                            ColorConstants.formFieldFillColor,
-                                            focusColor: Colors.grey[100],
-                                            border: HealingMatchConstants
-                                                .textFormInputBorder,
-                                            focusedBorder: HealingMatchConstants
-                                                .textFormInputBorder,
-                                            disabledBorder: HealingMatchConstants
-                                                .textFormInputBorder,
-                                            enabledBorder: HealingMatchConstants
-                                                .textFormInputBorder,
-                                            // labelText: 'お名前',
-                                          ),
-                                          labelText: Text.rich(
-                                            TextSpan(
-                                              text: '丁目, 番地 ',
-                                              children: <InlineSpan>[
-                                                TextSpan(
-                                                  text: '*',
-                                                  style: TextStyle(
-                                                      color: Colors.red,
-                                                      fontSize: 16),
-                                                ),
-                                              ],
-                                              style: TextStyle(
-                                                  color: Colors.grey[400],
-                                                  fontFamily: 'NotoSansJP',
-                                                  fontSize: 14),
-                                            ),
+                                      TextFieldCustom(
+                                        controller: userAreaController,
+                                        maxLength: 25,
+                                        autofocus: false,
+                                        decoration: new InputDecoration(
+                                          counterText: '',
+                                          contentPadding: EdgeInsets.all(16.0),
+                                          filled: true,
+                                          fillColor:
+                                              ColorConstants.formFieldFillColor,
+                                          focusColor: Colors.grey[100],
+                                          border: HealingMatchConstants
+                                              .textFormInputBorder,
+                                          focusedBorder: HealingMatchConstants
+                                              .textFormInputBorder,
+                                          disabledBorder: HealingMatchConstants
+                                              .textFormInputBorder,
+                                          enabledBorder: HealingMatchConstants
+                                              .textFormInputBorder,
+                                          // labelText: 'お名前',
+                                        ),
+                                        labelText: Text.rich(
+                                          TextSpan(
+                                            text: '丁目, 番地 ',
+                                            children: <InlineSpan>[
+                                              TextSpan(
+                                                text: '*',
+                                                style: TextStyle(
+                                                    color: Colors.red,
+                                                    fontSize: 16),
+                                              ),
+                                            ],
+                                            style: TextStyle(
+                                                color: Colors.grey[400],
+                                                fontFamily: 'NotoSansJP',
+                                                fontSize: 14),
                                           ),
                                         ),
+                                      ),
                                     ),
                                   ),
                                 ),

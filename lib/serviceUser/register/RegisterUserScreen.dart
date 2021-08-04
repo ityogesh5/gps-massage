@@ -1842,6 +1842,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
     if (userPhoneNumber.substring(0, 1) == '0' &&
         userPhoneNumber.length <= 10) {
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('正しい電話番号を入力してください。',

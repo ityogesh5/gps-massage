@@ -980,35 +980,37 @@ class _ShiftServiceState extends State<ShiftService> {
                             child: Row(
                               children: [
                                 Expanded(
-                                    child: TextFormField(
-                                        focusNode: sixtyMinFocus,
-                                        enableInteractiveSelection: true,
-                                        textAlign: TextAlign.center,
-                                        controller: sixtyMinutesController,
-                                        keyboardType: TextInputType.number,
-                                        decoration: InputDecoration(
-                                          hintText: "¥0",
-                                          fillColor: Colors.white,
-                                          contentPadding: EdgeInsets.fromLTRB(
-                                              20.0, 10.0, 20.0, 10.0),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                            borderSide: BorderSide(
-                                              color: Color.fromRGBO(
-                                                  225, 225, 225, 1),
-                                            ),
-                                          ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                            borderSide: BorderSide(
-                                              color: Color.fromRGBO(
-                                                  225, 225, 225, 1),
-                                              width: 1.0,
-                                            ),
-                                          ),
-                                        ))),
+                                  child: TextFormField(
+                                    focusNode: sixtyMinFocus,
+                                    enableInteractiveSelection: true,
+                                    textAlign: TextAlign.center,
+                                    controller: sixtyMinutesController,
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      hintText: "¥0",
+                                      fillColor: Colors.white,
+                                      contentPadding: EdgeInsets.fromLTRB(
+                                          20.0, 10.0, 20.0, 10.0),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                        borderSide: BorderSide(
+                                          color:
+                                              Color.fromRGBO(225, 225, 225, 1),
+                                        ),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                        borderSide: BorderSide(
+                                          color:
+                                              Color.fromRGBO(225, 225, 225, 1),
+                                          width: 1.0,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                                 SizedBox(
                                   width: 16.0,
                                 ),

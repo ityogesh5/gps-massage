@@ -116,17 +116,8 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
               color: Colors.white,
               child: Center(child: SpinKitThreeBounce(color: Colors.lime)),
             )
-          : therapistDetails == null
-              ? Container(
-                  color: Colors.white,
-                  child: Center(
-                      child: Text(
-                    "管理者の承認を待っています！",
-                    style: TextStyle(
-                      fontSize: 14.0,
-                    ),
-                  )),
-                )
+          : therapistDetails == null || therapistDetails.data.isAccepted == 0
+              ? displayNoAcceptedInfo(context)
               : SingleChildScrollView(
                   child: SafeArea(
                   child: Container(
@@ -731,7 +722,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                             therapistDetails.therapistProfit
                                                         .weeklyProfit ==
                                                     null
-                                                ? "0.00"
+                                                ? "¥0"
                                                 : '¥${therapistDetails.therapistProfit.weeklyProfit}',
                                             style: TextStyle(
                                                 fontSize: 14,
@@ -778,7 +769,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                             therapistDetails.therapistProfit
                                                         .monthlyProfit ==
                                                     null
-                                                ? "0.00"
+                                                ? "¥0"
                                                 : '¥ ${therapistDetails.therapistProfit.monthlyProfit}',
                                             style: TextStyle(
                                                 fontSize: 14,
@@ -826,7 +817,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                             therapistDetails.therapistProfit
                                                         .yearlyProfit ==
                                                     null
-                                                ? "0.00"
+                                                ? "¥0"
                                                 : '¥ ${therapistDetails.therapistProfit.yearlyProfit}',
                                             style: TextStyle(
                                                 fontSize: 14,
@@ -1217,6 +1208,70 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                   ),
                 )),
     );
+  }
+
+  Padding displayNoAcceptedInfo(BuildContext context) {
+    return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Container(
+                        padding: EdgeInsets.all(8.0),
+                        height: MediaQuery.of(context).size.height * 0.22,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(255, 255, 255, 1),
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(16.0)),
+                          border: Border.all(
+                              color: Color.fromRGBO(217, 217, 217, 1)),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                InkWell(
+                                  onTap: () {},
+                                  child: new Container(
+                                      width: 60.0,
+                                      height: 60.0,
+                                      decoration: new BoxDecoration(
+                                        border:
+                                            Border.all(color: Colors.black12),
+                                        shape: BoxShape.circle,
+                                        image: new DecorationImage(
+                                            fit: BoxFit.fill,
+                                            image: new AssetImage(
+                                                'assets/images_gps/appIcon.png')),
+                                      )),
+                                ),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                Flexible(
+                                  child: Text(
+                                    '後登録の内容を管理者が確認しております。\n確認完了まで今しばらくお待ちください',
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        fontFamily: 'NotoSansJP',
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
   }
 
   Card buildAppointmentDetails() {
