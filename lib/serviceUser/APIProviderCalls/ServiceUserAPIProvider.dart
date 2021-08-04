@@ -36,6 +36,7 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/Get
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/login/snsAndAppleResponse.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class ServiceUserAPIProvider {
   static const _scopes = const [CalendarApi.calendarScope];
@@ -563,6 +564,8 @@ class ServiceUserAPIProvider {
   // get search screen user therapist results
   static Future<SearchTherapistResultsModel> getTherapistSearchResults(
       BuildContext context, int pageNumber, int pageSize) async {
+    String dateTime = DateFormat('yyyy-MM-dd HH:mm:ss')
+        .format(HealingMatchConstants.dateTime);
     try {
       final url =
           '${HealingMatchConstants.FETCH_THERAPIST_SEARCH_RESULTS}?page=$pageNumber&size=$pageSize';
@@ -585,8 +588,7 @@ class ServiceUserAPIProvider {
                           HealingMatchConstants.isLocationCriteria,
                       "serviceTimeCriteria":
                           HealingMatchConstants.isTimeCriteria,
-                      "selectedTime":
-                          HealingMatchConstants.dateTime.toIso8601String(),
+                      "selectedTime": dateTime,
                       "searchDistanceRadius":
                           HealingMatchConstants.searchDistanceRadius,
                       "latitude": HealingMatchConstants.searchAddressLatitude,
@@ -598,8 +600,7 @@ class ServiceUserAPIProvider {
                           HealingMatchConstants.isLocationCriteria,
                       "serviceTimeCriteria":
                           HealingMatchConstants.isTimeCriteria,
-                      "selectedTime":
-                          HealingMatchConstants.dateTime.toIso8601String(),
+                      "selectedTime": dateTime,
                       "searchDistanceRadius":
                           HealingMatchConstants.searchDistanceRadius,
                       "latitude": HealingMatchConstants.searchAddressLatitude,
@@ -627,6 +628,8 @@ class ServiceUserAPIProvider {
       int pageNumber,
       int pageSize,
       int searchType) async {
+    String dateTime = DateFormat('yyyy-MM-dd HH:mm:ss')
+        .format(HealingMatchConstants.dateTime);
     try {
       final url =
           '${HealingMatchConstants.FETCH_THERAPIST_SEARCH_RESULTS}?page=$pageNumber&size=$pageSize';
@@ -650,8 +653,7 @@ class ServiceUserAPIProvider {
                           HealingMatchConstants.isLocationCriteria,
                       "serviceTimeCriteria":
                           HealingMatchConstants.isTimeCriteria,
-                      "selectedTime":
-                          HealingMatchConstants.dateTime.toIso8601String(),
+                      "selectedTime": dateTime,
                       "searchDistanceRadius":
                           HealingMatchConstants.searchDistanceRadius,
                       "latitude": HealingMatchConstants.searchAddressLatitude,
@@ -664,8 +666,7 @@ class ServiceUserAPIProvider {
                           HealingMatchConstants.isLocationCriteria,
                       "serviceTimeCriteria":
                           HealingMatchConstants.isTimeCriteria,
-                      "selectedTime":
-                          HealingMatchConstants.dateTime.toIso8601String(),
+                      "selectedTime": dateTime,
                       "searchDistanceRadius":
                           HealingMatchConstants.searchDistanceRadius,
                       "latitude": HealingMatchConstants.searchAddressLatitude,
