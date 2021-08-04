@@ -18,6 +18,8 @@ import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialo
 import 'package:gps_massageapp/models/responseModels/serviceProvider/bankNameDropDownModel.dart'
     as Bank;
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/ProviderDetailsResponseModel.dart'
+    as ServicePrice;
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
 import 'package:gps_massageapp/customLibraryClasses/customTextField/text_field_custom.dart';
@@ -66,6 +68,9 @@ class _RegistrationSecondPageState
   Bank.BankNameDropDownModel bankNameDropDownModel;
   List<String> bankNameDropDownList = List<String>();
   List<String> privateQualification = List<String>();
+  List<ServicePrice.StoreServiceTime> _storeServiceTime =
+      List<ServicePrice.StoreServiceTime>();
+  List<String> dayNames = ["月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日", "日曜日"];
   final fireBaseMessaging = new FirebaseMessaging();
   var fcmToken;
 
@@ -76,8 +81,29 @@ class _RegistrationSecondPageState
     bankName = '';
     qualification = '';
     accountType = '';
+
     getsavedValues();
     _getFCMToken();
+  }
+
+  buildInitialTime(int userId) {
+    int i = 1;
+    DateTime defaultStart =
+        DateTime(DateTime.now().year, DateTime.now().month, 1, 0, 0, 0);
+    DateTime defaultEnd =
+        DateTime(DateTime.now().year, DateTime.now().month, 1, 23, 59, 59);
+    for (var day in dayNames) {
+      _storeServiceTime.add(ServicePrice.StoreServiceTime(
+        id: 0,
+        userId: userId,
+        weekDay: day,
+        dayInNumber: i,
+        startTime: defaultStart,
+        endTime: defaultEnd,
+        shopOpen: true,
+      ));
+      i = i + 1;
+    }
   }
 
   saveValues() {
@@ -1958,28 +1984,34 @@ class _RegistrationSecondPageState
             userData.firebaseUDID = value;
           }
         });
-        sharedPreferences.setString("userData", json.encode(userData));
-        sharedPreferences.setString(
-            "accessToken", registerResponseModel.accessToken);
-        sharedPreferences.setString("lineBotIdProvider", registerResponseModel.data.lineBotUserId);
-        sharedPreferences.setString("appleIdProvider", registerResponseModel.data.appleUserId);
-        sharedPreferences.setBool(
-            "isActive", registerResponseModel.data.isActive);
-        sharedPreferences.setString("providerPhoneNumer",
-            registerResponseModel.data.phoneNumber.toString());
-        sharedPreferences.setBool(
-            'isActive', registerResponseModel.data.isActive);
-        /*   sharedPreferences.setBool('isProviderRegister', true); */
-        HealingMatchConstants.estheticServicePriceModel.clear();
-        HealingMatchConstants.relaxationServicePriceModel.clear();
-        HealingMatchConstants.treatmentServicePriceModel.clear();
-        HealingMatchConstants.fitnessServicePriceModel.clear();
-        HealingMatchConstants.serviceProviderStoreType.clear();
+        buildInitialTime(userData.id);
+        ServiceProviderApi.saveRegShiftServiceTime(_storeServiceTime, context)
+            .then((value) {
+          sharedPreferences.setString("userData", json.encode(userData));
+          sharedPreferences.setString(
+              "accessToken", registerResponseModel.accessToken);
+          sharedPreferences.setString(
+              "lineBotIdProvider", registerResponseModel.data.lineBotUserId);
+          sharedPreferences.setString(
+              "appleIdProvider", registerResponseModel.data.appleUserId);
+          sharedPreferences.setBool(
+              "isActive", registerResponseModel.data.isActive);
+          sharedPreferences.setString("providerPhoneNumer",
+              registerResponseModel.data.phoneNumber.toString());
+          sharedPreferences.setBool(
+              'isActive', registerResponseModel.data.isActive);
+          /*   sharedPreferences.setBool('isProviderRegister', true); */
+          HealingMatchConstants.estheticServicePriceModel.clear();
+          HealingMatchConstants.relaxationServicePriceModel.clear();
+          HealingMatchConstants.treatmentServicePriceModel.clear();
+          HealingMatchConstants.fitnessServicePriceModel.clear();
+          HealingMatchConstants.serviceProviderStoreType.clear();
 
-        ProgressDialogBuilder.hideRegisterProgressDialog(context);
-        print('Login response : ${registerResponseModel.toJson()}');
-        print('Login token : ${registerResponseModel.accessToken}');
-        NavigationRouter.switchToProviderOtpScreen(context);
+          ProgressDialogBuilder.hideRegisterProgressDialog(context);
+          print('Login response : ${registerResponseModel.toJson()}');
+          print('Login token : ${registerResponseModel.accessToken}');
+          NavigationRouter.switchToProviderOtpScreen(context);
+        });
       } else {
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         print('Response error occured!');

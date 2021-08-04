@@ -428,7 +428,6 @@ class HealingMatchConstants {
   static List<Asset> bannerImages = List<Asset>();
   List<File> files = List<File>();
   static int providerRegisterStatus;
-
   static String idVerify = '';
   static List<String> bankNameDropDownList = List<String>();
   static String bankName = '';

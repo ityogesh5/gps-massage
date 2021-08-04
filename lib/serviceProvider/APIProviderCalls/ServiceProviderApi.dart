@@ -715,6 +715,39 @@ class ServiceProviderApi {
     }
   }
 
+  static Future<bool> saveRegShiftServiceTime(
+      List<StoreServiceTime> storeServiceTime, BuildContext context) async {
+    try {
+      final url = HealingMatchConstants.THERAPIST_SHIFT_TIME_SAVE;
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '${HealingMatchConstants.accessToken}'
+      };
+      print(json.encode(storeServiceTime[0]));
+      final response = await http.post(url,
+          headers: headers,
+          body: json.encode({
+            //"storeServiceTime": json.encode(storeServiceTime)
+            "monday": "[" + json.encode(storeServiceTime[0]) + "]",
+            "tuesday": "[" + json.encode(storeServiceTime[1]) + "]",
+            "wednesday": "[" + json.encode(storeServiceTime[2]) + "]",
+            "thursday": "[" + json.encode(storeServiceTime[3]) + "]",
+            "friday": "[" + json.encode(storeServiceTime[4]) + "]",
+            "saturday": "[" + json.encode(storeServiceTime[5]) + "]",
+            "sunday": "[" + json.encode(storeServiceTime[6]) + "]",
+          }));
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print('Exception : ${e.toString()}');
+      return false;
+    }
+  }
+
   static Future<bool> saveFirebaseUserID(
       String firebaseID, BuildContext context) async {
     try {

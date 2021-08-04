@@ -130,7 +130,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
   buildInitialTime() {
     int i = 1;
     DateTime defaultStart = DateTime(_cyear, _cmonth, 1, 0, 0, 0);
-    DateTime defaultEnd = DateTime(_cyear, _cmonth, 1, 24, 0, 0);
+    DateTime defaultEnd = DateTime(_cyear, _cmonth, 1, 23, 59, 59);
     for (var day in dayNames) {
       _storeServiceTime.add(StoreServiceTime(
         id: 0,
