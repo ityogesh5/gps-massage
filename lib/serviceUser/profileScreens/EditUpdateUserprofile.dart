@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
@@ -275,6 +276,11 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    double containerHeight =
+    48.0; //height of Every TextFormField wrapped with container
+    double containerWidth =
+        size.width * 0.9; //width of Every TextFormField wrapped with container
     return Scaffold(
       backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       key: _scaffoldKey,
@@ -412,33 +418,40 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                       // height: MediaQuery.of(context).size.height * 0.07,
                       width: MediaQuery.of(context).size.width * 0.85,
                       child: WidgetAnimator(
-                        TextFormField(
-                          //enableInteractiveSelection: false,
-                          maxLength: 20,
-                          autofocus: false,
-                          controller: userNameController,
-                          decoration: new InputDecoration(
-                            counterText: '',
-                            filled: true,
-                            fillColor: ColorConstants.formFieldFillColor,
-                            labelText: 'お名前',
-                            /*hintStyle: TextStyle(
-                              color: Colors.grey[400],
-                            ),*/
-                            labelStyle: TextStyle(
-                                color: Colors.grey[400],
-                                fontFamily: 'NotoSansJP',
-                                fontSize: 14),
-                            focusColor: Colors.grey[100],
-                            border: HealingMatchConstants.textFormInputBorder,
-                            focusedBorder:
-                                HealingMatchConstants.textFormInputBorder,
-                            disabledBorder:
-                                HealingMatchConstants.textFormInputBorder,
-                            enabledBorder:
-                                HealingMatchConstants.textFormInputBorder,
+                          TextFieldCustom(
+                            controller: userNameController,
+                            autofocus: false,
+                            decoration: new InputDecoration(
+                              contentPadding: EdgeInsets.all(16.0),
+                              filled: true,
+                              fillColor: ColorConstants.formFieldFillColor,
+                              focusColor: Colors.grey[100],
+                              border: HealingMatchConstants.textFormInputBorder,
+                              focusedBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                              disabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                              enabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                              //       labelText: 'お名前*',
+                            ),
+                            labelText: Text.rich(
+                              TextSpan(
+                                text: 'お名前',
+                                children: <InlineSpan>[
+                                  TextSpan(
+                                    text: '*',
+                                    style:
+                                    TextStyle(color: Colors.red, fontSize: 16),
+                                  ),
+                                ],
+                                style: TextStyle(
+                                    color: Color.fromRGBO(197, 197, 197, 1),
+                                    fontFamily: 'NotoSansJP',
+                                    fontSize: 16),
+                              ),
+                            ),
                           ),
-                        ),
                       ),
                     ),
                     SizedBox(height: 15),
@@ -457,32 +470,18 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                 onTap: () => _selectDate(context),
                                 child: AbsorbPointer(
                                   child: WidgetAnimator(
-                                    TextFormField(
-                                      //enableInteractiveSelection: false,
+                                    TextFieldCustom(
                                       controller: _userDOBController,
-                                      keyboardType: TextInputType.text,
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontFamily: 'NotoSansJP'),
                                       cursorColor: Colors.redAccent,
                                       readOnly: true,
+                                      autofocus: false,
+                                      keyboardType: TextInputType.number,
                                       decoration: new InputDecoration(
+                                        contentPadding: EdgeInsets.all(16.0),
                                         filled: true,
                                         fillColor:
-                                            ColorConstants.formFieldFillColor,
-                                        labelText: '生年月日',
-                                        hintText: '生年月日',
-                                        hintStyle: TextStyle(
-                                            color: Colors.grey[400],
-                                            fontSize: 14),
-                                        labelStyle: TextStyle(
-                                          color: Colors.grey[400],
-                                        ),
-                                        suffixIcon: Icon(
-                                          Icons.calendar_today,
-                                          color:
-                                              Color.fromRGBO(211, 211, 211, 1),
-                                        ),
+                                        ColorConstants.formFieldFillColor,
+                                        focusColor: Colors.grey[100],
                                         border: HealingMatchConstants
                                             .textFormInputBorder,
                                         focusedBorder: HealingMatchConstants
@@ -491,6 +490,34 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                             .textFormInputBorder,
                                         enabledBorder: HealingMatchConstants
                                             .textFormInputBorder,
+                                        suffixIcon: IconButton(
+                                          onPressed: () {
+                                            _selectDate(context);
+                                          },
+                                          icon: SvgPicture.asset(
+                                              'assets/images_gps/calendar.svg',
+                                              height: 30,
+                                              width: 30),
+                                        ),
+                                        // labelText: 'お名前',
+                                      ),
+                                      labelText: Text.rich(
+                                        TextSpan(
+                                          text: '生年月日',
+                                          children: <InlineSpan>[
+                                            TextSpan(
+                                              text: '*',
+                                              style: TextStyle(
+                                                  color: Colors.red,
+                                                  fontSize: 16),
+                                            ),
+                                          ],
+                                          style: TextStyle(
+                                              color: Color.fromRGBO(
+                                                  197, 197, 197, 1),
+                                              fontFamily: 'NotoSansJP',
+                                              fontSize: 14),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -1063,36 +1090,45 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                     width: MediaQuery.of(context).size.width *
                                         0.39,
                                     child: WidgetAnimator(
-                                      TextFormField(
-                                        //enableInteractiveSelection: false,
-                                        // readOnly: true,
-                                        autofocus: false,
-                                        controller: userAreaController,
-                                        decoration: new InputDecoration(
-                                          filled: true,
-                                          fillColor:
-                                              ColorConstants.formFieldFillColor,
-                                          labelText: '丁目, 番地',
-                                          /*hintText: '都、県選 *',
-                                  hintStyle: TextStyle(
-                                      color: Colors.grey[400],
-                                  ),*/
-                                          labelStyle: TextStyle(
-                                              color: Colors.grey[400],
-                                              fontFamily: 'NotoSansJP',
-                                              fontSize: 14),
-                                          focusColor: Colors.grey[100],
-                                          border: HealingMatchConstants
-                                              .textFormInputBorder,
-                                          focusedBorder: HealingMatchConstants
-                                              .textFormInputBorder,
-                                          disabledBorder: HealingMatchConstants
-                                              .textFormInputBorder,
-                                          enabledBorder: HealingMatchConstants
-                                              .textFormInputBorder,
+                                        TextFieldCustom(
+                                          controller: userAreaController,
+                                          maxLength: 25,
+                                          autofocus: false,
+                                          decoration: new InputDecoration(
+                                            counterText: '',
+                                            contentPadding: EdgeInsets.all(16.0),
+                                            filled: true,
+                                            fillColor:
+                                            ColorConstants.formFieldFillColor,
+                                            focusColor: Colors.grey[100],
+                                            border: HealingMatchConstants
+                                                .textFormInputBorder,
+                                            focusedBorder: HealingMatchConstants
+                                                .textFormInputBorder,
+                                            disabledBorder: HealingMatchConstants
+                                                .textFormInputBorder,
+                                            enabledBorder: HealingMatchConstants
+                                                .textFormInputBorder,
+                                            // labelText: 'お名前',
+                                          ),
+                                          labelText: Text.rich(
+                                            TextSpan(
+                                              text: '丁目, 番地 ',
+                                              children: <InlineSpan>[
+                                                TextSpan(
+                                                  text: '*',
+                                                  style: TextStyle(
+                                                      color: Colors.red,
+                                                      fontSize: 16),
+                                                ),
+                                              ],
+                                              style: TextStyle(
+                                                  color: Colors.grey[400],
+                                                  fontFamily: 'NotoSansJP',
+                                                  fontSize: 14),
+                                            ),
+                                          ),
                                         ),
-                                        // validator: (value) => _validateEmail(value),
-                                      ),
                                     ),
                                   ),
                                 ),
