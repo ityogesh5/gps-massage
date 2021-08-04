@@ -246,15 +246,7 @@ class DialogHelper {
           ),
         ],
       ),
-      btnOkOnPress: () {
-        debugPrint('OnClcik');
-      },
-      btnOk: AnimatedButton(
-          color: Color.fromRGBO(200, 217, 33, 1),
-          text: 'OK',
-          pressEvent: () {
-            return;
-          }),
+
     )..show();
   }
 
@@ -373,15 +365,7 @@ class DialogHelper {
           ),
         ],
       ),
-      btnOkOnPress: () {
-        debugPrint('OnClcik');
-      },
-      btnOk: AnimatedButton(
-          color: Color.fromRGBO(200, 217, 33, 1),
-          text: 'OK',
-          pressEvent: () {
-            return;
-          }),
+
     )..show();
   }
 
