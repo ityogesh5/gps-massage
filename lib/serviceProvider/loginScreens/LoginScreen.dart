@@ -589,42 +589,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
     var password;
     try {
       if (appleUserId != null && appleUserId.isNotEmpty) {
-        var snsAndApple = ServiceProviderApi.snsAndAppleLoginProvider(
-            context, lineBotId, appleUserId, isTherapist, fcmToken);
-        print('Hi snsLogin Provider');
-        snsAndApple.then((value) {
-          Data userData = value.data;
-          instances.setString("userData", json.encode(userData));
-          instances.setString("lineBotIdProvider", value.data.lineBotUserId);
-          instances.setString("appleIdProvider", value.data.appleUserId);
-          instances.setBool('isActive', value.data.isActive);
-          instances.setString("accessToken", value.accessToken);
-          print('Login response : ${value.toJson()}');
-          print('Login token : ${value.accessToken}');
-          print('Is Provider verified : ${value.data.isVerified}');
-          HealingMatchConstants.isActive = value.data.isActive;
-          if (value.data.isVerified) {
-            instances.setBool('isProviderLoggedIn', true);
-            instances.setBool('isUserLoggedIn', false);
-            firebaseChatLogin(userData, password);
-          } else {
-            HealingMatchConstants.fbUserid = value.data.phoneNumber.toString() +
-                value.data.id.toString() +
-                "@nexware.global.com";
-            HealingMatchConstants.isLoginRoute = true;
-            HealingMatchConstants.serviceProviderPassword = password;
-            HealingMatchConstants.serviceProviderPhoneNumber =
-                value.data.phoneNumber.toString();
-            hideLoader();
-            Toast.show("アカウントが確認されていません。", context,
-                duration: 4,
-                gravity: Toast.BOTTOM,
-                backgroundColor: Colors.redAccent,
-                textColor: Colors.white);
-            resendOtp(userData);
-            print('Unverified User!!');
-          }
-        });
+        appleSNSLocalServcerSignIn(instances, password);
       } else {
         if (await SignInWithApple.isAvailable()) {
           try {
@@ -642,6 +607,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
             HealingMatchConstants.appleEmailId = appleIdCredential.email;
             HealingMatchConstants.appleTokenId =
                 appleIdCredential.userIdentifier;
+            appleUserId = appleIdCredential.userIdentifier;
             final oAuthProvider = OAuthProvider('apple.com');
             final credential = oAuthProvider.credential(
               idToken: appleIdCredential.identityToken,
@@ -650,7 +616,12 @@ class _ProviderLoginState extends State<ProviderLogin> {
             FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
             final authResult =
                 await _firebaseAuth.signInWithCredential(credential);
-            NavigationRouter.switchToServiceProviderFirstScreen(context);
+            if (HealingMatchConstants.appleUserName == null) {
+              appleSNSLocalServcerSignIn(instances, password);
+            } else {
+              NavigationRouter.switchToServiceProviderFirstScreen(context);
+            }
+
             print("Apple Sign in Success");
             return authResult.user;
           } on Exception catch (e) {
@@ -663,6 +634,49 @@ class _ProviderLoginState extends State<ProviderLogin> {
     } on Exception catch (e) {
       print("Apple Sign in Exception : $e");
     }
+  }
+
+  void appleSNSLocalServcerSignIn(SharedPreferences instances, password) {
+    var snsAndApple = ServiceProviderApi.snsAndAppleLoginProvider(
+        context, lineBotId, appleUserId, isTherapist, fcmToken);
+    print('Hi snsLogin Provider');
+    snsAndApple.then((value) {
+      Data userData = value.data;
+      if (value.status == "200" && userData != null) {
+        instances.setString("userData", json.encode(userData));
+        instances.setString("lineBotIdProvider", value.data.lineBotUserId);
+        instances.setString("appleIdProvider", value.data.appleUserId);
+        instances.setBool('isActive', value.data.isActive);
+        instances.setString("accessToken", value.accessToken);
+        print('Login response : ${value.toJson()}');
+        print('Login token : ${value.accessToken}');
+        print('Is Provider verified : ${value.data.isVerified}');
+        HealingMatchConstants.isActive = value.data.isActive;
+        if (value.data.isVerified) {
+          instances.setBool('isProviderLoggedIn', true);
+          instances.setBool('isUserLoggedIn', false);
+          firebaseChatLogin(userData, password);
+        } else {
+          HealingMatchConstants.fbUserid = value.data.phoneNumber.toString() +
+              value.data.id.toString() +
+              "@nexware.global.com";
+          HealingMatchConstants.isLoginRoute = true;
+          HealingMatchConstants.serviceProviderPassword = password;
+          HealingMatchConstants.serviceProviderPhoneNumber =
+              value.data.phoneNumber.toString();
+          hideLoader();
+          Toast.show("アカウントが確認されていません。", context,
+              duration: 4,
+              gravity: Toast.BOTTOM,
+              backgroundColor: Colors.redAccent,
+              textColor: Colors.white);
+          resendOtp(userData);
+          print('Unverified User!!');
+        }
+      } else {
+        NavigationRouter.switchToServiceProviderFirstScreen(context);
+      }
+    });
   }
 
   void _initiateLineLogin() async {
