@@ -116,8 +116,8 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
                                 InkWell(
                                   onTap: () {},
                                   child: new Container(
-                                      width: 80.0,
-                                      height: 80.0,
+                                      width: 60.0,
+                                      height: 60.0,
                                       decoration: new BoxDecoration(
                                         border:
                                             Border.all(color: Colors.black12),
@@ -128,12 +128,14 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
                                                 'assets/images_gps/appIcon.png')),
                                       )),
                                 ),
-                                SizedBox(width: 20,),
+                                SizedBox(
+                                  width: 15,
+                                ),
                                 Flexible(
                                   child: Text(
                                     '承認作業が必要な利用者からの予約リクエストはありません。',
                                     style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: 14,
                                         fontFamily: 'NotoSansJP',
                                         fontWeight: FontWeight.bold),
                                   ),

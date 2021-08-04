@@ -648,7 +648,8 @@ class ServiceProviderApi {
         return therapistDetails;
       } else {
         print('Error occurred!!! TypeMassages response');
-        throw Exception();
+        ProviderDetailsResponseModel therapistDetails = ProviderDetailsResponseModel() ;
+        return therapistDetails;
       }
     } catch (e) {
       print('Exception : ${e.toString()}');

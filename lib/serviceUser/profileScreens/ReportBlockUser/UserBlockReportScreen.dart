@@ -163,7 +163,7 @@ class _ReportUserScreenView extends State<ReportUserScreen> {
           'body':
               'User id :${HealingMatchConstants.serviceUserID} \n Provider id :${HealingMatchConstants.therapistId} \n Reason :$selectedBuildingType'
         });
-    launch(_emailLaunchUri.toString());
+    launch(_emailLaunchUri.toString().replaceAll("+", "%20"));
   }
 
   Future<void> _reportUser() async {}

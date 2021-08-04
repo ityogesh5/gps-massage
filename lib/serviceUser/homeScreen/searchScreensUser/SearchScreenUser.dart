@@ -1653,7 +1653,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
     print(HealingMatchConstants.dateTime.toString());
     HealingMatchConstants.searchAddressLatitude = searchAddressLatitude;
     HealingMatchConstants.searchAddressLongitude = searchAddressLongitude;
-    if (isLocationCriteria) {
+    if (HealingMatchConstants.isTimeCriteria) {
       ServiceUserAPIProvider.searchProviderUnavailableEventByTime(
               HealingMatchConstants.dateTime,
               DateTime(

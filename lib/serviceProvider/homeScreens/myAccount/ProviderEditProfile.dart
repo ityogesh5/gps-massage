@@ -2164,6 +2164,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                       width: MediaQuery.of(context).size.width *
                                           0.8,
                                       child: DropDownFormField(
+                                        enabled: false,
                                         requiredField: true,
                                         titleText: null,
                                         hintText: readonly
@@ -2231,6 +2232,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                             SizedBox(
                                               height: 50.0,
                                               child: TextFieldCustom(
+                                                enabled: false,
                                                 style: HealingMatchConstants
                                                     .formTextStyle,
                                                 controller:
@@ -2293,6 +2295,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                                   .width *
                                               0.38,
                                           child: DropDownFormField(
+                                            enabled: false,
                                             requiredField: true,
                                             titleText: null,
                                             hintText: readonly
@@ -2367,6 +2370,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                       width: MediaQuery.of(context).size.width *
                                           0.38,
                                       child: TextFieldCustom(
+                                        enabled: false,
                                         controller: branchNameController,
                                         decoration: new InputDecoration(
                                           /*  labelText: HealingMatchConstants
@@ -2379,6 +2383,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                           focusedBorder: HealingMatchConstants
                                               .textFormInputBorder,
                                           enabledBorder: HealingMatchConstants
+                                              .textFormInputBorder, disabledBorder: HealingMatchConstants
                                               .textFormInputBorder,
                                           filled: true,
                                           fillColor:
@@ -2412,6 +2417,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                       width: MediaQuery.of(context).size.width *
                                           0.38,
                                       child: TextFieldCustom(
+                                        enabled: false,
                                         controller: branchNumberController,
                                         decoration: new InputDecoration(
                                           /*  labelText: HealingMatchConstants
@@ -2424,6 +2430,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                           focusedBorder: HealingMatchConstants
                                               .textFormInputBorder,
                                           enabledBorder: HealingMatchConstants
+                                              .textFormInputBorder, disabledBorder: HealingMatchConstants
                                               .textFormInputBorder,
                                           filled: true,
                                           fillColor:
@@ -2450,6 +2457,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                       width: MediaQuery.of(context).size.width *
                                           0.38,
                                       child: TextFieldCustom(
+                                        enabled: false,
                                         controller: accountnumberController,
                                         decoration: new InputDecoration(
                                           /*  labelText: HealingMatchConstants
@@ -2462,6 +2470,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                           focusedBorder: HealingMatchConstants
                                               .textFormInputBorder,
                                           enabledBorder: HealingMatchConstants
+                                              .textFormInputBorder, disabledBorder: HealingMatchConstants
                                               .textFormInputBorder,
                                           filled: true,
                                           fillColor:
@@ -2497,6 +2506,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                       width: MediaQuery.of(context).size.width *
                                           0.38,
                                       child: TextFieldCustom(
+                                        enabled: false,
                                         controller: bankNumberController,
                                         style:
                                             HealingMatchConstants.formTextStyle,
@@ -2511,6 +2521,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                           focusedBorder: HealingMatchConstants
                                               .textFormInputBorder,
                                           enabledBorder: HealingMatchConstants
+                                              .textFormInputBorder, disabledBorder: HealingMatchConstants
                                               .textFormInputBorder,
                                           filled: true,
                                           fillColor:
@@ -2537,6 +2548,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                       width: MediaQuery.of(context).size.width *
                                           0.38,
                                       child: TextFieldCustom(
+                                        enabled: false,
                                         controller: accountHolderNameController,
                                         style:
                                             HealingMatchConstants.formTextStyle,
@@ -2551,6 +2563,8 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                           focusedBorder: HealingMatchConstants
                                               .textFormInputBorder,
                                           enabledBorder: HealingMatchConstants
+                                              .textFormInputBorder,
+                                          disabledBorder: HealingMatchConstants
                                               .textFormInputBorder,
                                           filled: true,
                                           fillColor:
@@ -2584,6 +2598,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                       margin: EdgeInsets.only(top: 8.0),
                                       // width: MediaQuery.of(context).size.width * 0.38,
                                       child: DropDownFormField(
+                                        enabled: false,
                                         titleText: null,
                                         requiredField: true,
                                         hintText: readonly

@@ -112,8 +112,8 @@ class _ProviderConfirmReservationScreenState
                                 InkWell(
                                   onTap: () {},
                                   child: new Container(
-                                      width: 80.0,
-                                      height: 80.0,
+                                      width: 60.0,
+                                      height: 60.0,
                                       decoration: new BoxDecoration(
                                         border:
                                             Border.all(color: Colors.black12),
@@ -124,12 +124,12 @@ class _ProviderConfirmReservationScreenState
                                                 'assets/images_gps/appIcon.png')),
                                       )),
                                 ),
-                                SizedBox(width: 20,),
+                                SizedBox(width: 15,),
                                 Flexible(
                                   child: Text(
                                     '利用者の支払いが完了し、確定した予約はありません。',
                                     style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: 14,
                                         fontFamily: 'NotoSansJP',
                                         fontWeight: FontWeight.bold),
                                   ),
