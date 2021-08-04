@@ -587,6 +587,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
   _initiateAppleSignIn() async {
     SharedPreferences instances = await SharedPreferences.getInstance();
     var password;
+    ProgressDialogBuilder.showCommonProgressDialog(context);
     try {
       if (appleUserId != null && appleUserId.isNotEmpty) {
         appleSNSLocalServcerSignIn(instances, password);
@@ -616,15 +617,16 @@ class _ProviderLoginState extends State<ProviderLogin> {
             FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
             final authResult =
                 await _firebaseAuth.signInWithCredential(credential);
-            if (HealingMatchConstants.appleUserName == null) {
+            if (appleIdCredential.givenName == null) {
               appleSNSLocalServcerSignIn(instances, password);
             } else {
+              ProgressDialogBuilder.hideCommonProgressDialog(context);
               NavigationRouter.switchToServiceProviderFirstScreen(context);
             }
-
             print("Apple Sign in Success");
             return authResult.user;
           } on Exception catch (e) {
+            ProgressDialogBuilder.hideCommonProgressDialog(context);
             print("Apple Sign in Exception : $e");
           }
         } else {
@@ -642,7 +644,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
     print('Hi snsLogin Provider');
     snsAndApple.then((value) {
       Data userData = value.data;
-      if (value.status == "200" && userData != null) {
+      if (userData != null) {
         instances.setString("userData", json.encode(userData));
         instances.setString("lineBotIdProvider", value.data.lineBotUserId);
         instances.setString("appleIdProvider", value.data.appleUserId);
@@ -655,6 +657,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
         if (value.data.isVerified) {
           instances.setBool('isProviderLoggedIn', true);
           instances.setBool('isUserLoggedIn', false);
+          ProgressDialogBuilder.hideCommonProgressDialog(context);
           firebaseChatLogin(userData, password);
         } else {
           HealingMatchConstants.fbUserid = value.data.phoneNumber.toString() +
@@ -674,6 +677,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
           print('Unverified User!!');
         }
       } else {
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
         NavigationRouter.switchToServiceProviderFirstScreen(context);
       }
     });

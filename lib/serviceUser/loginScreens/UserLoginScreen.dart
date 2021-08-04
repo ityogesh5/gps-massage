@@ -34,7 +34,7 @@ class UserLogin extends StatefulWidget {
 class _UserLoginState extends State<UserLogin> {
   String lineBotId;
   String appleUserId;
-  int isTherapist=0;
+  int isTherapist = 0;
 
   var loginResponseModel = new LoginResponseModel();
   var addressResponse = new Address();
@@ -274,8 +274,7 @@ class _UserLoginState extends State<UserLogin> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         InkWell(
-                            customBorder:
-                            CircleBorder(),
+                            customBorder: CircleBorder(),
                             onTap: () {
                               _initiateLineLogin();
                               print('Line login');
@@ -305,7 +304,7 @@ class _UserLoginState extends State<UserLogin> {
                         ),
                         Platform.isIOS
                             ? InkWell(
-                            customBorder: CircleBorder(),
+                                customBorder: CircleBorder(),
                                 onTap: () {
                                   print('Apple login');
                                   _initiateAppleSignIn();
@@ -486,7 +485,8 @@ class _UserLoginState extends State<UserLogin> {
           value.setBool('isActive', loginResponseModel.data.isActive);
           value.setString(
               'profileImage', loginResponseModel.data.uploadProfileImgUrl);
-          value.setString('lineBotUserId', loginResponseModel.data.lineBotUserId);
+          value.setString(
+              'lineBotUserId', loginResponseModel.data.lineBotUserId);
           print('loginLineBotUser: ${loginResponseModel.data.lineBotUserId}');
           value.setString('userName', loginResponseModel.data.userName);
           value.setString('userPhoneNumber',
@@ -611,23 +611,177 @@ class _UserLoginState extends State<UserLogin> {
 
   _initiateAppleSignIn() async {
     String password;
-    try{
+    try {
       ProgressDialogBuilder.showOverlayLoader(context);
-      if(appleUserId !=null&&appleUserId.isNotEmpty ){
-        var snsAndApple =  ServiceUserAPIProvider.snsAndAppleLogin(context, lineBotId, appleUserId, isTherapist, fcmToken);
+      if (appleUserId != null && appleUserId.isNotEmpty) {
+        appleSNSLocalServcerSignIn(password);
+      } else {
+        if (await SignInWithApple.isAvailable()) {
+          try {
+            var redirectURL = HealingMatchConstants.appleIDRedirectUrl;
+
+            AuthorizationCredentialAppleID appleIdCredential =
+                await SignInWithApple.getAppleIDCredential(
+                    scopes: [
+                  AppleIDAuthorizationScopes.email,
+                  AppleIDAuthorizationScopes.fullName,
+                ],
+                    webAuthenticationOptions: WebAuthenticationOptions(
+                        clientId: '', redirectUri: Uri.parse(redirectURL)));
+            HealingMatchConstants.appleUserName = appleIdCredential.givenName;
+            HealingMatchConstants.appleEmailId = appleIdCredential.email;
+            HealingMatchConstants.appleTokenId =
+                appleIdCredential.userIdentifier;
+            appleUserId = appleIdCredential.userIdentifier;
+            final oAuthProvider = OAuthProvider('apple.com');
+            final credential = oAuthProvider.credential(
+              idToken: appleIdCredential.identityToken,
+              accessToken: appleIdCredential.authorizationCode,
+            );
+            FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+            final authResult =
+                await _firebaseAuth.signInWithCredential(credential);
+            if (appleIdCredential.givenName == null) {
+              appleSNSLocalServcerSignIn(password);
+            } else {
+              ProgressDialogBuilder.hideLoader(context);
+              NavigationRouter.switchToServiceUserRegistration(context);
+            }
+            print("Apple Sign in Success");
+            return authResult.user;
+          } on Exception catch (e) {
+            print("Apple Sign in Exception : $e");
+          }
+        } else {
+          print('Apple SignIn is not available for your device');
+        }
+      }
+    } on Exception catch (e) {
+      print("Apple Sign in Exception : $e");
+    }
+  }
+
+  void appleSNSLocalServcerSignIn(String password) {
+    var snsAndApple = ServiceUserAPIProvider.snsAndAppleLogin(
+        context, lineBotId, appleUserId, isTherapist, fcmToken);
+    snsAndApple.then((snsValue) {
+      if (snsValue.data != null) {
+        _sharedPreferences.then((value) {
+          value.clear();
+          value.setString('accessToken', snsValue.accessToken);
+          value.setString('did', snsValue.data.id.toString());
+          value.setBool('isActive', snsValue.data.isActive);
+          value.setString('profileImage', snsValue.data.uploadProfileImgUrl);
+          value.setString('lineBotUserId', snsValue.data.lineBotUserId);
+          value.setString('appleUserId', snsValue.data.appleUserId);
+          value.setString('userName', snsValue.data.userName);
+          value.setString(
+              'userPhoneNumber', snsValue.data.phoneNumber.toString());
+          value.setString('userEmailAddress', snsValue.data.email);
+          value.setString(
+              'userDOB',
+              DateFormat("yyyy-MM-dd")
+                  .format(snsValue.data.dob)
+                  .toString()
+                  .toString());
+          value.setString('userAge', snsValue.data.age.toString());
+          value.setString('userGender', snsValue.data.gender);
+          value.setString('userOccupation', snsValue.data.userOccupation);
+          value.setString('deviceToken', snsValue.data.fcmToken);
+          /* value.setString(
+            'userAddress', json.encode(loginResponseModel.data.addresses));*/
+
+          print('DOB of user : ${snsValue.data.dob.toString()}');
+          for (var userAddressData in snsValue.data.addresses) {
+            print('Address of user : ${userAddressData.toJson()}');
+            print('Address of user : ${snsValue.data.addresses.length}');
+            value.setString('userAddress', userAddressData.address);
+            value.setString('buildingName', userAddressData.buildingName);
+            value.setString('roomNumber', userAddressData.userRoomNumber);
+            value.setString('area', userAddressData.area);
+            value.setString(
+                'addressType', userAddressData.addressTypeSelection);
+            value.setString('addressID', userAddressData.id.toString());
+            value.setString('userID', userAddressData.userId.toString());
+            value.setString(
+                'userPlaceForMassage', userAddressData.userPlaceForMassage);
+            value.setString('otherOption', userAddressData.otherAddressType);
+            value.setString('cityName', userAddressData.cityName);
+            value.setString(
+                'capitalAndPrefecture', userAddressData.capitalAndPrefecture);
+
+            HealingMatchConstants.isUserRegistrationSkipped = false;
+            value.setBool('isGuest', false);
+
+            print(
+                'Address place : ${userAddressData.userPlaceForMassage} : ${userAddressData.otherAddressType}');
+          }
+          HealingMatchConstants.isActive = snsValue.data.isActive;
+
+          print('ID: ${snsValue.data.id}');
+          print(snsValue.data.userName);
+          print(snsValue.data.phoneNumber.toString());
+          print(snsValue.data.email);
+          print(DateFormat("yyyy-MM-dd")
+              .format(snsValue.data.dob)
+              .toString()
+              .toString());
+          print(snsValue.data.age.toString());
+          print(snsValue.data.gender);
+          print(snsValue.data.userOccupation);
+          print('Is User verified : ${snsValue.data.isVerified}');
+          if (snsValue.data.isVerified) {
+            value.setBool('isUserLoggedIn', true);
+            value.setBool('userLoginSkipped', false);
+            value.setBool('isProviderLoggedIn', false);
+            ProgressDialogBuilder.hideLoader(context);
+            firebaseChatLogin(snsValue.data, password);
+          } else {
+            HealingMatchConstants.fbUserid =
+                snsValue.data.phoneNumber.toString() +
+                    snsValue.data.id.toString() +
+                    "@nexware.global.com";
+            HealingMatchConstants.isLoginRoute = true;
+            HealingMatchConstants.serviceUserPhoneNumber =
+                snsValue.data.phoneNumber.toString();
+            Toast.show("許可されていないユーザー。", context,
+                duration: 4,
+                gravity: Toast.CENTER,
+                backgroundColor: Colors.redAccent,
+                textColor: Colors.white);
+            print('Unverified User!!');
+            ProgressDialogBuilder.hideLoader(context);
+            resendOtp();
+          }
+        });
+      } else {
+        ProgressDialogBuilder.hideLoader(context);
+        NavigationRouter.switchToServiceUserRegistration(context);
+      }
+    });
+  }
+
+  void _initiateLineLogin() async {
+    print('Entering line login...');
+    // ProgressDialogBuilder.showOverlayLoader(context);
+    String password;
+    try {
+      ProgressDialogBuilder.showOverlayLoader(context);
+      if (lineBotId != null && lineBotId.isNotEmpty) {
+        var snsAndApple = ServiceUserAPIProvider.snsAndAppleLogin(
+            context, lineBotId, appleUserId, isTherapist, fcmToken);
         snsAndApple.then((snsValue) {
           _sharedPreferences.then((value) {
             value.clear();
             value.setString('accessToken', snsValue.accessToken);
             value.setString('did', snsValue.data.id.toString());
             value.setBool('isActive', snsValue.data.isActive);
-            value.setString(
-                'profileImage', snsValue.data.uploadProfileImgUrl);
+            value.setString('profileImage', snsValue.data.uploadProfileImgUrl);
             value.setString('lineBotUserId', snsValue.data.lineBotUserId);
             value.setString('appleUserId', snsValue.data.appleUserId);
             value.setString('userName', snsValue.data.userName);
-            value.setString('userPhoneNumber',
-                snsValue.data.phoneNumber.toString());
+            value.setString(
+                'userPhoneNumber', snsValue.data.phoneNumber.toString());
             value.setString('userEmailAddress', snsValue.data.email);
             value.setString(
                 'userDOB',
@@ -637,8 +791,7 @@ class _UserLoginState extends State<UserLogin> {
                     .toString());
             value.setString('userAge', snsValue.data.age.toString());
             value.setString('userGender', snsValue.data.gender);
-            value.setString(
-                'userOccupation', snsValue.data.userOccupation);
+            value.setString('userOccupation', snsValue.data.userOccupation);
             value.setString('deviceToken', snsValue.data.fcmToken);
             /* value.setString(
               'userAddress', json.encode(loginResponseModel.data.addresses));*/
@@ -646,8 +799,7 @@ class _UserLoginState extends State<UserLogin> {
             print('DOB of user : ${snsValue.data.dob.toString()}');
             for (var userAddressData in snsValue.data.addresses) {
               print('Address of user : ${userAddressData.toJson()}');
-              print(
-                  'Address of user : ${snsValue.data.addresses.length}');
+              print('Address of user : ${snsValue.data.addresses.length}');
               value.setString('userAddress', userAddressData.address);
               value.setString('buildingName', userAddressData.buildingName);
               value.setString('roomNumber', userAddressData.userRoomNumber);
@@ -695,7 +847,8 @@ class _UserLoginState extends State<UserLogin> {
                       snsValue.data.id.toString() +
                       "@nexware.global.com";
               HealingMatchConstants.isLoginRoute = true;
-              HealingMatchConstants.serviceUserPhoneNumber = snsValue.data.phoneNumber.toString();
+              HealingMatchConstants.serviceUserPhoneNumber =
+                  snsValue.data.phoneNumber.toString();
               Toast.show("許可されていないユーザー。", context,
                   duration: 4,
                   gravity: Toast.CENTER,
@@ -706,155 +859,12 @@ class _UserLoginState extends State<UserLogin> {
               resendOtp();
             }
           });
-
         });
-      }else{
-        if (await SignInWithApple.isAvailable()) {
-          try {
-            var redirectURL = HealingMatchConstants.appleIDRedirectUrl;
-
-            AuthorizationCredentialAppleID appleIdCredential =
-            await SignInWithApple.getAppleIDCredential(
-                scopes: [
-                  AppleIDAuthorizationScopes.email,
-                  AppleIDAuthorizationScopes.fullName,
-                ],
-                webAuthenticationOptions: WebAuthenticationOptions(
-                    clientId: '', redirectUri: Uri.parse(redirectURL)));
-            HealingMatchConstants.appleUserName = appleIdCredential.givenName;
-            HealingMatchConstants.appleEmailId = appleIdCredential.email;
-            HealingMatchConstants.appleTokenId = appleIdCredential.userIdentifier;
-            final oAuthProvider = OAuthProvider('apple.com');
-            final credential = oAuthProvider.credential(
-              idToken: appleIdCredential.identityToken,
-              accessToken: appleIdCredential.authorizationCode,
-            );
-            FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-            final authResult = await _firebaseAuth.signInWithCredential(credential);
-            ProgressDialogBuilder.hideLoader(context);
-            NavigationRouter.switchToServiceUserRegistration(context);
-            print("Apple Sign in Success");
-            return authResult.user;
-          } on Exception catch (e) {
-            print("Apple Sign in Exception : $e");
-          }
-        } else {
-          print('Apple SignIn is not available for your device');
-        }
+      } else {
+        ProgressDialogBuilder.hideLoader(context);
+        LineLoginHelper.startLineLogin(context);
       }
-
-    }on Exception catch (e) {
-      print("Apple Sign in Exception : $e");
-    }
-
-  }
-
-  void _initiateLineLogin() async {
-    print('Entering line login...');
-    // ProgressDialogBuilder.showOverlayLoader(context);
-    String password;
-    try{
-      ProgressDialogBuilder.showOverlayLoader(context);
-    if(lineBotId !=null&&lineBotId.isNotEmpty ){
-     var snsAndApple =  ServiceUserAPIProvider.snsAndAppleLogin(context, lineBotId, appleUserId, isTherapist, fcmToken);
-snsAndApple.then((snsValue) {
-  _sharedPreferences.then((value) {
-    value.clear();
-    value.setString('accessToken', snsValue.accessToken);
-    value.setString('did', snsValue.data.id.toString());
-    value.setBool('isActive', snsValue.data.isActive);
-    value.setString(
-        'profileImage', snsValue.data.uploadProfileImgUrl);
-    value.setString('lineBotUserId', snsValue.data.lineBotUserId);
-    value.setString('appleUserId', snsValue.data.appleUserId);
-    value.setString('userName', snsValue.data.userName);
-    value.setString('userPhoneNumber',
-        snsValue.data.phoneNumber.toString());
-    value.setString('userEmailAddress', snsValue.data.email);
-    value.setString(
-        'userDOB',
-        DateFormat("yyyy-MM-dd")
-            .format(snsValue.data.dob)
-            .toString()
-            .toString());
-    value.setString('userAge', snsValue.data.age.toString());
-    value.setString('userGender', snsValue.data.gender);
-    value.setString(
-        'userOccupation', snsValue.data.userOccupation);
-    value.setString('deviceToken', snsValue.data.fcmToken);
-    /* value.setString(
-              'userAddress', json.encode(loginResponseModel.data.addresses));*/
-
-    print('DOB of user : ${snsValue.data.dob.toString()}');
-    for (var userAddressData in snsValue.data.addresses) {
-      print('Address of user : ${userAddressData.toJson()}');
-      print(
-          'Address of user : ${snsValue.data.addresses.length}');
-      value.setString('userAddress', userAddressData.address);
-      value.setString('buildingName', userAddressData.buildingName);
-      value.setString('roomNumber', userAddressData.userRoomNumber);
-      value.setString('area', userAddressData.area);
-      value.setString(
-          'addressType', userAddressData.addressTypeSelection);
-      value.setString('addressID', userAddressData.id.toString());
-      value.setString('userID', userAddressData.userId.toString());
-      value.setString(
-          'userPlaceForMassage', userAddressData.userPlaceForMassage);
-      value.setString('otherOption', userAddressData.otherAddressType);
-      value.setString('cityName', userAddressData.cityName);
-      value.setString(
-          'capitalAndPrefecture', userAddressData.capitalAndPrefecture);
-
-      HealingMatchConstants.isUserRegistrationSkipped = false;
-      value.setBool('isGuest', false);
-
-      print(
-          'Address place : ${userAddressData.userPlaceForMassage} : ${userAddressData.otherAddressType}');
-    }
-    HealingMatchConstants.isActive = snsValue.data.isActive;
-
-    print('ID: ${snsValue.data.id}');
-    print(snsValue.data.userName);
-    print(snsValue.data.phoneNumber.toString());
-    print(snsValue.data.email);
-    print(DateFormat("yyyy-MM-dd")
-        .format(snsValue.data.dob)
-        .toString()
-        .toString());
-    print(snsValue.data.age.toString());
-    print(snsValue.data.gender);
-    print(snsValue.data.userOccupation);
-    print('Is User verified : ${snsValue.data.isVerified}');
-    if (snsValue.data.isVerified) {
-      value.setBool('isUserLoggedIn', true);
-      value.setBool('userLoginSkipped', false);
-      value.setBool('isProviderLoggedIn', false);
-      ProgressDialogBuilder.hideLoader(context);
-      firebaseChatLogin(snsValue.data, password);
-    } else {
-      HealingMatchConstants.fbUserid =
-          snsValue.data.phoneNumber.toString() +
-              snsValue.data.id.toString() +
-              "@nexware.global.com";
-      HealingMatchConstants.isLoginRoute = true;
-      HealingMatchConstants.serviceUserPhoneNumber = snsValue.data.phoneNumber.toString();
-      Toast.show("許可されていないユーザー。", context,
-          duration: 4,
-          gravity: Toast.CENTER,
-          backgroundColor: Colors.redAccent,
-          textColor: Colors.white);
-      print('Unverified User!!');
-      ProgressDialogBuilder.hideLoader(context);
-      resendOtp();
-    }
-  });
-
-});
-    }else{
-      ProgressDialogBuilder.hideLoader(context);
-      LineLoginHelper.startLineLogin(context);
-  }}
-    catch (e) {
+    } catch (e) {
       print(e);
     }
   }
