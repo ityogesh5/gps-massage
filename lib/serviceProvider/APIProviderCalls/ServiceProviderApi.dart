@@ -488,7 +488,15 @@ class ServiceProviderApi {
 
       EventDateTime end = new EventDateTime();
       end.timeZone = "GMT+05:30";
-      end.dateTime = bookingDetailsList.newEndTime;
+      end.dateTime = //bookingDetailsList.newEndTime;
+          DateTime(
+              bookingDetailsList.newStartTime.year,
+              bookingDetailsList.newStartTime.month,
+              bookingDetailsList.newStartTime.day,
+              bookingDetailsList.newStartTime.hour,
+              bookingDetailsList.newStartTime.minute +
+                  bookingDetailsList.totalMinOfService,
+              bookingDetailsList.newStartTime.second);
       event.end = end;
     } else {
       EventDateTime start = new EventDateTime();
@@ -559,7 +567,15 @@ class ServiceProviderApi {
 
       EventDateTime end = new EventDateTime();
       end.timeZone = "GMT+05:30";
-      end.dateTime = bookingDetailsList.bookingDetail.newEndTime;
+      end.dateTime = DateTime(
+          bookingDetailsList.bookingDetail.newStartTime.year,
+          bookingDetailsList.bookingDetail.newStartTime.month,
+          bookingDetailsList.bookingDetail.newStartTime.day,
+          bookingDetailsList.bookingDetail.newStartTime.hour,
+          bookingDetailsList.bookingDetail.newStartTime.minute +
+              bookingDetailsList.bookingDetail.totalMinOfService,
+          bookingDetailsList.bookingDetail.newStartTime.second);
+      //bookingDetailsList.bookingDetail.newEndTime;
       event.end = end;
     } else {
       EventDateTime start = new EventDateTime();
@@ -648,7 +664,8 @@ class ServiceProviderApi {
         return therapistDetails;
       } else {
         print('Error occurred!!! TypeMassages response');
-        ProviderDetailsResponseModel therapistDetails = ProviderDetailsResponseModel() ;
+        ProviderDetailsResponseModel therapistDetails =
+            ProviderDetailsResponseModel();
         return therapistDetails;
       }
     } catch (e) {

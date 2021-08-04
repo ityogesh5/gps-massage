@@ -53,7 +53,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
   double distance;
   final GeoLocater.Geolocator geoLocator = GeoLocater.Geolocator()
     ..forceAndroidLocationManager;
-  String sTime, eTime;
+  String sTime, eTime, day;
   String selectedBuildingType = '';
   var currentLoading;
   bool isBookingLoading = false;
@@ -80,6 +80,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
         : DateFormat('kk:mm')
             .format(HealingMatchConstants.confSelectedDateTime);
     eTime = DateFormat('kk:mm').format(HealingMatchConstants.confEndDateTime);
+    day = DateFormat('MM月dd').format(HealingMatchConstants.confEndDateTime);
   }
 
   @override
@@ -394,7 +395,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                       ),
                       SizedBox(width: 2),
                       Text(
-                        ' ${HealingMatchConstants.confSelectedDateTime.month}月${HealingMatchConstants.confSelectedDateTime.day}',
+                        ' $day',
                         style: TextStyle(
                             fontSize: 14,
                             color: Colors.black,
@@ -723,7 +724,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
         } else if (jKey == "国家資格取得予定（学生）") {
           certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
         } else if (jKey == "民間資格") {
-          certificateImages["民間資格"] = "民間資格";
+          certificateImages["民間資格保有"] = "民間資格保有";
         } else if (jKey == "無資格") {
           certificateImages["無資格"] = "無資格";
         }
