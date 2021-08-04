@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistResultsModel.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 abstract class GetSearchResultsRepository {
   Future<List<SearchList>> getSearchResultsByType(int pageNumber, int pageSize);
@@ -16,6 +17,8 @@ class GetSearchResultsRepositoryImpl implements GetSearchResultsRepository {
   Future<List<SearchList>> getSearchResultsByType(
       int pageNumber, int pageSize) async {
     List<SearchList> searchResults;
+    String dateTime = DateFormat('yyyy-MM-dd HH:mm:ss')
+        .format(HealingMatchConstants.dateTime);
     try {
       final url =
           '${HealingMatchConstants.FETCH_THERAPIST_SEARCH_RESULTS}?page=$pageNumber&size=$pageSize';
@@ -38,7 +41,7 @@ class GetSearchResultsRepositoryImpl implements GetSearchResultsRepository {
                           HealingMatchConstants.isLocationCriteria,
                       "serviceTimeCriteria":
                           HealingMatchConstants.isTimeCriteria,
-                      "selectedTime": HealingMatchConstants.dateTime.toString(),
+                      "selectedTime": dateTime,
                       "searchDistanceRadius":
                           HealingMatchConstants.searchDistanceRadius,
                       "latitude": HealingMatchConstants.searchAddressLatitude,
@@ -50,7 +53,7 @@ class GetSearchResultsRepositoryImpl implements GetSearchResultsRepository {
                           HealingMatchConstants.isLocationCriteria,
                       "serviceTimeCriteria":
                           HealingMatchConstants.isTimeCriteria,
-                      "selectedTime": HealingMatchConstants.dateTime.toString(),
+                      "selectedTime": dateTime,
                       "searchDistanceRadius":
                           HealingMatchConstants.searchDistanceRadius,
                       "latitude": HealingMatchConstants.searchAddressLatitude,
@@ -79,6 +82,8 @@ class GetSearchResultsRepositoryImpl implements GetSearchResultsRepository {
   Future<List<SearchList>> getSearchResultsBySortType(
       int pageNumber, int pageSize, int searchType) async {
     List<SearchList> searchResults;
+    String dateTime = DateFormat('yyyy-MM-dd HH:mm:ss')
+        .format(HealingMatchConstants.dateTime);
     try {
       final url =
           '${HealingMatchConstants.FETCH_THERAPIST_SEARCH_RESULTS}?page=$pageNumber&size=$pageSize';
@@ -102,7 +107,7 @@ class GetSearchResultsRepositoryImpl implements GetSearchResultsRepository {
                           HealingMatchConstants.isLocationCriteria,
                       "serviceTimeCriteria":
                           HealingMatchConstants.isTimeCriteria,
-                      "selectedTime": HealingMatchConstants.dateTime.toString(),
+                      "selectedTime": dateTime,
                       "searchDistanceRadius":
                           HealingMatchConstants.searchDistanceRadius,
                       "latitude": HealingMatchConstants.searchAddressLatitude,
@@ -115,7 +120,7 @@ class GetSearchResultsRepositoryImpl implements GetSearchResultsRepository {
                           HealingMatchConstants.isLocationCriteria,
                       "serviceTimeCriteria":
                           HealingMatchConstants.isTimeCriteria,
-                      "selectedTime": HealingMatchConstants.dateTime.toString(),
+                      "selectedTime": dateTime,
                       "searchDistanceRadius":
                           HealingMatchConstants.searchDistanceRadius,
                       "latitude": HealingMatchConstants.searchAddressLatitude,

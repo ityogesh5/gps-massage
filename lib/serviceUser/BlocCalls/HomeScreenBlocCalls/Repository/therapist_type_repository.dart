@@ -30,6 +30,7 @@ class GetTherapistTypeRepositoryImpl implements GetTherapistTypeRepository {
   @override
   Future<List<UserList>> getTherapistProfilesByType(String accessToken,
       int massageTypeValue, int pageNumber, int pageSize) async {
+    List<UserList> therapistUsers = List<UserList>();
     try {
       final url =
           '${HealingMatchConstants.THERAPIST_LIST_BY_TYPE}?page=$pageNumber&size=$pageSize';
@@ -56,6 +57,7 @@ class GetTherapistTypeRepositoryImpl implements GetTherapistTypeRepository {
       }
     } catch (e) {
       print('Exception : ${e.toString()}');
+      return therapistUsers;
     }
   }
 
