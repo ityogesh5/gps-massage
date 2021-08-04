@@ -1653,16 +1653,20 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
     print(HealingMatchConstants.dateTime.toString());
     HealingMatchConstants.searchAddressLatitude = searchAddressLatitude;
     HealingMatchConstants.searchAddressLongitude = searchAddressLongitude;
-    ServiceUserAPIProvider.searchProviderUnavailableEventByTime(
-            HealingMatchConstants.dateTime,
-            DateTime(
-                HealingMatchConstants.dateTime.year,
-                _cmonth,
-                _currentDay,
-                HealingMatchConstants.dateTime.hour,
-                HealingMatchConstants.dateTime.minute + 15,
-                HealingMatchConstants.dateTime.second))
-        .then((value) => _getSearchResults());
+    if (isLocationCriteria) {
+      ServiceUserAPIProvider.searchProviderUnavailableEventByTime(
+              HealingMatchConstants.dateTime,
+              DateTime(
+                  HealingMatchConstants.dateTime.year,
+                  _cmonth,
+                  _currentDay,
+                  HealingMatchConstants.dateTime.hour,
+                  HealingMatchConstants.dateTime.minute + 60,
+                  HealingMatchConstants.dateTime.second))
+          .then((value) => _getSearchResults());
+    } else {
+      _getSearchResults();
+    }
   }
 
   _getKeywordResults() {
