@@ -1654,6 +1654,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
     HealingMatchConstants.searchAddressLatitude = searchAddressLatitude;
     HealingMatchConstants.searchAddressLongitude = searchAddressLongitude;
     if (HealingMatchConstants.isTimeCriteria) {
+      HealingMatchConstants.unavailableProviderIds.clear();
       ServiceUserAPIProvider.searchProviderUnavailableEventByTime(
               HealingMatchConstants.dateTime,
               DateTime(
@@ -1665,6 +1666,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                   HealingMatchConstants.dateTime.second))
           .then((value) => _getSearchResults());
     } else {
+      HealingMatchConstants.unavailableProviderIds.clear();
       _getSearchResults();
     }
   }

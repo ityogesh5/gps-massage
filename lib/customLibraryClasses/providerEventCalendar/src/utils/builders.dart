@@ -117,6 +117,9 @@ class DefaultBuilders {
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16.0),
                       ),
+                      SizedBox(
+                        width: 5.0,
+                      ),
                       googleApiEvent.status == 'tentative'
                           ? Row(
                               children: [

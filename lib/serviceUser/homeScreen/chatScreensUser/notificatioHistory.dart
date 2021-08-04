@@ -189,7 +189,7 @@ class _NotificationHistoryScreenState extends State<NotificationHistoryScreen> {
                     padding: const EdgeInsets.only(top: 8.0),
                     child: ClipOval(
                       child: Image.asset('assets/images_gps/logo.png',
-                          height: 35, width: 35, color: Colors.black),
+                          height: 35, width: 35),
                     ),
                   ),
                   SizedBox(

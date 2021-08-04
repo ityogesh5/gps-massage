@@ -125,7 +125,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                                   'assets/images_gps/appIcon.png')),
                                         )),
                                   ),
-                                  SizedBox(width: 15,),
+                                  SizedBox(
+                                    width: 15,
+                                  ),
                                   Flexible(
                                     child: Text(
                                       'お知らせはありません。',
@@ -187,8 +189,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: ClipOval(
-                      child: Image.asset('assets/images_gps/logo.png',
-                          height: 35, width: 35, color: Colors.black),
+                      child: Image.asset(
+                        'assets/images_gps/logo.png',
+                        height: 35,
+                        width: 35,
+                      ),
                     ),
                   ),
                   SizedBox(
