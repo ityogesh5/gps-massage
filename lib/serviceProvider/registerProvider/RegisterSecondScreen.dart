@@ -2006,6 +2006,14 @@ class _RegistrationSecondPageState
           HealingMatchConstants.treatmentServicePriceModel.clear();
           HealingMatchConstants.fitnessServicePriceModel.clear();
           HealingMatchConstants.serviceProviderStoreType.clear();
+          HealingMatchConstants.selectedEstheticDropdownValues.clear();
+          HealingMatchConstants.selectedRelaxationDropdownValues.clear();
+          HealingMatchConstants.selectedTreatmentDropdownValues.clear();
+          HealingMatchConstants.selectedFitnessDropdownValues.clear();
+          HealingMatchConstants.otherEstheticDropDownValues.clear();
+          HealingMatchConstants.otherTreatmentDropDownValues.clear();
+          HealingMatchConstants.otherRelaxationDropDownValues.clear();
+          HealingMatchConstants.otherFitnessDropDownValues.clear();
 
           ProgressDialogBuilder.hideRegisterProgressDialog(context);
           print('Login response : ${registerResponseModel.toJson()}');
