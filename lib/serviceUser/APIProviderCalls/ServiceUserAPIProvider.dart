@@ -427,6 +427,7 @@ class ServiceUserAPIProvider {
   // get therapist details by ID
   static Future<TherapistByIdModel> getTherapistDetails(
       BuildContext context, var userID) async {
+    TherapistByIdModel _therapisyByIdModel = TherapistByIdModel();
     try {
       HealingMatchConstants.therapistId = userID;
       final url = HealingMatchConstants.GET_THERAPIST_DETAILS;
@@ -442,8 +443,7 @@ class ServiceUserAPIProvider {
           }));
       final getTherapistDetails = json.decode(response.body);
       print('Therapist Details Response : ${response.body}');
-      TherapistByIdModel _therapisyByIdModel =
-          TherapistByIdModel.fromJson(getTherapistDetails);
+      _therapisyByIdModel = TherapistByIdModel.fromJson(getTherapistDetails);
       HealingMatchConstants.providerName = _therapisyByIdModel.data.isShop
           ? _therapisyByIdModel.data.storeName
           : _therapisyByIdModel.data.userName;
@@ -459,6 +459,7 @@ class ServiceUserAPIProvider {
     } catch (e) {
       print('Therapist Details Exception caught : ${e.toString()}');
       ProgressDialogBuilder.hideLoader(context);
+      return _therapisyByIdModel;
     }
   }
 

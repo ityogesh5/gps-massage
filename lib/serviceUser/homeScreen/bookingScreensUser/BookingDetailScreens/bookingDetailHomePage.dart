@@ -62,6 +62,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
   int serviceSubId;
   var finalAmount;
   bool isLoading = false;
+  bool isActive;
   Color _iconColor = Colors.black;
 
   String defaultBannerUrl =
@@ -97,47 +98,55 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
       ProgressDialogBuilder.showOverlayLoader(context);
       therapistDetails =
           await ServiceUserAPIProvider.getTherapistDetails(context, widget.id);
-      HealingMatchConstants.therapistProfileDetails = therapistDetails;
-      HealingMatchConstants.isActive = therapistDetails.data.isActive;
+      if (therapistDetails.data != null) {
+        isActive = true;
+        HealingMatchConstants.therapistProfileDetails = therapistDetails;
+        HealingMatchConstants.isActive = therapistDetails.data.isActive;
 
-      //append all Service Types for General View
+        //append all Service Types for General View
 
-      //add Banner Images
-      if (therapistDetails.data.banners[0].bannerImageUrl1 != null) {
-        bannerImages.add(therapistDetails.data.banners[0].bannerImageUrl1);
-      }
-      if (therapistDetails.data.banners[0].bannerImageUrl2 != null) {
-        bannerImages.add(therapistDetails.data.banners[0].bannerImageUrl2);
-      }
-      if (therapistDetails.data.banners[0].bannerImageUrl3 != null) {
-        bannerImages.add(therapistDetails.data.banners[0].bannerImageUrl3);
-      }
-      if (therapistDetails.data.banners[0].bannerImageUrl4 != null) {
-        bannerImages.add(therapistDetails.data.banners[0].bannerImageUrl4);
-      }
-      if (therapistDetails.data.banners[0].bannerImageUrl5 != null) {
-        bannerImages.add(therapistDetails.data.banners[0].bannerImageUrl5);
-      }
-      if (bannerImages.length == 0) {
-        bannerImages.add(defaultBannerUrl);
-      }
-
-      if (this.mounted) {
-        if (therapistDetails.data.businessTrip == false) {
-          setState(() {
-            shopLocationSelected = true;
-            status = 1;
-          });
-        } else {
-          setState(() {
-            userRegisteredAddress =
-                HealingMatchConstants.userRegisteredAddressDetail;
-            userPlaceForMassage = HealingMatchConstants.userPlaceForMassage;
-            getServiceType();
-
-            status = 1;
-          });
+        //add Banner Images
+        if (therapistDetails.data.banners[0].bannerImageUrl1 != null) {
+          bannerImages.add(therapistDetails.data.banners[0].bannerImageUrl1);
         }
+        if (therapistDetails.data.banners[0].bannerImageUrl2 != null) {
+          bannerImages.add(therapistDetails.data.banners[0].bannerImageUrl2);
+        }
+        if (therapistDetails.data.banners[0].bannerImageUrl3 != null) {
+          bannerImages.add(therapistDetails.data.banners[0].bannerImageUrl3);
+        }
+        if (therapistDetails.data.banners[0].bannerImageUrl4 != null) {
+          bannerImages.add(therapistDetails.data.banners[0].bannerImageUrl4);
+        }
+        if (therapistDetails.data.banners[0].bannerImageUrl5 != null) {
+          bannerImages.add(therapistDetails.data.banners[0].bannerImageUrl5);
+        }
+        if (bannerImages.length == 0) {
+          bannerImages.add(defaultBannerUrl);
+        }
+
+        if (this.mounted) {
+          if (therapistDetails.data.businessTrip == false) {
+            setState(() {
+              shopLocationSelected = true;
+              status = 1;
+            });
+          } else {
+            setState(() {
+              userRegisteredAddress =
+                  HealingMatchConstants.userRegisteredAddressDetail;
+              userPlaceForMassage = HealingMatchConstants.userPlaceForMassage;
+              getServiceType();
+
+              status = 1;
+            });
+          }
+        }
+      } else {
+        setState(() {
+          isActive = false;
+          status = 1;
+        });
       }
     } catch (e) {
       ProgressDialogBuilder.hideLoader(context);
@@ -172,75 +181,12 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
   @override
   Widget build(BuildContext context) {
     return status == 0
-        ? Container()
-        : (HealingMatchConstants.isActive != null &&
-                HealingMatchConstants.isActive == false)
-            ? Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Center(
-                          child: Container(
-                            padding: EdgeInsets.all(8.0),
-                            height: MediaQuery.of(context).size.height * 0.22,
-                            width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
-                              color: Color.fromRGBO(255, 255, 255, 1),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(16.0)),
-                              border: Border.all(
-                                  color: Color.fromRGBO(217, 217, 217, 1)),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    InkWell(
-                                      onTap: () {},
-                                      child: new Container(
-                                          width: 80.0,
-                                          height: 80.0,
-                                          decoration: new BoxDecoration(
-                                            border: Border.all(
-                                                color: Colors.black12),
-                                            shape: BoxShape.circle,
-                                            image: new DecorationImage(
-                                                fit: BoxFit.fill,
-                                                image: new AssetImage(
-                                                    'assets/images_gps/appIcon.png')),
-                                          )),
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            '予約はありません。',
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                fontFamily: 'NotoSansJP',
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              )
+        ? Container(
+            color: Colors.white,
+            child: Center(child: SpinKitThreeBounce(color: Colors.lime)),
+          )
+        : (isActive == false)
+            ? buildBlockedDetailCard(context)
             : Scaffold(
                 key: _scaffoldKey,
                 floatingActionButtonAnimator:
@@ -617,6 +563,100 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                                       )
                                     : bookAgain(),
               );
+  }
+
+  Scaffold buildBlockedDetailCard(BuildContext context) {
+    return Scaffold(
+              appBar: AppBar(
+                backgroundColor: Colors.transparent,
+                brightness: Brightness.light,
+                elevation: 0.0,
+                automaticallyImplyLeading: false,
+                leading: IconButton(
+                  padding: EdgeInsets.only(
+                      left: 4.0, top: 8.0, bottom: 8.0, right: 0.0),
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.black,
+                  ),
+                  onPressed: () => Navigator.pop(context),
+                ),
+                title: Text(
+                  '',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              body: Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: Container(
+                            padding: EdgeInsets.all(8.0),
+                            height: MediaQuery.of(context).size.height * 0.22,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              color: Color.fromRGBO(255, 255, 255, 1),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(16.0)),
+                              border: Border.all(
+                                  color: Color.fromRGBO(217, 217, 217, 1)),
+                            ),
+                            child: Column(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    InkWell(
+                                      onTap: () {},
+                                      child: new Container(
+                                          width: 60.0,
+                                          height: 60.0,
+                                          decoration: new BoxDecoration(
+                                            border: Border.all(
+                                                color: Colors.black12),
+                                            shape: BoxShape.circle,
+                                            image: new DecorationImage(
+                                                fit: BoxFit.fill,
+                                                image: new AssetImage(
+                                                    'assets/images_gps/appIcon.png')),
+                                          )),
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            'セラピストは現在、利用できません',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontFamily: 'NotoSansJP',
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
   }
 
   Widget book() {

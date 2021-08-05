@@ -48,6 +48,7 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
   Map<String, Map<int, int>> serviceSelection = Map<String, Map<int, int>>();
   DateTime selectedTime, endTime;
   ShowToolTip popup;
+  bool isActive;
   String defaultBannerUrl =
       "https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80";
 
@@ -71,7 +72,9 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
             color: Colors.white,
             child: Center(child: SpinKitThreeBounce(color: Colors.lime)),
           )
-        : Scaffold(
+        : (isActive == false)
+            ? buildBlockedDetailCard(context)
+            : Scaffold(
             key: _scaffoldKey,
             floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
             floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
@@ -196,6 +199,100 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
                                   )
                                 : bookAgain(),
           );
+  }
+
+   Scaffold buildBlockedDetailCard(BuildContext context) {
+    return Scaffold(
+              appBar: AppBar(
+                backgroundColor: Colors.transparent,
+                brightness: Brightness.light,
+                elevation: 0.0,
+                automaticallyImplyLeading: false,
+                leading: IconButton(
+                  padding: EdgeInsets.only(
+                      left: 4.0, top: 8.0, bottom: 8.0, right: 0.0),
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.black,
+                  ),
+                  onPressed: () => Navigator.pop(context),
+                ),
+                title: Text(
+                  '',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              body: Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: Container(
+                            padding: EdgeInsets.all(8.0),
+                            height: MediaQuery.of(context).size.height * 0.22,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              color: Color.fromRGBO(255, 255, 255, 1),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(16.0)),
+                              border: Border.all(
+                                  color: Color.fromRGBO(217, 217, 217, 1)),
+                            ),
+                            child: Column(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    InkWell(
+                                      onTap: () {},
+                                      child: new Container(
+                                          width: 60.0,
+                                          height: 60.0,
+                                          decoration: new BoxDecoration(
+                                            border: Border.all(
+                                                color: Colors.black12),
+                                            shape: BoxShape.circle,
+                                            image: new DecorationImage(
+                                                fit: BoxFit.fill,
+                                                image: new AssetImage(
+                                                    'assets/images_gps/appIcon.png')),
+                                          )),
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            'セラピストは現在、利用できません',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontFamily: 'NotoSansJP',
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
   }
 
   buildOldBookingDetails(BuildContext context) {
@@ -1315,69 +1412,80 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
       ProgressDialogBuilder.showOverlayLoader(context);
       therapistDetails =
           await ServiceUserAPIProvider.getTherapistDetails(context, widget.id);
-      HealingMatchConstants.therapistProfileDetails = therapistDetails;
-      setState(() {
-        if (HealingMatchConstants.serviceType != 0 &&
-            HealingMatchConstants.serviceType == 1) {
-          allTherapistList.addAll(therapistDetails.therapistEstheticList);
-        }
-        if (HealingMatchConstants.serviceType != 0 &&
-            HealingMatchConstants.serviceType == 4) {
-          allTherapistList.addAll(therapistDetails.therapistRelaxationList);
-        }
-        if (HealingMatchConstants.serviceType != 0 &&
-            HealingMatchConstants.serviceType == 3) {
-          allTherapistList.addAll(therapistDetails.therapistOrteopathicList);
-        }
-        if (HealingMatchConstants.serviceType != 0 &&
-            HealingMatchConstants.serviceType == 2) {
-          allTherapistList.addAll(therapistDetails.therapistFitnessListList);
-        } else if (HealingMatchConstants.serviceType == 0 ||
-            HealingMatchConstants.serviceType == null) {
-          allTherapistList.addAll(therapistDetails.therapistEstheticList);
-          allTherapistList.addAll(therapistDetails.therapistRelaxationList);
-          allTherapistList.addAll(therapistDetails.therapistOrteopathicList);
-          allTherapistList.addAll(therapistDetails.therapistFitnessListList);
-        }
-      });
-      HealingMatchConstants
-          .showAddress = therapistDetails.bookingDataResponse.length == 0 ||
-              (therapistDetails.bookingDataResponse[0].bookingStatus == 9 ||
-                  therapistDetails.bookingDataResponse[0].bookingStatus == 4 ||
-                  therapistDetails.bookingDataResponse[0].bookingStatus == 5 ||
-                  therapistDetails.bookingDataResponse[0].bookingStatus == 7 ||
-                  therapistDetails.bookingDataResponse[0].bookingStatus == 8)
-          ? true
-          : false;
+      if (therapistDetails.data != null) {
+        isActive = true;
+        HealingMatchConstants.therapistProfileDetails = therapistDetails;
+        setState(() {
+          if (HealingMatchConstants.serviceType != 0 &&
+              HealingMatchConstants.serviceType == 1) {
+            allTherapistList.addAll(therapistDetails.therapistEstheticList);
+          }
+          if (HealingMatchConstants.serviceType != 0 &&
+              HealingMatchConstants.serviceType == 4) {
+            allTherapistList.addAll(therapistDetails.therapistRelaxationList);
+          }
+          if (HealingMatchConstants.serviceType != 0 &&
+              HealingMatchConstants.serviceType == 3) {
+            allTherapistList.addAll(therapistDetails.therapistOrteopathicList);
+          }
+          if (HealingMatchConstants.serviceType != 0 &&
+              HealingMatchConstants.serviceType == 2) {
+            allTherapistList.addAll(therapistDetails.therapistFitnessListList);
+          } else if (HealingMatchConstants.serviceType == 0 ||
+              HealingMatchConstants.serviceType == null) {
+            allTherapistList.addAll(therapistDetails.therapistEstheticList);
+            allTherapistList.addAll(therapistDetails.therapistRelaxationList);
+            allTherapistList.addAll(therapistDetails.therapistOrteopathicList);
+            allTherapistList.addAll(therapistDetails.therapistFitnessListList);
+          }
+        });
+        HealingMatchConstants
+            .showAddress = therapistDetails.bookingDataResponse.length == 0 ||
+                (therapistDetails.bookingDataResponse[0].bookingStatus == 9 ||
+                    therapistDetails.bookingDataResponse[0].bookingStatus ==
+                        4 ||
+                    therapistDetails.bookingDataResponse[0].bookingStatus ==
+                        5 ||
+                    therapistDetails.bookingDataResponse[0].bookingStatus ==
+                        7 ||
+                    therapistDetails.bookingDataResponse[0].bookingStatus == 8)
+            ? true
+            : false;
 
-      for (int i = 0; i < allTherapistList.length; i++) {
-        visibility.add(false);
-        globalKeyList.add(GlobalKey());
-      }
+        for (int i = 0; i < allTherapistList.length; i++) {
+          visibility.add(false);
+          globalKeyList.add(GlobalKey());
+        }
 
-      //add Banner Images
-      if (therapistDetails.data.banners[0].bannerImageUrl1 != null) {
-        bannerImages.add(therapistDetails.data.banners[0].bannerImageUrl1);
-      }
-      if (therapistDetails.data.banners[0].bannerImageUrl2 != null) {
-        bannerImages.add(therapistDetails.data.banners[0].bannerImageUrl2);
-      }
-      if (therapistDetails.data.banners[0].bannerImageUrl3 != null) {
-        bannerImages.add(therapistDetails.data.banners[0].bannerImageUrl3);
-      }
-      if (therapistDetails.data.banners[0].bannerImageUrl4 != null) {
-        bannerImages.add(therapistDetails.data.banners[0].bannerImageUrl4);
-      }
-      if (therapistDetails.data.banners[0].bannerImageUrl5 != null) {
-        bannerImages.add(therapistDetails.data.banners[0].bannerImageUrl5);
-      }
-      if (bannerImages.length == 0) {
-        bannerImages.add(defaultBannerUrl);
-      }
+        //add Banner Images
+        if (therapistDetails.data.banners[0].bannerImageUrl1 != null) {
+          bannerImages.add(therapistDetails.data.banners[0].bannerImageUrl1);
+        }
+        if (therapistDetails.data.banners[0].bannerImageUrl2 != null) {
+          bannerImages.add(therapistDetails.data.banners[0].bannerImageUrl2);
+        }
+        if (therapistDetails.data.banners[0].bannerImageUrl3 != null) {
+          bannerImages.add(therapistDetails.data.banners[0].bannerImageUrl3);
+        }
+        if (therapistDetails.data.banners[0].bannerImageUrl4 != null) {
+          bannerImages.add(therapistDetails.data.banners[0].bannerImageUrl4);
+        }
+        if (therapistDetails.data.banners[0].bannerImageUrl5 != null) {
+          bannerImages.add(therapistDetails.data.banners[0].bannerImageUrl5);
+        }
+        if (bannerImages.length == 0) {
+          bannerImages.add(defaultBannerUrl);
+        }
 
-      setState(() {
-        status = 1;
-      });
+        setState(() {
+          status = 1;
+        });
+      } else {
+        setState(() {
+          isActive = false;
+          status = 1;
+        });
+      }
     } catch (e) {
       ProgressDialogBuilder.hideLoader(context);
       print('Therapist details fetch Exception : ${e.toString()}');
