@@ -122,7 +122,7 @@ class _ProviderApprovedScreenState extends State<ProviderApprovedScreen> {
                                 SizedBox(width: 15,),
                                 Flexible(
                                   child: Text(
-                                    '利用者の支払い待ちの予約リクエストはありません。',
+                                    '利用者の支払い待ちの予約リクエストは\nありません。',
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontFamily: 'NotoSansJP',
