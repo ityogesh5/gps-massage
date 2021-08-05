@@ -682,7 +682,7 @@ class _MyAccountState extends State<MyAccount> {
   emailLaunch() {
     final Uri _emailLaunchUri = Uri(
         scheme: 'mailto',
-        path: 'healingMatch@yopmail.com',
+        path: 'info@sir-inc.co.jp',
         queryParameters: {'subject': 'お問い合わせメール'});
     launch(_emailLaunchUri.toString());
   }

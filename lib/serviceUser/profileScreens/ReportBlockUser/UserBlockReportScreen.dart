@@ -157,7 +157,7 @@ class _ReportUserScreenView extends State<ReportUserScreen> {
   emailLaunch() {
     final Uri _emailLaunchUri = Uri(
         scheme: 'mailto',
-        path: 'healingMatch@yopmail.com',
+        path: 'info@sir-inc.co.jp',
         queryParameters: {
           'subject': 'セラピストを報告する',
           'body':
