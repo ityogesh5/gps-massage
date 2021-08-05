@@ -18,6 +18,7 @@ import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/db
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/customTextField/text_field_custom.dart';
+import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownDisableProviderEditScreen.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/customLibraryClasses/keyboardDoneButton/keyboardActionConfig.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/bankNameDropDownModel.dart';
@@ -2383,7 +2384,8 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                           focusedBorder: HealingMatchConstants
                                               .textFormInputBorder,
                                           enabledBorder: HealingMatchConstants
-                                              .textFormInputBorder, disabledBorder: HealingMatchConstants
+                                              .textFormInputBorder,
+                                          disabledBorder: HealingMatchConstants
                                               .textFormInputBorder,
                                           filled: true,
                                           fillColor:
@@ -2430,7 +2432,8 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                           focusedBorder: HealingMatchConstants
                                               .textFormInputBorder,
                                           enabledBorder: HealingMatchConstants
-                                              .textFormInputBorder, disabledBorder: HealingMatchConstants
+                                              .textFormInputBorder,
+                                          disabledBorder: HealingMatchConstants
                                               .textFormInputBorder,
                                           filled: true,
                                           fillColor:
@@ -2470,7 +2473,8 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                           focusedBorder: HealingMatchConstants
                                               .textFormInputBorder,
                                           enabledBorder: HealingMatchConstants
-                                              .textFormInputBorder, disabledBorder: HealingMatchConstants
+                                              .textFormInputBorder,
+                                          disabledBorder: HealingMatchConstants
                                               .textFormInputBorder,
                                           filled: true,
                                           fillColor:
@@ -2521,7 +2525,8 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                           focusedBorder: HealingMatchConstants
                                               .textFormInputBorder,
                                           enabledBorder: HealingMatchConstants
-                                              .textFormInputBorder, disabledBorder: HealingMatchConstants
+                                              .textFormInputBorder,
+                                          disabledBorder: HealingMatchConstants
                                               .textFormInputBorder,
                                           filled: true,
                                           fillColor:
@@ -2597,14 +2602,14 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                     Container(
                                       margin: EdgeInsets.only(top: 8.0),
                                       // width: MediaQuery.of(context).size.width * 0.38,
-                                      child: DropDownFormField(
+                                      child: DisabledDropDownFormField(
                                         enabled: false,
                                         titleText: null,
                                         requiredField: true,
-                                        hintText: readonly
-                                            ? accountHolderType
-                                            : HealingMatchConstants
-                                                .registrationBankAccountHolderType,
+                                        hintText:
+                                            accountHolderType == "individual"
+                                                ? "個人"
+                                                : "会社",
                                         onSaved: (value) {
                                           setState(() {
                                             accountHolderType = value;
