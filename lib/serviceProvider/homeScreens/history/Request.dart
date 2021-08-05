@@ -133,7 +133,7 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
                                 ),
                                 Flexible(
                                   child: Text(
-                                    '承認作業が必要な利用者からの予約リクエストはありません。',
+                                    '承認作業が必要な利用者からの予約\nリクエストはありません。',
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontFamily: 'NotoSansJP',

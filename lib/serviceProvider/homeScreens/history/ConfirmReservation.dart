@@ -127,7 +127,7 @@ class _ProviderConfirmReservationScreenState
                                 SizedBox(width: 15,),
                                 Flexible(
                                   child: Text(
-                                    '利用者の支払いが完了し、確定した予約はありません。',
+                                    '利用者の支払いが完了し、確定した\n予約はありません。',
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontFamily: 'NotoSansJP',
