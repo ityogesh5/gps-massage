@@ -232,8 +232,8 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
             HealingMatchConstants.userRegAddressId = value.data.addresses[0].id;
             HealingMatchConstants.userAddressesList =
                 value.data.addresses.cast<UserAddresses>();
-            HealingMatchConstants.serviceUserID =
-                value.data.addresses[0].userId.toString();
+            HealingMatchConstants.serviceUserID = value.data.addresses[0].userId.toString();
+            HealingMatchConstants.intServiceUserID = value.data.addresses[0].userId;
             HealingMatchConstants.userRegisteredAddressDetail =
                 value.data.addresses[0].address;
             HealingMatchConstants.userCity = value.data.addresses[0].cityName;

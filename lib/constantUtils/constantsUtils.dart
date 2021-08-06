@@ -692,6 +692,7 @@ class HealingMatchConstants {
   static var searchDistanceRadius;
   static String userProfileImage;
   static String serviceUserID;
+  static var intServiceUserID;
   static List<AddedSubAddresses> editUserSubAddressList =
       new List<AddedSubAddresses>();
   static String serviceUserBookingAmount;

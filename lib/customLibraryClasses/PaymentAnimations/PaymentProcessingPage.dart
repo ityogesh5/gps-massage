@@ -84,6 +84,9 @@ class _PaymentProcessingPageState extends State<PaymentProcessingPage> {
 
   _processPayment() async {
     debugPrint('Started payment...!!');
+    print('userId:${HealingMatchConstants.serviceUserID}');
+    print('paymentID:${widget.paymentID}');
+    print('confServiceCost:${HealingMatchConstants.confServiceCost}');
     try {
       ServiceUserAPIProvider.chargePaymentForCustomer(
               context,
