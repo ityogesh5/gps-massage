@@ -1256,9 +1256,9 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                 ),
                                 Flexible(
                                   child: Text(
-                                    '後登録の内容を管理者が確認しております。\n確認完了まで今しばらくお待ちください',
+                                    'ご登録の内容を管理者が確認しております。\n確認完了まで今しばらくお待ちください。',
                                     style: TextStyle(
-                                        fontSize: 13,
+                                        fontSize: 12,
                                         fontFamily: 'NotoSansJP',
                                         fontWeight: FontWeight.bold),
                                   ),

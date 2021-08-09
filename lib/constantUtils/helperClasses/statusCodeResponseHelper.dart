@@ -124,7 +124,7 @@ class StatusCodeHelper {
   static bool isBannerUploadSuccess(
       int statusCode, BuildContext context, String body) {
     if (statusCode == 200) {
-      Toast.show("バナー画像が正常にアップロードされました。", context,
+      Toast.show("画像がアップロードされました。", context,
           duration: Toast.LENGTH_LONG,
           gravity: Toast.BOTTOM,
           backgroundColor: Colors.lime,
@@ -219,7 +219,7 @@ class StatusCodeHelper {
   static bool isStoreDescriptionSuccess(
       int statusCode, BuildContext context, String body) {
     if (statusCode == 200) {
-      Toast.show("ストアの説明が正常に更新されました。", context,
+      Toast.show("掲載コメントがアップロードされました。", context,
           duration: Toast.LENGTH_LONG,
           gravity: Toast.BOTTOM,
           backgroundColor: Colors.lime,
@@ -228,7 +228,7 @@ class StatusCodeHelper {
       return true;
     } else if (statusCode == 400) {
       //ユーザーが見つかりません。
-      Toast.show("コメントは2000文字以内にする必要がありますのでもう一度やり直してください", context,
+      Toast.show("２０００文字を超えてます。文字数をご確認の上入力しなおしてください", context,
           duration: 4,
           gravity: Toast.BOTTOM,
           backgroundColor: Colors.redAccent,
@@ -251,7 +251,7 @@ class StatusCodeHelper {
   static bool isTherpaistServiceUpdateSuccess(
       int statusCode, BuildContext context, String body) {
     if (statusCode == 200) {
-      Toast.show("ストアの説明が正常に更新されました。", context,
+      Toast.show("登録内容が更新されました。", context,
           duration: Toast.LENGTH_LONG,
           gravity: Toast.BOTTOM,
           backgroundColor: Colors.lime,
@@ -283,7 +283,7 @@ class StatusCodeHelper {
   static bool isTherpaistServiceDeleteSuccess(
       int statusCode, BuildContext context, String body) {
     if (statusCode == 200) {
-      Toast.show("ストアの説明が正常に更新されました。", context,
+      Toast.show("登録内容が更新されました。", context,
           duration: Toast.LENGTH_LONG,
           gravity: Toast.BOTTOM,
           backgroundColor: Colors.lime,

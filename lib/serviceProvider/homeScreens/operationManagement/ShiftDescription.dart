@@ -165,7 +165,7 @@ class _ShiftDescriptionState extends State<ShiftDescription> {
   validateLength() {
     String storeDescription = textEditingController.text;
     if (storeDescription.length > 2000) {
-      displaySnackBarError("コメントは2000文字以内にする必要がありますのでもう一度やり直してください。");
+      displaySnackBarError("２０００文字を超えてます。文字数をご確認の上入力しなおしてください。");
       return;
     }
     if (storeDescription.length == 0) {
