@@ -3469,18 +3469,15 @@ class _RecommendListsState extends State<RecommendLists> {
                                             'assets/images_gps/appIcon.png')),
                                   )),
                             ),
-                            SizedBox(width: 10),
-                            Expanded(
-                              child: Column(
-                                children: [
-                                  Text(
-                                    'おすすめのセラピスト・店舗はありません。',
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontFamily: 'NotoSansJP',
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
+                            SizedBox(width: 15),
+
+                            Flexible(
+                              child: Text(
+                                'おすすめのセラピスト・店舗は\nありません。',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontFamily: 'NotoSansJP',
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
                           ],

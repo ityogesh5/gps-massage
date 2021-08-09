@@ -11,6 +11,7 @@ import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/Logout.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -190,7 +191,7 @@ class _MyAccountState extends State<MyAccount> {
                                         color: iconColor,
                                       ),
                                       Text(
-                                        "${userData.dob.day}/${userData.dob.month}/${userData.dob.year}",
+                                        "${DateFormat('y/MM/dd').format(userData.dob)}",
                                         style: textStyle,
                                       ), //Dob
                                       Container(
