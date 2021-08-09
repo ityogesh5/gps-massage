@@ -113,6 +113,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
         title: Text(
           '利用規約とプライバシーポリシー',
           style: TextStyle(
+              fontSize: 16.0,
               color: Colors.black,
               fontFamily: 'NotoSansJP',
               fontWeight: FontWeight.bold),
@@ -174,16 +175,19 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
                     (BuildContext context, AsyncSnapshot<String> snapshot) {
                   if (snapshot.hasData) {
                     return Markdown(
-                        data: snapshot.data,
-                        styleSheet:
-                            MarkdownStyleSheet.fromTheme(Theme.of(context))
-                                .copyWith(
-                                    p: Theme.of(context)
-                                        .textTheme
-                                        .bodyText2
-                                        .copyWith(
-                                            fontSize: 14.0,
-                                            fontFamily: 'NotoSansJP')));
+                      selectable: true,
+                      data: snapshot.data,
+                      styleSheet:
+                          MarkdownStyleSheet.fromTheme(Theme.of(context))
+                              .copyWith(
+                        p: Theme.of(context).textTheme.bodyText2.copyWith(
+                              fontSize: 14.0,
+                              fontFamily: 'NotoSansJP',
+                              locale: Locale('en'),
+                            ),
+                        listIndent: 25.0,
+                      ),
+                    );
                   }
                   return Center(
                     child: SpinKitDoubleBounce(color: Colors.limeAccent),
@@ -199,16 +203,18 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
                     (BuildContext context, AsyncSnapshot<String> snapshot) {
                   if (snapshot.hasData) {
                     return Markdown(
-                        data: snapshot.data,
-                        styleSheet:
-                            MarkdownStyleSheet.fromTheme(Theme.of(context))
-                                .copyWith(
-                                    p: Theme.of(context)
-                                        .textTheme
-                                        .bodyText2
-                                        .copyWith(
-                                            fontSize: 14.0,
-                                            fontFamily: 'NotoSansJP')));
+                      data: snapshot.data,
+                      styleSheet:
+                          MarkdownStyleSheet.fromTheme(Theme.of(context))
+                              .copyWith(
+                        p: Theme.of(context).textTheme.bodyText2.copyWith(
+                              fontSize: 14.0,
+                              fontFamily: 'NotoSansJP',
+                              locale: Locale('en'),
+                            ),
+                        listIndent: 25.0,
+                      ),
+                    );
                   }
                   return Center(
                     child: SpinKitDoubleBounce(color: Colors.limeAccent),
