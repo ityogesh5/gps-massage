@@ -232,8 +232,10 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
             HealingMatchConstants.userRegAddressId = value.data.addresses[0].id;
             HealingMatchConstants.userAddressesList =
                 value.data.addresses.cast<UserAddresses>();
-            HealingMatchConstants.serviceUserID = value.data.addresses[0].userId.toString();
-            HealingMatchConstants.intServiceUserID = value.data.addresses[0].userId;
+            HealingMatchConstants.serviceUserID =
+                value.data.addresses[0].userId.toString();
+            HealingMatchConstants.intServiceUserID =
+                value.data.addresses[0].userId;
             HealingMatchConstants.userRegisteredAddressDetail =
                 value.data.addresses[0].address;
             HealingMatchConstants.userCity = value.data.addresses[0].cityName;
@@ -1476,7 +1478,11 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                 certificateUploadList[index].keys.length != 0
                                     ? 10.0
                                     : 0.0),
-                        certificateUploadList[index].keys.length != 0
+                        certificateUploadList[index].keys.length != 0 &&
+                                certificateUploadList[index]
+                                        .keys
+                                        .elementAt(0) !=
+                                    "無資格"
                             ? Container(
                                 height: 38.0,
                                 width: MediaQuery.of(context).size.width -
@@ -1525,6 +1531,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                     0
                             ? Expanded(
                                 child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       '¥${widget.getTherapistByType[index].lowestPrice}',
@@ -3180,7 +3187,11 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                 certificateUploadList[index].keys.length != 0
                                     ? 10.0
                                     : 0.0),
-                        certificateUploadList[index].keys.length != 0
+                        certificateUploadList[index].keys.length != 0 &&
+                                certificateUploadList[index]
+                                        .keys
+                                        .elementAt(0) !=
+                                    "無資格"
                             ? Container(
                                 height: 38.0,
                                 width: MediaQuery.of(context).size.width -
@@ -3229,7 +3240,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                 therapistUsers[index].lowestPrice != 0
                             ? Expanded(
                                 child: Row(
-                                  //    crossAxisAlignment: CrossAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       '¥${therapistUsers[index].lowestPrice}',
@@ -3692,7 +3703,7 @@ class _RecommendListsState extends State<RecommendLists> {
                           ),
                         ),
                         SizedBox(
-                          height: 3,
+                          height: 10,
                         ),
                         FittedBox(
                           child: Row(
@@ -3812,12 +3823,12 @@ class _RecommendListsState extends State<RecommendLists> {
                             ],
                           ),
                         ),
-                        SizedBox(
-                            height:
-                                certificateUploadList[index].keys.length != 0
-                                    ? 10.0
-                                    : 0.0),
-                        certificateUploadList[index].keys.length != 0
+                        SizedBox(height: 10.0),
+                        certificateUploadList[index].keys.length != 0 &&
+                                certificateUploadList[index]
+                                        .keys
+                                        .elementAt(0) !=
+                                    "無資格"
                             ? Container(
                                 height: 38.0,
                                 width: MediaQuery.of(context).size.width -
@@ -3868,6 +3879,7 @@ class _RecommendListsState extends State<RecommendLists> {
                                     0
                             ? Expanded(
                                 child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       '¥${widget.getRecommendedTherapists[index].lowestPrice}',

@@ -30,123 +30,128 @@ class _ShiftDescriptionState extends State<ShiftDescription> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            child: Column(
-              children: [
-                Text(
-                  "PR（施術内容、特徴）、注意事項等を自由に記載できます",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Color.fromRGBO(102, 102, 102, 1),
-                  ),
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Container(
-                  margin: EdgeInsets.all(8.0),
-                  // hack textfield height
-                  // padding: EdgeInsets.only(bottom: 40.0),
-                  child: TextField(
-                    controller: textEditingController,
-                    textInputAction: TextInputAction.done,
-                    expands: false,
-                    maxLines: 10,
-                    decoration: InputDecoration(
-                      hintText: "PRメッセージを2000文字以内で記載ください。",
-                      hintStyle: HealingMatchConstants.multiTextHintTextStyle,
-                      border: HealingMatchConstants.multiTextFormInputBorder,
-                      focusedBorder:
-                          HealingMatchConstants.multiTextFormInputBorder,
-                      disabledBorder:
-                          HealingMatchConstants.multiTextFormInputBorder,
-                      enabledBorder:
-                          HealingMatchConstants.multiTextFormInputBorder,
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(new FocusNode());
+        },
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              child: Column(
+                children: [
+                  Text(
+                    "PR（施術内容、特徴）、注意事項等を自由に記載できます",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Color.fromRGBO(102, 102, 102, 1),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                  child: Row(
-                    children: [
-                      Text(
-                        "※",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Color.fromRGBO(255, 0, 0, 1),
-                        ),
-                      ),
-                      Text(
-                        "サービス利用者に向けたPRコメントを記入してください。",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: ColorConstants.multiTextHintTextColor,
-                            fontSize:
-                                12), //HealingMatchConstants.multiTextHintTextStyle,
-                      ),
-                    ],
+                  SizedBox(
+                    height: 10.0,
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        "※",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Color.fromRGBO(255, 0, 0, 1),
-                        ),
+                  Container(
+                    margin: EdgeInsets.all(8.0),
+                    // hack textfield height
+                    // padding: EdgeInsets.only(bottom: 40.0),
+                    child: TextField(
+                      controller: textEditingController,
+                      textInputAction: TextInputAction.newline,
+                      expands: false,
+                      maxLines: 10,
+                      decoration: InputDecoration(
+                        hintText: "PRメッセージを2000文字以内で記載ください。",
+                        hintStyle: HealingMatchConstants.multiTextHintTextStyle,
+                        border: HealingMatchConstants.multiTextFormInputBorder,
+                        focusedBorder:
+                            HealingMatchConstants.multiTextFormInputBorder,
+                        disabledBorder:
+                            HealingMatchConstants.multiTextFormInputBorder,
+                        enabledBorder:
+                            HealingMatchConstants.multiTextFormInputBorder,
                       ),
-                      Text(
-                        "電話番号、メールアドレス、SNSのアカウント、\n ホームページURL等の記載はお控えください。\n（詳しくは利用規約をご覧ください。）",
-                        //textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: ColorConstants.multiTextHintTextColor,
-                            fontSize:
-                                12), //HealingMatchConstants.multiTextHintTextStyle,
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 15.0,
-                ),
-                Container(
-                  height: 45,
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  //margin: EdgeInsets.only(top: 1.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Color.fromRGBO(200, 217, 33, 1),
-                  ),
-                  child: RaisedButton(
-                    child: Text(
-                      'アップロードする',
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                     ),
-                    color: Color.fromRGBO(200, 217, 33, 1),
-                    textColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(10.0)),
-                    onPressed: () {
-                      validateLength();
-                    },
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                    child: Row(
+                      children: [
+                        Text(
+                          "※",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromRGBO(255, 0, 0, 1),
+                          ),
+                        ),
+                        Text(
+                          "サービス利用者に向けたPRコメントを記入してください。",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: ColorConstants.multiTextHintTextColor,
+                              fontSize:
+                                  12), //HealingMatchConstants.multiTextHintTextStyle,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "※",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromRGBO(255, 0, 0, 1),
+                          ),
+                        ),
+                        Text(
+                          "電話番号、メールアドレス、SNSのアカウント、\n ホームページURL等の記載はお控えください。\n（詳しくは利用規約をご覧ください。）",
+                          //textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: ColorConstants.multiTextHintTextColor,
+                              fontSize:
+                                  12), //HealingMatchConstants.multiTextHintTextStyle,
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15.0,
+                  ),
+                  Container(
+                    height: 45,
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    //margin: EdgeInsets.only(top: 1.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Color.fromRGBO(200, 217, 33, 1),
+                    ),
+                    child: RaisedButton(
+                      child: Text(
+                        'アップロードする',
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.bold),
+                      ),
+                      color: Color.fromRGBO(200, 217, 33, 1),
+                      textColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(10.0)),
+                      onPressed: () {
+                        validateLength();
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -177,6 +182,7 @@ class _ShiftDescriptionState extends State<ShiftDescription> {
   }
 
   updateStoreDescription() async {
+    FocusScope.of(context).requestFocus(new FocusNode());
     String storeDescription = textEditingController.text;
     if ((storeDescription != null || storeDescription != "") &&
         storeDescription.length <= 2000) {

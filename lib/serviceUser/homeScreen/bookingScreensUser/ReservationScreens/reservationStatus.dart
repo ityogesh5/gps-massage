@@ -847,8 +847,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         ],
                                                                       ),
                                                                       SizedBox(
-                                                                        height:
-                                                                            5,
+                                                                        height: certificateUploadWfaList[index].length != 0 &&
+                                                                                certificateUploadWfaList[index].keys.elementAt(0) != "無資格"
+                                                                            ? 5
+                                                                            : 0.0,
                                                                       ),
                                                                       certificateUploadWfaList[index].length != 0 &&
                                                                               certificateUploadWfaList[index].keys.elementAt(0) != "無資格"
@@ -1634,7 +1636,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                       ],
                                                                     ),
                                                                     SizedBox(
-                                                                      height: 5,
+                                                                      height: certificateUploadAprWtConList[index].length != 0 &&
+                                                                              certificateUploadAprWtConList[index].keys.elementAt(0) != "無資格"
+                                                                          ? 5
+                                                                          : 0,
                                                                     ),
                                                                     certificateUploadAprWtConList[index].length !=
                                                                                 0 &&
@@ -3411,7 +3416,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                       ],
                                                                     ),
                                                                     SizedBox(
-                                                                      height: 5,
+                                                                      height: certificateUploadConfdPayList[index].length != 0 &&
+                                                                              certificateUploadConfdPayList[index].keys.elementAt(0) != "無資格"
+                                                                          ? 5
+                                                                          : 0,
                                                                     ),
                                                                     certificateUploadConfdPayList[index].length !=
                                                                                 0 &&
@@ -4564,14 +4572,15 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                         'assets/images_gps/appIcon.png')),
                                               )),
                                         ),
-                                        SizedBox(width: 20,),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
                                         Text(
                                           '予約はありません。',
                                           style: TextStyle(
                                               fontSize: 14,
                                               fontFamily: 'NotoSansJP',
-                                              fontWeight:
-                                                  FontWeight.bold),
+                                              fontWeight: FontWeight.bold),
                                         ),
                                       ],
                                     )
