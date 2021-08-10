@@ -6,6 +6,7 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
+import 'package:gps_massageapp/customLibraryClasses/customTextField/text_field_custom.dart';
 import 'package:gps_massageapp/customLibraryClasses/keyboardDoneButton/keyboardActionConfig.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/changePasswordProviderResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/login/sendVerifyResponseModel.dart';
@@ -171,8 +172,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                       SizedBox(
                         height: 12,
                       ),
-                      TextFormField(
-                        obscureText: createPasswordVisibility,
+                      TextFieldCustom(
+                   obscureText: createPasswordVisibility,
                         textInputAction: TextInputAction.next,
                         focusNode: createPasswordFocus,
                         style: HealingMatchConstants.formTextStyle,
@@ -199,17 +200,31 @@ class _ChangePasswordState extends State<ChangePassword> {
                                 });
                               }),
                           filled: true,
-                          labelText:
-                              HealingMatchConstants.changePasswordNewpass,
-                          labelStyle: HealingMatchConstants.formLabelTextStyle,
-                          fillColor: ColorConstants.formFieldFillColor,
+                      
+                          
+                        ),
+                        labelText: Text.rich(
+                          TextSpan(
+                            text: HealingMatchConstants.changePasswordNewpass,
+                            children: <InlineSpan>[
+                              TextSpan(
+                                text: '*',
+                                style:
+                                    TextStyle(color: Colors.red, fontSize: 16),
+                              ),
+                            ],
+                            style: TextStyle(
+                                color: Color.fromRGBO(197, 197, 197, 1),
+                                fontFamily: 'NotoSansJP',
+                                fontSize: 16),
+                          ),
                         ),
                       ),
                       SizedBox(
                         height: 15,
                       ),
-                      TextFormField(
-                        obscureText: confirmPasswordVisibility,
+                     TextFieldCustom(
+                      obscureText: confirmPasswordVisibility,
                         textInputAction: TextInputAction.done,
                         focusNode: confrimPasswordFocus,
                         controller: confirmpassword,
@@ -236,10 +251,23 @@ class _ChangePasswordState extends State<ChangePassword> {
                                 });
                               }),
                           filled: true,
-                          labelText:
-                              HealingMatchConstants.changePasswordConfirmpass,
-                          labelStyle: HealingMatchConstants.formLabelTextStyle,
-                          fillColor: ColorConstants.formFieldFillColor,
+                          
+                        ),
+                        labelText: Text.rich(
+                          TextSpan(
+                            text: HealingMatchConstants.changePasswordConfirmpass,
+                            children: <InlineSpan>[
+                              TextSpan(
+                                text: '*',
+                                style:
+                                    TextStyle(color: Colors.red, fontSize: 16),
+                              ),
+                            ],
+                            style: TextStyle(
+                                color: Color.fromRGBO(197, 197, 197, 1),
+                                fontFamily: 'NotoSansJP',
+                                fontSize: 16),
+                          ),
                         ),
                       ),
                       SizedBox(
