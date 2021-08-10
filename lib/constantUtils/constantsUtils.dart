@@ -542,10 +542,10 @@ class HealingMatchConstants {
   static var bookingCancelStatus = 0;
 
   //Change Password
-  static const String changePasswordNewpass = "新しいパスワード *";
+  static const String changePasswordNewpass = "新しいパスワード ";
   static const String changePasswordTxt =
       "に届いた「認証コード」と\n 新しいパスワードを入力し、「パスワードを\n 再設定する」ボタンをクリックしてください。";
-  static const String changePasswordConfirmpass = "パスワード（確認用）*";
+  static const String changePasswordConfirmpass = "パスワード（確認用）";
   static const String changePasswordBtn = 'パスワードを再設定する';
   static const String changeResendOtp = '認証コードを再送する';
   static var providerPhnNum = '';
