@@ -436,6 +436,9 @@ class HealingMatchConstants {
   static String accountNumber = '';
   static String accountType = '';
   static String branchCode = '';
+  static String bankCode = '';
+  static String bankAccountHolderType = '';
+  static String accountHolderName = '';
   static String qualification = '';
   static PickedFile idProfileImage;
   static List<String> privateQualification = List<String>();

@@ -119,6 +119,9 @@ class _RegistrationSecondPageState
     HealingMatchConstants.accountNumber = accountnumberController.text;
     HealingMatchConstants.accountType = accountType;
     HealingMatchConstants.branchCode = branchNameController.text;
+    HealingMatchConstants.bankCode = bankNumberController.text;
+    HealingMatchConstants.bankAccountHolderType = accountHolderType;
+    HealingMatchConstants.accountHolderName = accountHolderNameController.text;
     HealingMatchConstants.qualification = qualification.toString().trim();
     HealingMatchConstants.idProfileImage = _idProfileImage;
     HealingMatchConstants.privateQualification.clear();
@@ -137,6 +140,10 @@ class _RegistrationSecondPageState
       }
       identificationVerify = HealingMatchConstants.idVerify;
       branchNumberController.text = HealingMatchConstants.branchNumber;
+      bankNumberController.text = HealingMatchConstants.bankCode;
+      accountHolderType = HealingMatchConstants.bankAccountHolderType;
+      accountHolderNameController.text =
+          HealingMatchConstants.accountHolderName;
       accountnumberController.text = HealingMatchConstants.accountNumber;
       accountType = HealingMatchConstants.accountType;
       branchNameController.text = HealingMatchConstants.branchCode;
