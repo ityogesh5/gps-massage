@@ -109,7 +109,9 @@ class _OperationManagementState extends State<OperationManagement>
             indicatorColor: Colors.lime,
             tabBarIndicatorSize: TabBarIndicatorSize.tab,
           ),
-          onTap: (index) {},
+          onTap: (index) {
+            FocusScope.of(context).requestFocus(new FocusNode());
+          },
           dragStartBehavior: DragStartBehavior.start,
           tabs: [
             Tab(

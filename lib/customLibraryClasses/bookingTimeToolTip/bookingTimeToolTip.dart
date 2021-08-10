@@ -237,11 +237,12 @@ class ShowToolTip {
   ) {
     return InkWell(
       onTap: () {
-        if (_timePrice.length != 0 && _timePrice[min] != null) {
+        /*  if (_timePrice.length != 0 && _timePrice[min] != null) {
           _refreshState(() {
             _timePrice.clear();
           });
-        } else if (price != 0) {
+        } else  */
+        if (price != 0) {
           _timePrice.clear();
           _refreshState(() {
             if (_timePrice[min] != null) {
@@ -249,6 +250,7 @@ class ShowToolTip {
             } else {
               _timePrice[min] = price;
             }
+            dismiss();
           });
         }
       },

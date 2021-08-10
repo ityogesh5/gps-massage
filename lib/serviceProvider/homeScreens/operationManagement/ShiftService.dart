@@ -987,7 +987,10 @@ class _ShiftServiceState extends State<ShiftService> {
                                     controller: sixtyMinutesController,
                                     keyboardType: TextInputType.number,
                                     decoration: InputDecoration(
-                                      hintText: "¥0",
+                                      floatingLabelBehavior:
+                                          FloatingLabelBehavior.never,
+                                      labelText: '¥ 0',
+                                      prefixText: "¥",
                                       fillColor: Colors.white,
                                       contentPadding: EdgeInsets.fromLTRB(
                                           20.0, 10.0, 20.0, 10.0),
@@ -1053,7 +1056,10 @@ class _ShiftServiceState extends State<ShiftService> {
                                         controller: nintyMinuteController,
                                         keyboardType: TextInputType.number,
                                         decoration: InputDecoration(
-                                          hintText: "¥0",
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.never,
+                                          labelText: '¥ 0',
+                                          prefixText: "¥",
                                           fillColor: Colors.white,
                                           contentPadding: EdgeInsets.fromLTRB(
                                               20.0, 10.0, 20.0, 10.0),
@@ -1117,7 +1123,10 @@ class _ShiftServiceState extends State<ShiftService> {
                                         keyboardType: TextInputType.number,
                                         textAlign: TextAlign.center,
                                         decoration: InputDecoration(
-                                          hintText: "¥0",
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.never,
+                                          labelText: '¥ 0',
+                                          prefixText: "¥",
                                           fillColor: Colors.white,
                                           contentPadding: EdgeInsets.fromLTRB(
                                               20.0, 10.0, 20.0, 10.0),
@@ -1181,7 +1190,10 @@ class _ShiftServiceState extends State<ShiftService> {
                                         controller: oneFiftyController,
                                         keyboardType: TextInputType.number,
                                         decoration: InputDecoration(
-                                          hintText: "¥0",
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.never,
+                                          labelText: '¥ 0',
+                                          prefixText: "¥",
                                           fillColor: Colors.white,
                                           contentPadding: EdgeInsets.fromLTRB(
                                               20.0, 10.0, 20.0, 10.0),
@@ -1245,7 +1257,10 @@ class _ShiftServiceState extends State<ShiftService> {
                                         controller: oneEightyMinuteController,
                                         keyboardType: TextInputType.number,
                                         decoration: InputDecoration(
-                                          hintText: "¥0",
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.never,
+                                          labelText: '¥ 0',
+                                          prefixText: "¥",
                                           fillColor: Colors.white,
                                           contentPadding: EdgeInsets.fromLTRB(
                                               20.0, 10.0, 20.0, 10.0),

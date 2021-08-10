@@ -3898,7 +3898,12 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       numberOfEmployees = userData.numberOfEmp.toString();
     }
     selectedStoreTypeDisplayValues = userData.storeType.split(',');
+
     serviceBusinessTrips = userData.businessTrip ? '出張可能' : '出張不可';
+    if (bussinessForm == "施術店舗なし 施術従業員あり（出張のみ)" ||
+        bussinessForm == "施術店舗なし 施術従業員なし（個人)") {
+      businessTripEnabled = false;
+    }
     coronaMeasures = userData.coronaMeasure ? '実施' : '未実施';
     if (userData.childrenMeasure != null && userData.childrenMeasure != '') {
       childrenMeasuresDropDownValuesSelected =

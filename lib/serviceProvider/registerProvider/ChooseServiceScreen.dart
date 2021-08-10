@@ -1028,7 +1028,10 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                         showCursor: true,
                                         keyboardType: TextInputType.number,
                                         decoration: InputDecoration(
-                                          hintText: "¥0",
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.never,
+                                          labelText: '¥ 0',
+                                          prefixText: "¥",
                                           fillColor: Colors.white,
                                           contentPadding: EdgeInsets.fromLTRB(
                                               20.0, 10.0, 20.0, 10.0),
@@ -1090,7 +1093,10 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                         controller: nintyMinuteController,
                                         keyboardType: TextInputType.number,
                                         decoration: InputDecoration(
-                                          hintText: "¥0",
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.never,
+                                          labelText: '¥ 0',
+                                          prefixText: "¥",
                                           fillColor: Colors.white,
                                           contentPadding: EdgeInsets.fromLTRB(
                                               20.0, 10.0, 20.0, 10.0),
@@ -1152,7 +1158,10 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                         keyboardType: TextInputType.number,
                                         textAlign: TextAlign.center,
                                         decoration: InputDecoration(
-                                          hintText: "¥0",
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.never,
+                                          labelText: '¥ 0',
+                                          prefixText: "¥",
                                           fillColor: Colors.white,
                                           contentPadding: EdgeInsets.fromLTRB(
                                               20.0, 10.0, 20.0, 10.0),
@@ -1214,7 +1223,10 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                         controller: oneFiftyController,
                                         keyboardType: TextInputType.number,
                                         decoration: InputDecoration(
-                                          hintText: "¥0",
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.never,
+                                          labelText: '¥ 0',
+                                          prefixText: "¥",
                                           fillColor: Colors.white,
                                           contentPadding: EdgeInsets.fromLTRB(
                                               20.0, 10.0, 20.0, 10.0),
@@ -1276,7 +1288,10 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                         controller: oneEightyMinuteController,
                                         keyboardType: TextInputType.number,
                                         decoration: InputDecoration(
-                                          hintText: "¥0",
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.never,
+                                          labelText: '¥ 0',
+                                          prefixText: "¥",
                                           fillColor: Colors.white,
                                           contentPadding: EdgeInsets.fromLTRB(
                                               20.0, 10.0, 20.0, 10.0),

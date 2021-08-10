@@ -567,96 +567,93 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
 
   Scaffold buildBlockedDetailCard(BuildContext context) {
     return Scaffold(
-              appBar: AppBar(
-                backgroundColor: Colors.transparent,
-                brightness: Brightness.light,
-                elevation: 0.0,
-                automaticallyImplyLeading: false,
-                leading: IconButton(
-                  padding: EdgeInsets.only(
-                      left: 4.0, top: 8.0, bottom: 8.0, right: 0.0),
-                  icon: Icon(
-                    Icons.arrow_back_ios,
-                    color: Colors.black,
-                  ),
-                  onPressed: () => Navigator.pop(context),
-                ),
-                title: Text(
-                  '',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'NotoSansJP',
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-              body: Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        brightness: Brightness.light,
+        elevation: 0.0,
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          padding:
+              EdgeInsets.only(left: 4.0, top: 8.0, bottom: 8.0, right: 0.0),
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+          ),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: Text(
+          '',
+          style: TextStyle(
+              color: Colors.black,
+              fontFamily: 'NotoSansJP',
+              fontWeight: FontWeight.bold),
+        ),
+      ),
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: Container(
+                    padding: EdgeInsets.all(8.0),
+                    height: MediaQuery.of(context).size.height * 0.22,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(255, 255, 255, 1),
+                      borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                      border:
+                          Border.all(color: Color.fromRGBO(217, 217, 217, 1)),
+                    ),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Center(
-                          child: Container(
-                            padding: EdgeInsets.all(8.0),
-                            height: MediaQuery.of(context).size.height * 0.22,
-                            width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
-                              color: Color.fromRGBO(255, 255, 255, 1),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(16.0)),
-                              border: Border.all(
-                                  color: Color.fromRGBO(217, 217, 217, 1)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            InkWell(
+                              onTap: () {},
+                              child: new Container(
+                                  width: 60.0,
+                                  height: 60.0,
+                                  decoration: new BoxDecoration(
+                                    border: Border.all(color: Colors.black12),
+                                    shape: BoxShape.circle,
+                                    image: new DecorationImage(
+                                        fit: BoxFit.fill,
+                                        image: new AssetImage(
+                                            'assets/images_gps/appIcon.png')),
+                                  )),
                             ),
-                            child: Column(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    InkWell(
-                                      onTap: () {},
-                                      child: new Container(
-                                          width: 60.0,
-                                          height: 60.0,
-                                          decoration: new BoxDecoration(
-                                            border: Border.all(
-                                                color: Colors.black12),
-                                            shape: BoxShape.circle,
-                                            image: new DecorationImage(
-                                                fit: BoxFit.fill,
-                                                image: new AssetImage(
-                                                    'assets/images_gps/appIcon.png')),
-                                          )),
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'セラピストは現在、利用できません',
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                fontFamily: 'NotoSansJP',
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ],
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  Text(
+                                    'セラピストは現在、利用できません',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontFamily: 'NotoSansJP',
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ),
+                          ],
+                        )
                       ],
                     ),
                   ),
-                ],
-              ),
-            );
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget book() {
@@ -2228,6 +2225,8 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                     setState(() {
                       if (allTherapistList != null &&
                           allTherapistList.isNotEmpty) {
+                        visibility[lastIndex] = false;
+                        serviceSelection.clear();
                         allTherapistList.clear();
                         scrollController.jumpTo(index: 0);
                       }
@@ -2312,6 +2311,8 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                     setState(() {
                       if (allTherapistList != null &&
                           allTherapistList.isNotEmpty) {
+                        visibility[lastIndex] = false;
+                        serviceSelection.clear();
                         allTherapistList.clear();
                         scrollController.jumpTo(index: 0);
                       }
@@ -2396,6 +2397,8 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                     setState(() {
                       if (allTherapistList != null &&
                           allTherapistList.isNotEmpty) {
+                        visibility[lastIndex] = false;
+                        serviceSelection.clear();
                         allTherapistList.clear();
                         scrollController.jumpTo(index: 0);
                       }
@@ -2480,6 +2483,8 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                     setState(() {
                       if (allTherapistList != null &&
                           allTherapistList.isNotEmpty) {
+                        visibility[lastIndex] = false;
+                        serviceSelection.clear();
                         allTherapistList.clear();
                         scrollController.jumpTo(index: 0);
                       }

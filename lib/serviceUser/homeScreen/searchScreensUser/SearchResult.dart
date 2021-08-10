@@ -1068,7 +1068,11 @@ class _SearchResultState extends State<SearchResult> {
                           SizedBox(
                             height: 5,
                           ),
-                          certificateUploadList[index].keys.length != 0
+                          certificateUploadList[index].keys.length != 0 &&
+                                  certificateUploadList[index]
+                                          .keys
+                                          .elementAt(0) !=
+                                      "無資格"
                               ? Container(
                                   height: 38.0,
                                   width: MediaQuery.of(context).size.width -
@@ -2155,7 +2159,11 @@ class _SearchResultByTypeState extends State<SearchResultByType> {
                           SizedBox(
                             height: 5,
                           ),
-                          certificateUploadList[index].keys.length != 0
+                          certificateUploadList[index].keys.length != 0 &&
+                                  certificateUploadList[index]
+                                          .keys
+                                          .elementAt(0) !=
+                                      "無資格"
                               ? Container(
                                   height: 38.0,
                                   width: MediaQuery.of(context).size.width -

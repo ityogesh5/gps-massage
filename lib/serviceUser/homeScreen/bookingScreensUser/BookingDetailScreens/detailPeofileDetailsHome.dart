@@ -245,7 +245,8 @@ class _DetailPeofileDetailsHomeState extends State<DetailPeofileDetailsHome> {
           SizedBox(
             height: certificateImages != null ? 10.0 : 0.0,
           ),
-          certificateImages != null
+          certificateImages != null &&
+                  certificateImages.keys.elementAt(0) != "無資格"
               ? Container(
                   height: 30.0,
                   width: MediaQuery.of(context).size.width - 50.0, //200.0,

@@ -568,7 +568,13 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                     } else {
                       return Container(
                         margin: EdgeInsets.all(5.0),
-                        height: 200.0,
+                        height: certificateUploadList[index].keys.length != 0 &&
+                                certificateUploadList[index]
+                                        .keys
+                                        .elementAt(0) !=
+                                    "無資格"
+                            ? 200.0
+                            : 155.0,
                         // height: MediaQuery.of(context).size.height * 0.22,
                         width: MediaQuery.of(context).size.width * 0.85,
                         child: buildRecommendedTherapists(index, context),
@@ -983,10 +989,18 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                         ),
                         SizedBox(
                             height:
-                                certificateUploadList[index].keys.length != 0
+                                certificateUploadList[index].keys.length != 0 &&
+                                        certificateUploadList[index]
+                                                .keys
+                                                .elementAt(0) !=
+                                            "無資格"
                                     ? 10.0
                                     : 0.0),
-                        certificateUploadList[index].keys.length != 0
+                        certificateUploadList[index].keys.length != 0 &&
+                                certificateUploadList[index]
+                                        .keys
+                                        .elementAt(0) !=
+                                    "無資格"
                             ? Container(
                                 height: 38.0,
                                 width: MediaQuery.of(context).size.width -

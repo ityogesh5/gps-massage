@@ -714,7 +714,16 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                               return _buildProgressIndicator();
                             } else {
                               return Container(
-                                  height: 200.0,
+                                  height: certificateUploadList[index]
+                                                  .keys
+                                                  .length !=
+                                              0 &&
+                                          certificateUploadList[index]
+                                                  .keys
+                                                  .elementAt(0) !=
+                                              "無資格"
+                                      ? 200.0
+                                      : 175.0,
                                   width:
                                       MediaQuery.of(context).size.width * 0.85,
                                   child: buildTherapistDetails(index, context));
@@ -1150,10 +1159,18 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                         ),
                         SizedBox(
                             height:
-                                certificateUploadList[index].keys.length != 0
+                                certificateUploadList[index].keys.length != 0 &&
+                                        certificateUploadList[index]
+                                                .keys
+                                                .elementAt(0) !=
+                                            "無資格"
                                     ? 10.0
                                     : 0.0),
-                        certificateUploadList[index].keys.length != 0
+                        certificateUploadList[index].keys.length != 0 &&
+                                certificateUploadList[index]
+                                        .keys
+                                        .elementAt(0) !=
+                                    "無資格"
                             ? Container(
                                 height: 38.0,
                                 width: MediaQuery.of(context).size.width -
@@ -1399,7 +1416,16 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                               return _buildProgressIndicator();
                             } else {
                               return Container(
-                                  height: 200.0,
+                                  height: certificateUploadList[index]
+                                                  .keys
+                                                  .length !=
+                                              0 &&
+                                          certificateUploadList[index]
+                                                  .keys
+                                                  .elementAt(0) !=
+                                              "無資格"
+                                      ? 200.0
+                                      : 175.0,
                                   width:
                                       MediaQuery.of(context).size.width * 0.85,
                                   child: buildTherapistDetails(index, context));
@@ -1860,10 +1886,18 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                         ),
                         SizedBox(
                             height:
-                                certificateUploadList[index].keys.length != 0
+                                certificateUploadList[index].keys.length != 0 &&
+                                        certificateUploadList[index]
+                                                .keys
+                                                .elementAt(0) !=
+                                            "無資格"
                                     ? 10.0
                                     : 0.0),
-                        certificateUploadList[index].keys.length != 0
+                        certificateUploadList[index].keys.length != 0 &&
+                                certificateUploadList[index]
+                                        .keys
+                                        .elementAt(0) !=
+                                    "無資格"
                             ? Container(
                                 height: 38.0,
                                 width: MediaQuery.of(context).size.width -
