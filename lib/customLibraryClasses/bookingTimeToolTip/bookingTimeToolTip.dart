@@ -254,59 +254,66 @@ class ShowToolTip {
           });
         }
       },
-      child: Container(
-          height: 60,
-          width: 80,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: _timePrice[min] != null
-                ? Color.fromRGBO(242, 242, 242, 1)
-                : Color.fromRGBO(255, 255, 255, 1),
-            border: Border.all(),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.1),
-                spreadRadius: 5,
-                blurRadius: 7,
-                offset: Offset(0, 3), // changes position of shadow
-              )
-            ],
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset('assets/images_gps/processing.svg',
-                        height: 20, width: 20, color: Colors.black),
-                    SizedBox(width: 5),
-                    new Text(
-                      '$min分',
-                      style: TextStyle(
-                          decoration: TextDecoration.none,
-                          color: Colors.black,
-                          fontSize: 12,
-                          fontFamily: 'NotoSansJP',
-                          fontWeight: FontWeight.w400),
-                    ),
-                  ],
+      child: Card(
+        margin: EdgeInsets.only(top: 6.0, bottom: 6.0, left: 2.0, right: 2.0),
+        elevation: _timePrice[min] != null ? 4.0 : 0.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Container(
+            height: 60,
+            width: 80,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: _timePrice[min] != null
+                  ? Color.fromRGBO(242, 242, 242, 1)
+                  : Color.fromRGBO(255, 255, 255, 1),
+              border: Border.all(),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.1),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(0, 3), // changes position of shadow
+                )
+              ],
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset('assets/images_gps/processing.svg',
+                          height: 20, width: 20, color: Colors.black),
+                      SizedBox(width: 5),
+                      new Text(
+                        '$min分',
+                        style: TextStyle(
+                            decoration: TextDecoration.none,
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontFamily: 'NotoSansJP',
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              new Text(
-                price == 0 ? "利用できません" : '\t¥$price',
-                style: TextStyle(
-                    decoration: TextDecoration.none,
-                    color: price == 0 ? Colors.grey : Colors.black,
-                    fontSize: price == 0 ? 10 : 13,
-                    fontFamily: 'NotoSansJP',
-                    fontWeight: FontWeight.bold),
-              ),
-            ],
-          )),
+                new Text(
+                  price == 0 ? "利用できません" : '\t¥$price',
+                  style: TextStyle(
+                      decoration: TextDecoration.none,
+                      color: price == 0 ? Colors.grey : Colors.black,
+                      fontSize: price == 0 ? 10 : 13,
+                      fontFamily: 'NotoSansJP',
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            )),
+      ),
     );
   }
 }

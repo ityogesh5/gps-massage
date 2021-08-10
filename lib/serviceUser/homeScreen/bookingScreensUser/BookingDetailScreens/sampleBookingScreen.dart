@@ -75,224 +75,231 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
         : (isActive == false)
             ? buildBlockedDetailCard(context)
             : Scaffold(
-            key: _scaffoldKey,
-            floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
-            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-            floatingActionButton: therapistDetails.bookingDataResponse.length !=
-                        0 &&
-                    (therapistDetails.bookingDataResponse[0].bookingStatus ==
-                            1 ||
-                        therapistDetails.bookingDataResponse[0].bookingStatus ==
-                            2)
-                ? InkWell(
-                    onTap: () {
-                      ProgressDialogBuilder.showCommonProgressDialog(context);
-                      getChatDetails(therapistDetails.data.firebaseUdid);
-                    },
-                    child: Card(
-                      elevation: 3,
-                      shape: CircleBorder(),
-                      child: CircleAvatar(
-                          maxRadius: 20,
-                          backgroundColor: Colors.white,
-                          child: SvgPicture.asset('assets/images_gps/chat.svg',
-                              height: 15, width: 15)),
-                    ),
-                  )
-                : Container(
-                    height: 0.0,
-                  ),
-            body: WillPopScope(
-              onWillPop: _willPopCallback,
-              child: SafeArea(
-                child: SingleChildScrollView(
-                  controller: mainScrollController,
-                  child: Container(
-                    color: Colors.white,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        DetailCarouselWithIndicator(
-                            therapistDetails, widget.id),
-                        DetailProfileDetails(therapistDetails),
-                        therapistDetails.bookingDataResponse.length != 0 &&
-                                (therapistDetails.bookingDataResponse[0]
-                                            .bookingStatus ==
-                                        9 ||
-                                    therapistDetails.bookingDataResponse[0]
-                                            .bookingStatus ==
-                                        4 ||
-                                    therapistDetails.bookingDataResponse[0]
-                                            .bookingStatus ==
-                                        5 ||
-                                    therapistDetails.bookingDataResponse[0]
-                                            .bookingStatus ==
-                                        7 ||
-                                    therapistDetails.bookingDataResponse[0]
-                                            .bookingStatus ==
-                                        8)
-                            ? buildOldBookingDetails(context)
-                            : Container(),
-                        therapistDetails.bookingDataResponse.length != 0 &&
-                                !(therapistDetails.bookingDataResponse[0]
-                                            .bookingStatus ==
-                                        9 ||
-                                    therapistDetails.bookingDataResponse[0]
-                                            .bookingStatus ==
-                                        4 ||
-                                    therapistDetails.bookingDataResponse[0]
-                                            .bookingStatus ==
-                                        5 ||
-                                    therapistDetails.bookingDataResponse[0]
-                                            .bookingStatus ==
-                                        7 ||
-                                    therapistDetails.bookingDataResponse[0]
-                                            .bookingStatus ==
-                                        8)
-                            ? buildBookingDetails(context)
-                            : buildServices(context),
-                        therapistDetails.bookingDataResponse.length == 0 ||
-                                (therapistDetails.bookingDataResponse[0]
-                                            .bookingStatus ==
-                                        9 ||
-                                    therapistDetails.bookingDataResponse[0]
-                                            .bookingStatus ==
-                                        4 ||
-                                    therapistDetails.bookingDataResponse[0]
-                                            .bookingStatus ==
-                                        5 ||
-                                    therapistDetails.bookingDataResponse[0]
-                                            .bookingStatus ==
-                                        7 ||
-                                    therapistDetails.bookingDataResponse[0]
-                                            .bookingStatus ==
-                                        8)
-                            ? dateTimeInfoBuilder(context)
-                            : Container()
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            bottomNavigationBar: therapistDetails.bookingDataResponse.length ==
-                    0
-                ? book() //initial booking
-                : therapistDetails.bookingDataResponse[0].bookingStatus == 0
-                    ? waitingForApproval()
-                    : therapistDetails.bookingDataResponse[0].bookingStatus ==
+                key: _scaffoldKey,
+                floatingActionButtonAnimator:
+                    FloatingActionButtonAnimator.scaling,
+                floatingActionButtonLocation:
+                    FloatingActionButtonLocation.endFloat,
+                floatingActionButton: therapistDetails
+                                .bookingDataResponse.length !=
+                            0 &&
+                        (therapistDetails
+                                    .bookingDataResponse[0].bookingStatus ==
                                 1 ||
                             therapistDetails
                                     .bookingDataResponse[0].bookingStatus ==
-                                3
-                        ? proceedToPayment()
+                                2)
+                    ? InkWell(
+                        onTap: () {
+                          ProgressDialogBuilder.showCommonProgressDialog(
+                              context);
+                          getChatDetails(therapistDetails.data.firebaseUdid);
+                        },
+                        child: Card(
+                          elevation: 3,
+                          shape: CircleBorder(),
+                          child: CircleAvatar(
+                              maxRadius: 20,
+                              backgroundColor: Colors.white,
+                              child: SvgPicture.asset(
+                                  'assets/images_gps/chat.svg',
+                                  height: 15,
+                                  width: 15)),
+                        ),
+                      )
+                    : Container(
+                        height: 0.0,
+                      ),
+                body: WillPopScope(
+                  onWillPop: _willPopCallback,
+                  child: SafeArea(
+                    child: SingleChildScrollView(
+                      controller: mainScrollController,
+                      child: Container(
+                        color: Colors.white,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            DetailCarouselWithIndicator(
+                                therapistDetails, widget.id),
+                            DetailProfileDetails(therapistDetails),
+                            therapistDetails.bookingDataResponse.length != 0 &&
+                                    (therapistDetails.bookingDataResponse[0]
+                                                .bookingStatus ==
+                                            9 ||
+                                        therapistDetails.bookingDataResponse[0]
+                                                .bookingStatus ==
+                                            4 ||
+                                        therapistDetails.bookingDataResponse[0]
+                                                .bookingStatus ==
+                                            5 ||
+                                        therapistDetails.bookingDataResponse[0]
+                                                .bookingStatus ==
+                                            7 ||
+                                        therapistDetails.bookingDataResponse[0]
+                                                .bookingStatus ==
+                                            8)
+                                ? buildOldBookingDetails(context)
+                                : Container(),
+                            therapistDetails.bookingDataResponse.length != 0 &&
+                                    !(therapistDetails.bookingDataResponse[0]
+                                                .bookingStatus ==
+                                            9 ||
+                                        therapistDetails.bookingDataResponse[0]
+                                                .bookingStatus ==
+                                            4 ||
+                                        therapistDetails.bookingDataResponse[0]
+                                                .bookingStatus ==
+                                            5 ||
+                                        therapistDetails.bookingDataResponse[0]
+                                                .bookingStatus ==
+                                            7 ||
+                                        therapistDetails.bookingDataResponse[0]
+                                                .bookingStatus ==
+                                            8)
+                                ? buildBookingDetails(context)
+                                : buildServices(context),
+                            therapistDetails.bookingDataResponse.length == 0 ||
+                                    (therapistDetails.bookingDataResponse[0]
+                                                .bookingStatus ==
+                                            9 ||
+                                        therapistDetails.bookingDataResponse[0]
+                                                .bookingStatus ==
+                                            4 ||
+                                        therapistDetails.bookingDataResponse[0]
+                                                .bookingStatus ==
+                                            5 ||
+                                        therapistDetails.bookingDataResponse[0]
+                                                .bookingStatus ==
+                                            7 ||
+                                        therapistDetails.bookingDataResponse[0]
+                                                .bookingStatus ==
+                                            8)
+                                ? dateTimeInfoBuilder(context)
+                                : Container()
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                bottomNavigationBar: therapistDetails
+                            .bookingDataResponse.length ==
+                        0
+                    ? book() //initial booking
+                    : therapistDetails.bookingDataResponse[0].bookingStatus == 0
+                        ? waitingForApproval()
                         : therapistDetails
-                                    .bookingDataResponse[0].bookingStatus ==
-                                2
-                            ? acceptConditions()
+                                        .bookingDataResponse[0].bookingStatus ==
+                                    1 ||
+                                therapistDetails
+                                        .bookingDataResponse[0].bookingStatus ==
+                                    3
+                            ? proceedToPayment()
                             : therapistDetails
                                         .bookingDataResponse[0].bookingStatus ==
-                                    6
-                                ? Container(
-                                    height: 0.0,
-                                  )
-                                : bookAgain(),
-          );
+                                    2
+                                ? acceptConditions()
+                                : therapistDetails.bookingDataResponse[0]
+                                            .bookingStatus ==
+                                        6
+                                    ? Container(
+                                        height: 0.0,
+                                      )
+                                    : bookAgain(),
+              );
   }
 
-   Scaffold buildBlockedDetailCard(BuildContext context) {
+  Scaffold buildBlockedDetailCard(BuildContext context) {
     return Scaffold(
-              appBar: AppBar(
-                backgroundColor: Colors.transparent,
-                brightness: Brightness.light,
-                elevation: 0.0,
-                automaticallyImplyLeading: false,
-                leading: IconButton(
-                  padding: EdgeInsets.only(
-                      left: 4.0, top: 8.0, bottom: 8.0, right: 0.0),
-                  icon: Icon(
-                    Icons.arrow_back_ios,
-                    color: Colors.black,
-                  ),
-                  onPressed: () => Navigator.pop(context),
-                ),
-                title: Text(
-                  '',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'NotoSansJP',
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-              body: Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        brightness: Brightness.light,
+        elevation: 0.0,
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          padding:
+              EdgeInsets.only(left: 4.0, top: 8.0, bottom: 8.0, right: 0.0),
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+          ),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: Text(
+          '',
+          style: TextStyle(
+              color: Colors.black,
+              fontFamily: 'NotoSansJP',
+              fontWeight: FontWeight.bold),
+        ),
+      ),
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: Container(
+                    padding: EdgeInsets.all(8.0),
+                    height: MediaQuery.of(context).size.height * 0.22,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(255, 255, 255, 1),
+                      borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                      border:
+                          Border.all(color: Color.fromRGBO(217, 217, 217, 1)),
+                    ),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Center(
-                          child: Container(
-                            padding: EdgeInsets.all(8.0),
-                            height: MediaQuery.of(context).size.height * 0.22,
-                            width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
-                              color: Color.fromRGBO(255, 255, 255, 1),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(16.0)),
-                              border: Border.all(
-                                  color: Color.fromRGBO(217, 217, 217, 1)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            InkWell(
+                              onTap: () {},
+                              child: new Container(
+                                  width: 60.0,
+                                  height: 60.0,
+                                  decoration: new BoxDecoration(
+                                    border: Border.all(color: Colors.black12),
+                                    shape: BoxShape.circle,
+                                    image: new DecorationImage(
+                                        fit: BoxFit.fill,
+                                        image: new AssetImage(
+                                            'assets/images_gps/appIcon.png')),
+                                  )),
                             ),
-                            child: Column(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    InkWell(
-                                      onTap: () {},
-                                      child: new Container(
-                                          width: 60.0,
-                                          height: 60.0,
-                                          decoration: new BoxDecoration(
-                                            border: Border.all(
-                                                color: Colors.black12),
-                                            shape: BoxShape.circle,
-                                            image: new DecorationImage(
-                                                fit: BoxFit.fill,
-                                                image: new AssetImage(
-                                                    'assets/images_gps/appIcon.png')),
-                                          )),
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'セラピストは現在、利用できません',
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                fontFamily: 'NotoSansJP',
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ],
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  Text(
+                                    'セラピストは現在、利用できません',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontFamily: 'NotoSansJP',
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ),
+                          ],
+                        )
                       ],
                     ),
                   ),
-                ],
-              ),
-            );
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   buildOldBookingDetails(BuildContext context) {
@@ -1565,25 +1572,31 @@ class _SampleBookingScreenState extends State<SampleBookingScreen> {
           },
           child: Column(
             children: [
-              Container(
-                height: 65,
-                width: 65,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: visibility[index]
-                      ? Color.fromRGBO(242, 242, 242, 1)
-                      : Color.fromRGBO(255, 255, 255, 1),
-                  border: Border.all(
-                    color: visibility[index]
-                        ? Color.fromRGBO(102, 102, 102, 1)
-                        : Color.fromRGBO(228, 228, 228, 1),
-                  ),
+              Card(
+                elevation: visibility[index] ? 4.0 : 0.0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: SvgPicture.asset(
-                    '$path',
-                    fit: BoxFit.contain,
+                child: Container(
+                  height: 65,
+                  width: 65,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: visibility[index]
+                        ? Color.fromRGBO(242, 242, 242, 1)
+                        : Color.fromRGBO(255, 255, 255, 1),
+                    border: Border.all(
+                      color: visibility[index]
+                          ? Color.fromRGBO(102, 102, 102, 1)
+                          : Color.fromRGBO(228, 228, 228, 1),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: SvgPicture.asset(
+                      '$path',
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
               ),

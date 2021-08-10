@@ -2685,25 +2685,31 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
           },
           child: Column(
             children: [
-              Container(
-                height: 65,
-                width: 65,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: visibility[index]
-                      ? Color.fromRGBO(242, 242, 242, 1)
-                      : Color.fromRGBO(255, 255, 255, 1),
-                  border: Border.all(
-                    color: visibility[index]
-                        ? Color.fromRGBO(102, 102, 102, 1)
-                        : Color.fromRGBO(228, 228, 228, 1),
-                  ),
+              Card(
+                elevation: visibility[index] ? 4.0 : 0.0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: SvgPicture.asset(
-                    '$path',
-                    fit: BoxFit.contain,
+                child: Container(
+                  height: 65,
+                  width: 65,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: visibility[index]
+                        ? Color.fromRGBO(242, 242, 242, 1)
+                        : Color.fromRGBO(255, 255, 255, 1),
+                    border: Border.all(
+                      color: visibility[index]
+                          ? Color.fromRGBO(102, 102, 102, 1)
+                          : Color.fromRGBO(228, 228, 228, 1),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: SvgPicture.asset(
+                      '$path',
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
               ),

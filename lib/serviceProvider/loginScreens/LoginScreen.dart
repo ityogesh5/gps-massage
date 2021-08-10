@@ -629,11 +629,11 @@ class _ProviderLoginState extends State<ProviderLogin> {
             ProgressDialogBuilder.hideCommonProgressDialog(context);
             print("Apple Sign in Exception : $e");
           }
-        } else {
+        } else { ProgressDialogBuilder.hideCommonProgressDialog(context);
           print('Apple SignIn is not available for your device');
         }
       }
-    } on Exception catch (e) {
+    } on Exception catch (e) { ProgressDialogBuilder.hideCommonProgressDialog(context);
       print("Apple Sign in Exception : $e");
     }
   }

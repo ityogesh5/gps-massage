@@ -54,7 +54,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
   FocusNode oneEightyMinFocus = FocusNode();
 
   // TextEditingController sampleOthersController = TextEditingController();
-  String otherValueText;
+  String otherValueText = '';
   EstheticDropDownModel estheticDropDownModel;
   RelaxationDropDownModel relaxationDropDownModel;
   TreatmentDropDownModel treatmentDropDownModel;
@@ -1744,7 +1744,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       backgroundColor: ColorConstants.snackBarColor,
       content:
-          Text('追加する値を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
+          Text('サービスの名前を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
       action: SnackBarAction(
           onPressed: () {
             _scaffoldKey.currentState.hideCurrentSnackBar();

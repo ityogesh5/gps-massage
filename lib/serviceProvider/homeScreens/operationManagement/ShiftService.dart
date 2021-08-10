@@ -65,7 +65,7 @@ class _ShiftServiceState extends State<ShiftService> {
   FocusNode oneEightyMinFocus = FocusNode();
 
   // TextEditingController sampleOthersController = TextEditingController();
-  String otherValueText;
+  String otherValueText = '';
   EstheticDropDownModel estheticDropDownModel;
   RelaxationDropDownModel relaxationDropDownModel;
   TreatmentDropDownModel treatmentDropDownModel;
@@ -1767,8 +1767,7 @@ class _ShiftServiceState extends State<ShiftService> {
   void showEmptyErrorMessage() {
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       backgroundColor: ColorConstants.snackBarColor,
-      content:
-          Text('追加する値を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+      content: Text('サービスの名前を入力してください。'),
       action: SnackBarAction(
           onPressed: () {
             _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1783,8 +1782,9 @@ class _ShiftServiceState extends State<ShiftService> {
   void showLengthErrorMessage() {
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       backgroundColor: ColorConstants.snackBarColor,
-      content: Text('サービスの名前を15文字以内で入力してください。',
-          style: TextStyle(fontFamily: 'Open Sans')),
+      content: Text(
+        'サービスの名前を15文字以内で入力してください。',
+      ),
       action: SnackBarAction(
           onPressed: () {
             _scaffoldKey.currentState.hideCurrentSnackBar();
