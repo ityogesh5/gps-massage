@@ -650,13 +650,16 @@ class _UserLoginState extends State<UserLogin> {
             print("Apple Sign in Success");
             return authResult.user;
           } on Exception catch (e) {
+            ProgressDialogBuilder.hideCommonProgressDialog(context);
             print("Apple Sign in Exception : $e");
           }
         } else {
+          ProgressDialogBuilder.hideCommonProgressDialog(context);
           print('Apple SignIn is not available for your device');
         }
       }
     } on Exception catch (e) {
+      ProgressDialogBuilder.hideCommonProgressDialog(context);
       print("Apple Sign in Exception : $e");
     }
   }
