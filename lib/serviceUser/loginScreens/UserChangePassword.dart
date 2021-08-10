@@ -6,6 +6,7 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
+import 'package:gps_massageapp/customLibraryClasses/customTextField/text_field_custom.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/login/sendVerifyResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/changePasswordResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
@@ -165,16 +166,17 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                     ),
                     Container(
                       height: containerHeight,
-                      child: TextFormField(
+                      child: TextFieldCustom(
                         obscureText: _secureText,
                         textInputAction: TextInputAction.next,
                         focusNode: createPasswordFocus,
                         maxLength: 16,
                         controller: createPasswordController,
                         keyboardType: TextInputType.emailAddress,
-                        style: HealingMatchConstants.formTextStyle,
+                         style: HealingMatchConstants.formTextStyle,
                         decoration: new InputDecoration(
-                          counterText: "",
+                          contentPadding: EdgeInsets.all(16.0),
+                         counterText: "",
                           border: HealingMatchConstants.textFormInputBorder,
                           focusedBorder:
                               HealingMatchConstants.textFormInputBorder,
@@ -192,10 +194,23 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                                 });
                               }),
                           filled: true,
-                          labelText:
-                              HealingMatchConstants.changePasswordNewpass,
-                          labelStyle: HealingMatchConstants.formLabelTextStyle,
-                          fillColor: ColorConstants.formFieldFillColor,
+                          
+                        ),
+                        labelText: Text.rich(
+                          TextSpan(
+                            text: HealingMatchConstants.changePasswordNewpass,
+                            children: <InlineSpan>[
+                              TextSpan(
+                                text: '*',
+                                style:
+                                    TextStyle(color: Colors.red, fontSize: 16),
+                              ),
+                            ],
+                            style: TextStyle(
+                                color: Color.fromRGBO(197, 197, 197, 1),
+                                fontFamily: 'NotoSansJP',
+                                fontSize: 16),
+                          ),
                         ),
                       ),
                     ),
@@ -204,7 +219,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                     ),
                     Container(
                       height: containerHeight,
-                      child: TextFormField(
+                      child: TextFieldCustom(
                         obscureText: passwordConfirmVisibility,
                         textInputAction: TextInputAction.done,
                         focusNode: confirmPasswordFocus,
@@ -232,10 +247,23 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                                 });
                               }),
                           filled: true,
-                          labelText:
-                              HealingMatchConstants.changePasswordConfirmpass,
-                          labelStyle: HealingMatchConstants.formLabelTextStyle,
-                          fillColor: ColorConstants.formFieldFillColor,
+                         
+                        ),
+                        labelText: Text.rich(
+                          TextSpan(
+                            text: HealingMatchConstants.changePasswordConfirmpass,
+                            children: <InlineSpan>[
+                              TextSpan(
+                                text: '*',
+                                style:
+                                    TextStyle(color: Colors.red, fontSize: 16),
+                              ),
+                            ],
+                            style: TextStyle(
+                                color: Color.fromRGBO(197, 197, 197, 1),
+                                fontFamily: 'NotoSansJP',
+                                fontSize: 16),
+                          ),
                         ),
                       ),
                     ),
