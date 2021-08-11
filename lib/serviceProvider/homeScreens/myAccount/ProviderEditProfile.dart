@@ -3102,6 +3102,13 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       }
     }
 
+    qualification = qualification == ""
+        ? userData.qulaificationCertImgUrl
+        : userData.qulaificationCertImgUrl == "無資格" ||
+                userData.qulaificationCertImgUrl == "無資格,"
+            ? qualification
+            : userData.qulaificationCertImgUrl + "," + qualification;
+
     String childrenMeasure = '';
     if (HealingMatchConstants.serviceProviderChildrenMeasure.isEmpty) {
       childrenMeasure = '';
@@ -3188,7 +3195,8 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
               HealingMatchConstants.serviceProviderBusinessForm ==
                   "施術店舗あり 施術従業員なし（個人経営）"
           ? "true"
-          : "false"
+          : "false",
+      'qulaificationCertImgUrl': qualification,
     });
     if (bussinessForm == "施術店舗あり 施術従業員あり" ||
         bussinessForm == "施術店舗あり 施術従業員なし（個人経営）") {

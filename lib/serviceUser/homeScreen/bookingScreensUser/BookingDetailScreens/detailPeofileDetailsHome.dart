@@ -785,7 +785,7 @@ class _DetailPeofileDetailsHomeState extends State<DetailPeofileDetailsHome> {
                   endTime.minute, endTime.second)
               : DateTime(endTime.year, endTime.month, 1, endTime.hour,
                   endTime.minute, endTime.second);
-          if (i == 0) {
+          if (minSTime == null) {
             minSTime = currentSTime;
             minETime = currentETime;
           } else {
