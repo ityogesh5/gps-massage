@@ -1024,7 +1024,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                         style: TextStyle(
                           fontSize: 14.0,
                           color: Colors.grey,
-                          fontWeight: FontWeight.bold,
+                         
                         ),
                       ),
                     ),

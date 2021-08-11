@@ -102,7 +102,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              "($totalElements)",
+                              "($totalElementsレビュー)",
                               style: TextStyle(
                                   fontFamily: 'NotoSansJP',
                                   fontSize: 12,
