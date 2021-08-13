@@ -39,11 +39,16 @@ class _UserTermsAndConditionsState extends State<UserTermsAndConditions> {
             builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
               if (snapshot.hasData) {
                 return Markdown(
-                    data: snapshot.data,
-                    styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context))
-                        .copyWith(
-                            p: Theme.of(context).textTheme.bodyText1.copyWith(
-                                fontSize: 14.0, fontFamily: 'NotoSansJP')));
+                  data: snapshot.data,
+                  styleSheet:
+                      MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
+                    p: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        .copyWith(fontSize: 14.0, fontFamily: 'NotoSansJP'),
+                    listIndent: 25.0,
+                  ),
+                );
               }
               return Center(
                 child: SpinKitDoubleBounce(color: Colors.limeAccent),

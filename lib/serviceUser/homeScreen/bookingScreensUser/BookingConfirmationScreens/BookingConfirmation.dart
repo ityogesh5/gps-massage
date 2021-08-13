@@ -81,7 +81,8 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
         : DateFormat('kk:mm')
             .format(HealingMatchConstants.confSelectedDateTime);
     eTime = DateFormat('kk:mm').format(HealingMatchConstants.confEndDateTime);
-    day = DateFormat('MM月dd').format(HealingMatchConstants.confEndDateTime);
+    day =
+        DateFormat('MM月dd').format(HealingMatchConstants.confSelectedDateTime);
   }
 
   @override
@@ -1207,7 +1208,7 @@ class BuildingCategories {
         BuildingCategory(name: 'アバート'),
         BuildingCategory(name: '一軒家'),
         BuildingCategory(name: 'ホテル'),
-         BuildingCategory(name: 'オフィス'),
+        BuildingCategory(name: 'オフィス'),
         BuildingCategory(name: '商業施設'),
         BuildingCategory(name: 'その他'),
       ],
