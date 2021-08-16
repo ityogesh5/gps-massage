@@ -1661,7 +1661,7 @@ class _RegisterUserState extends State<RegisterUser> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('有効なユーザー名を入力してください。',
+              child: Text('お名前を入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),

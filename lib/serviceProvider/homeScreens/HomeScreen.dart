@@ -1212,66 +1212,63 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
 
   Padding displayNoAcceptedInfo(BuildContext context) {
     return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Center(
-                      child: Container(
-                        padding: EdgeInsets.all(8.0),
-                        height: MediaQuery.of(context).size.height * 0.22,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          color: Color.fromRGBO(255, 255, 255, 1),
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(16.0)),
-                          border: Border.all(
-                              color: Color.fromRGBO(217, 217, 217, 1)),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                InkWell(
-                                  onTap: () {},
-                                  child: new Container(
-                                      width: 60.0,
-                                      height: 60.0,
-                                      decoration: new BoxDecoration(
-                                        border:
-                                            Border.all(color: Colors.black12),
-                                        shape: BoxShape.circle,
-                                        image: new DecorationImage(
-                                            fit: BoxFit.fill,
-                                            image: new AssetImage(
-                                                'assets/images_gps/appIcon.png')),
-                                      )),
-                                ),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                Flexible(
-                                  child: Text(
-                                    'ご登録の内容を管理者が確認しております。\n確認完了まで今しばらくお待ちください。',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontFamily: 'NotoSansJP',
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Container(
+              padding: EdgeInsets.all(8.0),
+              height: MediaQuery.of(context).size.height * 0.22,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                color: Color.fromRGBO(255, 255, 255, 1),
+                borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                border: Border.all(color: Color.fromRGBO(217, 217, 217, 1)),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      InkWell(
+                        onTap: () {},
+                        child: new Container(
+                            width: 60.0,
+                            height: 60.0,
+                            decoration: new BoxDecoration(
+                              border: Border.all(color: Colors.black12),
+                              shape: BoxShape.circle,
+                              image: new DecorationImage(
+                                  fit: BoxFit.fill,
+                                  image: new AssetImage(
+                                      'assets/images_gps/appIcon.png')),
+                            )),
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Flexible(
+                        child: Text(
+                          'ご登録の内容を管理者が確認しております。\n確認完了まで今しばらくお待ちください。',
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontFamily: 'NotoSansJP',
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              );
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Card buildAppointmentDetails() {
@@ -1704,7 +1701,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                     endTime.minute, endTime.second)
                 : DateTime(endTime.year, endTime.month, 1, endTime.hour,
                     endTime.minute, endTime.second);
-            if (i == 0) {
+            if (minSTime == null) {
               minSTime = currentSTime;
               minETime = currentETime;
             } else {
