@@ -1221,11 +1221,11 @@ class ServiceUserAPIProvider {
 
     EventDateTime start = new EventDateTime();
     start.dateTime = calendarModel.startTime;
-    start.timeZone = "GMT+05:30";
+    start.timeZone = HealingMatchConstants.calendarTimeZone;
     event.start = start;
 
     EventDateTime end = new EventDateTime();
-    end.timeZone = "GMT+05:30";
+    end.timeZone = HealingMatchConstants.calendarTimeZone;
     end.dateTime = calendarModel.endTime;
     event.end = end;
 
@@ -1264,7 +1264,7 @@ class ServiceUserAPIProvider {
       singleEvents: true,
       timeMin: startTime.toUtc(),
       timeMax: endTime.toUtc(),
-      //  timeZone: "GMT+05:30"
+      //  timeZone: HealingMatchConstants.calendarTimeZone
     );
     try {
       Events events = await calEvents;
