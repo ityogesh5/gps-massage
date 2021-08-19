@@ -34,6 +34,12 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/chat.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/db.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/chatData.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/firebaseChatHelper/models/user.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
+import 'package:gps_massageapp/commonScreens/chat/chat_item_screen.dart';
 
 List<String> userBannerImages = [];
 List<String> _options = ['エステ', 'フィットネス', '整骨・整体', 'リラクゼーション'];
@@ -1975,6 +1981,23 @@ class _ReservationListState extends State<ReservationList> {
     _getCurrentDate();
   }
 
+  getChatDetails(String peerId) {
+    DB db = DB();
+    List<ChatData> chatData = List<ChatData>();
+    List<UserDetail> contactList = List<UserDetail>();
+    db.getUserDetilsOfContacts(['$peerId']).then((value) {
+      contactList.addAll(value);
+      Chat().fetchChats(contactList).then((value) {
+        chatData.addAll(value);
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ChatItemScreen(chatData[0])));
+      });
+    });
+  }
+
   _getCurrentDate() {
     var date = new DateTime.now().toString();
 
@@ -2405,11 +2428,38 @@ class _ReservationListState extends State<ReservationList> {
                     Row(
                       children: [
                         Expanded(
+                          flex: 2,
                           child: Divider(
                             // height: 50,
 
                             color: Color.fromRGBO(217, 217, 217, 1),
                           ),
+                        ),
+                        Expanded(
+                          child: bookingDetailsList[0].bookingStatus != 0
+                              ? InkWell(
+                                  customBorder: CircleBorder(),
+                                  onTap: () {
+                                    ProgressDialogBuilder
+                                        .showCommonProgressDialog(context);
+                                    getChatDetails(bookingDetailsList[0]
+                                        .bookingTherapistId
+                                        .firebaseUdid);
+                                  },
+                                  child: Card(
+                                    elevation: 4.0,
+                                    shape: CircleBorder(),
+                                    margin: EdgeInsets.all(0.0),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: SvgPicture.asset(
+                                          'assets/images_gps/chat.svg',
+                                          height: 15,
+                                          width: 15),
+                                    ),
+                                  ),
+                                )
+                              : Text(''),
                         ),
                       ],
                     ),
@@ -3470,7 +3520,6 @@ class _RecommendListsState extends State<RecommendLists> {
                                   )),
                             ),
                             SizedBox(width: 15),
-
                             Flexible(
                               child: Text(
                                 'おすすめのセラピスト・店舗は\nありません。',

@@ -2225,7 +2225,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                     setState(() {
                       if (allTherapistList != null &&
                           allTherapistList.isNotEmpty) {
-                        visibility[lastIndex] = false;
+                        // visibility[lastIndex] = false;
                         serviceSelection.clear();
                         allTherapistList.clear();
                         scrollController.jumpTo(index: 0);
@@ -2311,7 +2311,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                     setState(() {
                       if (allTherapistList != null &&
                           allTherapistList.isNotEmpty) {
-                        visibility[lastIndex] = false;
+                        // visibility[lastIndex] = false;
                         serviceSelection.clear();
                         allTherapistList.clear();
                         scrollController.jumpTo(index: 0);
@@ -2397,7 +2397,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                     setState(() {
                       if (allTherapistList != null &&
                           allTherapistList.isNotEmpty) {
-                        visibility[lastIndex] = false;
+                        // visibility[lastIndex] = false;
                         serviceSelection.clear();
                         allTherapistList.clear();
                         scrollController.jumpTo(index: 0);
@@ -2483,7 +2483,7 @@ class _BookingDetailHomePageState extends State<BookingDetailHomePage> {
                     setState(() {
                       if (allTherapistList != null &&
                           allTherapistList.isNotEmpty) {
-                        visibility[lastIndex] = false;
+                        // visibility[lastIndex] = false;
                         serviceSelection.clear();
                         allTherapistList.clear();
                         scrollController.jumpTo(index: 0);
