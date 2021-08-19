@@ -338,7 +338,7 @@ class ServiceProviderApi {
       singleEvents: true,
       timeMin: startTime.toUtc(),
       timeMax: endTime.toUtc(),
-      //  timeZone: "GMT+05:30"
+      //  timeZone: HealingMatchConstants.calendarTimeZone
     );
     try {
       Events events = await calEvents;
@@ -427,13 +427,13 @@ class ServiceProviderApi {
 
     EventDateTime start = new EventDateTime();
     start.dateTime = startTime;
-    start.timeZone = "GMT+05:30";
+    start.timeZone = HealingMatchConstants.calendarTimeZone;
     event.start = start;
 
     DateTime endTime = startTime.add(Duration(minutes: 15));
 
     EventDateTime end = new EventDateTime();
-    end.timeZone = "GMT+05:30";
+    end.timeZone = HealingMatchConstants.calendarTimeZone;
     end.dateTime = endTime;
     event.end = end;
 
@@ -483,11 +483,11 @@ class ServiceProviderApi {
     if (isDateChanged) {
       EventDateTime start = new EventDateTime();
       start.dateTime = bookingDetailsList.newStartTime;
-      start.timeZone = "GMT+05:30";
+      start.timeZone = HealingMatchConstants.calendarTimeZone;
       event.start = start;
 
       EventDateTime end = new EventDateTime();
-      end.timeZone = "GMT+05:30";
+      end.timeZone = HealingMatchConstants.calendarTimeZone;
       end.dateTime = //bookingDetailsList.newEndTime;
           DateTime(
               bookingDetailsList.newStartTime.year,
@@ -501,11 +501,11 @@ class ServiceProviderApi {
     } else {
       EventDateTime start = new EventDateTime();
       start.dateTime = bookingDetailsList.startTime.toLocal();
-      start.timeZone = "GMT+05:30";
+      start.timeZone = HealingMatchConstants.calendarTimeZone;
       event.start = start;
 
       EventDateTime end = new EventDateTime();
-      end.timeZone = "GMT+05:30";
+      end.timeZone = HealingMatchConstants.calendarTimeZone;
       end.dateTime = bookingDetailsList.endTime.toLocal();
       event.end = end;
     }
@@ -562,11 +562,11 @@ class ServiceProviderApi {
     if (isDateChanged) {
       EventDateTime start = new EventDateTime();
       start.dateTime = bookingDetailsList.bookingDetail.newStartTime;
-      start.timeZone = "GMT+05:30";
+      start.timeZone = HealingMatchConstants.calendarTimeZone;
       event.start = start;
 
       EventDateTime end = new EventDateTime();
-      end.timeZone = "GMT+05:30";
+      end.timeZone = HealingMatchConstants.calendarTimeZone;
       end.dateTime = DateTime(
           bookingDetailsList.bookingDetail.newStartTime.year,
           bookingDetailsList.bookingDetail.newStartTime.month,
@@ -580,11 +580,11 @@ class ServiceProviderApi {
     } else {
       EventDateTime start = new EventDateTime();
       start.dateTime = bookingDetailsList.bookingDetail.startTime.toLocal();
-      start.timeZone = "GMT+05:30";
+      start.timeZone = HealingMatchConstants.calendarTimeZone;
       event.start = start;
 
       EventDateTime end = new EventDateTime();
-      end.timeZone = "GMT+05:30";
+      end.timeZone = HealingMatchConstants.calendarTimeZone;
       end.dateTime = bookingDetailsList.bookingDetail.endTime.toLocal();
       event.end = end;
     }
