@@ -118,268 +118,283 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
             )
           : therapistDetails == null || therapistDetails.data.isAccepted == 0
               ? displayNoAcceptedInfo(context)
-              : SingleChildScrollView(
-                  child: SafeArea(
-                  child: Container(
-                    color: Colors.white,
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Card(
-                            color: Colors.grey[200],
-                            elevation: 2,
-                            shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                    color: Colors.grey.shade200, width: 0.5),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+              : therapistDetails.data.isAccepted == 2
+                  ? displayRejectedInfo(context)
+                  : SingleChildScrollView(
+                      child: SafeArea(
+                      child: Container(
+                        color: Colors.white,
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Card(
+                                color: Colors.grey[200],
+                                elevation: 2,
+                                shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                        color: Colors.grey.shade200,
+                                        width: 0.5),
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
                                     children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 8.0),
-                                        child: ClipOval(
-                                          child: CircleAvatar(
-                                            radius: 32.0,
-                                            backgroundColor: Colors.white,
-                                            child:
-                                                /*  Image.network(
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 8.0),
+                                            child: ClipOval(
+                                              child: CircleAvatar(
+                                                radius: 32.0,
+                                                backgroundColor: Colors.white,
+                                                child:
+                                                    /*  Image.network(
                                           userData.uploadProfileImgUrl,
                                           //User Profile Pic
                                           fit: BoxFit.cover,
                                           width: 100.0,
                                           height: 100.0,
                                         ), */
-                                                CachedNetworkImage(
-                                                    width: 100.0,
-                                                    height: 100.0,
-                                                    fit: BoxFit.cover,
-                                                    imageUrl: userData
-                                                        .uploadProfileImgUrl,
-                                                    placeholder: (context,
-                                                            url) =>
-                                                        SpinKitWave(
-                                                            size: 20.0,
-                                                            color: ColorConstants
-                                                                .buttonColor),
-                                                    errorWidget: (context, url,
-                                                            error) =>
-                                                        Column(
-                                                          children: [
-                                                            new IconButton(
-                                                              icon: Icon(
-                                                                  Icons
-                                                                      .refresh_sharp,
-                                                                  size: 40),
-                                                              onPressed: () {
-                                                                /* _getBannerImages(); */
-                                                              },
-                                                            ),
-                                                          ],
-                                                        )),
+                                                    CachedNetworkImage(
+                                                        width: 100.0,
+                                                        height: 100.0,
+                                                        fit: BoxFit.cover,
+                                                        imageUrl: userData
+                                                            .uploadProfileImgUrl,
+                                                        placeholder: (context,
+                                                                url) =>
+                                                            SpinKitWave(
+                                                                size: 20.0,
+                                                                color: ColorConstants
+                                                                    .buttonColor),
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            Column(
+                                                              children: [
+                                                                new IconButton(
+                                                                  icon: Icon(
+                                                                      Icons
+                                                                          .refresh_sharp,
+                                                                      size: 40),
+                                                                  onPressed:
+                                                                      () {
+                                                                    /* _getBannerImages(); */
+                                                                  },
+                                                                ),
+                                                              ],
+                                                            )),
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 10.0,
-                                            right: 8.0,
-                                            bottom: 8.0),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 10.0,
+                                                right: 8.0,
+                                                bottom: 8.0),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
-                                                Text(
-                                                  userData.storeName != null &&
-                                                          userData.storeName !=
-                                                              ""
-                                                      ? userData.storeName
-                                                                  .length >
-                                                              10
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      userData.storeName !=
+                                                                  null &&
+                                                              userData.storeName !=
+                                                                  ""
                                                           ? userData.storeName
-                                                                  .substring(
-                                                                      0, 10) +
-                                                              "..."
-                                                          : userData.storeName
-                                                      : userData.userName.length >
-                                                              10
-                                                          ? userData.userName
-                                                                  .substring(
-                                                                      0, 10) +
-                                                              "..."
-                                                          : userData
-                                                              .userName, //User Name
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      color: Colors.black,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                SizedBox(width: 10.0),
-                                                InkWell(
-                                                  onTap: () {
-                                                    showToolTip(
-                                                        userData.storeType);
-                                                  },
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      color: Colors.white,
-                                                      border: Border.all(
-                                                        color: Colors.grey[400],
+                                                                      .length >
+                                                                  10
+                                                              ? userData
+                                                                      .storeName
+                                                                      .substring(
+                                                                          0,
+                                                                          10) +
+                                                                  "..."
+                                                              : userData
+                                                                  .storeName
+                                                          : userData.userName
+                                                                      .length >
+                                                                  10
+                                                              ? userData
+                                                                      .userName
+                                                                      .substring(
+                                                                          0,
+                                                                          10) +
+                                                                  "..."
+                                                              : userData
+                                                                  .userName, //User Name
+                                                      style: TextStyle(
+                                                          fontSize: 16,
+                                                          color: Colors.black,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    SizedBox(width: 10.0),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        showToolTip(
+                                                            userData.storeType);
+                                                      },
+                                                      child: Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          color: Colors.white,
+                                                          border: Border.all(
+                                                            color: Colors
+                                                                .grey[400],
+                                                          ),
+                                                        ),
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child:
+                                                              SvgPicture.asset(
+                                                            "assets/images_gps/info.svg",
+                                                            height: 10.0,
+                                                            width: 10.0,
+                                                            key: key,
+                                                            color: Colors.black,
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              8.0),
-                                                      child: SvgPicture.asset(
-                                                        "assets/images_gps/info.svg",
-                                                        height: 10.0,
-                                                        width: 10.0,
-                                                        key: key,
-                                                        color: Colors.black,
-                                                      ),
-                                                    ),
-                                                  ),
+                                                  ],
                                                 ),
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height:
-                                                  userData.businessForm !=
-                                                              null ||
-                                                          userData.businessTrip !=
-                                                              null ||
-                                                          userData.coronaMeasure !=
-                                                              null
-                                                      ? 10.0
-                                                      : 0.0,
-                                            ),
-                                            Row(
-                                              children: [
-                                                (userData.businessForm ==
-                                                            "施術店舗あり 施術従業員あり" ||
-                                                        userData.businessForm ==
-                                                            "施術店舗あり 施術従業員なし（個人経営）")
-                                                    ? Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                left: 0.0,
-                                                                top: 0.0,
-                                                                right: 8.0,
-                                                                bottom: 0.0),
-                                                        child: Container(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  8.0),
-                                                          decoration:
-                                                              boxDecoration,
-                                                          child: Text(
-                                                            '店舗', //Store
-                                                            style: TextStyle(
-                                                              fontSize: 9,
-                                                              color:
-                                                                  Colors.black,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      )
-                                                    : Container(),
-                                                (userData.businessTrip)
-                                                    ? Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                left: 8.0,
-                                                                top: 0.0,
-                                                                right: 8.0,
-                                                                bottom: 0.0),
-                                                        child: Container(
-                                                          padding:
-                                                              EdgeInsets.all(8),
-                                                          decoration:
-                                                              boxDecoration,
-                                                          child: Text(
-                                                            '出張', //Business Trip
-                                                            style: TextStyle(
-                                                              fontSize: 9,
-                                                              color:
-                                                                  Colors.black,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      )
-                                                    : Container(),
-                                                (userData.coronaMeasure)
-                                                    ? Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                left: 8.0,
-                                                                top: 0.0,
-                                                                right: 8.0,
-                                                                bottom: 0.0),
-                                                        child: Container(
-                                                          padding:
-                                                              EdgeInsets.all(8),
-                                                          decoration:
-                                                              boxDecoration,
-                                                          child: Text(
-                                                            'コロナ対策実施', //Corona Measure
-                                                            style: TextStyle(
-                                                              fontSize: 9,
-                                                              color:
-                                                                  Colors.black,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      )
-                                                    : Container(),
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: userData.genderOfService !=
-                                                          null &&
-                                                      userData.genderOfService !=
-                                                          ''
-                                                  ? 10.0
-                                                  : 0.0,
-                                            ),
-                                            userData.genderOfService != null &&
-                                                    userData.genderOfService !=
-                                                        ''
-                                                ? Container(
-                                                    padding:
-                                                        EdgeInsets.all(8.0),
-                                                    decoration: boxDecoration,
-                                                    child: userData
-                                                                .genderOfService ==
-                                                            "男性女性両方"
-                                                        ? Text(
-                                                            '男性と女性の両方が予約できます',
-                                                            //both men and women can book
-                                                            style: TextStyle(
-                                                              fontSize: 9,
-                                                              color:
-                                                                  Colors.black,
+                                                SizedBox(
+                                                  height:
+                                                      userData.businessForm !=
+                                                                  null ||
+                                                              userData.businessTrip !=
+                                                                  null ||
+                                                              userData.coronaMeasure !=
+                                                                  null
+                                                          ? 10.0
+                                                          : 0.0,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    (userData.businessForm ==
+                                                                "施術店舗あり 施術従業員あり" ||
+                                                            userData.businessForm ==
+                                                                "施術店舗あり 施術従業員なし（個人経営）")
+                                                        ? Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 0.0,
+                                                                    top: 0.0,
+                                                                    right: 8.0,
+                                                                    bottom:
+                                                                        0.0),
+                                                            child: Container(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(8.0),
+                                                              decoration:
+                                                                  boxDecoration,
+                                                              child: Text(
+                                                                '店舗', //Store
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 9,
+                                                                  color: Colors
+                                                                      .black,
+                                                                ),
+                                                              ),
                                                             ),
                                                           )
-                                                        : userData.genderOfService ==
-                                                                "女性のみ"
+                                                        : Container(),
+                                                    (userData.businessTrip)
+                                                        ? Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 8.0,
+                                                                    top: 0.0,
+                                                                    right: 8.0,
+                                                                    bottom:
+                                                                        0.0),
+                                                            child: Container(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(8),
+                                                              decoration:
+                                                                  boxDecoration,
+                                                              child: Text(
+                                                                '出張', //Business Trip
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 9,
+                                                                  color: Colors
+                                                                      .black,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          )
+                                                        : Container(),
+                                                    (userData.coronaMeasure)
+                                                        ? Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 8.0,
+                                                                    top: 0.0,
+                                                                    right: 8.0,
+                                                                    bottom:
+                                                                        0.0),
+                                                            child: Container(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(8),
+                                                              decoration:
+                                                                  boxDecoration,
+                                                              child: Text(
+                                                                'コロナ対策実施', //Corona Measure
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 9,
+                                                                  color: Colors
+                                                                      .black,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          )
+                                                        : Container(),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: userData.genderOfService !=
+                                                              null &&
+                                                          userData.genderOfService !=
+                                                              ''
+                                                      ? 10.0
+                                                      : 0.0,
+                                                ),
+                                                userData.genderOfService !=
+                                                            null &&
+                                                        userData.genderOfService !=
+                                                            ''
+                                                    ? Container(
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
+                                                        decoration:
+                                                            boxDecoration,
+                                                        child: userData
+                                                                    .genderOfService ==
+                                                                "男性女性両方"
                                                             ? Text(
-                                                                '女性のみ予約可', //only women
+                                                                '男性と女性の両方が予約できます',
+                                                                //both men and women can book
                                                                 style:
                                                                     TextStyle(
                                                                   fontSize: 9,
@@ -387,550 +402,510 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                                       .black,
                                                                 ),
                                                               )
-                                                            : Text(
-                                                                '男性のみ予約可能', //only men
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize: 9,
-                                                                  color: Colors
-                                                                      .black,
-                                                                ),
-                                                              ),
-                                                  )
-                                                : Container(),
-                                            SizedBox(
-                                              height: childrenMeasure != null
-                                                  ? 6.0
-                                                  : 0.0,
-                                            ),
-                                            childrenMeasure != null
-                                                ? Container(
-                                                    height: 38.0,
-                                                    width:
-                                                        MediaQuery.of(context)
+                                                            : userData.genderOfService ==
+                                                                    "女性のみ"
+                                                                ? Text(
+                                                                    '女性のみ予約可', //only women
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          9,
+                                                                      color: Colors
+                                                                          .black,
+                                                                    ),
+                                                                  )
+                                                                : Text(
+                                                                    '男性のみ予約可能', //only men
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          9,
+                                                                      color: Colors
+                                                                          .black,
+                                                                    ),
+                                                                  ),
+                                                      )
+                                                    : Container(),
+                                                SizedBox(
+                                                  height:
+                                                      childrenMeasure != null
+                                                          ? 6.0
+                                                          : 0.0,
+                                                ),
+                                                childrenMeasure != null
+                                                    ? Container(
+                                                        height: 38.0,
+                                                        width: MediaQuery.of(
+                                                                    context)
                                                                 .size
                                                                 .width -
                                                             130.0, //200.0,
-                                                    child: ListView.builder(
-                                                        itemCount:
-                                                            childrenMeasure
-                                                                .length,
-                                                        padding:
-                                                            EdgeInsets.all(0.0),
-                                                        scrollDirection:
-                                                            Axis.horizontal,
-                                                        shrinkWrap: true,
-                                                        itemBuilder:
-                                                            (BuildContext
-                                                                    context,
-                                                                int index) {
-                                                          return Padding(
-                                                            padding: index == 0
-                                                                ? const EdgeInsets
-                                                                        .only(
-                                                                    left: 0.0,
-                                                                    top: 4.0,
-                                                                    right: 4.0,
-                                                                    bottom: 4.0)
-                                                                : const EdgeInsets
-                                                                    .all(4.0),
-                                                            child: Container(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .all(8),
-                                                              decoration:
-                                                                  boxDecoration,
-                                                              child: Text(
-                                                                childrenMeasure[
-                                                                    index], //Children Measure
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize: 9,
-                                                                  color: Colors
-                                                                      .black,
+                                                        child: ListView.builder(
+                                                            itemCount:
+                                                                childrenMeasure
+                                                                    .length,
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    0.0),
+                                                            scrollDirection:
+                                                                Axis.horizontal,
+                                                            shrinkWrap: true,
+                                                            itemBuilder:
+                                                                (BuildContext
+                                                                        context,
+                                                                    int index) {
+                                                              return Padding(
+                                                                padding: index == 0
+                                                                    ? const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            0.0,
+                                                                        top:
+                                                                            4.0,
+                                                                        right:
+                                                                            4.0,
+                                                                        bottom:
+                                                                            4.0)
+                                                                    : const EdgeInsets
+                                                                            .all(
+                                                                        4.0),
+                                                                child:
+                                                                    Container(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              8),
+                                                                  decoration:
+                                                                      boxDecoration,
+                                                                  child: Text(
+                                                                    childrenMeasure[
+                                                                        index], //Children Measure
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          9,
+                                                                      color: Colors
+                                                                          .black,
+                                                                    ),
+                                                                  ),
                                                                 ),
-                                                              ),
-                                                            ),
-                                                          );
-                                                        }),
-                                                  )
-                                                : Container(),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 0.0,
-                                                  top: 10.0,
-                                                  right: 8.0,
-                                                  bottom: 0.0),
-                                              child: InkWell(
-                                                onTap: () {
-                                                  NavigationRouter
-                                                      .switchToProviderSelfReviewScreen(
-                                                          context);
-                                                },
-                                                child: Row(
-                                                  children: [
-                                                    Text(
-                                                      '(${therapistDetails.reviewData.ratingAvg})',
-                                                      style: TextStyle(
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .underline,
-                                                          decorationColor:
-                                                              Colors.black,
-                                                          shadows: [
-                                                            Shadow(
-                                                                color: Colors
-                                                                    .black,
-                                                                offset: Offset(
-                                                                    0, -3))
-                                                          ],
-                                                          fontSize: 14,
-                                                          color: Colors
-                                                              .transparent,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                    SizedBox(width: 5.0),
-                                                    RatingBar.builder(
-                                                      initialRating:
-                                                          double.parse(
-                                                              therapistDetails
-                                                                  .reviewData
-                                                                  .ratingAvg),
-                                                      minRating: 1,
-                                                      direction:
-                                                          Axis.horizontal,
-                                                      allowHalfRating: true,
-                                                      unratedColor:
-                                                          Colors.grey[400],
-                                                      itemCount: 5,
-                                                      itemSize: 24.0,
-                                                      ignoreGestures: true,
-                                                      itemPadding:
-                                                          new EdgeInsets.only(
-                                                              bottom: 3.0),
-                                                      itemBuilder:
-                                                          (context, index) {
-                                                        double ratingAvg =
-                                                            double.parse(
-                                                                therapistDetails
-                                                                    .reviewData
-                                                                    .ratingAvg);
-                                                        bool isDecimal =
-                                                            isInteger(
-                                                                (ratingAvg));
-                                                        print("$isDecimal");
-                                                        return SizedBox(
-                                                            height: 20.0,
-                                                            width: 18.0,
-                                                            child:
-                                                                new IconButton(
-                                                              onPressed: () {},
-                                                              padding:
-                                                                  new EdgeInsets
-                                                                      .all(0.0),
-                                                              // color: Colors.white,
-                                                              icon: index >
-                                                                      (double.parse(therapistDetails.reviewData.ratingAvg))
-                                                                              .ceilToDouble() -
-                                                                          1
-                                                                  ? SvgPicture
-                                                                      .asset(
-                                                                      "assets/images_gps/star_2.svg",
-                                                                      height:
-                                                                          13.0,
-                                                                      width:
-                                                                          13.0,
-                                                                    )
-                                                                  : !isDecimal &&
-                                                                          index ==
-                                                                              ((double.parse(therapistDetails.reviewData.ratingAvg)).ceilToDouble() -
-                                                                                  1)
+                                                              );
+                                                            }),
+                                                      )
+                                                    : Container(),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 0.0,
+                                                          top: 10.0,
+                                                          right: 8.0,
+                                                          bottom: 0.0),
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      NavigationRouter
+                                                          .switchToProviderSelfReviewScreen(
+                                                              context);
+                                                    },
+                                                    child: Row(
+                                                      children: [
+                                                        Text(
+                                                          '(${therapistDetails.reviewData.ratingAvg})',
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .underline,
+                                                              decorationColor:
+                                                                  Colors.black,
+                                                              shadows: [
+                                                                Shadow(
+                                                                    color: Colors
+                                                                        .black,
+                                                                    offset:
+                                                                        Offset(
+                                                                            0,
+                                                                            -3))
+                                                              ],
+                                                              fontSize: 14,
+                                                              color: Colors
+                                                                  .transparent,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                        SizedBox(width: 5.0),
+                                                        RatingBar.builder(
+                                                          initialRating:
+                                                              double.parse(
+                                                                  therapistDetails
+                                                                      .reviewData
+                                                                      .ratingAvg),
+                                                          minRating: 1,
+                                                          direction:
+                                                              Axis.horizontal,
+                                                          allowHalfRating: true,
+                                                          unratedColor:
+                                                              Colors.grey[400],
+                                                          itemCount: 5,
+                                                          itemSize: 24.0,
+                                                          ignoreGestures: true,
+                                                          itemPadding:
+                                                              new EdgeInsets
+                                                                      .only(
+                                                                  bottom: 3.0),
+                                                          itemBuilder:
+                                                              (context, index) {
+                                                            double ratingAvg =
+                                                                double.parse(
+                                                                    therapistDetails
+                                                                        .reviewData
+                                                                        .ratingAvg);
+                                                            bool isDecimal =
+                                                                isInteger(
+                                                                    (ratingAvg));
+                                                            print("$isDecimal");
+                                                            return SizedBox(
+                                                                height: 20.0,
+                                                                width: 18.0,
+                                                                child:
+                                                                    new IconButton(
+                                                                  onPressed:
+                                                                      () {},
+                                                                  padding:
+                                                                      new EdgeInsets
+                                                                              .all(
+                                                                          0.0),
+                                                                  // color: Colors.white,
+                                                                  icon: index >
+                                                                          (double.parse(therapistDetails.reviewData.ratingAvg)).ceilToDouble() -
+                                                                              1
                                                                       ? SvgPicture
                                                                           .asset(
-                                                                          "assets/images_gps/half_star.svg",
+                                                                          "assets/images_gps/star_2.svg",
                                                                           height:
                                                                               13.0,
                                                                           width:
                                                                               13.0,
                                                                         )
-                                                                      : SvgPicture
-                                                                          .asset(
-                                                                          "assets/images_gps/star_colour.svg",
-                                                                          height:
-                                                                              13.0,
-                                                                          width:
-                                                                              13.0,
-                                                                          //color: Colors.black,
-                                                                        ),
-                                                            ));
-                                                      },
-                                                      onRatingUpdate: (rating) {
-                                                        print(rating);
-                                                      },
+                                                                      : !isDecimal &&
+                                                                              index == ((double.parse(therapistDetails.reviewData.ratingAvg)).ceilToDouble() - 1)
+                                                                          ? SvgPicture.asset(
+                                                                              "assets/images_gps/half_star.svg",
+                                                                              height: 13.0,
+                                                                              width: 13.0,
+                                                                            )
+                                                                          : SvgPicture.asset(
+                                                                              "assets/images_gps/star_colour.svg",
+                                                                              height: 13.0,
+                                                                              width: 13.0,
+                                                                              //color: Colors.black,
+                                                                            ),
+                                                                ));
+                                                          },
+                                                          onRatingUpdate:
+                                                              (rating) {
+                                                            print(rating);
+                                                          },
+                                                        ),
+                                                        SizedBox(width: 5.0),
+                                                        Text(
+                                                          '(${therapistDetails.reviewData.noOfReviewsMembers})',
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .underline,
+                                                              decorationColor:
+                                                                  Colors.black,
+                                                              shadows: [
+                                                                Shadow(
+                                                                    color: Colors
+                                                                        .black,
+                                                                    offset:
+                                                                        Offset(
+                                                                            0,
+                                                                            -3))
+                                                              ],
+                                                              fontSize: 10,
+                                                              color: Colors
+                                                                  .transparent,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                      ],
                                                     ),
-                                                    SizedBox(width: 5.0),
-                                                    Text(
-                                                      '(${therapistDetails.reviewData.noOfReviewsMembers})',
-                                                      style: TextStyle(
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .underline,
-                                                          decorationColor:
-                                                              Colors.black,
-                                                          shadows: [
-                                                            Shadow(
-                                                                color: Colors
-                                                                    .black,
-                                                                offset: Offset(
-                                                                    0, -3))
-                                                          ],
-                                                          fontSize: 10,
-                                                          color: Colors
-                                                              .transparent,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                  ],
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height:
-                                                  certificateImages.length != 0
+                                                SizedBox(
+                                                  height: certificateImages
+                                                              .length !=
+                                                          0
                                                       ? 6.0
                                                       : 0.0,
-                                            ),
-                                            certificateImages.length != 0
-                                                ? Container(
-                                                    height: 38.0,
-                                                    width:
-                                                        MediaQuery.of(context)
+                                                ),
+                                                certificateImages.length != 0
+                                                    ? Container(
+                                                        height: 38.0,
+                                                        width: MediaQuery.of(
+                                                                    context)
                                                                 .size
                                                                 .width -
                                                             130.0, //200.0,
-                                                    child: ListView.builder(
-                                                        shrinkWrap: true,
-                                                        scrollDirection:
-                                                            Axis.horizontal,
-                                                        itemCount:
-                                                            certificateImages
-                                                                .length,
-                                                        itemBuilder:
-                                                            (context, index) {
-                                                          String key =
-                                                              certificateImages
-                                                                  .keys
-                                                                  .elementAt(
-                                                                      index);
-                                                          return Padding(
-                                                            padding: index == 0
-                                                                ? const EdgeInsets
-                                                                        .only(
-                                                                    left: 0.0,
-                                                                    top: 4.0,
-                                                                    right: 4.0,
-                                                                    bottom: 4.0)
-                                                                : const EdgeInsets
-                                                                    .all(4.0),
-                                                            child: Container(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .all(8),
-                                                              decoration:
-                                                                  boxDecoration,
-                                                              child: Text(
-                                                                key, //Qualififcation
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize: 9,
-                                                                  color: Colors
-                                                                      .black,
+                                                        child: ListView.builder(
+                                                            shrinkWrap: true,
+                                                            scrollDirection:
+                                                                Axis.horizontal,
+                                                            itemCount:
+                                                                certificateImages
+                                                                    .length,
+                                                            itemBuilder:
+                                                                (context,
+                                                                    index) {
+                                                              String key =
+                                                                  certificateImages
+                                                                      .keys
+                                                                      .elementAt(
+                                                                          index);
+                                                              return Padding(
+                                                                padding: index == 0
+                                                                    ? const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            0.0,
+                                                                        top:
+                                                                            4.0,
+                                                                        right:
+                                                                            4.0,
+                                                                        bottom:
+                                                                            4.0)
+                                                                    : const EdgeInsets
+                                                                            .all(
+                                                                        4.0),
+                                                                child:
+                                                                    Container(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              8),
+                                                                  decoration:
+                                                                      boxDecoration,
+                                                                  child: Text(
+                                                                    key, //Qualififcation
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          9,
+                                                                      color: Colors
+                                                                          .black,
+                                                                    ),
+                                                                  ),
                                                                 ),
-                                                              ),
-                                                            ),
-                                                          );
-                                                        }),
-                                                  )
-                                                : Container(),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Divider(color: Colors.grey),
-                                  Row(children: [
-                                    SizedBox(width: 5.0),
-                                    SvgPicture.asset(
-                                      "assets/images_gps/gps.svg",
-                                      height: 25.0,
-                                      width: 25.0,
-                                    ),
-                                    SizedBox(width: 8.0),
-                                    Flexible(
-                                      child: Text(
-                                        userData.addresses[0].address,
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    )
-                                  ]),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                flex: 1,
-                                child: Container(
-                                  height: 120,
-                                  child: Card(
-                                    elevation: 5,
-                                    shape: RoundedRectangleBorder(
-                                        side: BorderSide(
-                                            color: Colors.grey.shade200,
-                                            width: 0.5),
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          SvgPicture.asset(
-                                            "assets/images_gps/c_weekly.svg",
-                                            height: 30.0,
-                                            width: 30.0,
-                                            color: Colors.black,
-                                          ),
-                                          FittedBox(
-                                              child: Text(
-                                            '今週の売り上げ',
-                                            style: TextStyle(fontSize: 12),
-                                          )),
-                                          Text(
-                                            therapistDetails.therapistProfit
-                                                        .weeklyProfit ==
-                                                    null
-                                                ? "¥0"
-                                                : '¥${therapistDetails.therapistProfit.weeklyProfit}',
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Container(
-                                  height: 120,
-                                  child: Card(
-                                    elevation: 5,
-                                    shape: RoundedRectangleBorder(
-                                        side: BorderSide(
-                                            color: Colors.grey.shade200,
-                                            width: 0.5),
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          SvgPicture.asset(
-                                            "assets/images_gps/c_monthly.svg",
-                                            height: 30.0,
-                                            width: 30.0,
-                                            color: Colors.black,
-                                          ),
-                                          FittedBox(
-                                              child: Text(
-                                            '今月の売り上げ',
-                                            style: TextStyle(fontSize: 12),
-                                          )),
-                                          Text(
-                                            therapistDetails.therapistProfit
-                                                        .monthlyProfit ==
-                                                    null
-                                                ? "¥0"
-                                                : '¥ ${therapistDetails.therapistProfit.monthlyProfit}',
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Container(
-                                  height: 120,
-                                  color: Colors.white,
-                                  child: Card(
-                                    elevation: 5,
-                                    shape: RoundedRectangleBorder(
-                                        side: BorderSide(
-                                            color: Colors.grey.shade200,
-                                            width: 0.5),
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          SvgPicture.asset(
-                                            "assets/images_gps/c_yearly.svg",
-                                            height: 30.0,
-                                            width: 30.0,
-                                            color: Colors.black,
-                                          ),
-                                          FittedBox(
-                                              child: Text(
-                                            '本年度の売り上げ',
-                                            style: TextStyle(fontSize: 12),
-                                          )),
-                                          Text(
-                                            therapistDetails.therapistProfit
-                                                        .yearlyProfit ==
-                                                    null
-                                                ? "¥0"
-                                                : '¥ ${therapistDetails.therapistProfit.yearlyProfit}',
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                        Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Form(
-                                      key: yearKey,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            width: 80.0,
-                                            /* MediaQuery.of(context).size.width *
-                                                0.2, */
-                                            color: Colors.transparent,
-                                            child: DropDownFormField(
-                                              fillColor: Colors.white,
-                                              borderColor: Color.fromRGBO(
-                                                  228, 228, 228, 1),
-                                              titleText: null,
-                                              hintText: readonly
-                                                  ? yearString
-                                                  : HealingMatchConstants
-                                                      .registrationBankAccountType,
-                                              onSaved: (value) {
-                                                var dateUtility = DateUtil();
-
-                                                setState(() {
-                                                  yearString = value;
-                                                  _cyear = int.parse(value);
-                                                  //To resolve the currentDay selected error from other month of greater than 28
-                                                  if (_cmonth == 2) {
-                                                    if (_currentDay > 28) {
-                                                      _currentDay = 28;
-                                                    }
-                                                  }
-
-                                                  var day1 =
-                                                      dateUtility.daysInMonth(
-                                                          _cmonth, _cyear);
-
-                                                  daysToDisplay = day1;
-
-                                                  displayDay = DateTime(_cyear,
-                                                      _cmonth, _currentDay);
-                                                });
-                                              },
-                                              value: yearString,
-                                              onChanged: (value) {
-                                                yearString = value;
-                                                _cyear = int.parse(value);
-                                                //To resolve the currentDay selected error from other month of greater than 28
-                                                if (_cmonth == 2) {
-                                                  if (_currentDay > 28) {
-                                                    _currentDay = 28;
-                                                  }
-                                                }
-
-                                                var dateUtility = DateUtil();
-                                                var day1 =
-                                                    dateUtility.daysInMonth(
-                                                        _cmonth, _cyear);
-
-                                                setState(() {
-                                                  daysToDisplay = day1;
-
-                                                  displayDay = DateTime(_cyear,
-                                                      _cmonth, _currentDay);
-                                                });
-                                              },
-                                              dataSource: yearDropDownValues,
-                                              isList: true,
-                                              textField: 'display',
-                                              valueField: 'value',
+                                                              );
+                                                            }),
+                                                      )
+                                                    : Container(),
+                                              ],
                                             ),
                                           ),
                                         ],
                                       ),
+                                      Divider(color: Colors.grey),
+                                      Row(children: [
+                                        SizedBox(width: 5.0),
+                                        SvgPicture.asset(
+                                          "assets/images_gps/gps.svg",
+                                          height: 25.0,
+                                          width: 25.0,
+                                        ),
+                                        SizedBox(width: 8.0),
+                                        Flexible(
+                                          child: Text(
+                                            userData.addresses[0].address,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        )
+                                      ]),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Container(
+                                      height: 120,
+                                      child: Card(
+                                        elevation: 5,
+                                        shape: RoundedRectangleBorder(
+                                            side: BorderSide(
+                                                color: Colors.grey.shade200,
+                                                width: 0.5),
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              SvgPicture.asset(
+                                                "assets/images_gps/c_weekly.svg",
+                                                height: 30.0,
+                                                width: 30.0,
+                                                color: Colors.black,
+                                              ),
+                                              FittedBox(
+                                                  child: Text(
+                                                '今週の売り上げ',
+                                                style: TextStyle(fontSize: 12),
+                                              )),
+                                              Text(
+                                                therapistDetails.therapistProfit
+                                                            .weeklyProfit ==
+                                                        null
+                                                    ? "¥0"
+                                                    : '¥${therapistDetails.therapistProfit.weeklyProfit}',
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                    SizedBox(width: 20),
-                                    Container(
-                                        width: 80.0,
-                                        /*   MediaQuery.of(context).size.width * 0.2, */
-                                        child: Form(
-                                          key: monthKey,
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: Container(
+                                      height: 120,
+                                      child: Card(
+                                        elevation: 5,
+                                        shape: RoundedRectangleBorder(
+                                            side: BorderSide(
+                                                color: Colors.grey.shade200,
+                                                width: 0.5),
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              SvgPicture.asset(
+                                                "assets/images_gps/c_monthly.svg",
+                                                height: 30.0,
+                                                width: 30.0,
+                                                color: Colors.black,
+                                              ),
+                                              FittedBox(
+                                                  child: Text(
+                                                '今月の売り上げ',
+                                                style: TextStyle(fontSize: 12),
+                                              )),
+                                              Text(
+                                                therapistDetails.therapistProfit
+                                                            .monthlyProfit ==
+                                                        null
+                                                    ? "¥0"
+                                                    : '¥ ${therapistDetails.therapistProfit.monthlyProfit}',
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: Container(
+                                      height: 120,
+                                      color: Colors.white,
+                                      child: Card(
+                                        elevation: 5,
+                                        shape: RoundedRectangleBorder(
+                                            side: BorderSide(
+                                                color: Colors.grey.shade200,
+                                                width: 0.5),
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              SvgPicture.asset(
+                                                "assets/images_gps/c_yearly.svg",
+                                                height: 30.0,
+                                                width: 30.0,
+                                                color: Colors.black,
+                                              ),
+                                              FittedBox(
+                                                  child: Text(
+                                                '本年度の売り上げ',
+                                                style: TextStyle(fontSize: 12),
+                                              )),
+                                              Text(
+                                                therapistDetails.therapistProfit
+                                                            .yearlyProfit ==
+                                                        null
+                                                    ? "¥0"
+                                                    : '¥ ${therapistDetails.therapistProfit.yearlyProfit}',
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 20),
+                            Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Form(
+                                          key: yearKey,
                                           child: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                             children: [
                                               Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.38,
+                                                width: 80.0,
+                                                /* MediaQuery.of(context).size.width *
+                                                0.2, */
                                                 color: Colors.transparent,
                                                 child: DropDownFormField(
                                                   fillColor: Colors.white,
@@ -938,14 +913,39 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                       228, 228, 228, 1),
                                                   titleText: null,
                                                   hintText: readonly
-                                                      ? monthString
+                                                      ? yearString
                                                       : HealingMatchConstants
                                                           .registrationBankAccountType,
                                                   onSaved: (value) {
-                                                    monthString = value;
                                                     var dateUtility =
                                                         DateUtil();
-                                                    _cmonth = int.parse(value);
+
+                                                    setState(() {
+                                                      yearString = value;
+                                                      _cyear = int.parse(value);
+                                                      //To resolve the currentDay selected error from other month of greater than 28
+                                                      if (_cmonth == 2) {
+                                                        if (_currentDay > 28) {
+                                                          _currentDay = 28;
+                                                        }
+                                                      }
+
+                                                      var day1 = dateUtility
+                                                          .daysInMonth(
+                                                              _cmonth, _cyear);
+
+                                                      daysToDisplay = day1;
+
+                                                      displayDay = DateTime(
+                                                          _cyear,
+                                                          _cmonth,
+                                                          _currentDay);
+                                                    });
+                                                  },
+                                                  value: yearString,
+                                                  onChanged: (value) {
+                                                    yearString = value;
+                                                    _cyear = int.parse(value);
                                                     //To resolve the currentDay selected error from other month of greater than 28
                                                     if (_cmonth == 2) {
                                                       if (_currentDay > 28) {
@@ -953,9 +953,12 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                       }
                                                     }
 
+                                                    var dateUtility =
+                                                        DateUtil();
                                                     var day1 =
                                                         dateUtility.daysInMonth(
                                                             _cmonth, _cyear);
+
                                                     setState(() {
                                                       daysToDisplay = day1;
 
@@ -965,225 +968,296 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                           _currentDay);
                                                     });
                                                   },
-                                                  value: monthString,
-                                                  onChanged: (value) {
-                                                    monthString = value;
-                                                    _cmonth = int.parse(value);
-                                                    if (_cmonth == 2) {
-                                                      if (_currentDay > 28) {
-                                                        _currentDay = 28;
-                                                      }
-                                                    }
-
-                                                    displayDay = DateTime(
-                                                        _cyear,
-                                                        _cmonth,
-                                                        _currentDay);
-                                                    var dateUtility =
-                                                        DateUtil();
-                                                    var day1 =
-                                                        dateUtility.daysInMonth(
-                                                            _cmonth, _cyear);
-
-                                                    setState(() {
-                                                      daysToDisplay = day1;
-                                                    });
-                                                  },
-                                                  dataSource: [
-                                                    {
-                                                      "display": "1月",
-                                                      "value": "1",
-                                                    },
-                                                    {
-                                                      "display": "2月",
-                                                      "value": "2",
-                                                    },
-                                                    {
-                                                      "display": "3月",
-                                                      "value": "3",
-                                                    },
-                                                    {
-                                                      "display": "4月",
-                                                      "value": "4",
-                                                    },
-                                                    {
-                                                      "display": "5月",
-                                                      "value": "5",
-                                                    },
-                                                    {
-                                                      "display": "6月",
-                                                      "value": "6",
-                                                    },
-                                                    {
-                                                      "display": "7月",
-                                                      "value": "7",
-                                                    },
-                                                    {
-                                                      "display": "8月",
-                                                      "value": "8",
-                                                    },
-                                                    {
-                                                      "display": "9月",
-                                                      "value": "9",
-                                                    },
-                                                    {
-                                                      "display": "10月",
-                                                      "value": "10",
-                                                    },
-                                                    {
-                                                      "display": "11月",
-                                                      "value": "11",
-                                                    },
-                                                    {
-                                                      "display": "12月",
-                                                      "value": "12",
-                                                    },
-                                                  ],
+                                                  dataSource:
+                                                      yearDropDownValues,
+                                                  isList: true,
                                                   textField: 'display',
                                                   valueField: 'value',
                                                 ),
                                               ),
                                             ],
                                           ),
-                                        )),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width: 20),
-                              Padding(
-                                padding: EdgeInsets.only(right: 10.0),
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
+                                        ),
+                                        SizedBox(width: 20),
+                                        Container(
+                                            width: 80.0,
+                                            /*   MediaQuery.of(context).size.width * 0.2, */
+                                            child: Form(
+                                              key: monthKey,
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.38,
+                                                    color: Colors.transparent,
+                                                    child: DropDownFormField(
+                                                      fillColor: Colors.white,
+                                                      borderColor:
+                                                          Color.fromRGBO(
+                                                              228, 228, 228, 1),
+                                                      titleText: null,
+                                                      hintText: readonly
+                                                          ? monthString
+                                                          : HealingMatchConstants
+                                                              .registrationBankAccountType,
+                                                      onSaved: (value) {
+                                                        monthString = value;
+                                                        var dateUtility =
+                                                            DateUtil();
+                                                        _cmonth =
+                                                            int.parse(value);
+                                                        //To resolve the currentDay selected error from other month of greater than 28
+                                                        if (_cmonth == 2) {
+                                                          if (_currentDay >
+                                                              28) {
+                                                            _currentDay = 28;
+                                                          }
+                                                        }
+
+                                                        var day1 = dateUtility
+                                                            .daysInMonth(
+                                                                _cmonth,
+                                                                _cyear);
+                                                        setState(() {
+                                                          daysToDisplay = day1;
+
+                                                          displayDay = DateTime(
+                                                              _cyear,
+                                                              _cmonth,
+                                                              _currentDay);
+                                                        });
+                                                      },
+                                                      value: monthString,
+                                                      onChanged: (value) {
+                                                        monthString = value;
+                                                        _cmonth =
+                                                            int.parse(value);
+                                                        if (_cmonth == 2) {
+                                                          if (_currentDay >
+                                                              28) {
+                                                            _currentDay = 28;
+                                                          }
+                                                        }
+
+                                                        displayDay = DateTime(
+                                                            _cyear,
+                                                            _cmonth,
+                                                            _currentDay);
+                                                        var dateUtility =
+                                                            DateUtil();
+                                                        var day1 = dateUtility
+                                                            .daysInMonth(
+                                                                _cmonth,
+                                                                _cyear);
+
+                                                        setState(() {
+                                                          daysToDisplay = day1;
+                                                        });
+                                                      },
+                                                      dataSource: [
+                                                        {
+                                                          "display": "1月",
+                                                          "value": "1",
+                                                        },
+                                                        {
+                                                          "display": "2月",
+                                                          "value": "2",
+                                                        },
+                                                        {
+                                                          "display": "3月",
+                                                          "value": "3",
+                                                        },
+                                                        {
+                                                          "display": "4月",
+                                                          "value": "4",
+                                                        },
+                                                        {
+                                                          "display": "5月",
+                                                          "value": "5",
+                                                        },
+                                                        {
+                                                          "display": "6月",
+                                                          "value": "6",
+                                                        },
+                                                        {
+                                                          "display": "7月",
+                                                          "value": "7",
+                                                        },
+                                                        {
+                                                          "display": "8月",
+                                                          "value": "8",
+                                                        },
+                                                        {
+                                                          "display": "9月",
+                                                          "value": "9",
+                                                        },
+                                                        {
+                                                          "display": "10月",
+                                                          "value": "10",
+                                                        },
+                                                        {
+                                                          "display": "11月",
+                                                          "value": "11",
+                                                        },
+                                                        {
+                                                          "display": "12月",
+                                                          "value": "12",
+                                                        },
+                                                      ],
+                                                      textField: 'display',
+                                                      valueField: 'value',
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            )),
+                                      ],
+                                    ),
                                   ),
-                                  elevation: 8.0,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
+                                  SizedBox(width: 20),
+                                  Padding(
+                                    padding: EdgeInsets.only(right: 10.0),
+                                    child: Card(
+                                      shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(10.0),
-                                        border: Border.all(
-                                          color:
-                                              Color.fromRGBO(228, 228, 228, 1),
-                                        )),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          InkWell(
-                                            onTap: () {
-                                              NavigationRouter
-                                                  .switchToProviderCalendarScreen(
-                                                      context);
-                                            },
-                                            child: SvgPicture.asset(
-                                              "assets/images_gps/calendar.svg",
-                                              height: 25.0,
-                                              width: 25.0,
-                                            ),
-                                          ),
-                                        ],
                                       ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 20),
-
-                        buildDayPicker(),
-
-                        //  SizedBox(height: 20),
-                        Expanded(
-                          flex: 0,
-                          child: Padding(
-                            padding: const EdgeInsets.all(14.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  color: Colors.grey[200],
-                                  border: Border.all(
-                                    color: Colors.transparent,
-                                  )),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(20.0),
-                                          topRight: Radius.circular(20.0),
-                                        ),
-                                        color: Color.fromRGBO(233, 233, 233, 1),
-                                        border: Border.all(
-                                          color: Colors.transparent,
-                                        )),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Center(
-                                          child: Text(
-                                        "営業時間 - $startTime ~ $endTime",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 12.0,
-                                            fontWeight: FontWeight.bold),
-                                      )),
-                                    ),
-                                  ),
-                                  Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 15.0,
-                                            left: 8.0,
-                                            right: 8.0,
-                                            bottom: 15.0),
-                                        child: InkWell(
-                                          onTap: () => NavigationRouter
-                                              .switchToWeeklySchedule(context),
-                                          child: Container(
-                                            height: 250.0,
-                                            child: DayView(
-                                              controller: dayViewController,
-                                              initialTime: const HourMinute(
-                                                  hour: 0, minute: 0),
-                                              minimumTime: HourMinute(
-                                                  hour: 0, minute: 0),
-                                              maximumTime: HourMinute.MAX,
-                                              date: displayDay,
-                                              inScrollableWidget: true,
-                                              hoursColumnStyle:
-                                                  HoursColumnStyle(
-                                                color: Color.fromRGBO(
-                                                    242, 242, 242, 1),
-                                                textStyle: TextStyle(
-                                                    fontSize: 10.0,
-                                                    color: Color.fromRGBO(
-                                                        158, 158, 158, 1)),
+                                      elevation: 8.0,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                            border: Border.all(
+                                              color: Color.fromRGBO(
+                                                  228, 228, 228, 1),
+                                            )),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  NavigationRouter
+                                                      .switchToProviderCalendarScreen(
+                                                          context);
+                                                },
+                                                child: SvgPicture.asset(
+                                                  "assets/images_gps/calendar.svg",
+                                                  height: 25.0,
+                                                  width: 25.0,
+                                                ),
                                               ),
-                                              style: DayViewStyle(
-                                                  hourRowHeight: 85.0,
-                                                  backgroundColor:
-                                                      Color.fromRGBO(
-                                                          242, 242, 242, 1),
-                                                  currentTimeCircleColor:
-                                                      Colors.transparent,
-                                                  backgroundRulesColor:
-                                                      Colors.transparent,
-                                                  currentTimeRuleColor:
-                                                      Colors.transparent,
-                                                  headerSize: 0.0),
-                                              events: flutterWeekEvents,
-                                            ),
+                                            ],
                                           ),
                                         ),
                                       ),
-                                      /*  Positioned(
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 20),
+
+                            buildDayPicker(),
+
+                            //  SizedBox(height: 20),
+                            Expanded(
+                              flex: 0,
+                              child: Padding(
+                                padding: const EdgeInsets.all(14.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      color: Colors.grey[200],
+                                      border: Border.all(
+                                        color: Colors.transparent,
+                                      )),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(20.0),
+                                              topRight: Radius.circular(20.0),
+                                            ),
+                                            color: Color.fromRGBO(
+                                                233, 233, 233, 1),
+                                            border: Border.all(
+                                              color: Colors.transparent,
+                                            )),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Center(
+                                              child: Text(
+                                            "営業時間 - $startTime ~ $endTime",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12.0,
+                                                fontWeight: FontWeight.bold),
+                                          )),
+                                        ),
+                                      ),
+                                      Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 15.0,
+                                                left: 8.0,
+                                                right: 8.0,
+                                                bottom: 15.0),
+                                            child: InkWell(
+                                              onTap: () => NavigationRouter
+                                                  .switchToWeeklySchedule(
+                                                      context),
+                                              child: Container(
+                                                height: 250.0,
+                                                child: DayView(
+                                                  controller: dayViewController,
+                                                  initialTime: const HourMinute(
+                                                      hour: 0, minute: 0),
+                                                  minimumTime: HourMinute(
+                                                      hour: 0, minute: 0),
+                                                  maximumTime: HourMinute.MAX,
+                                                  date: displayDay,
+                                                  inScrollableWidget: true,
+                                                  hoursColumnStyle:
+                                                      HoursColumnStyle(
+                                                    color: Color.fromRGBO(
+                                                        242, 242, 242, 1),
+                                                    textStyle: TextStyle(
+                                                        fontSize: 10.0,
+                                                        color: Color.fromRGBO(
+                                                            158, 158, 158, 1)),
+                                                  ),
+                                                  style: DayViewStyle(
+                                                      hourRowHeight: 85.0,
+                                                      backgroundColor:
+                                                          Color.fromRGBO(
+                                                              242, 242, 242, 1),
+                                                      currentTimeCircleColor:
+                                                          Colors.transparent,
+                                                      backgroundRulesColor:
+                                                          Colors.transparent,
+                                                      currentTimeRuleColor:
+                                                          Colors.transparent,
+                                                      headerSize: 0.0),
+                                                  events: flutterWeekEvents,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          /*  Positioned(
                                                                                      top: 0,
                                                                                      left: 0,
                                                                                      width: 70.0,
@@ -1196,17 +1270,17 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                                                      ),
                                                                                    ),
                                                                                  */
+                                        ],
+                                      ),
                                     ],
                                   ),
-                                ],
+                                ),
                               ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-                )),
+                      ),
+                    )),
     );
   }
 
@@ -1254,6 +1328,67 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                       Flexible(
                         child: Text(
                           'ご登録の内容を管理者が確認しております。\n確認完了まで今しばらくお待ちください。',
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontFamily: 'NotoSansJP',
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Padding displayRejectedInfo(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Container(
+              padding: EdgeInsets.all(8.0),
+              height: MediaQuery.of(context).size.height * 0.22,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                color: Color.fromRGBO(255, 255, 255, 1),
+                borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                border: Border.all(color: Color.fromRGBO(217, 217, 217, 1)),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      InkWell(
+                        onTap: () {},
+                        child: new Container(
+                            width: 60.0,
+                            height: 60.0,
+                            decoration: new BoxDecoration(
+                              border: Border.all(color: Colors.black12),
+                              shape: BoxShape.circle,
+                              image: new DecorationImage(
+                                  fit: BoxFit.fill,
+                                  image: new AssetImage(
+                                      'assets/images_gps/appIcon.png')),
+                            )),
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Flexible(
+                        child: Text(
+                          '大変申し訳ありませんが、利用規約に抵触した等によりアプリへの登録ができませんでした。詳細を確認したい場合は、お手数ですがinfo@sir-inc.co.jpまでご連絡ください。',
                           style: TextStyle(
                               fontSize: 12,
                               fontFamily: 'NotoSansJP',
@@ -1684,6 +1819,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
       therapistDetails = value;
 
       HealingMatchConstants.isActive = value.data.isActive;
+      therapistDetails.data.isAccepted = userData.isAccepted;
 
       if (therapistDetails.data.storeServiceTimes.isNotEmpty) {
         for (int i = 0;
