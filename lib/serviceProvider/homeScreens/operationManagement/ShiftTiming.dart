@@ -804,18 +804,40 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                     key: sundayEndKey,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text(
-                                        _storeServiceTime[0].endTime.hour < 10
-                                            ? "0${_storeServiceTime[0].endTime.hour}"
-                                            : "${_storeServiceTime[0].endTime.hour}",
-                                        style: _storeServiceTime[0].shopOpen
-                                            ? hourTextStyle
-                                            : disabledHourTextStyle,
-                                      ),
+                                      _storeServiceTime[0].endTime.minute == 59
+                                          ? Text(
+                                              _storeServiceTime[0]
+                                                          .endTime
+                                                          .hour <
+                                                      10
+                                                  ? "0${_storeServiceTime[0].endTime.hour + 1}"
+                                                  : "${_storeServiceTime[0].endTime.hour + 1}",
+                                              style:
+                                                  _storeServiceTime[0].shopOpen
+                                                      ? hourTextStyle
+                                                      : disabledHourTextStyle,
+                                            )
+                                          : Text(
+                                              _storeServiceTime[0]
+                                                          .endTime
+                                                          .hour <
+                                                      10
+                                                  ? "0${_storeServiceTime[0].endTime.hour}"
+                                                  : "${_storeServiceTime[0].endTime.hour}",
+                                              style:
+                                                  _storeServiceTime[0].shopOpen
+                                                      ? hourTextStyle
+                                                      : disabledHourTextStyle,
+                                            ),
                                       Text(
                                         _storeServiceTime[0].endTime.minute < 10
                                             ? ":0${_storeServiceTime[0].endTime.minute}"
-                                            : ":${_storeServiceTime[0].endTime.minute}",
+                                            : _storeServiceTime[0]
+                                                        .endTime
+                                                        .minute ==
+                                                    59
+                                                ? ":00"
+                                                : ":${_storeServiceTime[0].endTime.minute}",
                                         style: _storeServiceTime[0].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
@@ -912,18 +934,40 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                     key: mondayEndKey,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text(
-                                        _storeServiceTime[1].endTime.hour < 10
-                                            ? "0${_storeServiceTime[1].endTime.hour}"
-                                            : "${_storeServiceTime[1].endTime.hour}",
-                                        style: _storeServiceTime[1].shopOpen
-                                            ? hourTextStyle
-                                            : disabledHourTextStyle,
-                                      ),
+                                      _storeServiceTime[1].endTime.minute == 59
+                                          ? Text(
+                                              _storeServiceTime[1]
+                                                          .endTime
+                                                          .hour <
+                                                      10
+                                                  ? "0${_storeServiceTime[1].endTime.hour + 1}"
+                                                  : "${_storeServiceTime[1].endTime.hour + 1}",
+                                              style:
+                                                  _storeServiceTime[1].shopOpen
+                                                      ? hourTextStyle
+                                                      : disabledHourTextStyle,
+                                            )
+                                          : Text(
+                                              _storeServiceTime[1]
+                                                          .endTime
+                                                          .hour <
+                                                      10
+                                                  ? "0${_storeServiceTime[1].endTime.hour}"
+                                                  : "${_storeServiceTime[1].endTime.hour}",
+                                              style:
+                                                  _storeServiceTime[1].shopOpen
+                                                      ? hourTextStyle
+                                                      : disabledHourTextStyle,
+                                            ),
                                       Text(
                                         _storeServiceTime[1].endTime.minute < 10
                                             ? ":0${_storeServiceTime[1].endTime.minute}"
-                                            : ":${_storeServiceTime[1].endTime.minute}",
+                                            : _storeServiceTime[1]
+                                                        .endTime
+                                                        .minute ==
+                                                    59
+                                                ? ":00"
+                                                : ":${_storeServiceTime[1].endTime.minute}",
                                         style: _storeServiceTime[1].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
@@ -1031,18 +1075,40 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                     key: tuesdayEndKey,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text(
-                                        _storeServiceTime[2].endTime.hour < 10
-                                            ? "0${_storeServiceTime[2].endTime.hour}"
-                                            : "${_storeServiceTime[2].endTime.hour}",
-                                        style: _storeServiceTime[2].shopOpen
-                                            ? hourTextStyle
-                                            : disabledHourTextStyle,
-                                      ),
+                                      _storeServiceTime[2].endTime.minute == 59
+                                          ? Text(
+                                              _storeServiceTime[2]
+                                                          .endTime
+                                                          .hour <
+                                                      10
+                                                  ? "0${_storeServiceTime[2].endTime.hour + 1}"
+                                                  : "${_storeServiceTime[2].endTime.hour + 1}",
+                                              style:
+                                                  _storeServiceTime[2].shopOpen
+                                                      ? hourTextStyle
+                                                      : disabledHourTextStyle,
+                                            )
+                                          : Text(
+                                              _storeServiceTime[2]
+                                                          .endTime
+                                                          .hour <
+                                                      10
+                                                  ? "0${_storeServiceTime[2].endTime.hour}"
+                                                  : "${_storeServiceTime[2].endTime.hour}",
+                                              style:
+                                                  _storeServiceTime[2].shopOpen
+                                                      ? hourTextStyle
+                                                      : disabledHourTextStyle,
+                                            ),
                                       Text(
                                         _storeServiceTime[2].endTime.minute < 10
                                             ? ":0${_storeServiceTime[2].endTime.minute}"
-                                            : ":${_storeServiceTime[2].endTime.minute}",
+                                            : _storeServiceTime[2]
+                                                        .endTime
+                                                        .minute ==
+                                                    59
+                                                ? ":00"
+                                                : ":${_storeServiceTime[2].endTime.minute}",
                                         style: _storeServiceTime[2].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
@@ -1139,18 +1205,40 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                     key: wednesdayEndKey,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text(
-                                        _storeServiceTime[3].endTime.hour < 10
-                                            ? "0${_storeServiceTime[3].endTime.hour}"
-                                            : "${_storeServiceTime[3].endTime.hour}",
-                                        style: _storeServiceTime[3].shopOpen
-                                            ? hourTextStyle
-                                            : disabledHourTextStyle,
-                                      ),
+                                      _storeServiceTime[3].endTime.minute == 59
+                                          ? Text(
+                                              _storeServiceTime[3]
+                                                          .endTime
+                                                          .hour <
+                                                      10
+                                                  ? "0${_storeServiceTime[3].endTime.hour + 1}"
+                                                  : "${_storeServiceTime[3].endTime.hour + 1}",
+                                              style:
+                                                  _storeServiceTime[3].shopOpen
+                                                      ? hourTextStyle
+                                                      : disabledHourTextStyle,
+                                            )
+                                          : Text(
+                                              _storeServiceTime[3]
+                                                          .endTime
+                                                          .hour <
+                                                      10
+                                                  ? "0${_storeServiceTime[3].endTime.hour}"
+                                                  : "${_storeServiceTime[3].endTime.hour}",
+                                              style:
+                                                  _storeServiceTime[3].shopOpen
+                                                      ? hourTextStyle
+                                                      : disabledHourTextStyle,
+                                            ),
                                       Text(
                                         _storeServiceTime[3].endTime.minute < 10
                                             ? ":0${_storeServiceTime[3].endTime.minute}"
-                                            : ":${_storeServiceTime[3].endTime.minute}",
+                                            : _storeServiceTime[3]
+                                                        .endTime
+                                                        .minute ==
+                                                    59
+                                                ? ":00"
+                                                : ":${_storeServiceTime[3].endTime.minute}",
                                         style: _storeServiceTime[3].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
@@ -1247,18 +1335,40 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                     key: thursdayEndKey,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text(
-                                        _storeServiceTime[4].endTime.hour < 10
-                                            ? "0${_storeServiceTime[4].endTime.hour}"
-                                            : "${_storeServiceTime[4].endTime.hour}",
-                                        style: _storeServiceTime[4].shopOpen
-                                            ? hourTextStyle
-                                            : disabledHourTextStyle,
-                                      ),
+                                      _storeServiceTime[4].endTime.minute == 59
+                                          ? Text(
+                                              _storeServiceTime[4]
+                                                          .endTime
+                                                          .hour <
+                                                      10
+                                                  ? "0${_storeServiceTime[4].endTime.hour + 1}"
+                                                  : "${_storeServiceTime[4].endTime.hour + 1}",
+                                              style:
+                                                  _storeServiceTime[4].shopOpen
+                                                      ? hourTextStyle
+                                                      : disabledHourTextStyle,
+                                            )
+                                          : Text(
+                                              _storeServiceTime[4]
+                                                          .endTime
+                                                          .hour <
+                                                      10
+                                                  ? "0${_storeServiceTime[4].endTime.hour}"
+                                                  : "${_storeServiceTime[4].endTime.hour}",
+                                              style:
+                                                  _storeServiceTime[4].shopOpen
+                                                      ? hourTextStyle
+                                                      : disabledHourTextStyle,
+                                            ),
                                       Text(
                                         _storeServiceTime[4].endTime.minute < 10
                                             ? ":0${_storeServiceTime[4].endTime.minute}"
-                                            : ":${_storeServiceTime[4].endTime.minute}",
+                                            : _storeServiceTime[4]
+                                                        .endTime
+                                                        .minute ==
+                                                    59
+                                                ? ":00"
+                                                : ":${_storeServiceTime[4].endTime.minute}",
                                         style: _storeServiceTime[4].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
@@ -1355,18 +1465,40 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                     key: fridayEndKey,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text(
-                                        _storeServiceTime[5].endTime.hour < 10
-                                            ? "0${_storeServiceTime[5].endTime.hour}"
-                                            : "${_storeServiceTime[5].endTime.hour}",
-                                        style: _storeServiceTime[5].shopOpen
-                                            ? hourTextStyle
-                                            : disabledHourTextStyle,
-                                      ),
+                                      _storeServiceTime[5].endTime.minute == 59
+                                          ? Text(
+                                              _storeServiceTime[5]
+                                                          .endTime
+                                                          .hour <
+                                                      10
+                                                  ? "0${_storeServiceTime[5].endTime.hour + 1}"
+                                                  : "${_storeServiceTime[5].endTime.hour + 1}",
+                                              style:
+                                                  _storeServiceTime[5].shopOpen
+                                                      ? hourTextStyle
+                                                      : disabledHourTextStyle,
+                                            )
+                                          : Text(
+                                              _storeServiceTime[5]
+                                                          .endTime
+                                                          .hour <
+                                                      10
+                                                  ? "0${_storeServiceTime[5].endTime.hour}"
+                                                  : "${_storeServiceTime[5].endTime.hour}",
+                                              style:
+                                                  _storeServiceTime[5].shopOpen
+                                                      ? hourTextStyle
+                                                      : disabledHourTextStyle,
+                                            ),
                                       Text(
                                         _storeServiceTime[5].endTime.minute < 10
                                             ? ":0${_storeServiceTime[5].endTime.minute}"
-                                            : ":${_storeServiceTime[5].endTime.minute}",
+                                            : _storeServiceTime[5]
+                                                        .endTime
+                                                        .minute ==
+                                                    59
+                                                ? ":00"
+                                                : ":${_storeServiceTime[5].endTime.minute}",
                                         style: _storeServiceTime[5].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,
@@ -1463,18 +1595,40 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                     key: saturdayEndKey,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text(
-                                        _storeServiceTime[6].endTime.hour < 10
-                                            ? "0${_storeServiceTime[6].endTime.hour}"
-                                            : "${_storeServiceTime[6].endTime.hour}",
-                                        style: _storeServiceTime[6].shopOpen
-                                            ? hourTextStyle
-                                            : disabledHourTextStyle,
-                                      ),
+                                      _storeServiceTime[6].endTime.minute == 59
+                                          ? Text(
+                                              _storeServiceTime[6]
+                                                          .endTime
+                                                          .hour <
+                                                      10
+                                                  ? "0${_storeServiceTime[6].endTime.hour + 1}"
+                                                  : "${_storeServiceTime[6].endTime.hour + 1}",
+                                              style:
+                                                  _storeServiceTime[0].shopOpen
+                                                      ? hourTextStyle
+                                                      : disabledHourTextStyle,
+                                            )
+                                          : Text(
+                                              _storeServiceTime[6]
+                                                          .endTime
+                                                          .hour <
+                                                      10
+                                                  ? "0${_storeServiceTime[6].endTime.hour}"
+                                                  : "${_storeServiceTime[6].endTime.hour}",
+                                              style:
+                                                  _storeServiceTime[6].shopOpen
+                                                      ? hourTextStyle
+                                                      : disabledHourTextStyle,
+                                            ),
                                       Text(
                                         _storeServiceTime[6].endTime.minute < 10
                                             ? ":0${_storeServiceTime[6].endTime.minute}"
-                                            : ":${_storeServiceTime[6].endTime.minute}",
+                                            : _storeServiceTime[6]
+                                                        .endTime
+                                                        .minute ==
+                                                    59
+                                                ? ":00"
+                                                : ":${_storeServiceTime[6].endTime.minute}",
                                         style: _storeServiceTime[6].shopOpen
                                             ? hourTextStyle
                                             : disabledHourTextStyle,

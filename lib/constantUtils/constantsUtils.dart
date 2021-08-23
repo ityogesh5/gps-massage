@@ -42,7 +42,8 @@ enum MediaType {
     order_confirm__with_payment: 6,
     autoCancel_by_provider: 7,
     autoCancel_by_user: 8,
-    order_Completed: 9
+    order_Completed: 9,
+    admin_cancel: 10,
 } */
 
 final String ALL_MESSAGES_COLLECTION = 'MESSAGES';

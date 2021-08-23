@@ -111,6 +111,8 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                           ),
                           color: ColorConstants.buttonColor,
                           onPressed: () {
+                            FocusScope.of(context)
+                                .requestFocus(new FocusNode());
                             _providerForgetPasswordDetails();
                           },
                           shape: RoundedRectangleBorder(
@@ -131,61 +133,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
 
   _providerForgetPasswordDetails() async {
     var userPhoneNumber = phoneNumberController.text.toString();
-/*
-    // user phone number
-    if ((userPhoneNumber == null || userPhoneNumber.isEmpty)) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content:
-            Text('電話番号を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
-      return;
-    }
-
-    // user phone number validation
-    if (userPhoneNumber.length > 10 ||
-        userPhoneNumber.length < 10 ||
-        userPhoneNumber == null ||
-        userPhoneNumber.isEmpty) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('正しい電話番号を入力してください。',
-            style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
-      return;
-    }
-
-    forgetPasswordDetails.add(userPhoneNumber);
-
-    print('User details length in array : ${forgetPasswordDetails.length}');
-
-    /*   final url = '';
-    http.post(url,
-        headers: {
-          "Accept": "application/json",
-          "Authorization": "Bearer ${'token'}"
-        },
-        body: json.encode({
-          "serviceUserDetails": forgetPasswordDetails,
-        })); */
-
-    HealingMatchConstants.userPhoneNumber = userPhoneNumber;
-
-    NavigationRouter.switchToProviderChangePasswordScreen(context);
-
-*/
 
     HealingMatchConstants.providerPhnNum =
         phoneNumberController.text.toString();
@@ -256,7 +203,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           body: json
               .encode({"phoneNumber": userPhoneNumber, "isTherapist": "1"}));
       print('Status code : ${response.statusCode}');
-      print('response code : ${response}');
+      print('response code : ${response.body}');
       if (StatusCodeHelper.isSendVerify(
           response.statusCode, context, response.body)) {
         final sendVerify = json.decode(response.body);

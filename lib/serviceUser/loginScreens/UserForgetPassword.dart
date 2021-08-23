@@ -135,6 +135,8 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
                           ),
                           color: Color.fromRGBO(200, 217, 33, 1),
                           onPressed: () {
+                            FocusScope.of(context)
+                                .requestFocus(new FocusNode());
                             _userForgetPasswordDetails();
                           },
                           shape: RoundedRectangleBorder(

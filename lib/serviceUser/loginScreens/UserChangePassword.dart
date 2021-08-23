@@ -68,7 +68,8 @@ class _UserChangePasswordState extends State<UserChangePassword> {
             color: Colors.black,
           ),
           onPressed: () {
-            NavigationRouter.switchToUserLogin(context);
+            Navigator.pop(context);
+            /* NavigationRouter.switchToUserLogin(context); */
           },
         ),
       ),
@@ -173,10 +174,10 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                         maxLength: 16,
                         controller: createPasswordController,
                         keyboardType: TextInputType.emailAddress,
-                         style: HealingMatchConstants.formTextStyle,
+                        style: HealingMatchConstants.formTextStyle,
                         decoration: new InputDecoration(
                           contentPadding: EdgeInsets.all(16.0),
-                         counterText: "",
+                          counterText: "",
                           border: HealingMatchConstants.textFormInputBorder,
                           focusedBorder:
                               HealingMatchConstants.textFormInputBorder,
@@ -194,7 +195,6 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                                 });
                               }),
                           filled: true,
-                          
                         ),
                         labelText: Text.rich(
                           TextSpan(
@@ -247,11 +247,11 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                                 });
                               }),
                           filled: true,
-                         
                         ),
                         labelText: Text.rich(
                           TextSpan(
-                            text: HealingMatchConstants.changePasswordConfirmpass,
+                            text:
+                                HealingMatchConstants.changePasswordConfirmpass,
                             children: <InlineSpan>[
                               TextSpan(
                                 text: '*',

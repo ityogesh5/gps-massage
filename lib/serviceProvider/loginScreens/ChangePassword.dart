@@ -66,10 +66,11 @@ class _ChangePasswordState extends State<ChangePassword> {
             color: Colors.black,
           ),
           onPressed: () {
-            Navigator.pop(
+            Navigator.pop(context);
+            /*  Navigator.pop(
                 context,
                 MaterialPageRoute(
-                    builder: (BuildContext context) => ProviderLogin()));
+                    builder: (BuildContext context) => ProviderLogin())); */
           },
         ),
       ),
@@ -173,7 +174,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         height: 12,
                       ),
                       TextFieldCustom(
-                   obscureText: createPasswordVisibility,
+                        obscureText: createPasswordVisibility,
                         textInputAction: TextInputAction.next,
                         focusNode: createPasswordFocus,
                         style: HealingMatchConstants.formTextStyle,
@@ -200,8 +201,6 @@ class _ChangePasswordState extends State<ChangePassword> {
                                 });
                               }),
                           filled: true,
-                      
-                          
                         ),
                         labelText: Text.rich(
                           TextSpan(
@@ -223,8 +222,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                       SizedBox(
                         height: 15,
                       ),
-                     TextFieldCustom(
-                      obscureText: confirmPasswordVisibility,
+                      TextFieldCustom(
+                        obscureText: confirmPasswordVisibility,
                         textInputAction: TextInputAction.done,
                         focusNode: confrimPasswordFocus,
                         controller: confirmpassword,
@@ -251,11 +250,11 @@ class _ChangePasswordState extends State<ChangePassword> {
                                 });
                               }),
                           filled: true,
-                          
                         ),
                         labelText: Text.rich(
                           TextSpan(
-                            text: HealingMatchConstants.changePasswordConfirmpass,
+                            text:
+                                HealingMatchConstants.changePasswordConfirmpass,
                             children: <InlineSpan>[
                               TextSpan(
                                 text: '*',

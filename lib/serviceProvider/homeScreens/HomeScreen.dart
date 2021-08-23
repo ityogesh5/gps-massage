@@ -1199,7 +1199,9 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                           padding: const EdgeInsets.all(8.0),
                                           child: Center(
                                               child: Text(
-                                            "営業時間 - $startTime ~ $endTime",
+                                            endTime == "23:59"
+                                                ? "営業時間 - $startTime ~ 24:00"
+                                                : "営業時間 - $startTime ~ $endTime",
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 12.0,
